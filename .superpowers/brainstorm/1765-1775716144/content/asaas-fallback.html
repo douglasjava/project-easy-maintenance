@@ -1,0 +1,62 @@
+<h2>O que o usuário vê quando o Asaas falha?</h2>
+<p class="subtitle">Pergunta 3 de 3 — Quando a integração de pagamento está fora do ar, qual é o comportamento do onboarding?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;padding:20px;border-radius:8px;font-family:sans-serif">
+        <div style="background:#1a2d1a;border:1px solid #48bb78;border-radius:8px;padding:14px;margin-bottom:14px">
+          <div style="color:#68d391;font-size:13px;font-weight:600;margin-bottom:6px">ℹ Configuração de pagamento temporariamente indisponível</div>
+          <div style="color:#a0f0a0;font-size:12px;line-height:1.5">Nosso sistema de pagamentos está com instabilidade no momento. Você pode continuar e configurar o pagamento depois no painel.</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button style="background:#4a90d9;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px">Continuar sem pagamento agora</button>
+          <button style="background:transparent;color:#aaa;border:1px solid #555;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px">Tentar novamente</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Banner de fallback + continuar</h3>
+      <p>Mensagem verde/info explica o problema e oferece duas opções: continuar sem pagamento ou tentar novamente. Não bloqueia o trial.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;padding:20px;border-radius:8px;font-family:sans-serif">
+        <div style="background:#2a1f10;border:1px solid #ed8936;border-radius:8px;padding:14px;margin-bottom:14px">
+          <div style="color:#f6ad55;font-size:13px;font-weight:600;margin-bottom:6px">⚠ Pagamento temporariamente indisponível</div>
+          <div style="color:#fbd38d;font-size:12px;line-height:1.5;margin-bottom:10px">Não conseguimos conectar ao sistema de pagamentos. Tente novamente em alguns minutos ou pule esta etapa e configure depois.</div>
+          <div style="display:flex;gap:8px">
+            <button style="background:#ed8936;color:#fff;border:none;padding:7px 14px;border-radius:5px;cursor:pointer;font-size:12px">↺ Tentar novamente</button>
+            <button style="background:transparent;color:#f6ad55;border:1px solid #ed8936;padding:7px 14px;border-radius:5px;cursor:pointer;font-size:12px">Pular e configurar depois →</button>
+          </div>
+        </div>
+        <div style="color:#666;font-size:11px">Você ainda terá acesso completo ao trial de 7 dias.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Alerta laranja com "Pular"</h3>
+      <p>Tom de alerta (não bloqueante). Destaca "Tentar novamente" como primário e "Pular" como secundário. Informa que o trial continua normalmente.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;padding:20px;border-radius:8px;font-family:sans-serif">
+        <div style="background:#1d1d2e;border:1px solid #555;border-radius:8px;padding:14px;margin-bottom:14px;text-align:center">
+          <div style="font-size:28px;margin-bottom:8px">🔧</div>
+          <div style="color:#e2e8f0;font-size:14px;font-weight:600;margin-bottom:6px">Etapa de pagamento pulada automaticamente</div>
+          <div style="color:#a0aec0;font-size:12px;line-height:1.5;margin-bottom:12px">Detectamos instabilidade na integração de pagamento. Seu trial foi iniciado normalmente. Configure o pagamento quando quiser em <strong style="color:#4a90d9">Configurações → Billing</strong>.</div>
+          <button style="background:#4a90d9;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px">Acessar o sistema →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Skip automático + confirmação</h3>
+      <p>Sistema detecta a falha, pula a etapa silenciosamente e mostra tela de confirmação que o trial foi iniciado. Usuário não precisa decidir nada.</p>
+    </div>
+  </div>
+
+</div>

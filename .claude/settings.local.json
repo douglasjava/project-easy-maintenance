@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/d/workspaces/**)",
+      "Read(//d/workspaces/**)",
+      "Bash(bash:*)",
+      "Bash(./mvnw compile:*)",
+      "Bash(mvn --version)",
+      "Bash(mvn compile:*)",
+      "Bash(echo \"EXIT_CODE: $?\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(npm list:*)",
+      "Bash(npm test:*)",
+      "Bash(node -e ':*)",
+      "Bash(mvn test:*)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -v \"^$\")",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
+      "Bash(npx jest:*)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(echo \"TSC_EXIT:$?\")",
+      "Bash(echo \"JEST_EXIT:$?\")",
+      "Bash(./mvnw test:*)",
+      "Bash(mvn clean:*)",
+      "Bash(grep -l \"\" D:/workpaces/EASY_MAINTENANCE/roadmap/tasks/*.md)",
+      "Bash(xargs -I{} sh -c 'echo \"=== {} ===\" && grep -A1 \"^## Status\" {}')",
+      "Bash(mvn -q test -Dtest=SentryConfigTest)",
+      "Bash(grep -E \"^\\\\\\\\[INFO\\\\\\\\] Tests run:|^\\\\\\\\[ERROR\\\\\\\\]|BUILD SUCCESS|BUILD FAILURE\")",
+      "Bash(grep -E \"^\\\\\\\\[INFO\\\\\\\\] Tests run:|BUILD SUCCESS|BUILD FAILURE\")",
+      "Bash(grep -r \"database\\\\|datasource\" /d/workpaces/EASY_MAINTENANCE/easy-maintenance-api/src/main/resources/application*.properties)",
+      "Bash(grep:*)",
+      "Bash(xargs cat:*)"
+    ]
+  }
+}

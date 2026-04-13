@@ -1,0 +1,77 @@
+<h2>Como exibir erros de campo no onboarding?</h2>
+<p class="subtitle">Pergunta 2 de 3 — Escolha o padrão para erros de validação (CPF inválido, e-mail já cadastrado, etc.)</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;padding:20px;border-radius:8px;font-family:sans-serif">
+        <div style="margin-bottom:12px">
+          <label style="color:#aaa;font-size:12px;display:block;margin-bottom:4px">CPF / CNPJ</label>
+          <input style="width:100%;padding:8px 12px;border:2px solid #e53e3e;border-radius:6px;background:#111;color:#fff;box-sizing:border-box" value="123.456.789-00" readonly/>
+          <div style="color:#e53e3e;font-size:12px;margin-top:4px">⚠ CPF inválido. Verifique os dígitos e tente novamente.</div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="color:#aaa;font-size:12px;display:block;margin-bottom:4px">E-mail de cobrança</label>
+          <input style="width:100%;padding:8px 12px;border:2px solid #555;border-radius:6px;background:#111;color:#fff;box-sizing:border-box" placeholder="seu@email.com" readonly/>
+        </div>
+        <button style="background:#4a90d9;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer">Continuar</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Erro inline no campo</h3>
+      <p>Mensagem de erro aparece diretamente abaixo do campo inválido. Borda vermelha no input. Toast só para erros globais (ex: Asaas fora do ar).</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;padding:20px;border-radius:8px;font-family:sans-serif">
+        <div style="background:#2d1b1b;border:1px solid #e53e3e;border-radius:6px;padding:10px 14px;margin-bottom:12px">
+          <div style="color:#e53e3e;font-size:13px;font-weight:600;margin-bottom:4px">⚠ Corrija os erros abaixo</div>
+          <ul style="color:#f87171;font-size:12px;margin:0;padding-left:16px">
+            <li>CPF / CNPJ inválido. Verifique os dígitos.</li>
+          </ul>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="color:#aaa;font-size:12px;display:block;margin-bottom:4px">CPF / CNPJ</label>
+          <input style="width:100%;padding:8px 12px;border:2px solid #e53e3e;border-radius:6px;background:#111;color:#fff;box-sizing:border-box" value="123.456.789-00" readonly/>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="color:#aaa;font-size:12px;display:block;margin-bottom:4px">E-mail de cobrança</label>
+          <input style="width:100%;padding:8px 12px;border:2px solid #555;border-radius:6px;background:#111;color:#fff;box-sizing:border-box" placeholder="seu@email.com" readonly/>
+        </div>
+        <button style="background:#4a90d9;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer">Continuar</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sumário no topo do form</h3>
+      <p>Caixa de erro aparece no topo do formulário listando todos os problemas. Campos com erro ficam com borda vermelha mas sem texto individual.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a1a2e;padding:20px;border-radius:8px;font-family:sans-serif;position:relative">
+        <div style="margin-bottom:12px">
+          <label style="color:#aaa;font-size:12px;display:block;margin-bottom:4px">CPF / CNPJ</label>
+          <input style="width:100%;padding:8px 12px;border:2px solid #e53e3e;border-radius:6px;background:#111;color:#fff;box-sizing:border-box" value="123.456.789-00" readonly/>
+          <div style="color:#e53e3e;font-size:12px;margin-top:4px">⚠ CPF inválido. Verifique os dígitos e tente novamente.</div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="color:#aaa;font-size:12px;display:block;margin-bottom:4px">E-mail de cobrança</label>
+          <input style="width:100%;padding:8px 12px;border:2px solid #555;border-radius:6px;background:#111;color:#fff;box-sizing:border-box" placeholder="seu@email.com" readonly/>
+        </div>
+        <button style="background:#4a90d9;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer">Continuar</button>
+        <div style="position:absolute;top:10px;right:10px;background:#e53e3e;color:#fff;padding:8px 12px;border-radius:6px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.4)">
+          ⚠ CPF / CNPJ inválido
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Inline + Toast simultâneo</h3>
+      <p>Erro aparece inline no campo E como toast. Pode parecer redundante, mas garante visibilidade mesmo se o campo estiver fora da tela.</p>
+    </div>
+  </div>
+
+</div>

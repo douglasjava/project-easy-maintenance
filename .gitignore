@@ -1,0 +1,54 @@
+# =========================
+# IGNORAR PROJETOS COMPLETOS
+# =========================
+easy-maintenance-api/
+easy-maintenance-web/
+
+# =========================
+# SISTEMA OPERACIONAL
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDEs / EDITORES
+# =========================
+.vscode/
+.idea/
+*.iml
+
+# =========================
+# LOGS
+# =========================
+*.log
+logs/
+
+# =========================
+# ENV / SEGREDOS
+# =========================
+.env
+.env.*
+*.key
+*.pem
+
+# =========================
+# NODE (caso tenha algo no root)
+# =========================
+node_modules/
+.next/
+dist/
+build/
+
+# =========================
+# JAVA (caso rode algo no root)
+# =========================
+target/
+*.class
+*.jar
+
+# =========================
+# OUTROS
+# =========================
+coverage/
+.tmp/
+.cache/
