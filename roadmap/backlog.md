@@ -1,7 +1,7 @@
 # Backlog Completo — Easy Maintenance
 
-> Atualizado em: 10/04/2026
-> Total de tasks: 45
+> Atualizado em: 16/04/2026
+> Total de tasks: 46
 > Tasks na Sprint 1: 11 (+ 2 em análise)
 
 ---
@@ -50,6 +50,7 @@
 | TASK-009 | Validar X-Org-Id contra claims do JWT | 🟠 Alto | 1 | Pequeno | S01 |
 | TASK-014 | Restricão CORS para domínio de produção | 🟠 Alto | 1 | Pequeno | S01 |
 | TASK-017 | Enforcement automático de tenant no repository | 🟡 Médio | 1 | Médio | S02 |
+| TASK-049 | Centralizar validação de expiração de TRIAL no /me/access-context | 🔴 Crítico | 1 | Médio | — |
 | TASK-038 | LGPD: exportação e exclusão de dados pessoais | 🔵 Baixo | 3 | Grande | — |
 
 ---

@@ -16,7 +16,8 @@ Infra / Produto
 EPIC-005 — Observabilidade e Operação
 
 ## Descrição
-Clientes pagantes esperam transparência sobre o estado operacional do sistema. Uma status page básica mostra histórico de incidentes e disponibilidade atual, aumentando a confiança e reduzindo tickets de suporte durante instabilidades.
+Clientes pagantes esperam transparência sobre o estado operacional do sistema. Uma status page básica mostra histórico 
+de incidentes e disponibilidade atual, aumentando a confiança e reduzindo tickets de suporte durante instabilidades.
 
 ## Critérios de Aceite
 - [ ] Status page pública acessível em `status.easymaintenance.com.br` ou similar

@@ -16,7 +16,9 @@ Frontend / UX
 EPIC-006 — Produto SaaS
 
 ## Descrição
-A aplicação usa Bootstrap 5 que fornece uma base razoável de acessibilidade, mas componentes customizados (modais, dropdowns, formulários, tabelas) podem não ter os atributos ARIA corretos. Para um produto que atende segmentos como hospitais e organizações governamentais, acessibilidade pode ser requisito legal.
+A aplicação usa Bootstrap 5 que fornece uma base razoável de acessibilidade, mas componentes customizados 
+(modais, dropdowns, formulários, tabelas) podem não ter os atributos ARIA corretos. Para um produto que atende segmentos 
+como hospitais e organizações governamentais, acessibilidade pode ser requisito legal.
 
 ## Critérios de Aceite
 - [ ] Auditoria de acessibilidade com axe-core ou Lighthouse (meta: zero erros críticos)

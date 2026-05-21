@@ -16,7 +16,8 @@ Backend / Infra / Billing
 EPIC-007 — Performance e Escalabilidade
 
 ## Descrição
-Os jobs de billing processam todas as assinaturas em loop síncrono. Com 1.000+ clientes, o `DailyTrialJob` pode demorar horas percorrendo todos os trials, fazendo chamadas ao Asaas para cada um. Isso cria um gargalo e pode causar sobrecarga do banco e do Asaas.
+Os jobs de billing processam todas as assinaturas em loop síncrono. Com 1.000+ clientes, o `DailyTrialJob` 
+pode demorar horas percorrendo todos os trials, fazendo chamadas ao Asaas para cada um. Isso cria um gargalo e pode causar sobrecarga do banco e do Asaas.
 
 Solução: publicar eventos de billing em uma fila (AWS SQS, RabbitMQ ou Redis Streams) e processar com workers paralelos e concorrência controlada.
 

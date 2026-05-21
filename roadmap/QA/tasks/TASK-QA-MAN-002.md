@@ -68,9 +68,9 @@ Repetir o Passo 2 para:
 - Contagem de itens no endpoint = contagem SQL com filtro de tenant
 
 ## Evidências Necessárias
-- [ ] Screenshot das respostas 403 no Postman para cada endpoint testado
-- [ ] Screenshot da resposta 200 com dados corretos da Org A (regressão)
-- [ ] Resultado da query SQL vs contagem do endpoint
+- [x] Screenshot das respostas 403 no Postman para cada endpoint testado
+- [x] Screenshot da resposta 200 com dados corretos da Org A (regressão)
+- [x] Resultado da query SQL vs contagem do endpoint
 
 ## Status
-Pendente — executar antes do lançamento
+Concluido — executar antes do lançamento

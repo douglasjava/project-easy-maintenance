@@ -192,7 +192,8 @@ Para marcar uma task como concluída:
 
 ## Encerramento do Roadmap de Fase 1–3
 
-Após a conclusão desta sprint, todas as tasks das fases 1, 2 e 3 do roadmap estarão endereçadas. As prioridades de evolução contínua do produto serão capturadas em um novo roadmap de fase 4.
+Após a conclusão desta sprint, todas as tasks das fases 1, 2 e 3 do roadmap estarão endereçadas. 
+As prioridades de evolução contínua do produto serão capturadas em um novo roadmap de fase 4.
 
 ---
 

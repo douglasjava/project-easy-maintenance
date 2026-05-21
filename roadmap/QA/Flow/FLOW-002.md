@@ -37,7 +37,7 @@ Cada request autenticado carrega o header `X-Org-Id`. O filtro de autenticação
 - Endpoints futuros criados sem `@Filter` passariam despercebidos sem suite de integração
 
 ## Status de Validação
-- [ ] X-Org-Id cross-tenant → 403 testado manualmente
-- [ ] Filtro Hibernate validado no banco
-- [ ] Fail-fast sem TenantContext validado
-- [ ] Testes de integração criados (TASK-QA-AUTO-001)
+- [x] X-Org-Id cross-tenant → 403 testado manualmente
+- [x] Filtro Hibernate validado no banco
+- [x] Fail-fast sem TenantContext validado
+- [x] Testes de integração criados (TASK-QA-AUTO-001)

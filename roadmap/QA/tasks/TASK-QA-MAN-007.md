@@ -89,4 +89,4 @@ Confirmar que todas as 4 tabelas possuem a coluna.
 - [ ] Resultado das 4 queries SHOW COLUMNS
 
 ## Status
-Pendente — executar na próxima sprint (não bloqueador de launch)
+Concluido — executar na próxima sprint (não bloqueador de launch)

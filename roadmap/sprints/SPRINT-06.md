@@ -128,10 +128,10 @@ Para marcar uma task como concluída:
 
 **Concluída em:** 12/04/2026
 
-| Task | Status | Observação |
-|------|--------|-----------|
-| TASK-046 | ✅ Concluída | V58 migration, AsaasDTO PixTransaction, handler, endpoint, 5 testes |
-| TASK-047 | ✅ Concluída | EmailTemplateHelper, BillingNotificationService, PaymentOverdueHandler, 5 testes |
+| Task     | Status      | Observação                                                                        |
+|----------|-------------|-----------------------------------------------------------------------------------|
+| TASK-046 | ✅ Concluída | V58 migration, AsaasDTO PixTransaction, handler, endpoint, 5 testes               |
+| TASK-047 | ✅ Concluída | EmailTemplateHelper, BillingNotificationService, PaymentOverdueHandler, 5 testes  |
 | TASK-048 | ✅ Concluída | usePendingPayment hook, PendingPixPaymentCard, integração billing page, 10 testes |
 
 ---

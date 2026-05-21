@@ -42,8 +42,8 @@ O usuário acessa a tela de login, insere credenciais válidas e recebe um cooki
 - Cobertura de renovação automática de token (se refresh token implementado)
 
 ## Status de Validação
-- [ ] Happy path validado manualmente
-- [ ] Cookie HttpOnly confirmado via DevTools
-- [ ] Sessão pós-restart testada
-- [ ] Rate limiting testado em staging
-- [ ] Middleware de auth sem flash de tela (TASK-045 concluída — verificar E2E)
+- [x] Happy path validado manualmente
+- [x] Cookie HttpOnly confirmado via DevTools
+- [x] Sessão pós-restart testada
+- [x] Rate limiting testado em staging
+- [x] Middleware de auth sem flash de tela (TASK-045 concluída — verificar E2E)

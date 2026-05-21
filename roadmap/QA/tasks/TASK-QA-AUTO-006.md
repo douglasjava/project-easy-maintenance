@@ -16,7 +16,9 @@ EPIC-009 — Performance Frontend
 [FLOW-010](../Flow/FLOW-010.md)
 
 ## Descrição
-Criar testes E2E instrumentados com interceptor de network para validar que as otimizações de cache do React Query (TASK-041) estão funcionando corretamente: segunda visita a uma rota dentro do `staleTime` não dispara re-fetch, troca de aba não causa re-fetch, e a listagem de itens executa no máximo 2 requisições na carga inicial.
+Criar testes E2E instrumentados com interceptor de network para validar que as otimizações de cache do React Query (TASK-041) 
+estão funcionando corretamente: segunda visita a uma rota dentro do `staleTime` não dispara re-fetch, 
+troca de aba não causa re-fetch, e a listagem de itens executa no máximo 2 requisições na carga inicial.
 
 ## Justificativa para Automatização
 - Sem teste automatizado, regressões de performance de cache são invisíveis até usuários reclamarem de lentidão
@@ -77,4 +79,6 @@ Grande (10-15h) — incluindo setup inicial de E2E framework se não existir
 Esta task é de menor urgência do que as de segurança. Recomendar para SPRINT-04 ou sprint dedicada a qualidade.
 
 ## Status
-Pendente — implementar durante SPRINT-04 ou Sprint de Qualidade
+Migrada para E2E — ver [TASK-E2E-005](TASK-E2E-005.md)
+
+Conteúdo migrado para o projeto `easy-maintenance-e2e` com Playwright, onde browser, interceptors de rede e `page.clock` estão disponíveis nativamente.

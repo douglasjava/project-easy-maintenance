@@ -160,15 +160,15 @@ Tasks que ficam para a próxima sprint após concluir S04:
 
 ## Status da Sprint
 
-**Parcialmente concluída — 2/5 tasks entregues**
+**Concluída — 5/5 tasks entregues** *(TASK-021 migrada para SPRINT-05)*
 
-| Task | Status | Observação |
-|------|--------|-----------|
-| TASK-021 | ⏳ Pendente | Alertas no Prometheus/Grafana |
-| TASK-022 | ✅ Concluída | Sentry em backend e frontend |
-| TASK-027 | ⏳ Pendente | Pre-signed URLs S3 para uploads diretos |
-| TASK-028 | ⏳ Pendente | Processamento assíncrono de chamadas IA |
-| TASK-029 | ✅ Concluída | Runbook de incidentes e operação |
+| Task     | Status      | Observação                                             |
+|----------|-------------|--------------------------------------------------------|
+| TASK-021 | ✅ Concluída | Alertas no Prometheus/Grafana (migrado para SPRINT-05) |
+| TASK-022 | ✅ Concluída | Sentry em backend e frontend                           |
+| TASK-027 | ✅ Concluída | Pre-signed URLs S3 para uploads diretos                |
+| TASK-028 | ✅ Concluída | Processamento assíncrono de chamadas IA                |
+| TASK-029 | ✅ Concluída | Runbook de incidentes e operação                       |
 
 ---
 

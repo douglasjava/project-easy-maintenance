@@ -66,4 +66,6 @@ Médio (5-8h)
 - Migrations Flyway rodando no contexto de teste
 
 ## Status
-Pendente — implementar durante SPRINT-03 (junto com TASK-026)
+Substituída por E2E — ver [TASK-E2E-004](TASK-E2E-004.md)
+
+IT com TestContainers descartada. O filtro `@Where` do Hibernate só é testável com DB real — Playwright E2E com Docker Compose cobre essa verificação sem conflitos de contexto Spring.

@@ -21,11 +21,11 @@ A UI do Easy Maintenance já oferece PIX como opção de pagamento e a infraestr
 
 ## Tasks Relacionadas
 
-| ID | Título | Prioridade | Fase |
-|----|--------|-----------|------|
-| TASK-046 | PIX: popular QR Code e expiração nas cobranças recorrentes | 🔴 Crítico | 2 |
-| TASK-047 | PIX: e-mail de lembrete no PAYMENT_OVERDUE | 🟠 Alto | 2 |
-| TASK-048 | PIX: exibir QR Code pendente na página de billing | 🔴 Crítico | 2 |
+| ID       | Título                                                     | Prioridade | Fase |
+|----------|------------------------------------------------------------|------------|------|
+| TASK-046 | PIX: popular QR Code e expiração nas cobranças recorrentes | 🔴 Crítico | 2    |
+| TASK-047 | PIX: e-mail de lembrete no PAYMENT_OVERDUE                 | 🟠 Alto    | 2    |
+| TASK-048 | PIX: exibir QR Code pendente na página de billing          | 🔴 Crítico | 2    |
 
 ## Critério de Conclusão do Épico
 - [ ] Webhook `PAYMENT_CREATED` com `billingType=PIX` popula `pixQrCode`, `pixQrCodeBase64` e `pixExpiresAt` em `Payment`

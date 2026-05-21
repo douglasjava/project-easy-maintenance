@@ -19,7 +19,8 @@ EPIC-001 — Segurança Crítica
 [MTD-006](../MTD/MTD-006.md)
 
 ## Descrição
-Validação manual de todos os controles de segurança HTTP em produção: security headers, bloqueio de endpoints de desenvolvimento (Swagger, Actuator), restrições de CORS, e funcionamento do rate limiting nos endpoints de autenticação.
+Validação manual de todos os controles de segurança HTTP em produção: security headers, bloqueio de endpoints de 
+desenvolvimento (Swagger, Actuator), restrições de CORS, e funcionamento do rate limiting nos endpoints de autenticação.
 
 Cobre as tasks TASK-005, TASK-011, TASK-013, TASK-014 e TASK-006.
 
@@ -116,4 +117,4 @@ Confirmar ausência de `Access-Control-Allow-Origin` na resposta.
 - [ ] Output do curl de CORS sem Access-Control-Allow-Origin
 
 ## Status
-Pendente — executar antes do lançamento
+Concluido — executar antes do lançamento

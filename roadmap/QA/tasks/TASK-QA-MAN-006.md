@@ -89,5 +89,23 @@ Cobre as tasks TASK-015, TASK-023 e TASK-030.
 - [ ] Screenshot do indicador de uso com 80%+ e cor de alerta
 - [ ] Screenshot do botão bloqueado com tooltip de limite
 
+## Bug Encontrado — Cenário 8 (18/04/2026)
+
+### Descrição
+Após atingir o limite de 100% de itens, era possível criar novos itens via tela e via Postman. Nenhuma validação de quota era feita no backend.
+
+### Root Cause
+`MaintenanceItemService.create()` não verificava o limite do plano antes de salvar. Além disso, `FeatureAccessService.buildOrganizationPermissions()` não considerava o uso atual de itens ao calcular `canCreateItem`.
+
+### Correção Implementada
+- **Backend** (`MaintenanceItemService.java`): adicionado método `validateItemLimit(orgId)` que consulta o plano da organização via `BillingSubscriptionItemRepository`, extrai `maxItems` via `BillingPlanFeaturesHelper`, conta os itens atuais e lança `RuleException` com mensagem amigável em PT-BR ao atingir o limite. Erro retorna HTTP 400 com campo `detail`.
+- **Backend** (`FeatureAccessService.java`): `buildOrganizationPermissions()` agora recebe `itemLimitReached` e define `canCreateItem = false` quando o limite é atingido, desabilitando o botão na tela antes mesmo de chegar ao backend.
+- **Frontend** (`items/new/page.tsx`): handler de erro atualizado para exibir o campo `detail` do `ProblemDetail` quando o status é 400, garantindo que a mensagem do backend chegue ao usuário.
+
+### Mensagem retornada ao usuário
+```
+Limite de itens atingido (30/30). Faça upgrade do seu plano para cadastrar mais itens.
+```
+
 ## Status
-Pendente — executar antes ou logo após o lançamento
+Concluido

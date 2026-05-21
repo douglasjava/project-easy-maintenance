@@ -1,12 +1,32 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 12/04/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 parcial (4/6); SPRINT-04 parcial (2/5); SPRINT-05 não iniciada
-> Sprints concluídas: 1, 2 e 6 | EPIC-009 e EPIC-010 completos | 12 tasks pendentes
+> Atualizado em: 16/05/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 concluída (6/6); SPRINT-04 concluída (5/5); SPRINT-05 não iniciada
+> Sprints concluídas: 1, 2, 3, 4, 6 | EPIC-009 completo | TASK-025, TASK-026, TASK-027, TASK-028 concluídas
+> **Bugs registrados (02/05/2026):** TASK-QA-BUG-001 🔄 Corrigido v2 (JWT stale pós-onboarding — aguarda validação) | ~~TASK-QA-BUG-002~~ ✅ Concluído
+> **Bug ativo (14/05/2026):** Trial → PIX recorrente quebrado no Asaas (`/subscriptions` só aceita CREDIT_CARD) — tratamento em TASK-058 a TASK-066
 
 ---
 
 ## Legenda de Prioridade
 🔴 Crítico | 🟠 Alto | 🟡 Médio | 🔵 Baixo
+
+---
+
+## 🐛 Bugs — Em Validação
+
+| ID | Título | Prioridade | Épico | Severidade |
+|----|--------|-----------|-------|------------|
+| [TASK-055](tasks/TASK-055.md) | Sessão do usuário sem organização é apagada após login | 🔴 Crítico | EPIC-006 | GRAVE |
+| [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão | 🟠 Alto | EPIC-006 | GRAVE |
+
+## 🐛 Bugs — Concluídos
+
+| ID | Título | Prioridade | Épico | Severidade |
+|----|--------|-----------|-------|------------|
+| [TASK-056](tasks/TASK-056.md) | Recriar rota GET /organizations/{code}/subscription | 🔴 Crítico | EPIC-006 | ALTA |
+| [TASK-052](tasks/TASK-052.md) | E-mail de convite de admin não entra na fila de retry | 🟠 Alto | EPIC-002 | ALTA |
+
+---
 
 ---
 
@@ -38,10 +58,10 @@
 | ~~TASK-022~~ | ~~Sentry em backend e frontend~~ | 🟡 Médio | EPIC-005 | 2 |
 | ~~TASK-023~~ | ~~Indicador de uso vs limite de plano no frontend~~ | 🟡 Médio | EPIC-006 | 2 |
 | ~~TASK-024~~ | ~~Exportação de relatórios PDF/Excel~~ | 🟡 Médio | EPIC-006 | 2 |
-| TASK-025 | Fila/retry para envio de e-mails | 🟡 Médio | EPIC-002 | 2 |
+| ~~TASK-025~~ | ~~Fila/retry para envio de e-mails~~ | 🟡 Médio | EPIC-002 | 2 |
 | TASK-026 | Testes de integração — billing e auth completos | 🟡 Médio | EPIC-008 | 2 |
-| TASK-027 | Pre-signed URLs S3 para uploads diretos | 🟡 Médio | EPIC-007 | 2 |
-| TASK-028 | Processamento assíncrono de chamadas IA | 🟡 Médio | EPIC-007 | 2 |
+| ~~TASK-027~~ | ~~Pre-signed URLs S3 para uploads diretos~~ | 🟡 Médio | EPIC-007 | 2 |
+| ~~TASK-028~~ | ~~Processamento assíncrono de chamadas IA~~ | 🟡 Médio | EPIC-007 | 2 |
 | ~~TASK-029~~ | ~~Runbook de incidentes e operação~~ | 🟡 Médio | EPIC-005 | 2 |
 | ~~TASK-030~~ | ~~Tela de comparação de planos (upgrade page)~~ | 🟡 Médio | EPIC-006 | 2 |
 | ~~TASK-031~~ | ~~Notificações in-app (lista no header)~~ | 🔵 Baixo | EPIC-006 | 2 |
@@ -49,10 +69,10 @@
 | TASK-033 | Status page básica | 🔵 Baixo | EPIC-005 | 2 |
 | ~~TASK-034~~ | ~~Central de ajuda / FAQ in-app~~ | 🔵 Baixo | EPIC-006 | 2 |
 | TASK-035 | Política de retenção para audit_logs | 🔵 Baixo | EPIC-004 | 2 |
-| TASK-036 | Paginação cursor-based em listagens grandes | 🔵 Baixo | EPIC-007 | 3 |
+| ~~TASK-036~~ | ~~Paginação cursor-based em listagens grandes~~ | 🔵 Baixo | EPIC-007 | 3 |
 | TASK-037 | Jobs de billing assíncronos com fila | 🔵 Baixo | EPIC-007 | 3 |
 | TASK-038 | LGPD: exportação e exclusão de dados pessoais | 🔵 Baixo | EPIC-003 | 3 |
-| TASK-039 | Autenticação 2FA | 🔵 Baixo | EPIC-001 | 3 |
+| ~~TASK-039~~ | ~~Autenticação 2FA~~ | 🔵 Baixo | EPIC-001 | 3 |
 | TASK-040 | Acessibilidade básica (WCAG AA) | 🔵 Baixo | EPIC-006 | 3 |
 | ~~TASK-041~~ | ~~Configurar defaults globais do React Query~~ | 🟠 Alto | EPIC-009 | 2 |
 | ~~TASK-042~~ | ~~Adicionar loading.tsx nas rotas principais~~ | 🟠 Alto | EPIC-009 | 2 |
@@ -62,6 +82,12 @@
 | ~~TASK-046~~ | ~~PIX: popular QR Code e expiração nas cobranças recorrentes~~ | 🔴 Crítico | EPIC-010 | 2 |
 | ~~TASK-047~~ | ~~PIX: e-mail de lembrete no PAYMENT_OVERDUE~~ | 🟠 Alto | EPIC-010 | 2 |
 | ~~TASK-048~~ | ~~PIX: exibir QR Code pendente na página de billing~~ | 🔴 Crítico | EPIC-010 | 2 |
+| ~~TASK-049~~ | ~~Centralizar validação de expiração de TRIAL no /me/access-context~~ | 🔴 Crítico | EPIC-003 | 1 |
+| ~~TASK-050~~ | ~~Criar páginas públicas de retorno do checkout~~ | 🟠 Alto | EPIC-010 | 2 |
+| ~~TASK-QA-AUTO-001~~ | ~~Testes IT: isolamento multi-tenant~~ *(substituída por TASK-E2E-002)* | 🔴 Crítico | EPIC-003 | — |
+| ~~TASK-QA-AUTO-004~~ | ~~Testes IT: webhook idempotência~~ *(substituída por TASK-E2E-003)* | 🟠 Alto | EPIC-001 | — |
+| ~~TASK-QA-AUTO-005~~ | ~~Testes IT: soft delete~~ *(substituída por TASK-E2E-004)* | 🟡 Médio | EPIC-004 | — |
+| ~~TASK-QA-AUTO-006~~ | ~~Testes E2E: React Query cache~~ *(migrada para TASK-E2E-005)* | 🟡 Médio | EPIC-009 | — |
 
 ---
 
@@ -79,22 +105,35 @@
 
 | Sprint | Foco | Status | Concluídas | Pendentes |
 |--------|------|--------|-----------|-----------|
-| ~~[SPRINT-03](sprints/SPRINT-03.md)~~ | Integridade de Dados + Estabilidade | Parcial 4/6 | TASK-017, 018, 019, 020 | TASK-025, TASK-026 |
-| [SPRINT-04](sprints/SPRINT-04.md) | Observabilidade + Performance | Parcial 2/5 | TASK-022, TASK-029 | TASK-021, TASK-027, TASK-028 |
+| ~~[SPRINT-03](sprints/SPRINT-03.md)~~ | Integridade de Dados + Estabilidade | Concluída 6/6 | TASK-017, 018, 019, 020, 025, 026 | — |
+| [SPRINT-04](sprints/SPRINT-04.md) | Observabilidade + Performance | Parcial 3/5 | TASK-022, TASK-027, TASK-029 | TASK-021, TASK-028 |
 | [SPRINT-05](sprints/SPRINT-05.md) | Escalabilidade + Compliance + Polimento | Não iniciada 0/7 | — | TASK-033, 035, 036, 037, 038, 039, 040 |
 
 ---
 
 ## Pronto para Implementar
 
-**Pendentes de SPRINT-03** (fechar sprint antes de avançar):
-- **TASK-025** — Fila/retry para envio de e-mails (🟡 Médio | EPIC-002)
-- **TASK-026** — Testes de integração — billing e auth completos (🟡 Médio | EPIC-008)
+**🔴 Crítico (bug ativo de receita) — sequência sugerida**:
+- ~~**TASK-058**~~ — Refatorar job de expiração de TRIAL: PIX via DETACHED *(em validação)*
+- ~~**TASK-059**~~ — Subscription PIX recorrente manual *(em validação)*
+- ~~**TASK-060**~~ — Webhook PAYMENT_RECEIVED avança ciclo PIX manual *(em validação)*
+- ~~**TASK-061**~~ — UX: seleção de método antes da expiração do TRIAL *(em validação)*
+
+**🟠 Alto (robustez pós-MVP de PIX manual)**:
+- ~~**TASK-062**~~ — Classificador de motivos de recusa Asaas *(em validação)*
+- ~~**TASK-063**~~ — Job de reconciliação noturna Asaas *(em validação)*
+- ~~**TASK-064**~~ — Hardening de webhook: DLQ + replay *(em validação)*
+- ~~**TASK-065**~~ — Tela "Atualizar método de pagamento" *(em validação)*
+
+**🟡 Médio (próxima fase)**:
+- **TASK-066** — Pix Automático (mandato regulamentado) (🟡 Médio | EPIC-010)
 
 **Pendentes de SPRINT-04**:
 - **TASK-021** — Alertas no Prometheus/Grafana (🟡 Médio | EPIC-005)
-- **TASK-027** — Pre-signed URLs S3 para uploads diretos (🟡 Médio | EPIC-007)
-- **TASK-028** — Processamento assíncrono de chamadas IA (🟡 Médio | EPIC-007)
+
+**Projeto E2E — Playwright** (`easy-maintenance-e2e`):
+- **TASK-E2E-004** — Soft delete via API (🟡 Médio | EPIC-004) — substitui TASK-QA-AUTO-005
+- **TASK-E2E-005** — React Query cache performance (🟡 Médio | EPIC-009) — migração de TASK-QA-AUTO-006
 
 ---
 
@@ -106,7 +145,20 @@ _Vazio_
 
 ## Em Validação
 
-_Vazio_
+| ID | Título | Prioridade | Épico |
+|----|--------|-----------|-------|
+| [TASK-058](tasks/TASK-058.md) | Refatorar job de expiração de TRIAL: PIX via cobrança avulsa (DETACHED) | 🔴 Crítico | EPIC-010 |
+| [TASK-059](tasks/TASK-059.md) | Subscription PIX recorrente "manual": ciclo gerenciado internamente | 🔴 Crítico | EPIC-010 |
+| [TASK-060](tasks/TASK-060.md) | Webhook PAYMENT_RECEIVED avança ciclo PIX manual | 🔴 Crítico | EPIC-010 |
+| [TASK-061](tasks/TASK-061.md) | UX: seleção de método de pagamento antes do fim do TRIAL | 🟠 Alto | EPIC-010 |
+| [TASK-062](tasks/TASK-062.md) | Classificador de motivos de recusa Asaas + roteamento por bucket | 🟠 Alto | EPIC-010 |
+| [TASK-063](tasks/TASK-063.md) | Job de reconciliação noturna: Asaas vs estado local | 🟠 Alto | EPIC-010 |
+| [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual | 🟠 Alto | EPIC-010 |
+| [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE | 🟠 Alto | EPIC-010 |
+| TASK-QA-AUTO-002 | Testes unitários: handler PIX e PAYMENT_OVERDUE (casos de borda) | 🟠 Alto | EPIC-010 |
+| TASK-QA-AUTO-003 | Testes de integração: rate limiting nos endpoints de autenticação (@WebMvcTest) | 🟠 Alto | EPIC-001 |
+| TASK-E2E-001 | Setup do projeto Playwright E2E (`easy-maintenance-e2e`) | 🟠 Alto | EPIC-008 |
+| TASK-E2E-003 | Testes E2E: Webhook Asaas — token e idempotência | 🟠 Alto | EPIC-001 |
 
 ---
 
@@ -114,6 +166,11 @@ _Vazio_
 
 | ID | Título | Prioridade | Épico |
 |----|--------|-----------|-------|
+| [TASK-057](tasks/TASK-057.md) | Adicionar activated_at em billing_subscription_items | 🟠 Alto | EPIC-010 |
+| TASK-028 | Processamento assíncrono de chamadas IA | 🟡 Médio | EPIC-007 |
+| TASK-027 | Pre-signed URLs S3 para uploads diretos | 🟡 Médio | EPIC-007 |
+| TASK-025 | Fila/retry para envio de e-mails (críticos incluídos) | 🟡 Médio | EPIC-002 |
+| TASK-050 | Criar páginas públicas de retorno do checkout (sucesso, cancelado, expirado) | 🟠 Alto | EPIC-010 |
 | TASK-001 | Persistir chaves RSA JWT | 🔴 Crítico | EPIC-001 |
 | TASK-003 | Implementar ShedLock nos jobs agendados | 🔴 Crítico | EPIC-002 |
 | TASK-005 | Desabilitar Swagger/OpenAPI em produção | 🟠 Alto | EPIC-001 |
@@ -150,3 +207,31 @@ _Vazio_
 | TASK-046 | PIX: popular QR Code e expiração nas cobranças recorrentes | 🔴 Crítico | EPIC-010 |
 | TASK-047 | PIX: e-mail de lembrete no PAYMENT_OVERDUE | 🟠 Alto | EPIC-010 |
 | TASK-048 | PIX: exibir QR Code pendente na página de billing | 🔴 Crítico | EPIC-010 |
+| TASK-049 | Centralizar validação de expiração de TRIAL no /me/access-context | 🔴 Crítico | EPIC-003 |
+| TASK-QA-MAN-006 (BUG C8) | Bloqueio de criação de item ao atingir limite do plano | 🔴 Crítico | EPIC-006 |
+| TASK-E2E-002 | Testes E2E: isolamento multi-tenant | 🔴 Crítico | EPIC-003 |
+| TASK-026 | Testes de integração — billing e auth completos | 🟡 Médio | EPIC-008 |
+| TASK-036 | Paginação cursor-based em listagens grandes | 🔵 Baixo | EPIC-007 |
+| TASK-039 | Autenticação 2FA (TOTP + backup codes + recovery) | 🔵 Baixo | EPIC-001 |
+| TASK-QA-BUG-002 | Bug: Loop infinito no primeiro login — troca de senha com 403 (corrigido) | 🔴 Crítico | EPIC-001/003 |
+| TASK-053 | Reestruturação de planos: remover FREE, trial BUSINESS, nova grade de features | 🔴 Crítico | EPIC-006 |
+| TASK-054 | Enforcement de limites: créditos de IA por usuário/mês + cota de upload por org | 🔴 Crítico | EPIC-002 |
+| TASK-051 | Padronizar logos no frontend — SVGs + BrandLogo server component | 🟡 Médio | EPIC-009 |
+
+---
+
+## 💸 EPIC-010 — Redesenho do fluxo PIX recorrente + Pix Automático
+
+> Adicionado em 14/05/2026 — destrava conversão de TRIAL para PIX (bug ativo) e prepara terreno para Pix Automático.
+
+| ID | Título | Prioridade | Fase | Tipo |
+|----|--------|-----------|------|------|
+| [TASK-058](tasks/TASK-058.md) | Refatorar job de expiração de TRIAL: PIX via cobrança avulsa (DETACHED) | 🔴 Crítico | 2 | BACKEND |
+| [TASK-059](tasks/TASK-059.md) | Subscription PIX recorrente "manual": ciclo gerenciado internamente | 🔴 Crítico | 2 | BACKEND |
+| [TASK-060](tasks/TASK-060.md) | Webhook PAYMENT_RECEIVED do PIX detached avança o ciclo da subscription | 🔴 Crítico | 2 | BACKEND |
+| [TASK-061](tasks/TASK-061.md) | UX: seleção de método de pagamento antes da expiração do TRIAL | 🟠 Alto | 2 | FRONTEND |
+| [TASK-062](tasks/TASK-062.md) | Classificador de motivos de recusa Asaas + roteamento por bucket | 🟠 Alto | 2 | BACKEND |
+| [TASK-063](tasks/TASK-063.md) | Job de reconciliação noturna: Asaas vs estado local | 🟠 Alto | 2 | BACKEND |
+| [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual | 🟠 Alto | 2 | BACKEND |
+| [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE | 🟠 Alto | 2 | FRONTEND |
+| [TASK-066](tasks/TASK-066.md) | Implementar Pix Automático (mandato no banco do payer) | 🟡 Médio | 3 | FULL_STACK |

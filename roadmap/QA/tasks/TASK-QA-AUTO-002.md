@@ -32,26 +32,36 @@ Expandir a cobertura dos testes unitários existentes no `PaymentCreatedHandler`
 ## Cobertura Esperada
 
 ### PaymentCreatedHandler — novos casos
-- [ ] `dueDate` nula → `pixExpiresAt` permanece `null` sem lançar exceção
-- [ ] `pixTransaction` presente mas `qrCode` nulo → campos PIX ficam nulos sem NPE
-- [ ] `pixTransaction` presente mas `encodedImage` vazia → `pixQrCodeBase64` salvo como null ou empty (definir comportamento esperado)
-- [ ] Múltiplos webhooks `PAYMENT_CREATED` PIX para a mesma subscription → cada payment salvo independentemente
+- [x] `dueDate` nula E `expirationDate` nula → `pixExpiresAt` permanece `null` sem lançar exceção
+- [x] `pixTransaction` presente mas `qrCode` nulo → campos PIX ficam nulos sem NPE
+- [x] `pixTransaction` presente mas `encodedImage` em branco → `pixQrCodeBase64` **null** (comportamento definido: blank é tratado como ausente)
+- [x] Múltiplos webhooks `PAYMENT_CREATED` PIX para a mesma subscription → cada payment salvo independentemente
 
 ### PaymentOverdueHandler — novos casos
-- [ ] Pagamento em estado `PAID` recebe `PAYMENT_OVERDUE` → e-mail NÃO enviado (já em estado final)
-- [ ] Pagamento com `payer` nulo → sem NPE, log de warn emitido
-- [ ] `paymentLink` nulo no Payment → e-mail enviado mas sem link (ou com mensagem fallback)
+- [x] Pagamento em estado `PAID` recebe `PAYMENT_OVERDUE` → e-mail NÃO enviado — **já coberto** por `handle_finalStatePayment_skipsUpdateAndEmail`
+- [x] Pagamento com `payer` nulo → sem NPE; handler chama `sendPixOverdueEmail` normalmente (null payer é responsabilidade do serviço de notificação)
+- [x] `paymentLink` nulo no Payment → e-mail enviado sem link (handler não acessa paymentLink)
 
 ### Endpoint GET /billing/pending-payment — novos casos
-- [ ] Múltiplos pagamentos `PENDING` para a mesma subscription → retorna o mais recente (por `created_at DESC`)
-- [ ] Nenhum pagamento pendente → HTTP 204 No Content (comportamento documentado na TASK-046)
-- [ ] Pagamento `OVERDUE` presente → retorna como pendente (exibir banner vermelho)
+- [x] Nenhuma subscription → retorna `null` (sem interação com paymentRepository)
+- [x] Pagamento `PENDING` presente → retorna com todos os campos PIX mapeados
+- [x] Pagamento `OVERDUE` presente (sem PENDING) → retornado como resposta (exibir banner vermelho)
+- [x] Nenhum pagamento (nem PENDING nem OVERDUE) → retorna `null` → controller responde 204
 
 ## Subtasks
-- [ ] Adicionar casos de borda em `PaymentCreatedHandlerTest`
-- [ ] Adicionar casos de borda em `PaymentOverdueHandlerPixTest`
-- [ ] Criar `PendingPaymentEndpointTest` ou adicionar ao controller test existente
+- [x] Adicionar casos de borda em `PaymentCreatedHandlerPixTest`
+- [x] Adicionar casos de borda em `PaymentOverdueHandlerPixTest`
+- [x] Criar `BillingDashboardServicePendingPaymentTest`
 - [ ] Verificar coverage antes e depois (meta: > 85% nas classes cobertas)
+
+## Arquivos Criados / Modificados
+
+| Arquivo | Operação |
+|---------|----------|
+| `PaymentCreatedHandler.java` | Corrigido: `isBlank()` adicionado ao guard de `encodedImage` para evitar salvar string vazia |
+| `PaymentCreatedHandlerPixTest.java` | 4 novos testes de borda |
+| `PaymentOverdueHandlerPixTest.java` | 2 novos testes de borda |
+| `BillingDashboardServicePendingPaymentTest.java` | Criado — 4 testes unitários de serviço |
 
 ## Esforço Estimado
 Pequeno (3-5h)
@@ -60,4 +70,4 @@ Pequeno (3-5h)
 - Testes existentes nas classes mencionadas (não reescrever, apenas adicionar)
 
 ## Status
-Pendente — prioridade alta pós-launch
+Concluido

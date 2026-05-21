@@ -65,4 +65,6 @@ Criar testes de integração para o endpoint de webhook do Asaas validando:
 Médio (6-10h)
 
 ## Status
-Pendente — implementar durante SPRINT-03 (alta prioridade para proteção de billing)
+Substituída por E2E — ver [TASK-E2E-003](TASK-E2E-003.md)
+
+IT com TestContainers descartada em favor de Playwright E2E. A verificação de idempotência (constraint UNIQUE no banco) requer DB real — E2E com Docker Compose é a abordagem correta sem conflitos de contexto Spring.

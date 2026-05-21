@@ -1,0 +1,23 @@
+{
+  "name": "easy-maintenance-e2e",
+  "version": "1.0.0",
+  "description": "Playwright E2E tests for Easy Maintenance",
+  "private": true,
+  "scripts": {
+    "setup:db": "ts-node scripts/setup-db.ts",
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui",
+    "test:ci": "playwright test --reporter=junit,html",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.0.0",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.0.0",
+    "mysql2": "^3.22.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}

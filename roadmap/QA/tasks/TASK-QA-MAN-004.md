@@ -19,7 +19,9 @@ EPIC-006 — Produto SaaS
 [MTD-004](../MTD/MTD-004.md)
 
 ## Descrição
-Validação manual do fluxo de onboarding com foco em cenários de erro. Verificar que erros exibem mensagens específicas, orientativas e no campo correto (não apenas toast genérico), e que falhas de integração (Asaas indisponível) não impedem o usuário de prosseguir para o trial.
+Validação manual do fluxo de onboarding com foco em cenários de erro. Verificar que erros exibem mensagens específicas, 
+orientativas e no campo correto (não apenas toast genérico), e que falhas de integração (Asaas indisponível) não impedem 
+o usuário de prosseguir para o trial.
 
 Cobre a task TASK-016 e o comportamento de fallback implementado com TASK-008 (circuit breaker).
 

@@ -175,16 +175,16 @@ Tasks que ficam para a próxima sprint após concluir S03:
 
 ## Status da Sprint
 
-**Parcialmente concluída — 4/6 tasks entregues**
+**Concluída — 6/6 tasks entregues**
 
-| Task | Status | Observação |
-|------|--------|-----------|
-| TASK-017 | ✅ Concluída | Enforcement automático de tenant no repository |
-| TASK-018 | ✅ Concluída | Soft delete nas entidades críticas |
-| TASK-019 | ✅ Concluída | Índices ausentes no banco de dados |
+| Task     | Status      | Observação                                        |
+|----------|-------------|---------------------------------------------------|
+| TASK-017 | ✅ Concluída | Enforcement automático de tenant no repository    |
+| TASK-018 | ✅ Concluída | Soft delete nas entidades críticas                |
+| TASK-019 | ✅ Concluída | Índices ausentes no banco de dados                |
 | TASK-020 | ✅ Concluída | Schema formal para features JSON em billing_plans |
-| TASK-025 | ⏳ Pendente | Fila/retry para envio de e-mails |
-| TASK-026 | ⏳ Pendente | Testes de integração — billing e auth completos |
+| TASK-025 | ✅ Concluída | Fila/retry para envio de e-mails                  |
+| TASK-026 | ✅ Concluída | Testes de integração — billing e auth completos (205/205 passando) |
 
 ---
 

@@ -66,11 +66,11 @@ Esta validação é **pré-requisito para o lançamento** — falha aqui signifi
 - 429 com Retry-After na 11ª tentativa de login
 
 ## Evidências Necessárias
-- [ ] Screenshot DevTools → Cookies com cookie e flags visíveis
-- [ ] Screenshot DevTools → LocalStorage vazia
-- [ ] Screenshot do dashboard acessível após restart do servidor
-- [ ] Log do servidor confirmando carregamento de chave RSA (não geração)
-- [ ] Screenshot da resposta 429 com header Retry-After
+- [x] Screenshot DevTools → Cookies com cookie e flags visíveis
+- [x] Screenshot DevTools → LocalStorage vazia
+- [x] Screenshot do dashboard acessível após restart do servidor
+- [x] Log do servidor confirmando carregamento de chave RSA (não geração)
+- [x] Screenshot da resposta 429 com header Retry-After
 
 ## Status
-Pendente — executar antes do lançamento
+Concluido — executar antes do lançamento
