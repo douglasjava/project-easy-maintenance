@@ -127,6 +127,7 @@
 
 **🟡 Médio (próxima fase)**:
 - **TASK-066** — Pix Automático (mandato regulamentado) (🟡 Médio | EPIC-010)
+- **TASK-068** — Enriquecer response de notificações com nome do item referenciado (🟡 Médio | EPIC-006)
 
 **Pendentes de SPRINT-04**:
 - **TASK-021** — Alertas no Prometheus/Grafana (🟡 Médio | EPIC-005)
