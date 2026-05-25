@@ -113,4 +113,14 @@ A migração **V36** adicionou o campo `company_type` à tabela `organizations`,
 - EPIC-006 — Produto SaaS
 
 ## Status
-🔴 Aberto — Aguardando correção (25/05/2026)
+✅ Corrigido — easy-maintenance-web@6a994b8 (25/05/2026)
+
+## Root Cause Real (confirmado)
+
+Campo `companyType` completamente ausente em `EMPTY_FORM` e no payload de `onSubmitStep1`. O backend tem `@NotNull CompanyType companyType` no `CreateOrganizationRequest`, portanto rejeitava toda requisição com 422.
+
+## Correção Aplicada
+
+- `EMPTY_FORM`: adicionado `companyType: "OTHER"` como default
+- Payload: adicionado `companyType: formData.companyType`
+- UI: adicionado `<select>` obrigatório com todos os valores do enum (`CONDOMINIUM`, `HOSPITAL`, `SCHOOL`, `INDUSTRY`, `OFFICE`, `OTHER`) no Step 1 do formulário

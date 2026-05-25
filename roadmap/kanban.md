@@ -17,7 +17,6 @@
 
 | ID | Título | Prioridade | Épico | Severidade |
 |----|--------|-----------|-------|------------|
-| [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo | 🟠 Alto | EPIC-006 | ALTA |
 | [TASK-055](tasks/TASK-055.md) | Sessão do usuário sem organização é apagada após login | 🔴 Crítico | EPIC-006 | GRAVE |
 | [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão | 🟠 Alto | EPIC-006 | GRAVE |
 
@@ -25,6 +24,7 @@
 
 | ID | Título | Prioridade | Épico | Severidade |
 |----|--------|-----------|-------|------------|
+| [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo | 🟠 Alto | EPIC-006 | ALTA |
 | [TASK-056](tasks/TASK-056.md) | Recriar rota GET /organizations/{code}/subscription | 🔴 Crítico | EPIC-006 | ALTA |
 | [TASK-052](tasks/TASK-052.md) | E-mail de convite de admin não entra na fila de retry | 🟠 Alto | EPIC-002 | ALTA |
 
