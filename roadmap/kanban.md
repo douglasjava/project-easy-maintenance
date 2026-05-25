@@ -3,6 +3,7 @@
 > Atualizado em: 16/05/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 concluída (6/6); SPRINT-04 concluída (5/5); SPRINT-05 não iniciada
 > Sprints concluídas: 1, 2, 3, 4, 6 | EPIC-009 completo | TASK-025, TASK-026, TASK-027, TASK-028 concluídas
 > **Bugs registrados (02/05/2026):** TASK-QA-BUG-001 🔄 Corrigido v2 (JWT stale pós-onboarding — aguarda validação) | ~~TASK-QA-BUG-002~~ ✅ Concluído
+> **Bug ativo (25/05/2026):** TASK-QA-BUG-003 🔴 Criação de organização admin — 422 companyType nulo
 > **Bug ativo (14/05/2026):** Trial → PIX recorrente quebrado no Asaas (`/subscriptions` só aceita CREDIT_CARD) — tratamento em TASK-058 a TASK-066
 
 ---
@@ -16,6 +17,7 @@
 
 | ID | Título | Prioridade | Épico | Severidade |
 |----|--------|-----------|-------|------------|
+| [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo | 🟠 Alto | EPIC-006 | ALTA |
 | [TASK-055](tasks/TASK-055.md) | Sessão do usuário sem organização é apagada após login | 🔴 Crítico | EPIC-006 | GRAVE |
 | [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão | 🟠 Alto | EPIC-006 | GRAVE |
 
