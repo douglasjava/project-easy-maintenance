@@ -4,6 +4,7 @@
 > Sprints concluídas: 1, 2, 3, 4, 6 | EPIC-009 completo | TASK-025, TASK-026, TASK-027, TASK-028 concluídas
 > **Bugs registrados (02/05/2026):** TASK-QA-BUG-001 🔄 Corrigido v2 (JWT stale pós-onboarding — aguarda validação) | ~~TASK-QA-BUG-002~~ ✅ Concluído
 > **Bug ativo (25/05/2026):** TASK-QA-BUG-003 🔴 Criação de organização admin — 422 companyType nulo
+> **Bug ativo (25/05/2026):** TASK-QA-BUG-004 🟠 Step 2 de cadastro de org — PUT .../organizations/{code}/subscription retorna 500 (rota inexistente no backend)
 > **Bug ativo (14/05/2026):** Trial → PIX recorrente quebrado no Asaas (`/subscriptions` só aceita CREDIT_CARD) — tratamento em TASK-058 a TASK-066
 
 ---
@@ -12,6 +13,12 @@
 🔴 Crítico | 🟠 Alto | 🟡 Médio | 🔵 Baixo
 
 ---
+
+## 🐛 Bugs — Em Aberto
+
+| ID | Título | Prioridade | Épico | Severidade |
+|----|--------|-----------|-------|------------|
+| [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente) | 🟠 Alto | EPIC-006 | ALTA |
 
 ## 🐛 Bugs — Em Validação
 
