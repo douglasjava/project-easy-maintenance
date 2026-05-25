@@ -14,11 +14,6 @@
 
 ---
 
-## 🐛 Bugs — Em Aberto
-
-| ID | Título | Prioridade | Épico | Severidade |
-|----|--------|-----------|-------|------------|
-| [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente) | 🟠 Alto | EPIC-006 | ALTA |
 
 ## 🐛 Bugs — Em Validação
 
@@ -31,6 +26,7 @@
 
 | ID | Título | Prioridade | Épico | Severidade |
 |----|--------|-----------|-------|------------|
+| [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente) | 🟠 Alto | EPIC-006 | ALTA |
 | [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo | 🟠 Alto | EPIC-006 | ALTA |
 | [TASK-056](tasks/TASK-056.md) | Recriar rota GET /organizations/{code}/subscription | 🔴 Crítico | EPIC-006 | ALTA |
 | [TASK-052](tasks/TASK-052.md) | E-mail de convite de admin não entra na fila de retry | 🟠 Alto | EPIC-002 | ALTA |

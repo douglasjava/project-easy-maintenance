@@ -207,4 +207,16 @@ Se o endpoint backend exigir o token, adicionar o header antes de chamar `api.pu
 - EPIC-006 — Produto SaaS
 
 ## Status
-🔴 Aberto
+✅ Corrigido — easy-maintenance-api@3fdcf55 (25/05/2026)
+
+## Root Cause Real (confirmado)
+
+Endpoint `PUT /easy-maintenance/api/v1/private/admin/billing/organizations/{orgCode}/subscription` completamente ausente no `AdminBillingController`. O `BootstrapAdminFilter` passava a requisição (X-Admin-Token já era enviado automaticamente pelo `apiClient` para rotas `private/`), mas o Spring não encontrava handler → 500.
+
+## Correção Aplicada
+
+- `AdminBillingController`: injetado `OrganizationsService` + adicionado endpoint `PUT /organizations/{orgCode}/subscription`
+- Delega para `OrganizationsService.addOrganizationSubscription` (reutiliza lógica existente sem duplicar)
+- Sem cookie/token refresh: contexto admin não altera sessão do usuário
+- Proteção `X-Admin-Token` garantida automaticamente pelo `BootstrapAdminFilter`
+- Frontend: sem alteração necessária — `apiClient` já injetava o token corretamente
