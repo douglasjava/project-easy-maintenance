@@ -126,4 +126,4 @@ Baixo–Médio (0,5–1 dia)
 
 ## Status
 
-TODO
+Done
