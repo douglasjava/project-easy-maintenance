@@ -7,7 +7,7 @@
 > **Bug ativo (25/05/2026):** TASK-QA-BUG-004 🟠 Step 2 de cadastro de org — PUT .../organizations/{code}/subscription retorna 500 (rota inexistente no backend)
 > **Bug ativo (14/05/2026):** Trial → PIX recorrente quebrado no Asaas (`/subscriptions` só aceita CREDIT_CARD) — tratamento em TASK-058 a TASK-066
 > **Bug em validação (30/05/2026):** TASK-QA-BUG-005 🟠 Erro ao cadastrar dados de faturamento — fix aplicado: campos name/paymentMethod/planCode adicionados ao formulário frontend
-> **Bug em validação (30/05/2026):** TASK-QA-BUG-006 🟠 Erro ao cadastrar nova empresa — fix aplicado: `orElseGet` inicializa BillingAccount+Subscription para usuários admin sem onboarding
+> **Bug concluído (30/05/2026):** TASK-QA-BUG-006 ✅ Erro ao cadastrar nova empresa — fix completo: `orElseGet` + `paymentMethod` obrigatório no Step 2 + pre-populate `name`/`billingEmail` do User
 > **Em validação (30/05/2026):** TASK-069 🟡 Filtros nome/e-mail adicionados à tela /private/users — frontend + service atualizados
 
 ---
@@ -26,7 +26,6 @@ _Vazio_
 
 | ID                                              | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| TASK-QA-BUG-006                                 | Erro ao cadastrar nova empresa — addOrganizationSubscription inicializa BillingAccount+Subscription via orElseGet (sem onboarding) | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-005                                 | Erro ao cadastrar dados de faturamento — PUT .../billing/users/22/account retorna 422 (planCode/paymentMethod/name não enviados) | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-055](tasks/TASK-055.md)                   | Sessão do usuário sem organização é apagada após login                                                                           | 🔴 Crítico | EPIC-006 | GRAVE      |
 | [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão                                                                | 🟠 Alto    | EPIC-006 | GRAVE      |
@@ -35,6 +34,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                             | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-006                                  | Erro ao cadastrar nova empresa — paymentMethod obrigatório + orElseGet + pre-populate name/billingEmail do User | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente) | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo                            | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-056](tasks/TASK-056.md)                  | Recriar rota GET /organizations/{code}/subscription                                                | 🔴 Crítico | EPIC-006 | ALTA       |
