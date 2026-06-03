@@ -190,6 +190,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| TASK-074                      | Coluna Item na tela /maintenances — itemType no response + coluna desktop/mobile (issue #41) | 🟡 Médio   | EPIC-006     |
 | TASK-073                      | Botão limpar filtros na página /items (issue #42)                                         | 🔵 Baixo   | EPIC-006     |
 | TASK-070                      | Padronizar cor da seção de usuários — cyan #0891b2 em users/page.tsx e users/new/page.tsx | 🔵 Baixo   | EPIC-006     |
 | TASK-071                      | Padronizar nomenclaturas: Organizações → Empresas (labels frontend)             | 🔵 Baixo   | EPIC-006     |
