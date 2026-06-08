@@ -191,6 +191,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| TASK-076                      | Botão de voltar ao dashboard na tela de IA Onboarding (issue #44)                            | 🔵 Baixo   | EPIC-006     |
 | TASK-075                      | Exibir mais itens em 'Atenção Agora' — limitAttention 5→10 no dashboard (issue #40)          | 🔵 Baixo   | EPIC-006     |
 | TASK-074                      | Coluna Item na tela /maintenances — itemType no response + coluna desktop/mobile (issue #41) | 🟡 Médio   | EPIC-006     |
 | TASK-073                      | Botão limpar filtros na página /items (issue #42)                                         | 🔵 Baixo   | EPIC-006     |
