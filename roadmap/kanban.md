@@ -26,6 +26,7 @@ _Vazio_
 
 | ID                                              | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-009                                 | Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada (issue #46)                              | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-008                                 | Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode (issue #45)                              | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-007                                 | Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada (issue #37)                             | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-005                                 | Erro ao cadastrar dados de faturamento — PUT .../billing/users/22/account retorna 422 (planCode/paymentMethod/name não enviados) | 🟠 Alto    | EPIC-006 | ALTA       |
