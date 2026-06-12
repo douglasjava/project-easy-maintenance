@@ -24,25 +24,26 @@ _Vazio_
 
 ## 🐛 Bugs — Em Validação
 
-| ID                                              | Título                                                                                                                           | Prioridade | Épico    | Severidade |
-|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| TASK-078                                        | Ao remover org do usuário via admin, agendar cancelamento do billing_subscription_items + warning no frontend                    | 🟠 Alto    | EPIC-007 | ALTA       |
-| TASK-QA-BUG-009                                 | Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada (issue #46)                              | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-008                                 | Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode (issue #45)                              | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-007                                 | Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada (issue #37)                             | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-005                                 | Erro ao cadastrar dados de faturamento — PUT .../billing/users/22/account retorna 422 (planCode/paymentMethod/name não enviados) | 🟠 Alto    | EPIC-006 | ALTA       |
-| [TASK-055](tasks/TASK-055.md)                   | Sessão do usuário sem organização é apagada após login                                                                           | 🔴 Crítico | EPIC-006 | GRAVE      |
+| ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
+|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-010                                | Campo norma não pré-preenchido ao editar item Regulatório — useEffect acessava `item.norm?.id` em vez de `item.normId` (issue #52) | 🟡 Médio   | EPIC-006 | BAIXA      |
+| TASK-078                                       | Ao remover org do usuário via admin, agendar cancelamento do billing_subscription_items + warning no frontend                    | 🟠 Alto    | EPIC-007 | ALTA       |
+| TASK-QA-BUG-009                                | Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada (issue #46)                               | 🟠 Alto    | EPIC-006 | ALTA       |
+| TASK-QA-BUG-008                                | Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode (issue #45)                              | 🟠 Alto    | EPIC-006 | ALTA       |
+| TASK-QA-BUG-007                                | Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada (issue #37)                             | 🟠 Alto    | EPIC-006 | ALTA       |
+| TASK-QA-BUG-005                                | Erro ao cadastrar dados de faturamento — PUT .../billing/users/22/account retorna 422 (planCode/paymentMethod/name não enviados) | 🟠 Alto    | EPIC-006 | ALTA       |
+| [TASK-055](tasks/TASK-055.md)                  | Sessão do usuário sem organização é apagada após login                                                                           | 🔴 Crítico | EPIC-006 | GRAVE      |
 | [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão                                                                | 🟠 Alto    | EPIC-006 | GRAVE      |
 
 ## 🐛 Bugs — Concluídos
 
-| ID                                             | Título                                                                                             | Prioridade | Épico    | Severidade |
-|------------------------------------------------|----------------------------------------------------------------------------------------------------|------------|----------|------------|
-| TASK-QA-BUG-006                                  | Erro ao cadastrar nova empresa — paymentMethod obrigatório + orElseGet + pre-populate name/billingEmail do User | 🟠 Alto    | EPIC-006 | ALTA       |
-| [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente) | 🟠 Alto    | EPIC-006 | ALTA       |
-| [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo                            | 🟠 Alto    | EPIC-006 | ALTA       |
-| [TASK-056](tasks/TASK-056.md)                  | Recriar rota GET /organizations/{code}/subscription                                                | 🔴 Crítico | EPIC-006 | ALTA       |
-| [TASK-052](tasks/TASK-052.md)                  | E-mail de convite de admin não entra na fila de retry                                              | 🟠 Alto    | EPIC-002 | ALTA       |
+| ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
+|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-006                                | Erro ao cadastrar nova empresa — paymentMethod obrigatório + orElseGet + pre-populate name/billingEmail do User | 🟠 Alto    | EPIC-006 | ALTA       |
+| [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente)              | 🟠 Alto    | EPIC-006 | ALTA       |
+| [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo                                         | 🟠 Alto    | EPIC-006 | ALTA       |
+| [TASK-056](tasks/TASK-056.md)                  | Recriar rota GET /organizations/{code}/subscription                                                             | 🔴 Crítico | EPIC-006 | ALTA       |
+| [TASK-052](tasks/TASK-052.md)                  | E-mail de convite de admin não entra na fila de retry                                                           | 🟠 Alto    | EPIC-002 | ALTA       |
 
 ## 🐛 Bugs — Backlog
 
