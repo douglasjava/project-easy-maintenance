@@ -27,6 +27,7 @@ _Vazio_
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
 | TASK-079                                       | Exibir periodicidade da norma nos detalhes do item Regulatório (issue #50)                                                        | 🔵 Baixo   | EPIC-006 | —          |
+| TASK-QA-BUG-011                                | Filtro "Realizados este mês" retorna manutenções fora do mês — backend só tinha data exata (issue #49)                            | 🟡 Médio   | EPIC-006 | BAIXA      |
 | TASK-QA-BUG-010                                | Campo norma não pré-preenchido ao editar item Regulatório — useEffect acessava `item.norm?.id` em vez de `item.normId` (issue #52) | 🟡 Médio   | EPIC-006 | BAIXA      |
 | TASK-078                                       | Ao remover org do usuário via admin, agendar cancelamento do billing_subscription_items + warning no frontend                    | 🟠 Alto    | EPIC-007 | ALTA       |
 | TASK-QA-BUG-009                                | Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada (issue #46)                               | 🟠 Alto    | EPIC-006 | ALTA       |
