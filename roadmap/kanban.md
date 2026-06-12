@@ -116,6 +116,12 @@ _Vazio_
 | ~~TASK-069~~         | ~~Criar busca para usuários~~                                           | 🟡 Médio   | EPIC-006 | 3    |
 | ~~TASK-070~~         | ~~Padronizar a cor da seção de usuários~~                               | 🔵 Baixo   | EPIC-006 | 3    |
 | ~~TASK-071~~         | ~~Padronizar as nomenclaturas de empresas (Organizações → Empresas)~~   | 🔵 Baixo   | EPIC-006 | 3    |
+| TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
+| TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
+| TASK-083             | Backend: GET /me/reports/maintenances/export — CSV consolidado         | 🟡 Médio   | EPIC-011 | 3    |
+| TASK-084             | Frontend: estrutura da página /me/reports + entrada no sidenav         | 🟠 Alto    | EPIC-011 | 3    |
+| TASK-085             | Frontend: Dashboard Unificado — KPIs globais + grid de cards por org   | 🟠 Alto    | EPIC-011 | 3    |
+| TASK-086             | Frontend: Seção de Relatórios — filtros, tabela paginada e export CSV  | 🟡 Médio   | EPIC-011 | 3    |
 
 ---
 
@@ -275,3 +281,18 @@ _Vazio_
 | [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual                            | 🟠 Alto    | 2    | BACKEND    |
 | [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE | 🟠 Alto    | 2    | FRONTEND   |
 | [TASK-066](tasks/TASK-066.md) | Implementar Pix Automático (mandato no banco do payer)                     | 🟡 Médio   | 3    | FULL_STACK |
+
+---
+
+## 📊 EPIC-011 — Dashboard Unificado e Relatórios Cross-Org (`/me/reports`)
+
+> Adicionado em 12/06/2026 — nova área no sidenav (/me) que consolida dados de todas as empresas do usuário autenticado sem quebrar contratos existentes. Inclui dashboard de KPIs unificado por org e gerador de relatórios com exportação CSV. Backend usa `user_organizations` para determinar orgs autorizadas — sem X-Org-Id.
+
+| ID       | Título                                                                          | Prioridade | Fase | Tipo       |
+|----------|---------------------------------------------------------------------------------|------------|------|------------|
+| TASK-081 | Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org       | 🟠 Alto    | 3    | BACKEND    |
+| TASK-082 | Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros | 🟠 Alto    | 3    | BACKEND    |
+| TASK-083 | Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org        | 🟡 Médio   | 3    | BACKEND    |
+| TASK-084 | Frontend: estrutura da página /me/reports + entrada no sidenav                  | 🟠 Alto    | 3    | FRONTEND   |
+| TASK-085 | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa        | 🟠 Alto    | 3    | FRONTEND   |
+| TASK-086 | Frontend: Seção de Relatórios — filtros, tabela paginada e exportação CSV       | 🟡 Médio   | 3    | FRONTEND   |
