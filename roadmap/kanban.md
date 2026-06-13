@@ -118,7 +118,6 @@ _Vazio_
 | ~~TASK-071~~         | ~~Padronizar as nomenclaturas de empresas (Organizações → Empresas)~~   | 🔵 Baixo   | EPIC-006 | 3    |
 | TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
 | TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
-| TASK-085             | Frontend: Dashboard Unificado — KPIs globais + grid de cards por org   | 🟠 Alto    | EPIC-011 | 3    |
 | TASK-086             | Frontend: Seção de Relatórios — filtros, tabela paginada e export CSV  | 🟡 Médio   | EPIC-011 | 3    |
 
 ---
@@ -194,6 +193,7 @@ _Vazio_
 | TASK-E2E-003                  | Testes E2E: Webhook Asaas — token e idempotência                                | 🟠 Alto    | EPIC-001 |
 | TASK-082                      | Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros | 🟠 Alto    | EPIC-011 |
 | TASK-081                      | Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org       | 🟠 Alto    | EPIC-011 |
+| TASK-085                      | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa (GET /me/reports/overview)     | 🟠 Alto    | EPIC-011 |
 | TASK-084                      | Frontend: estrutura da página /reports + entrada no sidenav e menu do usuário                           | 🟠 Alto    | EPIC-011 |
 | TASK-083                      | Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org (4 testes, 374 passando)       | 🟡 Médio   | EPIC-011 |
 | TASK-080                      | Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate | 🟠 Alto    | EPIC-007 |
