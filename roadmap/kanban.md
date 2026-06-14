@@ -26,6 +26,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-012                                | items 21/24 sem orgCode em /me/reports/maintenances — TenantFilterAspect filtrava findAllById cross-org                          | 🔴 Crítico | EPIC-011 | ALTA       |
 | TASK-079                                       | Exibir periodicidade da norma nos detalhes do item Regulatório (issue #50)                                                        | 🔵 Baixo   | EPIC-006 | —          |
 | TASK-QA-BUG-011                                | Filtro "Realizados este mês" retorna manutenções fora do mês — backend só tinha data exata (issue #49)                            | 🟡 Médio   | EPIC-006 | BAIXA      |
 | TASK-QA-BUG-010                                | Campo norma não pré-preenchido ao editar item Regulatório — useEffect acessava `item.norm?.id` em vez de `item.normId` (issue #52) | 🟡 Médio   | EPIC-006 | BAIXA      |
