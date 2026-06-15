@@ -51,11 +51,11 @@ Todo cliente é potencial churn mensal. O plano anual (17% de desconto = 2 meses
 **Backend — migration SQL (V70):**
 Criar 3 novos planos com `billing_cycle = 'YEARLY'` e preço = mensal × 10 (equivale a 17% off / 2 meses grátis):
 
-| Código | Nome | Preço anual | Equivalente mensal |
-|--------|------|-------------|-------------------|
-| `STARTER_ANNUAL` | Starter Anual | R$1.490/ano (149.000 cents) | R$124/mês |
-| `BUSINESS_ANNUAL` | Business Anual | R$2.990/ano (299.000 cents) | R$249/mês |
-| `ENTERPRISE_ANNUAL` | Enterprise Anual | R$8.990/ano (899.000 cents) | R$749/mês |
+| Código              | Nome             | Preço anual                 | Equivalente mensal |
+|---------------------|------------------|-----------------------------|--------------------|
+| `STARTER_ANNUAL`    | Starter Anual    | R$1.490/ano (149.000 cents) | R$124/mês          |
+| `BUSINESS_ANNUAL`   | Business Anual   | R$2.990/ano (299.000 cents) | R$249/mês          |
+| `ENTERPRISE_ANNUAL` | Enterprise Anual | R$8.990/ano (899.000 cents) | R$749/mês          |
 
 Features idênticas ao plano mensal equivalente (mesmo `features_json`).
 
@@ -136,4 +136,4 @@ Médio (2–3 dias)
 - Teste unitário: `BillingPlanService` lista planos anuais corretamente por ciclo
 
 ## Status
-Backlog
+Em Validação

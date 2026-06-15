@@ -60,7 +60,6 @@ _Vazio_
 
 | ID                            | Título                                                                  | Prioridade | Épico    | Fase |
 |-------------------------------|-------------------------------------------------------------------------|------------|----------|------|
-| [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)      | 🟠 Alto    | EPIC-010 | 2    |
 | ~~TASK-001~~                  | ~~Persistir chaves RSA JWT~~                                            | 🔴 Crítico | EPIC-001 | 1    |
 | ~~TASK-002~~         | ~~Migrar JWT de localStorage para cookie HttpOnly~~                     | 🔴 Crítico | EPIC-001 | 1    |
 | ~~TASK-003~~         | ~~Implementar ShedLock nos jobs agendados~~                             | 🔴 Crítico | EPIC-002 | 1    |
@@ -201,6 +200,7 @@ _Vazio_
 | TASK-080                      | Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate | 🟠 Alto    | EPIC-007 |
 | TASK-072                      | Exibir link de comprovante nas faturas pagas da tela /billing                    | 🟡 Médio   | EPIC-006 |
 | TASK-069                      | Criar busca para usuários — filtros nome/e-mail na tela /private/users           | 🟡 Médio   | EPIC-006 |
+| [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
 
 ---
 
