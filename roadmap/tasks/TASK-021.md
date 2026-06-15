@@ -56,4 +56,4 @@ Médio (1-2 dias)
 Problemas em produção são descobertos pelos clientes. Incidentes de billing (job falhando) podem durar dias sem detecção.
 
 ## Status
-Backlog
+Em Validação

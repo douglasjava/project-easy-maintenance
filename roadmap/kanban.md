@@ -161,7 +161,7 @@ _Vazio_
 - ~~**TASK-068**~~ — Enriquecer response de notificações com nome do item referenciado (🟡 Médio | EPIC-006)
 
 **Pendentes de SPRINT-04**:
-- **TASK-021** — Alertas no Prometheus/Grafana (🟡 Médio | EPIC-005)
+- ~~**TASK-021**~~ — ~~Alertas no Prometheus/Grafana~~ *(em validação)*
 
 **Projeto E2E — Playwright** (`easy-maintenance-e2e`):
 - **TASK-E2E-004** — Soft delete via API (🟡 Médio | EPIC-004) — substitui TASK-QA-AUTO-005
@@ -201,6 +201,7 @@ _Vazio_
 | TASK-072                      | Exibir link de comprovante nas faturas pagas da tela /billing                    | 🟡 Médio   | EPIC-006 |
 | TASK-069                      | Criar busca para usuários — filtros nome/e-mail na tela /private/users           | 🟡 Médio   | EPIC-006 |
 | [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
+| [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
 
 ---
 
