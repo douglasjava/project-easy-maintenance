@@ -62,10 +62,16 @@ Features idênticas ao plano mensal equivalente (mesmo `features_json`).
 **Backend — `BillingCycle.java`:**
 Verificar se `YEARLY` já existe no enum. Se não, adicionar.
 
-**Backend — Asaas:**
-Verificar se `BillingSubscriptionService` ou Asaas provider suporta `billingCycle = YEARLY`
-na criação de cobrança. Se não suportar nativamente, a cobrança anual pode ser tratada como
-uma cobrança única avulsa (similar ao tratamento de PIX DETACHED).
+**Backend — Asaas (confirmado: suporte nativo a `YEARLY`):**
+A API de checkout com assinatura recorrente do Asaas aceita `cycle = YEARLY` nativamente.
+Campo `cycle` (enum) suporta: `WEEKLY`, `BIWEEKLY`, `MONTHLY`, `BIMONTHLY`, `QUARTERLY`,
+`SEMIANNUALLY`, `YEARLY` — ref: https://docs.asaas.com/docs/checkout-com-assinatura-recorrente.md
+
+Portanto o fluxo de cobrança anual segue o **mesmo path do mensal** (checkout recorrente),
+apenas passando `cycle: "YEARLY"` ao criar a assinatura no Asaas. Não é necessário tratar
+como cobrança avulsa DETACHED. Verificar se o provider local (`AsaasSubscriptionProvider` ou
+equivalente) já aceita o campo `billingCycle` e mapeia para o `cycle` da API, ou se precisa
+de ajuste no DTO de criação.
 
 **Frontend — `PlanChangeDialog.tsx`:**
 Adicionar toggle Mensal / Anual acima da lista de planos:
@@ -122,8 +128,8 @@ Médio (2–3 dias)
 
 ## Risco
 - **Trial:** baixíssimo — 1 linha de código + 1 string no template
-- **Planos anuais:** médio — depende de como Asaas processa cobrança anual
-  - Investigar antes de implementar: criar cobrança `YEARLY` no Asaas ou tratar como cobrança avulsa anual
+- **Planos anuais:** baixo — Asaas suporta `cycle: YEARLY` nativamente no checkout recorrente (confirmado na doc)
+  - Risco residual: verificar se o DTO de criação de assinatura no provider local já expõe o campo `cycle`/`billingCycle`; se não, adicionar antes de qualquer outra coisa
 
 ## Testes a criar/ajustar
 - Ajustar testes que assumem `Duration.ofDays(7)` no `OnboardingService` ou jobs de expiração
