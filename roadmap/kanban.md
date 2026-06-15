@@ -97,7 +97,7 @@ _Vazio_
 | TASK-035             | Política de retenção para audit_logs                                    | 🔵 Baixo   | EPIC-004 | 2    |
 | ~~TASK-036~~         | ~~Paginação cursor-based em listagens grandes~~                         | 🔵 Baixo   | EPIC-007 | 3    |
 | TASK-037             | Jobs de billing assíncronos com fila                                    | 🔵 Baixo   | EPIC-007 | 3    |
-| TASK-038             | LGPD: exportação e exclusão de dados pessoais                           | 🔵 Baixo   | EPIC-003 | 3    |
+| ~~TASK-038~~         | ~~LGPD: exportação e exclusão de dados pessoais~~                       | 🔵 Baixo   | EPIC-003 | 3    |
 | ~~TASK-039~~         | ~~Autenticação 2FA~~                                                    | 🔵 Baixo   | EPIC-001 | 3    |
 | TASK-040             | Acessibilidade básica (WCAG AA)                                         | 🔵 Baixo   | EPIC-006 | 3    |
 | ~~TASK-041~~         | ~~Configurar defaults globais do React Query~~                          | 🟠 Alto    | EPIC-009 | 2    |
@@ -202,6 +202,7 @@ _Vazio_
 | TASK-069                      | Criar busca para usuários — filtros nome/e-mail na tela /private/users           | 🟡 Médio   | EPIC-006 |
 | [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
 | [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
+| TASK-038                      | LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade) | 🔵 Baixo   | EPIC-003 |
 
 ---
 
