@@ -58,9 +58,10 @@ _Vazio_
 
 ## Backlog
 
-| ID                   | Título                                                                  | Prioridade | Épico    | Fase |
-|----------------------|-------------------------------------------------------------------------|------------|----------|------|
-| ~~TASK-001~~         | ~~Persistir chaves RSA JWT~~                                            | 🔴 Crítico | EPIC-001 | 1    |
+| ID                            | Título                                                                  | Prioridade | Épico    | Fase |
+|-------------------------------|-------------------------------------------------------------------------|------------|----------|------|
+| [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)      | 🟠 Alto    | EPIC-010 | 2    |
+| ~~TASK-001~~                  | ~~Persistir chaves RSA JWT~~                                            | 🔴 Crítico | EPIC-001 | 1    |
 | ~~TASK-002~~         | ~~Migrar JWT de localStorage para cookie HttpOnly~~                     | 🔴 Crítico | EPIC-001 | 1    |
 | ~~TASK-003~~         | ~~Implementar ShedLock nos jobs agendados~~                             | 🔴 Crítico | EPIC-002 | 1    |
 | ~~TASK-004~~         | ~~Testes mínimos para billing e tenant isolation~~                      | 🔴 Crítico | EPIC-008 | 1    |
