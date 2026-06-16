@@ -26,6 +26,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-014                                | Dashboard: overdueCount=0, daysLate=0, breakdowns sem OVERDUE — status stale em KPIs/attention/breakdowns (issue #54)            | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-013                                | Status dos itens desatualizado — NEAR_DUE exibido para itens vencidos, filtro ?status=OVERDUE quebrado (issue #53)               | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-012                                | items 21/24 sem orgCode em /me/reports/maintenances — TenantFilterAspect filtrava findAllById cross-org                          | 🔴 Crítico | EPIC-011 | ALTA       |
 | TASK-079                                       | Exibir periodicidade da norma nos detalhes do item Regulatório (issue #50)                                                        | 🔵 Baixo   | EPIC-006 | —          |
