@@ -122,6 +122,7 @@ _Vazio_
 | ~~TASK-071~~         | ~~Padronizar as nomenclaturas de empresas (Organizações → Empresas)~~   | 🔵 Baixo   | EPIC-006 | 3    |
 | TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
 | TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
+| [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first na IA, pendingReview + correção V9 period_qty=0 | 🟠 Alto | EPIC-004 | 3 |
 
 ---
 
