@@ -26,6 +26,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| TASK-QA-BUG-016                                | E-mail de alerta exibe ID do item em vez do nome — referenceId usado em vez de referenceLabel                                   | 🟠 Alto    | EPIC-006 | MÉDIA      |
 | TASK-QA-BUG-015                                | /reports: data exibida com -1 dia (timezone) e CSV com coluna monetária quebrada (issue #55)                                    | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-014                                | Dashboard: overdueCount=0, daysLate=0, breakdowns sem OVERDUE — status stale em KPIs/attention/breakdowns (issue #54)            | 🟠 Alto    | EPIC-006 | ALTA       |
 | TASK-QA-BUG-013                                | Status dos itens desatualizado — NEAR_DUE exibido para itens vencidos, filtro ?status=OVERDUE quebrado (issue #53)               | 🟠 Alto    | EPIC-006 | ALTA       |
