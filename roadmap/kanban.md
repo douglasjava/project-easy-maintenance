@@ -1,5 +1,6 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 21/06/2026 — EPIC-012 (Affiliate Referral) registrado no backlog com TASK-089 a TASK-096
 > Atualizado em: 30/05/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 concluída (6/6); SPRINT-04 concluída (5/5); SPRINT-05 não iniciada
 > Sprints concluídas: 1, 2, 3, 4, 6 | EPIC-009 completo | TASK-025, TASK-026, TASK-027, TASK-028 concluídas
 > **Bugs registrados (02/05/2026):** TASK-QA-BUG-001 🔄 Corrigido v2 (JWT stale pós-onboarding — aguarda validação) | ~~TASK-QA-BUG-002~~ ✅ Concluído
@@ -64,6 +65,14 @@ _Vazio_
 
 | ID                            | Título                                                                  | Prioridade | Épico    | Fase |
 |-------------------------------|-------------------------------------------------------------------------|------------|----------|------|
+| TASK-089                      | Backend: migrations + entidades + repositórios (affiliates)             | 🔴 Crítico | EPIC-012 | 3    |
+| TASK-090                      | Backend: DTOs + AffiliateService + CommissionService                    | 🔴 Crítico | EPIC-012 | 3    |
+| TASK-091                      | Backend: controllers + atualização de leads e orgs                      | 🔴 Crítico | EPIC-012 | 3    |
+| TASK-092                      | Backend: trigger de comissão no PaymentReceivedHandler                  | 🔴 Crítico | EPIC-012 | 3    |
+| TASK-093                      | Frontend: cookie na landing page + middleware update                     | 🟠 Alto    | EPIC-012 | 3    |
+| TASK-094                      | Frontend: página /indicador/novo (cadastro de afiliado)                 | 🟠 Alto    | EPIC-012 | 3    |
+| TASK-095                      | Frontend: página /indicador/[code] (dashboard do afiliado)              | 🟠 Alto    | EPIC-012 | 3    |
+| TASK-096                      | Frontend: painel admin de comissões                                     | 🟠 Alto    | EPIC-012 | 3    |
 | ~~TASK-001~~                  | ~~Persistir chaves RSA JWT~~                                            | 🔴 Crítico | EPIC-001 | 1    |
 | ~~TASK-002~~         | ~~Migrar JWT de localStorage para cookie HttpOnly~~                     | 🔴 Crítico | EPIC-001 | 1    |
 | ~~TASK-003~~         | ~~Implementar ShedLock nos jobs agendados~~                             | 🔴 Crítico | EPIC-002 | 1    |
