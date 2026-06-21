@@ -1,5 +1,6 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 21/06/2026 — issue #56 em validação: IA Onboarding adicionado ao menu lateral (Ações); emojis removidos de Relatórios e Ajuda
 > Atualizado em: 21/06/2026 — EPIC-012 (Affiliate Referral) registrado no backlog com TASK-089 a TASK-096
 > Atualizado em: 30/05/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 concluída (6/6); SPRINT-04 concluída (5/5); SPRINT-05 não iniciada
 > Sprints concluídas: 1, 2, 3, 4, 6 | EPIC-009 completo | TASK-025, TASK-026, TASK-027, TASK-028 concluídas
@@ -217,6 +218,7 @@ _Vazio_
 | [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
 | TASK-038                      | LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade) | 🔵 Baixo   | EPIC-003 |
 | [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA, pendingReview + fix V9 period_qty=0 | 🟠 Alto    | EPIC-004 |
+| issue #56                     | IA Onboarding adicionado ao menu lateral (Ações) + emojis removidos de Relatórios e Ajuda            | 🔵 Baixo   | EPIC-006 |
 
 ---
 
