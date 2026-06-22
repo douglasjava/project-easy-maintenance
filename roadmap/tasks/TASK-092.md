@@ -36,7 +36,7 @@ Modificar `PaymentReceivedHandler` para disparar `CommissionService.createCommis
 Pequeno (2-3h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-090

@@ -66,7 +66,6 @@ _Vazio_
 
 | ID                            | Título                                                                  | Prioridade | Épico    | Fase |
 |-------------------------------|-------------------------------------------------------------------------|------------|----------|------|
-| TASK-092                      | Backend: trigger de comissão no PaymentReceivedHandler                  | 🔴 Crítico | EPIC-012 | 3    |
 | TASK-093                      | Frontend: cookie na landing page + middleware update                     | 🟠 Alto    | EPIC-012 | 3    |
 | TASK-094                      | Frontend: página /indicador/novo (cadastro de afiliado)                 | 🟠 Alto    | EPIC-012 | 3    |
 | TASK-095                      | Frontend: página /indicador/[code] (dashboard do afiliado)              | 🟠 Alto    | EPIC-012 | 3    |
@@ -219,6 +218,7 @@ _Vazio_
 | TASK-089                      | Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)        | 🔴 Crítico | EPIC-012 |
 | TASK-090                      | Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService  | 🔴 Crítico | EPIC-012 |
 | TASK-091                      | Backend: AffiliateController, CommissionAdminController, lead/org integration, auto-match referralCode  | 🔴 Crítico | EPIC-012 |
+| TASK-092                      | Backend: trigger comissão no PaymentReceivedHandler (cycleNumber==1 → CommissionService)               | 🔴 Crítico | EPIC-012 |
 
 ---
 
