@@ -34,7 +34,7 @@ Criar a página `/private/admin/affiliates` com a tabela de comissões geradas. 
 Médio (3-4h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-091 (endpoints admin de comissões)
