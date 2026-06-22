@@ -66,7 +66,6 @@ _Vazio_
 
 | ID                            | Título                                                                  | Prioridade | Épico    | Fase |
 |-------------------------------|-------------------------------------------------------------------------|------------|----------|------|
-| TASK-090                      | Backend: DTOs + AffiliateService + CommissionService                    | 🔴 Crítico | EPIC-012 | 3    |
 | TASK-091                      | Backend: controllers + atualização de leads e orgs                      | 🔴 Crítico | EPIC-012 | 3    |
 | TASK-092                      | Backend: trigger de comissão no PaymentReceivedHandler                  | 🔴 Crítico | EPIC-012 | 3    |
 | TASK-093                      | Frontend: cookie na landing page + middleware update                     | 🟠 Alto    | EPIC-012 | 3    |
@@ -219,6 +218,7 @@ _Vazio_
 | [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA, pendingReview + fix V9 period_qty=0 | 🟠 Alto    | EPIC-004 |
 | issue #56                     | IA Onboarding adicionado ao menu lateral (Ações) + emojis removidos de Relatórios e Ajuda            | 🔵 Baixo   | EPIC-006 |
 | TASK-089                      | Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)        | 🔴 Crítico | EPIC-012 |
+| TASK-090                      | Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService  | 🔴 Crítico | EPIC-012 |
 
 ---
 

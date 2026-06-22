@@ -50,7 +50,7 @@ Implementar a camada de aplicação do módulo `affiliates/`: DTOs de entrada/sa
 Médio (4-6h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-089
