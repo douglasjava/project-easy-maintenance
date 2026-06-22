@@ -38,7 +38,7 @@ Criar o painel público `/indicador/[code]` onde o afiliado acompanha suas indic
 Pequeno-Médio (2-3h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-091 (endpoint `GET /affiliates/{code}/dashboard`)
