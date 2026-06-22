@@ -32,7 +32,7 @@ Adaptar a landing page para capturar o código de afiliado via `?ref=CODE` e arm
 Pequeno (1-2h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-091 (endpoint de leads precisa aceitar affiliateCode)
