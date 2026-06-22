@@ -43,7 +43,7 @@ Expor os endpoints do módulo de afiliados e integrar o rastreio nos fluxos exis
 Médio (4-5h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-090
