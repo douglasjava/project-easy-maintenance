@@ -43,7 +43,7 @@ Criar a fundação do módulo `affiliates/` no backend: migrations Flyway, entid
 Pequeno (3-4h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 Nenhuma
