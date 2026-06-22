@@ -66,7 +66,6 @@ _Vazio_
 
 | ID                            | Título                                                                  | Prioridade | Épico    | Fase |
 |-------------------------------|-------------------------------------------------------------------------|------------|----------|------|
-| TASK-094                      | Frontend: página /indicador/novo (cadastro de afiliado)                 | 🟠 Alto    | EPIC-012 | 3    |
 | TASK-095                      | Frontend: página /indicador/[code] (dashboard do afiliado)              | 🟠 Alto    | EPIC-012 | 3    |
 | TASK-096                      | Frontend: painel admin de comissões                                     | 🟠 Alto    | EPIC-012 | 3    |
 | ~~TASK-001~~                  | ~~Persistir chaves RSA JWT~~                                            | 🔴 Crítico | EPIC-001 | 1    |
@@ -219,6 +218,7 @@ _Vazio_
 | TASK-091                      | Backend: AffiliateController, CommissionAdminController, lead/org integration, auto-match referralCode  | 🔴 Crítico | EPIC-012 |
 | TASK-092                      | Backend: trigger comissão no PaymentReceivedHandler (cycleNumber==1 → CommissionService)               | 🔴 Cr��tico | EPIC-012 |
 | TASK-093                      | Frontend: cookie em_ref na landing page (?ref=CODE) + affiliateCode no submit do lead                  | 🟠 Alto    | EPIC-012 |
+| TASK-094                      | Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável   | 🟠 Alto    | EPIC-012 |
 
 ---
 

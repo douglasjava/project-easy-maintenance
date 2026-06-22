@@ -33,7 +33,7 @@ Criar a página pública `/indicador/novo` onde qualquer pessoa pode se cadastra
 Pequeno-Médio (2-3h)
 
 ## Status
-Backlog
+Em Validação
 
 ## Dependências
 TASK-091 (endpoint `POST /affiliates`)
