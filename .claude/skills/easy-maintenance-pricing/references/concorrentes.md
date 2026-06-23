@@ -23,7 +23,7 @@
 - **Diferencial**: Interface moderna, mobile, relatórios
 - **Fraqueza**: Preço em dólar (instabilidade), suporte em espanhol/inglês prioritário
 
-### 4. Manutenção Fácil (ManFácil)
+    ### 4. Manutenção Fácil (ManFácil)
 - **Foco**: PMEs, condomínios, pequenas empresas
 - **Modelo**: SaaS plano flat
 - **Preço**: R$99–299/mês

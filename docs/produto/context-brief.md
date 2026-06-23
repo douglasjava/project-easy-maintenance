@@ -197,16 +197,21 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 ## 10. Potencial de Expansão do Produto (Visão Futura)
 
 ### Marketplace de Profissionais de Manutenção
-**Hoje:** dentro de cada manutenção, o sistema já exibe uma busca por profissionais especializados próximos ao endereço da empresa — resultado alimentado pelo Google. O gestor encontra quem pode realizar o serviço sem sair da plataforma.
+**Hoje:** dentro de cada manutenção, o sistema já exibe uma busca por profissionais especializados próximos ao 
+endereço da empresa — resultado alimentado pelo Google. O gestor encontra quem pode realizar o serviço sem sair da plataforma.
 
-**Futuro próximo:** profissionais e empresas de manutenção podem se cadastrar diretamente no Easy Maintenance, criando um **marketplace vertical de manutenção predial**:
+**Futuro próximo:** profissionais e empresas de manutenção podem se cadastrar diretamente no Easy Maintenance, 
+criando um **marketplace vertical de manutenção predial**:
 - Eletricistas, encanadores, técnicos de elevadores, empresas de dedetização, etc.
 - Perfil com especialidades, certificações (CREA, ART) e avaliações
 - Contratação e registro da manutenção na mesma plataforma
 - Comissão sobre a transação ou modelo de assinatura para prestadores
 
 **Por que isso é relevante para investidores:**
-Este é o caminho clássico de expansão de receita de SaaS verticais — de ferramenta de gestão para marketplace. O produto já captura o momento de decisão ("preciso contratar alguém para manutenção preventiva do elevador") e tem posição privilegiada para monetizar essa transação. A base de clientes existente (condomínios, hospitais) já é o comprador natural dos serviços.
+Este é o caminho clássico de expansão de receita de SaaS verticais — de ferramenta de gestão para marketplace. 
+O produto já captura o momento de decisão ("preciso contratar alguém para manutenção preventiva do elevador") 
+e tem posição privilegiada para monetizar essa transação. A base de clientes existente (condomínios, hospitais) 
+já é o comprador natural dos serviços.
 
 ---
 

@@ -195,26 +195,26 @@ easy-maintenance-web/src/app/
 
 ### Public
 
-| Method | Path | Description |
-|---|---|---|
-| POST | `/api/v1/affiliates` | Register new affiliate |
-| GET | `/api/v1/affiliates/{code}/dashboard` | Dashboard data (masked) |
+| Method | Path                                  | Description             |
+|--------|---------------------------------------|-------------------------|
+| POST   | `/api/v1/affiliates`                  | Register new affiliate  |
+| GET    | `/api/v1/affiliates/{code}/dashboard` | Dashboard data (masked) |
 
 ### Admin (secured)
 
-| Method | Path | Description |
-|---|---|---|
-| GET | `/api/v1/admin/commissions` | List all commissions (filterable by status) |
-| PATCH | `/api/v1/admin/commissions/{id}/pay` | Mark commission as paid |
-| GET | `/api/v1/admin/affiliates` | List all affiliates |
-| PATCH | `/api/v1/admin/affiliates/{id}/status` | Activate/deactivate affiliate |
+| Method | Path                                   | Description                                 |
+|--------|----------------------------------------|---------------------------------------------|
+| GET    | `/api/v1/admin/commissions`            | List all commissions (filterable by status) |
+| PATCH  | `/api/v1/admin/commissions/{id}/pay`   | Mark commission as paid                     |
+| GET    | `/api/v1/admin/affiliates`             | List all affiliates                         |
+| PATCH  | `/api/v1/admin/affiliates/{id}/status` | Activate/deactivate affiliate               |
 
 ### Modified
 
-| Method | Path | Change |
-|---|---|---|
-| POST | `/api/v1/landing/leads` | Accept optional `affiliateCode` field |
-| POST | `/api/v1/organizations` (or onboarding) | Accept optional `referralCode` field |
+| Method | Path                                    | Change                                |
+|--------|-----------------------------------------|---------------------------------------|
+| POST   | `/api/v1/landing/leads`                 | Accept optional `affiliateCode` field |
+| POST   | `/api/v1/organizations` (or onboarding) | Accept optional `referralCode` field  |
 
 ---
 
@@ -243,14 +243,14 @@ PII policy: emails are masked, no plan prices or organization names exposed.
 
 ## 11. Edge Cases & Constraints
 
-| Scenario | Behavior |
-|---|---|
-| Same affiliate tries to register twice with same email | 400 — email already registered |
-| Commission already exists for this organization | No-op (UNIQUE constraint) |
-| Organization has `referralCode` but affiliate is INACTIVE | Commission NOT created |
-| Admin creates account without selecting affiliate | `referralCode` stays NULL, no commission ever |
-| Prospect submits email multiple times (same email) | Only the first `LandingLead` with `affiliateCode` is used for match |
-| First payment is a PIX that gets refunded | Commission remains PENDING — admin decides whether to pay or not (manual process) |
+| Scenario                                                  | Behavior                                                                          |
+|-----------------------------------------------------------|-----------------------------------------------------------------------------------|
+| Same affiliate tries to register twice with same email    | 400 — email already registered                                                    |
+| Commission already exists for this organization           | No-op (UNIQUE constraint)                                                         |
+| Organization has `referralCode` but affiliate is INACTIVE | Commission NOT created                                                            |
+| Admin creates account without selecting affiliate         | `referralCode` stays NULL, no commission ever                                     |
+| Prospect submits email multiple times (same email)        | Only the first `LandingLead` with `affiliateCode` is used for match               |
+| First payment is a PIX that gets refunded                 | Commission remains PENDING — admin decides whether to pay or not (manual process) |
 
 ---
 
