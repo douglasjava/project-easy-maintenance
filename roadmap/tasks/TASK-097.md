@@ -22,11 +22,11 @@ EPIC-008 — Qualidade e Cobertura de Testes
 Auditoria realizada em 27/06/2026 mapeou o estado de enforcement de todos os limites definidos em `BillingPlanFeatures`.
 Os limites abaixo já estão implementados e testados — sem ação necessária:
 
-| Limite | Enforced em | Teste |
-|---|---|---|
-| `maxItems` | `MaintenanceItemService.validateItemLimit()` | `MaintenanceItemPlanLimitTest` ✅ |
-| `aiMonthlyCredits` | `AiCreditService.validateHasCredits()` | `AiCreditServiceTest` ✅ |
-| `maxFileSizeMb` | `MaintenanceAttachmentService.generatePresignedUploadUrl()` | `MaintenanceAttachmentServiceTest` ✅ |
+| Limite                | Enforced em                                                 | Teste                                |
+|-----------------------|-------------------------------------------------------------|--------------------------------------|
+| `maxItems`            | `MaintenanceItemService.validateItemLimit()`                | `MaintenanceItemPlanLimitTest` ✅     |
+| `aiMonthlyCredits`    | `AiCreditService.validateHasCredits()`                      | `AiCreditServiceTest` ✅              |
+| `maxFileSizeMb`       | `MaintenanceAttachmentService.generatePresignedUploadUrl()` | `MaintenanceAttachmentServiceTest` ✅ |
 | `maxMonthlyUploadsMb` | `MaintenanceAttachmentService.generatePresignedUploadUrl()` | `MaintenanceAttachmentServiceTest` ✅ |
 
 Os três itens abaixo têm gaps e precisam de ação.
@@ -83,13 +83,13 @@ corretamente em `BusinessEmailNotificationService`, mas não existe nenhum teste
 
 ## Critérios de Aceite
 
-- [ ] `UsersService.addOrganization()` lança `RuleException` quando `currentUsers >= maxUsers` do plano
-- [ ] `OrganizationsService.create()` lança `RuleException` quando `currentOrgs >= maxOrganizations` do plano
-- [ ] `maxUsers=0` e `maxOrganizations=0` continuam tratados como "ilimitado" (mesma semântica de `maxItems`)
-- [ ] `BusinessEmailQuotaServiceTest` com 5 cenários passando
-- [ ] `UserPlanLimitTest` com cenários: no limite, excedido, abaixo, sem assinatura, ilimitado
-- [ ] `OrganizationPlanLimitTest` com cenários equivalentes
-- [ ] Suite completa (422 + novos testes) passando sem falhas
+- [x] `UsersService.addOrganization()` lança `RuleException` quando `currentUsers >= maxUsers` do plano ✅ TASK-097-A
+- [x] `OrganizationsService.validateOrgLimit()` lança `RuleException` quando `currentOrgs >= maxOrganizations` do plano ✅ TASK-097-B
+- [x] `maxUsers=0` e `maxOrganizations=0` continuam tratados como "ilimitado" (mesma semântica de `maxItems`) ✅ cobertos em TASK-097-A e TASK-097-B
+- [x] `BusinessEmailQuotaServiceTest` com 5 cenários passando ✅ TASK-097-C
+- [x] `UserPlanLimitTest` com cenários: no limite, excedido, abaixo, sem assinatura, ilimitado ✅ 6 testes passando
+- [x] `OrganizationPlanLimitTest` com cenários equivalentes ✅ 5 testes passando
+- [x] Suite completa (447 testes) passando sem falhas ✅
 
 ## Esforço Estimado
 Médio — 3 subtasks independentes, implementação segue padrão já estabelecido em `validateItemLimit()`.
