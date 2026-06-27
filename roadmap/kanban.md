@@ -1,5 +1,6 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/06/2026 — TASK-097 criada: hardening limites de plano (maxUsers, maxOrganizations na criação, teste emailMonthlyLimit)
 > Atualizado em: 21/06/2026 — issue #56 em validação: IA Onboarding adicionado ao menu lateral (Ações); emojis removidos de Relatórios e Ajuda
 > Atualizado em: 21/06/2026 — EPIC-012 (Affiliate Referral) registrado no backlog com TASK-089 a TASK-096
 > Atualizado em: 30/05/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 concluída (6/6); SPRINT-04 concluída (5/5); SPRINT-05 não iniciada
@@ -219,6 +220,7 @@ _Vazio_
 | TASK-094                      | Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável   | 🟠 Alto    | EPIC-012 |
 | TASK-095                      | Frontend: /indicador/[code] — painel do afiliado com KPIs, tabela de leads mascarados e badge de status | 🟠 Alto    | EPIC-012 |
 | TASK-096                      | Frontend: /private/admin/affiliates — painel admin comissões com filtro, "Marcar pago" e total a pagar  | 🟠 Alto    | EPIC-012 |
+| [TASK-097](tasks/TASK-097.md) | Hardening dos limites de plano: `maxUsers` + `maxOrganizations` na criação + testes `emailMonthlyLimit`  | 🟠 Alto    | EPIC-008 |
 
 ---
 
