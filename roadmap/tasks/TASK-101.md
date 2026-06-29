@@ -1,10 +1,10 @@
-# TASK-101 — Frontend: reescrever `/users/new` — convite por e-mail + org select
+# TASK-101 — Frontend: `/users/new` — formulário de convite com multi-org select
 
 ## Tipo
 FRONTEND
 
 ## Categoria
-Frontend / Convite de Usuário
+Frontend / Convite de Membro
 
 ## Prioridade
 🔴 Crítico
@@ -13,80 +13,82 @@ Frontend / Convite de Usuário
 3 — Produto
 
 ## Épico
-EPIC-013 — Gestão de Usuários por Organização
+EPIC-013 — Gestão de Equipe por Conta (Team Members)
 
 ---
 
 ## Contexto
 
-`/app/users/new/page.tsx` existe mas tem vários problemas que inviabilizam seu uso em produção:
+`/app/users/new/page.tsx` existe mas está incorreto para o modelo atual:
 
-| Problema | Situação atual | Situação esperada |
+| Problema | Atual | Esperado |
 |---|---|---|
-| Campo `passwordHash` exposto | Admin define senha manualmente | Campo removido — backend gera senha aleatória e envia e-mail |
-| Org fixada via `ENV.ORG_ID` | Só cria na org da sessão, sem escolha | Select com as organizações do admin logado |
-| Sem guard ADMIN | Qualquer usuário pode acessar | Redirecionar para `/` se não for ADMIN |
-| "Voltar" vai para `/` | Comportamento inesperado | "Voltar" deve ir para `/users` |
-| Sem feedback de e-mail | Usuário não sabe que e-mail foi enviado | Toast + mensagem explícita sobre envio do convite |
+| Campo `passwordHash` exposto | Admin define senha manualmente | Removido — backend gera e envia e-mail |
+| Org fixada via `ENV.ORG_ID` | Apenas uma org, sem escolha | Multi-select com todas as orgs do dono |
+| Sem guard ADMIN | Qualquer um pode acessar | Redireciona se não for ADMIN |
+| Role como input livre | Campo de texto `ADMIN / USER` | Select com options READER / VIEWER |
+| "Voltar" vai para `/` | Inesperado | Deve ir para `/users` |
+| Endpoint errado | `POST /organizations/{ENV.ORG_ID}/users` | `POST /me/team/users` |
 
 ---
 
 ## O que fazer
 
-### Remover campo `passwordHash`
+### 1. Remover campo `passwordHash`
 
-O backend (após TASK-098-B) gera a senha aleatória e aciona o fluxo de primeiro acesso. O frontend
-não deve capturar ou transmitir senha. Remover o campo completamente do formulário e do payload.
+Backend gera senha aleatória e envia convite. Sem campo de senha no formulário.
 
-### Adicionar select de organização
+### 2. Multi-select de organizações do dono
 
-1. Ao montar a página, buscar as organizações do usuário logado via `GET /me/organizations` (ou endpoint equivalente que já existe para popular o seletor de orgs).
-2. Exibir `<select>` com as orgs disponíveis, pré-selecionando a org ativa da sessão.
-3. O `orgCode` selecionado é usado na rota: `POST /organizations/{orgCode}/users`.
+Ao montar a página, buscar as organizações do dono via `GET /me/organizations` (ou endpoint equivalente
+já existente). Exibir checkboxes ou multi-select com as orgs disponíveis.
 
-### Guard ADMIN
+```tsx
+// Exemplo de payload
+const payload = {
+  email: "joao@empresa.com",
+  name: "João Silva",
+  role: "READER",
+  orgCodes: ["ORGABC", "ORGDEF"]  // orgs selecionadas
+};
+await api.post("/me/team/users", payload);
+```
+
+Ao menos uma org deve ser selecionada (validação frontend).
+
+### 3. Select de role com opções corretas
+
+```tsx
+<select name="role">
+  <option value="READER">Leitor</option>
+  <option value="VIEWER">Visualizador</option>
+</select>
+```
+*(Ajustar conforme os roles reais do sistema)*
+
+### 4. Guard ADMIN
 
 ```tsx
 const { permissions, isLoading } = useCurrentOrganizationAccess();
-if (!isLoading && !permissions?.isAdmin) {
-  redirect("/");  // ou router.replace("/")
-}
+if (!isLoading && !permissions?.isAdmin) router.replace("/");
 ```
 
-### Payload corrigido
-
-```ts
-const payload = {
-  email: form.get("email"),
-  name: form.get("name"),
-  role: form.get("role"),
-  status: "ACTIVE",
-  // sem passwordHash
-};
-```
-
-### Feedback ao usuário
+### 5. Feedback de convite enviado
 
 Após sucesso:
-```
-"Convite enviado! {nome} receberá um e-mail com as instruções de primeiro acesso."
-```
-Limpar formulário e manter na página (ou redirecionar para `/users`).
+- Toast: `"Convite enviado! {nome} receberá um e-mail com as instruções de primeiro acesso."`
+- Limpar formulário (manter na página para convidar mais membros)
+- OU redirecionar para `/users` (a definir na implementação)
 
-### Link "Voltar"
+### 6. UsageMeter
+
+Manter o `UsageMeter` já existente no topo mostrando `currentUsers / maxUsers`.
+Ao atingir o limite, desabilitar o botão de submit com mensagem de upgrade.
+
+### 7. Link "Voltar"
 
 ```tsx
 <Link href="/users">← Voltar</Link>
-```
-
-### Role select (melhorar UX)
-
-Substituir o `<input name="role" placeholder="ADMIN / USER" />` por um `<select>`:
-```tsx
-<select name="role">
-  <option value="USER">Usuário</option>
-  <option value="ADMIN">Administrador</option>
-</select>
 ```
 
 ---
@@ -94,23 +96,23 @@ Substituir o `<input name="role" placeholder="ADMIN / USER" />` por um `<select>
 ## Critérios de Aceite
 
 - [ ] Campo `passwordHash` removido do formulário e do payload
-- [ ] Select de organização lista as orgs do admin logado e permite escolha
-- [ ] Org ativa da sessão é pré-selecionada no select
-- [ ] Role é um select (`ADMIN` / `USER`) em vez de campo livre
-- [ ] Usuário não-ADMIN é redirecionado (não consegue acessar a página)
-- [ ] Submit chama `POST /organizations/{orgCode}/users` com o orgCode selecionado
-- [ ] Após sucesso: toast + mensagem de e-mail enviado
+- [ ] Multi-select (ou checkboxes) lista as orgs do dono; ao menos uma selecionada é obrigatório
+- [ ] Role é um select com opções válidas (sem campo de texto livre)
+- [ ] Submit envia para `POST /me/team/users` com `orgCodes` array
+- [ ] Usuário não-ADMIN é redirecionado para `/`
+- [ ] Toast de sucesso menciona e-mail de convite enviado
+- [ ] UsageMeter exibe uso atual; botão desabilitado quando limite atingido
 - [ ] "Voltar" navega para `/users`
-- [ ] UsageMeter exibe `currentUsers / maxUsers` do plano (já existia — manter)
-- [ ] Loading, error e estados de limite atingido tratados
+- [ ] Loading, error e estados de limite tratados
 - [ ] Responsivo (mobile e desktop)
 
 ## Esforço Estimado
-Médio — reescrita de página existente. Principais mudanças: remoção de passwordHash, fetch de orgs, guard de role, select de role.
+Médio — reescrita de página existente + integração com novo endpoint backend.
 
 ## Dependências
-- TASK-098-B (backend deve enviar e-mail ao criar usuário)
-- TASK-098-A (backend deve bloquear POST se caller não for ADMIN)
+- TASK-098-B (endpoint `POST /me/team/users`)
+- Endpoint `GET /me/organizations` (verificar se existe para popular o select de orgs)
 
-## Riscos
-- `/me/organizations` endpoint: confirmar que existe e retorna a lista de orgs do usuário logado antes de implementar o select. Alternativa: listar de `organizationsContext` ou state global da sessão.
+## Risco
+Confirmar antes de implementar: qual endpoint retorna as organizações do dono autenticado?
+Alternativa se não existir: usar o contexto de sessão/localStorage que já armazena as orgs do usuário.

@@ -1,10 +1,10 @@
-# TASK-100 — Frontend: `/users` — listagem de usuários da org com CRUD actions
+# TASK-100 — Frontend: `/users` — listagem de membros da equipe com CRUD actions
 
 ## Tipo
 FRONTEND
 
 ## Categoria
-Frontend / Gestão de Usuários
+Frontend / Gestão de Equipe
 
 ## Prioridade
 🟠 Alto
@@ -13,69 +13,82 @@ Frontend / Gestão de Usuários
 3 — Produto
 
 ## Épico
-EPIC-013 — Gestão de Usuários por Organização
+EPIC-013 — Gestão de Equipe por Conta (Team Members)
 
 ---
 
 ## Contexto
 
-Não existe `/app/users/page.tsx`. A tela de listagem de usuários por organização precisa ser criada do zero.
-O backend já expõe `GET /easy-maintenance/api/v1/organizations/{orgCode}/users` que retorna a lista de
-usuários vinculados à org do `X-Org-Id`.
+Não existe `/app/users/page.tsx`. Esta página é o hub central para o dono (ADMIN) gerenciar
+os membros da sua equipe — pessoas que ajudam a operar as organizações dele.
 
-Esta página é o hub central da gestão de usuários: exibe a lista, o uso vs. limite do plano, e
-oferece ações de convite, edição e remoção (apenas para ADMIN).
+O backend (TASK-098-A) expõe `GET /me/team/users` que retorna todos os membros vinculados a
+qualquer das orgs do dono, com a lista de orgs de cada membro.
 
 ---
 
 ## O que fazer
 
-### Layout geral
+### Layout
 
 ```
-[Header: "Usuários da organização"] [Botão "Convidar usuário" — só ADMIN]
-[UsageMeter: currentUsers / maxUsers]
-[Tabela ou lista de cards: avatar, nome, email, role, status, ações]
-[Empty state se não há usuários além do próprio admin]
+[Header: "Minha Equipe"]          [Botão "+ Convidar membro"]
+[UsageMeter: X / maxUsers membros]
+
+[Tabela / cards]
+ Nome | E-mail | Role | Orgs vinculadas | Status | Ações (Editar / Remover)
 ```
 
 ### Comportamentos
 
-1. **Fetch**: `GET /organizations/{orgCode}/users` usando `orgCode` do contexto atual.
-2. **UsageMeter**: exibir `currentUsers / features.maxUsers` igual ao que existe em `/users/new`.
-3. **Guard ADMIN**: o botão "Convidar usuário" e as ações de "Editar" e "Remover" são visíveis
-   apenas para `permissions?.isAdmin`. Usuários sem ADMIN veem a lista mas sem ações.
-4. **Editar**: link para `/users/{id}/edit` (TASK-102).
-5. **Remover**: botão que chama `DELETE /organizations/{orgCode}/users/{id}` com confirmação
-   (`confirm()` nativo ou modal simples) — atualiza a lista após sucesso.
-6. **Convidar**: link para `/users/new` (TASK-101).
-7. **Loading / Empty / Error states**: obrigatório.
-8. **Role badge**: exibir role com badge colorido (ADMIN = azul, USER = cinza).
-9. **Status badge**: ACTIVE = verde, INACTIVE = vermelho.
+1. **Fetch**: `GET /me/team/users` (sem `X-Org-Id` na query, endpoint de conta).
+
+2. **UsageMeter**: exibir `membros atuais / features.maxUsers`. Usar `features` do
+   `useCurrentOrganizationAccess()` para `maxUsers`.
+
+3. **Orgs vinculadas**: cada membro mostra badges com as orgs que ele acessa.
+   Ex.: `[Empresa A] [Empresa B]`.
+
+4. **Guard ADMIN**: se `!permissions?.isAdmin` → redirecionar para `/`. A página inteira
+   é exclusiva do ADMIN.
+
+5. **Convidar**: link `href="/users/new"` (TASK-101).
+
+6. **Editar**: link `href="/users/{id}/edit"` (TASK-102).
+
+7. **Remover**: botão que chama `DELETE /me/team/users/{id}` com confirmação antes de
+   executar. Atualiza lista localmente após sucesso (sem reload completo).
+
+8. **Empty state**: se a equipe está vazia, exibir mensagem encorajando o convite do primeiro membro.
+
+9. **Loading / Error states**: obrigatório.
+
+10. **Badges visuais**:
+    - Role: ADMIN = azul, READER = cinza-azulado, VIEWER = cinza
+    - Status: ACTIVE = verde, INACTIVE = vermelho
 
 ### Responsividade
-- Desktop: tabela com colunas Nome / E-mail / Role / Status / Ações
-- Mobile: cards empilhados com as mesmas informações
+- Desktop: tabela com colunas
+- Mobile: cards empilhados
 
 ---
 
 ## Critérios de Aceite
 
-- [ ] Página `/users` renderiza a lista de usuários da org atual
-- [ ] UsageMeter exibe `currentUsers / maxUsers` do plano
-- [ ] Loading state exibido durante fetch
-- [ ] Empty state exibido quando a org não tem outros usuários
-- [ ] Usuário ADMIN vê botões "Convidar", "Editar" e "Remover"
-- [ ] Usuário não-ADMIN vê apenas a lista, sem ações destrutivas
-- [ ] Remover aciona `DELETE` com confirmação e atualiza lista
-- [ ] Role e status exibidos com badges visuais
+- [ ] Página `/users` renderiza a lista de membros via `GET /me/team/users`
+- [ ] UsageMeter exibe `membros / maxUsers` do plano
+- [ ] Cada membro mostra as orgs vinculadas em badges
+- [ ] Loading e empty states implementados
+- [ ] Usuário não-ADMIN é redirecionado para `/`
+- [ ] Botão "Remover" aciona DELETE com confirmação e atualiza lista sem reload
+- [ ] Badges de role e status com cores distintas
 - [ ] Responsivo (mobile e desktop)
-- [ ] Nenhuma regressão em outras páginas
+- [ ] Link "+ Convidar membro" navega para `/users/new`
+- [ ] Link "Editar" navega para `/users/{id}/edit`
 
 ## Esforço Estimado
-Médio — nova página com fetch, estados e CRUD condicional.
+Médio — nova página com fetch de conta, badges multi-org e CRUD condicional.
 
 ## Dependências
-- TASK-098 (backend DELETE endpoint e guard)
-- TASK-101 (link para `/users/new`)
-- TASK-102 (link para `/users/[id]/edit`)
+- TASK-098-A (endpoint `GET /me/team/users`)
+- TASK-098-D (endpoint `DELETE /me/team/users/{id}`)

@@ -1,4 +1,4 @@
-# TASK-099 — Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)
+# TASK-099 — Frontend: "Usuários" / "Equipe" no UserTopBar dropdown (ADMIN only)
 
 ## Tipo
 FRONTEND
@@ -13,7 +13,7 @@ Frontend / Navegação / UX
 3 — Produto
 
 ## Épico
-EPIC-013 — Gestão de Usuários por Organização
+EPIC-013 — Gestão de Equipe por Conta (Team Members)
 
 ---
 
@@ -22,48 +22,46 @@ EPIC-013 — Gestão de Usuários por Organização
 `UserTopBar.tsx` exibe um dropdown com os links de navegação do usuário logado:
 "Minha conta", "Minhas Empresas", "Faturamento", "Relatórios", "Ajuda / FAQ", "Sair".
 
-Não existe entrada para "Usuários" — o `help/page.tsx` descreve o fluxo de convite mas o ponto
-de entrada não existe na interface.
+A funcionalidade de gestão de equipe precisa de um ponto de entrada. O help/page.tsx já descreve
+o fluxo de convite ("Usuários → Novo Usuário") mas o link não existe na interface.
 
-A opção "Usuários" deve aparecer **apenas para usuários com role ADMIN**, pois somente eles
-têm permissão para gerenciar membros da organização.
+A opção deve aparecer **somente para usuários ADMIN**, já que apenas eles gerenciam membros.
 
 ---
 
 ## O que fazer
 
-1. **Adicionar item "Usuários" no dropdown de `UserTopBar.tsx`** — entre "Minhas Empresas" e "Faturamento":
+1. **Adicionar item "Usuários" no dropdown** — entre "Minhas Empresas" e "Faturamento":
    ```tsx
    { href: "/users", label: "Usuários" }
    ```
 
-2. **Renderizar condicionalmente** com base em `permissions?.isAdmin` (ou o campo de role equivalente
-   retornado por `useCurrentOrganizationAccess()`):
+2. **Renderizar condicionalmente** com base em `permissions?.isAdmin`:
    ```tsx
    const { permissions } = useCurrentOrganizationAccess();
    // ...
    {permissions?.isAdmin && (
-     <Link href="/users" ...>Usuários</Link>
+     <DropdownItem href="/users">Usuários</DropdownItem>
    )}
    ```
 
-3. **Garantir que o item não aparece** durante `isLoading` (evitar flash de navegação).
+3. **Sem flash**: durante `isLoading`, `permissions` é null → item não renderiza.
 
-4. **Alinhar visual** com os outros itens do dropdown (mesma classe, mesmo estilo).
+4. **Visual consistente** com os outros itens do dropdown (mesma classe, mesmo espaçamento).
 
 ---
 
 ## Critérios de Aceite
 
 - [ ] Item "Usuários" aparece no dropdown para usuário com role ADMIN
-- [ ] Item "Usuários" **não aparece** para usuário com role USER ou VIEWER
-- [ ] Item "Usuários" **não aparece** durante `isLoading` (features/permissions ainda não carregados)
-- [ ] Clicar em "Usuários" navega para `/users`
+- [ ] Item "Usuários" não aparece para usuário com role READER/VIEWER/USER
+- [ ] Item não aparece durante `isLoading` (sem flash)
+- [ ] Clicar navega para `/users`
 - [ ] Visual consistente com os outros itens do dropdown
-- [ ] Nenhuma regressão nos outros itens do dropdown
+- [ ] Nenhuma regressão nos outros itens
 
 ## Esforço Estimado
-Baixo — mudança cirúrgica em um componente, ~10 linhas.
+Baixo — ~10 linhas, mudança cirúrgica.
 
 ## Dependências
-- TASK-100 (página `/users` deve existir para o link funcionar) — pode ser feito em paralelo, mas TASK-099 precisa de TASK-100 para ser validado end-to-end.
+- TASK-100 (página `/users` precisa existir para validar E2E)

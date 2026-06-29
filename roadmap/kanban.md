@@ -1,6 +1,6 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 28/06/2026 — EPIC-013 criado: Gestão de Usuários por Organização (TASK-098 a TASK-102 + TASK-QA-MAN-009) no backlog
+> Atualizado em: 28/06/2026 — EPIC-013 revisado: modelo corrigido para Gestão de Equipe por Conta — dono ADMIN gerencia membros com multi-org assignment via `/me/team/users`
 > Atualizado em: 27/06/2026 — TASK-097 concluída: todas subtasks (A, B, C) entregues — 447 testes, 0 falhas
 > Atualizado em: 27/06/2026 — TASK-097-C concluída: `BusinessEmailQuotaServiceTest` (5 testes, 447 passando)
 > Atualizado em: 27/06/2026 — TASK-097-B concluída: `maxOrganizations` enforcement em `OrganizationsService.validateOrgLimit()` + `OrganizationPlanLimitTest` (5 testes, 442 passando)
@@ -336,7 +336,7 @@ _Vazio_
 
 ## 👥 EPIC-013 — Gestão de Usuários por Organização
 
-> Adicionado em 28/06/2026 — entrega o fluxo completo de convite e gestão de usuários por organização. Somente ADMIN. Convite por e-mail sem exposição de senha. Enforcement de `maxUsers` do plano. Guard de role no backend + DELETE de vínculo. Frontend: menu "Usuários" no UserTopBar, listagem `/users`, convite reescrito `/users/new`, edição `/users/[id]/edit`.
+> Adicionado em 28/06/2026 — dono ADMIN gerencia uma equipe de membros (READER/VIEWER) que ajudam a operar suas organizações. Multi-org assignment no convite. `maxUsers` do plano do dono. Novos endpoints: `GET/POST/PATCH/DELETE /me/team/users`. Frontend: "Usuários" no UserTopBar, listagem `/users` com orgs por membro, `/users/new` com multi-select de orgs, `/users/[id]/edit` com gestão de orgs.
 
 | ID                                            | Título                                                              | Prioridade | Fase | Tipo        |
 |-----------------------------------------------|---------------------------------------------------------------------|------------|------|-------------|

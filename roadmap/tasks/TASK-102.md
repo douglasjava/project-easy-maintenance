@@ -1,10 +1,10 @@
-# TASK-102 — Frontend: `/users/[id]/edit` — edição + desativação de usuário
+# TASK-102 — Frontend: `/users/[id]/edit` — editar membro + gerenciar orgs vinculadas
 
 ## Tipo
 FRONTEND
 
 ## Categoria
-Frontend / Gestão de Usuários
+Frontend / Gestão de Equipe
 
 ## Prioridade
 🟠 Alto
@@ -13,69 +13,82 @@ Frontend / Gestão de Usuários
 3 — Produto
 
 ## Épico
-EPIC-013 — Gestão de Usuários por Organização
+EPIC-013 — Gestão de Equipe por Conta (Team Members)
 
 ---
 
 ## Contexto
 
-Não existe `/app/users/[id]/edit/page.tsx`. Para completar o CRUD de usuários por organização,
-o admin precisa conseguir editar o nome, role e status de um usuário já vinculado à org, além de
-poder desativá-lo sem removê-lo completamente.
+Não existe `/app/users/[id]/edit/page.tsx`. O dono (ADMIN) precisa conseguir alterar
+o nome, role e quais organizações o membro acessa — incluindo adicionar novas orgs ou
+remover acesso de orgs existentes.
 
-O backend já expõe `PATCH /organizations/{orgCode}/users/{id}` (TASK-098-A irá adicionar o guard de ADMIN).
+O backend (TASK-098-C) expõe `PATCH /me/team/users/{id}` que aceita `orgCodes` como
+lista completa (replace, não merge).
 
 ---
 
 ## O que fazer
 
-### Criar `/app/users/[id]/edit/page.tsx`
+### Fetch inicial
 
-1. **Fetch do usuário**: ao montar, buscar `GET /organizations/{orgCode}/users/{id}` e pré-popular
-   o formulário com os dados atuais (nome, role, status).
+Ao montar, buscar `GET /me/team/users` e filtrar pelo `id` da rota (ou adicionar endpoint
+`GET /me/team/users/{id}` se necessário). Pré-popular:
+- Nome
+- Role atual
+- Orgs vinculadas (checkadas no multi-select)
 
-2. **Formulário de edição**:
-   - Campo `name` (obrigatório)
-   - Select `role` (ADMIN / USER)
-   - Select `status` (ACTIVE / INACTIVE)
-   - Botão "Salvar alterações" → `PATCH /organizations/{orgCode}/users/{id}`
-   - Botão "Voltar" → `/users`
-
-3. **Guard ADMIN**: redirecionar para `/` se `!permissions?.isAdmin`.
-
-4. **Desativação rápida**: além do select de status, exibir botão "Desativar usuário" que seta
-   `status: INACTIVE` diretamente, com confirmação. Isso é um atalho visual para a operação mais comum.
-
-5. **Impedir auto-edição**: se o `id` da rota for o mesmo do usuário logado, desabilitar o select
-   de role e exibir aviso: "Você não pode alterar sua própria role."
-
-6. **Estados**: loading, not found (404), error de servidor.
-
-### Layout sugerido
+### Formulário
 
 ```
-[Header: "Editar usuário — {nome}"] [Botão Voltar]
-[Formulário: nome / role / status]
-[Botão Salvar] [Botão Desativar (vermelho, com confirmação)]
+[Nome]
+[Role: select]
+[Organizações: multi-select/checkboxes das orgs do dono, com as atuais pré-marcadas]
+[Botão "Salvar alterações"]
+[Botão "Voltar" → /users]
 ```
+
+### Lógica de orgs
+
+Ao salvar, enviar a lista **completa** de `orgCodes` selecionados:
+- Orgs adicionadas: backend cria novo `UserOrganization`
+- Orgs removidas: backend deleta o vínculo
+
+O frontend apenas envia a lista final; o backend faz o diff.
+
+### Desativação rápida (opcional)
+
+Exibir botão "Desativar acesso" que define `status: INACTIVE` no membro,
+com confirmação antes de executar. Isso remove o acesso sem desvincular das orgs.
+
+### Guard ADMIN
+
+Se `!permissions?.isAdmin` → redirecionar para `/`.
+
+### Proteção: dono não edita a si mesmo
+
+Se o `id` da rota for o mesmo do usuário autenticado → exibir aviso e desabilitar
+o formulário. O dono não pode alterar sua própria role via este fluxo.
 
 ---
 
 ## Critérios de Aceite
 
-- [ ] Página `/users/[id]/edit` exibe dados atuais do usuário pré-populados
-- [ ] Salvar chama `PATCH /organizations/{orgCode}/users/{id}` e exibe toast de sucesso
-- [ ] Role e status são selects (não inputs livres)
+- [ ] Página `/users/[id]/edit` exibe dados atuais do membro pré-populados
+- [ ] Multi-select de orgs do dono com as atuais marcadas
+- [ ] Salvar envia `PATCH /me/team/users/{id}` com orgCodes completo e exibe toast de sucesso
+- [ ] Role é select (sem input livre)
 - [ ] Usuário não-ADMIN é redirecionado para `/`
-- [ ] Auto-edição de role é bloqueada com aviso (o próprio admin não pode alterar sua própria role)
-- [ ] "Desativar usuário" seta `status: INACTIVE` com confirmação antes de executar
+- [ ] Dono não consegue editar a si mesmo (aviso + formulário desabilitado)
+- [ ] Orgs adicionadas e removidas refletem corretamente após salvar
 - [ ] "Voltar" navega para `/users`
 - [ ] Loading, not found (404) e error states tratados
 - [ ] Responsivo (mobile e desktop)
 
 ## Esforço Estimado
-Médio — nova página com fetch, formulário controlado, guard de role e lógica de auto-edição.
+Médio — nova página com fetch, multi-select de orgs, guard de role e lógica de diff via backend.
 
 ## Dependências
-- TASK-098-A (guard ADMIN no PATCH backend)
+- TASK-098-A (para buscar dados do membro)
+- TASK-098-C (endpoint `PATCH /me/team/users/{id}`)
 - TASK-100 (link "editar" vem da listagem `/users`)
