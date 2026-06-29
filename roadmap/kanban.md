@@ -1,5 +1,6 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/06/2026 — EPIC-013 criado: Gestão de Usuários por Organização (TASK-098 a TASK-102 + TASK-QA-MAN-009) no backlog
 > Atualizado em: 27/06/2026 — TASK-097 concluída: todas subtasks (A, B, C) entregues — 447 testes, 0 falhas
 > Atualizado em: 27/06/2026 — TASK-097-C concluída: `BusinessEmailQuotaServiceTest` (5 testes, 447 passando)
 > Atualizado em: 27/06/2026 — TASK-097-B concluída: `maxOrganizations` enforcement em `OrganizationsService.validateOrgLimit()` + `OrganizationPlanLimitTest` (5 testes, 442 passando)
@@ -131,6 +132,12 @@ _Vazio_
 | ~~TASK-071~~         | ~~Padronizar as nomenclaturas de empresas (Organizações → Empresas)~~   | 🔵 Baixo   | EPIC-006 | 3    |
 | TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
 | TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
+| [TASK-098](tasks/TASK-098.md) | Backend: guard ADMIN + invitation email + DELETE em UsersOrganizationsController | 🔴 Crítico | EPIC-013 | 3 |
+| [TASK-099](tasks/TASK-099.md) | Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)               | 🟠 Alto    | EPIC-013 | 3    |
+| [TASK-100](tasks/TASK-100.md) | Frontend: `/users` — listagem de usuários da org com CRUD actions      | 🟠 Alto    | EPIC-013 | 3    |
+| [TASK-101](tasks/TASK-101.md) | Frontend: reescrever `/users/new` — convite por e-mail + org select    | 🔴 Crítico | EPIC-013 | 3    |
+| [TASK-102](tasks/TASK-102.md) | Frontend: `/users/[id]/edit` — edição + desativação de usuário         | 🟠 Alto    | EPIC-013 | 3    |
+| [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
 
 ---
 
@@ -324,3 +331,18 @@ _Vazio_
 | TASK-084 | Frontend: estrutura da página /me/reports + entrada no sidenav                  | 🟠 Alto    | 3    | FRONTEND   |
 | TASK-085 | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa        | 🟠 Alto    | 3    | FRONTEND   |
 | TASK-086 | Frontend: Seção de Relatórios — filtros, tabela paginada e exportação CSV       | 🟡 Médio   | 3    | FRONTEND   |
+
+---
+
+## 👥 EPIC-013 — Gestão de Usuários por Organização
+
+> Adicionado em 28/06/2026 — entrega o fluxo completo de convite e gestão de usuários por organização. Somente ADMIN. Convite por e-mail sem exposição de senha. Enforcement de `maxUsers` do plano. Guard de role no backend + DELETE de vínculo. Frontend: menu "Usuários" no UserTopBar, listagem `/users`, convite reescrito `/users/new`, edição `/users/[id]/edit`.
+
+| ID                                            | Título                                                              | Prioridade | Fase | Tipo        |
+|-----------------------------------------------|---------------------------------------------------------------------|------------|------|-------------|
+| [TASK-098](tasks/TASK-098.md)                 | Backend: guard ADMIN + invitation email + DELETE endpoint           | 🔴 Crítico | 3    | BACKEND     |
+| [TASK-099](tasks/TASK-099.md)                 | Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)            | 🟠 Alto    | 3    | FRONTEND    |
+| [TASK-100](tasks/TASK-100.md)                 | Frontend: `/users` — listagem de usuários da org com CRUD actions   | 🟠 Alto    | 3    | FRONTEND    |
+| [TASK-101](tasks/TASK-101.md)                 | Frontend: reescrever `/users/new` — convite por e-mail + org select | 🔴 Crítico | 3    | FRONTEND    |
+| [TASK-102](tasks/TASK-102.md)                 | Frontend: `/users/[id]/edit` — edição + desativação de usuário      | 🟠 Alto    | 3    | FRONTEND    |
+| [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários     | 🟠 Alto    | 3    | QA          |
