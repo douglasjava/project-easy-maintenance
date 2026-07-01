@@ -21,14 +21,14 @@ EPIC-013 — Gestão de Equipe por Conta (Team Members)
 
 `/app/users/new/page.tsx` existe mas está incorreto para o modelo atual:
 
-| Problema | Atual | Esperado |
-|---|---|---|
-| Campo `passwordHash` exposto | Admin define senha manualmente | Removido — backend gera e envia e-mail |
-| Org fixada via `ENV.ORG_ID` | Apenas uma org, sem escolha | Multi-select com todas as orgs do dono |
-| Sem guard ADMIN | Qualquer um pode acessar | Redireciona se não for ADMIN |
-| Role como input livre | Campo de texto `ADMIN / USER` | Select com options READER / VIEWER |
-| "Voltar" vai para `/` | Inesperado | Deve ir para `/users` |
-| Endpoint errado | `POST /organizations/{ENV.ORG_ID}/users` | `POST /me/team/users` |
+| Problema                     | Atual                                    | Esperado                               |
+|------------------------------|------------------------------------------|----------------------------------------|
+| Campo `passwordHash` exposto | Admin define senha manualmente           | Removido — backend gera e envia e-mail |
+| Org fixada via `ENV.ORG_ID`  | Apenas uma org, sem escolha              | Multi-select com todas as orgs do dono |
+| Sem guard ADMIN              | Qualquer um pode acessar                 | Redireciona se não for ADMIN           |
+| Role como input livre        | Campo de texto `ADMIN / USER`            | Select com options READER / VIEWER     |
+| "Voltar" vai para `/`        | Inesperado                               | Deve ir para `/users`                  |
+| Endpoint errado              | `POST /organizations/{ENV.ORG_ID}/users` | `POST /me/team/users`                  |
 
 ---
 

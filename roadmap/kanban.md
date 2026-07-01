@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/06/2026 — fix/member-access em validação: MEMBER status implementado — membros de equipe recebem FULL_ACCESS via assinatura da org; Faturamento ocultado no menu (PR #6 backend, PR #5 frontend)
+> Atualizado em: 29/06/2026 — TASK-102 em validação: `/users/[id]/edit` — edição com multi-org diff via PATCH, self-edit guard, pré-populate
+> Atualizado em: 29/06/2026 — TASK-101 em validação: `/users/new` reescrito — convite via POST /me/team/users, multi-org checkboxes, roles, guard ADMIN
+> Atualizado em: 29/06/2026 — TASK-100 em validação: `/users` page — listagem de equipe com UsageMeter, badges, delete local, guard ADMIN
+> Atualizado em: 29/06/2026 — TASK-099 em validação: "Usuários" no UserTopBar (ADMIN only) via `userRole` salvo no login
 > Atualizado em: 28/06/2026 — EPIC-013 revisado: modelo corrigido para Gestão de Equipe por Conta — dono ADMIN gerencia membros com multi-org assignment via `/me/team/users`
 > Atualizado em: 27/06/2026 — TASK-097 concluída: todas subtasks (A, B, C) entregues — 447 testes, 0 falhas
 > Atualizado em: 27/06/2026 — TASK-097-C concluída: `BusinessEmailQuotaServiceTest` (5 testes, 447 passando)
@@ -133,10 +138,10 @@ _Vazio_
 | TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
 | TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
 | [TASK-098](tasks/TASK-098.md) | Backend: guard ADMIN + invitation email + DELETE em UsersOrganizationsController | 🔴 Crítico | EPIC-013 | 3 |
-| [TASK-099](tasks/TASK-099.md) | Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)               | 🟠 Alto    | EPIC-013 | 3    |
-| [TASK-100](tasks/TASK-100.md) | Frontend: `/users` — listagem de usuários da org com CRUD actions      | 🟠 Alto    | EPIC-013 | 3    |
-| [TASK-101](tasks/TASK-101.md) | Frontend: reescrever `/users/new` — convite por e-mail + org select    | 🔴 Crítico | EPIC-013 | 3    |
-| [TASK-102](tasks/TASK-102.md) | Frontend: `/users/[id]/edit` — edição + desativação de usuário         | 🟠 Alto    | EPIC-013 | 3    |
+| ~~[TASK-099](tasks/TASK-099.md)~~ | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)~~       | 🟠 Alto    | EPIC-013 | 3    |
+| ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | EPIC-013 | 3    |
+| ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
+| ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
 
 ---
@@ -219,6 +224,10 @@ _Vazio_
 | TASK-080                      | Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate | 🟠 Alto    | EPIC-007 |
 | TASK-072                      | Exibir link de comprovante nas faturas pagas da tela /billing                    | 🟡 Médio   | EPIC-006 |
 | TASK-069                      | Criar busca para usuários — filtros nome/e-mail na tela /private/users           | 🟡 Médio   | EPIC-006 |
+| [TASK-099](tasks/TASK-099.md) | Frontend: "Usuários" no UserTopBar dropdown (ADMIN only) — `userRole` salvo no login, lido no TopBar | 🟠 Alto    | EPIC-013 |
+| [TASK-100](tasks/TASK-100.md) | Frontend: `/users` — listagem com UsageMeter, badges role/status, org badges, delete local, guard ADMIN | 🟠 Alto    | EPIC-013 |
+| [TASK-101](tasks/TASK-101.md) | Frontend: `/users/new` reescrito — POST /me/team/users, multi-org checkboxes, roles select, guard ADMIN | 🔴 Crítico | EPIC-013 |
+| [TASK-102](tasks/TASK-102.md) | Frontend: `/users/[id]/edit` — PATCH com diff de orgs, pré-populate, guard ADMIN, self-edit protection | 🟠 Alto    | EPIC-013 |
 | [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
 | [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
 | TASK-038                      | LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade) | 🔵 Baixo   | EPIC-003 |
@@ -341,8 +350,8 @@ _Vazio_
 | ID                                            | Título                                                              | Prioridade | Fase | Tipo        |
 |-----------------------------------------------|---------------------------------------------------------------------|------------|------|-------------|
 | [TASK-098](tasks/TASK-098.md)                 | Backend: guard ADMIN + invitation email + DELETE endpoint           | 🔴 Crítico | 3    | BACKEND     |
-| [TASK-099](tasks/TASK-099.md)                 | Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)            | 🟠 Alto    | 3    | FRONTEND    |
-| [TASK-100](tasks/TASK-100.md)                 | Frontend: `/users` — listagem de usuários da org com CRUD actions   | 🟠 Alto    | 3    | FRONTEND    |
-| [TASK-101](tasks/TASK-101.md)                 | Frontend: reescrever `/users/new` — convite por e-mail + org select | 🔴 Crítico | 3    | FRONTEND    |
-| [TASK-102](tasks/TASK-102.md)                 | Frontend: `/users/[id]/edit` — edição + desativação de usuário      | 🟠 Alto    | 3    | FRONTEND    |
+| ~~[TASK-099](tasks/TASK-099.md)~~             | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)~~        | 🟠 Alto    | 3    | FRONTEND    |
+| ~~[TASK-100](tasks/TASK-100.md)~~             | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | 3    | FRONTEND    |
+| ~~[TASK-101](tasks/TASK-101.md)~~             | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | 3    | FRONTEND    |
+| ~~[TASK-102](tasks/TASK-102.md)~~             | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~  | 🟠 Alto    | 3    | FRONTEND    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários     | 🟠 Alto    | 3    | QA          |

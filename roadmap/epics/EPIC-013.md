@@ -57,14 +57,14 @@ Dono (ADMIN)
 
 ## Tasks
 
-| ID       | Título                                                                      | Tipo        | Prioridade  |
-|----------|-----------------------------------------------------------------------------|-------------|-------------|
-| TASK-098 | Backend: endpoint `/me/team/users` — CRUD de membros com multi-org assignment | BACKEND   | 🔴 Crítico  |
-| TASK-099 | Frontend: "Usuários" / "Equipe" no UserTopBar dropdown (ADMIN only)         | FRONTEND    | 🟠 Alto     |
-| TASK-100 | Frontend: `/users` — listagem de membros da equipe com CRUD actions          | FRONTEND    | 🟠 Alto     |
-| TASK-101 | Frontend: `/users/new` — formulário de convite com multi-org select          | FRONTEND    | 🔴 Crítico  |
-| TASK-102 | Frontend: `/users/[id]/edit` — editar membro + gerenciar orgs vinculadas     | FRONTEND    | 🟠 Alto     |
-| TASK-QA-MAN-009 | QA Manual: E2E fluxo completo de convite e gestão de membros da equipe | QA       | 🟠 Alto     |
+| ID              | Título                                                                        | Tipo     | Prioridade |
+|-----------------|-------------------------------------------------------------------------------|----------|------------|
+| TASK-098        | Backend: endpoint `/me/team/users` — CRUD de membros com multi-org assignment | BACKEND  | 🔴 Crítico |
+| TASK-099        | Frontend: "Usuários" / "Equipe" no UserTopBar dropdown (ADMIN only)           | FRONTEND | 🟠 Alto    |
+| TASK-100        | Frontend: `/users` — listagem de membros da equipe com CRUD actions           | FRONTEND | 🟠 Alto    |
+| TASK-101        | Frontend: `/users/new` — formulário de convite com multi-org select           | FRONTEND | 🔴 Crítico |
+| TASK-102        | Frontend: `/users/[id]/edit` — editar membro + gerenciar orgs vinculadas      | FRONTEND | 🟠 Alto    |
+| TASK-QA-MAN-009 | QA Manual: E2E fluxo completo de convite e gestão de membros da equipe        | QA       | 🟠 Alto    |
 
 ## Critério de Conclusão do Épico
 

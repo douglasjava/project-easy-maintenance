@@ -92,7 +92,27 @@
       "PowerShell(cd \"D:\\\\workpaces\\\\EASY_MAINTENANCE\\\\easy-maintenance-web\"; npx tsc --noEmit 2>&1 | Out-String | Select-String -Pattern \"landing|Cookies|js-cookie\" -AllMatches | ForEach-Object { $_.Matches } | Select-Object -First 5)",
       "Bash(read f *)",
       "Bash(head -5 D:/workpaces/EASY_MAINTENANCE/roadmap/epics/__TRACKED_VAR__)",
-      "Bash(echo \"---\")"
+      "Bash(echo \"---\")",
+      "Bash(cd \"D:\\\\workpaces\\\\EASY_MAINTENANCE\")",
+      "Bash(git rev-parse *)",
+      "Bash(echo GIT_DIR=__TRACKED_VAR__)",
+      "Bash(echo GIT_COMMON=__TRACKED_VAR__)",
+      "Bash(true)",
+      "Bash(gh pr create --base staging --title 'fix\\(auth\\): make cookie domain configurable per environment' --body ' *)",
+      "Bash(openssl rand *)",
+      "Bash(mvn -q exec:java -Dexec.mainClass=\"com.brainbyte.easy_maintenance.shared.security.RsaKeyGenerator\")",
+      "PowerShell(mvn test *)",
+      "PowerShell(cd \"D:\\\\workpaces\\\\EASY_MAINTENANCE\\\\easy-maintenance-web\"; npx tsc --noEmit 2>&1 | Select-String -Pattern \"error TS|Sidebar|QuickActions|warning\" | Select-Object -First 20 | ForEach-Object { $_.Line })",
+      "PowerShell(cd \"D:\\\\workpaces\\\\EASY_MAINTENANCE\\\\easy-maintenance-web\"; npx tsc --noEmit 2>&1 | Select-String -Pattern \"Sidebar|QuickActions\" | ForEach-Object { $_.Line })",
+      "Bash(gh pr create --base staging --title 'feat\\(team\\): EPIC-013 — Gestão de Equipe por Conta' --body ' *)",
+      "Bash(gh pr create --base staging --title 'feat\\(team\\): EPIC-013 — Backend Gestão de Equipe por Conta' --body ' *)",
+      "PowerShell(Set-Location \"D:\\\\workpaces\\\\EASY_MAINTENANCE\\\\easy-maintenance-api\"; $env:JAVA_HOME = \"C:\\\\Program Files\\\\Java\\\\jdk-21\"; .\\\\mvnw.cmd test \"-Dtest=FeatureAccessServiceTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\" 2>&1 | Select-Object -Last 50)",
+      "PowerShell(java *)",
+      "PowerShell(Set-Location \"D:\\\\workpaces\\\\EASY_MAINTENANCE\\\\easy-maintenance-web\"; npx tsc --noEmit 2>&1 | Where-Object { $_ -match \"UserTopBar|AuthContext\" })",
+      "Bash(gh pr create --base staging --title 'fix\\(access\\): MEMBER status para usuários de equipe convidados' --body ' *)",
+      "Bash(gh pr create --base staging --title 'fix\\(ui\\): ocultar Faturamento no menu para membros de equipe' --body ' *)",
+      "PowerShell(Set-Location \"D:\\\\workpaces\\\\EASY_MAINTENANCE\\\\easy-maintenance-web\"; npx tsc --noEmit 2>&1 | Where-Object { $_ -match \"billing/page\" })",
+      "Bash(gh pr *)"
     ]
   }
 }
