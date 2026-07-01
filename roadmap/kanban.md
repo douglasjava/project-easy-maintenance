@@ -1,5 +1,6 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/07/2026 — TASK-107 concluída: BUGFIX advanceCycle() preenche nextDueDate para assinaturas PIX — 475 testes, 0 falhas
 > Atualizado em: 30/06/2026 — TASK-105 concluída: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho igual ao /maintenances
 > Atualizado em: 30/06/2026 — TASK-104 criada: Frontend — exibir criador/modificador nos detalhes do item (depende de TASK-103)
 > Atualizado em: 01/07/2026 — TASK-104 concluída: "Registrado por" nos CSVs de manutenções (org + cross-org) — resolução batch, 471 testes, 0 falhas
