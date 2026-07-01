@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/06/2026 — TASK-105 concluída: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho igual ao /maintenances
+> Atualizado em: 30/06/2026 — TASK-104 criada: Frontend — exibir criador/modificador nos detalhes do item (depende de TASK-103)
+> Atualizado em: 01/07/2026 — TASK-104 concluída: "Registrado por" nos CSVs de manutenções (org + cross-org) — resolução batch, 471 testes, 0 falhas
+> Atualizado em: 01/07/2026 — TASK-106 concluída: BUGFIX notificações escopadas por org (TenantContext) — 468 testes, 0 falhas
+> Atualizado em: 01/07/2026 — TASK-103 concluída: migration V76 + entidades + DTOs + services + 4 testes — 464 testes, 0 falhas
 > Atualizado em: 30/06/2026 — fix/member-access em validação: MEMBER status implementado — membros de equipe recebem FULL_ACCESS via assinatura da org; Faturamento ocultado no menu (PR #6 backend, PR #5 frontend)
 > Atualizado em: 29/06/2026 — TASK-102 em validação: `/users/[id]/edit` — edição com multi-org diff via PATCH, self-edit guard, pré-populate
 > Atualizado em: 29/06/2026 — TASK-101 em validação: `/users/new` reescrito — convite via POST /me/team/users, multi-org checkboxes, roles, guard ADMIN
@@ -143,6 +148,11 @@ _Vazio_
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
+| [TASK-104](tasks/TASK-104.md) | Full-Stack: "Registrado por" nos CSVs de manutenções — resolução batch via UserRepository, 3 testes novos | 🟡 Médio | EPIC-013 |
+| ~~[TASK-103](tasks/TASK-103.md)~~ | ~~Backend: auditoria de criação/modificação em maintenance_items e maintenances (createdBy/updatedBy como Long)~~ | 🟠 Alto | EPIC-013 | 3 |
+| ~~[TASK-104](tasks/TASK-104.md)~~ | ~~Full-Stack: createdBy/updatedBy nos relatórios de exportação (colunas "Criado por" / "Registrado por" com nome resolvido em batch)~~ | 🟡 Médio | EPIC-013 | 3 |
+| ~~[TASK-105](tasks/TASK-105.md)~~ | ~~Frontend: botão "Limpar" sempre visível em /items — paridade com /maintenances (estilo dinâmico cinza/vermelho)~~ | 🔵 Baixo | EPIC-006 | 3 |
+| ~~[TASK-106](tasks/TASK-106.md)~~ | ~~BUGFIX Full-Stack: notificações escopadas por org — bell exibia todas as orgs causando "Item não pertence a essa organização"~~ | 🟠 Alto | EPIC-013 | 3 |
 
 ---
 
@@ -247,6 +257,9 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-106](tasks/TASK-106.md) | BUGFIX Full-Stack: notificações escopadas por org via TenantContext — 4 testes novos, 468 passando | 🟠 Alto | EPIC-013 |
+| [TASK-103](tasks/TASK-103.md) | Backend: auditoria createdBy/updatedBy em maintenance_items e maintenances — Long sem @ManyToOne, migration V76, 4 testes | 🟠 Alto | EPIC-013 |
+| [TASK-105](tasks/TASK-105.md) | Frontend: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho (paridade com /maintenances) | 🔵 Baixo | EPIC-006 |
 | [TASK-097](tasks/TASK-097.md) | Hardening dos limites de plano: `maxUsers` + `maxOrganizations` na criação + testes `emailMonthlyLimit`  | 🟠 Alto    | EPIC-008 |
 | TASK-077                      | Cards KPI do dashboard clicáveis com navegação filtrada (issue #43)                          | 🟡 Médio   | EPIC-006     |
 | TASK-076                      | Botão de voltar ao dashboard na tela de IA Onboarding (issue #44)                            | 🔵 Baixo   | EPIC-006     |
