@@ -70,19 +70,19 @@ EASY_MAINTENANCE/
 
 ## Stack Técnica
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Backend | Java 21 + Spring Boot 3 |
-| Frontend | Next.js 16 + TypeScript + Bootstrap 5 |
-| Pagamentos | Asaas (PIX, Boleto, Cartão de Crédito) |
-| Inteligência Artificial | GPT-4o-mini + DeepSeek |
-| Notificações | Firebase Cloud Messaging |
-| Autenticação | JWT com RSA (cookie HttpOnly), RBAC por organização |
-| Banco de dados | PostgreSQL |
-| Infra / Deploy | Railway |
-| Observabilidade | Sentry, Prometheus/Grafana |
-| Testes (backend) | JUnit + Spring Boot Test |
-| Testes (frontend) | Jest + ts-jest |
+| Camada                  | Tecnologia                                          |
+|-------------------------|-----------------------------------------------------|
+| Backend                 | Java 21 + Spring Boot 3                             |
+| Frontend                | Next.js 16 + TypeScript + Bootstrap 5               |
+| Pagamentos              | Asaas (PIX, Boleto, Cartão de Crédito)              |
+| Inteligência Artificial | GPT-4o-mini + DeepSeek                              |
+| Notificações            | Firebase Cloud Messaging                            |
+| Autenticação            | JWT com RSA (cookie HttpOnly), RBAC por organização |
+| Banco de dados          | PostgreSQL                                          |
+| Infra / Deploy          | Railway                                             |
+| Observabilidade         | Sentry, Prometheus/Grafana                          |
+| Testes (backend)        | JUnit + Spring Boot Test                            |
+| Testes (frontend)       | Jest + ts-jest                                      |
 
 ---
 
@@ -92,28 +92,28 @@ EASY_MAINTENANCE/
 
 O arquivo principal é [`roadmap/roadmap.md`](roadmap/roadmap.md). O produto está organizado em 3 fases:
 
-| Fase | Objetivo | Critério de Saída |
-|------|----------|------------------|
-| **Fase 1** — Antes do Lançamento | Resolver bloqueadores de segurança e confiabilidade | Zero bloqueadores críticos e altos abertos |
-| **Fase 2** — Estabilização Pós-Lançamento | Consolidar experiência e reduzir fricções | NPS > 7, Churn < 5%/mês, zero incidentes críticos |
-| **Fase 3** — Escala e Maturidade | Preparar para crescimento, compliance e expansão | Pronto para campanhas de marketing em escala |
+| Fase                                      | Objetivo                                            | Critério de Saída                                 |
+|-------------------------------------------|-----------------------------------------------------|---------------------------------------------------|
+| **Fase 1** — Antes do Lançamento          | Resolver bloqueadores de segurança e confiabilidade | Zero bloqueadores críticos e altos abertos        |
+| **Fase 2** — Estabilização Pós-Lançamento | Consolidar experiência e reduzir fricções           | NPS > 7, Churn < 5%/mês, zero incidentes críticos |
+| **Fase 3** — Escala e Maturidade          | Preparar para crescimento, compliance e expansão    | Pronto para campanhas de marketing em escala      |
 
 ### Épicos
 
 Os épicos ficam em [`roadmap/epics/`](roadmap/epics/). Cada épico agrupa tasks relacionadas por objetivo de negócio:
 
-| Épico | Nome | Fase | Status |
-|-------|------|------|--------|
-| EPIC-001 | Segurança Crítica | 1 | Quase concluído (TASK-039 pendente) |
-| EPIC-002 | Confiabilidade Operacional | 1 | Parcial (TASK-025 pendente) |
-| EPIC-003 | Multi-tenancy e Autorização | 1 | Parcial (TASK-038 pendente) |
-| EPIC-004 | Banco de Dados e Persistência | 2 | Parcial (TASK-035 pendente) |
-| EPIC-005 | Observabilidade e Operação | 2 | Parcial (TASK-021, TASK-033 pendentes) |
-| EPIC-006 | Produto SaaS | 2 | Quase concluído (TASK-040 pendente) |
-| EPIC-007 | Performance e Escalabilidade | 2–3 | Não iniciado |
-| EPIC-008 | Qualidade e Testes | 1–2 | Parcial (TASK-026 pendente) |
-| EPIC-009 | Performance Frontend | 2 | Concluído ✅ |
-| EPIC-010 | PIX como Método de Pagamento | 2 | Concluído ✅ |
+| Épico    | Nome                          | Fase | Status                                 |
+|----------|-------------------------------|------|----------------------------------------|
+| EPIC-001 | Segurança Crítica             | 1    | Quase concluído (TASK-039 pendente)    |
+| EPIC-002 | Confiabilidade Operacional    | 1    | Parcial (TASK-025 pendente)            |
+| EPIC-003 | Multi-tenancy e Autorização   | 1    | Parcial (TASK-038 pendente)            |
+| EPIC-004 | Banco de Dados e Persistência | 2    | Parcial (TASK-035 pendente)            |
+| EPIC-005 | Observabilidade e Operação    | 2    | Parcial (TASK-021, TASK-033 pendentes) |
+| EPIC-006 | Produto SaaS                  | 2    | Quase concluído (TASK-040 pendente)    |
+| EPIC-007 | Performance e Escalabilidade  | 2–3  | Não iniciado                           |
+| EPIC-008 | Qualidade e Testes            | 1–2  | Parcial (TASK-026 pendente)            |
+| EPIC-009 | Performance Frontend          | 2    | Concluído ✅                            |
+| EPIC-010 | PIX como Método de Pagamento  | 2    | Concluído ✅                            |
 
 **Estrutura de um arquivo de épico:**
 - Objetivo e descrição do épico
@@ -125,23 +125,23 @@ Os épicos ficam em [`roadmap/epics/`](roadmap/epics/). Cada épico agrupa tasks
 
 As tasks ficam em [`roadmap/tasks/`](roadmap/tasks/). São a unidade básica de trabalho. Cada arquivo `TASK-XXX.md` contém:
 
-| Campo | Descrição |
-|-------|-----------|
-| **Tipo** | Categoria técnica da mudança |
-| **Categoria** | Backend / Frontend / Full-Stack / Infra |
-| **Prioridade** | 🔴 Crítico / 🟠 Alto / 🟡 Médio / 🔵 Baixo |
-| **Fase** | Em qual fase do roadmap se encaixa |
-| **Épico** | Épico pai |
-| **Descrição** | Contexto e explicação do problema |
-| **Problema** | O que está errado atualmente |
-| **Impacto** | Consequências de não fazer |
-| **Dependências** | Tasks que precisam ser concluídas antes |
-| **Critérios de Aceite** | Checklist de quando a task está pronta |
-| **Subtasks** | Passos detalhados de implementação |
-| **Arquivos alterados** | Quais arquivos foram ou serão modificados |
-| **Esforço** | Pequeno / Médio / Grande |
-| **Risco de não fazer** | Impacto no produto ou no negócio |
-| **Status** | Pendente / Em execução / Concluído |
+| Campo                   | Descrição                                  |
+|-------------------------|--------------------------------------------|
+| **Tipo**                | Categoria técnica da mudança               |
+| **Categoria**           | Backend / Frontend / Full-Stack / Infra    |
+| **Prioridade**          | 🔴 Crítico / 🟠 Alto / 🟡 Médio / 🔵 Baixo |
+| **Fase**                | Em qual fase do roadmap se encaixa         |
+| **Épico**               | Épico pai                                  |
+| **Descrição**           | Contexto e explicação do problema          |
+| **Problema**            | O que está errado atualmente               |
+| **Impacto**             | Consequências de não fazer                 |
+| **Dependências**        | Tasks que precisam ser concluídas antes    |
+| **Critérios de Aceite** | Checklist de quando a task está pronta     |
+| **Subtasks**            | Passos detalhados de implementação         |
+| **Arquivos alterados**  | Quais arquivos foram ou serão modificados  |
+| **Esforço**             | Pequeno / Médio / Grande                   |
+| **Risco de não fazer**  | Impacto no produto ou no negócio           |
+| **Status**              | Pendente / Em execução / Concluído         |
 
 **Total de tasks:** 48 (TASK-001 a TASK-048)  
 **Tasks concluídas:** 36  
@@ -151,14 +151,14 @@ As tasks ficam em [`roadmap/tasks/`](roadmap/tasks/). São a unidade básica de 
 
 As sprints ficam em [`roadmap/sprints/`](roadmap/sprints/). Cada sprint tem período, objetivo, capacidade e critério de saída definidos.
 
-| Sprint | Foco | Status |
-|--------|------|--------|
-| SPRINT-01 | Segurança + Confiabilidade crítica | Concluída ✅ |
-| SPRINT-02 | Segurança contínua + Multi-tenancy | Concluída ✅ |
-| SPRINT-03 | Integridade de Dados + Estabilidade | Parcial 4/6 |
-| SPRINT-04 | Observabilidade + Performance | Parcial 2/5 |
+| Sprint    | Foco                                    | Status       |
+|-----------|-----------------------------------------|--------------|
+| SPRINT-01 | Segurança + Confiabilidade crítica      | Concluída ✅  |
+| SPRINT-02 | Segurança contínua + Multi-tenancy      | Concluída ✅  |
+| SPRINT-03 | Integridade de Dados + Estabilidade     | Parcial 4/6  |
+| SPRINT-04 | Observabilidade + Performance           | Parcial 2/5  |
 | SPRINT-05 | Escalabilidade + Compliance + Polimento | Não iniciada |
-| SPRINT-06 | PIX como método de pagamento | Concluída ✅ |
+| SPRINT-06 | PIX como método de pagamento            | Concluída ✅  |
 
 **Estrutura de um arquivo de sprint:**
 - Meta da sprint
@@ -193,10 +193,10 @@ Descrevem os fluxos críticos do produto do ponto de vista de QA. Cada flow cont
 - **Gaps** de cobertura identificados
 - **Status de validação** (checklist)
 
-| Flow | Fluxo | Criticidade |
-|------|-------|------------|
-| FLOW-001 | Autenticação e Sessão | 🔴 CRITICAL |
-| FLOW-002 a FLOW-011 | Outros fluxos críticos do produto | Variada |
+| Flow                | Fluxo                             | Criticidade |
+|---------------------|-----------------------------------|-------------|
+| FLOW-001            | Autenticação e Sessão             | 🔴 CRITICAL |
+| FLOW-002 a FLOW-011 | Outros fluxos críticos do produto | Variada     |
 
 #### MTDs (`QA/MTD/MTD-XXX.md`)
 
@@ -224,14 +224,14 @@ Ficam em [`docs/runbooks/`](docs/runbooks/). São procedimentos operacionais par
 4. **Passos de resolução** — por caso, com comandos exatos
 5. **Como comunicar o cliente** — templates de comunicação prontos
 
-| Runbook | Cenário | Severidade |
-|---------|---------|-----------|
-| RB-001 | Job de billing falhou | Alta |
-| RB-002 | Asaas fora do ar / circuit breaker aberto | Alta |
-| RB-003 | Banco de dados lento / pool esgotado | Alta |
-| RB-004 | OpenAI / DeepSeek quota esgotada | Média |
-| RB-005 | Railway em restart loop | Crítica |
-| RB-006 | Cobrança duplicada — identificação e estorno | Alta |
+| Runbook | Cenário                                      | Severidade |
+|---------|----------------------------------------------|------------|
+| RB-001  | Job de billing falhou                        | Alta       |
+| RB-002  | Asaas fora do ar / circuit breaker aberto    | Alta       |
+| RB-003  | Banco de dados lento / pool esgotado         | Alta       |
+| RB-004  | OpenAI / DeepSeek quota esgotada             | Média      |
+| RB-005  | Railway em restart loop                      | Crítica    |
+| RB-006  | Cobrança duplicada — identificação e estorno | Alta       |
 
 ### Planos e Specs (Superpowers)
 
@@ -254,16 +254,16 @@ Este projeto usa o [Claude Code](https://claude.ai/code) com um conjunto de skil
 
 As skills são invocadas com `/nome-da-skill` no chat com o Claude. Cada skill expande para um conjunto de instruções que orientam o Claude a executar um fluxo específico.
 
-| Skill | Quando usar |
-|-------|------------|
-| `/run-sprint` | Iniciar uma nova sprint — planejar, priorizar e sequenciar tasks |
-| `/next-task` | Decidir qual task executar a seguir com base no kanban e prioridades |
-| `/execute-task` | Implementar uma task específica (gera spec → plan → implementa) |
-| `/review-task` | Revisar uma implementação contra os critérios de aceite da task |
-| `/acceptance-check` | Validação final de aceite antes de marcar a task como concluída |
-| `/kanban-update` | Atualizar o estado das tasks no `kanban.md` |
-| `/execute-qa` | Executar os cenários de QA dos flows e MTDs relevantes |
-| `/product-decision` | Tomar decisões de produto com raciocínio estruturado |
+| Skill               | Quando usar                                                          |
+|---------------------|----------------------------------------------------------------------|
+| `/run-sprint`       | Iniciar uma nova sprint — planejar, priorizar e sequenciar tasks     |
+| `/next-task`        | Decidir qual task executar a seguir com base no kanban e prioridades |
+| `/execute-task`     | Implementar uma task específica (gera spec → plan → implementa)      |
+| `/review-task`      | Revisar uma implementação contra os critérios de aceite da task      |
+| `/acceptance-check` | Validação final de aceite antes de marcar a task como concluída      |
+| `/kanban-update`    | Atualizar o estado das tasks no `kanban.md`                          |
+| `/execute-qa`       | Executar os cenários de QA dos flows e MTDs relevantes               |
+| `/product-decision` | Tomar decisões de produto com raciocínio estruturado                 |
 
 ### Fluxo de Trabalho com Claude
 
@@ -323,14 +323,14 @@ O [`CLAUDE.md`](CLAUDE.md) define regras que o Claude deve seguir em todas as ta
 
 ## Status Atual
 
-| Dimensão | Nota | Estado |
-|----------|------|--------|
-| Arquitetura | 7.5/10 | Sólida, com pontos de melhoria |
-| Segurança | 5.5/10 | Bloqueadores críticos em endereçamento |
-| Performance | 6.5/10 | Aceitável para early stage |
-| UX | 6.5/10 | Funcional, precisa de polish |
-| Produto | 7.0/10 | Features principais prontas |
-| Prontidão para mercado | 5.5/10 | Requer resolução de bloqueadores |
+| Dimensão               | Nota   | Estado                                 |
+|------------------------|--------|----------------------------------------|
+| Arquitetura            | 7.5/10 | Sólida, com pontos de melhoria         |
+| Segurança              | 5.5/10 | Bloqueadores críticos em endereçamento |
+| Performance            | 6.5/10 | Aceitável para early stage             |
+| UX                     | 6.5/10 | Funcional, precisa de polish           |
+| Produto                | 7.0/10 | Features principais prontas            |
+| Prontidão para mercado | 5.5/10 | Requer resolução de bloqueadores       |
 
 **Sprints concluídas:** 1, 2 e 6  
 **Tasks concluídas:** 36/48  

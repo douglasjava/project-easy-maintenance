@@ -1,5 +1,52 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 15/07/2026 — TASK-126 implementada e movida para Em Validação: bloco "O risco real"
+> (RiskBlock, copy aprovada) inserido logo após o Hero, absorvendo e removendo o card duplicado "Medo de
+> multa e processo"; carrossel mobile reutilizável (CardCarousel, CSS scroll-snap) aplicado nos 4 grids da
+> landing + no bloco novo; padding mobile das seções reduzido de 110px para 64px. `eslint`/`next build`
+> limpos. ⚠️ Desktop verificado visualmente no browser; mobile NÃO verificado (ferramenta de automação de
+> browser ficou instável nesta sessão) — padrão de responsividade é o mesmo já validado na TASK-124,
+> recomendado Douglas conferir no celular/DevTools antes de aceitar.
+> Atualizado em: 15/07/2026 — TASK-126 ampliada para virar um único card de reformulação da landing:
+> bloco "O risco real" (processo, multa/interdição, acidente — copy aprovada por Douglas após pesquisa de
+> fontes: IBAPE Nacional, Seciesp, Código Civil Art. 1.348, Corpo de Bombeiros) **+** redução de scroll
+> mobile via componente reutilizável de carrossel/accordion (em vez de página mobile separada, decisão
+> tomada pra não duplicar manutenção nem arriscar cloaking no Google). Absorve e remove o card "Medo de
+> multa e processo" hoje diluído na seção `#problema`.
+> Atualizado em: 15/07/2026 — TASK-125 implementada e movida para Em Validação: botão de WhatsApp
+> flutuante ativado na landing (reaproveitando `.whatsapp-float`, que já existia no CSS mas nunca foi
+> usado) + número de contato atualizado para (31) 9 9982-6634 nos 3 pontos onde aparecia (CTA "Falar com
+> Consultor", texto do rodapé — que virou link clicável — e botão flutuante), todos com a mesma mensagem
+> pré-preenchida definida com Douglas. Verificado no browser via dev server local. `eslint`/`next build`
+> limpos.
+> Atualizado em: 15/07/2026 — TASK-125 criada: card de backlog para adicionar botão de WhatsApp na landing
+> (reaproveitando a classe CSS `.whatsapp-float` já existente mas não usada) e trocar o número de contato
+> para 55 31 9982-6634. Levantamento prévio mostrou que o número antigo (5531995639390 / (31) 99563-9390)
+> só existe em `landing/page.tsx` (CTA + rodapé), sem duplicação em outros arquivos. Pendente: confirmar
+> 9º dígito do número novo e definir a mensagem pré-preenchida do link com Douglas antes de implementar.
+> Atualizado em: 15/07/2026 — TASK-124 validada por Douglas em teste manual real (toggle Lista/Calendário, navegação entre meses, painel do dia, item sem `nextDueAt` ausente do grid). PRs abertos para `staging`: [easy-maintenance-api#15](https://github.com/douglasjava/easy-maintenance-api/pull/15) e [easy-maintenance-web#13](https://github.com/douglasjava/easy-maintenance-web/pull/13).
+> Atualizado em: 15/07/2026 — TASK-124 implementada e movida para Em Validação: `GET /easy-maintenance/api/v1/items/calendar` (novo `MaintenanceItemSpecs.dueDateBetween` + `MaintenanceItemService.findAllForCalendar`, 6 testes novos, 571/571 backend green) + toggle "Lista | Calendário" em `/items` com a visão isolada em componentes próprios (`ItemsCalendarView`, `ItemsCalendarDayPanel`, `calendarUtils`, `shared`), a pedido de Douglas para não poluir `page.tsx`. tsc/eslint limpos, `next build` sem erros. ⚠️ Não verificado visualmente (mesma limitação de segredos locais ausentes da TASK-115/116) — recomendado teste manual antes de mover para Done.
+> Atualizado em: 14/07/2026 — TASK-123 concluída: validado por Douglas em teste real — `.ics` importou corretamente nos calendários. Ajuste de UX após feedback: botão saiu do cabeçalho apertado do detalhe do item e virou link contextual "+ calendário" junto ao "Próximo vencimento"; listagem `/items` ganhou o mesmo botão em cada linha (tabela e card mobile, sem competir por espaço com Editar/Remover).
+> Atualizado em: 14/07/2026 — TASK-123 implementada e movida para Em Validação: `GET /easy-maintenance/api/v1/items/{id}/calendar.ics` (novo `ItemCalendarExportService`, reaproveita `MaintenanceItemService.findEntityForOrg` para escopo de organização) + botão "Adicionar ao calendário" em `/items/[id]`. 565/565 testes backend green (4 novos: VEVENT válido, 2 VALARM, RuleException quando sem `nextDueAt`, TenantException propaga em org errada). tsc/eslint limpos no frontend. ⚠️ Não verificado visualmente (sem ambiente local rodando) — recomendado importar o `.ics` de verdade no Google Calendar antes de aceitar.
+> Atualizado em: 14/07/2026 — TASK-124 criada: card de backlog para visão em calendário dos itens — desenhado via brainstorming com Douglas antes da criação. Decisão v1: toggle "Lista | Calendário" dentro de `/items` (reaproveitando filtros existentes), célula do dia com bolinhas por status + contador, clique abre painel com lista do dia; caso de uso validado é planejamento (enxergar picos de vencimento no mês). Backend precisa de query por range de datas, diferente da paginação cursor atual.
+> Atualizado em: 14/07/2026 — TASK-123 criada: card de backlog para exportação de lembrete de item em `.ics` (calendário) — desenhado via brainstorming com Douglas antes da criação. Decisão v1: sem OAuth (não existe integração OAuth com Google hoje, só API key do Google Places), botão só no detalhe do item, `.ics` com 2 VALARM (7d/1d antes), sem resync automático (limitação aceita conscientemente).
+> Atualizado em: 14/07/2026 — TASK-122 criada: card de backlog para implementar o canal de notificações via WhatsApp — hoje só existe o esqueleto (`NotificationType.WHATSAPP`, `WhatsAppNotificationProvider` com TODO, `NotificationChannelResolver` nunca resolve WHATSAPP), sem integração real, sem campo de telefone no `User`, sem opt-in/quota. Descrição completa com regras de disparo, limites e tabela comparativa de provedores (Meta direto, Twilio, 360dialog, Zenvia, Take Blip, Gupshup, Infobip).
+> Atualizado em: 13/07/2026 — TASK-121 criada e concluída: achado durante validação manual da TASK-117 — botão "+ Novo Item" continuava habilitado com pool de itens esgotado (20/20), porque `FeatureAccessService.canCreateItem` ainda comparava uso por organização isolada, não o pool da conta. Corrigido com o mesmo padrão da TASK-120 (`TenantContext.runCrossOrg`); frontend `/items` agora mostra UsageMeter + botão desabilitado com mensagem clara. 561/561 testes backend green.
+> Atualizado em: 13/07/2026 — TASK-120 criada e concluída: bug crítico achado por Douglas em `/billing` (contagem de itens zerada para orgs não-ativas). Causa raiz: `TenantFilterAspect` escopa TODA query de `MaintenanceItemRepository` ao X-Org-Id ativo, mesmo com orgCode explícito no parâmetro — afetava não só exibição mas o enforcement real do pool de itens (TASK-111) e a validação de downgrade (TASK-112). Corrigido em 6 pontos com novo helper `TenantContext.runCrossOrg()` (mesmo padrão da TASK-QA-BUG-012). 558/558 testes backend green. Bug irmão não corrigido (fora do escopo): `ReportsService.getOverview` tem o mesmo problema, pré-existente à EPIC-014.
+> Atualizado em: 13/07/2026 — TASK-119 criada e concluída: `/organizations/[code]` ainda exibia card "Assinatura e Plano" (outro resquício do modelo antigo, achado por Douglas em teste manual). Removido; card de dados da empresa passou a ocupar largura total; adicionado botão "Editar" (só para a organização ativa da sessão, por limitação do X-Org-Id — confirmado com Douglas). tsc/eslint limpos.
+> Atualizado em: 13/07/2026 — TASK-118 revisada (2ª rodada): Douglas notou que o frontend ainda chamava PUT .../subscription mesmo sem seletor de plano — correto, não deveria. Movido o provisionamento do item ORGANIZATION para dentro de `UsersService.addOrganization()` (acontece automaticamente ao vincular a org à conta), idempotente. Frontend não faz mais nenhuma chamada de "subscription". 554/554 testes backend green.
+> Atualizado em: 13/07/2026 — TASK-118 criada e concluída: bug encontrado por Douglas em teste manual local — `/organizations/new` ainda tinha Step 2 "Configuração de Assinatura" com seletor de plano para a organização (resquício do modelo antigo). Corrigido: `OrganizationsService.addOrganizationSubscription()` agora ignora o planCode do request e sempre herda o plano do item USER da conta quando ela já existe; frontend virou fluxo de passo único, sem seletor de plano. 552/552 testes backend green.
+> Atualizado em: 13/07/2026 — TASK-116 em validação: painel admin `subscriptions/` remove Upgrade/Downgrade/Cancelar de linhas ORGANIZATION ("Incluída na conta"), mostra sourceId + uso do pool por org/conta. Backend (`BillingAdminDTO`/`listSubscriptions`) estendido no mesmo padrão da TASK-115. Agrupamento visual conta→orgs NÃO implementado (paginação continua por item — gap documentado). 550/550 testes backend green. ⚠️ Mesma limitação de verificação visual da TASK-115.
+> Atualizado em: 13/07/2026 — TASK-115 em validação: `/billing` consolidado num card único de conta + lista read-only de organizações (uso do pool). Escopo expandiu para FULL_STACK — `BillingSummaryResponse`/`BillingDashboardService` ganharam campos de uso (organizações/usuários/itens). 548/548 testes backend green, tsc/eslint limpos no frontend. ⚠️ UI NÃO verificada visualmente — boot completo do backend local bloqueado por múltiplos segredos ausentes (Asaas/Google Places/OpenAI/DeepSeek/tokens) e navegação no browser falhou repetidamente; recomendado rodar `npm run dev` localmente antes de aceitar.
+> Atualizado em: 12/07/2026 — TASK-114 em validação: migration V79 aplicada e validada de verdade contra o MySQL local de desenvolvimento — 17 itens ORGANIZATION zerados, total_cents recalculado (ex.: STARTER R$198→R$99), 33/33 linhas preservadas (desenho original previa DELETE; ajustado para zerar valueCents pois TASK-111/113 dependem das linhas existirem). Boot completo da app (onboarding/PIX/CC) não testado por falta de segredos locais.
+> Atualizado em: 12/07/2026 — TASK-113 em validação: `GET/PUT /organizations/{code}/subscription` retornam novo `OrganizationSubscriptionResponse` — plano/preço vêm do item USER (conta), com itemsUsedByOrg/itemsUsedTotalAccount/maxItemsAccount para o pool compartilhado (TASK-111). Mudança aditiva no JSON (sem remoção de campo), mas não validada contra o frontend real — pendente TASK-115/116. 546/546 testes backend green.
+> Atualizado em: 12/07/2026 — TASK-112 em validação: downgrade de plano agora valida o pool de itens (TASK-111) além de organizationCount; `SubscriptionItemChangePlanAdapter` bloqueia troca de plano por item ORGANIZATION (404); `OrganizationPlanChangeService` removida (órfã). 544/544 testes backend green.
+> Atualizado em: 12/07/2026 — TASK-111 em validação: `MaintenanceItemService.validateItemLimit()` reescrito — maxItems vira pool compartilhado entre todas as organizações da mesma BillingSubscription (via `MaintenanceItemRepository.countByOrganizationCodeIn`), não mais teto isolado por org. 539/539 testes backend green (MaintenanceItemPlanLimitTest reescrito com 9 cenários).
+> Atualizado em: 12/07/2026 — TASK-110 em validação: `BillingSubscriptionService.addItem()` — item ORGANIZATION passa a ter valueCents=0 (não-cobrável), apenas o item USER soma ao totalCents. 8 testes novos (BillingSubscriptionServiceTest, OnboardingServiceTest, OrganizationsServiceTest), 539/539 testes backend green. Branch feature/EPIC-014 criada a partir de staging (API + Web).
+> Atualizado em: 12/07/2026 — EPIC-014 criada: consolidação de billing para plano único por conta — remove cobrança duplicada USER+ORGANIZATION (hoje gera ~R$598/mês num cadastro novo BUSINESS). TASK-110 a TASK-117 no backlog, sem clientes pagantes reais afetados.
+> Atualizado em: 06/07/2026 — TASK-109 concluída: 3 endpoints (POST /transition/pix, /update-card, /transition/card) + CardTransitionService + SubscriptionCreatedHandler CC→CC card update — 527 testes, 0 falhas
+> Atualizado em: 06/07/2026 — TASK-108 concluída: BillingRecoveryService + 2 endpoints (POST /recover/pix e /recover/checkout) + fix updatePaymentMethod — 499 testes, 0 falhas
+> Atualizado em: 06/07/2026 — TASK-108 e TASK-109 criadas: especificação completa de troca de método de pagamento em PAST_DUE e ACTIVE — Backlog EPIC-010
 > Atualizado em: 01/07/2026 — TASK-107 concluída: BUGFIX advanceCycle() preenche nextDueDate para assinaturas PIX — 475 testes, 0 falhas
 > Atualizado em: 30/06/2026 — TASK-105 concluída: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho igual ao /maintenances
 > Atualizado em: 30/06/2026 — TASK-104 criada: Frontend — exibir criador/modificador nos detalhes do item (depende de TASK-103)
@@ -154,6 +201,7 @@ _Vazio_
 | ~~[TASK-104](tasks/TASK-104.md)~~ | ~~Full-Stack: createdBy/updatedBy nos relatórios de exportação (colunas "Criado por" / "Registrado por" com nome resolvido em batch)~~ | 🟡 Médio | EPIC-013 | 3 |
 | ~~[TASK-105](tasks/TASK-105.md)~~ | ~~Frontend: botão "Limpar" sempre visível em /items — paridade com /maintenances (estilo dinâmico cinza/vermelho)~~ | 🔵 Baixo | EPIC-006 | 3 |
 | ~~[TASK-106](tasks/TASK-106.md)~~ | ~~BUGFIX Full-Stack: notificações escopadas por org — bell exibia todas as orgs causando "Item não pertence a essa organização"~~ | 🟠 Alto | EPIC-013 | 3 |
+| [TASK-122](tasks/TASK-122.md) | Full-Stack: implementar canal de notificações via WhatsApp (provider existe só como esqueleto, sem integração real) | 🟡 Médio | EPIC-006 | 2 |
 
 ---
 
@@ -193,6 +241,7 @@ _Vazio_
 
 **🟡 Médio (próxima fase)**:
 - **TASK-066** — Pix Automático (mandato regulamentado) (🟡 Médio | EPIC-010)
+- **[TASK-109](tasks/TASK-109.md)** — Troca de método em ACTIVE: CC→PIX, CC→CC, PIX→CC (🟡 Médio | EPIC-010)
 - ~~**TASK-068**~~ — Enriquecer response de notificações com nome do item referenciado (🟡 Médio | EPIC-006)
 
 **Pendentes de SPRINT-04**:
@@ -214,6 +263,14 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-118](tasks/TASK-118.md) | BUGFIX Full-Stack: /organizations/new não pede mais plano próprio (herda plano da conta) | 🔴 Crítico | EPIC-014 |
+| [TASK-116](tasks/TASK-116.md) | Frontend+Backend: painel admin subscriptions — remove ações por org, mostra pool (não verificado visualmente) | 🟡 Médio | EPIC-014 |
+| [TASK-115](tasks/TASK-115.md) | Frontend+Backend: /billing consolidado — card único de conta + pool de orgs/itens (não verificado visualmente) | 🟠 Alto | EPIC-014 |
+| [TASK-114](tasks/TASK-114.md) | Migration V79 — zera value_cents dos itens ORGANIZATION legados + recalcula total_cents | 🟠 Alto | EPIC-014 |
+| [TASK-113](tasks/TASK-113.md) | Backend: GET/PUT organizations/{code}/subscription — plano da conta + uso do pool | 🟠 Alto  | EPIC-014 |
+| [TASK-112](tasks/TASK-112.md) | Backend: downgrade valida pool de itens + remove OrganizationPlanChangeService  | 🟠 Alto    | EPIC-014 |
+| [TASK-111](tasks/TASK-111.md) | Backend: pool compartilhado de maxItems entre organizações do owner            | 🔴 Crítico | EPIC-014 |
+| [TASK-110](tasks/TASK-110.md) | Backend: parar de criar item ORGANIZATION cobrável (addItem valueCents=0)       | 🔴 Crítico | EPIC-014 |
 | [TASK-058](tasks/TASK-058.md) | Refatorar job de expiração de TRIAL: PIX via cobrança avulsa (DETACHED)         | 🔴 Crítico | EPIC-010 |
 | [TASK-059](tasks/TASK-059.md) | Subscription PIX recorrente "manual": ciclo gerenciado internamente             | 🔴 Crítico | EPIC-010 |
 | [TASK-060](tasks/TASK-060.md) | Webhook PAYMENT_RECEIVED avança ciclo PIX manual                                | 🔴 Crítico | EPIC-010 |
@@ -222,6 +279,8 @@ _Vazio_
 | [TASK-063](tasks/TASK-063.md) | Job de reconciliação noturna: Asaas vs estado local                             | 🟠 Alto    | EPIC-010 |
 | [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual                                 | 🟠 Alto    | EPIC-010 |
 | [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE      | 🟠 Alto    | EPIC-010 |
+| [TASK-108](tasks/TASK-108.md) | Full-Stack: Troca de método de pagamento em PAST_DUE (PIX avulso + checkout CC) | 🟠 Alto    | EPIC-010 |
+| [TASK-109](tasks/TASK-109.md) | Full-Stack: Troca de método de pagamento em ACTIVE (CC→PIX, CC→CC, PIX→CC)      | 🟡 Médio   | EPIC-010 |
 | TASK-QA-AUTO-002              | Testes unitários: handler PIX e PAYMENT_OVERDUE (casos de borda)                | 🟠 Alto    | EPIC-010 |
 | TASK-QA-AUTO-003              | Testes de integração: rate limiting nos endpoints de autenticação (@WebMvcTest) | 🟠 Alto    | EPIC-001 |
 | TASK-E2E-001                  | Setup do projeto Playwright E2E (`easy-maintenance-e2e`)                        | 🟠 Alto    | EPIC-008 |
@@ -252,12 +311,16 @@ _Vazio_
 | TASK-094                      | Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável   | 🟠 Alto    | EPIC-012 |
 | TASK-095                      | Frontend: /indicador/[code] — painel do afiliado com KPIs, tabela de leads mascarados e badge de status | 🟠 Alto    | EPIC-012 |
 | TASK-096                      | Frontend: /private/admin/affiliates — painel admin comissões com filtro, "Marcar pago" e total a pagar  | 🟠 Alto    | EPIC-012 |
+| [TASK-124](tasks/TASK-124.md) | Full-Stack: visão em calendário dos itens — toggle Lista/Calendário dentro de /items, componentes isolados (não verificado visualmente) | 🟡 Médio | EPIC-006 |
+| [TASK-125](tasks/TASK-125.md) | Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634 | 🟠 Alto | EPIC-006 |
+| [TASK-126](tasks/TASK-126.md) | Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile (não verificado visualmente em mobile) | 🟠 Alto | EPIC-006 |
 ---
 
 ## Concluído
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-123](tasks/TASK-123.md) | Full-Stack: exportar lembrete de item em .ics (2 VALARM) — botão no detalhe + na listagem, validado por Douglas | 🟡 Médio | EPIC-006 |
 | [TASK-106](tasks/TASK-106.md) | BUGFIX Full-Stack: notificações escopadas por org via TenantContext — 4 testes novos, 468 passando | 🟠 Alto | EPIC-013 |
 | [TASK-103](tasks/TASK-103.md) | Backend: auditoria createdBy/updatedBy em maintenance_items e maintenances — Long sem @ManyToOne, migration V76, 4 testes | 🟠 Alto | EPIC-013 |
 | [TASK-105](tasks/TASK-105.md) | Frontend: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho (paridade com /maintenances) | 🔵 Baixo | EPIC-006 |
@@ -339,6 +402,7 @@ _Vazio_
 | [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual                            | 🟠 Alto    | 2    | BACKEND    |
 | [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE | 🟠 Alto    | 2    | FRONTEND   |
 | [TASK-066](tasks/TASK-066.md) | Implementar Pix Automático (mandato no banco do payer)                     | 🟡 Médio   | 3    | FULL_STACK |
+| [TASK-109](tasks/TASK-109.md) | Full-Stack: Troca de método de pagamento em ACTIVE (CC→PIX, CC→CC, PIX→CC) | 🟡 Médio   | 3    | FULL_STACK |
 
 ---
 
@@ -369,3 +433,31 @@ _Vazio_
 | ~~[TASK-101](tasks/TASK-101.md)~~             | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | 3    | FRONTEND    |
 | ~~[TASK-102](tasks/TASK-102.md)~~             | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~  | 🟠 Alto    | 3    | FRONTEND    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários     | 🟠 Alto    | 3    | QA          |
+
+---
+
+## 💳 EPIC-014 — Consolidação de Billing: Plano Único por Conta
+
+> Adicionado em 12/07/2026 — hoje o sistema cobra um item de assinatura por USER + um item por cada
+> ORGANIZATION, ambos somados na mesma fatura (ex.: onboarding cria USER BUSINESS R$299 + ORGANIZATION
+> BUSINESS R$299 = R$598/mês num cadastro novo). Isso contraria o desenho original da grade de planos
+> (TASK-053), onde "Organizações" e "Itens/Org" já são limites embutidos no mesmo tier, não produtos
+> separados. Decisão validada com Douglas (12/07/2026): consolidar para 1 plano por conta, organizações
+> incluídas até o limite do plano, `maxItems` vira pool compartilhado entre todas as organizações do
+> usuário (não mais por organização isolada). Sem clientes pagantes reais hoje — migração limpa, sem
+> grandfathering.
+
+| ID                             | Título                                                                          | Prioridade | Fase | Tipo       |
+|---------------------------------|----------------------------------------------------------------------------------|------------|------|------------|
+| [TASK-110](tasks/TASK-110.md)  | Backend: parar de criar item ORGANIZATION cobrável (Onboarding + addOrganizationSubscription) | 🔴 Crítico | 1    | BACKEND    |
+| [TASK-111](tasks/TASK-111.md)  | Backend: pool compartilhado de maxItems entre organizações do owner              | 🔴 Crítico | 1    | BACKEND    |
+| [TASK-112](tasks/TASK-112.md)  | Backend: downgrade valida pool de itens + depreciar OrganizationPlanChangeService | 🟠 Alto    | 1    | BACKEND    |
+| [TASK-113](tasks/TASK-113.md)  | Backend: compat GET /organizations/{code}/subscription (plano da conta + uso do pool) | 🟠 Alto    | 1    | BACKEND    |
+| [TASK-114](tasks/TASK-114.md)  | Backend/Infra: migration Flyway — limpar billing_subscription_items ORGANIZATION legados | 🟠 Alto    | 1    | INFRA      |
+| [TASK-115](tasks/TASK-115.md)  | Frontend: /billing — card único de conta + lista informativa de organizações     | 🟠 Alto    | 1    | FRONTEND   |
+| [TASK-116](tasks/TASK-116.md)  | Frontend: painel admin billing/subscriptions — mesma consolidação                | 🟡 Médio   | 1    | FRONTEND   |
+| [TASK-117](tasks/TASK-117.md)  | QA: E2E fluxo completo billing consolidado                                       | 🔴 Crítico | 1    | QA         |
+| [TASK-118](tasks/TASK-118.md)  | BUGFIX: /organizations/new ainda pedia plano próprio para a organização          | 🔴 Crítico | 1    | FULL_STACK |
+| [TASK-119](tasks/TASK-119.md)  | BUGFIX: /organizations/[code] ainda exibia card de Assinatura e Plano + edição inline | 🟠 Alto | 1  | FRONTEND   |
+| [TASK-120](tasks/TASK-120.md)  | BUGFIX: TenantFilterAspect zerava contagem cross-org (afetava pool real da TASK-111) | 🔴 Crítico | 1 | BACKEND |
+| [TASK-121](tasks/TASK-121.md)  | BUGFIX: botão "+ Novo Item" não bloqueava proativamente com pool esgotado | 🔴 Crítico | 1 | FULL_STACK |

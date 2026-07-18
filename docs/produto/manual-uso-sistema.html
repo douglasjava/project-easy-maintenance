@@ -1,0 +1,518 @@
+<title>Manual de Uso — Easy Maintenance</title>
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --surface-2: #fbfaf7;
+    --border: #e3e1d9;
+    --text: #1b1b18;
+    --text-muted: #6b6a63;
+    --text-faint: #9b9a91;
+    --accent: #1d4ed8;
+    --accent-soft: #dde8ff;
+    --ok: #16a34a;
+    --ok-bg: #eefbf1;
+    --ok-border: #bfe8cd;
+    --warn: #b45309;
+    --warn-bg: #fff6e0;
+    --warn-border: #f3ddaa;
+    --danger: #dc2626;
+    --danger-bg: #fef2f2;
+    --danger-border: #f7c9c9;
+    --ai: #7c3aed;
+    --ai-bg: #f3edff;
+    --ai-border: #ddccfc;
+    --dica: #92400e;
+    --dica-bg: #fef3c7;
+    --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #17171a;
+    --surface: #201f23;
+    --surface-2: #201f23;
+    --border: #34333a;
+    --text: #f1efe9;
+    --text-muted: #a9a79f;
+    --text-faint: #75736c;
+    --accent: #7ba1ff;
+    --accent-soft: #223058;
+    --ok: #4ade80;
+    --ok-bg: #163524;
+    --ok-border: #245a3a;
+    --warn: #f3b459;
+    --warn-bg: #3a2c12;
+    --warn-border: #6b4d1a;
+    --danger: #f38b8b;
+    --danger-bg: #3a1c1c;
+    --danger-border: #6b2a2a;
+    --ai: #b79bff;
+    --ai-bg: #2a2340;
+    --ai-border: #453a6b;
+    --dica: #f3b459;
+    --dica-bg: #3a2c12;
+    color-scheme: dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17171a;
+      --surface: #201f23;
+      --surface-2: #201f23;
+      --border: #34333a;
+      --text: #f1efe9;
+      --text-muted: #a9a79f;
+      --text-faint: #75736c;
+      --accent: #7ba1ff;
+      --accent-soft: #223058;
+      --ok: #4ade80;
+      --ok-bg: #163524;
+      --ok-border: #245a3a;
+      --warn: #f3b459;
+      --warn-bg: #3a2c12;
+      --warn-border: #6b4d1a;
+      --danger: #f38b8b;
+      --danger-bg: #3a1c1c;
+      --danger-border: #6b2a2a;
+      --ai: #b79bff;
+      --ai-bg: #2a2340;
+      --ai-border: #453a6b;
+      --dica: #f3b459;
+      --dica-bg: #3a2c12;
+      color-scheme: dark;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .masthead { margin-bottom: 28px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 8px;
+  }
+  h1 { font-size: clamp(24px, 3.4vw, 32px); font-weight: 700; margin: 0 0 8px; text-wrap: balance; letter-spacing: -0.01em; }
+  .lede { font-size: 15px; color: var(--text-muted); max-width: 62ch; margin: 0; }
+
+  .tabs {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; gap: 4px; margin: 28px 0 24px; padding: 6px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  }
+  .tab {
+    flex: 1; font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--text-muted);
+    background: none; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--accent); color: #fff; }
+  .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ---- layout: index + content ---- */
+  .layout { display: grid; grid-template-columns: 200px 1fr; gap: 32px; align-items: start; }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+
+  .index {
+    position: sticky; top: 76px;
+    display: flex; flex-direction: column; gap: 2px;
+    border-left: 2px solid var(--border);
+    padding-left: 14px;
+  }
+  @media (max-width: 760px) {
+    .index { position: static; flex-direction: row; flex-wrap: wrap; border-left: none; border-bottom: 1px solid var(--border); padding-left: 0; padding-bottom: 14px; gap: 6px; }
+  }
+  .index a {
+    font-size: 12.5px; color: var(--text-muted); text-decoration: none; padding: 5px 0;
+  }
+  @media (max-width: 760px) {
+    .index a { padding: 4px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; }
+  }
+  .index a:hover { color: var(--accent); }
+
+  .content { display: flex; flex-direction: column; gap: 20px; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 22px; scroll-margin-top: 84px;
+  }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+  .card h2 { font-size: 17px; font-weight: 700; margin: 0; }
+  .route { font-family: var(--mono); font-size: 11.5px; color: var(--accent); background: var(--accent-soft); padding: 3px 9px; border-radius: 6px; white-space: nowrap; }
+  .card .desc { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 16px; max-width: 60ch; }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; counter-reset: step; }
+  .steps li { display: flex; gap: 11px; counter-increment: step; }
+  .steps li::before {
+    content: counter(step); flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted);
+    font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .steps .txt { font-size: 13.8px; line-height: 1.6; }
+
+  .ui { font-family: var(--mono); font-size: 12px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text); padding: 1px 6px; border-radius: 5px; }
+
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; border: 1px solid transparent; }
+  .b-ok { background: var(--ok-bg); color: var(--ok); border-color: var(--ok-border); }
+  .b-warn { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-border); }
+  .b-danger { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
+
+  .note {
+    margin-top: 14px; font-size: 12.5px; color: var(--text-muted); background: var(--surface-2);
+    border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 9px 13px; border-radius: 0 8px 8px 0;
+  }
+
+  .badge-ia {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600;
+    color: var(--ai); background: var(--ai-bg); border: 1px solid var(--ai-border); padding: 3px 9px; border-radius: 20px;
+  }
+
+  /* ---- guia de gravação ---- */
+  .block-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; scroll-margin-top: 84px; }
+  .block-card.bonus { border-style: dashed; border-color: var(--ai-border); }
+  .block-top { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-bottom: 1px solid var(--border); background: var(--surface-2); gap: 10px; flex-wrap: wrap; }
+  .block-top .title { font-size: 14px; font-weight: 700; }
+  .block-top .title-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .block-time { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 9px; border-radius: 20px; font-variant-numeric: tabular-nums; }
+  .block-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .block-row { display: flex; gap: 10px; font-size: 13.5px; line-height: 1.6; }
+  .block-row .label { font-weight: 600; color: var(--text-muted); min-width: 76px; flex-shrink: 0; }
+  .narracao { background: var(--surface-2); border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 8px 8px 0; font-style: italic; font-size: 13.3px; line-height: 1.65; color: var(--text); }
+  .dica { font-size: 12.5px; color: var(--dica); background: var(--dica-bg); padding: 8px 12px; border-radius: 8px; }
+
+  .section-title { font-size: 15px; font-weight: 700; margin: 26px 0 12px; }
+  .section-title:first-child { margin-top: 0; }
+  .section-lede { font-size: 13px; color: var(--text-muted); margin: -6px 0 16px; max-width: 62ch; }
+
+  .resumo-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+  .resumo-table th, .resumo-table td { text-align: left; padding: 9px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .resumo-table td:last-child, .resumo-table th:last-child { font-variant-numeric: tabular-nums; }
+  .resumo-table th { background: var(--surface-2); color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  .resumo-table tr:last-child td { font-weight: 700; border-bottom: none; }
+  .resumo-table tr.bonus-row td { color: var(--ai); font-style: italic; }
+
+  .checklist-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; }
+  .checklist-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .checklist-item { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
+  .checklist-item:last-child { margin-bottom: 0; }
+  .check-icon { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+  .variacao-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .variacao-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .variacao-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+
+  footer.credit { margin-top: 40px; font-size: 12px; color: var(--text-faint); text-align: center; }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow">Easy Maintenance</p>
+    <h1>Manual de uso do sistema</h1>
+    <p class="lede">Passo a passo do fluxo real do produto — serve como manual para quem vai usar o sistema e como referência de tela para quem for gravar o vídeo demo.</p>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="manual">Manual do usuário</button>
+    <button class="tab" data-tab="video">Guia de gravação — vídeo demo</button>
+  </nav>
+
+  <!-- ===================== ABA 1: MANUAL DO USUÁRIO ===================== -->
+  <section class="panel active" id="panel-manual">
+    <div class="layout">
+      <aside class="index">
+        <a href="#login">Login</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#ia-onboarding">Pré-cadastro com IA</a>
+        <a href="#ia-samu">Assistente SAMU</a>
+        <a href="#novo-item">Cadastrar item</a>
+        <a href="#itens">Consultar itens</a>
+        <a href="#detalhe-item">Detalhe do item</a>
+        <a href="#registrar-manutencao">Registrar manutenção</a>
+        <a href="#manutencoes">Consultar manutenções</a>
+        <a href="#relatorios">Relatórios</a>
+        <a href="#notificacoes">Notificações</a>
+      </aside>
+
+      <div class="content">
+
+        <div class="card" id="login">
+          <div class="card-head"><h2>1. Entrando no sistema</h2><span class="route">/login</span></div>
+          <p class="desc">Tela de acesso — "Entrar no Easy Maintenance".</p>
+          <ol class="steps">
+            <li><span class="txt">Preencha <span class="ui">E-mail</span> e <span class="ui">Senha</span>.</span></li>
+            <li><span class="txt">Opcional: marque <span class="ui">Manter conectado</span> para não precisar logar de novo no mesmo dispositivo.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Entrar</span>.</span></li>
+            <li><span class="txt">Se a conta tiver verificação em duas etapas, informe o <span class="ui">Código de 6 dígitos</span> do autenticador e clique em <span class="ui">Verificar</span>.</span></li>
+          </ol>
+          <div class="note">Esqueceu a senha? Use o link <span class="ui">Esqueci minha senha</span> na própria tela de login.</div>
+        </div>
+
+        <div class="card" id="dashboard">
+          <div class="card-head"><h2>2. Visão geral (Dashboard)</h2><span class="route">/</span></div>
+          <p class="desc">Primeira tela depois do login — panorama de prazos e pendências.</p>
+          <ol class="steps">
+            <li><span class="txt">No topo, 4 indicadores clicáveis: <span class="ui">Itens cadastrados</span>, <span class="ui">Atrasados</span>, <span class="ui">Vencendo em breve</span> e <span class="ui">Realizados este mês</span> — cada um leva direto pra lista já filtrada.</span></li>
+            <li><span class="txt">O card <span class="ui">Atenção Agora</span> lista os itens mais críticos primeiro, com selo de risco colorido.</span></li>
+            <li><span class="txt">O card <span class="ui">Distribuição</span> mostra a proporção por status, por categoria (Regulatório/Operacional) e os tipos de item mais comuns.</span></li>
+            <li><span class="txt">Em <span class="ui">Acesso rápido</span>, os atalhos diretos para Itens e Manutenções.</span></li>
+          </ol>
+        </div>
+
+        <div class="card" id="ia-onboarding">
+          <div class="card-head"><h2>3. Pré-cadastro assistido por IA <span class="badge-ia">✨ Diferencial</span></h2><span class="route">/ai-onboarding</span></div>
+          <p class="desc">Em vez de cadastrar item por item, a IA sugere o plano de manutenção inteiro a partir do tipo do seu espaço. Disponível para planos com IA habilitada.</p>
+          <ol class="steps">
+            <li><span class="txt">Escolha o <span class="ui">Tipo de Empresa</span>: Condomínio, Hospital, Escola, Indústria, Escritório ou Outros.</span></li>
+            <li><span class="txt">Opcional: descreva a estrutura em <span class="ui">Descrição da estrutura (opcional)</span> — ex: "Condomínio com 2 torres, 3 elevadores, piscina e gerador". Quanto mais detalhe, melhor a sugestão.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Gerar pré-cadastros com IA</span> e aguarde — pode levar até 90 segundos.</span></li>
+            <li><span class="txt">Revise a lista sugerida (selo <span class="ui">✨ Gerado por IA</span>): cada item já vem com Categoria, Criticidade, Periodicidade e Norma de referência preenchidos.</span></li>
+            <li><span class="txt">Marque, desmarque, <span class="ui">Editar</span> ou <span class="ui">Remover</span> o que não fizer sentido pro seu espaço.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Aplicar</span> — os itens marcados são criados automaticamente na sua lista de Itens.</span></li>
+          </ol>
+          <div class="note">O uso de IA é limitado por uma cota mensal do plano. Se a cota acabar, o botão de gerar fica bloqueado até o próximo ciclo (ou upgrade de plano).</div>
+        </div>
+
+        <div class="card" id="ia-samu">
+          <div class="card-head"><h2>4. Assistente SAMU <span class="badge-ia">✨ Diferencial</span></h2></div>
+          <p class="desc">Chat flutuante disponível nas principais telas — responde em linguagem natural usando os dados reais da sua organização, não respostas genéricas.</p>
+          <ol class="steps">
+            <li><span class="txt">Clique no ícone de chat no canto inferior direito da tela.</span></li>
+            <li><span class="txt">Pergunte livremente, ou use uma sugestão pronta: <span class="ui">O que vence nos próximos 30 dias?</span>, <span class="ui">O que está atrasado e é mais crítico?</span>, <span class="ui">Me faça um plano semanal de manutenções</span>, <span class="ui">Escreva uma mensagem para solicitar orçamento</span>.</span></li>
+            <li><span class="txt">A resposta considera os itens, status, vencimentos e normas cadastrados na sua conta.</span></li>
+          </ol>
+          <div class="note">Assim como o pré-cadastro, cada pergunta consome da mesma cota mensal de créditos de IA do plano.</div>
+        </div>
+
+        <div class="card" id="novo-item">
+          <div class="card-head"><h2>5. Cadastrando um item</h2><span class="route">/items/new</span></div>
+          <p class="desc">Um "item" é qualquer equipamento ou rotina que precisa de manutenção — extintor, elevador, caixa d'água, SPDA etc.</p>
+          <ol class="steps">
+            <li><span class="txt">Na lista de Itens, clique em <span class="ui">+ Novo Item</span>.</span></li>
+            <li><span class="txt">Preencha <span class="ui">Tipo do item</span> — pode digitar um tipo novo, o campo oferece <span class="ui">Criar "X"</span> se ainda não existir.</span></li>
+            <li><span class="txt">Escolha a <span class="ui">Categoria</span>: <strong>Regulatória</strong> (obrigação por norma, com prazo legal) ou <strong>Operacional</strong> (rotina interna da equipe).</span></li>
+            <li><span class="txt">Se Regulatória: selecione a <span class="ui">Norma</span> aplicável — a periodicidade vem da norma.</span></li>
+            <li><span class="txt">Se Operacional: defina a periodicidade manualmente em <span class="ui">Unidade</span> (Meses/Dias) e <span class="ui">Quantidade</span>.</span></li>
+            <li><span class="txt">Opcional: informe a <span class="ui">Última manutenção</span> já realizada, pra o sistema calcular o próximo vencimento certo desde o início.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Criar item</span>.</span></li>
+          </ol>
+        </div>
+
+        <div class="card" id="itens">
+          <div class="card-head"><h2>6. Consultando itens</h2><span class="route">/items</span></div>
+          <p class="desc">Lista de tudo que está cadastrado, com o status de vencimento de cada um.</p>
+          <ol class="steps">
+            <li><span class="txt">Filtre por <span class="ui">Status</span>, <span class="ui">Categoria</span> ou digite o <span class="ui">Nome do item</span>.</span></li>
+            <li><span class="txt">O status de cada linha vem colorido: <span class="badge b-ok">Em dia</span> <span class="badge b-warn">Vencendo</span> <span class="badge b-danger">Atrasado</span>.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Abrir</span> pra ver o detalhe, ou use <span class="ui">✕ Limpar</span> pra resetar os filtros.</span></li>
+          </ol>
+        </div>
+
+        <div class="card" id="detalhe-item">
+          <div class="card-head"><h2>7. Detalhe do item</h2><span class="route">/items/[id]</span></div>
+          <p class="desc">Ficha do item: status atual e periodicidade — não é aqui que fica o histórico de manutenções (isso é na aba Manutenções).</p>
+          <ol class="steps">
+            <li><span class="txt">Mostra Tipo, Status, Categoria, Próximo vencimento, Última manutenção, Localização e — se Regulatório — Norma e Periodicidade.</span></li>
+            <li><span class="txt">Botões no topo: <span class="ui">Editar</span>, <span class="ui">Remover</span> e <span class="ui">Registrar Manutenção</span>.</span></li>
+          </ol>
+        </div>
+
+        <div class="card" id="registrar-manutencao">
+          <div class="card-head"><h2>8. Registrando uma manutenção</h2><span class="route">/maintenances/new</span></div>
+          <p class="desc">Formulário em 2 passos: dados da execução, depois anexos.</p>
+          <ol class="steps">
+            <li><span class="txt">Selecione o <span class="ui">Item</span> (ou chegue já com ele selecionado, clicando em <span class="ui">Registrar Manutenção</span> na ficha do item).</span></li>
+            <li><span class="txt">Preencha <span class="ui">Data da manutenção</span> e <span class="ui">Tipo de manutenção</span> (Preventiva, Corretiva, Inspeção, Teste ou Emergencial) — os dois obrigatórios.</span></li>
+            <li><span class="txt">Opcional: <span class="ui">Responsável</span>, <span class="ui">Custo R$</span> e <span class="ui">Próxima manutenção</span>.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Próximo →</span> — a manutenção já é salva aqui.</span></li>
+            <li><span class="txt">No passo de anexos, escolha o arquivo e o <span class="ui">Tipo do anexo</span> (Foto, Relatório, Certificado, ART, Nota Fiscal ou Outro) — até 2 documentos.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Finalizar registro</span>. Sem documento? Use <span class="ui">Ignorar e sair</span>.</span></li>
+          </ol>
+          <div class="note">O botão <span class="ui">🔍 Ver prestadores</span> no passo 1 busca fornecedores próximos por geolocalização, com aviso de que a plataforma não se responsabiliza pela qualidade do serviço prestado.</div>
+        </div>
+
+        <div class="card" id="manutencoes">
+          <div class="card-head"><h2>9. Consultando manutenções</h2><span class="route">/maintenances</span></div>
+          <p class="desc">Aqui fica o histórico completo — e os anexos enviados em cada registro.</p>
+          <ol class="steps">
+            <li><span class="txt">Filtre por <span class="ui">Item</span>, <span class="ui">Data</span> ou <span class="ui">Responsável</span>.</span></li>
+            <li><span class="txt">Clique em <span class="ui">Ver detalhes</span> pra abrir o registro completo, incluindo a seção <span class="ui">Anexos</span> com botão <span class="ui">⬇ Download</span>.</span></li>
+            <li><span class="txt">Botão <span class="ui">⬇ Exportar CSV</span> no topo, se o plano incluir relatórios.</span></li>
+          </ol>
+        </div>
+
+        <div class="card" id="relatorios">
+          <div class="card-head"><h2>10. Relatórios</h2><span class="route">/reports</span></div>
+          <p class="desc">Visão consolidada — útil pra assembleia, auditoria ou fiscalização.</p>
+          <ol class="steps">
+            <li><span class="txt">Aba <span class="ui">Visão Geral</span>: totais de itens, atrasados, vencendo e manutenções do mês, por empresa.</span></li>
+            <li><span class="txt">Aba <span class="ui">Manutenções</span>: filtre por período e tipo, depois clique em <span class="ui">Filtrar</span>.</span></li>
+            <li><span class="txt">No card <span class="ui">Manutenções Cross-Org</span>, clique em <span class="ui">Exportar CSV</span> (limite de 5.000 registros por exportação).</span></li>
+          </ol>
+        </div>
+
+        <div class="card" id="notificacoes">
+          <div class="card-head"><h2>11. Notificações</h2><span class="route">/notifications</span></div>
+          <p class="desc">Alertas que o sistema já gera sozinho — vencimento de item, de manutenção e de assinatura.</p>
+          <ol class="steps">
+            <li><span class="txt">O contador no título mostra quantas notificações estão sem leitura.</span></li>
+            <li><span class="txt">Clique numa notificação pra marcar como lida, ou use <span class="ui">Marcar todas como lidas</span>.</span></li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABA 2: GUIA DE GRAVAÇÃO ===================== -->
+  <section class="panel" id="panel-video">
+
+    <div class="demo-meta" style="display:flex; gap:24px; flex-wrap:wrap; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 18px; margin-bottom:20px; font-size:13px; color:var(--text-muted);">
+      <div><strong style="color:var(--text)">Formato</strong> — screen-recording com narração em voice-over</div>
+      <div><strong style="color:var(--text)">Duração alvo</strong> — 2min30s a 3min (+20s se incluir o bloco bônus de IA)</div>
+      <div><strong style="color:var(--text)">Público</strong> — síndico ou administrador de condomínio</div>
+    </div>
+
+    <div class="section-title">Roteiro bloco a bloco</div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 1 — Gancho</span><span class="block-time">0:00 – 0:18</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span>Sem sistema — fundo neutro ou print de planilha/WhatsApp bagunçado.</span></div>
+        <div class="narracao">"Se você ainda controla a manutenção do seu condomínio por planilha ou WhatsApp — você já sabe como isso termina. Prazo esquecido. Prestador que some. Bombeiros batendo na porta. E na hora da auditoria, você não tem como provar nada."</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 2 — Apresentação do sistema</span><span class="block-time">0:18 – 0:35</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/login</span> → preencher e-mail/senha devagar → <span class="ui">Entrar</span> → dashboard (<span class="route">/</span>) carrega.</span></div>
+        <div class="narracao">"O Easy Maintenance resolve isso de uma vez. É um sistema feito para síndicos e administradoras brasileiras, com tudo que a ABNT NBR 5674 exige — em um lugar só. Vou te mostrar como funciona na prática."</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 3 — Dashboard</span><span class="block-time">0:35 – 0:55</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/</span> — passeio de cursor pelos cards <span class="ui">Itens cadastrados</span>, <span class="ui">Atrasados</span>, <span class="ui">Vencendo em breve</span> e pelo card <span class="ui">Atenção Agora</span>. Sem clicar ainda.</span></div>
+        <div class="narracao">"Logo na entrada, você vê tudo que está por vencer. Nada escondido em aba de planilha. Esse painel te dá o controle do condomínio inteiro — equipamentos, prazos e pendências — em tempo real."</div>
+        <div class="dica">💡 Dica de edição: zoom suave nos cards de alerta para destacar os números.</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 4 — Ficha do ativo</span><span class="block-time">0:55 – 1:20</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/items</span> → clicar em <span class="ui">Abrir</span> num item existente (ex: "Elevador Social — Torre A") → <span class="route">/items/[id]</span>. Destacar Status, Próximo vencimento, Última manutenção e Norma/Periodicidade.</span></div>
+        <div class="narracao">"Aqui ficam todos os equipamentos do seu condomínio. Elevadores, bombas d'água, extintores, para-raios — cada um com status, próximo vencimento e a norma que se aplica a ele."</div>
+      </div>
+    </div>
+
+    <div class="block-card bonus">
+      <div class="block-top">
+        <div class="title-group"><span class="title">Bloco Bônus — Pré-cadastro com IA</span><span class="badge-ia">✨ Diferencial, opcional</span></div>
+        <span class="block-time">+20s</span>
+      </div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/ai-onboarding</span> → selecionar <span class="ui">Tipo de Empresa</span> "Condomínio" → digitar breve descrição → <span class="ui">Gerar pré-cadastros com IA</span> → aguardar → mostrar tabela de sugestões com selo <span class="ui">✨ Gerado por IA</span> → <span class="ui">Aplicar</span>.</span></div>
+        <div class="narracao">"E se você não quiser cadastrar equipamento por equipamento? A Easy Maintenance tem um assistente de IA: você diz que tipo de espaço é — condomínio, hospital, escola — e ele já sugere os itens, as normas e os prazos certos, prontos pra revisar e aplicar. O que levaria horas, fica pronto em menos de dois minutos."</div>
+        <div class="dica">💡 Nenhum outro concorrente direto oferece isso — vale entrar logo depois do Bloco 4, como contraste entre "cadastro manual" e "cadastro com IA". Empurra o total pra ~3:20; se quiser manter em 3:00, use no lugar do Bloco 4.</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 5 — Registrar manutenção com foto</span><span class="block-time">1:20 – 1:55</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span>Na ficha do item → <span class="ui">Registrar Manutenção</span> → <span class="route">/maintenances/new</span> → preencher <span class="ui">Data</span>, <span class="ui">Tipo</span>, <span class="ui">Responsável</span>, <span class="ui">Custo</span> → <span class="ui">Próximo →</span> → escolher foto e <span class="ui">Tipo do anexo</span> → <span class="ui">Finalizar registro</span>.</span></div>
+        <div class="narracao">"Quando uma manutenção é feita, você registra aqui. Data, quem fez, o que foi feito, quanto custou. E o mais importante: você sobe a foto do serviço executado. Essa foto é a sua prova de execução. Na hora que o Corpo de Bombeiros ou a Anvisa pedir documentação, você tem tudo registrado — com evidência fotográfica, exatamente como a ABNT exige."</div>
+        <div class="dica">💡 Dica de edição: são dois cliques (Próximo → depois Finalizar) — planeje o corte nesse ponto. Zoom na foto após o upload, 1–2 segundos, pra ela ficar em evidência.</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 6 — Itens por status e alertas</span><span class="block-time">1:55 – 2:15</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span>Dashboard → clicar no KPI <span class="ui">Atrasados</span> → <span class="route">/items</span> filtrado → trocar filtro <span class="ui">Status</span> pra "Vencendo" → mostrar badges coloridos na lista.</span></div>
+        <div class="narracao">"A lista te mostra tudo que está por vencer. Em verde, em dia. Em amarelo, atenção. Em vermelho, atrasado. E quando um prazo se aproxima, o sistema manda um e-mail automático pra você — sem depender de anotação em caderno ou lembrete no celular."</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 7 — Relatório de auditoria</span><span class="block-time">2:15 – 2:38</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/reports</span> → aba <span class="ui">Manutenções</span> → selecionar período → <span class="ui">Filtrar</span> → clicar <span class="ui">Exportar CSV</span> no card <span class="ui">Manutenções Cross-Org</span>.</span></div>
+        <div class="narracao">"Na hora de prestar contas — para a assembleia, para os moradores, ou para uma fiscalização — você gera o relatório aqui. Um documento com todas as manutenções realizadas, datas, responsáveis, custos e evidências. Tudo que a NBR 5674 exige, em segundos."</div>
+      </div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-top"><span class="title">Bloco 8 — Fechamento e CTA</span><span class="block-time">2:38 – 3:00</span></div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span>Voltar pro dashboard (<span class="ui">/</span>) → fade pra tela com logo e URL.</span></div>
+        <div class="block-row"><span class="label">Tela final:</span><span>Logo centralizado + www.easymaintenance.com.br + "14 dias grátis — sem cartão"</span></div>
+        <div class="narracao">"O Easy Maintenance foi feito para o síndico que quer parar de apagar incêndio e começar a gerir com segurança. Teste grátis por 14 dias — sem precisar de cartão de crédito. Acesse easymaintenance.com.br e comece agora."</div>
+      </div>
+    </div>
+
+    <div class="section-title">Resumo de tempo</div>
+    <table class="resumo-table">
+      <tr><th>Bloco</th><th>Conteúdo</th><th>Duração</th></tr>
+      <tr><td>1</td><td>Gancho — a dor</td><td>0:18</td></tr>
+      <tr><td>2</td><td>Apresentação do sistema</td><td>0:17</td></tr>
+      <tr><td>3</td><td>Dashboard</td><td>0:20</td></tr>
+      <tr><td>4</td><td>Ficha do ativo</td><td>0:25</td></tr>
+      <tr class="bonus-row"><td>—</td><td>Bônus — Pré-cadastro com IA (opcional)</td><td>+0:20</td></tr>
+      <tr><td>5</td><td>Registrar manutenção + foto</td><td>0:35</td></tr>
+      <tr><td>6</td><td>Itens por status e alertas</td><td>0:20</td></tr>
+      <tr><td>7</td><td>Relatório de auditoria</td><td>0:23</td></tr>
+      <tr><td>8</td><td>Fechamento + CTA</td><td>0:22</td></tr>
+      <tr><td colspan="2">Total (sem bônus)</td><td>~3:00</td></tr>
+    </table>
+
+    <div class="checklist-box">
+      <div class="checklist-title">✅ Checklist pré-gravação</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Sistema com dados de demonstração já preenchidos (condomínio fictício, itens cadastrados, histórico de manutenções)</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Foto de exemplo pronta para upload durante a gravação (foto de extintor, elevador ou similar)</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Se for gravar o Bloco Bônus: descrição de estrutura já pensada, e paciência pro tempo de geração da IA (até 90s) — corte esse tempo morto na edição</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Browser limpo: fechar outras abas, ocultar barra de favoritos</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Notificações do sistema operacional desativadas</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Resolução: 1920×1080 ou 1280×720 se gravar em notebook, zoom do browser em 110%</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Microfone testado: sem eco, sem ruído de fundo</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Cursor destacado (ex: Cursor Highlight, PointerFocus)</div>
+      <div class="checklist-item"><span class="check-icon">☐</span> Ensaio em voz alta pelo menos 2x antes de gravar</div>
+    </div>
+
+    <div class="variacao-box">
+      <div class="variacao-title">✂️ Variação — versão curta (60s para Instagram/TikTok)</div>
+      <div class="variacao-text">Use apenas os blocos 1, 3, 5 e 8 — gancho de dor → dashboard → registro com foto → CTA. Pra reforçar o diferencial, pode trocar o Bloco 3 pelo Bônus de IA. Narração mais rápida, cortes mais ágeis, legendas no vídeo.</div>
+    </div>
+
+  </section>
+
+  <footer class="credit">Manual gerado a partir do fluxo real do sistema — atualize sempre que a UI mudar.</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
