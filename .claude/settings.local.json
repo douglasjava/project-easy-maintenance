@@ -224,7 +224,21 @@
       "Bash(dig +short www.easymaintenance.com.br A)",
       "Bash(nslookup www.easymaintenance.com.br)",
       "Read(//d/workpaces/EASY_MAINTENANCE-fix-fcm-webview/**)",
-      "Read(//d/workpaces/EASY_MAINTENANCE-fix-fcm-webview/easy-maintenance-web/**)"
+      "Read(//d/workpaces/EASY_MAINTENANCE-fix-fcm-webview/easy-maintenance-web/**)",
+      "Bash(sort -t- -k2 -n)",
+      "Bash(sort -t'V' -k2 -n)",
+      "Bash(mvn -q -o test -Dtest=PhoneNumberNormalizerTest,UsersServiceTest)",
+      "Bash(awk -F'[ ,]+' '{tests+=$3; fail+=$5; err+=$7} END {print \"Total tests:\", tests, \"Failures:\", fail, \"Errors:\", err}')",
+      "Bash(mvn -q -o test -Dtest=WhatsAppClientTest,WhatsAppRetrySemanticsTest,WhatsAppNotificationProviderTest)",
+      "Bash(mvn -q -o test -Dtest=NotificationChannelResolverTest,BusinessWhatsAppNotificationServiceTest)",
+      "Bash(mvn -q -o test -Dtest=BusinessWhatsAppNotificationServiceTest,BusinessWhatsAppQuotaServiceTest,WhatsAppDeferredSendJobTest)",
+      "Bash(./mvnw -q -o test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest\")",
+      "Bash(./mvnw -q test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest\")",
+      "Bash(mvn -q -DskipITs test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest\")",
+      "Bash(mvn -q -DskipITs test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest,WhatsAppClientTest,WhatsAppNotificationProviderTest\")",
+      "Bash(mvn -DskipITs test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest,WhatsAppClientTest,WhatsAppNotificationProviderTest\")",
+      "Bash(mvn -DskipITs test)",
+      "Bash(mvn -q -DskipITs compile)"
     ]
   }
 }

@@ -13,9 +13,11 @@ Backend / Notificações / Integração Externa (WhatsApp Cloud API)
 [EPIC-015](../../epics/EPIC-015.md) — Notificações via WhatsApp (Meta Cloud API)
 
 ## Tasks cobertas
-[TASK-122](../../tasks/TASK-122.md) (telefone/opt-in) · [TASK-129](../../tasks/TASK-129.md) (envio via Meta)
-· [TASK-130](../../tasks/TASK-130.md) (urgência/idempotência/fallback) · [TASK-131](../../tasks/TASK-131.md)
-(quota/rate-limit/horário) · [TASK-128](../../tasks/TASK-128.md) (webhook de status)
+. [TASK-122](../../tasks/TASK-122.md) (telefone/opt-in) 
+· [TASK-129](../../tasks/TASK-129.md) (envio via Meta)
+· [TASK-130](../../tasks/TASK-130.md) (urgência/idempotência/fallback) 
+· [TASK-131](../../tasks/TASK-131.md) (quota/rate-limit/horário) 
+· [TASK-128](../../tasks/TASK-128.md) (webhook de status)
 · [TASK-132](../../tasks/TASK-132.md) (endpoints de disparo manual usados nesta suíte)
 
 ---
@@ -59,11 +61,11 @@ relógio/cron.
 
 ## Rotas de apoio usadas nesta suíte
 
-| Rota | Uso |
-|---|---|
-| `GET {BASE_URL}/easy-maintenance/api/v1/run-jobs/execute-notification-detection` | Dispara agora a detecção de eventos (equivalente ao cron das 5h) — evita esperar o dia seguinte depois de ajustar `next_due_at` via SQL. Retorna `{"eventsDetected": N}`. |
-| `GET {BASE_URL}/easy-maintenance/api/v1/run-jobs/execute-whatsapp-deferred-send` | Reprocessa agora os dispatches represados em `PENDING_HOURS_WINDOW` — evita esperar até 15min + a virada do horário comercial. Retorna `{"candidatesProcessed": N}`. |
-| `POST {BASE_URL}/easy-maintenance/api/v1/public/webhooks/whatsapp` | O endpoint **real** do webhook (TASK-128) — sem bypass, usado nos cenários C9-C12 com assinatura HMAC calculada de verdade (ver snippet no C9). Não criamos endpoint de simulação para o webhook porque testar a validação de assinatura *de verdade* é justamente o ponto mais crítico da TASK-128. |
+| Rota                                                                             | Uso                                                                                                                                                                                                                                                                                                  |
+|----------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `GET {BASE_URL}/easy-maintenance/api/v1/run-jobs/execute-notification-detection` | Dispara agora a detecção de eventos (equivalente ao cron das 5h) — evita esperar o dia seguinte depois de ajustar `next_due_at` via SQL. Retorna `{"eventsDetected": N}`.                                                                                                                            |
+| `GET {BASE_URL}/easy-maintenance/api/v1/run-jobs/execute-whatsapp-deferred-send` | Reprocessa agora os dispatches represados em `PENDING_HOURS_WINDOW` — evita esperar até 15min + a virada do horário comercial. Retorna `{"candidatesProcessed": N}`.                                                                                                                                 |
+| `POST {BASE_URL}/easy-maintenance/api/v1/public/webhooks/whatsapp`               | O endpoint **real** do webhook (TASK-128) — sem bypass, usado nos cenários C9-C12 com assinatura HMAC calculada de verdade (ver snippet no C9). Não criamos endpoint de simulação para o webhook porque testar a validação de assinatura *de verdade* é justamente o ponto mais crítico da TASK-128. |
 
 ---
 
@@ -101,11 +103,11 @@ UPDATE maintenance_items SET next_due_at = CURRENT_DATE + INTERVAL 7 DAY
 WHERE id = {ITEM_ID};
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Disparar `GET /run-jobs/execute-notification-detection` | `eventsDetected >= 1` |
-| 2 | Consultar `business_whatsapp_dispatches` | **Nenhum** registro novo para este item — `NotificationChannelResolver` não inclui WHATSAPP quando `daysOffset > 2` (regra de 48h ⇒ `ceil(48/24)=2`, só `daysOffset<=2` qualifica; checkpoints existentes são `{30,15,7,1}`, então só `1` bate) |
-| 3 | Consultar notificações in-app/push do item | Notificação PUSH criada normalmente (canal não afetado pela regra de 48h) |
+| Passo | Ação                                                    | Resultado esperado                                                                                                                                                                                                                              |
+|-------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Disparar `GET /run-jobs/execute-notification-detection` | `eventsDetected >= 1`                                                                                                                                                                                                                           |
+| 2     | Consultar `business_whatsapp_dispatches`                | **Nenhum** registro novo para este item — `NotificationChannelResolver` não inclui WHATSAPP quando `daysOffset > 2` (regra de 48h ⇒ `ceil(48/24)=2`, só `daysOffset<=2` qualifica; checkpoints existentes são `{30,15,7,1}`, então só `1` bate) |
+| 3     | Consultar notificações in-app/push do item              | Notificação PUSH criada normalmente (canal não afetado pela regra de 48h)                                                                                                                                                                       |
 
 ---
 
@@ -117,12 +119,12 @@ UPDATE maintenance_items SET next_due_at = CURRENT_DATE + INTERVAL 1 DAY
 WHERE id = {ITEM_ID};
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Disparar `GET /run-jobs/execute-notification-detection` | `eventsDetected >= 1` |
-| 2 | Consultar `business_whatsapp_dispatches` | 1 registro novo, `status` = `SENT` (template aprovado) **ou** `FAILED` (template ainda não aprovado — ver nota nas Pré-condições) |
-| 3a | Se `status = SENT` | `wamid` preenchido, `sent_at` preenchido |
-| 3b | Se `status = FAILED` (esperado hoje) | `error_message` preenchido com erro da Meta; ver C8 para confirmar o fallback de e-mail |
+| Passo | Ação                                                    | Resultado esperado                                                                                                                |
+|-------|---------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Disparar `GET /run-jobs/execute-notification-detection` | `eventsDetected >= 1`                                                                                                             |
+| 2     | Consultar `business_whatsapp_dispatches`                | 1 registro novo, `status` = `SENT` (template aprovado) **ou** `FAILED` (template ainda não aprovado — ver nota nas Pré-condições) |
+| 3a    | Se `status = SENT`                                      | `wamid` preenchido, `sent_at` preenchido                                                                                          |
+| 3b    | Se `status = FAILED` (esperado hoje)                    | `error_message` preenchido com erro da Meta; ver C8 para confirmar o fallback de e-mail                                           |
 
 ```sql
 SELECT id, status, wamid, error_message, sent_at, recipient_phone, days_offset
@@ -143,19 +145,19 @@ DELETE FROM business_whatsapp_dispatches
 WHERE organization_code = '{ORG_CODE}' AND reference_id = {ITEM_ID} AND days_offset = -7;
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Disparar `GET /run-jobs/execute-notification-detection` | `eventsDetected >= 1`, `event_type = ITEM_OVERDUE` |
-| 2 | Consultar `business_whatsapp_dispatches` | 1 registro com `days_offset = -7` (checkpoint de 7 dias vencido) — incluído mesmo sendo "distante" no tempo, porque OVERDUE ignora o threshold de urgência |
+| Passo | Ação                                                    | Resultado esperado                                                                                                                                         |
+|-------|---------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Disparar `GET /run-jobs/execute-notification-detection` | `eventsDetected >= 1`, `event_type = ITEM_OVERDUE`                                                                                                         |
+| 2     | Consultar `business_whatsapp_dispatches`                | 1 registro com `days_offset = -7` (checkpoint de 7 dias vencido) — incluído mesmo sendo "distante" no tempo, porque OVERDUE ignora o threshold de urgência |
 
 ---
 
 ### C5 — Idempotência: rodar a detecção duas vezes não duplica nem regride
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Disparar `GET /run-jobs/execute-notification-detection` novamente (mesmo dia, mesmo item do C3/C4) | 200 OK |
-| 2 | Consultar contagem de dispatches para o mesmo `(organization_code, event_type, reference_id, due_date, days_offset)` | **Ainda 1 registro** — `uk_business_whatsapp_dispatches_dedup` (migration V81) impede duplicata |
+| Passo | Ação                                                                                                                 | Resultado esperado                                                                              |
+|-------|----------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| 1     | Disparar `GET /run-jobs/execute-notification-detection` novamente (mesmo dia, mesmo item do C3/C4)                   | 200 OK                                                                                          |
+| 2     | Consultar contagem de dispatches para o mesmo `(organization_code, event_type, reference_id, due_date, days_offset)` | **Ainda 1 registro** — `uk_business_whatsapp_dispatches_dedup` (migration V81) impede duplicata |
 
 ```sql
 SELECT organization_code, event_type, reference_id, due_date, days_offset, COUNT(*) AS qtd
@@ -183,12 +185,12 @@ SET features_json = JSON_SET(features_json, '$.whatsappMonthlyLimit', 0)
 WHERE code = '{PLAN_CODE}';
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Forçar novo checkpoint: `UPDATE maintenance_items SET next_due_at = CURRENT_DATE + INTERVAL 1 DAY WHERE id = {ITEM_ID}` + `DELETE` o dispatch anterior desse `days_offset` | — |
-| 2 | Disparar `GET /run-jobs/execute-notification-detection` | 200 OK |
-| 3 | Consultar `business_whatsapp_dispatches` | 1 registro com `status = 'SKIPPED_QUOTA'` |
-| 4 | **Restaurar a cota** (`whatsappMonthlyLimit` de volta ao valor original, ex. 30) antes de seguir para os próximos cenários | — |
+| Passo | Ação                                                                                                                                                                       | Resultado esperado                        |
+|-------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| 1     | Forçar novo checkpoint: `UPDATE maintenance_items SET next_due_at = CURRENT_DATE + INTERVAL 1 DAY WHERE id = {ITEM_ID}` + `DELETE` o dispatch anterior desse `days_offset` | —                                         |
+| 2     | Disparar `GET /run-jobs/execute-notification-detection`                                                                                                                    | 200 OK                                    |
+| 3     | Consultar `business_whatsapp_dispatches`                                                                                                                                   | 1 registro com `status = 'SKIPPED_QUOTA'` |
+| 4     | **Restaurar a cota** (`whatsappMonthlyLimit` de volta ao valor original, ex. 30) antes de seguir para os próximos cenários                                                 | —                                         |
 
 ---
 
@@ -206,12 +208,12 @@ VALUES
 ('{ORG_CODE}', 'ITEM_NEAR_DUE', 'ITEM', 999903, CURRENT_DATE, 1, '{PHONE}', 'SENT', 'sim-wamid-3', NOW(), NOW());
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Forçar novo checkpoint (offset=1) em `{ITEM_ID}`, apagar dispatch anterior desse offset | — |
-| 2 | Disparar `GET /run-jobs/execute-notification-detection` | 200 OK |
-| 3 | Consultar `business_whatsapp_dispatches` | 1 registro com `status = 'SKIPPED_RATE_LIMIT'` (4ª mensagem pro mesmo telefone no dia) |
-| 4 | Limpar as 3 linhas inseridas no setup (`DELETE ... WHERE reference_id IN (999901,999902,999903)`) | — |
+| Passo | Ação                                                                                              | Resultado esperado                                                                     |
+|-------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| 1     | Forçar novo checkpoint (offset=1) em `{ITEM_ID}`, apagar dispatch anterior desse offset           | —                                                                                      |
+| 2     | Disparar `GET /run-jobs/execute-notification-detection`                                           | 200 OK                                                                                 |
+| 3     | Consultar `business_whatsapp_dispatches`                                                          | 1 registro com `status = 'SKIPPED_RATE_LIMIT'` (4ª mensagem pro mesmo telefone no dia) |
+| 4     | Limpar as 3 linhas inseridas no setup (`DELETE ... WHERE reference_id IN (999901,999902,999903)`) | —                                                                                      |
 
 ---
 
@@ -221,11 +223,11 @@ Pré-requisito: um dispatch `FAILED` recente (naturalmente obtido no C3, já que
 ainda não está aprovado — ver Pré-condições) e cujo evento **não** tinha EMAIL já no conjunto de
 canais resolvido (`email_already_covered = FALSE`).
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Confirmar no dispatch do C3: `status = 'FAILED'` e `email_already_covered = FALSE` | — |
-| 2 | Consultar `business_email_dispatches` (ou tabela de notificação por e-mail equivalente) para o mesmo `(organization_code, reference_id, due_date)` | 1 registro de e-mail correspondente, criado **automaticamente** pelo fallback (`notification.whatsapp.fallback-to-email=true`) |
-| 3 | Verificar a caixa de e-mail do destinatário de teste | E-mail de vencimento recebido |
+| Passo | Ação                                                                                                                                               | Resultado esperado                                                                                                             |
+|-------|----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Confirmar no dispatch do C3: `status = 'FAILED'` e `email_already_covered = FALSE`                                                                 | —                                                                                                                              |
+| 2     | Consultar `business_email_dispatches` (ou tabela de notificação por e-mail equivalente) para o mesmo `(organization_code, reference_id, due_date)` | 1 registro de e-mail correspondente, criado **automaticamente** pelo fallback (`notification.whatsapp.fallback-to-email=true`) |
+| 3     | Verificar a caixa de e-mail do destinatário de teste                                                                                               | E-mail de vencimento recebido                                                                                                  |
 
 ```sql
 SELECT id, organization_code, reference_id, due_date, days_offset, created_at
@@ -242,11 +244,11 @@ ORDER BY created_at DESC LIMIT 3;
 curl -i "{BASE_URL}/easy-maintenance/api/v1/public/webhooks/whatsapp?hub.mode=subscribe&hub.verify_token={WHATSAPP_WEBHOOK_VERIFY_TOKEN}&hub.challenge=teste123"
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Rodar o curl acima com o `hub.verify_token` correto | `200 OK`, corpo `teste123` (texto puro, sem envelope JSON) |
-| 2 | Repetir com `hub.verify_token=errado` | `403 Forbidden` |
-| 3 | Repetir com `hub.mode=unsubscribe` (token certo) | `403 Forbidden` |
+| Passo | Ação                                                | Resultado esperado                                         |
+|-------|-----------------------------------------------------|------------------------------------------------------------|
+| 1     | Rodar o curl acima com o `hub.verify_token` correto | `200 OK`, corpo `teste123` (texto puro, sem envelope JSON) |
+| 2     | Repetir com `hub.verify_token=errado`               | `403 Forbidden`                                            |
+| 3     | Repetir com `hub.mode=unsubscribe` (token certo)    | `403 Forbidden`                                            |
 
 ---
 
@@ -273,12 +275,12 @@ curl -i -X POST "{BASE_URL}/easy-maintenance/api/v1/public/webhooks/whatsapp" \
   -d "$BODY"
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Rodar o script acima com `status: "delivered"` | `200 OK` imediato (processamento é assíncrono) |
-| 2 | Aguardar ~1s e consultar o dispatch | `delivery_status = 'DELIVERED'`, `delivered_at` preenchido |
-| 3 | Repetir o script trocando `"status":"delivered"` por `"status":"read"` | `delivery_status = 'READ'`, `read_at` preenchido |
-| 4 | Repetir o passo 1 (`delivered` de novo, evento atrasado/duplicado) | `delivery_status` **continua `READ`** — não regride (ranking monotônico da TASK-128) |
+| Passo | Ação                                                                   | Resultado esperado                                                                   |
+|-------|------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| 1     | Rodar o script acima com `status: "delivered"`                         | `200 OK` imediato (processamento é assíncrono)                                       |
+| 2     | Aguardar ~1s e consultar o dispatch                                    | `delivery_status = 'DELIVERED'`, `delivered_at` preenchido                           |
+| 3     | Repetir o script trocando `"status":"delivered"` por `"status":"read"` | `delivery_status = 'READ'`, `read_at` preenchido                                     |
+| 4     | Repetir o passo 1 (`delivered` de novo, evento atrasado/duplicado)     | `delivery_status` **continua `READ`** — não regride (ranking monotônico da TASK-128) |
 
 ```sql
 SELECT wamid, delivery_status, delivered_at, read_at, failed_error_code, failed_error_message
@@ -298,21 +300,21 @@ curl -i -X POST "{BASE_URL}/easy-maintenance/api/v1/public/webhooks/whatsapp" \
   -d "$BODY"
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Rodar o script acima (mesmo `wamid` do C10, agora já em `READ`) | `200 OK` |
-| 2 | Consultar o dispatch | `delivery_status` **continua `READ`** (FAILED não regride um status já mais avançado) — usar um `wamid` novo (`SENT`, sem histórico) para validar a persistência do erro isoladamente |
-| 3 | Repetir com um `wamid` novo, dispatch recém-criado em `SENT` sem `delivery_status` | `delivery_status = 'FAILED'`, `failed_error_code = '130497'`, `failed_error_message` preenchido com o texto do `message` |
+| Passo | Ação                                                                               | Resultado esperado                                                                                                                                                                    |
+|-------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Rodar o script acima (mesmo `wamid` do C10, agora já em `READ`)                    | `200 OK`                                                                                                                                                                              |
+| 2     | Consultar o dispatch                                                               | `delivery_status` **continua `READ`** (FAILED não regride um status já mais avançado) — usar um `wamid` novo (`SENT`, sem histórico) para validar a persistência do erro isoladamente |
+| 3     | Repetir com um `wamid` novo, dispatch recém-criado em `SENT` sem `delivery_status` | `delivery_status = 'FAILED'`, `failed_error_code = '130497'`, `failed_error_message` preenchido com o texto do `message`                                                              |
 
 ---
 
 ### C12 — Webhook: assinatura ausente/inválida é rejeitada
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Repetir o curl do C10 **sem** o header `X-Hub-Signature-256` | `403 Forbidden`, payload não processado (dispatch não muda) |
-| 2 | Repetir com `X-Hub-Signature-256: sha256=0000000000000000000000000000000000000000000000000000000000000000` (assinatura forjada) | `403 Forbidden` |
-| 3 | Conferir logs da aplicação (staging) | Nenhuma menção ao valor de `WHATSAPP_APP_SECRET`/`WHATSAPP_API_TOKEN` nos logs de rejeição |
+| Passo | Ação                                                                                                                            | Resultado esperado                                                                         |
+|-------|---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| 1     | Repetir o curl do C10 **sem** o header `X-Hub-Signature-256`                                                                    | `403 Forbidden`, payload não processado (dispatch não muda)                                |
+| 2     | Repetir com `X-Hub-Signature-256: sha256=0000000000000000000000000000000000000000000000000000000000000000` (assinatura forjada) | `403 Forbidden`                                                                            |
+| 3     | Conferir logs da aplicação (staging)                                                                                            | Nenhuma menção ao valor de `WHATSAPP_APP_SECRET`/`WHATSAPP_API_TOKEN` nos logs de rejeição |
 
 ---
 
@@ -327,12 +329,12 @@ DELETE FROM business_whatsapp_dispatches
 WHERE organization_code = '{ORG_CODE}' AND reference_id = {ITEM_ID} AND days_offset = 1;
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Disparar `GET /run-jobs/execute-notification-detection` fora do horário comercial | `eventsDetected >= 1` |
-| 2 | Consultar `business_whatsapp_dispatches` | 1 registro com `status = 'PENDING_HOURS_WINDOW'` |
-| 3 | Dentro do horário comercial (8h-20h Brasília), disparar `GET /run-jobs/execute-whatsapp-deferred-send` | `candidatesProcessed >= 1` |
-| 4 | Consultar novamente o dispatch | `status` mudou para `SENT` ou `FAILED` (nunca mais `PENDING_HOURS_WINDOW`) |
+| Passo | Ação                                                                                                   | Resultado esperado                                                         |
+|-------|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| 1     | Disparar `GET /run-jobs/execute-notification-detection` fora do horário comercial                      | `eventsDetected >= 1`                                                      |
+| 2     | Consultar `business_whatsapp_dispatches`                                                               | 1 registro com `status = 'PENDING_HOURS_WINDOW'`                           |
+| 3     | Dentro do horário comercial (8h-20h Brasília), disparar `GET /run-jobs/execute-whatsapp-deferred-send` | `candidatesProcessed >= 1`                                                 |
+| 4     | Consultar novamente o dispatch                                                                         | `status` mudou para `SENT` ou `FAILED` (nunca mais `PENDING_HOURS_WINDOW`) |
 
 ---
 
