@@ -1,5 +1,19 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 20/07/2026 — TASK-132 implementada e movida para Em Validação: `JobController`
+> ganha 2 endpoints `GET /run-jobs/execute-notification-detection` e
+> `GET /run-jobs/execute-whatsapp-deferred-send`, mesmo padrão do `execute-trial-expiration` já em
+> produção — disparam sob demanda os jobs do EPIC-015 que só rodavam via `@Scheduled`
+> (`NotificationEventDetectionJob`/`WhatsAppDeferredSendJob`), sem precisar esperar o cron das 5h
+> nem a janela de horário comercial. Criada em conjunto a
+> [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md), suíte de QA manual com 13 cenários (opt-in,
+> janela de urgência de 48h, idempotência, quota, rate limit, fallback e-mail, horário comercial,
+> webhook de status) cobrindo o EPIC-015 ponta a ponta, com queries SQL prontas pra montar cada
+> cenário direto no banco. Decisão de design: **sem** endpoint de simulação para o webhook — os
+> cenários usam o endpoint real (`POST /public/webhooks/whatsapp`) com assinatura HMAC calculada
+> de verdade, porque simular um bypass de assinatura testaria menos do que a TASK-128 promete
+> garantir. Sem testes novos (wrappers finos, mesmo padrão do endpoint já existente sem teste
+> dedicado), 672/672 testes backend green (suíte inalterada).
 > Atualizado em: 20/07/2026 — TASK-128 implementada e movida para Em Validação: novo pacote
 > `webhooks/whatsapp/` (`WhatsAppWebhookController` GET handshake + POST eventos,
 > `WhatsAppSignatureValidator` HMAC-SHA256 real sobre `X-Hub-Signature-256` — ao contrário do
@@ -269,6 +283,7 @@ _Vazio_
 | [TASK-129](tasks/TASK-129.md) | Backend: integração com WhatsApp Cloud API (Meta) — envio de template (não verificado contra a Meta real) | 🟡 Médio | EPIC-015 | 2 |
 | [TASK-130](tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback para e-mail | 🟡 Médio | EPIC-015 | 2 |
 | [TASK-131](tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp | 🟡 Médio | EPIC-015 | 2 |
+| [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp (13 cenários + queries SQL de apoio) | 🟠 Alto | EPIC-015 | 2 |
 
 ---
 
@@ -382,6 +397,7 @@ _Vazio_
 | [TASK-125](tasks/TASK-125.md) | Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634 | 🟠 Alto | EPIC-006 |
 | [TASK-126](tasks/TASK-126.md) | Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile (não verificado visualmente em mobile) | 🟠 Alto | EPIC-006 |
 | [TASK-128](tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) — handshake + validação real de X-Hub-Signature-256, 31 testes novos, 672/672 backend green | 🟡 Médio | EPIC-015 |
+| [TASK-132](tasks/TASK-132.md) | Backend: endpoints de disparo manual dos jobs de notificação/WhatsApp — apoio para TASK-QA-MAN-010 | 🟡 Médio | EPIC-015 |
 ---
 
 ## Concluído

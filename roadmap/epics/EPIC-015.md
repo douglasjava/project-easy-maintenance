@@ -1,9 +1,11 @@
 # EPIC-015 — Notificações via WhatsApp (Meta Cloud API)
 
 ## Status
-Em Validação — 5/5 tasks implementadas (122, 129, 130, 131, 128), todas em Em Validação. Nenhuma
-verificada ainda contra a Meta real em produção (template HSM, envio real, webhook público) — só
-testes unitários/locais em cada task.
+Em Validação — 5/5 tasks de implementação prontas (122, 129, 130, 131, 128), todas em Em
+Validação. Nenhuma verificada ainda contra a Meta real em produção (template HSM, envio real,
+webhook público) — só testes unitários/locais em cada task. TASK-132 (endpoints de apoio) e
+TASK-QA-MAN-010 (suíte de QA manual com 13 cenários + queries SQL) criadas para viabilizar essa
+validação end-to-end em staging.
 
 ## Objetivo
 Implementar de ponta a ponta o envio de notificações via WhatsApp para eventos operacionais urgentes
@@ -136,6 +138,8 @@ Implicações da escolha direta (sem BSP), válidas para todas as tasks deste é
 | [TASK-130](../tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback e-mail   | BACKEND    | 🟡 Médio   |
 | [TASK-131](../tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp                    | BACKEND    | 🟡 Médio   |
 | [TASK-128](../tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) | BACKEND    | 🟡 Médio   |
+| [TASK-132](../tasks/TASK-132.md) | Backend: endpoints de disparo manual dos jobs de notificação/WhatsApp (apoio de QA) | BACKEND    | 🟡 Médio   |
+| [TASK-QA-MAN-010](../QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp (13 cenários) | QA         | 🟠 Alto    |
 
 Ordem de implementação sugerida: TASK-122 e TASK-129 podem começar em paralelo (não dependem uma da
 outra) → TASK-130 depende de ambas (precisa do telefone/opt-in do usuário e do provider real) → TASK-131
