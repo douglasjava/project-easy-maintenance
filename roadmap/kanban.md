@@ -1,5 +1,69 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 20/07/2026 — TASK-128 implementada e movida para Em Validação: novo pacote
+> `webhooks/whatsapp/` (`WhatsAppWebhookController` GET handshake + POST eventos,
+> `WhatsAppSignatureValidator` HMAC-SHA256 real sobre `X-Hub-Signature-256` — ao contrário do
+> `AsaasWebhookController`, que nunca valida assinatura). `business_whatsapp_dispatches` estendida
+> (migration V83) com `delivery_status`/`delivered_at`/`read_at`/`failed_error_code`/
+> `failed_error_message`, atualizados via lookup por `wamid` (já existia da TASK-130, com índice).
+> Idempotência por ranking monotônico de status (SENT/FAILED < DELIVERED < READ) — evento atrasado
+> não regride status já mais avançado. 31 testes novos (assinatura válida/forjada, handshake
+> token/mode, parsing delivered/read/failed com fixture do erro 130497, não-regressão), 672/672
+> testes backend green. Com isso, fecha o EPIC-015 (todas as tasks — 122/129/130/131/128 — em
+> Em Validação). ⚠️ Não testado contra a Meta real (endpoint precisa estar publicamente acessível
+> via HTTPS para o handshake — pendente configurar `WHATSAPP_WEBHOOK_VERIFY_TOKEN`/
+> `WHATSAPP_APP_SECRET` em produção e registrar a URL no App do Meta) — só testes unitários.
+> Atualizado em: 19/07/2026 — TASK-131 implementada e movida para Em Validação: `BusinessWhatsAppQuotaService`
+> novo (quota mensal, `whatsappMonthlyLimit` em `BillingPlanFeatures`), rate limit diário por telefone
+> (cap simples — decisão confirmada com Douglas: agregação real em "resumo do dia" ficaria pra depois,
+> exige template HSM novo na Meta) e janela de horário comercial (8h-20h Brasília) com fila de verdade
+> (`PENDING_HOURS_WINDOW` + `WhatsAppDeferredSendJob`, mesmo padrão do `EmailRetryJob`) — maior que o
+> esforço estimado no card original, necessário porque a detecção roda às 5h, fora da janela. Com isso,
+> só falta a TASK-128 (webhook) pra fechar o EPIC-015. 25 testes novos, 653/653 testes backend green.
+> Atualizado em: 19/07/2026 — TASK-130 implementada e movida para Em Validação: regra de urgência de
+> 48h no `NotificationChannelResolver` (arredondada para dias inteiros — só `daysOffset==1` é alcançado
+> hoje, dado que `NotificationEvent` não carrega granularidade de hora); `BusinessWhatsAppNotificationService`
+> novo com idempotência real (`business_whatsapp_dispatches`, migration V81) e fallback pra e-mail em
+> falha final do WhatsApp. **Achado durante a implementação**: a chave de dedup do card
+> (organização/tipo/referência/vencimento) tratava múltiplos checkpoints de atraso (0/7/15/30 dias
+> vencido, mesmo due_date) como duplicata um do outro — corrigido adicionando `days_offset` à
+> constraint única. 22 testes novos, 638/638 testes backend green.
+> Atualizado em: 19/07/2026 — TASK-129 implementada e movida para Em Validação: `WhatsAppClient` novo
+> (mesmo estilo do `AsaasClient`) envia templates HSM via Graph API e retorna `wamid`; classificação de
+> falha transitória (5xx/timeout/429) vs. permanente (demais 4xx, erro 130497, erro 190/401 — loga
+> `WHATSAPP_TOKEN_EXPIRED`) via 2 exceções novas; retry seletivo via Resilience4j (só a transitória é
+> retentada, diferente do `mailersend` que retenta em qualquer exceção). 15 testes novos (via
+> `com.sun.net.httpserver.HttpServer` local + teste isolado do mecanismo de retry, sem dependência
+> nova), 616/616 testes backend green. ⚠️ Não verificado contra a Meta real (template HSM ainda não
+> aprovado) — só contra mock local. Ainda não wireado no orchestrator (escopo da TASK-130).
+> Atualizado em: 19/07/2026 — TASK-122 validada por Douglas em teste manual real e ajustada
+> visualmente (bloco de opt-in do WhatsApp em `/profile`: divisor, ícone de marca, hierarquia
+> tipográfica, LGPD como linha separada — só layout, sem tocar em API/estado). PRs abertos para
+> `staging`: [easy-maintenance-api#19](https://github.com/douglasjava/easy-maintenance-api/pull/19)
+> e [easy-maintenance-web#22](https://github.com/douglasjava/easy-maintenance-web/pull/22).
+> Atualizado em: 19/07/2026 — TASK-122 implementada e movida para Em Validação: `phone_number`/
+> `whatsapp_opt_in` em `users` (migration V80), `PhoneNumberNormalizer` novo (trata 9º dígito/DDI/máscara
+> BR), regra "opt-in exige telefone" via `RuleException`, reaproveitando `PATCH /user/{id}` existente
+> (campos aditivos). Frontend: `/profile` ganhou campo de telefone com máscara + toggle de opt-in
+> (LGPD), opt-in autodesativa se o telefone for limpo. 601/601 testes backend green, 86/89 frontend
+> (3 falhas pré-existentes de `middleware.test.ts`, não relacionadas). `tsc`/`next build` limpos.
+> ⚠️ Não verificado visualmente no browser — recomendado teste manual do fluxo antes de aceitar.
+> Atualizado em: 18/07/2026 — TASK-122 quebrada em [EPIC-015](epics/EPIC-015.md) (Notificações via
+> WhatsApp): card único tinha crescido demais (provedor + dado do usuário + integração + orquestração +
+> quota + webhook). TASK-122 ficou só com telefone/opt-in do usuário; TASK-129 criada para a integração
+> real com a Meta Cloud API (envio de template, classificação de falha transitória/permanente); TASK-130
+> criada para a orquestração (regra de urgência de 48h no resolver, `BusinessWhatsAppNotificationService`
+> com idempotência real via constraint única e fallback pra e-mail em falha permanente — especificação
+> técnica detalhada trazida por Douglas); TASK-131 criada para quota mensal/rate limiting. TASK-128
+> (webhook, já existente) recategorizada sob o mesmo épico, com dependências ajustadas para TASK-129/130
+> em vez de TASK-122.
+> Atualizado em: 18/07/2026 — TASK-128 criada: card de backlog vinculado à TASK-122 para implementar o
+> webhook de status de entrega/leitura da WhatsApp Cloud API (Meta), levantado a partir de um prompt de
+> especificação técnica de Douglas. Investigação prévia do padrão de webhook existente (Asaas) encontrou
+> uma lacuna de segurança real que não deve ser copiada — `AsaasWebhookController` nunca valida
+> assinatura/token do request recebido. TASK-128 exige handshake `GET` de verificação e validação real de
+> `X-Hub-Signature-256` (HMAC-SHA256). Decisão de design: estender `business_whatsapp_dispatches` (tabela
+> já prevista na TASK-122) com colunas de status de entrega, em vez de criar uma tabela paralela de log.
 > Atualizado em: 15/07/2026 — TASK-126 implementada e movida para Em Validação: bloco "O risco real"
 > (RiskBlock, copy aprovada) inserido logo após o Hero, absorvendo e removendo o card duplicado "Medo de
 > multa e processo"; carrossel mobile reutilizável (CardCarousel, CSS scroll-snap) aplicado nos 4 grids da
@@ -201,7 +265,10 @@ _Vazio_
 | ~~[TASK-104](tasks/TASK-104.md)~~ | ~~Full-Stack: createdBy/updatedBy nos relatórios de exportação (colunas "Criado por" / "Registrado por" com nome resolvido em batch)~~ | 🟡 Médio | EPIC-013 | 3 |
 | ~~[TASK-105](tasks/TASK-105.md)~~ | ~~Frontend: botão "Limpar" sempre visível em /items — paridade com /maintenances (estilo dinâmico cinza/vermelho)~~ | 🔵 Baixo | EPIC-006 | 3 |
 | ~~[TASK-106](tasks/TASK-106.md)~~ | ~~BUGFIX Full-Stack: notificações escopadas por org — bell exibia todas as orgs causando "Item não pertence a essa organização"~~ | 🟠 Alto | EPIC-013 | 3 |
-| [TASK-122](tasks/TASK-122.md) | Full-Stack: implementar canal de notificações via WhatsApp (provider existe só como esqueleto, sem integração real) | 🟡 Médio | EPIC-006 | 2 |
+| [TASK-122](tasks/TASK-122.md) | Full-Stack: dado do usuário — telefone + opt-in para notificações WhatsApp (não verificado visualmente) | 🟡 Médio | EPIC-015 | 2 |
+| [TASK-129](tasks/TASK-129.md) | Backend: integração com WhatsApp Cloud API (Meta) — envio de template (não verificado contra a Meta real) | 🟡 Médio | EPIC-015 | 2 |
+| [TASK-130](tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback para e-mail | 🟡 Médio | EPIC-015 | 2 |
+| [TASK-131](tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp | 🟡 Médio | EPIC-015 | 2 |
 
 ---
 
@@ -314,6 +381,7 @@ _Vazio_
 | [TASK-124](tasks/TASK-124.md) | Full-Stack: visão em calendário dos itens — toggle Lista/Calendário dentro de /items, componentes isolados (não verificado visualmente) | 🟡 Médio | EPIC-006 |
 | [TASK-125](tasks/TASK-125.md) | Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634 | 🟠 Alto | EPIC-006 |
 | [TASK-126](tasks/TASK-126.md) | Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile (não verificado visualmente em mobile) | 🟠 Alto | EPIC-006 |
+| [TASK-128](tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) — handshake + validação real de X-Hub-Signature-256, 31 testes novos, 672/672 backend green | 🟡 Médio | EPIC-015 |
 ---
 
 ## Concluído
