@@ -125,7 +125,7 @@ mensagens business-initiated) sejam respeitados.
 Médio (quota + rate limiting + testes, reaproveitando bastante o padrão de `BusinessEmailQuotaService`)
 
 ## Status
-Em Validação
+Concluído — validado via QA manual (TASK-QA-MAN-010) em staging, aprovado por Douglas em 24/07/2026.
 
 ## Implementação
 

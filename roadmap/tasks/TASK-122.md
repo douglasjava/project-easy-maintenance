@@ -115,7 +115,7 @@ qualquer envio real implementado em TASK-129/TASK-130.
 Pequeno/Médio (migration + endpoint + UI — sem integração externa)
 
 ## Status
-Em Validação
+Concluído — validado via QA manual (TASK-QA-MAN-010) em staging, aprovado por Douglas em 24/07/2026.
 
 ## Implementação
 

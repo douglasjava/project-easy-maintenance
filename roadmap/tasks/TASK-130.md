@@ -180,7 +180,7 @@ Mesmo nível de pacote de `BusinessEmailNotificationService`/`BusinessPushNotifi
 Grande (é o núcleo da orquestração do canal — urgência, idempotência, retry, fallback)
 
 ## Status
-Em Validação
+Concluído — validado via QA manual (TASK-QA-MAN-010) em staging, aprovado por Douglas em 24/07/2026.
 
 ## Implementação
 

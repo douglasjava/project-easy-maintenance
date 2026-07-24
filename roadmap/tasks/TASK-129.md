@@ -153,7 +153,9 @@ erro/stacktrace.
 Médio (integração externa + classificação de erro + config de retry seletivo)
 
 ## Status
-Em Validação
+Concluído — validado via QA manual (TASK-QA-MAN-010) em staging, aprovado por Douglas em 24/07/2026.
+Classificação de falha transitória/permanente confirmada contra a Meta real (template HSM ainda não
+aprovado — falha permanente esperada, cai no fallback de e-mail).
 
 ## Implementação
 

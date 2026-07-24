@@ -97,5 +97,6 @@ envio → quota/rate-limit/horário → webhook de status) sem depender de esper
 Pequeno (2 endpoints finos, sem lógica nova)
 
 ## Status
-Em Validação — implementado em `feature/TASK-132-whatsapp-qa-manual-triggers`, 672/672 testes
-backend green (nenhum teste novo — wrappers finos sem lógica própria).
+Concluído — implementado em `feature/TASK-132-whatsapp-qa-manual-triggers`, 672/672 testes
+backend green (nenhum teste novo — wrappers finos sem lógica própria). Usado com sucesso para
+montar todos os 13 cenários da TASK-QA-MAN-010 em staging, aprovado por Douglas em 24/07/2026.

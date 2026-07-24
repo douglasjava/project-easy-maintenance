@@ -209,6 +209,8 @@ Médio (endpoint + segurança + migration + testes — menor que a TASK-130, mas
 sentido em produção)
 
 ## Status
-Em Validação — implementado em `feature/TASK-128-whatsapp-webhook-status`, 31 testes novos,
-672/672 testes backend green. Não testado contra a Meta real (pendente HTTPS público +
-configuração das env vars em produção + registro da URL no App do Meta).
+Concluído — implementado em `feature/TASK-128-whatsapp-webhook-status`, 31 testes novos,
+672/672 testes backend green. Validado via QA manual (TASK-QA-MAN-010, cenários C9-C12) em
+staging com assinatura HMAC real, aprovado por Douglas em 24/07/2026. Segue pendente apenas o
+registro da URL pública no App do Meta em produção (fora do escopo desta task — configuração de
+ambiente, não comportamento de código).

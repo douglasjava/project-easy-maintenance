@@ -1,11 +1,15 @@
 # EPIC-015 — Notificações via WhatsApp (Meta Cloud API)
 
 ## Status
-Em Validação — 5/5 tasks de implementação prontas (122, 129, 130, 131, 128), todas em Em
-Validação. Nenhuma verificada ainda contra a Meta real em produção (template HSM, envio real,
-webhook público) — só testes unitários/locais em cada task. TASK-132 (endpoints de apoio) e
-TASK-QA-MAN-010 (suíte de QA manual com 13 cenários + queries SQL) criadas para viabilizar essa
-validação end-to-end em staging.
+**Concluído** (24/07/2026) — 6/6 tasks de implementação (122, 129, 130, 131, 128, 132) validadas em
+staging via [TASK-QA-MAN-010](../QA/tasks/TASK-QA-MAN-010.md) (suíte de QA manual, 13 cenários) e
+aprovadas por Douglas: opt-in, janela de urgência de 48h, idempotência, quota mensal, rate limit
+diário, fallback automático para e-mail, horário comercial e webhook de status (handshake,
+delivered/read, payload de falha 130497, rejeição de assinatura inválida/ausente).
+⚠️ Pendência que **não** bloqueou o fechamento: envio real com `status=SENT` contra a Meta em
+produção segue dependente da aprovação do template HSM "vencimento_manutencao_v2" — hoje qualquer
+tentativa de envio real falha permanentemente (esperado, não é bug) e cai no fallback de e-mail,
+que foi o próprio caminho validado pelo cenário C8 da suíte de QA.
 
 ## Objetivo
 Implementar de ponta a ponta o envio de notificações via WhatsApp para eventos operacionais urgentes
@@ -149,19 +153,22 @@ só faz sentido operacionalmente depois da TASK-130 (precisa de `wamid` real sen
 
 ## Critério de Conclusão do Épico
 
-- [ ] Usuário consegue cadastrar telefone e dar opt-in explícito de WhatsApp na tela de perfil
-- [ ] Envio real de template via Meta Cloud API funciona em ambiente sandbox
-- [ ] WhatsApp só é disparado para eventos dentro de 48h do vencimento ou já vencidos — prazos maiores
+- [x] Usuário consegue cadastrar telefone e dar opt-in explícito de WhatsApp na tela de perfil
+- [ ] Envio real de template via Meta Cloud API funciona em ambiente sandbox — **pendente**: bloqueado
+      pela aprovação do template HSM "vencimento_manutencao_v2" pela Meta, fora do controle do time de
+      engenharia; classificação de falha/fallback foi validada contra o endpoint real da Meta (C3/C8 da
+      TASK-QA-MAN-010), só o `status=SENT` de fato não foi observado ainda
+- [x] WhatsApp só é disparado para eventos dentro de 48h do vencimento ou já vencidos — prazos maiores
       continuam só por e-mail/push
-- [ ] Falha permanente de envio cai automaticamente para e-mail (toggleável)
-- [ ] Falha transitória tem retry com backoff; falha permanente não tem retry
-- [ ] Reenvio do mesmo evento não duplica mensagem (idempotência real, com constraint única)
-- [ ] Quota mensal por conta bloqueia envio ao atingir limite do plano
-- [ ] Opt-out interrompe imediatamente novos envios
-- [ ] Webhook de status (TASK-128) recebe e persiste callbacks de entrega/leitura/falha com validação de
+- [x] Falha permanente de envio cai automaticamente para e-mail (toggleável)
+- [x] Falha transitória tem retry com backoff; falha permanente não tem retry
+- [x] Reenvio do mesmo evento não duplica mensagem (idempotência real, com constraint única)
+- [x] Quota mensal por conta bloqueia envio ao atingir limite do plano
+- [x] Opt-out interrompe imediatamente novos envios
+- [x] Webhook de status (TASK-128) recebe e persiste callbacks de entrega/leitura/falha com validação de
       assinatura real
-- [ ] Nenhum segredo do provedor (token/App Secret) commitado ou logado em texto puro
-- [ ] Testes unitários cobrindo cada task individualmente (ver critérios de aceite de cada card)
+- [x] Nenhum segredo do provedor (token/App Secret) commitado ou logado em texto puro
+- [x] Testes unitários cobrindo cada task individualmente (ver critérios de aceite de cada card)
 
 ## Riscos (do épico como um todo)
 

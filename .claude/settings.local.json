@@ -238,7 +238,12 @@
       "Bash(mvn -q -DskipITs test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest,WhatsAppClientTest,WhatsAppNotificationProviderTest\")",
       "Bash(mvn -DskipITs test -Dtest=\"WhatsAppSignatureValidatorTest,WhatsAppWebhookControllerTest,WhatsAppWebhookServiceTest,WhatsAppClientTest,WhatsAppNotificationProviderTest\")",
       "Bash(mvn -DskipITs test)",
-      "Bash(mvn -q -DskipITs compile)"
+      "Bash(mvn -q -DskipITs compile)",
+      "Bash(mysql --version)",
+      "Bash(cat)",
+      "Bash(cat C:/Users/Casa/AppData/Local/Temp/claude/D--workpaces-EASY-MAINTENANCE/97a3d22b-4c5a-4913-825c-8aa7d6a6fa6d/scratchpad/qa010_vars.env)",
+      "Bash(netstat -ano)",
+      "Bash(sort -u -t: -k3)"
     ]
   }
 }

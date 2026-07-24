@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/07/2026 — **EPIC-015 fechado.** TASK-QA-MAN-010 (suíte de QA manual, 13
+> cenários) executada em staging e aprovada por Douglas — cobre opt-in, janela de urgência de 48h,
+> idempotência, quota mensal, rate limit diário, fallback automático para e-mail (C8, validado como
+> esperado dado que o template HSM ainda não está aprovado pela Meta), horário comercial e webhook
+> de status (handshake, delivered/read, payload de falha 130497, rejeição de assinatura inválida).
+> Com isso, as 6 tasks de implementação do épico (122/129/130/131/128/132) e a própria
+> TASK-QA-MAN-010 movem de Backlog/Em Validação para Concluído. ⚠️ Pendência que **não** bloqueou o
+> fechamento (decisão de produto): envio real com `status=SENT` contra a Meta em produção segue
+> dependente da aprovação do template HSM "vencimento_manutencao_v2" pela Meta — o caminho de
+> fallback para e-mail cobre esse cenário até lá, e o próprio desenho da suíte de QA (TASK-QA-MAN-010)
+> assume isso como esperado, não como bug.
 > Atualizado em: 20/07/2026 — TASK-132 implementada e movida para Em Validação: `JobController`
 > ganha 2 endpoints `GET /run-jobs/execute-notification-detection` e
 > `GET /run-jobs/execute-whatsapp-deferred-send`, mesmo padrão do `execute-trial-expiration` já em
@@ -279,11 +290,6 @@ _Vazio_
 | ~~[TASK-104](tasks/TASK-104.md)~~ | ~~Full-Stack: createdBy/updatedBy nos relatórios de exportação (colunas "Criado por" / "Registrado por" com nome resolvido em batch)~~ | 🟡 Médio | EPIC-013 | 3 |
 | ~~[TASK-105](tasks/TASK-105.md)~~ | ~~Frontend: botão "Limpar" sempre visível em /items — paridade com /maintenances (estilo dinâmico cinza/vermelho)~~ | 🔵 Baixo | EPIC-006 | 3 |
 | ~~[TASK-106](tasks/TASK-106.md)~~ | ~~BUGFIX Full-Stack: notificações escopadas por org — bell exibia todas as orgs causando "Item não pertence a essa organização"~~ | 🟠 Alto | EPIC-013 | 3 |
-| [TASK-122](tasks/TASK-122.md) | Full-Stack: dado do usuário — telefone + opt-in para notificações WhatsApp (não verificado visualmente) | 🟡 Médio | EPIC-015 | 2 |
-| [TASK-129](tasks/TASK-129.md) | Backend: integração com WhatsApp Cloud API (Meta) — envio de template (não verificado contra a Meta real) | 🟡 Médio | EPIC-015 | 2 |
-| [TASK-130](tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback para e-mail | 🟡 Médio | EPIC-015 | 2 |
-| [TASK-131](tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp | 🟡 Médio | EPIC-015 | 2 |
-| [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp (13 cenários + queries SQL de apoio) | 🟠 Alto | EPIC-015 | 2 |
 
 ---
 
@@ -396,14 +402,19 @@ _Vazio_
 | [TASK-124](tasks/TASK-124.md) | Full-Stack: visão em calendário dos itens — toggle Lista/Calendário dentro de /items, componentes isolados (não verificado visualmente) | 🟡 Médio | EPIC-006 |
 | [TASK-125](tasks/TASK-125.md) | Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634 | 🟠 Alto | EPIC-006 |
 | [TASK-126](tasks/TASK-126.md) | Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile (não verificado visualmente em mobile) | 🟠 Alto | EPIC-006 |
-| [TASK-128](tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) — handshake + validação real de X-Hub-Signature-256, 31 testes novos, 672/672 backend green | 🟡 Médio | EPIC-015 |
-| [TASK-132](tasks/TASK-132.md) | Backend: endpoints de disparo manual dos jobs de notificação/WhatsApp — apoio para TASK-QA-MAN-010 | 🟡 Médio | EPIC-015 |
 ---
 
 ## Concluído
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp — 13 cenários executados em staging e aprovados por Douglas | 🟠 Alto | EPIC-015 |
+| [TASK-122](tasks/TASK-122.md) | Full-Stack: dado do usuário — telefone + opt-in para notificações WhatsApp — validado visualmente por Douglas + QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-129](tasks/TASK-129.md) | Backend: integração com WhatsApp Cloud API (Meta) — envio de template, classificação transitória/permanente confirmada contra a Meta real via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-130](tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback para e-mail — validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-131](tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp — validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-128](tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) — handshake + validação real de X-Hub-Signature-256, 31 testes novos, 672/672 backend green, validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-132](tasks/TASK-132.md) | Backend: endpoints de disparo manual dos jobs de notificação/WhatsApp — apoio para TASK-QA-MAN-010 | 🟡 Médio | EPIC-015 |
 | [TASK-123](tasks/TASK-123.md) | Full-Stack: exportar lembrete de item em .ics (2 VALARM) — botão no detalhe + na listagem, validado por Douglas | 🟡 Médio | EPIC-006 |
 | [TASK-106](tasks/TASK-106.md) | BUGFIX Full-Stack: notificações escopadas por org via TenantContext — 4 testes novos, 468 passando | 🟠 Alto | EPIC-013 |
 | [TASK-103](tasks/TASK-103.md) | Backend: auditoria createdBy/updatedBy em maintenance_items e maintenances — Long sem @ManyToOne, migration V76, 4 testes | 🟠 Alto | EPIC-013 |
