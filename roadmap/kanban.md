@@ -1,5 +1,112 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/07/2026 — **EPIC-016 concluído e aprovado no QA manual.** TASK-QA-MAN-011 (8
+> cenários) validada por Douglas, achando e corrigindo 3 bugs reais no processo: (1) `cancel()`
+> não persistia `cancelledAt`/`cancelledBy`/`cancelReason` — `save()`+`delete()` na mesma transação
+> faz o Hibernate descartar o UPDATE de dirty-checking; corrigido com `saveAndFlush()`; (2)
+> constraint UNIQUE `uq_maint_item_date` (V24) não considerava `deleted_at`, bloqueando reaproveitar
+> o dia após cancelar; corrigido com migration V85 + coluna `active_dedup_key`; (3) `register()`
+> conferia duplicidade contra `LocalDate.now()` em vez de `req.performedAt()` — bug pré-existente,
+> só exposto porque C2 foi o primeiro cenário a registrar com data diferente de hoje. Além disso,
+> **TASK-144** nova: "Histórico de manutenções" (abas Ativas/Canceladas) movido pra página de
+> detalhe do item — o card equivalente da TASK-141 foi removido de `/maintenances` (achado de UX
+> do próprio QA). C5 também expôs que o roteiro de QA descrevia um parâmetro `includeCancelled`
+> que nunca existiu — a TASK-139 tinha escolhido um endpoint dedicado (`/maintenances/cancelled`);
+> roteiro corrigido. Suíte backend final: 713/713 verde. Todas as 9 tasks técnicas + QA manual
+> commitadas, PR aberto para `staging` em ambos os repos.
+> Atualizado em: 26/07/2026 — **TASK-142 e TASK-143 implementadas, EPIC-016 com todas as 8 tasks
+> técnicas em Em Validação** (falta só a TASK-QA-MAN-011, o QA manual). TASK-142 (backend): anexo
+> ganha `uploadedByName` resolvido em lote — e, ao estender pra `findCancelledByItem` (que lista N
+> manutenções de uma vez), a implementação foi refeita pra buscar os anexos de **todas** as
+> manutenções canceladas do item numa única query (`findByMaintenanceIdIn`, novo), não uma por
+> manutenção — evitando reintroduzir N+1 nesse fluxo. TASK-143 (frontend): botão "+ Adicionar anexo"
+> no detalhe da manutenção, reaproveitando o mesmo fluxo de upload via S3 (presigned URL) já usado
+> na tela de criação; permissão usa `canRegisterMaintenance` (não o `userRole` da TASK-140), porque o
+> backend não restringe upload de anexo por papel, diferente do cancelamento. Cada anexo agora mostra
+> "Anexado por {nome} em {data}". 707/707 backend green; `npm run build` limpo no frontend.
+> Atualizado em: 26/07/2026 — TASK-141 implementada e movida para Em Validação (mesma branch,
+> `easy-maintenance-web`): toggle "Mostrar canceladas" na tela de manutenções (só com item
+> selecionado), card expansível (`CancelledMaintenanceRow`) com badge sempre visível e
+> motivo/autor/data ao expandir. **Achado antes de implementar**: o card já assumia "quem cancelou"
+> como nome resolvido, mas a TASK-139 só expunha o ID cru — corrigido retroativamente na própria
+> TASK-139 (novo `cancelledByName`, resolução em lote via `UserRepository`, mesmo padrão de
+> `MaintenanceExportService.resolveUserNames` da TASK-104). **Decisão de design**: não reaproveitou
+> o modal de detalhe existente pra canceladas — ele busca por `GET /items/maintenances/{id}`, que
+> `@SQLRestriction` sempre esconde (404); o card inline usa os dados já completos do endpoint de
+> canceladas da TASK-139, sem chamada extra. `npm run build` limpo, 703/703 backend green.
+> Atualizado em: 26/07/2026 — TASK-140 implementada e movida para Em Validação
+> (`feature/EPIC-016-cancel-maintenance-reason` em `easy-maintenance-web`): botão "Cancelar
+> manutenção" no detalhe da manutenção, visível só pra ADMIN/SYNDIC (checagem de `userRole` salvo no
+> login, mesmo padrão de `/users`/`UserTopBar` — deliberadamente não reaproveitou a flag
+> `permissions.canRegisterMaintenance` já usada nesta página, porque um TECH pode registrar
+> manutenção mas não deveria poder cancelar). Novo `CancelMaintenanceModal` com motivo obrigatório
+> (mín. 5 caracteres) e invalidação de queries (`maintenances`/`items`/`item`) pós-cancelamento.
+> **Achado**: o 422 real do `@Valid @RequestBody` inválido não bate com o 400 documentado na
+> TASK-137 — corrigido no doc. `npm run build` limpo, 86/89 testes (3 falhas pré-existentes,
+> `middleware.test.ts`). **Sem clique-a-clique real no navegador** — página protegida por auth e API
+> local ainda bloqueada pelo gap de `bootstrap.admin.token`; validação visual completa fica pro
+> cenário C7 da TASK-QA-MAN-011.
+> Atualizado em: 26/07/2026 — TASK-139 implementada e movida para Em Validação (mesma branch,
+> `feature/EPIC-016-cancel-maintenance-reason`): novo endpoint `GET
+> /items/maintenances/cancelled?itemId=X` (query nativa, contornando `@SQLRestriction` de propósito)
+> pra consultar canceladas separadas das válidas, com motivo/autor/data. **Achado de segurança real
+> fora do escopo original**: `findForExport`, `findForExportCrossOrg` (export CSV) e
+> `avgDaysToResolveLast90` (KPI do dashboard) são queries nativas que `@SQLRestriction` não filtra —
+> nenhuma tinha `deleted_at IS NULL` no WHERE. Antes da TASK-137 isso não importava (nunca existia
+> cancelamento); a partir de agora, sem a correção, o export e o KPI de dias-pra-resolver vazariam
+> manutenções canceladas de verdade. Corrigido nas três. Sem cobertura automatizada possível (sem
+> `@DataJpaTest` no repo) — validação fica pro cenário C5 da TASK-QA-MAN-011. 4 testes novos,
+> 702/702 backend green.
+> Atualizado em: 26/07/2026 — TASK-138 implementada e movida para Em Validação (mesma branch da
+> TASK-137, dependência direta): item recalcula `nextDueAt`/`lastPerformedAt`/`status` a partir da
+> manutenção válida mais recente por `performedAt` após um cancelamento — não da "próxima
+> cadastrada" (RN-016-03), coberto explicitamente pelo cenário M1/M2/M3 fora de ordem. Sem
+> manutenção válida remanescente, reverte pra "sem manutenção registrada". Lógica de cálculo
+> extraída de `register()` e compartilhada com o recálculo — achado durante a implementação: o
+> "estado original do item antes da primeira manutenção" citado na regra de negócio não é
+> literalmente recuperável (register() sobrescreve `lastPerformedAt` a cada chamada), então o reset
+> usa a mesma fórmula de `MaintenanceItemService.create()` pra item sem data informada (base = hoje).
+> Novo teste de regressão pra `register()` (não existia nenhum antes desta task, já que a extração
+> tocou nesse método). 7 testes novos, 698/698 backend green.
+> Atualizado em: 25/07/2026 — TASK-137 implementada e movida para Em Validação: endpoint `POST
+> /items/maintenances/{id}/cancel` com motivo obrigatório (`@NotBlank`/`@Size`), restrição por papel
+> (ADMIN/SYNDIC, mesmo padrão manual de `TeamMemberService.requireAdmin`), soft-delete via
+> `@SQLDelete` já existente na entidade. Achado de segurança fora do escopo original: `@SQLRestriction`
+> filtra canceladas de `findById`, então idempotência (cancelar 2x) exigiu uma query nativa dedicada
+> pra distinguir 404 (nunca existiu) de 409 (já cancelada) — com filtro de organização embutido na
+> própria query, pra não vazar cross-tenant se um ID de outra empresa existe/foi cancelado. 7 testes
+> novos (`MaintenanceCancelTest`, primeiro teste de `MaintenanceService` no projeto), 691/691 testes
+> backend green. Migration V84. Branch `feature/EPIC-016-cancel-maintenance-reason` a partir de
+> `staging`, ainda não commitada/pushada.
+> Atualizado em: 25/07/2026 — **EPIC-016 ganha TASK-142/143**: durante o desenho do épico, surgiu a
+> dúvida se anexar evidência a uma manutenção *depois* de registrada feriria compliance do mesmo
+> jeito que editar a manutenção. Decisão com Douglas: **não** — nenhum fato muda, só a documentação
+> é completada, desde que fique visível quem e quando anexou (`MaintenanceAttachment.uploadedAt`/
+> `uploadedByUserId` já existem no banco, só não expostos ao usuário hoje). TASK-142 (backend:
+> resolver nome do autor em lote, padrão já usado na TASK-104) e TASK-143 (frontend: permitir
+> anexar em manutenção existente + exibir autor/data) criadas em Backlog; C8 adicionado à
+> TASK-QA-MAN-011. Ficou como decisão em aberto, fora do escopo deste épico: se vale travar o quanto
+> `performedAt` pode ser retroativo em relação à data real de registro (`createdAt`) — mitigaria o
+> cenário de alguém registrar tardiamente alegando ter feito na data de vencimento original, mas
+> exige definir com Douglas qual janela seria razoável antes de virar task.
+> Atualizado em: 25/07/2026 — **Backfill de TASK-135 e TASK-136**: ambas já implementadas e em
+> `staging`/PR #25 desde antes desta entrada, mas nunca tinham ganho arquivo de task nem linha no
+> kanban — corrigido agora. TASK-135 (template WhatsApp v2, 5 variáveis + botão de URL dinâmica,
+> vinculada ao EPIC-015) e TASK-136 (provedor de e-mail Resend + endpoint de teste manual, sem
+> épico — melhoria de infraestrutura/custo) movidas direto para Concluído.
+> Atualizado em: 25/07/2026 — **EPIC-016 criado e planejado**: cancelamento de manutenções com
+> motivo obrigatório, sem editar/apagar o registro original — corrige um gap real encontrado
+> testando em produção (não havia como corrigir uma manutenção cadastrada errada; o mais próximo
+> era anexar documentação, que também não estava disponível pra manutenções já existentes).
+> Decisão de produto com Douglas: correção é sempre por **cancelamento com motivo** (soft-delete já
+> existente na entidade `Maintenance`, só sem endpoint até então), nunca por edição direta dos
+> campos — preserva o histórico auditável. Recálculo do item após cancelar usa a manutenção válida
+> mais recente por `performedAt` (não a próxima cadastrada), caindo no estado "sem manutenção
+> registrada" se não sobrar nenhuma. 5 tasks técnicas (TASK-137 a TASK-141) + QA manual
+> (TASK-QA-MAN-011) criadas em Backlog. ⚠️ Nota à parte: os commits `TASK-135` (botão de URL
+> dinâmica no template WhatsApp) e `TASK-136` (provedor de e-mail Resend) já foram implementados e
+> estão em `staging`, mas nunca ganharam arquivo de task/entrada no kanban — numeração deste épico já
+> considera isso (começa em 137); ficou pendente backfillar a documentação retroativa de 135/136.
 > Atualizado em: 24/07/2026 — **EPIC-015 fechado.** TASK-QA-MAN-010 (suíte de QA manual, 13
 > cenários) executada em staging e aprovada por Douglas — cobre opt-in, janela de urgência de 48h,
 > idempotência, quota mensal, rate limit diário, fallback automático para e-mail (C8, validado como
@@ -290,6 +397,7 @@ _Vazio_
 | ~~[TASK-104](tasks/TASK-104.md)~~ | ~~Full-Stack: createdBy/updatedBy nos relatórios de exportação (colunas "Criado por" / "Registrado por" com nome resolvido em batch)~~ | 🟡 Médio | EPIC-013 | 3 |
 | ~~[TASK-105](tasks/TASK-105.md)~~ | ~~Frontend: botão "Limpar" sempre visível em /items — paridade com /maintenances (estilo dinâmico cinza/vermelho)~~ | 🔵 Baixo | EPIC-006 | 3 |
 | ~~[TASK-106](tasks/TASK-106.md)~~ | ~~BUGFIX Full-Stack: notificações escopadas por org — bell exibia todas as orgs causando "Item não pertence a essa organização"~~ | 🟠 Alto | EPIC-013 | 3 |
+| ~~[TASK-QA-MAN-011](QA/tasks/TASK-QA-MAN-011.md)~~ | ~~QA Manual: E2E cancelamento de manutenção + recálculo de compliance (8 cenários)~~ | 🟠 Alto | EPIC-016 | 3 |
 
 ---
 
@@ -408,12 +516,23 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-136](tasks/TASK-136.md) | Infra: provedor de e-mail Resend (grátis) + endpoint de teste manual de envio, MailerSend mantido religável via config | 🟡 Médio | — |
+| [TASK-135](tasks/TASK-135.md) | Backend: template WhatsApp v2 — 5 variáveis de corpo + botão de URL dinâmica pro item | 🟡 Médio | EPIC-015 |
 | [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp — 13 cenários executados em staging e aprovados por Douglas | 🟠 Alto | EPIC-015 |
 | [TASK-122](tasks/TASK-122.md) | Full-Stack: dado do usuário — telefone + opt-in para notificações WhatsApp — validado visualmente por Douglas + QA manual | 🟡 Médio | EPIC-015 |
 | [TASK-129](tasks/TASK-129.md) | Backend: integração com WhatsApp Cloud API (Meta) — envio de template, classificação transitória/permanente confirmada contra a Meta real via QA manual | 🟡 Médio | EPIC-015 |
 | [TASK-130](tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback para e-mail — validado via QA manual | 🟡 Médio | EPIC-015 |
 | [TASK-131](tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp — validado via QA manual | 🟡 Médio | EPIC-015 |
 | [TASK-128](tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) — handshake + validação real de X-Hub-Signature-256, 31 testes novos, 672/672 backend green, validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-QA-MAN-011](QA/tasks/TASK-QA-MAN-011.md) | QA Manual: E2E cancelamento de manutenção + recálculo de compliance — 8 cenários aprovados por Douglas; achou e corrigiu 3 bugs reais (ver TASK-137) | 🟠 Alto | EPIC-016 |
+| [TASK-144](tasks/TASK-144.md) | Frontend: histórico de manutenções (ativas e canceladas) na página de detalhe do item — achado de UX durante o QA manual | 🟡 Médio | EPIC-016 |
+| [TASK-142](tasks/TASK-142.md) | Backend: resolver autor de cada anexo de manutenção — sem N+1 mesmo com múltiplas manutenções (query em lote), 4 testes novos, 707/707 backend green | 🟡 Médio | EPIC-016 |
+| [TASK-143](tasks/TASK-143.md) | Frontend: permitir anexar evidência a manutenções existentes, exibindo autor e data — build/lint limpos | 🟡 Médio | EPIC-016 |
+| [TASK-141](tasks/TASK-141.md) | Frontend: exibir manutenções canceladas na tela do item — card expansível com motivo/autor/data, build/lint limpos | 🟡 Médio | EPIC-016 |
+| [TASK-140](tasks/TASK-140.md) | Frontend: ação "Cancelar manutenção" com modal de motivo obrigatório — build/lint limpos, sem clique-a-clique real (ver TASK-QA-MAN-011 C7) | 🟠 Alto | EPIC-016 |
+| [TASK-139](tasks/TASK-139.md) | Backend: expor manutenções canceladas na consulta/detalhe do item — 4 testes novos, 702/702 backend green | 🟡 Médio | EPIC-016 |
+| [TASK-138](tasks/TASK-138.md) | Backend: recálculo de nextDueAt/lastPerformedAt/status do item após cancelamento — 7 testes novos, 698/698 backend green | 🟠 Alto | EPIC-016 |
+| [TASK-137](tasks/TASK-137.md) | Backend: endpoint de cancelamento de manutenção com motivo obrigatório — 7 testes novos, 691/691 backend green | 🟠 Alto | EPIC-016 |
 | [TASK-132](tasks/TASK-132.md) | Backend: endpoints de disparo manual dos jobs de notificação/WhatsApp — apoio para TASK-QA-MAN-010 | 🟡 Médio | EPIC-015 |
 | [TASK-123](tasks/TASK-123.md) | Full-Stack: exportar lembrete de item em .ics (2 VALARM) — botão no detalhe + na listagem, validado por Douglas | 🟡 Médio | EPIC-006 |
 | [TASK-106](tasks/TASK-106.md) | BUGFIX Full-Stack: notificações escopadas por org via TenantContext — 4 testes novos, 468 passando | 🟠 Alto | EPIC-013 |
