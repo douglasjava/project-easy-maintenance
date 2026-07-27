@@ -249,7 +249,14 @@
       "Read(//c/Users/Casa/AppData/Local/Temp/claude/D--workpaces-EASY-MAINTENANCE/1ba72eb8-dcf3-4c4a-bde7-12531c402e31/tasks/**)",
       "Bash(sleep 1)",
       "Bash(tasklist //FI \"IMAGENAME eq java.exe\")",
-      "Bash(xargs -I{} sh -c 'echo \"== {} ==\"; head -5 \"{}\"')"
+      "Bash(xargs -I{} sh -c 'echo \"== {} ==\"; head -5 \"{}\"')",
+      "Bash(kill 1286)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(docker compose *)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(docker exec *)",
+      "Bash(./mvnw.cmd -q -o clean test)",
+      "Bash(awk -F'[:,]' '{run+=$2; fail+=$4; err+=$6; skip+=$8} END {print \"TOTAL: run=\"run\" failures=\"fail\" errors=\"err\" skipped=\"skip}')"
     ]
   }
 }
