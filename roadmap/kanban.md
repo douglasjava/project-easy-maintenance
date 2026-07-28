@@ -1,5 +1,77 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/07/2026 — **EPIC-017 concluído e aprovado no QA manual.** TASK-QA-MAN-012
+> (5 cenários) validada por Douglas, incorporando 2 achados no processo: TASK-149 (seletor de
+> organização inline na Prestação de Contas, sem sair da tela — exigiu ajustar o interceptor do
+> `apiClient` pra respeitar `X-Org-Id` explícito por chamada) e TASK-150 (ocultar o menu
+> "Relatórios" por completo quando o plano não inclui a funcionalidade, em vez de só bloquear o
+> botão dentro da tela — C3 corrigido pra refletir isso). Suíte backend final: 719/719 verde.
+> Todas as 6 tasks técnicas + QA manual commitadas, PR aberto para `staging` em ambos os repos.
+> Atualizado em: 28/07/2026 — **TASK-150 criada e implementada** (achado no QA manual, C3 da
+> TASK-QA-MAN-012, Douglas): o gate `reportsEnabled` bloqueava só o botão dentro da tela
+> `/reports` — decisão mais coerente foi esconder o item "Relatórios" do menu inteiro (Sidebar e
+> dropdown do `UserTopBar`) quando o plano da organização ativa não inclui relatórios, mesmo
+> padrão já usado ali pra `canManageBilling`. Sem guard de rota (redirecionamento se acessar
+> `/reports` direto pela URL) — deliberadamente fora do escopo, já que isso bloquearia também as
+> abas Visão Geral/Manutenções, que hoje funcionam pra qualquer plano. `npm run build` limpo,
+> 86/89 frontend.
+> Atualizado em: 28/07/2026 — **TASK-149 criada e implementada** (achado pós-TASK-146, Douglas):
+> seletor de organização na aba "Prestação de Contas" — antes, gerar o relatório de outra empresa
+> exigia trocar no seletor global e sair da tela. Só aparece quando o usuário tem acesso a mais de
+> uma organização. Achado técnico: o interceptor do `apiClient` sobrescrevia incondicionalmente
+> `X-Org-Id` com a organização ativa globalmente; ajustado pra só aplicar esse valor quando a
+> chamada não já especifica o header — mudança aditiva, retrocompatível, usada só pelas 3 chamadas
+> deste relatório (passam `X-Org-Id` explícito da organização escolhida no seletor local, sem
+> tocar no contexto global do resto do app). `npm run build` limpo, 86/89 frontend.
+> Atualizado em: 27/07/2026 — **TASK-148 implementada, EPIC-017 com todas as 4 tasks técnicas em
+> Em Validação** (falta só a TASK-QA-MAN-012, o QA manual). TASK-148 (frontend): tela do Relatório
+> Analítico em `/reports` atualizada pra refletir Excel em vez de CSV (rótulo, `title`, tipo do
+> blob e extensão do arquivo baixado) — mudança isolada, ícone `Download` mantido por já ser
+> genérico o suficiente. `npm run build` limpo, 86/89 frontend (3 falhas pré-existentes).
+> Atualizado em: 27/07/2026 — TASK-147 implementada e movida para Em Validação
+> (`feature/EPIC-017-reports-accountability-analytics` em `easy-maintenance-api`): export cross-org
+> do Relatório Analítico trocado de CSV puro pra `.xlsx` real (Apache POI `poi-ooxml`), com 2 colunas
+> novas ("Status do item" via `StatusCalculator`, "Qtd. de evidências anexadas" via
+> `findByMaintenanceIdIn` da TASK-142, sem N+1) e tipos nativos de data/moeda (não texto formatado).
+> Métodos renomeados (`exportCsvCrossOrg`→`exportExcelCrossOrg`) — nome antigo seria enganoso pra um
+> retorno `.xlsx`. Export single-org (usado por `/maintenances/export` fora do `/me/reports`)
+> continua CSV, fora do escopo. Testes existentes reescritos pra ler o workbook via POI em vez de
+> comparar string crua. 719/719 backend green.
+> Atualizado em: 27/07/2026 — TASK-146 implementada e movida para Em Validação
+> (`feature/EPIC-017-reports-accountability-analytics` em `easy-maintenance-web`): nova aba
+> "Prestação de Contas" em `/reports`, PDF gerado client-side via `@react-pdf/renderer` (RN-017-05),
+> 4 seções (resumo/KPIs, manutenções realizadas, canceladas/auditoria via TASK-145, itens
+> pendentes/vencidos). **Achado que mudou o escopo original**: sem seletor de organização nesta
+> tela — todo endpoint org-scoped depende do `X-Org-Id` global (seletor de organização já existente
+> no app), então um dropdown local criaria duas noções conflitantes de "organização atual"; o
+> relatório é sempre da organização ativa, trocar de organização usa o seletor global de sempre.
+> KPIs calculados no frontend a partir de 3 chamadas já existentes, sem endpoint agregador novo.
+> `npm run build` limpo, `npm test` 86/89 (3 falhas pré-existentes).
+> Atualizado em: 27/07/2026 — TASK-145 implementada e movida para Em Validação
+> (`feature/EPIC-017-reports-accountability-analytics` em `easy-maintenance-api`, a partir de
+> `staging` já com EPIC-016 mergeado): estendeu `GET /items/maintenances/cancelled` (em vez de criar
+> endpoint novo) — `itemId` agora opcional, `performedAtFrom`/`performedAtTo` buscam canceladas de
+> toda a organização no período (query nativa com `JOIN maintenance_items`, filtro de organização
+> embutido, mesmo cuidado multi-tenant da TASK-137/139). Refatorado `enrichCancelled()` compartilhado
+> entre `findCancelledByItem` e o novo `findCancelledByOrganization`, evitando duplicar a resolução
+> em lote de nome de quem cancelou + anexos/autores (TASK-141/142). Teste extra com H2 real provando
+> isolamento por organização de verdade (join correto), não só que os parâmetros certos foram
+> passados. 718/718 backend green.
+> Atualizado em: 27/07/2026 — **EPIC-017 desenhado**: Relatórios — Prestação de Contas (PDF) e
+> Analítico (Excel). Hoje `/me/reports` só tem um relatório básico (KPIs cross-org + tabela + CSV),
+> que não serve pra "mostrar pra alguém de fora o que foi feito". Dois relatórios com propósitos
+> diferentes: (1) **Prestação de Contas** — PDF de UMA organização por vez (nunca cross-org), 4
+> seções (resumo do período, manutenções realizadas, canceladas/auditoria — usa o histórico do
+> EPIC-016 —, itens pendentes/vencidos), gerado **client-side** via `@react-pdf/renderer` (decisão
+> consciente pra v1: sem endpoint de PDF no backend; migra pra lá só se precisar de automação
+> futura); (2) **Analítico** — evolução do export cross-org existente, de CSV pra `.xlsx` real
+> (Apache POI), com 2 colunas novas (status do item, qtd. de evidências), dado cru sem abas de
+> totais agregados (decisão deliberada: cálculo é trabalho do usuário no Excel dele). Decisão de
+> escopo importante: nada de "níveis de relatório" (auditor/controle interno/etc.) por enquanto — um
+> relatório configurável por filtros, não vários templates fixos. Gap real identificado: canceladas
+> hoje só são consultáveis por item (TASK-139) — falta uma consulta por organização+período
+> (TASK-145), pré-requisito do PDF. 5 tasks técnicas (TASK-145 a 148) + QA manual (TASK-QA-MAN-012)
+> criadas em Backlog.
 > Atualizado em: 27/07/2026 — **EPIC-016 concluído e aprovado no QA manual.** TASK-QA-MAN-011 (8
 > cenários) validada por Douglas, achando e corrigindo 3 bugs reais no processo: (1) `cancel()`
 > não persistia `cancelledAt`/`cancelledBy`/`cancelReason` — `save()`+`delete()` na mesma transação
@@ -516,6 +588,13 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-QA-MAN-012](QA/tasks/TASK-QA-MAN-012.md) | QA Manual: E2E dos dois relatórios (PDF de prestação de contas + Excel analítico) — 5 cenários aprovados por Douglas | 🟠 Alto | EPIC-017 |
+| [TASK-150](tasks/TASK-150.md) | Frontend: ocultar menu "Relatórios" quando o plano não inclui relatórios (achado no QA manual, C3) | 🟡 Médio | EPIC-017 |
+| [TASK-149](tasks/TASK-149.md) | Frontend: seletor de organização na aba Prestação de Contas (achado pós-TASK-146) | 🟡 Médio | EPIC-017 |
+| [TASK-148](tasks/TASK-148.md) | Frontend: ajustar tela de Relatório Analítico para refletir export em Excel | 🔵 Baixo | EPIC-017 |
+| [TASK-147](tasks/TASK-147.md) | Backend: evoluir export cross-org de CSV para Excel (.xlsx) real, com novas colunas, 6 testes novos | 🟡 Médio | EPIC-017 |
+| [TASK-146](tasks/TASK-146.md) | Frontend: Relatório de Prestação de Contas — PDF de uma organização, 4 seções | 🟠 Alto | EPIC-017 |
+| [TASK-145](tasks/TASK-145.md) | Backend: listar manutenções canceladas de uma organização num período (auditoria), 5 testes novos | 🟠 Alto | EPIC-017 |
 | [TASK-136](tasks/TASK-136.md) | Infra: provedor de e-mail Resend (grátis) + endpoint de teste manual de envio, MailerSend mantido religável via config | 🟡 Médio | — |
 | [TASK-135](tasks/TASK-135.md) | Backend: template WhatsApp v2 — 5 variáveis de corpo + botão de URL dinâmica pro item | 🟡 Médio | EPIC-015 |
 | [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp — 13 cenários executados em staging e aprovados por Douglas | 🟠 Alto | EPIC-015 |
