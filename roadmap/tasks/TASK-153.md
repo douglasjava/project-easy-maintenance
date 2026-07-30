@@ -58,14 +58,16 @@ cliente.
 
 ## Critérios de Aceite
 
-- [ ] Acessar `/landing?utm_source=google&utm_medium=cpc&utm_campaign=teste` grava cookie `em_utm`
-      com os 3 valores
-- [ ] Navegar para outra página pública sem UTM na URL mantém o cookie intacto (não é sobrescrito
-      com valores vazios)
-- [ ] Fechar e reabrir a aba (mesmo navegador) dentro de 30 dias mantém o UTM salvo
-- [ ] `getStoredUtm()` retorna os valores corretos para uso no form (TASK-154) e no botão de
+- [x] Acessar `/landing?utm_source=google&utm_medium=cpc&utm_campaign=teste` grava cookie `em_utm`
+      com os 3 valores — validado via `utm.test.ts` e manualmente no browser (Playwright, ver notas
+      de QA da TASK-155/EPIC-018)
+- [x] Navegar para outra página pública sem UTM na URL mantém o cookie intacto (não é sobrescrito
+      com valores vazios) — coberto por `utm.test.ts` ("does not write the cookie when...")
+- [x] Fechar e reabrir a aba (mesmo navegador) dentro de 30 dias mantém o UTM salvo — por design
+      (`expires: 30`), mesmo padrão do cookie `em_ref` já validado em produção
+- [x] `getStoredUtm()` retorna os valores corretos para uso no form (TASK-154) e no botão de
       WhatsApp (TASK-155)
-- [ ] `npm run build` limpo
+- [x] `npm run build` limpo
 
 ## Dependências
 Nenhuma (trilha independente da TASK-152).
@@ -77,4 +79,7 @@ Baixo — mesmo padrão de cookie já validado em produção (`em_ref`).
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-018-conversion-tracking` (`utm.ts`, `UtmCapture.tsx`
+montado no `layout.tsx`, commits `91e59d6`/`70496c2`/`db608c3`), `utm.test.ts` cobrindo captura/
+merge/leitura, `npm run build` limpo, validado manualmente no browser. Falta QA manual/PR para
+`staging`.

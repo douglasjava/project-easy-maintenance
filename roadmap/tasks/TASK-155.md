@@ -66,13 +66,21 @@ Nova rota pública `/obrigado`: confirmação + próximos passos + botão secund
 
 ## Critérios de Aceite
 
-- [ ] Visitante sem sessão acessa `/obrigado` diretamente pela URL e vê o conteúdo, sem redirect
-      para `/login`
-- [ ] Página renderiza corretamente em mobile e desktop
-- [ ] Botão de WhatsApp abre `wa.me` com mensagem pré-preenchida (incluindo contexto de UTM quando
-      disponível)
-- [ ] `/obrigado` tem `robots: noindex` e não aparece em `sitemap.ts`
-- [ ] `npm run build` limpo
+- [x] Visitante sem sessão acessa `/obrigado` diretamente pela URL e vê o conteúdo, sem redirect
+      para `/login` — validado manualmente no browser (Playwright), whitelist do `Shell.tsx`
+      confirmada
+- [x] Página renderiza corretamente em mobile e desktop — verificado em viewport mobile (390×844)
+      via Playwright; layout Bootstrap padrão sem overflow
+- [x] Botão de WhatsApp abre `wa.me` com mensagem pré-preenchida (incluindo contexto de UTM quando
+      disponível) — **achado de QA**: a implementação original lia o cookie `em_utm` de forma
+      síncrona durante o render (`buildWhatsAppLink()` chamado direto no JSX). Como `/obrigado` é
+      pré-renderizada estaticamente, o servidor nunca tem o cookie, e o React não corrige esse
+      mismatch de hidratação depois ("This won't be patched up") — o link ficava para sempre sem o
+      contexto da campanha. Corrigido (commit `f03dfe4`): link base no primeiro render (igual em
+      servidor/cliente), enriquecido via `useEffect` após o mount. Revalidado no browser: contexto
+      da campanha aparece corretamente.
+- [x] `/obrigado` tem `robots: noindex` e não aparece em `sitemap.ts`
+- [x] `npm run build` limpo
 
 ## Dependências
 - **TASK-153** — helper `getStoredUtm()` para o contexto do botão de WhatsApp (não bloqueia a
@@ -86,4 +94,7 @@ Baixo, mas alto impacto se esquecido: sem a correção do `Shell.tsx`, toda a m�
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-018-conversion-tracking` (commits `1b78a26`, `64624d9`,
+fix `f03dfe4`), validado manualmente no browser incluindo achado/correção do bug de contexto de UTM
+no link de WhatsApp (ver Critérios de Aceite). `npm run build` limpo. Falta QA manual/PR para
+`staging`.

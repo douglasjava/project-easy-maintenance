@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/07/2026 — **EPIC-018: TASK-152 a 156 implementadas e movidas para Em
+> Validação** (Douglas pediu para retomar o épico; estavam commitadas em
+> `feature/EPIC-018-conversion-tracking` em ambos os repos, mas os docs de roadmap ainda diziam
+> "Pronto para Implementar" — TASK-154 estava com a mudança só staged, sem commit; foi commitada
+> nesta sessão). Validação: suíte backend completa (719+ testes) verde, `npm run build` do
+> frontend limpo, e QA manual em browser real (Playwright) do fluxo /landing→/obrigado. **Achado
+> de QA corrigido**: o link de WhatsApp em `/obrigado` nunca incluía o contexto de campanha (UTM)
+> por um mismatch de hidratação — `buildWhatsAppLink()` lia o cookie durante o render de uma
+> página estaticamente pré-renderizada, e o React não corrige esse tipo de mismatch depois da
+> hidratação inicial. Corrigido movendo a leitura do cookie para dentro de um `useEffect`
+> (commit `f03dfe4`). Falta: QA manual formal, PR para `staging` em ambos os repos, e os IDs de
+> Meta Pixel/Google Tag (Douglas) para fechar TASK-156 de fato.
 > Atualizado em: 30/07/2026 — **EPIC-018 criado** (Douglas): tracking de conversão para Meta
 > Ads/Google Ads — captura/persistência de UTM, checkbox de consentimento LGPD no form de
 > demonstração, nova página `/obrigado` (com correção da whitelist `isAuth` do `Shell.tsx`, mesma
@@ -504,11 +516,11 @@ _Vazio_
 ## Pronto para Implementar
 
 **🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
-- **[TASK-152](tasks/TASK-152.md)** — Backend: `consent_accepted_at` + validação de consentimento obrigatório (🟠 Alto | EPIC-018)
-- **[TASK-153](tasks/TASK-153.md)** — Frontend: captura e persistência de UTM (cookie 30 dias) (🟠 Alto | EPIC-018)
-- **[TASK-154](tasks/TASK-154.md)** — Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração (🟠 Alto | EPIC-018)
-- **[TASK-155](tasks/TASK-155.md)** — Frontend: página `/obrigado` + correção da whitelist `isAuth` (🟠 Alto | EPIC-018)
-- **[TASK-156](tasks/TASK-156.md)** — Frontend: scaffolding de eventos Lead/Contact — pendente de IDs de pixel (🟡 Médio | EPIC-018)
+- ~~**[TASK-152](tasks/TASK-152.md)**~~ — ~~Backend: `consent_accepted_at` + validação de consentimento obrigatório~~ *(em validação)*
+- ~~**[TASK-153](tasks/TASK-153.md)**~~ — ~~Frontend: captura e persistência de UTM (cookie 30 dias)~~ *(em validação)*
+- ~~**[TASK-154](tasks/TASK-154.md)**~~ — ~~Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração~~ *(em validação)*
+- ~~**[TASK-155](tasks/TASK-155.md)**~~ — ~~Frontend: página `/obrigado` + correção da whitelist `isAuth`~~ *(em validação)*
+- ~~**[TASK-156](tasks/TASK-156.md)**~~ — ~~Frontend: scaffolding de eventos Lead/Contact — pendente de IDs de pixel~~ *(em validação)*
 - **[TASK-157](tasks/TASK-157.md)** — *(backlog, não "pronta")* Conversions API (Meta) / Enhanced Conversions (Google) server-side — bloqueada por credenciais que Douglas ainda vai levantar (🟡 Médio | EPIC-018)
 
 **🔴 Crítico (bug ativo de receita) — sequência sugerida**:
@@ -547,6 +559,11 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-152](tasks/TASK-152.md) | Backend: `consent_accepted_at` em `landing_leads` + validação de consentimento obrigatório | 🟠 Alto | EPIC-018 |
+| [TASK-153](tasks/TASK-153.md) | Frontend: captura e persistência de UTM (cookie 30 dias)                        | 🟠 Alto    | EPIC-018 |
+| [TASK-154](tasks/TASK-154.md) | Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração | 🟠 Alto    | EPIC-018 |
+| [TASK-155](tasks/TASK-155.md) | Frontend: página `/obrigado` + correção da whitelist `isAuth` no `Shell.tsx`    | 🟠 Alto    | EPIC-018 |
+| [TASK-156](tasks/TASK-156.md) | Frontend: scaffolding de eventos de conversão (Lead/Contact) — pendente de IDs de pixel | 🟡 Médio | EPIC-018 |
 | [TASK-118](tasks/TASK-118.md) | BUGFIX Full-Stack: /organizations/new não pede mais plano próprio (herda plano da conta) | 🔴 Crítico | EPIC-014 |
 | [TASK-116](tasks/TASK-116.md) | Frontend+Backend: painel admin subscriptions — remove ações por org, mostra pool (não verificado visualmente) | 🟡 Médio | EPIC-014 |
 | [TASK-115](tasks/TASK-115.md) | Frontend+Backend: /billing consolidado — card único de conta + pool de orgs/itens (não verificado visualmente) | 🟠 Alto | EPIC-014 |

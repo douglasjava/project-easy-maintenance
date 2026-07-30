@@ -62,13 +62,17 @@ Checkbox obrigatório de consentimento LGPD ao lado do botão de submit, envio d
 
 ## Critérios de Aceite
 
-- [ ] Submeter o form sem marcar o checkbox não dispara a chamada à API (bloqueado no cliente)
-- [ ] Checkbox desmarcado mostra mensagem clara do que falta
-- [ ] Submissão com sucesso envia `consentAccepted: true` e os campos de UTM presentes no cookie
-      `em_utm` (quando existentes)
-- [ ] Submissão com sucesso redireciona para `/obrigado` (não mostra mais `alert()` de sucesso)
-- [ ] Erro de submissão continua tratado (mensagem de erro, sem redirect)
-- [ ] `npm run build` limpo
+- [x] Submeter o form sem marcar o checkbox não dispara a chamada à API (bloqueado no cliente) —
+      validado manualmente no browser (Playwright): submit sem marcar exibe erro inline e não chama
+      `api.post`
+- [x] Checkbox desmarcado mostra mensagem clara do que falta
+- [x] Submissão com sucesso envia `consentAccepted: true` e os campos de UTM presentes no cookie
+      `em_utm` (quando existentes) — verificado por leitura de código (payload monta `source`/
+      `medium`/`campaign`/`utmJson` a partir de `getStoredUtm()`); não testado contra o backend real
+      rodando (fora do escopo desta validação)
+- [x] Submissão com sucesso redireciona para `/obrigado` (não mostra mais `alert()` de sucesso)
+- [x] Erro de submissão continua tratado (mensagem de erro, sem redirect)
+- [x] `npm run build` limpo
 
 ## Dependências
 - **TASK-152** — backend precisa aceitar `consentAccepted` antes deste form poder enviá-lo com
@@ -83,4 +87,7 @@ Baixo — mudança isolada ao form já existente, aditiva no payload.
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-018-conversion-tracking` (`landing/page.tsx`, commit
+`5b10aa5`), `npm run build` limpo, gate de consentimento e redirect validados manualmente no
+browser. Submissão completa contra o backend real (fluxo end-to-end até o `landing_leads` gravado)
+ainda não testada — depende de ambiente com API rodando. Falta QA manual/PR para `staging`.

@@ -1,8 +1,13 @@
 # EPIC-018 — Tracking de Conversão para Ads (UTM, Consentimento LGPD, Página de Obrigado)
 
 ## Status
-**Em andamento — criado em 30/07/2026.** Design aprovado por Douglas; tasks técnicas em
-implementação.
+**Em Validação — 30/07/2026.** TASK-152 a 156 implementadas em `feature/EPIC-018-conversion-
+tracking` (ambos os repos), suíte backend completa e `npm run build` do frontend verdes, validação
+manual em browser feita (Playwright) — inclusive um bug real encontrado e corrigido nessa validação
+(link de WhatsApp em `/obrigado` nunca incluía o contexto de UTM por mismatch de hidratação, ver
+TASK-155). Falta: QA manual formal, abrir PR para `staging` em ambos os repos, e os IDs de Meta
+Pixel/Google Tag do Douglas para fechar de fato o épico (TASK-156). TASK-157 permanece no backlog,
+bloqueada por credenciais.
 
 ## Objetivo
 Preparar o site público (`easymaintenance.com.br`) para o início de tráfego pago (Meta Ads, Google
@@ -72,12 +77,12 @@ API de conversões do Google Ads).
 
 ## Critério de Conclusão do Épico
 
-- [ ] UTM da URL é persistido (cookie, 30 dias) e chega até o payload do lead e ao WhatsApp
-- [ ] Formulário "Solicitar Demonstração" não envia sem o checkbox de consentimento marcado
+- [x] UTM da URL é persistido (cookie, 30 dias) e chega até o payload do lead e ao WhatsApp
+- [x] Formulário "Solicitar Demonstração" não envia sem o checkbox de consentimento marcado
       (validado no frontend e no backend)
-- [ ] `landing_leads` grava `consent_accepted_at` com timestamp gerado no servidor
-- [ ] Submissão bem-sucedida redireciona para `/obrigado`, acessível sem login
-- [ ] Evento "Lead" dispara (via stub, hoje no-op) só no mount de `/obrigado`; evento "Contact"
+- [x] `landing_leads` grava `consent_accepted_at` com timestamp gerado no servidor
+- [x] Submissão bem-sucedida redireciona para `/obrigado`, acessível sem login
+- [x] Evento "Lead" dispara (via stub, hoje no-op) só no mount de `/obrigado`; evento "Contact"
       dispara no clique de "Falar com Consultor"
 - [ ] Douglas forneceu os IDs de Meta Pixel / Google Tag e a instalação real foi concluída
       (fecha TASK-156 de fato; sem isso o épico fica "concluído com pendência conhecida")

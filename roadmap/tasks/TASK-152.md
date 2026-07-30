@@ -65,12 +65,12 @@ Adicionar `consent_accepted_at` a `landing_leads`, aceitar um booleano `consentA
 
 ## Critérios de Aceite
 
-- [ ] Migração aplicada, coluna `consent_accepted_at` existe em `landing_leads`
-- [ ] `POST /easy-maintenance/api/v1/landing/leads` sem `consentAccepted: true` retorna 400 e não
+- [x] Migração aplicada, coluna `consent_accepted_at` existe em `landing_leads`
+- [x] `POST /easy-maintenance/api/v1/landing/leads` sem `consentAccepted: true` retorna 400 e não
       grava lead
-- [ ] Lead criado com `consentAccepted: true` grava `consent_accepted_at` com o instante do
+- [x] Lead criado com `consentAccepted: true` grava `consent_accepted_at` com o instante do
       servidor no momento da requisição
-- [ ] Suíte de testes backend passa (sem regressão nos testes existentes de `LeadService`)
+- [x] Suíte de testes backend passa (sem regressão nos testes existentes de `LeadService`)
 
 ## Dependências
 Nenhuma (trilha independente da TASK-153).
@@ -83,4 +83,6 @@ Baixo — mudança aditiva, não quebra nenhum consumidor existente (nenhum outr
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-018-conversion-tracking` (commit `258b00c`),
+`LeadServiceTest` cobrindo os 3 cenários de aceite e suíte completa do backend passando (sem
+regressão). Falta QA manual/PR para `staging`.

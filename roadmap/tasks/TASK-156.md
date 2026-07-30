@@ -60,13 +60,14 @@ pixel base + preencher os IDs.
 
 ## Critérios de Aceite
 
-- [ ] `trackLead()` e `trackContact()` existem e não quebram a aplicação mesmo sem
-      `fbq`/`gtag` definidos (no-op seguro)
-- [ ] `trackLead()` dispara uma única vez no mount de `/obrigado`
-- [ ] `trackContact()` dispara no clique do botão "Falar com Consultor"
-- [ ] Nenhum ID de pixel foi inventado/hardcoded — instalação real do pixel base documentada como
-      pendência aberta
-- [ ] `npm run build` limpo
+- [x] `trackLead()` e `trackContact()` existem e não quebram a aplicação mesmo sem
+      `fbq`/`gtag` definidos (no-op seguro) — usa optional chaining, validado sem pixel instalado
+- [x] `trackLead()` dispara uma única vez no mount de `/obrigado` (`useEffect` com deps vazias)
+- [x] `trackContact()` dispara no clique do botão "Falar com Consultor" (cabeado em `landing/page.tsx`
+      na TASK-154, commit `5b10aa5`)
+- [x] Nenhum ID de pixel foi inventado/hardcoded — instalação real do pixel base documentada como
+      pendência aberta (`TODO` explícito em `tracking.ts`)
+- [x] `npm run build` limpo
 
 ## Dependências
 - **TASK-155** — `/obrigado` precisa existir para `trackLead()` ter onde disparar.
@@ -80,4 +81,7 @@ comunicado como pendência aberta, não como "tracking pronto".
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-018-conversion-tracking` (`tracking.ts`, commit
+`7d87e1b`; wiring do `trackContact()` no botão "Falar com Consultor" veio junto da TASK-154, commit
+`5b10aa5`), `npm run build` limpo. Sem efeito prático em produção até Douglas fornecer os IDs de
+pixel (pendência aberta, não é bug). Falta QA manual/PR para `staging`.
