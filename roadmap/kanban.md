@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/07/2026 — **EPIC-018 criado** (Douglas): tracking de conversão para Meta
+> Ads/Google Ads — captura/persistência de UTM, checkbox de consentimento LGPD no form de
+> demonstração, nova página `/obrigado` (com correção da whitelist `isAuth` do `Shell.tsx`, mesma
+> classe de bug do TASK-151) e scaffolding de eventos Lead/Contact. TASK-152 a 156 prontas para
+> implementar; TASK-157 (Conversions API/Enhanced Conversions server-side) fica no backlog,
+> bloqueada por credenciais que Douglas ainda vai levantar. Nenhum Meta Pixel/Google Tag instalado
+> hoje — IDs pendentes de Douglas, não inventados.
 > Atualizado em: 28/07/2026 — **EPIC-017 concluído e aprovado no QA manual.** TASK-QA-MAN-012
 > (5 cenários) validada por Douglas, incorporando 2 achados no processo: TASK-149 (seletor de
 > organização inline na Prestação de Contas, sem sair da tela — exigiu ajustar o interceptor do
@@ -495,6 +502,14 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
+- **[TASK-152](tasks/TASK-152.md)** — Backend: `consent_accepted_at` + validação de consentimento obrigatório (🟠 Alto | EPIC-018)
+- **[TASK-153](tasks/TASK-153.md)** — Frontend: captura e persistência de UTM (cookie 30 dias) (🟠 Alto | EPIC-018)
+- **[TASK-154](tasks/TASK-154.md)** — Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração (🟠 Alto | EPIC-018)
+- **[TASK-155](tasks/TASK-155.md)** — Frontend: página `/obrigado` + correção da whitelist `isAuth` (🟠 Alto | EPIC-018)
+- **[TASK-156](tasks/TASK-156.md)** — Frontend: scaffolding de eventos Lead/Contact — pendente de IDs de pixel (🟡 Médio | EPIC-018)
+- **[TASK-157](tasks/TASK-157.md)** — *(backlog, não "pronta")* Conversions API (Meta) / Enhanced Conversions (Google) server-side — bloqueada por credenciais que Douglas ainda vai levantar (🟡 Médio | EPIC-018)
 
 **🔴 Crítico (bug ativo de receita) — sequência sugerida**:
 - ~~**TASK-058**~~ — Refatorar job de expiração de TRIAL: PIX via DETACHED *(em validação)*
