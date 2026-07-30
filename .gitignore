@@ -52,3 +52,6 @@ target/
 coverage/
 .tmp/
 .cache/
+
+# scratch workspace for subagent-driven-development (ledger/briefs/reports, disposable)
+.superpowers/sdd/
