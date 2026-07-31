@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/07/2026 — **EPIC-018: PRs para `staging` aprovadas e mergeadas** (api#29,
+> web#28) — **PRs de promoção `staging` → `main` abertas**:
+> [easy-maintenance-api#30](https://github.com/douglasjava/easy-maintenance-api/pull/30) e
+> [easy-maintenance-web#29](https://github.com/douglasjava/easy-maintenance-web/pull/29). Falta
+> merge final de Douglas em `main` e os IDs de Meta Pixel/Google Tag para fechar TASK-156 de fato.
 > Atualizado em: 30/07/2026 — **EPIC-018: PRs abertos para `staging`.**
 > [easy-maintenance-api#29](https://github.com/douglasjava/easy-maintenance-api/pull/29) (TASK-152)
 > e [easy-maintenance-web#28](https://github.com/douglasjava/easy-maintenance-web/pull/28)
