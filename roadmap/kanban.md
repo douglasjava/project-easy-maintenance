@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/07/2026 — **TASK-158 criada e implementada**: página pública `/termos`,
+> resolvendo o link "Termos de Uso" quebrado desde antes do TASK-151 (flagado como fora de escopo
+> no TASK-151 e no EPIC-018 por falta de conteúdo jurídico). Douglas confirmou os dados: entidade
+> legal BRAINBYTE CONSULTORIA TI LTDA (CNPJ 50.047.256/0001-22), sem política de reembolso, trial
+> de 14 dias (já confirmado via TASK-087). [PR #30](https://github.com/douglasjava/easy-maintenance-web/pull/30)
+> aberto para `staging`. **Rascunho, não substitui revisão jurídica** — recomendado revisão de
+> advogado antes do primeiro cliente pagante real.
 > Atualizado em: 30/07/2026 — **EPIC-018: PRs para `staging` aprovadas e mergeadas** (api#29,
 > web#28) — **PRs de promoção `staging` → `main` abertas**:
 > [easy-maintenance-api#30](https://github.com/douglasjava/easy-maintenance-api/pull/30) e
@@ -572,6 +579,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-158](tasks/TASK-158.md) | Frontend: página pública de Termos de Uso — corrige link quebrado do rodapé     | 🟠 Alto    | —        |
 | [TASK-152](tasks/TASK-152.md) | Backend: `consent_accepted_at` em `landing_leads` + validação de consentimento obrigatório | 🟠 Alto | EPIC-018 |
 | [TASK-153](tasks/TASK-153.md) | Frontend: captura e persistência de UTM (cookie 30 dias)                        | 🟠 Alto    | EPIC-018 |
 | [TASK-154](tasks/TASK-154.md) | Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração | 🟠 Alto    | EPIC-018 |
