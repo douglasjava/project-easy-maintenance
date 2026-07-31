@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/07/2026 — **TASK-158 aprovada e mergeada em `staging`** (PR #30). PR de
+> promoção `staging` → `main` aberta:
+> [easy-maintenance-web#31](https://github.com/douglasjava/easy-maintenance-web/pull/31). Falta
+> merge final de Douglas em `main` e a revisão jurídica do conteúdo (ver riscos do TASK-158).
 > Atualizado em: 31/07/2026 — **TASK-158 criada e implementada**: página pública `/termos`,
 > resolvendo o link "Termos de Uso" quebrado desde antes do TASK-151 (flagado como fora de escopo
 > no TASK-151 e no EPIC-018 por falta de conteúdo jurídico). Douglas confirmou os dados: entidade

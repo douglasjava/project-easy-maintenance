@@ -81,7 +81,7 @@ corrigir com calma antes do primeiro contrato real.
 Baixo
 
 ## Status
-Em Validação — implementado em `feature/TASK-158-termos-de-uso`
-([PR #30](https://github.com/douglasjava/easy-maintenance-web/pull/30) para `staging`), `npm run
-build` limpo, QA manual validado (acesso anônimo, link do rodapé). Falta revisão jurídica do
-conteúdo e aprovação/merge de Douglas.
+Em Validação — [PR #30](https://github.com/douglasjava/easy-maintenance-web/pull/30) aprovada e
+mergeada em `staging`; [PR #31](https://github.com/douglasjava/easy-maintenance-web/pull/31)
+(`staging` → `main`) aberta. Falta merge final em `main` e a revisão jurídica do conteúdo (ver
+Riscos).
