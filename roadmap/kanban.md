@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/07/2026 — **EPIC-019 desenhada (Em Análise, não priorizada)**: Product
+> Analytics — motor de eventos próprio (event-driven), pra reduzir dependência de GA4/Clarity nos
+> casos de uso internos. Stack proposta: MongoDB (novo datastore, poliglota deliberado) +
+> ingestão síncrona no MVP (RabbitMQ fica pra fase 2, quando o volume justificar). Reaproveita
+> diretamente a infra do EPIC-018 (`utm.ts`, cookie `em_ref`, stubs de `tracking.ts`, checkbox de
+> consentimento LGPD). Documento completo (modelo de eventos, payload, desenho de banco, backlog
+> de tasks BE/FE/dashboard, roadmap futuro) em `roadmap/epics/EPIC-019.md`. Sem tasks
+> individuais criadas ainda — só acontece quando for priorizada/sequenciada com Douglas.
 > Atualizado em: 31/07/2026 — **TASK-158 aprovada e mergeada em `staging`** (PR #30). PR de
 > promoção `staging` → `main` aberta:
 > [easy-maintenance-web#31](https://github.com/douglasjava/easy-maintenance-web/pull/31). Falta
