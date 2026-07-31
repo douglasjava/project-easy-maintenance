@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/07/2026 — **🔴 URGENTE: Meta Pixel real instalado (TASK-156)** — Douglas
+> iniciou a 1ª campanha do Meta Ads hoje e passou o Pixel ID
+> (`2228895387905537`) durante a campanha já no ar (sem o pixel, zero sinal de conversão chegava
+> ao Meta — sem otimização de entrega, sem retargeting). Instalado, validado em produção local
+> (requisições reais a `www.facebook.com/tr` confirmadas via inspeção de rede).
+> [PR #32](https://github.com/douglasjava/easy-maintenance-web/pull/32) aberto para `staging`.
+> **Ação pendente de Douglas**: configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway (produção e
+> staging) — sem isso o pixel não funciona fora do ambiente local, mesmo com o PR mergeado.
+> Google Tag (Google Ads) continua sem ID fornecido.
 > Atualizado em: 31/07/2026 — **EPIC-019 desenhada (Em Análise, não priorizada)**: Product
 > Analytics — motor de eventos próprio (event-driven), pra reduzir dependência de GA4/Clarity nos
 > casos de uso internos. Stack proposta: MongoDB (novo datastore, poliglota deliberado) +

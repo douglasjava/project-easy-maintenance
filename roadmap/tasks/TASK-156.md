@@ -68,6 +68,12 @@ pixel base + preencher os IDs.
 - [x] Nenhum ID de pixel foi inventado/hardcoded — instalação real do pixel base documentada como
       pendência aberta (`TODO` explícito em `tracking.ts`)
 - [x] `npm run build` limpo
+- [x] **Meta Pixel base instalado** (31/07/2026) — Douglas iniciou a 1ª campanha e forneceu o ID
+      real (`2228895387905537`). `window.fbq` confirmado funcionando em produção local, com
+      requisições reais a `www.facebook.com/tr` validadas via inspeção de rede (`PageView` e
+      `Lead`). Ver `src/components/MetaPixel.tsx`.
+- [ ] **Google Tag base** — Douglas ainda não forneceu o ID; `window.gtag` continua não existindo,
+      `trackLead()`/`trackContact()` seguem no-op só pro lado do Google
 
 ## Dependências
 - **TASK-155** — `/obrigado` precisa existir para `trackLead()` ter onde disparar.
@@ -81,7 +87,8 @@ comunicado como pendência aberta, não como "tracking pronto".
 Baixo
 
 ## Status
-Em Validação — implementado em `feature/EPIC-018-conversion-tracking` (`tracking.ts`, commit
-`7d87e1b`; wiring do `trackContact()` no botão "Falar com Consultor" veio junto da TASK-154, commit
-`5b10aa5`), `npm run build` limpo. Sem efeito prático em produção até Douglas fornecer os IDs de
-pixel (pendência aberta, não é bug). Falta QA manual/PR para `staging`.
+Em Validação — Meta Pixel real instalado e validado
+([PR #32](https://github.com/douglasjava/easy-maintenance-web/pull/32) para `staging`, urgente:
+campanha do Meta já está no ar). Falta: **configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway**
+(produção e staging — Douglas precisa fazer isso, sem acesso via código) e o ID do Google Tag pra
+fechar a task por completo.
