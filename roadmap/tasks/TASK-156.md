@@ -87,8 +87,9 @@ comunicado como pendência aberta, não como "tracking pronto".
 Baixo
 
 ## Status
-Em Validação — Meta Pixel real instalado e validado
-([PR #32](https://github.com/douglasjava/easy-maintenance-web/pull/32) para `staging`, urgente:
-campanha do Meta já está no ar). Falta: **configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway**
-(produção e staging — Douglas precisa fazer isso, sem acesso via código) e o ID do Google Tag pra
-fechar a task por completo.
+Em Validação — Meta Pixel real instalado e validado.
+[PR #32](https://github.com/douglasjava/easy-maintenance-web/pull/32) aprovada e mergeada em
+`staging`; [PR #33](https://github.com/douglasjava/easy-maintenance-web/pull/33) (`staging` →
+`main`) aberta, urgente (campanha já no ar). Falta: merge final em `main`, **configurar
+`NEXT_PUBLIC_META_PIXEL_ID` no Railway** (Douglas precisa fazer isso, sem acesso via código) e o
+ID do Google Tag pra fechar a task por completo.

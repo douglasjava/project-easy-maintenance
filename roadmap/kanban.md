@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/07/2026 — **🔴 URGENTE: PR staging → main aberta pro Meta Pixel**
+> ([easy-maintenance-web#33](https://github.com/douglasjava/easy-maintenance-web/pull/33)). Falta
+> merge final de Douglas em `main` **e** configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway — sem
+> isso o pixel não ativa em produção mesmo com o código mergeado.
 > Atualizado em: 31/07/2026 — **🔴 URGENTE: Meta Pixel real instalado (TASK-156)** — Douglas
 > iniciou a 1ª campanha do Meta Ads hoje e passou o Pixel ID
 > (`2228895387905537`) durante a campanha já no ar (sem o pixel, zero sinal de conversão chegava
