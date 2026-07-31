@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/07/2026 — **EPIC-018: PRs abertos para `staging`.**
+> [easy-maintenance-api#29](https://github.com/douglasjava/easy-maintenance-api/pull/29) (TASK-152)
+> e [easy-maintenance-web#28](https://github.com/douglasjava/easy-maintenance-web/pull/28)
+> (TASK-153 a 156 + melhorias de conversão da landing: badges de segmento no Hero, reordenação da
+> seção "Para quem", reescrita de 3 dos 5 cards de Diferenciais, selo LGPD/ABNT, CTA sticky mobile,
+> compressão de imagem, correções de acessibilidade Lighthouse 88→100, remoção da alegação "centenas
+> de gestores" sem cliente real). Falta revisão/merge de Douglas e os IDs de Meta Pixel/Google Tag
+> para fechar TASK-156 de fato.
 > Atualizado em: 30/07/2026 — **EPIC-018: TASK-152 a 156 implementadas e movidas para Em
 > Validação** (Douglas pediu para retomar o épico; estavam commitadas em
 > `feature/EPIC-018-conversion-tracking` em ambos os repos, mas os docs de roadmap ainda diziam
