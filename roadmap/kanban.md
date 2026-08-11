@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **EPIC-020: PRs abertas para `staging`**
+> ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
+> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)). O PR do
+> frontend depende do backend já estar em `staging` pra funcionar de ponta a ponta — mergear a
+> api primeiro. **Falta QA manual do Douglas antes do merge** — não foi validado clicando na tela
+> nesta sessão.
 > Atualizado em: 11/08/2026 — **EPIC-020 completo (TASK-159 a 162)**: painel financeiro admin —
 > receita recebida vs. custo de infraestrutura + comissão de afiliado, grid de totalizadores +
 > gráfico Recharts, cadastro de custo por categoria. Ambos os repos, branches
