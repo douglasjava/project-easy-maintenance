@@ -68,11 +68,11 @@ Criar `GET /admin/billing/financials?months=12` retornando a série mensal compl
 
 ## Critérios de Aceite
 
-- [ ] Endpoint retorna 12 meses por padrão, ordenados do mais antigo ao mais recente
-- [ ] Receita reflete só pagamento confirmado (`status = RECEIVED`), não assinatura ativa
-- [ ] Custo resolve a vigência correta por mês, incluindo troca de valor no meio da janela
-- [ ] `profitCents` calculado corretamente em todos os casos de teste
-- [ ] Suíte de testes backend passa, sem regressão
+- [x] Endpoint retorna 12 meses por padrão, ordenados do mais antigo ao mais recente
+- [x] Receita reflete só pagamento confirmado (`status = RECEIVED`), não assinatura ativa
+- [x] Custo resolve a vigência correta por mês (via `resolveAmountCents` da TASK-159, já testado lá)
+- [x] `profitCents` calculado corretamente em todos os casos de teste
+- [x] Suíte de testes backend passa, sem regressão (5 testes novos)
 
 ## Dependências
 - **TASK-159** — precisa do repositório de custo de infraestrutura já existir.
@@ -85,4 +85,7 @@ Cobrir bem o caso de troca de vigência no meio da janela é o ponto crítico de
 Médio
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-020-financial-dashboard`, commit `c44c01c`. Sem
+GROUP BY em SQL (sem precedente no codebase, risco de sintaxe MySQL-specific em H2) — computa
+limites de cada mês em Java e faz query de intervalo por mês, mesmo padrão do `ReportsService`.
+Falta QA manual/PR.

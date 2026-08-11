@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/08/2026 — **TASK-160 implementada** (EPIC-020): endpoint
+> `GET /admin/billing/financials` — receita/custo/comissão/lucro por mês, últimos 12 (clamp 1-24).
+> 5 testes novos, suíte completa sem regressão. Backend do EPIC-020 completo (TASK-159 + 160).
+> Próxima: TASK-161 (frontend — página + gráfico Recharts).
 > Atualizado em: 10/08/2026 — **TASK-159 implementada** (EPIC-020): tabela
 > `operating_expense_rates` + CRUD de custo de infraestrutura, em `feature/EPIC-020-financial-
 > dashboard` (branch a partir de `staging`). 7 testes novos, suíte completa sem regressão. Próxima:
@@ -572,6 +576,7 @@ _Vazio_
 
 **🟠 Alto (EPIC-020 — painel financeiro admin, receita vs. custo)**:
 - ~~**[TASK-159](tasks/TASK-159.md)**~~ — ~~Backend: modelo de dados + CRUD de custo de infraestrutura~~ *(em validação)*
+- ~~**[TASK-160](tasks/TASK-160.md)**~~ — ~~Backend: endpoint agregado de financeiro por mês~~ *(em validação)*
 - **[TASK-160](tasks/TASK-160.md)** — Backend: endpoint agregado de financeiro por mês (🟠 Alto | EPIC-020)
 - **[TASK-161](tasks/TASK-161.md)** — Frontend: página `/financeiro` — grid + gráfico Recharts (🟠 Alto | EPIC-020)
 - **[TASK-162](tasks/TASK-162.md)** — Frontend: cadastro/edição de custo de infraestrutura (🟠 Alto | EPIC-020)
