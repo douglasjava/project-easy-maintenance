@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/08/2026 — **EPIC-020 criado e pronto para implementar**: Painel Financeiro
+> Admin (receita recebida vs. custo de infraestrutura + comissão de afiliado, gráfico mensal
+> Recharts, grid de totalizadores do mês atual). Desenhado via brainstorm com Douglas — spec em
+> `docs/superpowers/specs/2026-08-10-painel-financeiro-admin-design.md`. 4 tasks criadas
+> (TASK-159 a 162), ordem: modelo de custo → endpoint agregado → página/gráfico → cadastro de
+> custo. Sem permissão nova (admin único). Fora de escopo: despesas gerais do negócio, forecast.
 > Atualizado em: 31/07/2026 — **🔴 URGENTE: PR staging → main aberta pro Meta Pixel**
 > ([easy-maintenance-web#33](https://github.com/douglasjava/easy-maintenance-web/pull/33)). Falta
 > merge final de Douglas em `main` **e** configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway — sem
@@ -559,6 +565,12 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟠 Alto (EPIC-020 — painel financeiro admin, receita vs. custo)**:
+- **[TASK-159](tasks/TASK-159.md)** — Backend: modelo de dados + CRUD de custo de infraestrutura (🟠 Alto | EPIC-020)
+- **[TASK-160](tasks/TASK-160.md)** — Backend: endpoint agregado de financeiro por mês (🟠 Alto | EPIC-020)
+- **[TASK-161](tasks/TASK-161.md)** — Frontend: página `/financeiro` — grid + gráfico Recharts (🟠 Alto | EPIC-020)
+- **[TASK-162](tasks/TASK-162.md)** — Frontend: cadastro/edição de custo de infraestrutura (🟠 Alto | EPIC-020)
 
 **🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
 - ~~**[TASK-152](tasks/TASK-152.md)**~~ — ~~Backend: `consent_accepted_at` + validação de consentimento obrigatório~~ *(em validação)*
