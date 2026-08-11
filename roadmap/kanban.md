@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/08/2026 — **TASK-159 implementada** (EPIC-020): tabela
+> `operating_expense_rates` + CRUD de custo de infraestrutura, em `feature/EPIC-020-financial-
+> dashboard` (branch a partir de `staging`). 7 testes novos, suíte completa sem regressão. Próxima:
+> TASK-160 (endpoint agregado de financeiro por mês).
 > Atualizado em: 10/08/2026 — **EPIC-020 criado e pronto para implementar**: Painel Financeiro
 > Admin (receita recebida vs. custo de infraestrutura + comissão de afiliado, gráfico mensal
 > Recharts, grid de totalizadores do mês atual). Desenhado via brainstorm com Douglas — spec em
@@ -567,7 +571,7 @@ _Vazio_
 ## Pronto para Implementar
 
 **🟠 Alto (EPIC-020 — painel financeiro admin, receita vs. custo)**:
-- **[TASK-159](tasks/TASK-159.md)** — Backend: modelo de dados + CRUD de custo de infraestrutura (🟠 Alto | EPIC-020)
+- ~~**[TASK-159](tasks/TASK-159.md)**~~ — ~~Backend: modelo de dados + CRUD de custo de infraestrutura~~ *(em validação)*
 - **[TASK-160](tasks/TASK-160.md)** — Backend: endpoint agregado de financeiro por mês (🟠 Alto | EPIC-020)
 - **[TASK-161](tasks/TASK-161.md)** — Frontend: página `/financeiro` — grid + gráfico Recharts (🟠 Alto | EPIC-020)
 - **[TASK-162](tasks/TASK-162.md)** — Frontend: cadastro/edição de custo de infraestrutura (🟠 Alto | EPIC-020)

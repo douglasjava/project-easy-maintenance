@@ -80,11 +80,12 @@ vigência de custo por categoria.
 
 ## Critérios de Aceite
 
-- [ ] Migração aplicada, tabela `operating_expense_rates` existe
-- [ ] `POST /admin/billing/expense-rates` cria nova vigência sem apagar a anterior
-- [ ] `GET /admin/billing/expense-rates` retorna o valor vigente atual de cada categoria
-- [ ] Suíte de testes backend passa, incluindo os casos de resolução de vigência por data
-- [ ] `npm run build`/testes existentes sem regressão
+- [x] Migração aplicada, tabela `operating_expense_rates` existe (`V87`)
+- [x] `POST /admin/billing/expense-rates` cria nova vigência sem apagar a anterior
+- [x] `GET /admin/billing/expense-rates` retorna o valor vigente atual de cada categoria
+- [x] Suíte de testes backend passa, incluindo os casos de resolução de vigência por data (7 testes
+      novos, incluindo o caso de troca de vigência no meio de uma janela de meses)
+- [x] Suíte completa do backend sem regressão
 
 ## Dependências
 Nenhuma.
@@ -96,4 +97,6 @@ Baixo — tabela nova, aditiva, sem tocar em nada existente.
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-020-financial-dashboard` (branch criada a partir de
+`staging`), commit `3ab01ae`. `resolveAmountCents(category, date)` já pronto pra TASK-160 usar.
+Falta QA manual/PR.
