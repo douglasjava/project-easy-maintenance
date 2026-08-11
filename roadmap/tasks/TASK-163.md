@@ -63,10 +63,14 @@ Converter o campo pra `@Enumerated(EnumType.STRING)`, sem quebrar o fluxo de cri
 
 ## Critérios de Aceite
 
-- [ ] `LandingLead.status` é `LeadStatus`, não `String`
-- [ ] Leads criados continuam com status `NEW` por padrão
-- [ ] `LeadServiceTest` existente passa sem alteração de comportamento
-- [ ] Suíte completa do backend sem regressão
+- [x] `LandingLead.status` é `LeadStatus`, não `String`
+- [x] Leads criados continuam com status `NEW` por padrão
+- [x] `LeadServiceTest` existente passa sem alteração de comportamento
+- [x] Suíte completa do backend sem regressão
+
+**Achado durante a implementação**: `SimulationController` (dev-only, usado pra simular fluxo de
+afiliado) também criava `LandingLead` com `.status("NEW")` literal — não estava listado no escopo
+original porque não apareceu na varredura inicial do `LeadService`. Corrigido junto.
 
 ## Dependências
 Nenhuma.
@@ -79,4 +83,6 @@ arriscada.
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-021-leads-dashboard` (branch a partir de `staging`
+já com o EPIC-020 mergeado), commit `97cf85e`. Sem migração de schema necessária (coluna já
+`VARCHAR(20)`, cabe todos os valores do enum). Falta QA manual/PR.

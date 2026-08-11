@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-163 implementada** (EPIC-021): `LandingLead.status` convertido
+> de `String` livre pra enum `LeadStatus` (NEW/CONTACTED/CONVERTED/LOST). Sem migração de schema
+> (coluna já `VARCHAR(20)`, cabe todos os valores). Achado: `SimulationController` (dev-only)
+> também usava o literal `"NEW"`, corrigido junto. 2 testes novos, suíte sem regressão. Próxima:
+> TASK-164 e TASK-165 (endpoints, podem andar em paralelo).
 > Atualizado em: 11/08/2026 — **EPIC-021 criado e pronto para implementar**: Painel de Leads —
 > visão agregada (gráfico mensal empilhado por status + top fontes/referrers) e mini-CRM básico
 > (lista filtrável + troca de status inline). Desenhado via brainstorm — spec em
@@ -619,7 +624,7 @@ _Vazio_
 ## Pronto para Implementar
 
 **🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
-- **[TASK-163](tasks/TASK-163.md)** — Backend: `status` de `String` livre pra enum `LeadStatus` (🟠 Alto | EPIC-021)
+- ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
 - **[TASK-164](tasks/TASK-164.md)** — Backend: endpoint agregado `GET /admin/leads/summary` (🟠 Alto | EPIC-021)
 - **[TASK-165](tasks/TASK-165.md)** — Backend: lista paginada/filtrável + troca de status (🟠 Alto | EPIC-021)
 - **[TASK-166](tasks/TASK-166.md)** — Frontend: item "Leads" no menu + visão agregada (🟠 Alto | EPIC-021)
