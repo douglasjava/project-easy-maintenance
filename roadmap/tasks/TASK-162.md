@@ -57,8 +57,7 @@ lançar um novo valor.
 - [x] Formulário lança novo valor com sucesso e atualiza a tela sem reload manual
 - [x] Erro de validação da API (vigência inválida) aparece de forma clara pro usuário
 - [x] `npm run build` limpo
-- [ ] QA manual de ponta a ponta — pendente de validação do Douglas em `staging` (mesmo motivo da
-      TASK-161)
+- [x] QA manual de ponta a ponta — aprovado por Douglas em `staging` (11/08/2026)
 
 ## Dependências
 - **TASK-159** — endpoints de custo precisam existir.
@@ -71,11 +70,11 @@ Baixo — CRUD simples sobre endpoint já pronto.
 Baixo
 
 ## Status
-Em Validação — implementado em `feature/EPIC-020-financial-dashboard`, commit `bb28cc4`. Ao salvar,
-re-busca a própria tabela e também o grid/gráfico da TASK-161 (`onSaved` callback). `npm run build`
-limpo. EPIC-020 completo (TASK-159 a 162) — falta QA manual do Douglas em `staging`.
+Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026), incluindo o ajuste de rótulo
+pra "Outros" feito durante o próprio teste. Falta só mergear
+[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34) para `main`.
 
 **Achado do teste manual do Douglas (11/08/2026)**: categoria "Outros" sem identificação vira caixa
 preta com o tempo. Adicionado campo de rótulo (obrigatório só quando categoria = OUTROS, validado
-no backend com `RuleException`) — commits `8d645c4` (api) e `8b2d836` (web), já empurrados pras PRs
-abertas (não precisou de PR nova).
+no backend com `RuleException`) — commits `8d645c4` (api) e `8b2d836` (web), empurrados pra mesma
+PR aberta.

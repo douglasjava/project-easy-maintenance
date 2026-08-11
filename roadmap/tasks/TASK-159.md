@@ -97,6 +97,5 @@ Baixo — tabela nova, aditiva, sem tocar em nada existente.
 Baixo
 
 ## Status
-Em Validação — implementado em `feature/EPIC-020-financial-dashboard` (branch criada a partir de
-`staging`), commit `3ab01ae`. `resolveAmountCents(category, date)` já pronto pra TASK-160 usar.
-Falta QA manual/PR.
+Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026). Falta só mergear
+[easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31) para `main`.

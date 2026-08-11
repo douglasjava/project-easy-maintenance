@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **EPIC-020 concluído — QA manual aprovado por Douglas em `staging`.**
+> Painel financeiro admin (receita recebida vs. custo de infraestrutura + comissão de afiliado,
+> grid de totalizadores, gráfico Recharts, cadastro de custo com rótulo pra "Outros") validado de
+> ponta a ponta com dado real. Falta só mergear as PRs para `main`
+> ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
+> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)).
 > Atualizado em: 11/08/2026 — **EPIC-020: ajuste pós-teste manual do Douglas** — categoria "Outros"
 > do cadastro de custo de infraestrutura ganhou campo de rótulo (obrigatório só nessa categoria),
 > pra não virar caixa preta com o tempo. Commits já empurrados pras PRs #31 (api) e #34 (web) que
@@ -598,15 +604,6 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🟠 Alto (EPIC-020 — painel financeiro admin, receita vs. custo)**:
-- ~~**[TASK-159](tasks/TASK-159.md)**~~ — ~~Backend: modelo de dados + CRUD de custo de infraestrutura~~ *(em validação)*
-- ~~**[TASK-160](tasks/TASK-160.md)**~~ — ~~Backend: endpoint agregado de financeiro por mês~~ *(em validação)*
-- ~~**[TASK-161](tasks/TASK-161.md)**~~ — ~~Frontend: página `/financeiro` — grid + gráfico Recharts~~ *(em validação)*
-- ~~**[TASK-162](tasks/TASK-162.md)**~~ — ~~Frontend: cadastro/edição de custo de infraestrutura~~ *(em validação)*
-- **[TASK-160](tasks/TASK-160.md)** — Backend: endpoint agregado de financeiro por mês (🟠 Alto | EPIC-020)
-- **[TASK-161](tasks/TASK-161.md)** — Frontend: página `/financeiro` — grid + gráfico Recharts (🟠 Alto | EPIC-020)
-- **[TASK-162](tasks/TASK-162.md)** — Frontend: cadastro/edição de custo de infraestrutura (🟠 Alto | EPIC-020)
-
 **🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
 - ~~**[TASK-152](tasks/TASK-152.md)**~~ — ~~Backend: `consent_accepted_at` + validação de consentimento obrigatório~~ *(em validação)*
 - ~~**[TASK-153](tasks/TASK-153.md)**~~ — ~~Frontend: captura e persistência de UTM (cookie 30 dias)~~ *(em validação)*
@@ -714,6 +711,10 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-162](tasks/TASK-162.md) | Frontend: cadastro/edição de custo de infraestrutura + rótulo pra "Outros" (achado de QA) — aprovado por Douglas | 🟠 Alto | EPIC-020 |
+| [TASK-161](tasks/TASK-161.md) | Frontend: página `/financeiro` — grid de totalizadores + gráfico Recharts — aprovado por Douglas | 🟠 Alto | EPIC-020 |
+| [TASK-160](tasks/TASK-160.md) | Backend: endpoint agregado de financeiro por mês (receita/custo/comissão/lucro) | 🟠 Alto | EPIC-020 |
+| [TASK-159](tasks/TASK-159.md) | Backend: modelo de dados + CRUD de custo de infraestrutura (`operating_expense_rates`) | 🟠 Alto | EPIC-020 |
 | [TASK-QA-MAN-012](QA/tasks/TASK-QA-MAN-012.md) | QA Manual: E2E dos dois relatórios (PDF de prestação de contas + Excel analítico) — 5 cenários aprovados por Douglas | 🟠 Alto | EPIC-017 |
 | [TASK-150](tasks/TASK-150.md) | Frontend: ocultar menu "Relatórios" quando o plano não inclui relatórios (achado no QA manual, C3) | 🟡 Médio | EPIC-017 |
 | [TASK-149](tasks/TASK-149.md) | Frontend: seletor de organização na aba Prestação de Contas (achado pós-TASK-146) | 🟡 Médio | EPIC-017 |

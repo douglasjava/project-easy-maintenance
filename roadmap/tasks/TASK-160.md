@@ -85,7 +85,5 @@ Cobrir bem o caso de troca de vigência no meio da janela é o ponto crítico de
 Médio
 
 ## Status
-Em Validação — implementado em `feature/EPIC-020-financial-dashboard`, commit `c44c01c`. Sem
-GROUP BY em SQL (sem precedente no codebase, risco de sintaxe MySQL-specific em H2) — computa
-limites de cada mês em Java e faz query de intervalo por mês, mesmo padrão do `ReportsService`.
-Falta QA manual/PR.
+Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026). Falta só mergear
+[easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31) para `main`.

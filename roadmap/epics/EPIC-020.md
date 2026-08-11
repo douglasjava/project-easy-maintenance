@@ -1,11 +1,11 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-Em Validação — as 4 tasks (TASK-159 a 162) implementadas em `feature/EPIC-020-financial-dashboard`
-em ambos os repos (branches a partir de `staging`). Suítes de teste sem regressão em cada commit.
-**QA manual de ponta a ponta pendente** — não foi possível rodar o backend local nesta sessão
-(faltam chaves de IA — DeepSeek/OpenAI — no ambiente); fica pra validação do Douglas quando subir
-em `staging`.
+QA manual aprovado por Douglas (11/08/2026) — as 4 tasks (TASK-159 a 162) implementadas e
+validadas de ponta a ponta em `staging`, incluindo o ajuste de rótulo pra categoria "Outros"
+adicionado após o teste manual. Falta só o merge das PRs para `main`
+([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
+[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)).
 
 ## Objetivo
 Dar visibilidade real de receita recebida vs. custo do negócio (infraestrutura + comissão de
@@ -78,8 +78,7 @@ na mesma página já criada na TASK-161).
       (atualizar não apaga o valor anterior)
 - [x] Comissão de afiliado entra no cálculo de custo automaticamente, sem lançamento manual
 - [x] `npm run build` (frontend) e suíte de testes (backend) sem regressão
-- [ ] **QA manual com dado real** — não realizado nesta sessão (backend local exige chaves de IA
-      ausentes no ambiente); Douglas precisa validar clicando na tela em `staging`
+- [x] **QA manual com dado real** — aprovado por Douglas em `staging` (11/08/2026)
 
 ---
 
