@@ -60,10 +60,17 @@ queries agrupadas por mês em SQL.
 
 ## Critérios de Aceite
 
-- [ ] Endpoint retorna 12 meses por padrão, ordenados do mais antigo ao mais recente
-- [ ] Contagem por status correta em cada mês
-- [ ] Top fontes e top referrers ordenados por contagem
-- [ ] Suíte de testes backend passa, sem regressão
+- [x] Endpoint retorna 12 meses por padrão, ordenados do mais antigo ao mais recente
+- [x] Contagem por status correta em cada mês
+- [x] Top fontes e top referrers ordenados por contagem
+- [x] Suíte de testes backend passa, sem regressão
+
+**Desvio documentado**: campos do JSON viraram `newCount/contactedCount/convertedCount/lostCount`
+em vez do literal `NEW/CONTACTED/CONVERTED/LOST` da descrição original — consistência de estilo
+com `FinancialsDTO` (EPIC-020). Sem consumidor ainda (TASK-166 é a próxima), não quebra nada.
+
+**Achado no teste**: `source`/`referrer` nulos ou em branco agora caem no bucket
+"(direto/não informado)" em vez de aparecer como `null` na resposta.
 
 ## Dependências
 - **TASK-163** — precisa do enum `LeadStatus` existir.
@@ -75,4 +82,5 @@ Baixo — mesmo padrão já validado no EPIC-020 (TASK-160).
 Médio
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-021-leads-dashboard`, commit `9360caa`. Falta QA
+manual/PR.

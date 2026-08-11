@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-164 implementada** (EPIC-021): endpoint
+> `GET /admin/leads/summary` — contagem mensal por status + top 10 fontes/referrers. Mesmo
+> raciocínio de agregação em Java do EPIC-020. 6 testes novos, suíte sem regressão. TASK-165 pode
+> seguir em paralelo (só depende da TASK-163, já pronta).
 > Atualizado em: 11/08/2026 — **TASK-163 implementada** (EPIC-021): `LandingLead.status` convertido
 > de `String` livre pra enum `LeadStatus` (NEW/CONTACTED/CONVERTED/LOST). Sem migração de schema
 > (coluna já `VARCHAR(20)`, cabe todos os valores). Achado: `SimulationController` (dev-only)
@@ -625,7 +629,7 @@ _Vazio_
 
 **🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
 - ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
-- **[TASK-164](tasks/TASK-164.md)** — Backend: endpoint agregado `GET /admin/leads/summary` (🟠 Alto | EPIC-021)
+- ~~**[TASK-164](tasks/TASK-164.md)**~~ — ~~Backend: endpoint agregado `GET /admin/leads/summary`~~ *(em validação)*
 - **[TASK-165](tasks/TASK-165.md)** — Backend: lista paginada/filtrável + troca de status (🟠 Alto | EPIC-021)
 - **[TASK-166](tasks/TASK-166.md)** — Frontend: item "Leads" no menu + visão agregada (🟠 Alto | EPIC-021)
 - **[TASK-167](tasks/TASK-167.md)** — Frontend: lista individual — filtros + troca de status inline (🟠 Alto | EPIC-021)
