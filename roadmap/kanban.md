@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **EPIC-021 criado e pronto para implementar**: Painel de Leads —
+> visão agregada (gráfico mensal empilhado por status + top fontes/referrers) e mini-CRM básico
+> (lista filtrável + troca de status inline). Desenhado via brainstorm — spec em
+> `docs/superpowers/specs/2026-08-11-painel-leads-design.md`. 5 tasks criadas (TASK-163 a 167):
+> converter `status` pra enum → endpoint agregado + endpoint de lista/troca de status (paralelos)
+> → item de menu/visão agregada → lista individual. Item novo "Leads" no menu admin, mesmo nível
+> de Faturamento/Afiliados. Fora de escopo: filtro por `medium`, automação por mudança de status,
+> exportação CSV.
 > Atualizado em: 11/08/2026 — **EPIC-020: PRs mergeadas em `staging`**
 > ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
 > [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)). Diffs
@@ -609,6 +617,13 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
+- **[TASK-163](tasks/TASK-163.md)** — Backend: `status` de `String` livre pra enum `LeadStatus` (🟠 Alto | EPIC-021)
+- **[TASK-164](tasks/TASK-164.md)** — Backend: endpoint agregado `GET /admin/leads/summary` (🟠 Alto | EPIC-021)
+- **[TASK-165](tasks/TASK-165.md)** — Backend: lista paginada/filtrável + troca de status (🟠 Alto | EPIC-021)
+- **[TASK-166](tasks/TASK-166.md)** — Frontend: item "Leads" no menu + visão agregada (🟠 Alto | EPIC-021)
+- **[TASK-167](tasks/TASK-167.md)** — Frontend: lista individual — filtros + troca de status inline (🟠 Alto | EPIC-021)
 
 **🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
 - ~~**[TASK-152](tasks/TASK-152.md)**~~ — ~~Backend: `consent_accepted_at` + validação de consentimento obrigatório~~ *(em validação)*
