@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **EPIC-020 completo (TASK-159 a 162)**: painel financeiro admin —
+> receita recebida vs. custo de infraestrutura + comissão de afiliado, grid de totalizadores +
+> gráfico Recharts, cadastro de custo por categoria. Ambos os repos, branches
+> `feature/EPIC-020-financial-dashboard` a partir de `staging`. Suítes sem regressão em cada
+> commit. **Falta QA manual de ponta a ponta** — não foi possível rodar o backend local nesta
+> sessão (faltam chaves de IA — DeepSeek/OpenAI — no ambiente); Douglas precisa clicar na tela de
+> verdade em `staging` antes de considerar isso pronto. Falta também abrir as PRs (feature→staging)
+> em ambos os repos.
 > Atualizado em: 10/08/2026 — **TASK-161 implementada** (EPIC-020): página
 > `/private/admin/billing/financeiro` com grid de totalizadores + gráfico Recharts (primeira lib
 > de gráfico do projeto). `npm run build` limpo. **QA manual de ponta a ponta pendente** — não deu
@@ -583,6 +591,7 @@ _Vazio_
 - ~~**[TASK-159](tasks/TASK-159.md)**~~ — ~~Backend: modelo de dados + CRUD de custo de infraestrutura~~ *(em validação)*
 - ~~**[TASK-160](tasks/TASK-160.md)**~~ — ~~Backend: endpoint agregado de financeiro por mês~~ *(em validação)*
 - ~~**[TASK-161](tasks/TASK-161.md)**~~ — ~~Frontend: página `/financeiro` — grid + gráfico Recharts~~ *(em validação)*
+- ~~**[TASK-162](tasks/TASK-162.md)**~~ — ~~Frontend: cadastro/edição de custo de infraestrutura~~ *(em validação)*
 - **[TASK-160](tasks/TASK-160.md)** — Backend: endpoint agregado de financeiro por mês (🟠 Alto | EPIC-020)
 - **[TASK-161](tasks/TASK-161.md)** — Frontend: página `/financeiro` — grid + gráfico Recharts (🟠 Alto | EPIC-020)
 - **[TASK-162](tasks/TASK-162.md)** — Frontend: cadastro/edição de custo de infraestrutura (🟠 Alto | EPIC-020)

@@ -53,10 +53,12 @@ lançar um novo valor.
 
 ## Critérios de Aceite
 
-- [ ] Tabela mostra o valor vigente atual de cada categoria
-- [ ] Formulário lança novo valor com sucesso e atualiza a tela sem reload manual
-- [ ] Erro de validação da API (vigência inválida) aparece de forma clara pro usuário
-- [ ] `npm run build` limpo
+- [x] Tabela mostra o valor vigente atual de cada categoria
+- [x] Formulário lança novo valor com sucesso e atualiza a tela sem reload manual
+- [x] Erro de validação da API (vigência inválida) aparece de forma clara pro usuário
+- [x] `npm run build` limpo
+- [ ] QA manual de ponta a ponta — pendente de validação do Douglas em `staging` (mesmo motivo da
+      TASK-161)
 
 ## Dependências
 - **TASK-159** — endpoints de custo precisam existir.
@@ -69,4 +71,6 @@ Baixo — CRUD simples sobre endpoint já pronto.
 Baixo
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-020-financial-dashboard`, commit `bb28cc4`. Ao salvar,
+re-busca a própria tabela e também o grid/gráfico da TASK-161 (`onSaved` callback). `npm run build`
+limpo. EPIC-020 completo (TASK-159 a 162) — falta QA manual do Douglas em `staging`.

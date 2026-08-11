@@ -1,8 +1,11 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-Pronto para Implementar — desenhado via brainstorm com Douglas em 10/08/2026, spec aprovada em
-`docs/superpowers/specs/2026-08-10-painel-financeiro-admin-design.md`.
+Em Validação — as 4 tasks (TASK-159 a 162) implementadas em `feature/EPIC-020-financial-dashboard`
+em ambos os repos (branches a partir de `staging`). Suítes de teste sem regressão em cada commit.
+**QA manual de ponta a ponta pendente** — não foi possível rodar o backend local nesta sessão
+(faltam chaves de IA — DeepSeek/OpenAI — no ambiente); fica pra validação do Douglas quando subir
+em `staging`.
 
 ## Objetivo
 Dar visibilidade real de receita recebida vs. custo do negócio (infraestrutura + comissão de
@@ -67,14 +70,16 @@ na mesma página já criada na TASK-161).
 
 ## Critério de Conclusão do Épico
 
-- [ ] `/private/admin/billing/financeiro` acessível só pelo admin, mesma autenticação já existente
-- [ ] Grid mostra Recebido/Gasto/Total do mês atual, calculado a partir de pagamento confirmado
+- [x] `/private/admin/billing/financeiro` acessível só pelo admin, mesma autenticação já existente
+- [x] Grid mostra Recebido/Gasto/Total do mês atual, calculado a partir de pagamento confirmado
       (não MRR de assinatura ativa)
-- [ ] Gráfico mostra os últimos 12 meses das mesmas três métricas
-- [ ] Custo de infraestrutura é lançado manualmente por categoria, com histórico preservado
+- [x] Gráfico mostra os últimos 12 meses das mesmas três métricas
+- [x] Custo de infraestrutura é lançado manualmente por categoria, com histórico preservado
       (atualizar não apaga o valor anterior)
-- [ ] Comissão de afiliado entra no cálculo de custo automaticamente, sem lançamento manual
-- [ ] `npm run build` (frontend) e suíte de testes (backend) sem regressão
+- [x] Comissão de afiliado entra no cálculo de custo automaticamente, sem lançamento manual
+- [x] `npm run build` (frontend) e suíte de testes (backend) sem regressão
+- [ ] **QA manual com dado real** — não realizado nesta sessão (backend local exige chaves de IA
+      ausentes no ambiente); Douglas precisa validar clicando na tela em `staging`
 
 ---
 
