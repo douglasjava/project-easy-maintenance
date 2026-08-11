@@ -84,4 +84,5 @@ Pequeno
 
 ## Status
 Em Validação — branch `bugfix/TASK-169-outros-multiplos-itens`, commit `71ae5ec`
-(easy-maintenance-api). QA manual pendente (cadastrar GoDaddy de verdade e conferir o total).
+(easy-maintenance-api). PR aberta pra `staging`: [#34](https://github.com/douglasjava/easy-maintenance-api/pull/34).
+QA manual pendente (cadastrar GoDaddy de verdade e conferir o total).
