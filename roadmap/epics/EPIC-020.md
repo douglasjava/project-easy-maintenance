@@ -2,10 +2,11 @@
 
 ## Status
 QA manual aprovado por Douglas (11/08/2026) — as 4 tasks (TASK-159 a 162) implementadas e
-validadas de ponta a ponta em `staging`, incluindo o ajuste de rótulo pra categoria "Outros"
-adicionado após o teste manual. Falta só o merge das PRs para `main`
+validadas de ponta a ponta, incluindo o ajuste de rótulo pra categoria "Outros" adicionado após o
+teste manual. **As PRs para `staging` ainda estão abertas, não mergeadas**
 ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
-[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)).
+[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)) — o teste
+foi feito fora de `staging` (branch local/preview, não confirmado exatamente onde).
 
 ## Objetivo
 Dar visibilidade real de receita recebida vs. custo do negócio (infraestrutura + comissão de
@@ -78,7 +79,7 @@ na mesma página já criada na TASK-161).
       (atualizar não apaga o valor anterior)
 - [x] Comissão de afiliado entra no cálculo de custo automaticamente, sem lançamento manual
 - [x] `npm run build` (frontend) e suíte de testes (backend) sem regressão
-- [x] **QA manual com dado real** — aprovado por Douglas em `staging` (11/08/2026)
+- [x] **QA manual com dado real** — aprovado por Douglas (11/08/2026)
 
 ---
 

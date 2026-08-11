@@ -85,5 +85,5 @@ Cobrir bem o caso de troca de vigência no meio da janela é o ponto crítico de
 Médio
 
 ## Status
-Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026). Falta só mergear
-[easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31) para `main`.
+Concluído — QA manual aprovado por Douglas (11/08/2026). Falta só mergear
+[easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31) para `staging`.

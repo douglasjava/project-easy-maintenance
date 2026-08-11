@@ -57,7 +57,7 @@ lançar um novo valor.
 - [x] Formulário lança novo valor com sucesso e atualiza a tela sem reload manual
 - [x] Erro de validação da API (vigência inválida) aparece de forma clara pro usuário
 - [x] `npm run build` limpo
-- [x] QA manual de ponta a ponta — aprovado por Douglas em `staging` (11/08/2026)
+- [x] QA manual de ponta a ponta — aprovado por Douglas (11/08/2026)
 
 ## Dependências
 - **TASK-159** — endpoints de custo precisam existir.
@@ -70,9 +70,9 @@ Baixo — CRUD simples sobre endpoint já pronto.
 Baixo
 
 ## Status
-Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026), incluindo o ajuste de rótulo
+Concluído — QA manual aprovado por Douglas (11/08/2026), incluindo o ajuste de rótulo
 pra "Outros" feito durante o próprio teste. Falta só mergear
-[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34) para `main`.
+[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34) para `staging`.
 
 **Achado do teste manual do Douglas (11/08/2026)**: categoria "Outros" sem identificação vira caixa
 preta com o tempo. Adicionado campo de rótulo (obrigatório só quando categoria = OUTROS, validado

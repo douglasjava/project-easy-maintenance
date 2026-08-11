@@ -1,11 +1,13 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 11/08/2026 — **EPIC-020 concluído — QA manual aprovado por Douglas em `staging`.**
+> Atualizado em: 11/08/2026 — **EPIC-020 concluído — QA manual aprovado por Douglas.**
 > Painel financeiro admin (receita recebida vs. custo de infraestrutura + comissão de afiliado,
 > grid de totalizadores, gráfico Recharts, cadastro de custo com rótulo pra "Outros") validado de
-> ponta a ponta com dado real. Falta só mergear as PRs para `main`
+> ponta a ponta com dado real (fora de `staging` — as PRs abaixo ainda não foram mergeadas lá).
+> Falta mergear pra `staging`
 > ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
-> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)).
+> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)) e depois
+> abrir a promoção `staging` → `main`, mesmo fluxo do resto do projeto.
 > Atualizado em: 11/08/2026 — **EPIC-020: ajuste pós-teste manual do Douglas** — categoria "Outros"
 > do cadastro de custo de infraestrutura ganhou campo de rótulo (obrigatório só nessa categoria),
 > pra não virar caixa preta com o tempo. Commits já empurrados pras PRs #31 (api) e #34 (web) que

@@ -97,5 +97,5 @@ Baixo — tabela nova, aditiva, sem tocar em nada existente.
 Baixo
 
 ## Status
-Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026). Falta só mergear
-[easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31) para `main`.
+Concluído — QA manual aprovado por Douglas (11/08/2026). Falta só mergear
+[easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31) para `staging`.

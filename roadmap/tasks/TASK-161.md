@@ -65,7 +65,7 @@ Nova rota `/private/admin/billing/financeiro`: grid de 3 cartões (mês atual) +
 - [x] Gráfico renderiza os 12 meses com as 3 séries
 - [x] Total fica visualmente diferente quando negativo
 - [x] `npm run build` limpo
-- [x] **QA manual de ponta a ponta com dado real** — aprovado por Douglas em `staging` (11/08/2026)
+- [x] **QA manual de ponta a ponta com dado real** — aprovado por Douglas (11/08/2026)
 
 ## Dependências
 - **TASK-160** — precisa do endpoint agregado existir.
@@ -78,5 +78,5 @@ maior é só familiarização com a API na primeira implementação.
 Médio
 
 ## Status
-Concluído — QA manual aprovado por Douglas em `staging` (11/08/2026). Falta só mergear
-[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34) para `main`.
+Concluído — QA manual aprovado por Douglas (11/08/2026). Falta só mergear
+[easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34) para `staging`.
