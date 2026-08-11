@@ -61,4 +61,4 @@ Pequeno
 
 ## Status
 Em Validação — branch `bugfix/TASK-168-landing-cta-recursos-sem-destino`, commit `9616b68`
-(easy-maintenance-web).
+(easy-maintenance-web). PR aberta pra `staging`: [#36](https://github.com/douglasjava/easy-maintenance-web/pull/36).
