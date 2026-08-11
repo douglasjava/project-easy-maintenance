@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-166 implementada** (EPIC-021): rota `/private/admin/leads` —
+> gráfico Recharts empilhado (12 meses × 4 status) + tabelas de top fontes/referrers, consumindo o
+> endpoint da TASK-164. Item "Leads" adicionado ao menu admin. `npm run build` limpo. QA manual com
+> dado real pendente — mesmo bloqueio de secrets locais já registrado nas TASK-161/162 (falta
+> `OPENAI_API_KEY`/`DEEPSEEK_API_KEY`/Postgres pra subir o backend local). Próxima: TASK-167
+> (lista individual + filtros + troca de status inline), depende desta e da TASK-165.
 > Atualizado em: 11/08/2026 — **TASK-165 implementada** (EPIC-021): `GET /admin/leads` (lista
 > paginada/filtrável por status, source, campaign exato e período) + `PATCH
 > /admin/leads/{id}/status` (troca de status, 404 se id inexistente). `LandingLeadRepository`
@@ -639,7 +645,7 @@ _Vazio_
 - ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
 - ~~**[TASK-164](tasks/TASK-164.md)**~~ — ~~Backend: endpoint agregado `GET /admin/leads/summary`~~ *(em validação)*
 - ~~**[TASK-165](tasks/TASK-165.md)**~~ — ~~Backend: lista paginada/filtrável + troca de status~~ *(em validação)*
-- **[TASK-166](tasks/TASK-166.md)** — Frontend: item "Leads" no menu + visão agregada (🟠 Alto | EPIC-021)
+- ~~**[TASK-166](tasks/TASK-166.md)**~~ — ~~Frontend: item "Leads" no menu + visão agregada~~ *(em validação, QA manual pendente)*
 - **[TASK-167](tasks/TASK-167.md)** — Frontend: lista individual — filtros + troca de status inline (🟠 Alto | EPIC-021)
 
 **🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:

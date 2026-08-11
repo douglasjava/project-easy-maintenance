@@ -53,11 +53,17 @@ fontes/referrers.
 
 ## Critérios de Aceite
 
-- [ ] Item "Leads" aparece no menu admin
-- [ ] `/private/admin/leads` acessível só pelo admin
-- [ ] Gráfico mostra os 12 meses empilhados por status
-- [ ] Tabelas de top fontes/referrers mostram contagem correta
-- [ ] `npm run build` limpo
+- [x] Item "Leads" aparece no menu admin
+- [x] `/private/admin/leads` acessível só pelo admin (mesmo padrão de auth do resto de `/private/admin/*` — sem guard próprio na página, igual à página de afiliados: `BootstrapAdminFilter` no backend + interceptor do `apiClient` redireciona para `/private/login` em 401)
+- [x] Gráfico mostra os 12 meses empilhados por status
+- [x] Tabelas de top fontes/referrers mostram contagem correta
+- [x] `npm run build` limpo
+
+**QA manual**: não foi possível validar visualmente com dado real — mesmo bloqueio já registrado nas
+TASK-161/162 (subir o backend local exige `OPENAI_API_KEY`/`DEEPSEEK_API_KEY` reais, além do
+Postgres). Validado via `npm run build` (rota gerada como estática, sem erro de TypeScript) e
+revisão de código contra o contrato da `LeadsSummaryDTO` (TASK-164). Fica pendente teste manual
+com dado real por Douglas.
 
 ## Dependências
 - **TASK-164** — precisa do endpoint agregado existir.
@@ -69,4 +75,4 @@ Baixo — Recharts já instalado (EPIC-020), mesmo padrão visual já validado.
 Médio
 
 ## Status
-Pronto para Implementar
+Em Validação — branch `feature/EPIC-021-leads-dashboard`, commit `3a7a69a` (easy-maintenance-web). QA manual com dado real pendente.
