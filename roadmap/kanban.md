@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-165 implementada** (EPIC-021): `GET /admin/leads` (lista
+> paginada/filtrável por status, source, campaign exato e período) + `PATCH
+> /admin/leads/{id}/status` (troca de status, 404 se id inexistente). `LandingLeadRepository`
+> passou a implementar `JpaSpecificationExecutor`, mesmo padrão de `Specification` já usado em
+> `PaymentRepository`. 9 testes novos (6 num `@DataJpaTest` isolado provando os filtros contra H2
+> real — Mockito só provaria que o método foi chamado, não que o filtro funciona —, 3 Mockito pro
+> service), suíte sem regressão. Próxima: TASK-166 (frontend, depende da TASK-164) e depois
+> TASK-167 (frontend, depende desta task e da TASK-166).
 > Atualizado em: 11/08/2026 — **TASK-164 implementada** (EPIC-021): endpoint
 > `GET /admin/leads/summary` — contagem mensal por status + top 10 fontes/referrers. Mesmo
 > raciocínio de agregação em Java do EPIC-020. 6 testes novos, suíte sem regressão. TASK-165 pode
@@ -630,7 +638,7 @@ _Vazio_
 **🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
 - ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
 - ~~**[TASK-164](tasks/TASK-164.md)**~~ — ~~Backend: endpoint agregado `GET /admin/leads/summary`~~ *(em validação)*
-- **[TASK-165](tasks/TASK-165.md)** — Backend: lista paginada/filtrável + troca de status (🟠 Alto | EPIC-021)
+- ~~**[TASK-165](tasks/TASK-165.md)**~~ — ~~Backend: lista paginada/filtrável + troca de status~~ *(em validação)*
 - **[TASK-166](tasks/TASK-166.md)** — Frontend: item "Leads" no menu + visão agregada (🟠 Alto | EPIC-021)
 - **[TASK-167](tasks/TASK-167.md)** — Frontend: lista individual — filtros + troca de status inline (🟠 Alto | EPIC-021)
 

@@ -61,11 +61,16 @@ de trocar status — é o que torna o status útil na prática, não só um camp
 
 ## Critérios de Aceite
 
-- [ ] `GET /admin/leads` pagina e filtra corretamente (status, source, campaign, período)
-- [ ] Filtros combinados aplicam AND
-- [ ] `PATCH /admin/leads/{id}/status` persiste a troca e retorna o lead atualizado
-- [ ] Id inexistente retorna 404
-- [ ] Suíte de testes backend passa, sem regressão
+- [x] `GET /admin/leads` pagina e filtra corretamente (status, source, campaign, período)
+- [x] Filtros combinados aplicam AND
+- [x] `PATCH /admin/leads/{id}/status` persiste a troca e retorna o lead atualizado
+- [x] Id inexistente retorna 404
+- [x] Suíte de testes backend passa, sem regressão
+
+**Decisão de teste**: os filtros foram testados com `@DataJpaTest` (H2 real), não só Mockito — mesmo
+padrão de `MaintenanceCancelPersistenceTest`. Mockar `repository.findAll(spec, pageable)` provaria
+só que o método foi chamado, não que a `Specification` filtra o dado certo nem que múltiplos
+filtros combinam com AND (que é exatamente um dos critérios de aceite desta task).
 
 ## Dependências
 - **TASK-163** — precisa do enum `LeadStatus` existir.
@@ -78,4 +83,4 @@ Baixo — CRUD/listagem sobre uma tabela já existente, mesmo padrão de `Specif
 Médio
 
 ## Status
-Pronto para Implementar
+Em Validação — branch `feature/EPIC-021-leads-dashboard`, commit `dd959b0`.
