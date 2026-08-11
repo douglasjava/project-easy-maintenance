@@ -59,11 +59,15 @@ Nova rota `/private/admin/billing/financeiro`: grid de 3 cartões (mês atual) +
 
 ## Critérios de Aceite
 
-- [ ] `/private/admin/billing/financeiro` acessível só pelo admin
-- [ ] Grid mostra Recebido/Gasto/Total do mês atual corretamente
-- [ ] Gráfico renderiza os 12 meses com as 3 séries
-- [ ] Total fica visualmente diferente quando negativo
-- [ ] `npm run build` limpo
+- [x] `/private/admin/billing/financeiro` acessível só pelo admin (mesmo padrão `X-Admin-Token`
+      automático do resto de `/private/admin/*`)
+- [x] Grid mostra Recebido/Gasto/Total do mês atual corretamente
+- [x] Gráfico renderiza os 12 meses com as 3 séries
+- [x] Total fica visualmente diferente quando negativo
+- [x] `npm run build` limpo
+- [ ] **QA manual de ponta a ponta com dado real** — não realizado nesta sessão (backend local
+      exige chaves de IA que não estavam disponíveis); pendente de validação do Douglas em
+      `staging`
 
 ## Dependências
 - **TASK-160** — precisa do endpoint agregado existir.
@@ -76,4 +80,7 @@ maior é só familiarização com a API na primeira implementação.
 Médio
 
 ## Status
-Pronto para Implementar
+Em Validação — implementado em `feature/EPIC-020-financial-dashboard` (branch a partir de
+`staging`), commit `d2b008e`. `npm run build` limpo, mesmo padrão exato das outras páginas de
+billing admin. Falta QA manual com dado real (não foi possível localmente — backend exige chaves
+de IA ausentes neste ambiente) e o cadastro de custo da TASK-162.
