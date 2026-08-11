@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **PRs do EPIC-021 abertas pra `staging`**: backend
+> [#32](https://github.com/douglasjava/easy-maintenance-api/pull/32), frontend
+> [#35](https://github.com/douglasjava/easy-maintenance-web/pull/35). Falta QA manual com dado real
+> por Douglas antes do merge.
 > Atualizado em: 11/08/2026 — **TASK-167 implementada** (EPIC-021), última task do épico: seção de
 > lista de leads (filtros status/fonte/campanha/período + tabela paginada + troca de status inline
 > via `PATCH .../status`, otimista com rollback). **EPIC-021 com implementação completa** —

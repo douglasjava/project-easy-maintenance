@@ -1,10 +1,11 @@
 # EPIC-021 — Painel de Leads (visão agregada + mini-CRM de status)
 
 ## Status
-Em Validação — todas as 5 tasks implementadas (TASK-163 a TASK-167), branches
-`feature/EPIC-021-leads-dashboard` em ambos os repos, ainda não abertas PRs pra `staging`. QA
-manual com dado real pendente por Douglas (mesmo bloqueio de secrets locais registrado nas
-TASK-166/167). Desenhado via brainstorm com Douglas em 11/08/2026, spec aprovada em
+Em Validação — todas as 5 tasks implementadas (TASK-163 a TASK-167). PRs abertas pra `staging`:
+[backend #32](https://github.com/douglasjava/easy-maintenance-api/pull/32),
+[frontend #35](https://github.com/douglasjava/easy-maintenance-web/pull/35). QA manual com dado
+real pendente por Douglas (mesmo bloqueio de secrets locais registrado nas TASK-166/167).
+Desenhado via brainstorm com Douglas em 11/08/2026, spec aprovada em
 `docs/superpowers/specs/2026-08-11-painel-leads-design.md`.
 
 ## Objetivo
@@ -78,7 +79,7 @@ andar em paralelo (endpoints independentes) → TASK-166 (depende do endpoint ag
       automático, comportamento aceito pois não foi um critério explícito de nenhuma task)
 - [x] `npm run build` (frontend) e suíte de testes (backend) sem regressão
 
-Falta apenas: QA manual com dado real (Douglas) e abertura dos PRs `feature/EPIC-021-leads-dashboard` → `staging` em ambos os repos.
+Falta apenas: QA manual com dado real (Douglas) e merge dos PRs [#32](https://github.com/douglasjava/easy-maintenance-api/pull/32) (backend) e [#35](https://github.com/douglasjava/easy-maintenance-web/pull/35) (frontend) pra `staging`.
 
 ---
 
