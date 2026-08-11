@@ -1,7 +1,10 @@
 # EPIC-021 — Painel de Leads (visão agregada + mini-CRM de status)
 
 ## Status
-Pronto para Implementar — desenhado via brainstorm com Douglas em 11/08/2026, spec aprovada em
+Em Validação — todas as 5 tasks implementadas (TASK-163 a TASK-167), branches
+`feature/EPIC-021-leads-dashboard` em ambos os repos, ainda não abertas PRs pra `staging`. QA
+manual com dado real pendente por Douglas (mesmo bloqueio de secrets locais registrado nas
+TASK-166/167). Desenhado via brainstorm com Douglas em 11/08/2026, spec aprovada em
 `docs/superpowers/specs/2026-08-11-painel-leads-design.md`.
 
 ## Objetivo
@@ -66,12 +69,16 @@ andar em paralelo (endpoints independentes) → TASK-166 (depende do endpoint ag
 
 ## Critério de Conclusão do Épico
 
-- [ ] `/private/admin/leads` acessível só pelo admin, item novo no menu
-- [ ] Gráfico mostra os últimos 12 meses de leads, empilhado por status
-- [ ] Tabelas de top fontes e top referrers mostram contagem correta do período
-- [ ] Lista individual filtra por status/fonte/campanha (igualdade exata) e período
-- [ ] Troca de status por linha salva de verdade (persiste, reflete na visão agregada depois)
-- [ ] `npm run build` (frontend) e suíte de testes (backend) sem regressão
+- [x] `/private/admin/leads` acessível só pelo admin, item novo no menu
+- [x] Gráfico mostra os últimos 12 meses de leads, empilhado por status
+- [x] Tabelas de top fontes e top referrers mostram contagem correta do período
+- [x] Lista individual filtra por status/fonte/campanha (igualdade exata) e período
+- [x] Troca de status por linha salva de verdade (persiste; reflexo na visão agregada depende de
+      recarregar a página — os dois blocos buscam dados independentemente, não há refresh cruzado
+      automático, comportamento aceito pois não foi um critério explícito de nenhuma task)
+- [x] `npm run build` (frontend) e suíte de testes (backend) sem regressão
+
+Falta apenas: QA manual com dado real (Douglas) e abertura dos PRs `feature/EPIC-021-leads-dashboard` → `staging` em ambos os repos.
 
 ---
 

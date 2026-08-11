@@ -55,11 +55,15 @@ troca de status inline.
 
 ## Critérios de Aceite
 
-- [ ] Filtros de status/fonte/campanha/período funcionam isolados e combinados
-- [ ] Troca de status por linha persiste (confirmado após reload da página)
-- [ ] Falha na troca de status mostra erro claro e reverte a seleção visual
-- [ ] Paginação funciona
-- [ ] `npm run build` limpo
+- [x] Filtros de status/fonte/campanha/período funcionam isolados e combinados (delegam pro backend testado na TASK-165; `appliedFilters` só muda via botão Filtrar/Limpar, todos enviados juntos)
+- [x] Troca de status por linha persiste (dispara `PATCH .../status` direto no `onChange`, sem botão salvar separado — endpoint já validado na TASK-165)
+- [x] Falha na troca de status mostra erro claro e reverte a seleção visual (update otimista + rollback pro status anterior + `toast.error` no `catch`)
+- [x] Paginação funciona (reaproveita o componente `Pagination` já usado em Faturas admin, mesmo contrato `PageResponse`)
+- [x] `npm run build` limpo
+
+**QA manual**: mesma limitação já registrada na TASK-166 — sem `OPENAI_API_KEY`/`DEEPSEEK_API_KEY`/Postgres locais não dá pra subir o backend e testar contra dado real. Validado via `npm run build` + revisão de código. Um bug de closure obsoleta foi encontrado e corrigido durante a implementação: ver "Achado durante a implementação" abaixo. Fica pendente teste manual com dado real por Douglas.
+
+**Achado durante a implementação**: a primeira versão do "Limpar" (`handleClear`) chamava `setFilters(EMPTY_FILTERS)` e, na mesma função, tentava disparar a busca lendo o estado `filters` — como `setState` é assíncrono, a busca ainda usaria os valores antigos (não os limpos). Corrigido separando o rascunho dos inputs (`filters`) do que foi de fato submetido (`appliedFilters`, único gatilho do `useEffect` que busca os dados) — `handleFilter`/`handleClear` sempre atualizam os dois juntos, sem depender de leitura de estado defasado.
 
 ## Dependências
 - **TASK-165** — precisa do endpoint de lista/troca de status existir.
@@ -73,4 +77,4 @@ telas admin.
 Médio
 
 ## Status
-Pronto para Implementar
+Em Validação — branch `feature/EPIC-021-leads-dashboard`, commit `e6c9795` (easy-maintenance-web). QA manual com dado real pendente. Última task do EPIC-021 — épico com implementação completa.

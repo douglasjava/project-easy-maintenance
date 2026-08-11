@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-167 implementada** (EPIC-021), última task do épico: seção de
+> lista de leads (filtros status/fonte/campanha/período + tabela paginada + troca de status inline
+> via `PATCH .../status`, otimista com rollback). **EPIC-021 com implementação completa** —
+> `npm run build` limpo, falta QA manual com dado real (mesmo bloqueio de secrets locais das
+> TASK-161/162/166) e abrir os PRs `feature/EPIC-021-leads-dashboard` → `staging` nos dois repos.
+> Achado corrigido durante a implementação: bug de closure obsoleta no botão "Limpar" (buscava com
+> filtro antigo por causa do `setState` assíncrono) — resolvido separando rascunho dos inputs do
+> filtro de fato aplicado.
 > Atualizado em: 11/08/2026 — **TASK-166 implementada** (EPIC-021): rota `/private/admin/leads` —
 > gráfico Recharts empilhado (12 meses × 4 status) + tabelas de top fontes/referrers, consumindo o
 > endpoint da TASK-164. Item "Leads" adicionado ao menu admin. `npm run build` limpo. QA manual com
@@ -646,7 +654,7 @@ _Vazio_
 - ~~**[TASK-164](tasks/TASK-164.md)**~~ — ~~Backend: endpoint agregado `GET /admin/leads/summary`~~ *(em validação)*
 - ~~**[TASK-165](tasks/TASK-165.md)**~~ — ~~Backend: lista paginada/filtrável + troca de status~~ *(em validação)*
 - ~~**[TASK-166](tasks/TASK-166.md)**~~ — ~~Frontend: item "Leads" no menu + visão agregada~~ *(em validação, QA manual pendente)*
-- **[TASK-167](tasks/TASK-167.md)** — Frontend: lista individual — filtros + troca de status inline (🟠 Alto | EPIC-021)
+- ~~**[TASK-167](tasks/TASK-167.md)**~~ — ~~Frontend: lista individual — filtros + troca de status inline~~ *(em validação, QA manual pendente)*
 
 **🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
 - ~~**[TASK-152](tasks/TASK-152.md)**~~ — ~~Backend: `consent_accepted_at` + validação de consentimento obrigatório~~ *(em validação)*
