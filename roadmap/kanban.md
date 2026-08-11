@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-169 criada e implementada** (🔴 Crítico, BUGFIX, achado por
+> Douglas em uso real): cadastrar um 2º custo "Outros" (GoDaddy) além de um já existente (Vercel)
+> quebrava com "vigência deve ser posterior...". Causa raiz mais séria que o erro em si: a
+> validação e o cálculo do total financeiro tratavam a categoria OUTROS inteira como 1 linha,
+> ignorando o `label` — `resolveAmountCents` só considerava o item mais recente, **o total
+> financeiro já estava incorreto antes desta correção** (ignorava silenciosamente os demais
+> "Outros" cadastrados). Confirmado com Douglas via pergunta: intenção é multi-item, cada label soma
+> no total. Fix: identidade de vigência passa a ser `(category, label)`. 9 testes novos/ajustados,
+> suíte sem regressão. Frontend não precisou de mudança (já renderiza lista genérica).
 > Atualizado em: 11/08/2026 — **TASK-168 criada e implementada** (BUGFIX, achado por Douglas em
 > revisão manual da landing, fora de qualquer épico): botão "Ver todos os recursos" era um
 > `<button>` sem `onClick`/`href` — trocado por `<a href="#solucao">`, mesmo padrão de âncora
@@ -711,6 +720,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
 | [TASK-168](tasks/TASK-168.md) | BUGFIX Frontend: botão "Ver todos os recursos" da landing sem destino          | 🟡 Médio   | —        |
 | [TASK-158](tasks/TASK-158.md) | Frontend: página pública de Termos de Uso — corrige link quebrado do rodapé     | 🟠 Alto    | —        |
 | [TASK-152](tasks/TASK-152.md) | Backend: `consent_accepted_at` em `landing_leads` + validação de consentimento obrigatório | 🟠 Alto | EPIC-018 |
