@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **EPIC-020: ajuste pós-teste manual do Douglas** — categoria "Outros"
+> do cadastro de custo de infraestrutura ganhou campo de rótulo (obrigatório só nessa categoria),
+> pra não virar caixa preta com o tempo. Commits já empurrados pras PRs #31 (api) e #34 (web) que
+> já estavam abertas — não precisou de PR nova. Suítes sem regressão. Ainda pendente: QA manual de
+> ponta a ponta em `staging`.
 > Atualizado em: 11/08/2026 — **EPIC-020: PRs abertas para `staging`**
 > ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
 > [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)). O PR do
