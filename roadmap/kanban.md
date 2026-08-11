@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/08/2026 — **TASK-168 criada e implementada** (BUGFIX, achado por Douglas em
+> revisão manual da landing, fora de qualquer épico): botão "Ver todos os recursos" era um
+> `<button>` sem `onClick`/`href` — trocado por `<a href="#solucao">`, mesmo padrão de âncora
+> interna já usado no resto da página. `npm run build` limpo. Achado colateral fora de escopo: todo
+> link de âncora da landing (inclusive o "Solução" do menu, pré-existente) rola a página ~800px
+> além do topo da seção alvo — comportamento uniforme da página inteira (CSS `scroll-behavior:
+> smooth` global), não introduzido por este fix.
 > Atualizado em: 11/08/2026 — **PRs do EPIC-021 abertas pra `staging`**: backend
 > [#32](https://github.com/douglasjava/easy-maintenance-api/pull/32), frontend
 > [#35](https://github.com/douglasjava/easy-maintenance-web/pull/35). Falta QA manual com dado real
@@ -704,6 +711,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-168](tasks/TASK-168.md) | BUGFIX Frontend: botão "Ver todos os recursos" da landing sem destino          | 🟡 Médio   | —        |
 | [TASK-158](tasks/TASK-158.md) | Frontend: página pública de Termos de Uso — corrige link quebrado do rodapé     | 🟠 Alto    | —        |
 | [TASK-152](tasks/TASK-152.md) | Backend: `consent_accepted_at` em `landing_leads` + validação de consentimento obrigatório | 🟠 Alto | EPIC-018 |
 | [TASK-153](tasks/TASK-153.md) | Frontend: captura e persistência de UTM (cookie 30 dias)                        | 🟠 Alto    | EPIC-018 |
