@@ -76,6 +76,7 @@ src/components/blog/
 
 ### `BlogPostShell` (componente novo)
 
+Server Component (sem necessidade de interatividade client-side, mesmo padrão de `/termos`).
 Recebe `title`, `date` e `children` (o markdown já renderizado pelo MDX). Reaproveita o mesmo
 navbar+container que `/termos/page.tsx` já usa (navbar com `Logo` linkando pra `/landing`,
 `container` com `maxWidth: 760`), adicionando título, data formatada e um link "← Voltar pro blog"
