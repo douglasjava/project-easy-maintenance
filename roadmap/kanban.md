@@ -1,5 +1,21 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 18/08/2026 — **EPIC-023 criado (desenhado via brainstorm), 3 tasks prontas para
+> implementar**: fornecedores nas notificações de vencimento (e-mail e WhatsApp) — ideia do
+> Douglas, fecha o ciclo "avisei que venceu" → "aqui está quem pode resolver" numa etapa só. Spec
+> em `docs/superpowers/specs/2026-08-18-supplier-notifications-design.md`. Achado importante da
+> pesquisa: a busca de fornecedores existente (`SupplierSearchService`) é 100% interativa, depende
+> de geolocalização do navegador — não existe fornecedor salvo em banco nem coordenada de
+> organização, então o job de notificação (que roda à noite, sem navegador) precisa de uma peça
+> nova (`SupplierLookupService`, TASK-172) que busca por texto (cidade/estado) em vez de
+> coordenada. **Decisões de escopo**: cache de 7 dias, só busca nos eventos que já disparam
+> WhatsApp/E-mail hoje (não no PUSH in-app), e-mail sem restrição (bloco HTML novo, TASK-173) vs.
+> WhatsApp que precisa de um template HSM **novo** (`vencimento_manutencao_v3`, TASK-174) porque o
+> `v2` atual já está aprovado pela Meta e não pode ser editado — mesma dependência externa (e
+> mesmo risco de demora) que já atrasou o `v2` no EPIC-015; se a busca achar menos de 2
+> fornecedores, o envio por WhatsApp desse evento específico é pulado (mesmo fallback já existente
+> hoje). Confirmado com Douglas: WhatsApp já está aprovado e funcionando em produção desde o
+> EPIC-015 (dúvida que motivou a primeira pergunta do brainstorm).
 > Atualizado em: 18/08/2026 — **TASK-171 criada e implementada** (EPIC-022, follow-up da TASK-170):
 > resolve os 2 achados do QA manual do Douglas (link do `/blog` ausente na landing, layout "ruim")
 > e escreve os posts 2-5 já aprovados na spec (manutenção preventiva x corretiva, checklist de
@@ -698,6 +714,11 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento)**:
+- **[TASK-172](tasks/TASK-172.md)** — Backend: `SupplierLookupService` — busca textual + cache 7 dias (🟠 Alto | EPIC-023)
+- **[TASK-173](tasks/TASK-173.md)** — Backend: fornecedores no e-mail de notificação (🟠 Alto | EPIC-023)
+- **[TASK-174](tasks/TASK-174.md)** — Backend: fornecedores no WhatsApp — template v3, depende de aprovação Meta (🟡 Médio | EPIC-023)
 
 **🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
 - ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
