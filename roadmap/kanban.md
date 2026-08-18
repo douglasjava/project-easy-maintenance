@@ -715,7 +715,7 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento)**:
+**🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento) — *(backlog, não priorizado agora, 18/08/2026)***:
 - **[TASK-172](tasks/TASK-172.md)** — Backend: `SupplierLookupService` — busca textual + cache 7 dias (🟠 Alto | EPIC-023)
 - **[TASK-173](tasks/TASK-173.md)** — Backend: fornecedores no e-mail de notificação (🟠 Alto | EPIC-023)
 - **[TASK-174](tasks/TASK-174.md)** — Backend: fornecedores no WhatsApp — template v3, depende de aprovação Meta (🟡 Médio | EPIC-023)
