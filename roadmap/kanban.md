@@ -1,5 +1,18 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 18/08/2026 — **TASK-171 criada e implementada** (EPIC-022, follow-up da TASK-170):
+> resolve os 2 achados do QA manual do Douglas (link do `/blog` ausente na landing, layout "ruim")
+> e escreve os posts 2-5 já aprovados na spec (manutenção preventiva x corretiva, checklist de
+> manutenção predial, planilha de manutenção falha, CMMS Brasil) — blog fecha com 5 posts. Índice
+> redesenhado usando o blog do concorrente [Easy Alert](https://easyalert.com.br/blog/) como
+> referência visual (pedido do Douglas): hero no topo, categoria como texto discreto acima do
+> título (não mais um bloco gráfico), tempo de leitura calculado automaticamente por contagem de
+> palavras (`src/lib/blogReadingTime.ts`), filtro de categoria clicável, capa do card usando print
+> real do produto (`dashboard_preview.webp`) em vez do tratamento abstrato de cor da primeira
+> versão — sem foto de banco de imagem disponível. **Achado colateral corrigido**: `.claude/worktrees/`
+> não estava no `.gitignore`, quase causando commit acidental de um worktree órfão inteiro (com
+> `node_modules`) via `git add -A`; adicionado ao `.gitignore` e a pasta órfã removida. TASK-170
+> marcada como QA concluído. Branch `feature/blog-content-mdx` ainda não mergeada em `staging`.
 > Atualizado em: 17/08/2026 — **EPIC-022 criado, TASK-170 implementada e em validação**: Blog de
 > Conteúdo (SEO) — motivado por concorrente direto (Condo Guardian) com blog SEO ativo nas mesmas
 > keywords do nosso plano de SEO. Infra via `@next/mdx` (sem CMS, sem rota dinâmica — cada post é
@@ -737,6 +750,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
 | [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
 | [TASK-168](tasks/TASK-168.md) | BUGFIX Frontend: botão "Ver todos os recursos" da landing sem destino          | 🟡 Médio   | —        |

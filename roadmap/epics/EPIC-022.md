@@ -2,8 +2,10 @@
 
 ## Status
 Implementado, revisado (subagent-driven-development) e em teste manual local por Douglas
-(15/08/2026 - 17/08/2026). Branch `feature/blog-content-mdx` em `easy-maintenance-web`, ainda não
-mergeada em `staging`.
+(15/08/2026 - 18/08/2026). 5 posts publicados (todos os temas aprovados na spec), link na landing,
+hero + filtro de categoria + tempo de leitura no índice — todos os achados de QA do Douglas
+resolvidos. Branch `feature/blog-content-mdx` em `easy-maintenance-web`, ainda não mergeada em
+`staging`.
 
 ## Objetivo
 Dar ao site público conteúdo indexável em formato blog, pra competir por buscas informacionais nas
@@ -24,8 +26,12 @@ Desenhado via brainstorm com Douglas — spec em
 `docs/superpowers/plans/2026-08-17-blog-content.md`, executado via subagent-driven-development (5
 tasks + 1 fix de revisão final).
 
-**Entrega desta primeira leva**: infraestrutura completa do blog + 1 post real publicado ("NBR 5674
-na prática: o que a norma exige do síndico"), provando o pipeline de ponta a ponta.
+**Entrega**: infraestrutura completa do blog + 5 posts reais publicados (todos os temas aprovados na
+spec), índice com hero/filtro de categoria/tempo de leitura, link no rodapé da landing. Referência
+visual usada para o índice: layout do blog do concorrente [Easy Alert](https://easyalert.com.br/blog/)
+(pedido do Douglas, 18/08/2026) — grid de 3 colunas, card inteiro clicável, categoria como texto
+discreto acima do título, capa usando print real do produto (`dashboard_preview.webp`) em vez de
+foto de banco de imagem (não disponível).
 
 ---
 
@@ -66,21 +72,24 @@ na prática: o que a norma exige do síndico"), provando o pipeline de ponta a p
 - [x] `robots.txt`/`sitemap.ts` expondo `/blog`
 - [x] `Shell.tsx` corrigido — `/blog` renderiza publicamente, sem redirect pro `/login`
 - [x] Revisão de código completa (5 tasks + revisão final da branch), todas aprovadas
-- [ ] **QA manual de Douglas** — em andamento; achados até agora (17/08/2026): link do blog não
-      está na landing page, layout dos posts precisa de refinamento visual
+- [x] Link do blog no rodapé da landing (coluna Navegação)
+- [x] Índice redesenhado: hero, categoria como texto discreto, tempo de leitura automático (por
+      contagem de palavras, `src/lib/blogReadingTime.ts`), filtro de categoria clicável, capa com
+      print real do produto
+- [x] Posts 2-5 escritos e publicados (manutenção preventiva x corretiva, checklist de manutenção
+      predial, planilha de manutenção falha, CMMS Brasil) — 5 posts no total
 - [ ] Merge em `staging`
 
 ---
 
-## Fora de Escopo (desta primeira leva — decidir com Douglas se/quando virar task)
+## Fora de Escopo (decidir com Douglas se/quando virar task)
 
-- Link para `/blog` na landing page ou navbar (hoje é página órfã, descoberta só via sitemap) —
-  achado na revisão final, ainda não resolvido.
-- Refinamento visual/tipografia dos posts (`BlogPostShell` hoje usa só Bootstrap padrão, sem CSS
-  dedicado pro conteúdo longo) — achado no teste manual de Douglas, escopo ainda não definido.
-- Escrever os posts 2-5 (temas já aprovados na spec: manutenção preventiva x corretiva, checklist de
-  manutenção predial, planilha de manutenção falha, CMMS Brasil).
-- Paginação, categorias/tags, posts relacionados, comentários, RSS, multi-autor, busca interna, CMS.
+- Paginação, comentários, RSS, multi-autor, busca interna, CMS.
+- Mais variedade de imagem de capa — hoje todos os 5 posts usam o mesmo print
+  (`dashboard_preview.webp`), por falta de outra imagem real disponível. Fica repetitivo no grid;
+  screenshots de features específicas (por post) resolveriam, mas dependem de captura nova.
+- Filtro de categoria fica com poucos posts por categoria até o volume crescer — funcional, mas
+  visualmente esparso com só 5 posts no total.
 
 ## Riscos
 Baixo — feature aditiva, não altera nenhum fluxo autenticado. Único ponto de atenção já resolvido:

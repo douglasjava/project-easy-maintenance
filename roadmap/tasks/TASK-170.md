@@ -13,10 +13,8 @@ Marketing / SEO
 [EPIC-022](../epics/EPIC-022.md) — Blog de Conteúdo (SEO)
 
 ## QA obrigatório
-Sim — QA manual de Douglas em andamento (17/08/2026). Achados até agora: link do blog ausente na
-landing page, layout dos posts precisa de refinamento visual. Nenhum dos dois bloqueia a
-funcionalidade em si (o blog carrega e é indexável), então não impedem esta task de ir para
-validação — mas precisam virar ajuste antes do merge em `staging`, a critério de Douglas.
+Sim — QA manual de Douglas concluído (17-18/08/2026). Os 2 achados (link ausente na landing, layout
+a refinar) viraram [TASK-171](TASK-171.md), já resolvida.
 
 ---
 
@@ -89,8 +87,7 @@ código).
       no código
 - [x] `npm run build` limpo em toda task
 - [x] Revisão de código: 5 tasks + revisão final da branch, todas aprovadas (subagent-driven-development)
-- [ ] QA manual de Douglas — em andamento; 2 achados de UX/design abertos (ver Fora de Escopo do
-      EPIC-022), sem bloquear a funcionalidade
+- [x] QA manual de Douglas — 2 achados de UX/design encontrados, resolvidos na [TASK-171](TASK-171.md)
 
 ## Dependências
 Nenhuma.
@@ -103,6 +100,5 @@ identificado e corrigido durante a própria implementação, não é mais um ris
 Médio (5 tasks técnicas + 1 fix de revisão)
 
 ## Status
-Em Validação — implementado, revisado, aguardando QA manual completo de Douglas e merge em
-`staging`. Branch `feature/blog-content-mdx` (`easy-maintenance-web`), commits até `d1d5982`, já
-com push de segurança em `origin/feature/blog-content-mdx`.
+Em Validação — implementado, revisado, QA manual concluído (achados viraram TASK-171). Falta só o
+merge em `staging`. Branch `feature/blog-content-mdx` (`easy-maintenance-web`), até o commit `d1d5982`.
