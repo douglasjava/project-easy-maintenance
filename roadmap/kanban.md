@@ -1,5 +1,22 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 17/08/2026 — **EPIC-022 criado, TASK-170 implementada e em validação**: Blog de
+> Conteúdo (SEO) — motivado por concorrente direto (Condo Guardian) com blog SEO ativo nas mesmas
+> keywords do nosso plano de SEO. Infra via `@next/mdx` (sem CMS, sem rota dinâmica — cada post é
+> uma pasta própria), `BlogPostShell` reaproveitando padrão de `/termos`, primeiro post real
+> publicado ("NBR 5674 na prática"), `robots.txt`/`sitemap.ts` atualizados. Desenhado via brainstorm
+> — spec em `docs/superpowers/specs/2026-08-17-blog-content-design.md`, plano em
+> `docs/superpowers/plans/2026-08-17-blog-content.md`, executado via subagent-driven-development (5
+> tasks + 1 fix de revisão final). **Achado crítico corrigido na revisão final**: `/blog` não estava
+> no allowlist público do `Shell.tsx` — sem o fix, visitante anônimo era redirecionado pro `/login`
+> e o conteúdo nunca renderizava, nulificando a feature inteira; nenhuma task do plano tocava esse
+> arquivo, só apareceu na revisão de branch inteira. Corrigido (commit `d1d5982`). Branch
+> `feature/blog-content-mdx` em `easy-maintenance-web`, com push de segurança em
+> `origin/feature/blog-content-mdx`, ainda não mergeada em `staging`. **QA manual de Douglas em
+> andamento**: 2 achados abertos, sem bloquear a funcionalidade — link do `/blog` ausente na landing
+> page (página só descoberta via sitemap hoje) e layout dos posts precisa de refinamento visual
+> (hoje usa só Bootstrap padrão, sem CSS dedicado pro conteúdo longo). Posts 2-5 (temas já aprovados
+> na spec) ainda não escritos — só o primeiro post existe até agora.
 > Atualizado em: 11/08/2026 — **TASK-169 criada e implementada** (🔴 Crítico, BUGFIX, achado por
 > Douglas em uso real): cadastrar um 2º custo "Outros" (GoDaddy) além de um já existente (Vercel)
 > quebrava com "vigência deve ser posterior...". Causa raiz mais séria que o erro em si: a
@@ -720,6 +737,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
 | [TASK-168](tasks/TASK-168.md) | BUGFIX Frontend: botão "Ver todos os recursos" da landing sem destino          | 🟡 Médio   | —        |
 | [TASK-158](tasks/TASK-158.md) | Frontend: página pública de Termos de Uso — corrige link quebrado do rodapé     | 🟠 Alto    | —        |
