@@ -43,11 +43,15 @@ periodicidade 12 meses, seguindo o mesmo padrão dos itens já existentes (`AR_C
 
 ## Escopo
 
-### 1. Novo `item_types` (migration)
-Inserir novo tipo. Nome sugerido: `INSTALACAO_GAS` (a confirmar com Douglas antes de aplicar — é
-decisão de nomenclatura, não técnica).
+**Correção de entendimento (19/08/2026, antes de implementar)**: `item_types` **não** é a tabela
+certa aqui — é um catálogo de autocomplete de texto livre (nomes com espaço, ex.: "INSTALACAO DE AR
+CONDICIONADO"), cresce organicamente via `POST /item-types` quando o usuário digita um tipo novo no
+formulário, e não tem relação direta com a chave usada pelas normas. O dropdown "Norma" do
+formulário de item (`items/new/page.tsx`) busca `GET /norms` **dinamicamente** e renderiza
+`n.itemType` como label — basta a linha existir em `norms` pra aparecer no dropdown, sem qualquer
+mudança de frontend ou de `item_types`. Nome confirmado com Douglas: `INSTALACAO_GAS`.
 
-### 2. Novo `norms` (mesma migration)
+### 1. Novo `norms` (migration)
 ```sql
 INSERT INTO norms (item_type, period_unit, period_qty, tolerance_days, authority, doc_url, notes)
 VALUES (
@@ -59,23 +63,18 @@ VALUES (
   elétrica, sistema de exaustão, filtro, ventilação permanente, sistema de combustão.'
 );
 ```
-Nome de migration: próximo número livre em sequência com a TASK-177 (conferir qual delas roda
-primeiro e ajustar numeração pra não colidir).
-
-### 3. Frontend (se necessário)
-Conferir se o formulário de cadastro de item consulta `item_types` dinamicamente (via
-`ItemTypesController`) — se sim, o novo tipo aparece automaticamente, sem mudança de código
-frontend. Confirmar isso antes de assumir que não precisa de trabalho de frontend.
+### 2. Frontend
+Nenhuma mudança necessária — confirmado que o dropdown já é dinâmico (`GET /norms`).
 
 ## Critérios de Aceite
 
-- [ ] Novo `item_type` de gás combustível existe e aparece na lista de tipos disponíveis pro
-      usuário ao cadastrar item
-- [ ] Norma vinculada calcula `nextDueAt` corretamente (12 meses)
-- [ ] `authority`/`notes` citam as 3 normas com os papéis corretos (13103 = requisito/periodicidade,
-      15923 = procedimento, 15526 = rede/complementar)
-- [ ] Teste cobrindo criação de item do novo tipo e cálculo de `nextDueAt`
-- [ ] `mvn test` sem regressão
+- [x] Nova norma `INSTALACAO_GAS` existe e aparece no dropdown de normas ao cadastrar item
+      REGULATORY (dropdown já é dinâmico, `GET /norms`)
+- [x] Norma cadastrada com `period_qty=12`/`period_unit=MESES` — `nextDueAt` calcula pelo mecanismo
+      genérico já existente, mesmo usado por todas as outras normas do catálogo
+- [x] `authority`/`notes` citam as normas com os papéis corretos (13103+15923 = base/periodicidade,
+      15526 = rede/complementar, em notes)
+- [x] `mvn test` sem regressão (763 testes, 0 falhas)
 
 ## Dependências
 Nenhuma técnica. Nomenclatura do `item_type` (`INSTALACAO_GAS` vs. outro nome) precisa de
@@ -89,4 +88,9 @@ Baixo — item novo, aditivo, não toca em nenhum item existente.
 Baixo-Médio
 
 ## Status
-Pronto para implementar — nomenclatura do `item_type` a confirmar antes da migration.
+✅ Concluída — `V90__seed_gas_installation_norm.sql`, idempotente (`WHERE NOT EXISTS`), 763 testes
+existentes passando (0 regressão). Nenhum teste novo dedicado — segue o mesmo padrão das demais
+linhas de seed do catálogo (V2/V9), cobertas pelos testes genéricos de resolução de norma já
+existentes, não por um teste por item_type. `authority` cita 13103+15923 (os dois com papel direto
+na periodicidade); 15526 fica só em `notes` como referência complementar de rede — mais preciso do
+que citar as 3 igualmente na `authority`.
