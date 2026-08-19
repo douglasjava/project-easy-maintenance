@@ -652,3 +652,47 @@ sem sucessora. Resolvido com confiança alta.
 
 **Pendência**: nenhuma sobre a 13103 em si — mas o item fica "incompleto" até a NBR 15923 ser
 analisada (é ela que define a periodicidade concreta que o catálogo precisaria).
+
+---
+
+### NBR 15923 — Inspeção de Rede de Distribuição Interna de Gases Combustíveis em Instalações Residenciais e Instalação de Aparelhos a Gás para Uso Residencial — Procedimento
+
+**Status**: ✅ **Resolvida com confiança alta**. O normas.com.br mostra o mesmo aviso padrão de
+"cancelada em 02/2011" já visto em outras 4 normas deste levantamento (5626, 17240, 16083, 12693) —
+mas aqui a evidência de que é ruído de boilerplate, não status real, é a mais forte até agora:
+confirmações registradas em **12/2015, 12/2019 e 07/2024** (a mais recente é de só um mês antes da
+5ª edição da NBR 13103, coincidência que reforça a leitura). Além disso, a **própria NBR 13103:2024
+— norma nova, publicada há poucos meses — continua remetendo à NBR 15923** como procedimento de
+inspeção periódica vigente. A ABNT não referenciaria uma norma morta numa revisão recém-publicada.
+Concluo com confiança: **NBR 15923:2011 está vigente**, confirmada pela última vez em 07/2024.
+
+**O que a norma exige:**
+
+1. Requisitos mínimos pra **inspeção** de rede de distribuição interna de gases combustíveis em
+   instalações residenciais (partes comuns e individuais) e instalação de aparelhos a gás
+   residenciais — inclui adequação dos ambientes que os contêm e exaustão dos produtos de
+   combustão.
+2. Situações em que a inspeção se aplica: inspeção periódica de redes já em uso; troca de tipo ou
+   fornecedor de gás; reforma ou ampliação; substituição ou instalação de novo aparelho; liberação
+   de rede nova para comissionamento.
+3. **Periodicidade concreta encontrada** (atribuída à NBR 13103, que é quem efetivamente define o
+   prazo pro aparelho, com a 15923 fornecendo o procedimento de como inspecionar): manutenção
+   preventiva do aparelho a gás a cada **12 meses**, ou conforme instrução do fabricante — vale o
+   prazo mais curto entre os dois. Itens verificados: limpeza do aparelho, conexão com a rede
+   interna (estanqueidade, vazamentos, validade), conexões de água quente/fria, conexões elétricas,
+   sistema de exaustão (oxidação, amassados, furos), limpeza de filtro, área de ventilação
+   permanente, sistema de combustão.
+4. Descumprimento da manutenção preventiva pode gerar **perda de garantia** do aparelho —
+   argumento de valor prático pra síndico/gestor, além da segurança.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — agora com periodicidade concreta e verificada: **12 meses**, item claramente compatível com o schema atual (`periodQty=12`, `periodUnit=MESES` ou equivalente) | **Gap real e acionável** — diferente da 5674/14037/16280 (que não cabiam no schema), esse item pode ser adicionado como está, citando NBR 13103 (requisito) + NBR 15923 (procedimento de inspeção) juntas |
+| `/norms` (página estática) | ❌ Ausente | Adicionar — par 13103+15923, com a periodicidade de 12 meses como diferencial concreto |
+| Produto (funcionalidade) | Gap de funcionalidade real, e agora com dado suficiente pra ser implementado como item de catálogo completo (diferente do gap "estrutural" das normas de gestão) | Observação pra Douglas: esse é o item de gás mais pronto pra virar `itemType` novo no catálogo, dos 3 pesquisados na seção C-bis |
+
+**Pendência**: nenhuma relevante — essa é a norma do levantamento até agora com o achado mais
+diretamente acionável (periodicidade concreta e verificada). Falta só a NBR 15526 pra fechar a
+seção C-bis (gás) por completo.
