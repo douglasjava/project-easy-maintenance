@@ -270,3 +270,46 @@ de fonte não-oficial é citada literalmente.
 não decodificou) — o que está acima é triangulado de fontes especializadas confiáveis, mas não é
 "li o texto da ABNT com meus próprios olhos". Se algum ponto for usado pra afirmação jurídica forte
 (não só conteúdo de blog), vale confirmar contra a cópia oficial paga da ABNT antes.
+
+---
+
+### NBR 14037 — Diretrizes para Elaboração de Manuais de Uso, Operação e Manutenção das Edificações
+
+**Status**: ✅ Analisada (19/08/2026). É a norma pra qual a NBR 5674 remete toda periodicidade
+específica — as duas formam o par central do discurso do produto, mas **a 14037 não tem entrada
+nem na página estática `/norms` nem no catálogo funcional**, apesar de ser citada o tempo todo
+(inclusive no nosso blog).
+
+**Status oficial confirmado direto num catálogo de normas** (não fonte secundária tipo blog): **vigente**,
+edição revisada em **janeiro/2024**. Buscas genéricas retornavam "cancelada em janeiro de 2024" —
+era ruído: a edição *anterior* (2011/2014) foi substituída pela edição 2024 da mesma norma, o que
+buscadores/blogs às vezes relatam de forma confusa como "cancelada". **Mesmo padrão de ambiguidade
+que já tinha marcado pra NBR 16083 e NBR 17240** — daqui pra frente, verificar status direto num
+catálogo de normas dedicado, não em busca genérica.
+
+**O que a norma exige:**
+
+1. Define o **conteúdo obrigatório** do Manual de Uso, Operação e Manutenção: características
+   construtivas de unidades e áreas comuns, descrição de instalações, modelos de programa de
+   manutenção e listas de verificação, planos de manutenção e controle pra conservação adequada
+   dos sistemas construtivos.
+2. **Obrigação é da construtora/incorporadora** — é ela quem precisa elaborar e entregar o manual
+   ao representante legal do empreendimento (síndico), não do gestor de manutenção depois.
+   Elaborado especificamente pra cada empreendimento (não é um modelo genérico).
+3. Função: funciona como guia de instrução do condomínio — uso correto, conservação, manutenção
+   preventiva e operação dos sistemas construtivos, aumentando a vida útil do prédio.
+4. Não achei, nas fontes consultadas, prazo legal explícito de quando a construtora deve entregar
+   o manual (marcado como pendência de verificação, não como "a norma não define" — pode estar no
+   texto oficial e não ter aparecido nos resumos).
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Não se aplica — mesma razão da 5674: é norma de "o que o manual deve conter", não item com periodicidade própria | Nenhuma |
+| `/norms` (página estática) | **Ausente** — a norma mais citada no nosso discurso ("o manual da NBR 14037 diz...") não tem entrada própria pro usuário final entender o que ela é | Adicionar entrada (mesmo formato das outras 13) |
+| Blog (`nbr-5674-responsabilidade-sindico`) | Cita a 14037 corretamente como "norma complementar", mas não explica o que ela exige nem menciona que é obrigação da construtora entregar | Poderia ganhar 1-2 frases explicando melhor, não é erro, é oportunidade |
+| Produto (funcionalidade) | Não existe hoje nenhum conceito de "esse cliente tem o Manual NBR 14037 do prédio dele arquivado/em dia" — é um documento que a NBR 5674 pressupõe existir, mas o produto não rastreia sua existência/conteúdo | Observação, não recomendação de feature agora |
+
+**Pendência**: prazo de entrega do manual pela construtora — verificar na próxima passada com fonte
+melhor (ou texto oficial, se conseguir acesso).
