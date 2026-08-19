@@ -1235,3 +1235,64 @@ Lei 13.589/PMOC, NBR 5410, RDC 50/2002, RDC 63/2011, NR-12, NR-33, NBR 12177/122
 seções do levantamento inicial (A a H) foram percorridas. Aguardando sinal do Douglas pra bater os
 ajustes acumulados de conteúdo (conforme combinado: "segue pra próxima norma primeiro, bate os
 ajustes no final").
+
+---
+
+## Pendências resolvidas por Douglas (19/08/2026)
+
+Depois do encerramento do trabalho norma-a-norma, Douglas pesquisou diretamente as pendências
+técnicas em aberto, com foco em separar o que dá pra afirmar com segurança do que parecia prazo
+inventado por fontes secundárias. Resultado, por item:
+
+| Item | Conclusão | Confiança |
+|---|---|---|
+| NBR 5626 | Vigente — ABNT NBR 5626:2020 Versão Corrigida:2020 | 🟢 Alta |
+| NBR 12693 | Vigente — edição 2021 | 🟢 Alta |
+| NBR 5410 — "5 anos" | **Não** encontrado na norma — não atribuir esse prazo à NBR 5410 | 🟢 Alta |
+| NBR 16747 | Vigente — edição 2020 | 🟢 Alta |
+| NBR 14037 — prazo em dias | Não encontrado prazo numérico normativo | 🟢 Alta |
+| NBR 16280 — aviso em dias | Não encontrado prazo numérico; exige comunicação/documentação antes da obra, sem número de dias | 🟢 Alta |
+| NBR 9077 — periodicidade | Não encontrada periodicidade numérica; edição atual confirmada 2025 | 🟡 Média/alta |
+
+**NBR 5626 e NBR 12693**: fecham como vigentes com confiança alta (Busca Normas registra ambas
+explicitamente como "Vigente"; o aviso de "cancelada" que apareceu nas minhas consultas
+provavelmente estava associado à edição anterior, não à norma atual). Citações recomendadas:
+`ABNT NBR 5626:2020 Versão Corrigida:2020` e `ABNT NBR 12693:2021`.
+
+**NBR 5410 — remoção do "5 anos"**: o texto disponível da NBR 5410:2004 (seção de manutenção)
+relaciona a periodicidade a complexidade e utilização da instalação, não fixa um número universal.
+Fontes de mercado que citam "3 a 5 anos" ou "5 anos pra condomínio" não são evidência suficiente
+pra atribuir esse prazo à norma — pode inclusive depender de regulamentação estadual. **Decisão**:
+cadastrar como "periodicidade definida conforme características, complexidade, utilização e
+condições da instalação, observando NBR 5410 e legislação/regulamentação local aplicável" — sem
+número fixo atribuído à norma.
+
+**NBR 16747**: fecha como vigente (edição 2020) com confiança alta — inclusive uma fonte (Revista
+Potência) relata que a própria ABNT confirmou que a 16747:2020 seguia em vigor durante processo de
+revisão/errata, e materiais de 2025/2026 continuam usando essa edição como referência.
+
+**Os três "prazos misteriosos" — nenhum vira requisito normativo no cadastro**:
+- **NBR 14037** (edição atual 2024): manual deve ser entregue pela incorporadora/construtora, mas
+  sem prazo em dias confirmado no texto da norma. Uma fonte cita "10 dias úteis", mas isso é prazo
+  comercial de prestador de serviço, não requisito normativo — não cadastrar.
+- **NBR 16280** (edição atual 2024): comunicação/documentação deve ocorrer previamente ao início da
+  reforma, sem prazo numérico confirmado. Um condomínio pode fixar prazo próprio em regulamento
+  interno (7, 10, 15 dias), mas isso é regra interna, não da norma.
+- **NBR 9077** (edição atual 2025, confirmada): trata de **projeto** de saídas de emergência, não
+  de programa periódico de inspeção — as duas obrigações não são a mesma coisa. Não cadastrar
+  periodicidade fixa de inspeção atribuída à NBR 9077 sem outra base normativa/regulatória.
+
+**Recomendação de modelo de dados (Douglas)**: distinguir no catálogo `periodicidadeNormativa`
+(valor que a norma efetivamente exige, quando existe) de `periodicidadeRecomendada` (prática de
+mercado/fabricante) — evita que uma recomendação de mercado apareça pro usuário como "a norma
+exige a cada X". Registrado como recomendação a avaliar em `EPIC-025` (ver abaixo).
+
+## Decisões de escopo (19/08/2026) — ver detalhe completo em EPIC-025
+
+1. **Hospital**: sem suporte a equipamento clínico — fora do escopo do produto.
+2. **Indústria**: mesma regra — se for sobre equipamento (não predial), fora do escopo.
+3. **Regionalização (achados #2/#3)**: viável via endereço da organização, já disponível no
+   produto — fica como direção futura, desenho ainda não feito.
+4. **Épico dedicado criado**: [EPIC-025](../../roadmap/epics/EPIC-025.md) — normas deixam de viver
+   soltas dentro do EPIC-004. `TASK-088` (governança de schema/dado) permanece no EPIC-004, por ser
+   preocupação distinta de correção de conteúdo.

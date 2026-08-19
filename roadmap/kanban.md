@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 19/08/2026 — **EPIC-025 criado**: conteúdo e governança das normas técnicas
+> (ABNT/NR/RDC). Auditoria norma-a-norma concluída (22 normas analisadas) em
+> `docs/produto/levantamento-normas-abnt.md` (root repo). Decisões confirmadas com Douglas: produto
+> não dá suporte a equipamento clínico/industrial (só predial) nos segmentos hospital e indústria;
+> regionalização (Corpo de Bombeiros/vigilância sanitária por estado/município) é viável via
+> endereço da organização, fica como direção futura; `TASK-088` permanece no EPIC-004 (é governança
+> de schema, não de conteúdo). Tasks de correção ainda não criadas — aguardando consolidação final
+> da lista de ajustes.
 > Atualizado em: 19/08/2026 — **EPIC-024 criado (desenhado via brainstorm), 2 tasks prontas para
 > implementar**: agendamento de demonstração comercial via Cal.com, inspirado no `/agendar` do
 > concorrente Easy Alert. Spec em `docs/superpowers/specs/2026-08-19-agendamento-demo-design.md`.
