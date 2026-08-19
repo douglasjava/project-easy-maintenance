@@ -1177,3 +1177,61 @@ que o produto já ajuda a agendar**.
 **Pendência**: nenhuma sobre o conteúdo — esse foi o achado de cruzamento mais direto e acionável
 da seção H até agora, resolvendo com clareza a pergunta "confirmar relevância" do levantamento
 inicial.
+
+---
+
+### NBR 12177 e NBR 12228 — Última dupla do levantamento (fecha a seção H e o trabalho norma-a-norma)
+
+**Status: ambas genuinamente CANCELADAS, sem substituição** — diferente de praticamente todas as
+outras vezes que esse aviso apareceu neste levantamento (5626, 17240, 16083, 12693, 15923, 15526,
+16785, todas resolvidas como ruído de boilerplate por terem confirmações posteriores à data do
+aviso). Aqui o padrão é oposto: **nenhuma confirmação posterior à data de cancelamento** em
+nenhuma das duas, o que é exatamente o sinal que faltava nos outros casos e que confirma
+cancelamento real:
+
+- **NBR 12177-1** (Caldeiras Estacionárias a Vapor — Inspeção de Segurança — Parte 1: Caldeiras
+  Flamotubulares): edição 11/1999, confirmação 09/2011, **cancelada sem substituição em 12/2015**.
+  Nenhuma confirmação depois disso.
+- **NBR 12228** (Tanque Estacionário Destinado à Estocagem de Gases Altamente Refrigerados —
+  Inspeção Periódica): edições 1985→1992→1997, **cancelada sem substituição em 07/2017**. Mesma
+  ausência de confirmação posterior.
+
+**O que as normas exigiam (histórico, já não vigente):**
+
+- NBR 12177 (partes 1 e 2): condições pra inspeção de segurança de caldeiras estacionárias a
+  vapor, flamotubulares (parte 1) e aquatubulares (parte 2), já instaladas — identificação,
+  documentação, instalação, operação e manutenção.
+- NBR 12228: requisitos mínimos pra inspeção periódica de tanques estacionários de gases altamente
+  refrigerados (ex.: GNL criogênico) — norma de nicho, aplicação industrial específica, bem mais
+  estreita que a 12177.
+
+**Por que isso não deixa um vácuo regulatório**: a **NR-13** (Caldeiras e Vasos de Pressão) — já
+presente no catálogo do produto — é a norma regulamentadora que estabelece os requisitos técnicos e
+legais completos pra instalação, operação, inspeção e manutenção de caldeiras e vasos de pressão no
+Brasil, com força de lei (Ministério do Trabalho), diferente das NBR canceladas que eram só
+referência técnica complementar. Na prática, o cancelamento das duas ABNT sem substituta não deixou
+o setor sem regra — a NR-13 já cobria (e continua cobrindo) o mesmo terreno com autoridade legal
+mais forte. Isso explica, inclusive, por que a ABNT pode ter decidido não revisar/substituir essas
+normas específicas: a função regulatória já estava coberta em outro lugar.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | NR-13 já está no catálogo — não cita NBR 12177/12228 (corretamente, já que ambas estão canceladas) | Nenhuma correção necessária — o catálogo já está certo por não citar essas duas |
+| `/norms` (página estática) | Não confirmado se cita alguma das duas (revisar) | Se alguma estiver citada na página estática, **remover** — citar norma cancelada sem substituição seria um erro de conteúdo real, diferente das outras "canceladas" que eram ruído |
+| Produto (funcionalidade) | Nenhum gap — NR-13 já cobre esse terreno funcionalmente | Nenhuma ação |
+
+**Pendência**: revisar se a página estática ou algum outro conteúdo do produto cita NBR 12177 ou
+NBR 12228 isoladamente — se citar, é a única correção de conteúdo necessária vinda desta dupla.
+
+---
+
+## Encerramento do trabalho norma-a-norma (seções A–H completas)
+
+22 normas/conjuntos normativos analisados individualmente: NBR 5674, 14037, 16280, 16747, 5626,
+17240, 16083, 12693, 9050, 13103, 15923, 15526, RDC 15/2012, RDC 222/2018, NBR 16785, NBR 9077,
+Lei 13.589/PMOC, NBR 5410, RDC 50/2002, RDC 63/2011, NR-12, NR-33, NBR 12177/12228. Todas as
+seções do levantamento inicial (A a H) foram percorridas. Aguardando sinal do Douglas pra bater os
+ajustes acumulados de conteúdo (conforme combinado: "segue pra próxima norma primeiro, bate os
+ajustes no final").
