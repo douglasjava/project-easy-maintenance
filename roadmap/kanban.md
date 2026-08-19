@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 19/08/2026 — **EPIC-024 criado (desenhado via brainstorm), 2 tasks prontas para
+> implementar**: agendamento de demonstração comercial via Cal.com, inspirado no `/agendar` do
+> concorrente Easy Alert. Spec em `docs/superpowers/specs/2026-08-19-agendamento-demo-design.md`.
+> Nova página `/agendar` (TASK-175) com o widget do Cal.com embutido (plano gratuito, calendário
+> único — só Douglas atende por enquanto), webhook `BOOKING_CREATED` (TASK-176) cria lead
+> reaproveitando o `LeadService` já existente (mesma tabela `landing_leads`, UTM/afiliado/
+> consentimento LGPD propagados) — sem construir calendário/disponibilidade do zero. **Decisão
+> importante confirmada com Douglas**: isso não substitui nem altera o formulário de e-mail e o
+> botão "Solicitar Demonstração" já existentes — vira só um botão novo "Agendar demonstração" na
+> navbar, opção paralela pra quem já quer marcar horário na hora (em vez de esperar contato
+> manual).
 > Atualizado em: 18/08/2026 — **EPIC-023 criado (desenhado via brainstorm), 3 tasks prontas para
 > implementar**: fornecedores nas notificações de vencimento (e-mail e WhatsApp) — ideia do
 > Douglas, fecha o ciclo "avisei que venceu" → "aqui está quem pode resolver" numa etapa só. Spec
@@ -714,6 +725,10 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com)**:
+- **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
+- **[TASK-176](tasks/TASK-176.md)** — Backend: webhook do Cal.com cria lead via `LeadService` (🟠 Alto | EPIC-024)
 
 **🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento) — *(backlog, não priorizado agora, 18/08/2026)***:
 - **[TASK-172](tasks/TASK-172.md)** — Backend: `SupplierLookupService` — busca textual + cache 7 dias (🟠 Alto | EPIC-023)
