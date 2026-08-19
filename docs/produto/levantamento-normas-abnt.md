@@ -411,3 +411,46 @@ vale pros achados #2/#3 (Corpo de Bombeiros e vigilância sanitária).
 **Pendência**: confirmar status "vigente" num catálogo formal de normas (não só fontes
 secundárias); confirmar quais outros municípios relevantes ao produto (BH, RJ) têm lei própria de
 obrigatoriedade, além de São Paulo.
+
+---
+
+### NBR 5626 — Sistemas Prediais de Água Fria e Água Quente — Projeto, Execução, Operação e Manutenção
+
+**Status**: ⚠️ **Ambíguo — não resolvido nesta rodada**. Edição atual é **2020** (substituiu a
+antiga NBR 5626:1998 + NBR 7198:1993, que tratava separadamente água quente). Ao consultar
+diretamente o catálogo dedicado normas.com.br (técnica já validada nas normas anteriores), a página
+mostra "Vigente" no campo de status, mas também exibe um aviso textual contraditório: **"A norma
+NBR5626 em 06/2020 foi cancelada e seu uso pode trazer riscos"**. Busquei uma edição mais nova
+(2023/2024) que explicasse esse aviso e não encontrei nenhuma nas fontes disponíveis. Não vou
+tratar isso como "norma morta" nem como "norma 100% vigente" — fica como pendência explícita de
+verificação direta na fonte oficial ABNT antes de qualquer uso em alegação de produto.
+
+**O que a norma exige (independente da pendência de status acima, o conteúdo é consistente entre
+todas as fontes):**
+
+1. Escopo: projeto, execução, especificação de materiais, **inspeção e manutenção preventiva** de
+   sistemas prediais de água fria e água quente potável — residencial, comercial, industrial, misto.
+2. **Fora do escopo**: água não potável, água de processo industrial, sistemas intrínsecos a
+   equipamentos específicos, combate a incêndio, e o sistema de abastecimento público em si (a
+   norma trata do sistema predial, não da rede externa).
+3. Objetivos centrais: preservar a potabilidade da água ao longo do sistema predial, garantir bom
+   desempenho hidráulico, uso racional de água e energia.
+4. Trata de reservatórios (caixa d'água): tubulação de limpeza, extravasão (ladrão) e aviso — proíbe
+   ligação direta dessas linhas com rede de esgoto ou pluvial; exige que o reservatório seja
+   projetado para permitir verificação e manutenção de forma simples e econômica.
+5. Regra de transição: a versão 2020 não se aplica a projetos protocolados antes da publicação nem
+   dentro dos 180 dias seguintes (26/12/2020 é a data efetiva de aplicação obrigatória) — projetos
+   anteriores a essa janela seguem a norma antiga. Relevante só para novas edificações, não para o
+   produto (que lida com edificações já existentes/operando).
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Ausente — mas a caixa d'água/reservatório **já é um item do catálogo hoje**, citado como "CAIXA_DAGUA / Vigilância Sanitária" (ver `Status do catálogo hoje`) | Avaliar se a NBR 5626 deveria ser citada como base técnica complementar à vigilância sanitária no item já existente, não como item novo |
+| `/norms` (página estática) | Ausente | Adicionar só depois de resolver a pendência de status — não faz sentido publicar uma norma pro público com status ambíguo |
+| Produto (funcionalidade) | O item CAIXA_DAGUA já existe e é funcional — essa norma reforça a base técnica dele, não expõe gap novo de funcionalidade | Nenhuma ação de produto |
+
+**Pendência**: resolver a contradição "vigente" vs. aviso de "cancelada em 06/2020" direto com
+texto oficial ABNT ou uma segunda fonte de catálogo, antes de usar essa norma em qualquer alegação
+pública do produto.
