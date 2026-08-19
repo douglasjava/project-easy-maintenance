@@ -116,4 +116,7 @@ Baixo — página estática, sem lógica de negócio, aditiva.
 Baixo
 
 ## Status
-Pronto para implementar.
+✅ Concluída — PR [#44](https://github.com/douglasjava/easy-maintenance-web/pull/44) mergeada em
+`staging` em 19/08/2026. `npm run build` limpo. Ajuste da NBR 5674 (menção à preditiva) foi
+incluído aqui, já que era trivial — não precisa ser repetido na TASK-180 (que trata só do post do
+blog).
