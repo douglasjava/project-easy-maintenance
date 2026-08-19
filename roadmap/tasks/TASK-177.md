@@ -110,4 +110,5 @@ Baixo — é migration de conteúdo textual, não altera `period_qty`/cálculo d
 Baixo
 
 ## Status
-Pronto para implementar.
+✅ Concluída — PR [#38](https://github.com/douglasjava/easy-maintenance-api/pull/38) mergeada em
+`staging` em 19/08/2026 (`V89__fix_norm_citations.sql`). 763 testes, 0 falhas.

@@ -745,8 +745,8 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🟠 Alto (EPIC-025 — conteúdo e governança das normas técnicas) — *(backlog, não priorizado agora, 19/08/2026)***:
-- **[TASK-177](tasks/TASK-177.md)** — Backend: corrigir/completar citações de normas no catálogo `norms` (🟠 Alto | EPIC-025)
+**🟠 Alto (EPIC-025 — conteúdo e governança das normas técnicas) — *(19/08/2026)***:
+- ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*
 - **[TASK-178](tasks/TASK-178.md)** — Backend: novo item de catálogo para instalação de gás combustível (🟡 Médio | EPIC-025)
 - **[TASK-179](tasks/TASK-179.md)** — Frontend: atualizar página `/norms` com os achados do levantamento (🟠 Alto | EPIC-025)
 - **[TASK-180](tasks/TASK-180.md)** — Conteúdo: revisar post do blog sobre NBR 5674 (🔵 Baixo | EPIC-025)
@@ -877,6 +877,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-177](tasks/TASK-177.md) | Backend: corrigir/completar citações de normas no catálogo `norms` — PR #38 mergeada em staging (V89) | 🟠 Alto | EPIC-025 |
 | [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA + fix V9 period_qty=0 — confirmado concluído (V71/V75) ao conferir o banco durante o levantamento de normas (EPIC-025), estava parado em "Em Validação" | 🟠 Alto | EPIC-004 |
 | [TASK-162](tasks/TASK-162.md) | Frontend: cadastro/edição de custo de infraestrutura + rótulo pra "Outros" (achado de QA) — aprovado por Douglas | 🟠 Alto | EPIC-020 |
 | [TASK-161](tasks/TASK-161.md) | Frontend: página `/financeiro` — grid de totalizadores + gráfico Recharts — aprovado por Douglas | 🟠 Alto | EPIC-020 |
