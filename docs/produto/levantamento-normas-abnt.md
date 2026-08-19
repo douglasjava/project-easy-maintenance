@@ -576,3 +576,43 @@ verificação direta com a ABNT.
 
 **Pendência**: confirmar status real da NBR 12693:2021 direto com a ABNT antes de citá-la em
 qualquer contexto (mesmo que hoje ela não seja usada em nenhuma alegação do produto).
+
+---
+
+### NBR 9050 — Acessibilidade a Edificações, Mobiliário, Espaços e Equipamentos Urbanos
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, confirmado direto no buscanormas.com.br
+("NBR 9050 (Vigente)"). Edição atual **2020, Versão Corrigida 2021** (Errata 1, 25/01/2021) —
+equivale à consolidação da NBR 9050:2015 + Emenda 1 (03/08/2020). Status limpo, sem ambiguidade
+nas fontes consultadas.
+
+**O que a norma exige:**
+
+1. Critérios e parâmetros técnicos pra projeto, construção, instalação e **adaptação** de
+   edificações e espaços urbanos às condições de acessibilidade — rampas, elevadores acessíveis,
+   banheiros/cozinhas dimensionados pra cadeirantes, rotas acessíveis desde o estacionamento até a
+   entrada principal, sinalização visual e tátil, vagas de estacionamento exclusivas.
+2. Em condomínios residenciais multifamiliares: **áreas de uso comum** precisam ser acessíveis
+   (entradas, funções principais das áreas comuns). Áreas técnicas de acesso restrito (casa de
+   máquinas, barrilete, passagem técnica e afins) **não** precisam ser acessíveis.
+3. Diferente de quase toda outra norma revisada até agora, a NBR 9050 tem **força legal direta**,
+   não apenas referência técnica: **Decreto Federal 5.296/2004** e a **Lei Brasileira de Inclusão
+   (Lei 13.146/2015)** determinam que espaços de uso coletivo sigam a norma, tornando-a referência
+   obrigatória — não apenas recomendada — para síndicos e gestores. Confirma e reforça o achado já
+   registrado no levantamento inicial (seção E).
+4. Vale mesmo pra edificações **já existentes**: o Decreto 5.296/2004 exige adaptação progressiva
+   pra garantir acessibilidade, não só em obras novas — reforma/ampliação de edificação existente
+   também precisa seguir a norma.
+5. Responsabilidade recai sobre o síndico — descumprimento pode gerar multas, ações civis e, em
+   casos extremos, interdição da edificação.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — mas essa norma **não é periódica por natureza** (é critério de projeto/adaptação, não item de manutenção recorrente), então tem o mesmo problema estrutural já visto em 5674/14037/16280: não cabe no schema atual | Não força adição ao banco — observação estrutural, não gap de conteúdo |
+| `/norms` (página estática) | ❌ Ausente | Recomendo fortemente adicionar — é a norma com **força legal mais direta** de todo o levantamento até agora, e reforça a mensagem de responsabilidade legal do síndico que já é usada em outras partes do produto (ex.: blog NBR 5674) |
+| Produto (funcionalidade) | Não existe hoje nenhuma trilha de "conformidade de acessibilidade" no produto — mas, assim como a 16747, isso é uma verificação pontual/qualitativa, não um item recorrente de manutenção. Observação, não recomendação de feature agora | Nenhuma ação imediata |
+
+**Pendência**: nenhuma relevante — essa norma resolveu de forma limpa e sem contradição entre
+fontes.
