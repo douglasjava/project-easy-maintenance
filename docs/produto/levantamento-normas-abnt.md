@@ -786,3 +786,51 @@ domínio de "manutenção" que o produto cobre.
 **Pendência**: nenhuma sobre o conteúdo em si — mas fica reforçada a necessidade de decidir, com
 Douglas, até onde o produto vai no segmento hospitalar (só equipamentos prediais genéricos
 adaptados, ou também equipamentos clínicos como autoclave) antes de propor esse item específico.
+
+---
+
+### RDC 222/2018 (ANVISA) — Regulamenta as Boas Práticas de Gerenciamento dos Resíduos de Serviços de Saúde (PGRSS)
+
+**Status**: ✅ **Vigente**, confirmado por múltiplas fontes convergentes. Publicada 28/03/2018,
+entrou em vigor 25/09/2018 (180 dias após publicação), **revogou expressamente a RDC 306/2004**
+(que era a norma anterior sobre o mesmo tema) — diferente do padrão "confirmação periódica" das
+normas ABNT, aqui a substituição é explícita e documentada, sem ambiguidade.
+
+**Achado de escopo — mais distante do domínio do produto do que a RDC 15/2012**: essa RDC é quase
+inteiramente sobre **gestão de resíduos** (Plano de Gerenciamento de Resíduos de Serviços de Saúde
+— PGRSS): geração, identificação, segregação, acondicionamento, coleta, armazenamento, transporte,
+destinação final. É uma norma de **processo operacional/ambiental**, não de manutenção de
+equipamento ou sistema predial. A única interseção real com "manutenção predial" é um requisito
+**construtivo pontual** (não recorrente) sobre a infraestrutura física do abrigo de resíduos.
+
+**O que a norma exige (focado na parte com alguma relevância ao produto):**
+
+1. Aplica-se a qualquer gerador de resíduos de serviço de saúde — hospitais, clínicas, mas também
+   serviços de estética, piercing, e qualquer atividade que gere resíduo similar, público ou
+   privado.
+2. Exige documento formal (PGRSS) cobrindo todo o ciclo do resíduo, com foco em segurança de
+   trabalhadores, saúde pública e meio ambiente.
+3. **Requisito construtivo do abrigo temporário de resíduos** (o único ponto com alguma
+   proximidade de "infraestrutura predial"): piso e paredes revestidos de material resistente,
+   lavável e impermeável; ponto de iluminação artificial e de água; tomada elétrica alta; ralo
+   sifonado com tampa; identificação obrigatória "ABRIGO TEMPORÁRIO DE RESÍDUOS".
+4. Esse requisito é de **adequação construtiva** (fazer certo uma vez), não de manutenção
+   periódica recorrente — não tem um "a cada X meses" associado, diferente de quase toda norma já
+   revisada até agora.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Não se aplica — não há item periódico real pra extrair dessa norma, ao contrário da RDC 15/2012 | Nenhuma ação |
+| `/norms` (página estática) | Ausente | **Não recomendo adicionar** — é uma norma de gestão de resíduos, fora do domínio "manutenção" que dá sentido ao produto anunciar; incluir arriscaria diluir a mensagem do produto com algo que ele não endereça |
+| Produto (funcionalidade) | Nenhum gap de manutenção — a única peça (infraestrutura do abrigo) é adequação construtiva pontual, não um item de manutenção recorrente | Nenhuma ação |
+
+**Conclusão da seção F (hospitais/ANVISA) até agora**: das 4 RDCs mapeadas no levantamento inicial
+(50/2002, 63/2011, 15/2012, 222/2018), a 15/2012 foi a única com um item de manutenção periódica
+real e acionável (calibração de autoclave, anual). A 222/2018 confirma que **nem toda norma
+relevante ao segmento hospitalar cabe no domínio do produto** — reforça a necessidade da conversa
+de escopo com Douglas antes de qualquer ajuste na tabela de normas pro segmento hospital.
+
+**Pendência**: nenhuma sobre o conteúdo — a decisão de escopo pro segmento hospitalar (já
+sinalizada na análise da RDC 15/2012) continua em aberto.
