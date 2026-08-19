@@ -489,3 +489,46 @@ morta). Confirmado direto no catálogo normas.com.br, técnica já validada nas 
 
 **Pendência**: nenhuma nova — essa norma resolveu de forma limpa. Vale reaproveitar a mesma técnica
 pra NBR 12693 (ainda 🔍 no levantamento inicial) na próxima rodada.
+
+---
+
+### NBR 16083 — Manutenção de Elevadores, Escadas Rolantes e Esteiras Rolantes — Requisitos para Instruções de Manutenção
+
+**Status**: ✅ **Resolvida** (era 🔍 no levantamento inicial, com uma fonte secundária fraca
+afirmando "cancelada em julho de 2012"). Consultei o normas.com.br diretamente — a página mostra o
+mesmo padrão de aviso "foi cancelada" ligado à data da **primeira edição** (07/2012), mas lista
+confirmações da ABNT em 10/2016, 07/2020 e **01/2025**. Uma norma recebendo confirmação da ABNT em
+janeiro de 2025 não é uma norma cancelada — é o mesmo padrão de ruído já visto e resolvido nas NBR
+14037 e NBR 17240 (o aviso do site parece ser um texto padrão ligado à edição original, não um
+status real). Reforcei isso cruzando com uma segunda linha de evidência independente: pesquisei se
+alguma norma nova substituiu a 16083 nesse escopo específico (instruções de manutenção) e não achei
+nenhuma — o que existe é a **NBR 16858** (2020, vigência adiada pra 04/2024), mas essa trata de
+**instalações novas** de elevadores (substituindo NM207/NM267/NBR 16042), um escopo diferente do da
+16083 (manutenção de elevadores já instalados). Concluo com confiança razoável: **NBR 16083:2012
+está vigente**, confirmada pela última vez em 01/2025.
+
+**O que a norma exige:**
+
+1. Especifica os elementos necessários pra elaboração das **instruções de manutenção** de
+   elevadores, escadas rolantes e esteiras rolantes — o que deve e o que não deve estar incluído no
+   escopo de manutenção contratado.
+2. Define obrigações tanto do **condomínio** quanto da **empresa de manutenção** — dupla
+   responsabilidade, não só do prestador de serviço.
+3. Manutenção preventiva mensal por profissional habilitado é citada como prática associada
+   (algumas fontes secundárias tratam isso como exigência da norma; não confirmei se o texto oficial
+   define "mensal" como valor normativo ou se é praxe de mercado — mesma cautela já aplicada à
+   NBR 16747).
+4. Itens tipicamente cobertos pela instrução de manutenção: componentes de segurança, freios,
+   cabos, sensores, portas automáticas, lubrificação, comandos eletrônicos.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Não há item de elevador no catálogo hoje (confirmar contra a lista completa de `itemType`) | Avaliar se elevador deveria virar item novo — é comum em condomínios verticais, o segmento principal do produto |
+| `/norms` (página estática) | Já presente (📄, conforme levantamento inicial) — mas com uma ressalva já flagada: uma fonte secundária alegava cancelamento. Com a resolução desta rodada, **a entrada pode continuar publicada com confiança** | Nenhuma correção de status necessária; revisar só o texto descritivo se citar periodicidade "mensal" como normativa sem ressalva |
+| Produto (funcionalidade) | Se elevador não é item do catálogo, é um gap de funcionalidade real pra condomínios verticais — mas isso é uma decisão de produto, não uma correção de conteúdo | Observação para Douglas, não ação automática |
+
+**Pendência**: confirmar se "mensal" é valor normativo da NBR 16083 ou prática de mercado citada
+por terceiros (mesma cautela da 16747); confirmar se elevador já existe como possível `itemType` no
+catálogo antes de sugerir adição.
