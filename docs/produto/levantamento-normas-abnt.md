@@ -1132,3 +1132,48 @@ sem a ambiguidade já vista em várias ABNT deste levantamento.
 
 **Pendência**: confirmar se a NR-12 já está citada na página estática (não verificado nesta
 rodada) antes de decidir se precisa ser adicionada.
+
+---
+
+### NR-33 — Segurança e Saúde nos Trabalhos em Espaços Confinados
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, revisão mais recente em vigor desde
+03/10/2022 (Portaria MTP). Sem ambiguidade de status.
+
+**Pergunta "confirmar relevância" do levantamento inicial — respondida, e o resultado é mais
+importante do que eu esperava**: a NR-33 **não é só relevante pro segmento indústria — é relevante
+também pro condomínio**, o segmento principal do produto. Espaço confinado é definido como
+qualquer área não projetada pra ocupação humana contínua, com meios limitados de entrada/saída e
+risco de atmosfera perigosa (deficiência/excesso de oxigênio, contaminantes). Exemplos citados nas
+fontes incluem explicitamente: **caixa d'água de grande porte de prédio, quando esvaziada pra
+manutenção/limpeza**, poço de elevador sem ventilação natural, e galerias subterrâneas — todos
+itens que já existem no universo do produto (item `CAIXA_DAGUA` já está no catálogo).
+
+**Achado direto de cruzamento — o mais concreto desta seção até agora**: o item `CAIXA_DAGUA` do
+catálogo hoje cita só "Vigilância Sanitária" como base. A limpeza periódica da caixa d'água — a
+própria atividade que o item de catálogo rastreia — **é, ela mesma, um trabalho em espaço
+confinado** quando o reservatório está vazio pra ser limpo. Isso significa que a NR-33 não é uma
+norma "a mais" pro produto citar — ela rege as **condições de segurança do trabalho de manutenção
+que o produto já ajuda a agendar**.
+
+**O que a norma exige:**
+
+1. Obrigação do empregador (aqui, a empresa terceirizada ou o próprio condomínio/instalação que
+   contrata o serviço) de implementar gestão de segurança em espaço confinado: medidas técnicas de
+   prevenção, administrativas, pessoais, e de emergência/salvamento.
+2. Caracterização do espaço confinado, avaliação de atmosfera (oxigênio, contaminantes) antes da
+   entrada, permissão de entrada e trabalho (PET), vigia dedicado, plano de resgate.
+3. Capacitação obrigatória de todo trabalhador envolvido, sob responsabilidade do empregador —
+   inclusive trabalhadores terceirizados contratados pra limpeza de reservatório, por exemplo.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Item `CAIXA_DAGUA` já existe, citando só Vigilância Sanitária | **Adicionar NR-33 como referência complementar** ao item `CAIXA_DAGUA` — não como item novo, mas como norma de segurança do trabalho que rege a própria execução da manutenção já rastreada |
+| `/norms` (página estática) | Ausente | Recomendo adicionar — é um achado de valor real pro produto: mostra que o produto "sabe" que a manutenção que ele agenda tem implicação de segurança do trabalho, não só de qualidade da água |
+| Produto (funcionalidade) | Nenhum gap de item novo — é enriquecimento de conteúdo de um item já existente, com potencial inclusive de nota/alerta na hora de agendar limpeza de caixa d'água | Observação de produto: poderia virar um lembrete ("essa atividade exige NR-33 — confirme que o fornecedor está capacitado"), mas isso é decisão de feature, não desta análise |
+
+**Pendência**: nenhuma sobre o conteúdo — esse foi o achado de cruzamento mais direto e acionável
+da seção H até agora, resolvendo com clareza a pergunta "confirmar relevância" do levantamento
+inicial.
