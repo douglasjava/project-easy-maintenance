@@ -726,7 +726,7 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com)**:
+**🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
 - **[TASK-176](tasks/TASK-176.md)** — Backend: webhook do Cal.com cria lead via `LeadService` (🟠 Alto | EPIC-024)
 
