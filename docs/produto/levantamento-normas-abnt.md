@@ -358,3 +358,56 @@ ter clareza.
 **Pendência**: não achei prazo numérico específico (em dias) pra comunicação prévia ao síndico nas
 fontes consultadas — só "antes do início da obra", sem prazo fixo. Marcado como pendência, não
 como "a norma não define um prazo" (pode estar no texto oficial sem ter aparecido nos resumos).
+
+---
+
+### NBR 16747 — Inspeção Predial — Diretrizes, Conceitos, Terminologia e Procedimento
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, edição **2020** (primeira edição, 21/05/2020).
+Sem ambiguidade de cancelamento nas fontes consultadas — status limpo, mas mesmo assim não achei
+um catálogo dedicado (tipo buscanormas.com.br) que listasse essa norma especificamente pra bater
+com a técnica das anteriores; o "vigente" aqui vem de múltiplas fontes secundárias convergentes
+(blogs de engenharia, IBAPE), não de um catálogo formal. Vale reforçar essa checagem se a norma for
+usada pra alguma alegação forte.
+
+**O que a norma exige:**
+
+1. Define inspeção predial como avaliação sistêmica e predominantemente **sensorial** (visual,
+   sem ensaios/sondagens) das condições de uso, operação, manutenção e funcionalidade do edifício
+   e seus sistemas.
+2. Estabelece metodologia padronizada: levantamento e análise de dados/documentos como etapa
+   mínima, classificação de anomalias em 3 graus de risco — **Crítico** (risco iminente,
+   ação imediata), **Médio** (ação programada a curto prazo), **Mínimo** (não compromete
+   segurança, ação a médio/longo prazo).
+3. Define conteúdo mínimo do laudo, que organiza recomendações por prioridade (1/2/3) e pode
+   indicar a necessidade de inspeções especializadas complementares.
+4. **Fora do escopo da norma**: análises estruturais profundas que exigem sondagem/ensaios, laudo
+   de vistoria pra seguro, AVCB, certificado de elevadores — a inspeção predial não substitui esses
+   documentos, é complementar.
+5. **Não define periodicidade fixa** — fica a critério do inspetor, dependendo de exposição ao
+   meio e qualidade da gestão de manutenção já implantada. Ordem de grandeza encontrada nas fontes:
+   5-10 anos pra edificações novas, 1-5 anos pra edificações antigas (não é valor normativo, é
+   prática de mercado reportada).
+6. Laudo deve ter ART/RRT do profissional responsável — mesma exigência de responsabilidade
+   técnica já vista na 16280.
+
+**Achado — mesmo padrão de regionalização já flagado nos achados #2/#3**: não existe lei federal
+que torne a inspeção predial obrigatória. A obrigatoriedade é **municipal**, variando por cidade —
+ex.: São Paulo (capital) tem **Lei 13.558/2003** + **Decreto 58.633/2019** + **Lei 16.642/2017**,
+exigindo inspeção periódica pra prédios com mais de 5 anos. Não encontrei confirmação equivalente
+pra outras cidades relevantes ao produto (Belo Horizonte, Rio de Janeiro) nas fontes consultadas —
+marcado como pendência de verificação, não como "não existe". Reforça que qualquer comunicação
+sobre "obrigatoriedade" da NBR 16747 no produto precisa ser condicionada ao município, igual já
+vale pros achados #2/#3 (Corpo de Bombeiros e vigilância sanitária).
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Ausente — mas essa é diferente das anteriores: **poderia** ter representação no schema atual, já que na prática o mercado usa periodicidade de referência (1-5 ou 5-10 anos), mesmo não sendo normativa | Avaliar como item de catálogo, com ressalva clara de que o prazo é "de mercado", não normativo |
+| `/norms` (página estática) | Ausente — norma relevante e de alto valor de marketing (liga direto com responsabilidade do síndico/Código Civil art. 1.348), recomendo adicionar | Adicionar entrada |
+| Produto (funcionalidade) | Não existe hoje nenhum conceito de "inspeção predial" como atividade distinta de manutenção de item — é uma avaliação sistêmica pontual, não um item recorrente como os que o catálogo modela | Observação, não recomendação de feature agora |
+
+**Pendência**: confirmar status "vigente" num catálogo formal de normas (não só fontes
+secundárias); confirmar quais outros municípios relevantes ao produto (BH, RJ) têm lei própria de
+obrigatoriedade, além de São Paulo.
