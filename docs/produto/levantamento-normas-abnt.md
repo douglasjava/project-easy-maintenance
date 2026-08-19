@@ -1043,3 +1043,53 @@ o produto faz do que qualquer RDC vista até agora.
 
 **Pendência**: confirmar o texto atual da página estática contra a revogação parcial da RDC
 51/2011 antes de qualquer atualização de conteúdo.
+
+---
+
+### RDC 63/2011 (ANVISA) — Requisitos de Boas Práticas de Funcionamento para os Serviços de Saúde
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, sem indicação de revogação nas fontes
+consultadas. Publicada 25/11/2011.
+
+**Achado de escopo — a RDC com o texto mais explícito sobre manutenção predial entre todas as
+hospitalares analisadas**: diferente da 15/2012 (foco clínico com fração de manutenção de
+autoclave) e da 222/2018 (quase inteiramente resíduos), a RDC 63/2011 afirma **diretamente** que
+"o serviço de saúde deve realizar ações de manutenção preventiva e corretiva das instalações
+prediais, de forma própria ou terceirizada" — é a formulação mais próxima, em qualquer norma já
+revisada no levantamento (incluindo as ABNT), do que o produto literalmente faz. Ainda mais direta
+que a RDC 50/2002, que tratava manutenção como função organizacional mas num contexto mais amplo de
+projeto físico.
+
+**O que a norma exige:**
+
+1. Regulamento técnico de "Boas Práticas de Funcionamento" (BPF) — qualificação, humanização da
+   atenção e gestão, orientado à redução de riscos na prestação de serviço de saúde.
+2. Cobre 8 áreas: gestão da qualidade, segurança do paciente, condições organizacionais,
+   prontuário do paciente, gestão de pessoal, **gestão de infraestrutura**, proteção à saúde do
+   trabalhador, **gestão de tecnologias** e controle de vetores/pragas urbanas.
+3. Exige que o serviço de saúde **proveja infraestrutura física e equipamentos** necessários à
+   operacionalização, de acordo com a demanda e modalidade de assistência.
+4. Exige **manutenção preventiva e corretiva das instalações prediais**, própria ou terceirizada —
+   citação direta, sem ambiguidade de escopo.
+5. Exige **Plano de Gerenciamento de Tecnologias** pra equipamentos hospitalares — mesmo padrão já
+   visto na RDC 15/2012 (autoclave), mas aqui generalizado pra qualquer equipamento médico-
+   assistencial, não só esterilização.
+6. **Periodicidade não é fixa por norma** — mesma cautela já aplicada a PMOC/16747/9077: manutenção
+   preventiva é "periódica, ou conforme especificação do fornecedor", sem valor numérico universal
+   no próprio texto.
+
+**Cruzamento com o que temos hoje — fecha a seção F (hospitais/ANVISA) por completo:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — mas é a norma que melhor **fundamenta legalmente** a existência de um segmento hospitalar completo no produto, mesmo sem periodicidade fixa própria pra virar item isolado | Não é item de catálogo isolado — é a base regulatória de por que "manutenção predial em hospital" é uma obrigação legal, não só boa prática |
+| `/norms` (página estática) | 📄 Já presente conforme levantamento inicial | Revisar o texto atual — essa é a RDC com o argumento mais forte e mais direto pra usar no marketing do segmento hospitalar, vale garantir que o texto capture a citação direta de "manutenção preventiva e corretiva das instalações prediais" |
+| Produto (funcionalidade) | Confirma, pela terceira vez (RDC 15/2012, RDC 50/2002, agora 63/2011), que o segmento hospitalar tem base legal forte mas nenhuma estrutura de produto dedicada hoje | Reforça a recomendação já registrada: vale uma conversa de escopo dedicada sobre investimento no segmento hospitalar |
+
+**Conclusão da seção F**: das 4 RDCs mapeadas (50/2002, 63/2011, 15/2012, 222/2018), a **63/2011 é a
+mais diretamente alinhada** ao que o produto faz — é a única que usa a expressão quase literal
+"manutenção preventiva e corretiva das instalações prediais". As 4 juntas formam um quadro
+regulatório consistente e bem documentado agora, mesmo sem nenhuma virar item de catálogo isolado
+por falta de periodicidade fixa.
+
+**Pendência**: nenhuma sobre o conteúdo — fecha a seção F.
