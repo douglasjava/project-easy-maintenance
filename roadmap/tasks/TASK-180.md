@@ -62,5 +62,6 @@ Baixo — é edição pontual de conteúdo já publicado, sem mudança estrutura
 Baixo
 
 ## Status
-✅ Concluída — `npm run build` limpo. Ajuste da NBR 5674 na página `/norms` (menção à preditiva) já
-tinha sido feito na TASK-179; aqui só o post do blog.
+✅ Concluída — PR [#45](https://github.com/douglasjava/easy-maintenance-web/pull/45) mergeada em
+`staging` em 19/08/2026. `npm run build` limpo. Ajuste da NBR 5674 na página `/norms` (menção à
+preditiva) já tinha sido feito na TASK-179; aqui só o post do blog.

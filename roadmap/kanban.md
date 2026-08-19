@@ -745,11 +745,11 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🟠 Alto (EPIC-025 — conteúdo e governança das normas técnicas) — *(19/08/2026)***:
+**EPIC-025 — conteúdo e governança das normas técnicas — ✅ concluído (19/08/2026)**:
 - ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*
 - ~~**[TASK-179](tasks/TASK-179.md)**~~ — ~~Frontend: atualizar página `/norms` com os achados do levantamento~~ *(concluída — PR #44 mergeada em staging)*
 - ~~**[TASK-178](tasks/TASK-178.md)**~~ — ~~Backend: novo item de catálogo para instalação de gás combustível~~ *(concluída — PR #39 mergeada em staging)*
-- **[TASK-180](tasks/TASK-180.md)** — Conteúdo: revisar post do blog sobre NBR 5674 (🔵 Baixo | EPIC-025)
+- ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
 
 **🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
@@ -877,6 +877,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-180](tasks/TASK-180.md) | Conteúdo: revisar post do blog sobre NBR 5674 — PR #45 mergeada em staging | 🔵 Baixo | EPIC-025 |
 | [TASK-178](tasks/TASK-178.md) | Backend: novo item de catálogo para instalação de gás combustível — PR #39 mergeada em staging (V90) | 🟡 Médio | EPIC-025 |
 | [TASK-179](tasks/TASK-179.md) | Frontend: atualizar página `/norms` com os achados do levantamento — PR #44 mergeada em staging | 🟠 Alto | EPIC-025 |
 | [TASK-177](tasks/TASK-177.md) | Backend: corrigir/completar citações de normas no catálogo `norms` — PR #38 mergeada em staging (V89) | 🟠 Alto | EPIC-025 |

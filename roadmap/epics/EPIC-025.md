@@ -1,13 +1,23 @@
 # EPIC-025 — Conteúdo e Governança das Normas Técnicas (ABNT/NR/RDC)
 
 ## Status
-Auditoria norma-a-norma concluída (22 normas analisadas), pendências técnicas resolvidas com
-Douglas em 19/08/2026. Lista consolidada e quebrada em 4 tasks, prontas para implementar
-(19/08/2026). Antes de escrever as tasks, o estado real das migrations do banco foi conferido
-diretamente contra um select do banco de produção fornecido por Douglas — isso corrigiu duas
-suposições erradas do levantamento original (ver TASK-177) e revelou que **`TASK-088` (EPIC-004)
-já estava concluída** (`V71`/`V75`), só não tinha sido movida de "Em Validação" para "Concluído"
-no kanban — corrigido nesta mesma rodada.
+✅ **Concluído** (19/08/2026). Auditoria norma-a-norma (22 normas analisadas) → 4 tasks → todas
+implementadas e mergeadas em `staging` no mesmo dia:
+- [TASK-177](../tasks/TASK-177.md) — PR [#38](https://github.com/douglasjava/easy-maintenance-api/pull/38) (api)
+- [TASK-178](../tasks/TASK-178.md) — PR [#39](https://github.com/douglasjava/easy-maintenance-api/pull/39) (api)
+- [TASK-179](../tasks/TASK-179.md) — PR [#44](https://github.com/douglasjava/easy-maintenance-web/pull/44) (web)
+- [TASK-180](../tasks/TASK-180.md) — PR [#45](https://github.com/douglasjava/easy-maintenance-web/pull/45) (web)
+
+Antes de escrever as tasks, o estado real das migrations do banco foi conferido diretamente contra
+um select do banco de produção fornecido por Douglas — isso corrigiu duas suposições erradas do
+levantamento original (ver TASK-177) e revelou que **`TASK-088` (EPIC-004) já estava concluída**
+(`V71`/`V75`), só não tinha sido movida de "Em Validação" para "Concluído" no kanban — corrigido na
+mesma rodada.
+
+Único item que não virou task, registrado como pendência de design pra retomar depois: a
+distinção `periodicidadeNormativa` vs. `periodicidadeRecomendada` sugerida por Douglas (ver
+"Achados" abaixo) e a regionalização (achados #2/#3, decisão de escopo #3) — ambos ficam como
+trabalho futuro, fora do escopo do que foi consolidado em tasks nesta rodada.
 
 ## Objetivo
 Corrigir e manter coerente o conteúdo de normas técnicas do produto (catálogo `norms` no banco,
@@ -86,11 +96,12 @@ Ordem sugerida: TASK-177 e TASK-179 primeiro (maior valor, menor esforço), TASK
 (precisa de decisão de nomenclatura), TASK-180 por último (baixa prioridade, conteúdo pontual).
 
 ## Critério de Conclusão do Épico
-- [ ] Todas as correções de citação identificadas na auditoria aplicadas no banco (`norms`)
-- [ ] Página estática `/norms` revisada e coerente com o levantamento (sem normas canceladas, sem
+- [x] Todas as correções de citação identificadas na auditoria aplicadas no banco (`norms`)
+- [x] Página estática `/norms` revisada e coerente com o levantamento (sem normas canceladas, sem
       prazos inventados, com as normas novas relevantes adicionadas)
-- [ ] Blog revisado onde cita normas específicas (ex.: post NBR 5674)
-- [ ] Decisão registrada sobre `periodicidadeNormativa` vs. `periodicidadeRecomendada`
+- [x] Blog revisado onde cita normas específicas (ex.: post NBR 5674)
+- [ ] Decisão registrada sobre `periodicidadeNormativa` vs. `periodicidadeRecomendada` — **não
+      concluído**, fica como trabalho futuro (precisa de decisão de design antes de virar task)
 
 ## Riscos
 Baixo-Médio — é trabalho de correção de conteúdo/dado, não de infraestrutura crítica. Risco
