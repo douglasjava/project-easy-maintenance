@@ -867,3 +867,44 @@ complemento da 17240, é norma de domínio diferente (descargas atmosféricas/al
 sem relevância prática ao produto.
 
 **Pendência**: nenhuma — item encerrado, sem necessidade de retomar.
+
+---
+
+### NBR 9077 — Saídas de Emergência em Edifícios (Projeto de Saídas de Emergência)
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, confirmado direto no buscanormas.com.br
+("NBR 9077 (Vigente)"). Edição **2025** (publicada 16/07/2025), cancela e substitui a edição
+2001 — atualização recente e significativa: o dimensionamento deixou de ser baseado só no tipo de
+ocupação e passou a considerar características dos ocupantes (mobilidade, estado de vigília,
+familiaridade com o edifício). Status limpo, sem ambiguidade.
+
+**O que a norma exige:**
+
+1. Procedimentos pra **projeto** dos meios de circulação que garantem abandono seguro dos
+   ocupantes em caso de incêndio — acessos, corredores, escadas, rampas, antecâmaras, desde o
+   ponto mais remoto de qualquer pavimento até a via pública/área externa segura.
+2. Aplica-se a **qualquer tipo de edificação**, independente de ocupação, altura ou área
+   construída — residencial, comercial, industrial, hospitalar, escolar, uso misto. É a norma mais
+   transversal aos 4 segmentos do produto encontrada até agora.
+3. Critérios de dimensionamento de rota de fuga, distância máxima a percorrer, iluminação de
+   emergência (conecta diretamente com o item `ILUMINACAO_EMERGENCIA` já existente no catálogo,
+   hoje citando NBR 10898) e sinalização obrigatória.
+4. **Manutenção/inspeção**: fontes secundárias convergem que a gestão das rotas de fuga deve ser
+   contínua — desobstrução permanente, inspeções periódicas pra identificar e corrigir obstrução ou
+   dano, regulagem/substituição de elementos fora de condições de funcionamento. **Não encontrei um
+   valor numérico de periodicidade definido no próprio texto da norma** nas fontes consultadas —
+   mesma cautela já aplicada à NBR 16747 (norma define o dever, não um prazo fixo universal).
+5. Responsabilidade recai sobre síndico/administrador — omissão/negligência comprovada pode gerar
+   responsabilização civil e criminal, mesmo padrão de gravidade já visto na 5674/16747.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente como norma própria — mas o item `ILUMINACAO_EMERGENCIA` já existe e é adjacente (a 9077 é quem define os critérios de rota que a iluminação de emergência precisa atender) | Citar a NBR 9077 como referência complementar no item `ILUMINACAO_EMERGENCIA`, não como item novo — sem periodicidade própria, não caberia como item isolado |
+| `/norms` (página estática) | ❌ Ausente | Recomendo adicionar — é a norma mais transversal aos 4 segmentos encontrada até agora, e reforça a narrativa de responsabilidade legal do síndico já usada em outros conteúdos |
+| Produto (funcionalidade) | Nenhum gap de manutenção recorrente novo — desobstrução de rota de fuga é mais checklist qualitativo (ex.: vistoria) do que item com `periodQty` fixo | Observação, não recomendação de feature agora |
+
+**Pendência**: confirmar se a norma define algum prazo numérico de inspeção periódica no texto
+oficial (não encontrado nas fontes secundárias consultadas) antes de qualquer alegação de
+periodicidade específica.
