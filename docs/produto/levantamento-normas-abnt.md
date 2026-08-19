@@ -313,3 +313,48 @@ catálogo de normas dedicado, não em busca genérica.
 
 **Pendência**: prazo de entrega do manual pela construtora — verificar na próxima passada com fonte
 melhor (ou texto oficial, se conseguir acesso).
+
+---
+
+### NBR 16280 — Reforma em Edificações — Sistema de Gestão de Reformas — Requisitos
+
+**Status**: ✅ Analisada (19/08/2026). Status oficial confirmado direto num catálogo de normas
+(buscanormas.com.br): **vigente**, edição atual **2020, versão corrigida 2022** (original 2014).
+Sem a confusão de "cancelada" que apareceu nas outras 3 normas — aqui a busca genérica já veio
+mais limpa, mas confirmei do mesmo jeito por disciplina.
+
+**Achado conceitual importante**: a própria norma **define reforma como o que NÃO é manutenção** —
+"reforma é qualquer alteração nas condições da edificação com o objetivo de recuperar, melhorar ou
+ampliar suas condições de habitabilidade, uso ou segurança, **e que não é manutenção**". Isso
+importa pro produto: a NBR 16280 é **adjacente**, não **central**, ao que o Easy Maintenance faz —
+diferente da 5674/14037, que são o núcleo do produto, a 16280 trata de uma categoria de atividade
+que a própria norma separa de "manutenção". Não é um gap a corrigir, é uma fronteira de escopo a
+ter clareza.
+
+**O que a norma exige:**
+
+1. Sistema de gestão de reformas: comunicação formal ao síndico **antes do início** de qualquer
+   intervenção construtiva/reforma na unidade, independente do porte, em linguagem simples e
+   objetiva.
+2. **ART/RRT obrigatória** quando a intervenção afeta estrutura, elétrica, hidráulica, gás ou
+   segurança do prédio (demolição interna, abertura de vão em parede, furo em laje, alteração de
+   instalação hidráulica/elétrica/gás, quebra de piso, etc.) — sem ART/RRT, a obra não pode
+   começar.
+3. **Responsabilidades do síndico**: aprovar ou reprovar a documentação apresentada, fiscalizar a
+   obra durante toda a execução, garantir conformidade com o projeto, comunicar os demais
+   moradores (datas/horários permitidos), monitorar cumprimento do plano.
+4. Documentação técnica: laudo técnico assinado por engenheiro ou arquiteto pra obras de reforma
+   dentro ou fora das unidades.
+5. Depois de autorizada pelo síndico, o morador também precisa comunicar os vizinhos.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Não se aplica — mesma razão da 5674/14037: norma de sistema de gestão, não item periódico | Nenhuma |
+| `/norms` (página estática) | **Já existe e está correta** — menciona ART/RRT e o objetivo de não comprometer a estrutura. Nenhum erro encontrado | Nenhuma correção necessária |
+| Produto (funcionalidade) | O produto não tem (e provavelmente não deveria ter, dado o escopo) nenhum fluxo de "reforma" — é manutenção preventiva/corretiva de sistemas existentes, categoria diferente por definição da própria norma | Nenhuma — é clareza de fronteira de escopo, não um gap |
+
+**Pendência**: não achei prazo numérico específico (em dias) pra comunicação prévia ao síndico nas
+fontes consultadas — só "antes do início da obra", sem prazo fixo. Marcado como pendência, não
+como "a norma não define um prazo" (pode estar no texto oficial sem ter aparecido nos resumos).
