@@ -62,4 +62,5 @@ Baixo — é edição pontual de conteúdo já publicado, sem mudança estrutura
 Baixo
 
 ## Status
-Pronto para implementar.
+✅ Concluída — `npm run build` limpo. Ajuste da NBR 5674 na página `/norms` (menção à preditiva) já
+tinha sido feito na TASK-179; aqui só o post do blog.
