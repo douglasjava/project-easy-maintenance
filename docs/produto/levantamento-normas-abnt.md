@@ -32,7 +32,16 @@ hoje recebe uma citação de autoridade que não é a dele. Isso precisa de deci
 só a norma ABNT federal (mais genérico, sempre válido) e deixar a IT estadual como informação à
 parte / configurável por organização, em vez de hardcoded pra um estado só.
 
-### 3. Não existe épico dono do catálogo de normas como conteúdo
+### 3. O padrão do achado #2 se repete: normas de escola também são regionalizadas
+
+Não é só incêndio. Vigilância sanitária de creches/escolas e limpeza de reservatório de água
+também são regidas por **comunicados estaduais/municipais** (ex.: CVS 006/2011 e CVS 31/2012 são
+específicos de São Paulo), não por uma norma ABNT federal única. Isso reforça que "citar uma
+autoridade normativa fixa e nacional" não é suficiente pra pelo menos 2 dos 3 domínios mais
+sensíveis (incêndio e vigilância sanitária) — o produto precisa de um jeito de lidar com
+variação estadual/municipal de autoridade, não só um catálogo fixo nacional.
+
+### 4. Não existe épico dono do catálogo de normas como conteúdo
 
 O único trabalho já feito (TASK-088) está arquivado dentro do EPIC-004 ("Banco de Dados e
 Persistência"), que é sobre integridade técnica de dados, não sobre correção/abrangência do
@@ -55,7 +64,7 @@ um épico próprio.
 | BOTOEIRA_DE_INCENDIO | CBMMG IT (MG-específico) | **Achado #2** |
 | PORTA_CORTA_FOGO | CBMMG IT (MG-específico) | **Achado #2** |
 | AUTOMACAO_BOMBEIRO | CBMMG IT (MG-específico) | **Achado #2** |
-| GERADOR | — | **Verificar norma de referência** |
+| GERADOR | — | **Não existe uma NBR única e dedicada à periodicidade de manutenção de gerador** (pesquisado) — o mercado usa `NBR ISO 8528` (classificação/especificação, não manutenção), `NBR 10898` (laudo do sistema de emergência) e boas práticas do fabricante. Precisa de decisão de produto: qual citar, ou tratar como item sem norma fixa |
 | NR-10 (treinamento) | NR-10 (MTE) | Federal, ok |
 | NR-13 (caldeiras) | NR-13 (MTE) | Federal, ok — período já corrigido (V71) |
 | NR-23 | NR-23 (MTE) | Federal, ok |
@@ -79,6 +88,7 @@ Convenção de status: **✅ no catálogo** (banco) · **📄 só na página est
 | **NBR 16280** | Reforma em edificações — gestão de reformas, ART, responsabilidade técnica | 📄 só na página estática |
 | **NBR 16747** | Inspeção predial — diretrizes, terminologia, procedimentos (norma mais recente, 2020) | ❌ ausente dos dois — vale avaliar se entra |
 | **NBR 5626** | Instalações prediais de água fria | ❌ ausente — relevante pra caixa d'água/rede hidráulica |
+| **NBR 15575** | Norma de Desempenho — define "vida útil de projeto" e exige que o Manual de Uso/Operação/Manutenção (NBR 14037) especifique as intervenções preventivas necessárias pra manter esse desempenho. Complementa a 14037, não substitui | ❌ ausente dos dois — reforça diretamente o "porquê" da manutenção preventiva, boa candidata pro discurso comercial também |
 
 ### B. Segurança contra incêndio (todos os segmentos, mas estadualizada — ver achado #2)
 
@@ -87,7 +97,7 @@ Convenção de status: **✅ no catálogo** (banco) · **📄 só na página est
 | NBR 12962 | Extintores — inspeção, manutenção, recarga | ✅ no catálogo |
 | NBR 13714 | Hidrantes e mangotinhos | ✅ no catálogo |
 | NBR 10898 | Iluminação de emergência | ✅ no catálogo |
-| NBR 17240 | Sistema de detecção e alarme de incêndio | 🔍 citado na seed original, confirmar se sobreviveu ao dedupe da V78 |
+| NBR 17240 | Sistema de detecção e alarme de incêndio (substituiu a antiga NBR 9441/1998) | 🔍 citado na seed original, confirmar se sobreviveu ao dedupe da V78. **Fontes secundárias divergem sobre se a própria 17240 também já foi cancelada/revisada** — não confiar nisso sem checar direto na ABNT |
 | NBR 16785 | Detecção de incêndio (aparece em fontes mais recentes) | ❌ ausente — pode ser sucessora/complementar da 17240, precisa verificar |
 | NBR 12693 | Sistemas de proteção por extintores / sprinklers | 🔍 confirmar se é a mesma citada como base do EXTINTOR ou é norma separada de sprinkler |
 | NBR 9077 | Saídas de emergência | ❌ ausente |
@@ -101,6 +111,17 @@ Convenção de status: **✅ no catálogo** (banco) · **📄 só na página est
 | NBR 5419 | SPDA (para-raios) | ✅ no catálogo |
 | NR-10 | Segurança em instalações e serviços em eletricidade | ✅ no catálogo |
 | **Lei 13.589/2018 + Portaria 3523/ANVISA (PMOC)** | Plano de Manutenção, Operação e Controle de ar-condicionado — obrigatório pra sistemas ≥60.000 BTU/5TR em uso público/coletivo | 🔍 catálogo cita "NBR 11742" pro AR_CONDICIONADO — **essa não é a base legal mais direta**; vale reavaliar se a citação certa não deveria ser a Lei 13.589 |
+
+### C-bis. Instalações de gás combustível (transversal — comum em condomínio, hospital e indústria)
+
+| Norma | O que cobre | Status hoje |
+|---|---|---|
+| NBR 13103 | Instalação de aparelhos a gás — foco residencial, manutenção preventiva anual (ou conforme fabricante, o que for menor) | ❌ ausente dos dois |
+| NBR 15526 | Redes de distribuição interna de gás combustível — projeto e execução | ❌ ausente dos dois |
+| NBR 15923 | Inspeção de redes de distribuição interna de gás | ❌ ausente dos dois |
+
+Gap real — nenhum item de gás está no catálogo hoje, apesar de ser um sistema predial comum com
+obrigação de manutenção anual clara.
 
 ### D. Elevadores
 
@@ -132,11 +153,13 @@ Convenção de status: **✅ no catálogo** (banco) · **📄 só na página est
 | NBR 9050 | Acessibilidade (mesma da seção E, com exigência específica de Corpo de Bombeiros pra alvará escolar) | ❌ ausente |
 | Instrução Técnica de Corpo de Bombeiros (saídas de emergência, lotação) | Varia por estado | ❌ ausente |
 
-**Não achei uma norma ABNT "exclusiva" de escola além das já cobertas em incêndio/acessibilidade/
-estrutural** — escola parece herdar as normas gerais de edificação + acessibilidade + incêndio,
-sem um corpo normativo próprio equivalente ao da saúde (ANVISA). **Precisa confirmar isso com mais
-pesquisa antes de dar como fechado** — pode haver norma estadual/municipal de vigilância sanitária
-escolar não coberta ainda.
+**Confirmado**: escola não tem um corpo normativo ABNT/federal próprio equivalente ao da saúde
+(ANVISA). O que existe é **vigilância sanitária estadual/municipal pra creches/escolas** (ex.: em
+SP, Comunicado CVS 006/2011 pra limpeza de reservatório de água até 2.000L, Comunicado CVS 31/2012
+pra caixas de areia recreativas) — mesmo padrão de regionalização do achado #2/#3, agora também
+pra escola. Escola herda as normas gerais de edificação + acessibilidade + incêndio (estas
+também regionalizadas), mais essa camada extra de vigilância sanitária local específica de
+educação infantil.
 
 ### H. Específicas de indústrias
 
@@ -153,6 +176,28 @@ escolar não coberta ainda.
 indústria (química, alimentícia, metalúrgica, etc.), licenciamento ambiental estadual entra em
 jogo, e não dá pra cobrir com uma lista fixa pequena do jeito que dá pra fazer com condomínio.
 Vale uma conversa à parte sobre até onde o produto se compromete a cobrir esse segmento.
+
+---
+
+## A lista já está completa? (resposta à pergunta do Douglas)
+
+**Pra começar o trabalho norma-a-norma, sim — essa base já é sólida o suficiente.** Ela cobre os
+domínios que seguram 90% do que os 4 segmentos realmente precisam: gestão predial geral, incêndio,
+elétrica/SPDA/climatização, gás, elevadores, acessibilidade, hospitalar (ANVISA) e as NRs
+industriais mais comuns.
+
+**Mas "completa" no sentido absoluto não é uma linha de chegada fixa** — pesquisa regulatória
+sempre tem cauda longa (normas estaduais específicas, normas de nicho por tipo de indústria,
+atualizações futuras). Ficar expandindo a lista antes de começar o trabalho norma-a-norma vira
+procrastinação disfarçada de rigor. Recomendo: começar já pelas normas da seção A/B (base +
+incêndio, que são o núcleo do que o catálogo hoje tenta cobrir e onde os achados #1/#2 doem mais),
+e deixar a lista crescer organicamente conforme formos encontrando lacunas durante esse trabalho —
+não como pré-requisito bloqueante.
+
+Pontos que ainda merecem uma palavra final antes de tratar a lista como fechada:
+- Indústria (seção H) — decisão de produto sobre até onde cobrir, não é só pesquisa
+- 3 itens marcados 🔍 (NBR 17240, NBR 12693, GERADOR) — precisam verificação direta na fonte, não
+  de mais busca genérica
 
 ---
 
