@@ -1093,3 +1093,42 @@ regulatório consistente e bem documentado agora, mesmo sem nenhuma virar item d
 por falta de periodicidade fixa.
 
 **Pendência**: nenhuma sobre o conteúdo — fecha a seção F.
+
+---
+
+### NR-12 — Segurança no Trabalho em Máquinas e Equipamentos
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**. Base normativa: Portaria SIT nº 197/2010, com
+alterações posteriores — a mais recente encontrada é de 2024 (Portarias 224 e 344), além de ajuste
+de nomenclatura da CIPA em 2022 (Portaria MTP 4.219/2022, decorrente da Lei 14.457). Diferente das
+normas ABNT, as NRs (normas regulamentadoras do Ministério do Trabalho) não seguem o padrão
+"confirmação/cancelada" — são atualizadas por portaria, com histórico de alteração claro e público,
+sem a ambiguidade já vista em várias ABNT deste levantamento.
+
+**O que a norma exige:**
+
+1. Requisitos mínimos pra prevenir acidentes e proteger trabalhadores que operam, ajustam, limpam,
+   inspecionam, mantêm ou intervêm em máquinas e equipamentos — do projeto/fabricação até
+   instalação, ajuste, operação, limpeza, manutenção, inspeção, desativação e desmonte.
+2. Exige identificação de máquinas/equipamentos, avaliação de riscos, proteções fixas e móveis,
+   dispositivos de segurança, paradas de emergência, sistemas de bloqueio (LOTO — lockout/tagout),
+   sinalização, procedimentos, manuais e **registros de manutenção e inspeção**.
+3. Manual de instruções obrigatório do fabricante/importador, com informações de segurança pra
+   todas as fases de uso.
+4. **Manutenção preventiva e corretiva obrigatória**, na forma e periodicidade determinada pelo
+   **fabricante** — não há um número universal fixo na própria NR-12, ela delega a periodicidade ao
+   fabricante de cada máquina, seguindo normas técnicas oficiais vigentes. Mesmo padrão de "prazo
+   não universal" já visto em várias normas deste levantamento (16747, 9077, PMOC, RDC 63/2011).
+5. Operação, manutenção e inspeção só por trabalhador habilitado/qualificado/capacitado e
+   autorizado.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ✅ Segmento indústria já tem NR-13/23/35 no catálogo — NR-12 ausente | Gap real, mas sem periodicidade universal própria (é por fabricante) — mais parecida com a NBR 5674 (norma de gestão/processo) do que com um item de catálogo com `periodQty` fixo |
+| `/norms` (página estática) | Não confirmado se já está lá (revisar) | Se ausente, adicionar — é uma das NRs mais centrais e conhecidas do segmento industrial, mais citada que muitas das já catalogadas |
+| Produto (funcionalidade) | O produto já rastreia manutenção de itens industriais (caldeiras/vasos de pressão via NR-13, por exemplo) — NR-12 reforça a obrigação geral de registro de manutenção por máquina, mas não define um item específico novo | Observação: NR-12 é mais uma "norma-mãe" de processo de segurança em máquinas do que um item de manutenção isolado — parecido com o padrão já visto na 5674 pro condomínio |
+
+**Pendência**: confirmar se a NR-12 já está citada na página estática (não verificado nesta
+rodada) antes de decidir se precisa ser adicionada.
