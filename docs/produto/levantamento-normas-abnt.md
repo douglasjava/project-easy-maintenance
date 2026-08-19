@@ -1296,3 +1296,26 @@ exige a cada X". Registrado como recomendação a avaliar em `EPIC-025` (ver aba
 4. **Épico dedicado criado**: [EPIC-025](../../roadmap/epics/EPIC-025.md) — normas deixam de viver
    soltas dentro do EPIC-004. `TASK-088` (governança de schema/dado) permanece no EPIC-004, por ser
    preocupação distinta de correção de conteúdo.
+
+## Lista consolidada e tasks (19/08/2026)
+
+Antes de escrever as tasks de correção, conferi o estado real das migrations do banco
+(`V2__seed_norms.sql`, `V9__seed_norms.sql`, `V78__fix_spda_period_and_dedupe_norms.sql`) em vez de
+confiar só no que este documento tinha registrado de memória em rodadas anteriores. Isso corrigiu
+duas suposições erradas:
+
+- **`ALARME_DE_INCENDIO` já cita `ABNT NBR 17240` corretamente** — sobreviveu ao dedupe da V78 (o
+  item V9 que só citava CBMMG IT foi mesclado e removido). O achado registrado na análise da NBR
+  17240 (seção "Trabalho norma-a-norma" acima), que recomendava essa correção, **já estava feito**
+  antes mesmo do levantamento começar. `BOTOEIRA_DE_INCENDIO` também já está correto.
+- **`AR_CONDICIONADO` nunca citou "NBR 11742"** — essa citação é de `PORTA_CORTA_FOGO` (correta,
+  fora do escopo deste levantamento). O `AR_CONDICIONADO` real cita `ANVISA RE 09`, correto mas
+  incompleto (falta Lei 13.589/2018 + Portaria GM/MS 3.523/1998) — é isso que a task corrige, não
+  uma citação errada.
+
+Lição pro próximo levantamento desse tipo: verificar o dado real (migration/banco) antes de propor
+correção, não só confiar em achados registrados em texto de rodadas anteriores.
+
+Tasks criadas em [EPIC-025](../../roadmap/epics/EPIC-025.md): `TASK-177` (correção/complemento de
+citações no catálogo), `TASK-178` (novo item de gás combustível), `TASK-179` (atualização da página
+`/norms`), `TASK-180` (revisão do post de blog da NBR 5674).

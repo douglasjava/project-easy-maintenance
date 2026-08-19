@@ -1,9 +1,11 @@
 # EPIC-025 — Conteúdo e Governança das Normas Técnicas (ABNT/NR/RDC)
 
 ## Status
-Em levantamento — auditoria norma-a-norma concluída (22 normas analisadas), pendências técnicas
-resolvidas com Douglas em 19/08/2026. Tasks de correção ainda não criadas — aguardando consolidação
-final da lista de ajustes antes de detalhar tasks executáveis.
+Auditoria norma-a-norma concluída (22 normas analisadas), pendências técnicas resolvidas com
+Douglas em 19/08/2026. Lista consolidada e quebrada em 4 tasks, prontas para implementar
+(19/08/2026). Antes de escrever as tasks, o estado real das migrations do banco
+(`V2`/`V9`/`V78__seed_norms`/`fix_spda_period_and_dedupe_norms`) foi conferido diretamente — isso
+corrigiu duas suposições erradas do levantamento original (ver TASK-177).
 
 ## Objetivo
 Corrigir e manter coerente o conteúdo de normas técnicas do produto (catálogo `norms` no banco,
@@ -39,35 +41,47 @@ está correta*. São preocupações distintas; `TASK-088` permanece no EPIC-004.
    não foi feito.
 4. Épico dedicado criado (este) — normas deixam de viver soltas dentro do EPIC-004.
 
-## Achados prontos pra virar correção de conteúdo (a consolidar em tasks)
+## Achados que geraram tasks (ver detalhe completo em `docs/produto/levantamento-normas-abnt.md`)
 
-Levantados ao longo da auditoria norma-a-norma, ainda não convertidos em tasks formais:
-
-- Item `AR_CONDICIONADO` cita "NBR 11742(?)" — errado. Base correta: Lei 13.589/2018 + Portaria
-  GM/MS 3.523/1998 + ANVISA RE 9/2003.
-- Item `ALARME` cita só CBMMG IT-16 (regional) — deveria citar NBR 17240 (nacional, vigente) como
-  base primária, IT estadual como complemento.
+- Item `AR_CONDICIONADO` cita só `ANVISA RE 09` — correto mas incompleto, falta Lei 13.589/2018 +
+  Portaria GM/MS 3.523/1998 → **TASK-177**.
 - Item `CAIXA_DAGUA` não cita NR-33 — a limpeza do reservatório vazio é, ela mesma, trabalho em
-  espaço confinado.
-- Gás combustível: gap total, mas já especificado por completo (NBR 13103 + NBR 15923 +
-  periodicidade de 12 meses pro aparelho; NBR 15526 como referência complementar de rede).
+  espaço confinado → **TASK-177**.
+- `SAIDAS_EMERGENCIA_ROTAS`/`SINALIZACAO_EMERGENCIA`/`HIDRANTES_MANGOTINHOS_SISTEMA`/
+  `BOMBAS_INCENDIO_SISTEMA` citam só CBMMG IT regional — falta a base ABNT nacional (NBR 9077 /
+  NBR 13714) → **TASK-177** (coordenar com `TASK-088`, mesmas linhas).
+- **Correção de premissa**: `ALARME_DE_INCENDIO` e `BOTOEIRA_DE_INCENDIO` **já citam** NBR 17240
+  corretamente desde a V78 (dedupe) — o levantamento inicial estava desatualizado nesse ponto, sem
+  ação necessária.
+- Gás combustível: gap total, já especificado por completo (NBR 13103 + NBR 15923, periodicidade
+  12 meses; NBR 15526 complementar) → **TASK-178**.
+- Página estática `/norms`: faltam NBR 16747, NBR 9050, NBR 9077, NBR 17240, e o par
+  NBR 13103/15923 (gás); RDC 50 precisa nota sobre revogação parcial pela RDC 51/2011 → **TASK-179**.
 - NBR 15575 estava marcada erroneamente como ausente da página estática no levantamento inicial —
-  na verdade já está presente (autocorreção já registrada no documento de trabalho).
-- Confirmar/remover citação de NBR 12177 e/ou NBR 12228 na página estática, se existir — ambas
-  canceladas sem substituição, diferente de outras "canceladas" do levantamento que eram ruído.
-- RDC 50/2002 na página estática: confirmar se o texto reflete a revogação parcial pela RDC
-  51/2011.
-- NBR 5410 na página estática: confirmar se já está lá; se citar periodicidade de "5 anos", remover
-  — não é valor normativo da própria norma (pesquisa de Douglas, 19/08/2026).
-- Adicionar à página estática: NBR 16747, NBR 9050, NBR 9077, NBR 17240 (correção de citação),
-  NR-33 (referência complementar), Lei 13.589/PMOC (base legal correta).
+  na verdade já está presente (autocorreção já registrada no documento de trabalho, nenhuma ação).
+- NBR 12177/NBR 12228: confirmado que **não estão** na página estática nem no banco — nenhuma ação
+  de remoção necessária, só confirmação (feita).
+- NBR 5410 na página estática: já não cita "5 anos" — nenhuma correção necessária, pendência
+  fechada sem ação.
+- Blog post NBR 5674: falta menção à manutenção preditiva, aos artigos 937/938 do Código Civil, e
+  à reserva orçamentária anual → **TASK-180**.
 - **Sugestão de modelo de dados (Douglas, 19/08/2026)**: distinguir `periodicidadeNormativa`
   (valor que a norma efetivamente exige, quando existe) de `periodicidadeRecomendada` (prática de
   mercado/fabricante) no catálogo — evita que uma recomendação vire, na tela do usuário, "a norma
-  exige X". Avaliar se isso é ajuste de schema ou só de como o conteúdo é redigido.
+  exige X". **Não virou task** — precisa de decisão de design (schema vs. só texto) antes de ser
+  escopada.
 
 ## Tasks Relacionadas
-*(a criar após consolidação final da lista de ajustes — ver `docs/produto/levantamento-normas-abnt.md`)*
+
+| ID | Título | Tipo | Prioridade |
+|---|---|---|---|
+| [TASK-177](../tasks/TASK-177.md) | Backend: corrigir/completar citações de normas no catálogo (`norms`) | BACKEND | 🟠 Alto |
+| [TASK-178](../tasks/TASK-178.md) | Backend: novo item de catálogo para instalação de gás combustível | BACKEND | 🟡 Médio |
+| [TASK-179](../tasks/TASK-179.md) | Frontend: atualizar página `/norms` com os achados do levantamento | FRONTEND | 🟠 Alto |
+| [TASK-180](../tasks/TASK-180.md) | Conteúdo: revisar post do blog sobre NBR 5674 | FRONTEND (conteúdo) | 🔵 Baixo |
+
+Ordem sugerida: TASK-177 e TASK-179 primeiro (maior valor, menor esforço), TASK-178 em seguida
+(precisa de decisão de nomenclatura), TASK-180 por último (baixa prioridade, conteúdo pontual).
 
 ## Critério de Conclusão do Épico
 - [ ] Todas as correções de citação identificadas na auditoria aplicadas no banco (`norms`)

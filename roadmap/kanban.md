@@ -1,13 +1,22 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 19/08/2026 — **EPIC-025: lista consolidada e quebrada em 4 tasks** prontas para
+> implementar (TASK-177 a TASK-180). Antes de escrever as tasks, conferido o estado real das
+> migrations do banco — corrigiu 2 suposições erradas do levantamento inicial (`ALARME_DE_INCENDIO`
+> já cita NBR 17240 corretamente desde a V78; `AR_CONDICIONADO` nunca citou "NBR 11742", isso era
+> de outro item). TASK-177 corrige/completa citações no catálogo (`AR_CONDICIONADO`, `CAIXA_DAGUA`
+> + NR-33, rotas de fuga/hidrantes com base ABNT nacional além do IT estadual — coordenar com
+> TASK-088 nas linhas compartilhadas); TASK-178 cria item novo de catálogo para gás combustível
+> (NBR 13103+15923, 12 meses); TASK-179 atualiza a página `/norms` (5 entradas novas + nota de
+> revogação parcial da RDC 50); TASK-180 revisa o post do blog da NBR 5674 (preditiva, Código Civil
+> art. 937/938, reserva orçamentária).
 > Atualizado em: 19/08/2026 — **EPIC-025 criado**: conteúdo e governança das normas técnicas
 > (ABNT/NR/RDC). Auditoria norma-a-norma concluída (22 normas analisadas) em
 > `docs/produto/levantamento-normas-abnt.md` (root repo). Decisões confirmadas com Douglas: produto
 > não dá suporte a equipamento clínico/industrial (só predial) nos segmentos hospital e indústria;
 > regionalização (Corpo de Bombeiros/vigilância sanitária por estado/município) é viável via
 > endereço da organização, fica como direção futura; `TASK-088` permanece no EPIC-004 (é governança
-> de schema, não de conteúdo). Tasks de correção ainda não criadas — aguardando consolidação final
-> da lista de ajustes.
+> de schema, não de conteúdo).
 > Atualizado em: 19/08/2026 — **EPIC-024 criado (desenhado via brainstorm), 2 tasks prontas para
 > implementar**: agendamento de demonstração comercial via Cal.com, inspirado no `/agendar` do
 > concorrente Easy Alert. Spec em `docs/superpowers/specs/2026-08-19-agendamento-demo-design.md`.
@@ -733,6 +742,12 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟠 Alto (EPIC-025 — conteúdo e governança das normas técnicas) — *(backlog, não priorizado agora, 19/08/2026)***:
+- **[TASK-177](tasks/TASK-177.md)** — Backend: corrigir/completar citações de normas no catálogo `norms` (🟠 Alto | EPIC-025)
+- **[TASK-178](tasks/TASK-178.md)** — Backend: novo item de catálogo para instalação de gás combustível (🟡 Médio | EPIC-025)
+- **[TASK-179](tasks/TASK-179.md)** — Frontend: atualizar página `/norms` com os achados do levantamento (🟠 Alto | EPIC-025)
+- **[TASK-180](tasks/TASK-180.md)** — Conteúdo: revisar post do blog sobre NBR 5674 (🔵 Baixo | EPIC-025)
 
 **🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
