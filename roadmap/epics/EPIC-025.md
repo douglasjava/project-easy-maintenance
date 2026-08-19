@@ -3,9 +3,11 @@
 ## Status
 Auditoria norma-a-norma concluída (22 normas analisadas), pendências técnicas resolvidas com
 Douglas em 19/08/2026. Lista consolidada e quebrada em 4 tasks, prontas para implementar
-(19/08/2026). Antes de escrever as tasks, o estado real das migrations do banco
-(`V2`/`V9`/`V78__seed_norms`/`fix_spda_period_and_dedupe_norms`) foi conferido diretamente — isso
-corrigiu duas suposições erradas do levantamento original (ver TASK-177).
+(19/08/2026). Antes de escrever as tasks, o estado real das migrations do banco foi conferido
+diretamente contra um select do banco de produção fornecido por Douglas — isso corrigiu duas
+suposições erradas do levantamento original (ver TASK-177) e revelou que **`TASK-088` (EPIC-004)
+já estava concluída** (`V71`/`V75`), só não tinha sido movida de "Em Validação" para "Concluído"
+no kanban — corrigido nesta mesma rodada.
 
 ## Objetivo
 Corrigir e manter coerente o conteúdo de normas técnicas do produto (catálogo `norms` no banco,
@@ -49,7 +51,7 @@ está correta*. São preocupações distintas; `TASK-088` permanece no EPIC-004.
   espaço confinado → **TASK-177**.
 - `SAIDAS_EMERGENCIA_ROTAS`/`SINALIZACAO_EMERGENCIA`/`HIDRANTES_MANGOTINHOS_SISTEMA`/
   `BOMBAS_INCENDIO_SISTEMA` citam só CBMMG IT regional — falta a base ABNT nacional (NBR 9077 /
-  NBR 13714) → **TASK-177** (coordenar com `TASK-088`, mesmas linhas).
+  NBR 13714) → **TASK-177**.
 - **Correção de premissa**: `ALARME_DE_INCENDIO` e `BOTOEIRA_DE_INCENDIO` **já citam** NBR 17240
   corretamente desde a V78 (dedupe) — o levantamento inicial estava desatualizado nesse ponto, sem
   ação necessária.

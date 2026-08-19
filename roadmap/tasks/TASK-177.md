@@ -23,14 +23,18 @@ produção, já que é conteúdo com implicação de compliance.
 
 Levantamento norma-a-norma (`docs/produto/levantamento-normas-abnt.md`, root repo) encontrou
 citações incompletas em linhas específicas do catálogo `norms`. **Importante**: antes de escrever
-esta task, o estado real das migrations (`V2__seed_norms.sql`, `V9__seed_norms.sql`,
-`V78__fix_spda_period_and_dedupe_norms.sql`) foi conferido diretamente — duas suposições do
-levantamento inicial estavam erradas e **não** viram correção aqui:
+esta task, o estado real das migrations (`V2`, `V9`, `V71__norm_source_pending_review_and_fix_period_qty.sql`,
+`V75__remove_ai_bootstrap_norms.sql`, `V78__fix_spda_period_and_dedupe_norms.sql`) foi conferido
+diretamente contra um select do banco de produção — duas suposições do levantamento inicial
+estavam erradas e **não** viram correção aqui:
 - `ALARME_DE_INCENDIO` já cita `ABNT NBR 17240` corretamente (V2), sobrevivente do dedupe da V78.
   `BOTOEIRA_DE_INCENDIO` também já cita `ABNT NBR 17240`. Nenhuma ação necessária nesses dois.
 - `AR_CONDICIONADO` nunca citou "NBR 11742" — isso era do item `PORTA_CORTA_FOGO` (citação correta,
   fora do escopo desta task). `AR_CONDICIONADO` cita hoje `ANVISA RE 09 / Qualidade do Ar Interno`
   — correto mas **incompleto**, é o que esta task corrige.
+
+Essa mesma conferência confirmou que a `TASK-088` (EPIC-004) já está **concluída** — `period_qty`
+das linhas de item 3 e 4 abaixo já foi corrigido pela `V71`, sem necessidade de coordenação.
 
 ## Objetivo
 
@@ -69,10 +73,10 @@ Adicionar a base nacional como primária, mantendo o IT estadual como complement
 ```
 authority = 'ABNT NBR 9077 + CBMMG IT (complemento regional)'
 ```
-**Coordenar com TASK-088** antes de aplicar: essas duas linhas também estão no escopo da correção
-de `period_qty = 0` da TASK-088 (mesma migration ou migrations sequenciais, não conflitantes — não
-sobrescrever o trabalho um do outro). Se a TASK-088 já tiver rodado quando esta for implementada,
-aplicar só o `UPDATE` de `authority`, preservando o `period_qty` já corrigido.
+**Atualização (19/08/2026)**: `TASK-088` já está concluída (`V71`/`V75` corrigiram `period_qty` e
+removeram norms `AI_GENERATED`) — confirmado direto num select do banco de produção. Não há mais
+coordenação necessária: `period_qty`/`tolerance_days` já estão corretos (`ANUAL`/`1`/`30`) nessas
+duas linhas, esta task só toca `authority`.
 
 ### 4. `HIDRANTES_MANGOTINHOS_SISTEMA` e `BOMBAS_INCENDIO_SISTEMA`
 Mesmo padrão do item 3 — hoje citam só `'CBMMG IT 17'`. A base nacional é `ABNT NBR 13714`
@@ -80,7 +84,7 @@ Mesmo padrão do item 3 — hoje citam só `'CBMMG IT 17'`. A base nacional é `
 ```
 authority = 'ABNT NBR 13714 + CBMMG IT 17 (complemento regional)'
 ```
-Mesma coordenação com TASK-088 que o item 3.
+Mesma observação do item 3 — `TASK-088` já concluída, sem coordenação necessária.
 
 ## Critérios de Aceite
 
@@ -97,13 +101,10 @@ Mesma coordenação com TASK-088 que o item 3.
 - [ ] `mvn test` sem regressão
 
 ## Dependências
-Coordenar com `TASK-088` (EPIC-004) nas linhas `SAIDAS_EMERGENCIA_ROTAS`, `SINALIZACAO_EMERGENCIA`,
-`HIDRANTES_MANGOTINHOS_SISTEMA`, `BOMBAS_INCENDIO_SISTEMA` — mesmas linhas, migrations diferentes,
-sequenciar pra não colidir.
+Nenhuma — `TASK-088` já concluída, não há coordenação de migration necessária.
 
 ## Riscos
-Baixo — é migration de conteúdo textual, não altera `period_qty`/cálculo de `nextDueAt`. Risco real
-é só de coordenação de migration com a TASK-088 nas 4 linhas compartilhadas.
+Baixo — é migration de conteúdo textual, não altera `period_qty`/cálculo de `nextDueAt`.
 
 ## Esforço
 Baixo

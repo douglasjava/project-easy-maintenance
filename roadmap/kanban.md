@@ -2,14 +2,16 @@
 
 > Atualizado em: 19/08/2026 — **EPIC-025: lista consolidada e quebrada em 4 tasks** prontas para
 > implementar (TASK-177 a TASK-180). Antes de escrever as tasks, conferido o estado real das
-> migrations do banco — corrigiu 2 suposições erradas do levantamento inicial (`ALARME_DE_INCENDIO`
-> já cita NBR 17240 corretamente desde a V78; `AR_CONDICIONADO` nunca citou "NBR 11742", isso era
-> de outro item). TASK-177 corrige/completa citações no catálogo (`AR_CONDICIONADO`, `CAIXA_DAGUA`
-> + NR-33, rotas de fuga/hidrantes com base ABNT nacional além do IT estadual — coordenar com
-> TASK-088 nas linhas compartilhadas); TASK-178 cria item novo de catálogo para gás combustível
-> (NBR 13103+15923, 12 meses); TASK-179 atualiza a página `/norms` (5 entradas novas + nota de
-> revogação parcial da RDC 50); TASK-180 revisa o post do blog da NBR 5674 (preditiva, Código Civil
-> art. 937/938, reserva orçamentária).
+> migrations do banco contra um select de produção fornecido por Douglas — corrigiu 2 suposições
+> erradas do levantamento inicial (`ALARME_DE_INCENDIO` já cita NBR 17240 corretamente desde a V78;
+> `AR_CONDICIONADO` nunca citou "NBR 11742", isso era de outro item) **e revelou que `TASK-088`
+> (EPIC-004) já estava concluída** (`V71`/`V75` corrigiram `period_qty=0` e removeram norms
+> `AI_GENERATED`), só não tinha sido movida de "Em Validação" pra "Concluído" — corrigido. TASK-177
+> corrige/completa citações no catálogo (`AR_CONDICIONADO`, `CAIXA_DAGUA` + NR-33, rotas de fuga/
+> hidrantes com base ABNT nacional além do IT estadual); TASK-178 cria item novo de catálogo para
+> gás combustível (NBR 13103+15923, 12 meses); TASK-179 atualiza a página `/norms` (5 entradas
+> novas + nota de revogação parcial da RDC 50); TASK-180 revisa o post do blog da NBR 5674
+> (preditiva, Código Civil art. 937/938, reserva orçamentária).
 > Atualizado em: 19/08/2026 — **EPIC-025 criado**: conteúdo e governança das normas técnicas
 > (ABNT/NR/RDC). Auditoria norma-a-norma concluída (22 normas analisadas) em
 > `docs/produto/levantamento-normas-abnt.md` (root repo). Decisões confirmadas com Douglas: produto
@@ -857,7 +859,6 @@ _Vazio_
 | [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
 | [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
 | TASK-038                      | LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade) | 🔵 Baixo   | EPIC-003 |
-| [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA, pendingReview + fix V9 period_qty=0 | 🟠 Alto    | EPIC-004 |
 | issue #56                     | IA Onboarding adicionado ao menu lateral (Ações) + emojis removidos de Relatórios e Ajuda            | 🔵 Baixo   | EPIC-006 |
 | TASK-089                      | Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)        | 🔴 Crítico | EPIC-012 |
 | TASK-090                      | Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService  | 🔴 Crítico | EPIC-012 |
@@ -876,6 +877,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA + fix V9 period_qty=0 — confirmado concluído (V71/V75) ao conferir o banco durante o levantamento de normas (EPIC-025), estava parado em "Em Validação" | 🟠 Alto | EPIC-004 |
 | [TASK-162](tasks/TASK-162.md) | Frontend: cadastro/edição de custo de infraestrutura + rótulo pra "Outros" (achado de QA) — aprovado por Douglas | 🟠 Alto | EPIC-020 |
 | [TASK-161](tasks/TASK-161.md) | Frontend: página `/financeiro` — grid de totalizadores + gráfico Recharts — aprovado por Douglas | 🟠 Alto | EPIC-020 |
 | [TASK-160](tasks/TASK-160.md) | Backend: endpoint agregado de financeiro por mês (receita/custo/comissão/lucro) | 🟠 Alto | EPIC-020 |
