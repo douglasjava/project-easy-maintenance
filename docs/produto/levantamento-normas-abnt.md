@@ -616,3 +616,39 @@ nas fontes consultadas.
 
 **Pendência**: nenhuma relevante — essa norma resolveu de forma limpa e sem contradição entre
 fontes.
+
+---
+
+### NBR 13103 — Instalação de Aparelhos a Gás — Requisitos
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, edição atual **6ª edição, 03/2024** — a
+ABNT NBR 13103:2024 cancela e substitui explicitamente a NBR 13103:2020 (que por sua vez tinha
+substituído a versão 2011+emenda 2013). Uma busca genérica trouxe de novo o mesmo padrão de ruído
+já visto várias vezes ("norma cancelada em 03/2024") — mas aqui a própria fonte deixa claro que
+03/2024 é a data de publicação da **edição nova que substituiu a anterior**, não um cancelamento
+sem sucessora. Resolvido com confiança alta.
+
+**O que a norma exige:**
+
+1. Requisitos mínimos pra **projeto, execução, vistoria, manutenção, operação e abandono** de
+   instalações internas de gás combustível em edificações residenciais.
+2. Escopo específico: aparelhos a gás com pressão nominal até 2,0 kPa (gás natural) ou 2,8 kPa
+   (GLP) — cobre a instalação interna da unidade/edificação, não a rede de distribuição externa.
+3. A edição 2024 ampliou o escopo em relação à 2020: passou a cobrir **toda a instalação** (antes
+   era focada só em requisitos de ambiente), com mais detalhamento por tipo de aparelho.
+4. **Achado de cruzamento entre normas**: a própria NBR 13103 remete à **NBR 15923** pra definir
+   periodicidade e procedimento das inspeções periódicas — ou seja, 13103 é a norma de
+   requisitos/instalação, e 15923 é quem define o "de quanto em quanto tempo inspecionar". Isso já
+   antecipa que a análise da NBR 15923 (próxima da seção C-bis) vai ser a peça que efetivamente
+   define a periodicidade usável no catálogo do produto, não a 13103 isoladamente.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — confirma o gap já flagado no levantamento inicial (Achado C-bis: nada relacionado a gás no catálogo, apesar de ser item comum e claramente periódico) | Gap real — mas a periodicidade certa pra usar no `periodQty`/`periodUnit` vem da NBR 15923, não da 13103; aguardar a análise dela antes de propor o item completo |
+| `/norms` (página estática) | ❌ Ausente | Mesma lógica — melhor adicionar as duas (13103 + 15923) juntas, como par requisito+periodicidade, do que a 13103 isolada |
+| Produto (funcionalidade) | Gap de funcionalidade real: instalação de gás é item comum em condomínios e não tem nenhuma representação hoje | Observação para Douglas — decisão de produto, não ação automática |
+
+**Pendência**: nenhuma sobre a 13103 em si — mas o item fica "incompleto" até a NBR 15923 ser
+analisada (é ela que define a periodicidade concreta que o catálogo precisaria).
