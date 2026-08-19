@@ -454,3 +454,38 @@ todas as fontes):**
 **Pendência**: resolver a contradição "vigente" vs. aviso de "cancelada em 06/2020" direto com
 texto oficial ABNT ou uma segunda fonte de catálogo, antes de usar essa norma em qualquer alegação
 pública do produto.
+
+---
+
+### NBR 17240 — Sistemas de Detecção e Alarme de Incêndio — Projeto, Instalação, Comissionamento e Manutenção — Requisitos
+
+**Status**: ✅ **Resolvida** (era 🔍 no levantamento inicial). **Vigente**, edição **2010**,
+confirmada periodicamente pela ABNT (últimas confirmações registradas: 2014, 2020, 02/2025) — não
+existe edição nova publicada apesar de já haver um projeto de revisão em andamento na CB-24 (PN
+17240), sem data prevista. O aviso de "cancelada" que aparece nas buscas genéricas é sobre a norma
+**anterior, NBR 9441:1998**, que a 17240:2010 cancelou e substituiu — exatamente o mesmo padrão de
+ruído já identificado na NBR 14037 (edição velha superada por revisão da mesma norma ≠ norma
+morta). Confirmado direto no catálogo normas.com.br, técnica já validada nas rodadas anteriores.
+
+**O que a norma exige:**
+
+1. Escopo: projeto, instalação, comissionamento e manutenção de sistemas **manuais e automáticos**
+   de detecção e alarme de incêndio.
+2. Especifica componentes do sistema: centrais de alarme, detectores (fumaça, calor, chama),
+   acionadores manuais, e como eles se interconectam.
+3. Exige **fontes de alimentação redundantes** — o sistema precisa continuar funcionando mesmo em
+   caso de falha da energia principal (bateria/fonte auxiliar).
+4. Cobre todo o ciclo: planejamento, instalação, comissionamento (testes de aceitação antes de
+   entrar em operação), treinamento dos usuários, e manutenção/inspeção periódica do sistema já
+   instalado.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | O item `ALARME` já existe no catálogo hoje, mas citando **CBMMG IT-16** (Corpo de Bombeiros de MG) como base — já flagado no Achado #2 (regionalização) | A NBR 17240 é a base técnica **nacional** que os ITs estaduais complementam — recomendo citar a NBR 17240 como base primária no item `ALARME`, com o IT estadual como complemento regional, não o contrário como está hoje |
+| `/norms` (página estática) | Ausente | Adicionar, já que reforça exatamente o item ALARME que o produto já cobre funcionalmente |
+| Produto (funcionalidade) | Item já existe e funciona — essa norma só corrige/reforça a base de citação, não expõe gap de funcionalidade | Nenhuma ação de produto, só de conteúdo/citação |
+
+**Pendência**: nenhuma nova — essa norma resolveu de forma limpa. Vale reaproveitar a mesma técnica
+pra NBR 12693 (ainda 🔍 no levantamento inicial) na próxima rodada.
