@@ -739,3 +739,50 @@ um gap real e agora **totalmente especificado** — item de catálogo pronto pra
 as 3 normas juntas.
 
 **Pendência**: nenhuma.
+
+---
+
+### RDC 15/2012 (ANVISA) — Requisitos de Boas Práticas para o Processamento de Produtos para Saúde
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, sem indicação de revogação nas fontes
+consultadas (diferente das normas ABNT, resoluções ANVISA não seguem o mesmo padrão de
+"confirmação periódica" — aqui a ausência de revogação publicada é o sinal relevante, não um
+selo de "vigente" explícito). Publicada em 15/03/2012, motivou a revisão/uniformização de
+resoluções anteriores (RDC 156/2006, RE 2605/2006, RE 2606/2006).
+
+**Achado de escopo importante, antes do conteúdo**: essa RDC trata principalmente do
+**processamento clínico** de produtos para saúde (limpeza, desinfecção, esterilização de
+instrumentos cirúrgicos) — é majoritariamente uma norma de **prática assistencial/operacional**,
+não de manutenção predial. A interseção real com o escopo do produto (manutenção de edificações e
+seus sistemas) é mais estreita do que as normas ABNT já revisadas: só a parte de **manutenção e
+calibração dos equipamentos** do CME (Central de Material e Esterilização) é diretamente
+relevante — o resto (protocolos de limpeza, classificação de risco de instrumentos, etc.) é fora do
+domínio de "manutenção" que o produto cobre.
+
+**O que a norma exige (focado na parte relevante ao produto):**
+
+1. Aplica-se a Centrais de Material e Esterilização (CME) de serviços de saúde públicos e privados,
+   civis e militares, e empresas processadoras — exclui consultórios odontológicos individuais não
+   vinculados a serviço de saúde, unidades de endoscópios, terapia renal substitutiva, e serviços
+   veterinários.
+2. **Plano de manutenção preventiva** obrigatório pra autoclaves e equipamentos de esterilização,
+   seguindo recomendação do fabricante + a própria RDC.
+3. **Qualificação térmica e calibração** dos instrumentos de controle/medição (manômetro,
+   pressostato, sensor de temperatura, válvula de segurança) de equipamentos de esterilização a
+   vapor/termodesinfecção — periodicidade **mínima anual**, executada por laboratório qualificado.
+4. Registro obrigatório das intervenções técnicas por equipamento, com prazo de arquivamento
+   contado a partir da desativação ou transferência definitiva do equipamento do serviço.
+5. Exige sistema de informação (manual ou automatizado) com registro de monitoramento das etapas de
+   processamento **e** da manutenção/monitoramento dos equipamentos.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — mas, assim como a NBR 15923 (gás), essa tem periodicidade concreta e verificada (**mínima anual**), compatível com o schema atual | Item de catálogo específico pra hospitais: "Autoclave/Equipamento de Esterilização" com base na RDC 15/2012, periodicidade mínima 12 meses |
+| `/norms` (página estática) | ❌ Ausente (confirma o Achado #1 original: nenhuma norma hospitalar está no catálogo funcional) | Adicionar — mas com o cuidado de descrever especificamente a parte de manutenção de equipamento, não o processamento clínico completo (que foge do que o produto faz) |
+| Produto (funcionalidade) | Gap real e agora acionável — mas junto com uma decisão de escopo maior: o segmento "hospitais" do produto hoje não tem NENHUM item de catálogo específico (nem esse, nem os das RDCs já mapeadas 50/63) | Reforça a necessidade de uma conversa de escopo sobre o segmento hospitalar como um todo, não só essa norma isoladamente |
+
+**Pendência**: nenhuma sobre o conteúdo em si — mas fica reforçada a necessidade de decidir, com
+Douglas, até onde o produto vai no segmento hospitalar (só equipamentos prediais genéricos
+adaptados, ou também equipamentos clínicos como autoclave) antes de propor esse item específico.
