@@ -952,3 +952,45 @@ RE 9/2003** (padrões técnicos de qualidade do ar).
 **Pendência**: nenhuma relevante sobre a base legal em si — a periodicidade de referência (13971/
 15848/17037) fica como possível aprofundamento futuro, se o produto decidir tratar isso como item
 com prazo definido em vez de "conforme plano assinado por responsável técnico".
+
+---
+
+### NBR 5410 — Instalações Elétricas de Baixa Tensão
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente**, edição **2004** (com correção/versão
+corrigida em 2008) — status limpo e simples, sem o padrão de ruído "cancelada" visto nas outras
+normas. Revisão estrutural em andamento (a mais ampla desde 2004, incorporando energia solar
+fotovoltaica e veículos elétricos), mas com previsão de publicação só a partir de 2026-2028,
+sujeita a atraso — até lá, a edição 2004/2008 continua sendo a vigente e a única aplicável.
+
+**O que a norma exige:**
+
+1. Condições obrigatórias pra **projeto, execução, verificação e manutenção** de instalações
+   elétricas de baixa tensão (até 1.000 V CA ou 1.500 V CC) — residencial, comercial, público,
+   industrial, áreas externas e canteiros de obra. Exclui rede de distribuição pública, tração
+   elétrica e instalações em minas.
+2. Objetivo central: proteger pessoas e animais contra choque elétrico, incêndio e outros
+   acidentes por falha ou mau uso do sistema elétrico.
+3. Execução, projeto, verificação e manutenção só podem ser confiados a profissional qualificado.
+4. **Achado de periodicidade com o mesmo padrão de regionalização já visto nos achados #2/#3**:
+   fontes convergem numa prática de mercado de **laudo elétrico a cada 5 anos** pras áreas comuns
+   de condomínio, mas a atribuição é ambígua nas fontes — ora citada como "recomendação da NBR
+   5410", ora como "conforme legislação municipal". Não encontrei confirmação de que os 5 anos são
+   um valor normativo fixo da NBR 5410 em si (a norma trata de requisitos técnicos de instalação,
+   não claramente de um calendário de reinspeção) — trato como pendência, não como fato
+   confirmado.
+5. Sem o laudo, síndico pode ser responsabilizado criminalmente em caso de acidente elétrico — e
+   seguradoras costumam exigir o laudo pra renovação de apólice do prédio (motivador prático além
+   do legal).
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Não há item elétrico genérico no catálogo hoje (SPDA/NBR 5419 é item distinto, sobre para-raios) — a NBR 5410 cobriria a instalação elétrica em si | Gap real, mas a periodicidade (5 anos, se confirmada) precisa de verificação antes de virar item de catálogo |
+| `/norms` (página estática) | 📄 Já presente, conforme levantamento inicial | Revisar o texto atual: confirmar se já menciona verificação periódica e se a redação está alinhada com o achado de regionalização acima |
+| Produto (funcionalidade) | Gap real de funcionalidade — instalação elétrica geral (diferente de SPDA) não é rastreada hoje | Observação pra Douglas, mesma lógica dos outros gaps de funcionalidade já levantados |
+
+**Pendência**: confirmar se "5 anos" é valor normativo da própria NBR 5410 ou prática/legislação
+municipal (mesma cautela já aplicada a outras periodicidades neste levantamento) antes de usar
+esse número em qualquer alegação de produto.
