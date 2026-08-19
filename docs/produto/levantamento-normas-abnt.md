@@ -834,3 +834,36 @@ de escopo com Douglas antes de qualquer ajuste na tabela de normas pro segmento 
 
 **Pendência**: nenhuma sobre o conteúdo — a decisão de escopo pro segmento hospitalar (já
 sinalizada na análise da RDC 15/2012) continua em aberto.
+
+---
+
+### NBR 16785 — Correção de premissa do levantamento inicial (não é norma de incêndio)
+
+**Achado principal desta rodada**: a hipótese registrada no levantamento inicial — "possível
+sucessora/complemento da NBR 17240" (detecção/alarme de incêndio) — **estava errada**. NBR 16785 é
+**Proteção contra Descargas Atmosféricas — Sistemas de Alerta de Tempestades Elétricas**: uma norma
+sobre sistemas de **alerta de raios/tempestades** (dados em tempo real sobre descargas atmosféricas
+ou eletrificação de nuvens, pra programar medidas preventivas), sem nenhuma relação com detecção de
+incêndio. É prima da NBR 5419 (SPDA) por estar no mesmo domínio de proteção contra descargas
+atmosféricas, não da 17240.
+
+**Status**: ✅ Vigente. Edição única 09/2019, com confirmação registrada em 03/2024 — mesmo padrão
+de aviso "cancelada" já resolvido como boilerplate em 6 outras normas deste levantamento.
+
+**O que a norma exige**: características de sistemas de alerta que captam dados em tempo real
+sobre atividade elétrica atmosférica e tratam essa informação pra permitir ações preventivas
+(evacuação de áreas abertas, suspensão de atividades ao ar livre) antes da queda de raios.
+
+**Cruzamento com o que temos hoje e relevância ao produto**: **fora do escopo do produto**. É uma
+norma voltada a **áreas abertas** (estádios, eventos, áreas externas expostas) — não é um sistema
+predial interno, não tem periodicidade de manutenção recorrente no sentido que o catálogo modela, e
+não se aplica ao universo de condomínio/hospital/escola/indústria da forma como o produto opera
+hoje (foco em sistemas e itens dentro da edificação). Não recomendo adicionar ao banco nem à página
+estática.
+
+**Ação de correção**: a entrada da NBR 16785 na seção B do levantamento inicial (`❌, possível
+sucessor/complemento a 17240`) deve ser lida como corrigida por esta análise — não é sucessora nem
+complemento da 17240, é norma de domínio diferente (descargas atmosféricas/alerta de tempestade),
+sem relevância prática ao produto.
+
+**Pendência**: nenhuma — item encerrado, sem necessidade de retomar.
