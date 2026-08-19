@@ -88,7 +88,8 @@ Baixo — item novo, aditivo, não toca em nenhum item existente.
 Baixo-Médio
 
 ## Status
-✅ Concluída — `V90__seed_gas_installation_norm.sql`, idempotente (`WHERE NOT EXISTS`), 763 testes
+✅ Concluída — PR [#39](https://github.com/douglasjava/easy-maintenance-api/pull/39) mergeada em
+`staging` em 19/08/2026. `V90__seed_gas_installation_norm.sql`, idempotente (`WHERE NOT EXISTS`), 763 testes
 existentes passando (0 regressão). Nenhum teste novo dedicado — segue o mesmo padrão das demais
 linhas de seed do catálogo (V2/V9), cobertas pelos testes genéricos de resolução de norma já
 existentes, não por um teste por item_type. `authority` cita 13103+15923 (os dois com papel direto
