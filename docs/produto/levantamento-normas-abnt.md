@@ -696,3 +696,46 @@ Concluo com confiança: **NBR 15923:2011 está vigente**, confirmada pela últim
 **Pendência**: nenhuma relevante — essa é a norma do levantamento até agora com o achado mais
 diretamente acionável (periodicidade concreta e verificada). Falta só a NBR 15526 pra fechar a
 seção C-bis (gás) por completo.
+
+---
+
+### NBR 15526 — Redes de Distribuição Interna para Gases Combustíveis em Instalações Residenciais e Comerciais — Projeto e Execução
+
+**Status**: ✅ **Resolvida com confiança alta**. Mesmo aviso padrão de "cancelada em 12/2012" —
+mas o histórico de edições encontrado direto no catálogo é o mais completo e conclusivo de todo o
+levantamento até agora: **2007 → 2009 → 2012 → 2016 → confirmação 2022 → nova edição em 02/2026**.
+Uma norma recebendo uma edição nova publicada em fevereiro deste ano é, por definição, uma norma
+viva e ativamente mantida pela ABNT — o oposto de cancelada. O aviso "cancelada em 12/2012" é o
+mesmo padrão de boilerplate (ligado à edição específica daquela data, superada por revisões
+seguintes da mesma norma) já visto em 5 outras normas neste levantamento. **NBR 15526 está
+vigente, edição atual 2026** (substituindo a 2016).
+
+**O que a norma exige:**
+
+1. Requisitos mínimos pra **projeto e execução** de redes de distribuição interna de gases
+   combustíveis em instalações residenciais e comerciais, com pressão de operação até 150 kPa —
+   gás natural (GN) e GLP (propano/butano) em fase vapor, e mistura ar-GLP.
+2. Define materiais permitidos, critérios de seleção de tubulação e componentes, proteção contra
+   corrosão e danos mecânicos.
+3. Tubulação enterrada ou em áreas molhadas da edificação precisa de revestimento adequado
+   (asfáltico, plástico, pintura epóxi) ou proteção catódica.
+4. É a norma "irmã" da NBR 13103: a 15526 trata da **rede/tubulação** (projeto e execução física),
+   enquanto a 13103 trata dos **aparelhos e sua instalação/manutenção**, e a 15923 do
+   **procedimento de inspeção**. As três juntas cobrem o ciclo completo de gás combustível predial.
+
+**Cruzamento com o que temos hoje — fecha a seção C-bis (gás):**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — mas essa é mais uma norma de **projeto/execução** (como a 12693 de extintores), não de manutenção recorrente. A periodicidade acionável pro catálogo já veio da NBR 15923 (12 meses), não da 15526 | Não é ela quem define o item de catálogo — a 15526 seria citada como referência técnica complementar de instalação, não como base do item periódico |
+| `/norms` (página estática) | ❌ Ausente | Se um item de gás for adicionado à página (par 13103+15923, já recomendado), a 15526 pode entrar como terceira referência técnica complementar, não como entrada própria |
+| Produto (funcionalidade) | Nenhum gap novo além do já identificado na 15923 | Nenhuma ação adicional |
+
+**Resumo da seção C-bis (gás combustível) agora completa**: 3 normas pesquisadas, todas vigentes
+(com o mesmo padrão de aviso "cancelada" resolvido como ruído em todas), formando um conjunto
+coerente — NBR 13103 (aparelhos, com periodicidade de 12 meses), NBR 15923 (procedimento de
+inspeção), NBR 15526 (rede/tubulação, projeto e execução). Confirma o Achado C-bis original: gás é
+um gap real e agora **totalmente especificado** — item de catálogo pronto pra ser proposto, citando
+as 3 normas juntas.
+
+**Pendência**: nenhuma.
