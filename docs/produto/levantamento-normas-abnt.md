@@ -532,3 +532,47 @@ está vigente**, confirmada pela última vez em 01/2025.
 **Pendência**: confirmar se "mensal" é valor normativo da NBR 16083 ou prática de mercado citada
 por terceiros (mesma cautela da 16747); confirmar se elevador já existe como possível `itemType` no
 catálogo antes de sugerir adição.
+
+---
+
+### NBR 12693 — Sistemas de Proteção por Extintores de Incêndio
+
+**Pendência de identidade resolvida**: ✅ **NBR 12693 é uma norma distinta da NBR 12962**, não uma
+duplicata. A 12693 trata de **projeto, seleção e instalação** de sistemas de extintores
+(dimensionamento, capacidade extintora, distância máxima a percorrer por classe de risco). A NBR
+12962 (já citada como base do item `EXTINTOR` no catálogo) trata de **inspeção, manutenção e
+recarga** de extintores já instalados. São complementares, no mesmo padrão já visto em outras
+duplas normativas (ex.: NBR 5626 cobre projeto+manutenção junto, mas aqui o extintor tem a
+separação em duas normas). Como o produto rastreia manutenção recorrente de itens já instalados, a
+citação correta pro `EXTINTOR` continua sendo a NBR 12962 — a 12693 seria relevante só se o produto
+algum dia cobrisse dimensionamento/projeto de novos sistemas, o que está fora do escopo atual.
+
+**Status**: ⚠️ **Ambíguo — não resolvido nesta rodada**, diferente das últimas duas normas. O
+normas.com.br mostra a edição 01/2021 com o mesmo aviso "foi cancelada e seu uso pode trazer
+riscos" já visto nas outras consultas — mas, diferente da 17240 e da 16083 (que tinham
+confirmações registradas até 2025), não encontrei nenhuma confirmação posterior a 2021 pra essa
+norma especificamente, em nenhuma fonte consultada. Isso quebra o padrão que vinha permitindo
+resolver a ambiguidade com confiança — aqui a ausência de confirmação recente é um sinal
+genuinamente diferente, não apenas ruído do aviso padrão do site. Fica como pendência real de
+verificação direta com a ABNT.
+
+**O que a norma exige (independente da pendência de status):**
+
+1. Requisitos de projeto, seleção e instalação de extintores portáteis e sobre rodas, em
+   edificações e áreas de risco, pra combate a princípio de incêndio.
+2. Capacidade extintora, distância máxima a percorrer, considerando classe de risco da área
+   protegida e natureza do fogo.
+3. Extintores são exigidos como primeira linha de resposta **mesmo quando** o local já tem
+   chuveiros automáticos (sprinklers), hidrantes/mangueiras ou outro sistema fixo — não substitui,
+   complementa.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Item `EXTINTOR` já cita NBR 12962 corretamente (norma de manutenção, não a de projeto) | Nenhuma correção — a citação atual já está certa, a 12693 não precisa ser adicionada |
+| `/norms` (página estática) | N/A — mesma lógica do banco | Nenhuma ação |
+| Produto (funcionalidade) | Nenhum gap — produto não cobre dimensionamento/projeto de sistemas novos, então a 12693 é fora de escopo por natureza | Nenhuma ação |
+
+**Pendência**: confirmar status real da NBR 12693:2021 direto com a ABNT antes de citá-la em
+qualquer contexto (mesmo que hoje ela não seja usada em nenhuma alegação do produto).
