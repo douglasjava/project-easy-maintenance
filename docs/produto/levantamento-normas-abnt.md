@@ -908,3 +908,47 @@ familiaridade com o edifício). Status limpo, sem ambiguidade.
 **Pendência**: confirmar se a norma define algum prazo numérico de inspeção periódica no texto
 oficial (não encontrado nas fontes secundárias consultadas) antes de qualquer alegação de
 periodicidade específica.
+
+---
+
+### Lei 13.589/2018 + Portaria GM/MS 3.523/1998 + ANVISA RE 9/2003 — PMOC (Plano de Manutenção, Operação e Controle) de Ar-Condicionado
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente** — sem indicação de revogação em nenhuma das 3
+peças. **Correção de atribuição importante**: a Portaria 3.523 é do **Ministério da Saúde**
+(Portaria GM/MS nº 3.523, de 28/08/1998), **não da ANVISA** como eu tinha registrado no levantamento
+inicial. A peça da ANVISA é a **Resolução RE nº 9/2003**, que complementa a Portaria 3.523 com o
+padrão técnico de qualidade do ar interior. A base legal completa e correta é: **Lei 13.589/2018**
+(torna o PMOC obrigatório por lei) + **Portaria GM/MS 3.523/1998** (define o PMOC em si) + **ANVISA
+RE 9/2003** (padrões técnicos de qualidade do ar).
+
+**O que a norma/conjunto normativo exige:**
+
+1. **PMOC obrigatório** pra edificações de uso **público ou coletivo** com sistema de ar
+   condicionado de capacidade **≥ 60.000 BTU/h**. Documento registra manutenções preventivas e
+   corretivas, condições de operação/controle, e inclui avaliações de qualidade do ar.
+2. **Achado de escopo importante pro produto**: a legislação é dirigida a ambientes de uso
+   **público e coletivo** — residência unifamiliar não se enquadra. Em condomínio, isso implica
+   que a obrigatoriedade legal do PMOC recai sobre os sistemas de ar-condicionado de **áreas
+   comuns** (portaria, salão de festas, academia) com capacidade suficiente, não sobre o
+   ar-condicionado individual de cada unidade — distinção relevante pro produto, que hoje trata o
+   item `AR_CONDICIONADO` de forma genérica.
+3. Plano deve ser assinado por profissional habilitado com registro no conselho de classe
+   (engenheiro/técnico responsável).
+4. **Periodicidade de limpeza de filtros e componentes não é fixa por lei** — cabe ao responsável
+   técnico definir, observando normas técnicas complementares (NBR 13971, NBR 15848, NBR 17037) e
+   recomendação do fabricante. Mesmo padrão já visto em outras normas (16747, 9077): a lei exige o
+   plano, mas não trava um número universal de dias/meses.
+5. Descumprimento é punido via **Lei 6.437/1977**: multas de R$ 2.000 a R$ 1.500.000, conforme
+   risco, reincidência e porte do estabelecimento.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | Item `AR_CONDICIONADO` já existe, mas cita **"NBR 11742(?)"** — já flagado como suspeito no levantamento inicial. **Confirmado agora**: a citação correta não é uma NBR isolada, é o conjunto Lei 13.589/2018 + Portaria GM/MS 3.523/1998 + ANVISA RE 9/2003 | **Correção de conteúdo confirmada e pronta pra aplicar** — trocar a citação "NBR 11742" pela base legal correta |
+| `/norms` (página estática) | Ausente | Adicionar, citando a base legal correta (não uma NBR solta) |
+| Produto (funcionalidade) | Nenhum gap novo, mas o achado de escopo (áreas comuns vs. unidades individuais) pode valer uma nota de conteúdo — evitar alegar que "todo ar-condicionado do condomínio precisa de PMOC por lei", quando na prática só os de área comum acima de 60.000 BTU se enquadram | Cuidado de comunicação, não mudança de produto |
+
+**Pendência**: nenhuma relevante sobre a base legal em si — a periodicidade de referência (13971/
+15848/17037) fica como possível aprofundamento futuro, se o produto decidir tratar isso como item
+com prazo definido em vez de "conforme plano assinado por responsável técnico".
