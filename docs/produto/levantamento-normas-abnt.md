@@ -994,3 +994,52 @@ sujeita a atraso — até lá, a edição 2004/2008 continua sendo a vigente e a
 **Pendência**: confirmar se "5 anos" é valor normativo da própria NBR 5410 ou prática/legislação
 municipal (mesma cautela já aplicada a outras periodicidades neste levantamento) antes de usar
 esse número em qualquer alegação de produto.
+
+---
+
+### RDC 50/2002 (ANVISA) — Regulamento Técnico para Planejamento, Programação, Elaboração e Avaliação de Projetos Físicos de Estabelecimentos Assistenciais de Saúde
+
+**Status**: ✅ Analisada (19/08/2026). **Vigente, mas parcialmente revogada**: a **RDC 51/2011**
+revogou especificamente os itens 1.2.2.1 (Projeto Básico de Arquitetura), 1.3 (Responsabilidades) e
+1.6 (Avaliação de Projetos) do regulamento original — o resto do texto continua em vigor. Diferente
+das outras RDCs já analisadas (15/2012, 222/2018, ambas vigentes sem revogação parcial), essa é a
+primeira com esse padrão de "vigente parcial" — vale nota se for citada no produto, pra não
+apresentar o texto de 2002 como 100% íntegro.
+
+**Achado de escopo — a mais próxima do domínio do produto entre as RDCs hospitalares até agora**:
+diferente da 222/2018 (quase inteiramente fora do escopo) e da 15/2012 (só uma fração sobre
+calibração de autoclave), a RDC 50/2002 tem uma seção que trata diretamente de **manutenção
+predial** como função organizacional obrigatória do estabelecimento de saúde — mais alinhada ao que
+o produto faz do que qualquer RDC vista até agora.
+
+**O que a norma exige:**
+
+1. Aplica-se a construções novas, ampliações e reformas de estabelecimentos assistenciais de
+   saúde, público e privado, em todo o território nacional.
+2. Critérios detalhados de concepção, construção, ampliação **e manutenção** das unidades de
+   saúde — ventilação, controle de infecção, integração de sistemas críticos (redes elétricas,
+   hidráulicas, gases medicinais).
+3. Exige dimensionamento confirmado de centrais de gases medicinais, gás, vácuo e vapor, incluindo
+   redes e pontos de consumo — infraestrutura técnica específica de hospital, sem equivalente nos
+   outros 3 segmentos do produto.
+4. **Estabelece requisitos pra manutenção predial como função organizacional**: obras civis,
+   alvenaria, hidráulica, mecânica, elétrica, carpintaria, marcenaria, serralheria, jardinagem,
+   chaveiro — e manutenção dos equipamentos de saúde. Ou seja, a norma pressupõe que o
+   estabelecimento tenha uma função/setor de manutenção estruturado, não é só sobre a construção
+   inicial.
+5. Exige documentação técnica (memoriais descritivos das instalações hidráulicas/especiais, com
+   fórmulas e métodos de dimensionamento).
+6. Secretarias estaduais/municipais de saúde são responsáveis pela aplicação, podendo criar normas
+   supletivas locais — mesmo padrão de regionalização já visto em outros achados (#2/#3), mas aqui
+   é regionalização da fiscalização, não do conteúdo técnico em si.
+
+**Cruzamento com o que temos hoje:**
+
+| Onde | Situação | Ação sugerida |
+|---|---|---|
+| `norms` table (banco) | ❌ Ausente — mas essa é mais uma norma de **projeto/construção com uma seção de manutenção genérica** do que um item com periodicidade própria (parecido com a NBR 5674, mas pro contexto hospitalar) | Não gera item de catálogo isolado — mas é a norma que melhor justificaria o segmento hospitalar ter uma seção de "gestão de manutenção" no produto, similar à lógica da 5674 pro condomínio |
+| `/norms` (página estática) | 📄 Já presente conforme levantamento inicial | Revisar o texto atual pra confirmar se menciona a revogação parcial pela RDC 51/2011 (evitar apresentar o regulamento como 100% do texto original de 2002) |
+| Produto (funcionalidade) | Reforça o achado já registrado na análise da RDC 15/2012: o segmento hospitalar do produto não tem nenhuma estrutura de manutenção predial hoje, e essa é a norma que dá o respaldo mais forte pra decidir investir nisso | Observação estratégica pra Douglas — mais uma peça a favor de tratar "hospitais" como segmento com investimento de produto dedicado, não só uma categoria etiquetada |
+
+**Pendência**: confirmar o texto atual da página estática contra a revogação parcial da RDC
+51/2011 antes de qualquer atualização de conteúdo.
