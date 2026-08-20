@@ -128,4 +128,5 @@ por manter o fallback existente intacto pra itens sem `normId`.
 Médio
 
 ## Status
-Pronto para implementar.
+✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
+(`easy-maintenance-api`). 775 testes, 0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2.

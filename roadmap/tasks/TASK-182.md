@@ -111,4 +111,5 @@ Baixo — endpoint novo, aditivo, não altera o fluxo de IA existente.
 Baixo-Médio
 
 ## Status
-Pronto para implementar.
+✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
+(`easy-maintenance-api`). 772 testes, 0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2.

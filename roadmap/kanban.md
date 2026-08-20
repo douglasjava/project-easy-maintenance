@@ -763,11 +763,11 @@ _Vazio_
 *(todas as tasks desta leva implementadas na mesma branch `feature/ai-onboarding-catalog-filter`
 — `easy-maintenance-api`/`easy-maintenance-web` — a pedido de Douglas, sem PR por task; ele testa
 tudo local e em staging junto no final)*
-- ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada, aguardando o restante da leva antes do PR)*
-- **[TASK-181](tasks/TASK-181.md)** — Backend: tabela `norm_segments` + filtro por segmento no `NormRepository` (🟠 Alto | EPIC-025)
-- **[TASK-182](tasks/TASK-182.md)** — Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview` (🟠 Alto | EPIC-025) — depende de TASK-181
-- **[TASK-184](tasks/TASK-184.md)** — Backend: IA como complemento — evita duplicata, aceita `normId` explícito (🟡 Médio | EPIC-025) — depende de TASK-182
-- **[TASK-185](tasks/TASK-185.md)** — Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva (🟠 Alto | EPIC-025) — depende de TASK-182 e TASK-184
+- ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada)*
+- ~~**[TASK-181](tasks/TASK-181.md)**~~ — ~~Backend: tabela `norm_segments` + filtro por segmento no `NormRepository`~~ *(implementada)*
+- ~~**[TASK-182](tasks/TASK-182.md)**~~ — ~~Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview`~~ *(implementada)*
+- ~~**[TASK-184](tasks/TASK-184.md)**~~ — ~~Backend: IA como complemento — evita duplicata, aceita `normId` explícito~~ *(implementada — backend 100% pronto, 775 testes, 0 falhas)*
+- **[TASK-185](tasks/TASK-185.md)** — Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva (🟠 Alto | EPIC-025) — última task da leva
 
 **EPIC-025 Fase 1 — conteúdo e governança das normas técnicas — ✅ concluída (19/08/2026)**:
 - ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*
