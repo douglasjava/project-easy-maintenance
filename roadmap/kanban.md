@@ -760,7 +760,10 @@ _Vazio_
 ## Pronto para Implementar
 
 **🔴 Crítico (EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA) — *(20/08/2026)***:
-- **[TASK-183](tasks/TASK-183.md)** — Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY (🔴 Crítico | EPIC-025) — bugfix isolado, sem dependência, priorizar primeiro
+*(todas as tasks desta leva implementadas na mesma branch `feature/ai-onboarding-catalog-filter`
+— `easy-maintenance-api`/`easy-maintenance-web` — a pedido de Douglas, sem PR por task; ele testa
+tudo local e em staging junto no final)*
+- ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada, aguardando o restante da leva antes do PR)*
 - **[TASK-181](tasks/TASK-181.md)** — Backend: tabela `norm_segments` + filtro por segmento no `NormRepository` (🟠 Alto | EPIC-025)
 - **[TASK-182](tasks/TASK-182.md)** — Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview` (🟠 Alto | EPIC-025) — depende de TASK-181
 - **[TASK-184](tasks/TASK-184.md)** — Backend: IA como complemento — evita duplicata, aceita `normId` explícito (🟡 Médio | EPIC-025) — depende de TASK-182

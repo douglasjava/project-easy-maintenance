@@ -76,14 +76,14 @@ usuário informou, não de uma norma).
 
 ## Critérios de Aceite
 
-- [ ] Item REGULATORY criado via `apply()` tem `nextDueAt` calculado a partir do período real da
+- [x] Item REGULATORY criado via `apply()` tem `nextDueAt` calculado a partir do período real da
       `Norm` vinculada, não do período do JSON recebido
-- [ ] Item REGULATORY criado via `apply()` tem `customPeriodUnit`/`customPeriodQty` nulos
-- [ ] Item OPERATIONAL criado via `apply()` continua usando o período do JSON normalmente (sem
+- [x] Item REGULATORY criado via `apply()` tem `customPeriodUnit`/`customPeriodQty` nulos
+- [x] Item OPERATIONAL criado via `apply()` continua usando o período do JSON normalmente (sem
       regressão)
-- [ ] Teste cobrindo especificamente: período do JSON = X, período real da norma = Y (X ≠ Y),
+- [x] Teste cobrindo especificamente: período do JSON = X, período real da norma = Y (X ≠ Y),
       `nextDueAt` bate com Y
-- [ ] `mvn test` sem regressão
+- [x] `mvn test` sem regressão (764 testes, 0 falhas)
 
 ## Dependências
 Nenhuma — pode ser implementada e mergeada independentemente das outras tasks desta leva
@@ -97,4 +97,6 @@ Baixo — mudança isolada e pequena, convergindo pro mesmo caminho já testado 
 Baixo
 
 ## Status
-Pronto para implementar.
+✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
+(`easy-maintenance-api`) — mesma branch que reúne toda a Fase 2 (TASK-181 a TASK-185), a pedido de
+Douglas, pra testar tudo local e em staging junto antes de abrir PR. Ainda sem PR aberta.
