@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 20/08/2026 — **EPIC-025 Fase 2: 5/5 tasks implementadas** (TASK-181 a TASK-185),
+> filtro determinístico de catálogo no onboarding por IA. Tudo na mesma branch
+> `feature/ai-onboarding-catalog-filter` (mesmo nome nos repos `easy-maintenance-api` e
+> `easy-maintenance-web`), sem PR por task a pedido de Douglas — ele testa tudo local e em staging
+> junto, antes de abrir a(s) PR(s). Backend: 775 testes, 0 falhas (norm_segments + filtro por
+> segmento, endpoint síncrono `/catalog-preview`, IA como complemento sem duplicar catálogo, fix do
+> bug de `nextDueAt` divergente). Frontend: `/ai-onboarding` reescrito em duas camadas — catálogo
+> instantâneo sempre, IA só com descrição livre, mesclada progressivamente na tabela.
 > Atualizado em: 20/08/2026 — **EPIC-025 Fase 2 criada**: filtro determinístico de catálogo no
 > onboarding por IA (`/ai-onboarding`), 5 tasks novas (TASK-181 a TASK-185). Motivação: Douglas
 > pediu pra validar se o fluxo de IA que sugere itens no onboarding precisa mesmo de IA pra tudo —
@@ -759,15 +767,15 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🔴 Crítico (EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA) — *(20/08/2026)***:
+**EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 5/5 tasks implementadas, aguardando teste de Douglas — *(20/08/2026)***:
 *(todas as tasks desta leva implementadas na mesma branch `feature/ai-onboarding-catalog-filter`
 — `easy-maintenance-api`/`easy-maintenance-web` — a pedido de Douglas, sem PR por task; ele testa
-tudo local e em staging junto no final)*
+tudo local e em staging junto no final, antes de abrir a(s) PR(s))*
 - ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada)*
 - ~~**[TASK-181](tasks/TASK-181.md)**~~ — ~~Backend: tabela `norm_segments` + filtro por segmento no `NormRepository`~~ *(implementada)*
 - ~~**[TASK-182](tasks/TASK-182.md)**~~ — ~~Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview`~~ *(implementada)*
 - ~~**[TASK-184](tasks/TASK-184.md)**~~ — ~~Backend: IA como complemento — evita duplicata, aceita `normId` explícito~~ *(implementada — backend 100% pronto, 775 testes, 0 falhas)*
-- **[TASK-185](tasks/TASK-185.md)** — Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva (🟠 Alto | EPIC-025) — última task da leva
+- ~~**[TASK-185](tasks/TASK-185.md)**~~ — ~~Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva~~ *(implementada — `npm run build` limpo)*
 
 **EPIC-025 Fase 1 — conteúdo e governança das normas técnicas — ✅ concluída (19/08/2026)**:
 - ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*

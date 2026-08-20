@@ -145,4 +145,6 @@ dados e o timing de chegada mudam.
 Médio
 
 ## Status
-Pronto para implementar.
+✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
+(`easy-maintenance-web`). `npm run build` limpo. Última das 5 tasks da Fase 2 — backend e frontend
+100% prontos, aguardando Douglas testar local e em staging antes de abrir PR.

@@ -1,8 +1,12 @@
 # EPIC-025 — Conteúdo e Governança das Normas Técnicas (ABNT/NR/RDC)
 
 ## Status
-🔵 **Fase 2 em andamento** (20/08/2026) — ver seção "Fase 2" abaixo. Fase 1 (auditoria e correção de
-conteúdo) está ✅ concluída desde 19/08/2026.
+🟡 **Fase 2 implementada, aguardando teste local/staging de Douglas antes do PR** (20/08/2026) — as
+5 tasks (TASK-181 a TASK-185) estão todas commitadas na branch `feature/ai-onboarding-catalog-filter`
+(mesmo nome nos dois repos, `easy-maintenance-api` e `easy-maintenance-web`, a pedido de Douglas —
+sem PR por task, tudo testado junto no final antes de abrir a(s) PR(s)). Backend: 775 testes, 0
+falhas. Frontend: `npm run build` limpo. Fase 1 (auditoria e correção de conteúdo) está ✅ concluída
+desde 19/08/2026.
 
 ### Fase 1 — Auditoria e correção de conteúdo (concluída 19/08/2026)
 
@@ -60,7 +64,9 @@ já usado no fluxo manual.
 | [TASK-185](../tasks/TASK-185.md) | Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva | FRONTEND | 🟠 Alto |
 
 Ordem sugerida: TASK-183 primeiro (bugfix isolado, sem dependência, maior urgência); TASK-181 →
-TASK-182 → TASK-184 → TASK-185 depois, nessa sequência (cada uma depende da anterior).
+TASK-182 → TASK-184 → TASK-185 depois, nessa sequência (cada uma depende da anterior). **Ordem
+seguida à risca na implementação (20/08/2026) — as 5 tasks estão prontas, mesma branch nos dois
+repos, aguardando Douglas testar local e em staging antes de abrir PR.**
 
 ## Objetivo
 Corrigir e manter coerente o conteúdo de normas técnicas do produto (catálogo `norms` no banco,
