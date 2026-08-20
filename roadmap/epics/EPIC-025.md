@@ -1,7 +1,12 @@
 # EPIC-025 — Conteúdo e Governança das Normas Técnicas (ABNT/NR/RDC)
 
 ## Status
-✅ **Concluído** (19/08/2026). Auditoria norma-a-norma (22 normas analisadas) → 4 tasks → todas
+🔵 **Fase 2 em andamento** (20/08/2026) — ver seção "Fase 2" abaixo. Fase 1 (auditoria e correção de
+conteúdo) está ✅ concluída desde 19/08/2026.
+
+### Fase 1 — Auditoria e correção de conteúdo (concluída 19/08/2026)
+
+Auditoria norma-a-norma (22 normas analisadas) → 4 tasks → todas
 implementadas e mergeadas em `staging` no mesmo dia:
 - [TASK-177](../tasks/TASK-177.md) — PR [#38](https://github.com/douglasjava/easy-maintenance-api/pull/38) (api)
 - [TASK-178](../tasks/TASK-178.md) — PR [#39](https://github.com/douglasjava/easy-maintenance-api/pull/39) (api)
@@ -14,16 +19,56 @@ levantamento original (ver TASK-177) e revelou que **`TASK-088` (EPIC-004) já e
 (`V71`/`V75`), só não tinha sido movida de "Em Validação" para "Concluído" no kanban — corrigido na
 mesma rodada.
 
-Único item que não virou task, registrado como pendência de design pra retomar depois: a
+Único item que não virou task na Fase 1, registrado como pendência de design pra retomar depois: a
 distinção `periodicidadeNormativa` vs. `periodicidadeRecomendada` sugerida por Douglas (ver
 "Achados" abaixo) e a regionalização (achados #2/#3, decisão de escopo #3) — ambos ficam como
-trabalho futuro, fora do escopo do que foi consolidado em tasks nesta rodada.
+trabalho futuro, fora do escopo do que foi consolidado em tasks na Fase 1.
+
+### Fase 2 — Filtro determinístico de catálogo no onboarding por IA (em andamento, 20/08/2026)
+
+Aproveitando a classificação de normas por segmento feita na Fase 1, Douglas pediu pra validar o
+fluxo de onboarding assistido por IA (`/ai-onboarding`, `AiBootstrapService`) — se dava pra reduzir
+custo de IA e melhorar a precisão usando o catálogo já curado, em vez de deixar a IA adivinhar tudo
+do zero a cada vez. Brainstorm formal conduzido em 20/08/2026, spec aprovada:
+`docs/superpowers/specs/2026-08-20-onboarding-catalog-filter-design.md`.
+
+**Achados que motivaram esta fase:**
+1. A IA gera todo item do zero (tipo, norma, período, criticidade) sem saber quais normas já
+   existem curadas — gastando tokens à toa quando o resultado é descartado.
+2. `apply()` casa o `itemType` da IA contra `norms.item_type` por igualdade exata de string —
+   divergência de nome perde cobertura regulatória que já existe no catálogo.
+3. **Bug de dado**: quando o match acontece, o `nextDueAt` do item é calculado a partir do período
+   que a IA inventou no JSON, não do período real da norma vinculada — diverge do fluxo manual de
+   criação de item (`ServiceBase.resolvePeriod()`). Autocorrige na primeira manutenção registrada,
+   mas até lá o dashboard mostra vencimento errado logo na primeira experiência do cliente novo.
+
+**Desenho aprovado**: filtro determinístico (nova tabela `norm_segments`, relação N-pra-N entre
+`norms` e `company_type`) responde a maior parte do checklist por segmento **sem IA nenhuma**,
+instantâneo. IA vira complemento opcional só pro que o texto livre do usuário descreve além do
+catálogo — instruída (e filtrada em código, não só confiando no prompt) a não repetir o que o
+catálogo já trouxe. Bug do `nextDueAt` corrigido convergindo pro mesmo `ServiceBase.resolvePeriod()`
+já usado no fluxo manual.
+
+**Tasks da Fase 2:**
+
+| ID | Título | Tipo | Prioridade |
+|---|---|---|---|
+| [TASK-181](../tasks/TASK-181.md) | Backend: tabela `norm_segments` + filtro por segmento no `NormRepository` | BACKEND | 🟠 Alto |
+| [TASK-182](../tasks/TASK-182.md) | Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview` | BACKEND | 🟠 Alto |
+| [TASK-183](../tasks/TASK-183.md) | Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY | BUGFIX | 🔴 Crítico |
+| [TASK-184](../tasks/TASK-184.md) | Backend: IA como complemento — evita duplicata, aceita `normId` explícito | BACKEND | 🟡 Médio |
+| [TASK-185](../tasks/TASK-185.md) | Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva | FRONTEND | 🟠 Alto |
+
+Ordem sugerida: TASK-183 primeiro (bugfix isolado, sem dependência, maior urgência); TASK-181 →
+TASK-182 → TASK-184 → TASK-185 depois, nessa sequência (cada uma depende da anterior).
 
 ## Objetivo
 Corrigir e manter coerente o conteúdo de normas técnicas do produto (catálogo `norms` no banco,
 página estática `/norms`, referências normativas no blog) com o que a empresa efetivamente
 anuncia — sem citações erradas, sem prazos inventados, sem normas canceladas apresentadas como
-vigentes.
+vigentes (Fase 1). Estendido na Fase 2 pra também garantir que o catálogo já curado seja
+**funcionalmente aproveitado** onde faz sentido — reduzindo dependência de IA (custo) e eliminando
+divergência de dado no fluxo de onboarding assistido.
 
 ## Contexto
 
@@ -83,7 +128,7 @@ está correta*. São preocupações distintas; `TASK-088` permanece no EPIC-004.
   exige X". **Não virou task** — precisa de decisão de design (schema vs. só texto) antes de ser
   escopada.
 
-## Tasks Relacionadas
+## Tasks Relacionadas — Fase 1
 
 | ID | Título | Tipo | Prioridade |
 |---|---|---|---|
@@ -96,6 +141,8 @@ Ordem sugerida: TASK-177 e TASK-179 primeiro (maior valor, menor esforço), TASK
 (precisa de decisão de nomenclatura), TASK-180 por último (baixa prioridade, conteúdo pontual).
 
 ## Critério de Conclusão do Épico
+
+**Fase 1:**
 - [x] Todas as correções de citação identificadas na auditoria aplicadas no banco (`norms`)
 - [x] Página estática `/norms` revisada e coerente com o levantamento (sem normas canceladas, sem
       prazos inventados, com as normas novas relevantes adicionadas)
@@ -103,7 +150,17 @@ Ordem sugerida: TASK-177 e TASK-179 primeiro (maior valor, menor esforço), TASK
 - [ ] Decisão registrada sobre `periodicidadeNormativa` vs. `periodicidadeRecomendada` — **não
       concluído**, fica como trabalho futuro (precisa de decisão de design antes de virar task)
 
+**Fase 2:**
+- [ ] `norm_segments` criada e populada (TASK-181)
+- [ ] `POST /ai/bootstrap/catalog-preview` em produção, sem custo de IA (TASK-182)
+- [ ] Bug de `nextDueAt`/`customPeriod*` divergente corrigido (TASK-183)
+- [ ] IA não repete itens já cobertos pelo catálogo, `apply()` aceita `normId` explícito (TASK-184)
+- [ ] `/ai-onboarding` usa o fluxo em duas camadas (catálogo instantâneo + IA progressiva) (TASK-185)
+
 ## Riscos
 Baixo-Médio — é trabalho de correção de conteúdo/dado, não de infraestrutura crítica. Risco
 principal é volume (muitos pontos de correção pequenos) e a necessidade de não recalcular
-`nextDueAt` de itens já existentes sem intenção (mesmo cuidado já registrado na TASK-088).
+`nextDueAt` de itens já existentes sem intenção (mesmo cuidado já registrado na TASK-088). Na Fase
+2, risco adicional é a superfície de mudança em `AiBootstrapService`/`apply()` — código sensível
+por criar itens de cliente novo — mitigado por convergir pro mesmo caminho já testado do fluxo
+manual de criação de item, em vez de introduzir lógica de cálculo nova.

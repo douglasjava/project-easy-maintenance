@@ -1,5 +1,19 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 20/08/2026 — **EPIC-025 Fase 2 criada**: filtro determinístico de catálogo no
+> onboarding por IA (`/ai-onboarding`), 5 tasks novas (TASK-181 a TASK-185). Motivação: Douglas
+> pediu pra validar se o fluxo de IA que sugere itens no onboarding precisa mesmo de IA pra tudo —
+> resposta: não, boa parte já é filtro determinístico pelo catálogo curado por segmento
+> (`company_type`), sem custo de IA. Brainstorm formal + spec aprovada em
+> `docs/superpowers/specs/2026-08-20-onboarding-catalog-filter-design.md`. Achados: (1) IA hoje gera
+> todo item do zero sem saber o que já existe curado — gasto de token à toa; (2) match de itemType
+> por igualdade exata de string em `apply()` perde cobertura regulatória por divergência de nome;
+> (3) **bug de dado real**: item REGULATORY nasce com `nextDueAt` calculado pelo período que a IA
+> inventou, não pelo período real da norma vinculada — diverge do fluxo manual
+> (`ServiceBase.resolvePeriod()`), afeta a primeira experiência de cliente novo. Nova tabela
+> `norm_segments` (N-pra-N entre `norms` e `company_type`, reaproveitando os mesmos valores de
+> `organizations.company_type`) alimentada pela classificação já feita na Fase 1 do EPIC-025. TASK-183
+> (bugfix) é independente e priorizada primeiro; TASK-181→182→184→185 seguem em sequência.
 > Atualizado em: 19/08/2026 — **EPIC-025: lista consolidada e quebrada em 4 tasks** prontas para
 > implementar (TASK-177 a TASK-180). Antes de escrever as tasks, conferido o estado real das
 > migrations do banco contra um select de produção fornecido por Douglas — corrigiu 2 suposições
@@ -745,7 +759,14 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**EPIC-025 — conteúdo e governança das normas técnicas — ✅ concluído (19/08/2026)**:
+**🔴 Crítico (EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA) — *(20/08/2026)***:
+- **[TASK-183](tasks/TASK-183.md)** — Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY (🔴 Crítico | EPIC-025) — bugfix isolado, sem dependência, priorizar primeiro
+- **[TASK-181](tasks/TASK-181.md)** — Backend: tabela `norm_segments` + filtro por segmento no `NormRepository` (🟠 Alto | EPIC-025)
+- **[TASK-182](tasks/TASK-182.md)** — Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview` (🟠 Alto | EPIC-025) — depende de TASK-181
+- **[TASK-184](tasks/TASK-184.md)** — Backend: IA como complemento — evita duplicata, aceita `normId` explícito (🟡 Médio | EPIC-025) — depende de TASK-182
+- **[TASK-185](tasks/TASK-185.md)** — Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva (🟠 Alto | EPIC-025) — depende de TASK-182 e TASK-184
+
+**EPIC-025 Fase 1 — conteúdo e governança das normas técnicas — ✅ concluída (19/08/2026)**:
 - ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*
 - ~~**[TASK-179](tasks/TASK-179.md)**~~ — ~~Frontend: atualizar página `/norms` com os achados do levantamento~~ *(concluída — PR #44 mergeada em staging)*
 - ~~**[TASK-178](tasks/TASK-178.md)**~~ — ~~Backend: novo item de catálogo para instalação de gás combustível~~ *(concluída — PR #39 mergeada em staging)*
