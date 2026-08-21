@@ -5,8 +5,9 @@
 5 tasks (TASK-181 a TASK-185) estão todas commitadas na branch `feature/ai-onboarding-catalog-filter`
 (mesmo nome nos dois repos, `easy-maintenance-api` e `easy-maintenance-web`, a pedido de Douglas —
 sem PR por task, tudo testado junto no final antes de abrir a(s) PR(s)). Backend: 775 testes, 0
-falhas. Frontend: `npm run build` limpo. Fase 1 (auditoria e correção de conteúdo) está ✅ concluída
-desde 19/08/2026.
+falhas. Frontend: `npm run build` limpo. Plano de teste manual em
+[TASK-QA-MAN-013](../QA/tasks/TASK-QA-MAN-013.md) (9 cenários). Fase 1 (auditoria e correção de
+conteúdo) está ✅ concluída desde 19/08/2026.
 
 ### Fase 1 — Auditoria e correção de conteúdo (concluída 19/08/2026)
 
