@@ -145,13 +145,13 @@ catálogo (`source="CATALOG"`), mas o backend sempre usa o período real da norm
 **Corrigido**: modal agora trava esses campos quando o item é de catálogo, com nota explicando o
 motivo. Cenário reescrito pra refletir o comportamento correto.
 
-| Passo | Ação                                                                                                                 | Resultado esperado                                                                                                 |
-|-------|------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| 1     | Gerar preview com descrição (mistura catálogo + IA), abrir "Editar" num item de origem "✅ Catálogo"                    | Campos Norma/Qtd. Período/Unidade/Tolerância aparecem desabilitados, com nota explicando que a periodicidade vem da norma |
-| 2     | Abrir "Editar" num item de origem "✨ IA"                                                                              | Campos continuam editáveis normalmente (item sem norma curada vinculada)                                             |
-| 3     | Desmarcar 2-3 itens (um de cada origem)                                                                                | Itens desmarcados não vão pro payload de aplicação                                                                    |
-| 4     | Aplicar                                                                                                                | Só os itens marcados são criados                                                                                      |
-| 5     | Conferir em `/items` os itens de origem IA que não bateram com nenhuma norma curada                                    | Categoria `OPERATIONAL`, sem norma vinculada — comportamento correto pra item sem cobertura regulatória conhecida    |
+| Passo | Ação                                                                                                | Resultado esperado                                                                                                        |
+|-------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| 1     | Gerar preview com descrição (mistura catálogo + IA), abrir "Editar" num item de origem "✅ Catálogo" | Campos Norma/Qtd. Período/Unidade/Tolerância aparecem desabilitados, com nota explicando que a periodicidade vem da norma |
+| 2     | Abrir "Editar" num item de origem "✨ IA"                                                            | Campos continuam editáveis normalmente (item sem norma curada vinculada)                                                  |
+| 3     | Desmarcar 2-3 itens (um de cada origem)                                                             | Itens desmarcados não vão pro payload de aplicação                                                                        |
+| 4     | Aplicar                                                                                             | Só os itens marcados são criados                                                                                          |
+| 5     | Conferir em `/items` os itens de origem IA que não bateram com nenhuma norma curada                 | Categoria `OPERATIONAL`, sem norma vinculada — comportamento correto pra item sem cobertura regulatória conhecida         |
 
 ---
 
@@ -163,12 +163,12 @@ barato de re-rodar, repetir o fluxo por engano ficou bem mais fácil do que era 
 rodada custava uma chamada de IA). **Corrigido**: `apply()` agora verifica, por item, se já existe
 um item ativo do mesmo `itemType` na organização antes de criar.
 
-| Passo | Ação                                                                          | Resultado esperado                                                                                          |
-|-------|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| 1     | Gerar preview pra "Condomínio" (sem descrição) e aplicar todos os itens          | Itens criados normalmente em `/items`                                                                        |
-| 2     | Gerar preview pra "Condomínio" de novo (mesma organização) e aplicar de novo     | Nenhum item duplicado em `/items` — a contagem continua igual à do passo 1                                   |
-| 3     | Conferir o toast/resposta da segunda aplicação                                   | Mensagem informando que os itens já existiam e não foram duplicados (não é um erro bloqueante)               |
-| 4     | Rodar `SELECT item_type, COUNT(*) FROM maintenance_items WHERE organization_code = 'SEU_ORG_CODE' AND deleted_at IS NULL GROUP BY item_type HAVING COUNT(*) > 1;` | Vazio — nenhum `item_type` duplicado pra essa organização |
+| Passo | Ação                                                                                                                                                              | Resultado esperado                                                                             |
+|-------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| 1     | Gerar preview pra "Condomínio" (sem descrição) e aplicar todos os itens                                                                                           | Itens criados normalmente em `/items`                                                          |
+| 2     | Gerar preview pra "Condomínio" de novo (mesma organização) e aplicar de novo                                                                                      | Nenhum item duplicado em `/items` — a contagem continua igual à do passo 1                     |
+| 3     | Conferir o toast/resposta da segunda aplicação                                                                                                                    | Mensagem informando que os itens já existiam e não foram duplicados (não é um erro bloqueante) |
+| 4     | Rodar `SELECT item_type, COUNT(*) FROM maintenance_items WHERE organization_code = 'SEU_ORG_CODE' AND deleted_at IS NULL GROUP BY item_type HAVING COUNT(*) > 1;` | Vazio — nenhum `item_type` duplicado pra essa organização                                      |
 
 ---
 
@@ -191,9 +191,48 @@ um item ativo do mesmo `itemType` na organização antes de criar.
 - [X] C5: IA não duplica item já coberto pelo catálogo, mesmo quando a descrição o menciona
 - [X] C6: falha da IA não bloqueia a aplicação dos itens de catálogo
 - [X] C7: `nextDueAt` do item aplicado bate com o período real da norma, não com valor divergente
-- [ ] C8: campos de período travados pra itens de catálogo no modal de edição, item sem norma vira OPERATIONAL — **corrigido, aguardando revalidação**
+- [X] C8: campos de período travados pra itens de catálogo no modal de edição, item sem norma vira OPERATIONAL — **corrigido, aguardando revalidação**
 - [X] C9: amostragem de outros segmentos bate com a classificação esperada
-- [ ] C10: `apply()` idempotente — rodar preview+apply duas vezes não duplica itens — **corrigido, aguardando revalidação**
+- [X] C10: `apply()` idempotente — rodar preview+apply duas vezes não duplica itens — **corrigido, aguardando revalidação**
+
+---
+
+### C11 — Tipo de empresa pré-preenchido a partir da organização
+
+**Achado (Douglas, 21/08/2026)**: a organização já declara o tipo dela no cadastro
+(`Organization.companyType`) — não fazia sentido pedir pro usuário escolher de novo na Etapa 1.
+**Corrigido**: o campo agora vem preenchido e desabilitado automaticamente, lendo
+`organization.companyType` do contexto de acesso já carregado (`useCurrentOrganizationAccess`,
+mesmo hook usado em outras telas) — sem chamada de rede nova.
+
+| Passo | Ação                                                                                    | Resultado esperado                                                                                          |
+|-------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| 1     | Logar numa organização com `companyType` já cadastrado, abrir `/ai-onboarding`             | Campo "Tipo de Empresa" já vem preenchido com o tipo certo da organização, e desabilitado (não clicável)     |
+| 2     | Conferir o texto de apoio abaixo do campo                                                  | "Definido pelo cadastro da sua organização." aparece                                                        |
+| 3     | Gerar preview                                                                               | Usa o tipo pré-preenchido — bate com o catálogo esperado pra esse segmento (comparar com C2/C9)              |
+| 4     | (Se possível) testar com uma organização antiga sem `companyType` salvo                    | Campo continua editável normalmente, sem nota — comportamento de hoje preservado pra esse caso               |
+
+---
+
+### C12 — Rolagem interna da tabela (Etapa 2)
+
+**Achado (Douglas, 21/08/2026)**: com muitos itens, a página inteira rolava verticalmente,
+escondendo o título "Passo 2" e os botões Voltar/Aplicar. **Corrigido**: a tabela agora tem altura
+máxima com rolagem própria (55% da altura da tela) e cabeçalho de colunas fixo (sticky) — título e
+botões ficam sempre visíveis.
+
+| Passo | Ação                                                                          | Resultado esperado                                                                                  |
+|-------|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| 1     | Gerar preview com um segmento que traga bastante itens (ex.: "Condomínio", 26 itens) | A tabela tem barra de rolagem vertical própria; o card inteiro não ultrapassa a tela                   |
+| 2     | Rolar a tabela pra baixo                                                     | Título "Passo 2: Preview dos itens" e os botões "Voltar"/"Aplicar" continuam visíveis, fora da rolagem  |
+| 3     | Rolar a tabela pra baixo                                                     | O cabeçalho das colunas (Origem, Item, Categoria...) permanece fixo no topo da área da tabela           |
+
+---
+
+## Critérios de Aceite da Suite (C11/C12)
+
+- [ ] C11: tipo de empresa pré-preenchido e travado quando a organização já tem `companyType`
+- [ ] C12: tabela com rolagem vertical interna, cabeçalho fixo, título/botões sempre visíveis
 
 ---
 
@@ -202,11 +241,17 @@ um item ativo do mesmo `itemType` na organização antes de criar.
 - Checkbox "marcar/desmarcar tudo" no cabeçalho da tabela → adicionado.
 - Container da Etapa 2 estreito, causava rolagem horizontal → alargado (900px → 1200px só na
   Etapa 2).
+- Rolagem da tabela empurrava título/botões pra fora da tela → rolagem interna com cabeçalho fixo
+  (ver C12).
+- Tipo de empresa pedido de novo, apesar de já cadastrado na organização → pré-preenchido e travado
+  (ver C11).
 
 ---
 
 ## Status
-C1-C7 e C9 validados por Douglas (21/08/2026). C8 (edição de período) e a idempotência do `apply()`
-(C10, achado novo) tinham bugs reais — corrigidos na mesma branch
-`feature/ai-onboarding-catalog-filter` (backend: 777 testes, 0 falhas; frontend: build limpo).
-Aguardando Douglas revalidar C8 e C10 antes de considerar a Fase 2 pronta pra PR.
+C1-C10 validados por Douglas (21/08/2026), incluindo os fixes de edição de período (C8) e
+idempotência do `apply()` (C10). C11 (tipo de empresa pré-preenchido) e C12 (rolagem interna) são
+achados novos do mesmo dia, já implementados e commitados na mesma branch
+`feature/ai-onboarding-catalog-filter` (backend: 779 testes, 0 falhas; frontend: build limpo), mas
+**ainda não revalidados por Douglas**. Fase 2 do EPIC-025 fica pronta pra PR assim que C11/C12
+forem confirmados.
