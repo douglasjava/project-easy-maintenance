@@ -17,7 +17,8 @@ Backend + Frontend / Onboarding por IA
 [TASK-182](../../tasks/TASK-182.md) (`POST /ai/bootstrap/catalog-preview`) ·
 [TASK-183](../../tasks/TASK-183.md) (bugfix `nextDueAt`/`customPeriod*`) ·
 [TASK-184](../../tasks/TASK-184.md) (IA complemento — dedupe + `normId` explícito) ·
-[TASK-185](../../tasks/TASK-185.md) (frontend `/ai-onboarding` em duas camadas)
+[TASK-185](../../tasks/TASK-185.md) (frontend `/ai-onboarding` em duas camadas) ·
+[TASK-186](../../tasks/TASK-186.md) (experiência mobile — cards no lugar da tabela)
 
 Spec completa: `docs/superpowers/specs/2026-08-20-onboarding-catalog-filter-design.md`.
 
@@ -229,10 +230,32 @@ botões ficam sempre visíveis.
 
 ---
 
-## Critérios de Aceite da Suite (C11/C12)
+### C13 — Experiência mobile (TASK-186): cards no lugar da tabela
+
+**Achado (Douglas, 21/08/2026)**: a tabela de 8 colunas é inviável no mobile, mesmo com rolagem
+horizontal contida (C12). **Implementado**: abaixo do breakpoint `md` do Bootstrap (768px), a
+tabela dá lugar a uma lista de cards compactos — mesmo estado/handlers, só a apresentação muda. Não
+pude validar visualmente (tela exige login, sem credenciais de teste disponíveis) — só build e
+revisão de código até aqui.
+
+| Passo | Ação                                                                                   | Resultado esperado                                                                                  |
+|-------|-----------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| 1     | Abrir `/ai-onboarding` em viewport < 768px (DevTools device toolbar ou celular real)    | Lista de cards aparece, tabela não aparece                                                             |
+| 2     | Abrir em viewport ≥ 768px                                                                | Tabela aparece normalmente (sem regressão), cards não aparecem                                         |
+| 3     | No modo card: marcar/desmarcar um item individual                                       | Funciona igual ao modo tabela                                                                          |
+| 4     | No modo card: usar o checkbox "Selecionar todos" acima da lista                         | Marca/desmarca todos os cards                                                                          |
+| 5     | No modo card: tocar em "Editar" num item                                                | Abre o mesmo modal de edição já usado no desktop, com a mesma regra de campos travados pra "✅ Catálogo" |
+| 6     | No modo card: tocar em "Remover"                                                        | Remove o item do preview, igual ao modo tabela                                                         |
+| 7     | Redimensionar a janela passando por 768px (ou girar o celular)                          | Troca entre tabela/cards acontece sem quebrar o estado (seleções continuam corretas)                   |
+| 8     | Abrir o modal de edição num celular estreito (< 400px de largura)                       | Campos "Qtd. Período" e "Unidade" não ficam espremidos lado a lado — empilham verticalmente             |
+
+---
+
+## Critérios de Aceite da Suite (C11/C12/C13)
 
 - [ ] C11: tipo de empresa pré-preenchido e travado quando a organização já tem `companyType`
 - [ ] C12: tabela com rolagem vertical interna, cabeçalho fixo, título/botões sempre visíveis
+- [ ] C13: lista de cards no mobile, tabela no desktop, mesmo comportamento nos dois modos
 
 ---
 
@@ -245,13 +268,15 @@ botões ficam sempre visíveis.
   (ver C12).
 - Tipo de empresa pedido de novo, apesar de já cadastrado na organização → pré-preenchido e travado
   (ver C11).
+- Tabela de 8 colunas inviável no mobile → lista de cards abaixo de 768px (ver C13, TASK-186).
 
 ---
 
 ## Status
 C1-C10 validados por Douglas (21/08/2026), incluindo os fixes de edição de período (C8) e
-idempotência do `apply()` (C10). C11 (tipo de empresa pré-preenchido) e C12 (rolagem interna) são
-achados novos do mesmo dia, já implementados e commitados na mesma branch
-`feature/ai-onboarding-catalog-filter` (backend: 779 testes, 0 falhas; frontend: build limpo), mas
-**ainda não revalidados por Douglas**. Fase 2 do EPIC-025 fica pronta pra PR assim que C11/C12
+idempotência do `apply()` (C10). C11 (tipo de empresa pré-preenchido), C12 (rolagem interna) e C13
+(experiência mobile, TASK-186) são achados/tasks do mesmo dia, já implementados e commitados na
+mesma branch `feature/ai-onboarding-catalog-filter` (backend: 779 testes, 0 falhas; frontend: build
+limpo), mas **ainda não revalidados por Douglas** — C13 em especial não pôde ser conferido
+visualmente por mim (tela exige login). Fase 2 do EPIC-025 fica pronta pra PR assim que C11/C12/C13
 forem confirmados.

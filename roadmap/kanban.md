@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 21/08/2026 — **EPIC-025 Fase 2: QA de Douglas achou 5 pontos** (edição de período
+> travada por engano, `apply()` não idempotente, tipo de empresa não pré-preenchido, rolagem
+> empurrando título/botões pra fora da tela, e tabela inviável no mobile) — todos corrigidos na
+> mesma branch `feature/ai-onboarding-catalog-filter`. O último virou **TASK-186** (nova): lista de
+> cards no lugar da tabela abaixo de 768px, mesmo estado/handlers da tabela. Backend: 779 testes, 0
+> falhas. Frontend: build limpo, mas **TASK-186 não pôde ser validada visualmente** — a tela exige
+> login e não há credenciais de teste disponíveis pra automação. Plano de QA atualizado com C11
+> (tipo de empresa), C12 (rolagem interna) e C13 (mobile) —
+> `roadmap/QA/tasks/TASK-QA-MAN-013.md`, aguardando Douglas revalidar.
 > Atualizado em: 20/08/2026 — **EPIC-025 Fase 2: 5/5 tasks implementadas** (TASK-181 a TASK-185),
 > filtro determinístico de catálogo no onboarding por IA. Tudo na mesma branch
 > `feature/ai-onboarding-catalog-filter` (mesmo nome nos repos `easy-maintenance-api` e
@@ -767,10 +776,11 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 5/5 tasks implementadas, aguardando teste de Douglas — *(20/08/2026)***:
+**EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 6/6 tasks implementadas, aguardando revalidação de Douglas — *(21/08/2026)***:
 *(todas as tasks desta leva implementadas na mesma branch `feature/ai-onboarding-catalog-filter`
 — `easy-maintenance-api`/`easy-maintenance-web` — a pedido de Douglas, sem PR por task; ele testa
 tudo local e em staging junto no final, antes de abrir a(s) PR(s))*
+- ~~**[TASK-186](tasks/TASK-186.md)**~~ — ~~Frontend: experiência mobile — cards no lugar da tabela~~ *(implementada, não validada visualmente por mim — tela exige login)*
 - ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada)*
 - ~~**[TASK-181](tasks/TASK-181.md)**~~ — ~~Backend: tabela `norm_segments` + filtro por segmento no `NormRepository`~~ *(implementada)*
 - ~~**[TASK-182](tasks/TASK-182.md)**~~ — ~~Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview`~~ *(implementada)*

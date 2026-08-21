@@ -63,6 +63,11 @@ já usado no fluxo manual.
 | [TASK-183](../tasks/TASK-183.md) | Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY | BUGFIX | 🔴 Crítico |
 | [TASK-184](../tasks/TASK-184.md) | Backend: IA como complemento — evita duplicata, aceita `normId` explícito | BACKEND | 🟡 Médio |
 | [TASK-185](../tasks/TASK-185.md) | Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva | FRONTEND | 🟠 Alto |
+| [TASK-186](../tasks/TASK-186.md) | Frontend: experiência mobile pra `/ai-onboarding` (cards no lugar da tabela) | FRONTEND | 🟡 Médio |
+
+**TASK-186** (21/08/2026): achado de Douglas depois de aprovar a Fase 2 no desktop — a tabela de 8
+colunas é inviável no mobile mesmo com rolagem horizontal contida (C12). Card list abaixo do
+breakpoint `md` do Bootstrap, mesma lógica de estado, sem duplicar comportamento.
 
 Ordem sugerida: TASK-183 primeiro (bugfix isolado, sem dependência, maior urgência); TASK-181 →
 TASK-182 → TASK-184 → TASK-185 depois, nessa sequência (cada uma depende da anterior). **Ordem
