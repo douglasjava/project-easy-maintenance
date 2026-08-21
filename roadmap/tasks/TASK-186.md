@@ -95,7 +95,9 @@ Baixo-Médio
 
 ## Status
 ✅ Implementada e commitada (21/08/2026) na branch `feature/ai-onboarding-catalog-filter`
-(`easy-maintenance-web`, commit `d38e65d`). `npm run build` limpo. **Não validada visualmente por
-mim** — tentei abrir `/ai-onboarding` no Chrome em viewport mobile pra conferir, mas a tela exige
-login e não tenho credenciais de teste; não devo inserir/adivinhar credenciais. Aguardando Douglas
-testar em navegador real (DevTools device toolbar ou celular).
+(`easy-maintenance-web`, commit `d38e65d`). `npm run build` limpo. PR
+[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) aberta em 21/08/2026 (mesma
+branch reúne toda a Fase 2 do frontend). **Não validada visualmente por mim** — tentei abrir
+`/ai-onboarding` no Chrome em viewport mobile pra conferir, mas a tela exige login e não tenho
+credenciais de teste; não devo inserir/adivinhar credenciais. Aguardando Douglas testar em
+navegador real (DevTools device toolbar ou celular).

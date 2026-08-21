@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 21/08/2026 — **EPIC-025 Fase 2: PRs abertas para staging** — tudo validado
+> localmente por Douglas (C1-C10 do plano de QA), PR [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)
+> (`easy-maintenance-api`) e PR [#46](https://github.com/douglasjava/easy-maintenance-web/pull/46)
+> (`easy-maintenance-web`) abertas contra staging. Backend: 779 testes, 0 falhas. Frontend: build
+> limpo. C11 (tipo de empresa pré-preenchido), C12 (rolagem interna) e C13 (experiência mobile,
+> TASK-186) seguem implementados mas ainda não revalidados por Douglas em staging.
 > Atualizado em: 21/08/2026 — **EPIC-025 Fase 2: QA de Douglas achou 5 pontos** (edição de período
 > travada por engano, `apply()` não idempotente, tipo de empresa não pré-preenchido, rolagem
 > empurrando título/botões pra fora da tela, e tabela inviável no mobile) — todos corrigidos na
@@ -776,16 +782,17 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 6/6 tasks implementadas, aguardando revalidação de Douglas — *(21/08/2026)***:
-*(todas as tasks desta leva implementadas na mesma branch `feature/ai-onboarding-catalog-filter`
-— `easy-maintenance-api`/`easy-maintenance-web` — a pedido de Douglas, sem PR por task; ele testa
-tudo local e em staging junto no final, antes de abrir a(s) PR(s))*
-- ~~**[TASK-186](tasks/TASK-186.md)**~~ — ~~Frontend: experiência mobile — cards no lugar da tabela~~ *(implementada, não validada visualmente por mim — tela exige login)*
-- ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada)*
-- ~~**[TASK-181](tasks/TASK-181.md)**~~ — ~~Backend: tabela `norm_segments` + filtro por segmento no `NormRepository`~~ *(implementada)*
-- ~~**[TASK-182](tasks/TASK-182.md)**~~ — ~~Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview`~~ *(implementada)*
-- ~~**[TASK-184](tasks/TASK-184.md)**~~ — ~~Backend: IA como complemento — evita duplicata, aceita `normId` explícito~~ *(implementada — backend 100% pronto, 775 testes, 0 falhas)*
-- ~~**[TASK-185](tasks/TASK-185.md)**~~ — ~~Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva~~ *(implementada — `npm run build` limpo)*
+**EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 6/6 tasks implementadas, PRs abertas para staging — *(21/08/2026)***:
+*(todas as tasks desta leva na mesma branch `feature/ai-onboarding-catalog-filter` —
+`easy-maintenance-api`/`easy-maintenance-web` — testadas localmente por Douglas antes da abertura
+das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api) e
+[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (web))*
+- ~~**[TASK-186](tasks/TASK-186.md)**~~ — ~~Frontend: experiência mobile — cards no lugar da tabela~~ *(implementada, PR #46 — não validada visualmente por mim, tela exige login)*
+- ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada, PR #40 — QA de Douglas ok)*
+- ~~**[TASK-181](tasks/TASK-181.md)**~~ — ~~Backend: tabela `norm_segments` + filtro por segmento no `NormRepository`~~ *(implementada, PR #40)*
+- ~~**[TASK-182](tasks/TASK-182.md)**~~ — ~~Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview`~~ *(implementada, PR #40)*
+- ~~**[TASK-184](tasks/TASK-184.md)**~~ — ~~Backend: IA como complemento — evita duplicata, aceita `normId` explícito~~ *(implementada, PR #40 — backend 100% pronto, 779 testes, 0 falhas)*
+- ~~**[TASK-185](tasks/TASK-185.md)**~~ — ~~Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva~~ *(implementada, PR #46 — `npm run build` limpo)*
 
 **EPIC-025 Fase 1 — conteúdo e governança das normas técnicas — ✅ concluída (19/08/2026)**:
 - ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*

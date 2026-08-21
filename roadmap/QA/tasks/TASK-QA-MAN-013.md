@@ -273,10 +273,11 @@ revisão de código até aqui.
 ---
 
 ## Status
-C1-C10 validados por Douglas (21/08/2026), incluindo os fixes de edição de período (C8) e
-idempotência do `apply()` (C10). C11 (tipo de empresa pré-preenchido), C12 (rolagem interna) e C13
-(experiência mobile, TASK-186) são achados/tasks do mesmo dia, já implementados e commitados na
-mesma branch `feature/ai-onboarding-catalog-filter` (backend: 779 testes, 0 falhas; frontend: build
-limpo), mas **ainda não revalidados por Douglas** — C13 em especial não pôde ser conferido
-visualmente por mim (tela exige login). Fase 2 do EPIC-025 fica pronta pra PR assim que C11/C12/C13
-forem confirmados.
+C1-C13 validados localmente por Douglas (21/08/2026), incluindo os fixes de edição de período (C8),
+idempotência do `apply()` (C10), tipo de empresa pré-preenchido (C11), rolagem interna (C12) e
+experiência mobile (C13, TASK-186) — confirmado por Douglas ao pedir a abertura das PRs ("tudo
+validado localmente"). Ressalva: eu mesmo nunca consegui validar C13 visualmente (tela exige login,
+sem credenciais de teste disponíveis pra automação) — a validação de C13 é 100% do Douglas, não
+minha. PRs abertas para staging: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)
+(`easy-maintenance-api`) e [#46](https://github.com/douglasjava/easy-maintenance-web/pull/46)
+(`easy-maintenance-web`). Backend: 779 testes, 0 falhas. Frontend: build limpo.

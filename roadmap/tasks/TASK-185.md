@@ -146,5 +146,6 @@ Médio
 
 ## Status
 ✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
-(`easy-maintenance-web`). `npm run build` limpo. Última das 5 tasks da Fase 2 — backend e frontend
-100% prontos, aguardando Douglas testar local e em staging antes de abrir PR.
+(`easy-maintenance-web`). `npm run build` limpo. PR
+[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) aberta em 21/08/2026 (mesma
+branch reúne toda a Fase 2 do frontend, incluindo TASK-186).

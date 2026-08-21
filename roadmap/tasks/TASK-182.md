@@ -112,4 +112,5 @@ Baixo-Médio
 
 ## Status
 ✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
-(`easy-maintenance-api`). 772 testes, 0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2.
+(`easy-maintenance-api`). PR [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)
+aberta em 21/08/2026 (mesma branch reúne toda a Fase 2 do backend).

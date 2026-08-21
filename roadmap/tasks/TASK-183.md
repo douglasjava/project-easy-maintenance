@@ -98,5 +98,5 @@ Baixo
 
 ## Status
 ✅ Implementada e commitada (20/08/2026) na branch `feature/ai-onboarding-catalog-filter`
-(`easy-maintenance-api`) — mesma branch que reúne toda a Fase 2 (TASK-181 a TASK-185), a pedido de
-Douglas, pra testar tudo local e em staging junto antes de abrir PR. Ainda sem PR aberta.
+(`easy-maintenance-api`) — mesma branch que reúne toda a Fase 2 (TASK-181 a TASK-185). PR
+[#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) aberta em 21/08/2026.
