@@ -118,11 +118,11 @@ staging.
 - **IA lenta/indisponível (sem mexer no banco)** — DevTools → aba Network → clique direito na
   requisição `POST /ai/bootstrap/preview` (ou nas de `GET /ai/jobs/*`) → **Block request URL**.
 
-| Passo | Ação                                                                          | Resultado esperado                                                                                                                                                                         |
-|-------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Passo | Ação                                                                                  | Resultado esperado                                                                                                                                                                         |
+|-------|---------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1     | Forçar a falha por uma das duas opções acima, antes de gerar com descrição preenchida | O catálogo (Etapa 2) continua exibido e utilizável normalmente                                                                                                                             |
-| 2     | Aguardar o timeout/erro do job de IA                                           | Aparece um toast de aviso não-bloqueante ("A IA não conseguiu complementar as sugestões, mas os itens do catálogo continuam disponíveis") — a tela **não** trava nem exibe erro bloqueante |
-| 3     | Aplicar os itens do catálogo normalmente                                                                                                                        | Aplicação funciona mesmo com a IA tendo falhado                                                                                                                                            |
+| 2     | Aguardar o timeout/erro do job de IA                                                  | Aparece um toast de aviso não-bloqueante ("A IA não conseguiu complementar as sugestões, mas os itens do catálogo continuam disponíveis") — a tela **não** trava nem exibe erro bloqueante |
+| 3     | Aplicar os itens do catálogo normalmente                                              | Aplicação funciona mesmo com a IA tendo falhado                                                                                                                                            |
 
 ---
 
@@ -139,12 +139,36 @@ staging.
 
 ### C8 — Aplicação mista (catálogo + IA) com edição manual
 
-| Passo | Ação                                                                                                                                 | Resultado esperado                                                                                                |
-|-------|--------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| 1     | Gerar preview com descrição (mistura catálogo + IA), editar a periodicidade de um item de catálogo antes de aplicar (botão "Editar") | Edição salva localmente, refletida na linha                                                                       |
-| 2     | Desmarcar 2-3 itens (um de cada origem)                                                                                              | Itens desmarcados não vão pro payload de aplicação                                                                |
-| 3     | Aplicar                                                                                                                              | Só os itens marcados são criados; o item editado manualmente reflete a edição, não o valor original               |
-| 4     | Conferir em `/items` os itens de origem IA que não bateram com nenhuma norma curada                                                  | Categoria `OPERATIONAL`, sem norma vinculada — comportamento correto pra item sem cobertura regulatória conhecida |
+**Achado (Douglas, 21/08/2026)**: o modal deixava editar periodicidade/norma de itens vindos do
+catálogo (`source="CATALOG"`), mas o backend sempre usa o período real da norma pra esses itens
+(regra da TASK-183) — a edição era salva na tela mas descartada silenciosamente no `apply()`.
+**Corrigido**: modal agora trava esses campos quando o item é de catálogo, com nota explicando o
+motivo. Cenário reescrito pra refletir o comportamento correto.
+
+| Passo | Ação                                                                                                                 | Resultado esperado                                                                                                 |
+|-------|------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| 1     | Gerar preview com descrição (mistura catálogo + IA), abrir "Editar" num item de origem "✅ Catálogo"                    | Campos Norma/Qtd. Período/Unidade/Tolerância aparecem desabilitados, com nota explicando que a periodicidade vem da norma |
+| 2     | Abrir "Editar" num item de origem "✨ IA"                                                                              | Campos continuam editáveis normalmente (item sem norma curada vinculada)                                             |
+| 3     | Desmarcar 2-3 itens (um de cada origem)                                                                                | Itens desmarcados não vão pro payload de aplicação                                                                    |
+| 4     | Aplicar                                                                                                                | Só os itens marcados são criados                                                                                      |
+| 5     | Conferir em `/items` os itens de origem IA que não bateram com nenhuma norma curada                                    | Categoria `OPERATIONAL`, sem norma vinculada — comportamento correto pra item sem cobertura regulatória conhecida    |
+
+---
+
+### C10 — Idempotência: rodar preview + apply duas vezes não duplica
+
+**Achado (Douglas, 21/08/2026)**: gerar preview e aplicar duas vezes seguidas duplicava todos os
+itens (EXTINTOR e os demais apareciam repetidos em `/items`). Como o catálogo agora é instantâneo e
+barato de re-rodar, repetir o fluxo por engano ficou bem mais fácil do que era antes (quando cada
+rodada custava uma chamada de IA). **Corrigido**: `apply()` agora verifica, por item, se já existe
+um item ativo do mesmo `itemType` na organização antes de criar.
+
+| Passo | Ação                                                                          | Resultado esperado                                                                                          |
+|-------|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| 1     | Gerar preview pra "Condomínio" (sem descrição) e aplicar todos os itens          | Itens criados normalmente em `/items`                                                                        |
+| 2     | Gerar preview pra "Condomínio" de novo (mesma organização) e aplicar de novo     | Nenhum item duplicado em `/items` — a contagem continua igual à do passo 1                                   |
+| 3     | Conferir o toast/resposta da segunda aplicação                                   | Mensagem informando que os itens já existiam e não foram duplicados (não é um erro bloqueante)               |
+| 4     | Rodar `SELECT item_type, COUNT(*) FROM maintenance_items WHERE organization_code = 'SEU_ORG_CODE' AND deleted_at IS NULL GROUP BY item_type HAVING COUNT(*) > 1;` | Vazio — nenhum `item_type` duplicado pra essa organização |
 
 ---
 
@@ -162,16 +186,27 @@ staging.
 
 - [X] C1: `norm_segments` com contagem correta por segmento, nenhum item de `norms` órfão
 - [X] C2: catálogo abre instantâneo, sem chamada de IA, badges corretos
-- [ ] C3: segmento OUTROS não quebra — vazio sem descrição, só IA com descrição
+- [X] C3: segmento OUTROS não quebra — vazio sem descrição, só IA com descrição
 - [X] C4: IA complementa corretamente, sem substituir os itens de catálogo já exibidos
 - [X] C5: IA não duplica item já coberto pelo catálogo, mesmo quando a descrição o menciona
-- [ ] C6: falha da IA não bloqueia a aplicação dos itens de catálogo
-- [ ] C7: `nextDueAt` do item aplicado bate com o período real da norma, não com valor divergente
-- [ ] C8: aplicação mista + edição manual funcionam corretamente, item sem norma vira OPERATIONAL
-- [ ] C9: amostragem de outros segmentos bate com a classificação esperada
+- [X] C6: falha da IA não bloqueia a aplicação dos itens de catálogo
+- [X] C7: `nextDueAt` do item aplicado bate com o período real da norma, não com valor divergente
+- [ ] C8: campos de período travados pra itens de catálogo no modal de edição, item sem norma vira OPERATIONAL — **corrigido, aguardando revalidação**
+- [X] C9: amostragem de outros segmentos bate com a classificação esperada
+- [ ] C10: `apply()` idempotente — rodar preview+apply duas vezes não duplica itens — **corrigido, aguardando revalidação**
+
+---
+
+## Achados de layout (Douglas, 21/08/2026) — corrigidos
+
+- Checkbox "marcar/desmarcar tudo" no cabeçalho da tabela → adicionado.
+- Container da Etapa 2 estreito, causava rolagem horizontal → alargado (900px → 1200px só na
+  Etapa 2).
 
 ---
 
 ## Status
-Pendente de validação por Douglas — local primeiro, depois em staging. Sem PR aberta até a
-aprovação.
+C1-C7 e C9 validados por Douglas (21/08/2026). C8 (edição de período) e a idempotência do `apply()`
+(C10, achado novo) tinham bugs reais — corrigidos na mesma branch
+`feature/ai-onboarding-catalog-filter` (backend: 777 testes, 0 falhas; frontend: build limpo).
+Aguardando Douglas revalidar C8 e C10 antes de considerar a Fase 2 pronta pra PR.
