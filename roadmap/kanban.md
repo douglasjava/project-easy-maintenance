@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 21/08/2026 — **EPIC-025: PRs de staging para main abertas** — PR
+> [#41](https://github.com/douglasjava/easy-maintenance-api/pull/41) (`easy-maintenance-api`) e PR
+> [#47](https://github.com/douglasjava/easy-maintenance-web/pull/47) (`easy-maintenance-web`),
+> ambas `staging` → `main`, levam Fase 1 (TASK-177 a TASK-180) e Fase 2 (TASK-181 a TASK-186) do
+> EPIC-025 pra produção. PRs [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)/
+> [#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (`feature/...` → `staging`) já
+> estavam mergeadas quando Douglas pediu pra abrir estas.
 > Atualizado em: 21/08/2026 — **EPIC-025 Fase 2: PRs abertas para staging** — tudo validado
 > localmente por Douglas (C1-C10 do plano de QA), PR [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)
 > (`easy-maintenance-api`) e PR [#46](https://github.com/douglasjava/easy-maintenance-web/pull/46)

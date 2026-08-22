@@ -1,16 +1,16 @@
 # EPIC-025 — Conteúdo e Governança das Normas Técnicas (ABNT/NR/RDC)
 
 ## Status
-🟡 **Fase 2 validada localmente por Douglas, PRs abertas para staging** (21/08/2026) — as 6 tasks
-(TASK-181 a TASK-186) estão commitadas na branch `feature/ai-onboarding-catalog-filter` (mesmo nome
-nos dois repos, `easy-maintenance-api` e `easy-maintenance-web`). PR
-[#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api) e PR
-[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (web) abertas em 21/08/2026.
+🟡 **Fase 2 mergeada em staging, PRs abertas de staging para main** (21/08/2026) — as 6 tasks
+(TASK-181 a TASK-186), mais Fase 1 (TASK-177/178/179/180), estão mergeadas em `staging` nos dois
+repos. PR [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api) e PR
+[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (web) — `feature/...` → `staging`
+— já mergeadas. PR [#41](https://github.com/douglasjava/easy-maintenance-api/pull/41) (api) e PR
+[#47](https://github.com/douglasjava/easy-maintenance-web/pull/47) (web) — `staging` → `main` —
+abertas em 21/08/2026, aguardando aprovação/merge pra produção.
 Backend: 779 testes, 0 falhas. Frontend: `npm run build` limpo. Plano de teste manual em
-[TASK-QA-MAN-013](../QA/tasks/TASK-QA-MAN-013.md) (13 cenários) — C1-C10 validados por Douglas;
-C11-C13 (companyType prefill, rolagem interna, experiência mobile/TASK-186) implementados, ainda
-não revalidados por Douglas em staging. Fase 1 (auditoria e correção de conteúdo) está ✅ concluída
-desde 19/08/2026.
+[TASK-QA-MAN-013](../QA/tasks/TASK-QA-MAN-013.md) (13 cenários) — C1-C13 validados localmente por
+Douglas. Fase 1 (auditoria e correção de conteúdo) está ✅ concluída desde 19/08/2026.
 
 ### Fase 1 — Auditoria e correção de conteúdo (concluída 19/08/2026)
 
