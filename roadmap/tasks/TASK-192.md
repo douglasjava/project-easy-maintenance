@@ -191,18 +191,26 @@ virar suposição errada no futuro se a janela pedida for pequena.
 
 ## Critérios de Aceite
 
-- [ ] `revenueGrossCents` reflete `Payment.amountCents`, `revenueNetCents` reflete
+- [x] `revenueGrossCents` reflete `Payment.amountCents`, `revenueNetCents` reflete
       `Payment.netAmountCents`, ambos só de pagamentos `RECEIVED` no mês
-- [ ] `gatewayFeeCents` = bruto - líquido
-- [ ] Comissão de afiliado criada a partir desta mudança usa `netAmount` (não `planPrice`) como base
+- [x] `gatewayFeeCents` = bruto - líquido
+- [x] Comissão de afiliado criada a partir desta mudança usa `netAmount` (não `planPrice`) como base
       de `commissionAmount`; `planPrice` no registro continua sendo o preço cheio do plano
-- [ ] `manualCommissionCents` soma corretamente as regras ativas no mês, calculadas sobre o líquido
+- [x] `manualCommissionCents` soma corretamente as regras ativas no mês, calculadas sobre o líquido
       do próprio mês, respeitando `effectiveFrom`/`effectiveTo`
-- [ ] `expenseCents` soma despesas pela `expenseDate` dentro do mês
-- [ ] `monthlyBalanceCents` = líquido - comissão de afiliado - comissão manual - despesas
-- [ ] `cumulativeBalanceCents` é a soma corrida de `monthlyBalanceCents` desde o mês mais antigo da
+- [x] `expenseCents` soma despesas pela `expenseDate` dentro do mês
+- [x] `monthlyBalanceCents` = líquido - comissão de afiliado - comissão manual - despesas
+- [x] `cumulativeBalanceCents` é a soma corrida de `monthlyBalanceCents` desde o mês mais antigo da
       janela pedida
-- [ ] `mvn test` sem regressão
+- [x] `mvn test` sem regressão
+
+**Notas de implementação**:
+- `PaymentRepository.findMinPaidAtByStatus` (item 1 do escopo original) não foi adicionado — ficaria
+  sem nenhum chamador, já que a decisão final foi aceitar a limitação do saldo acumulado começar no
+  início da janela pedida, não no primeiro pagamento histórico. Método morto não entrou no código.
+- `GET /private/admin/financials` foi migrado de `AdminBillingController` (`/private/admin/billing/financials`)
+  para o `AdminFinancialsController` criado na TASK-191 — consolida o módulo sob um prefixo só,
+  conforme a spec ("Financeiro deixou de ser parte de Faturamento").
 
 ## Dependências
 **TASK-190** — precisa de `Expense`, `ManualCommissionRule` e seus repositórios.
@@ -217,4 +225,6 @@ gerado a partir do deploy.
 Alto
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/financial-module-v2`
+(`easy-maintenance-api`, commit `fda0e3a`) — mesma branch reúne toda a Fase 2. Suíte completa: 106
+classes de teste, 0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2.

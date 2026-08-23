@@ -1,11 +1,11 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-🟡 **Fase 2 em andamento** (23/08/2026) — TASK-190 e TASK-191 implementadas (schema + CRUD de
-despesas/comissão manual), na branch `feature/financial-module-v2` (`easy-maintenance-api`).
-Próxima: TASK-192 (recálculo de `FinancialsService` — bruto/líquido, saldo do mês/acumulado,
-comissão de afiliado sobre o líquido). Spec aprovada em
-`docs/superpowers/specs/2026-08-23-financial-module-design.md`. Fase 1
+🟡 **Fase 2 em andamento — backend completo** (23/08/2026) — TASK-190/191/192 implementadas
+(schema, CRUD de despesas/comissão manual, e o recálculo de `FinancialsService`: bruto/líquido,
+saldo do mês/acumulado, comissão de afiliado sobre o líquido), na branch `feature/financial-module-v2`
+(`easy-maintenance-api`). Próximas: TASK-193/194 (frontend — página própria + seções de cadastro).
+Spec aprovada em `docs/superpowers/specs/2026-08-23-financial-module-design.md`. Fase 1
 (grid + gráfico + custo de infra por taxa recorrente) segue como abaixo — **QA manual aprovado por
 Douglas (11/08/2026)** — as 4 tasks (TASK-159 a 162) implementadas e validadas de ponta a ponta,
 incluindo o ajuste de rótulo pra categoria "Outros" adicionado após o teste manual. **As PRs para
