@@ -105,12 +105,17 @@ bem maior que a variação mensal das barras.
 
 ## Critérios de Aceite
 
-- [ ] `/private/admin/billing` não mostra mais a aba "Financeiro"
-- [ ] Menu lateral mostra "Financeiro" como item próprio, entre "Faturamento" e "Afiliados"
-- [ ] `/private/admin/financials` carrega os 7 cards corretamente a partir do endpoint novo
-- [ ] Gráfico mostra barras (Líquido/Despesas/Comissões) + linha de saldo acumulado
-- [ ] `financeiro/page.tsx` e `ExpenseRatesSection.tsx` antigos removidos, nenhum import quebrado
-- [ ] `npm run build` limpo
+- [x] `/private/admin/billing` não mostra mais a aba "Financeiro"
+- [x] Menu lateral mostra "Financeiro" como item próprio, entre "Faturamento" e "Afiliados"
+- [x] `/private/admin/financials` carrega os 7 cards corretamente a partir do endpoint novo
+- [x] Gráfico mostra barras (Líquido/Despesas/Comissões) + linha de saldo acumulado
+- [x] `financeiro/page.tsx` e `ExpenseRatesSection.tsx` antigos removidos, nenhum import quebrado
+- [x] `npm run build` limpo
+
+**Nota**: os 2 primeiros itens (aba sumir/item no menu) e a leitura correta dos 7 cards a partir de
+dado real dependem de navegar na tela de verdade — não pude validar visualmente (mesma limitação já
+registrada em tasks anteriores: tela exige login, sem credenciais de teste). Build limpo e revisão
+de código confirmam a implementação; aguardando Douglas testar em navegador real.
 
 ## Dependências
 **TASK-192** — precisa do `GET /private/admin/financials` com os campos novos.
@@ -123,4 +128,7 @@ tocar em fluxo de cliente final.
 Médio
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/financial-module-v2`
+(`easy-maintenance-web`, commit `f178315`). `npm run build` limpo. **Não validada visualmente por
+mim** — mesma limitação já registrada em tasks anteriores (tela exige login, sem credenciais de
+teste). Ainda sem PR — mesma branch reúne toda a Fase 2.

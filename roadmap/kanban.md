@@ -822,13 +822,13 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**EPIC-020 Fase 2 — módulo financeiro (página própria, bruto/líquido, despesas, comissão manual) — 3/5 tasks implementadas (backend completo) — *(23/08/2026)***:
-*(na branch `feature/financial-module-v2`, `easy-maintenance-api`, sem PR por task — mesma
-convenção das leves anteriores)*
+**EPIC-020 Fase 2 — módulo financeiro (página própria, bruto/líquido, despesas, comissão manual) — 4/5 tasks implementadas — *(23/08/2026)***:
+*(na branch `feature/financial-module-v2`, `easy-maintenance-api` + `easy-maintenance-web`, sem PR
+por task — mesma convenção das leves anteriores)*
 - ~~**[TASK-190](tasks/TASK-190.md)**~~ — ~~Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules`~~ *(implementada)*
 - ~~**[TASK-191](tasks/TASK-191.md)**~~ — ~~Backend: CRUD de despesas e regras de comissão manual~~ *(implementada — 787 testes, 0 falhas)*
 - ~~**[TASK-192](tasks/TASK-192.md)**~~ — ~~Backend: reescreve `FinancialsService` (bruto/líquido, saldo do mês/acumulado) + comissão de afiliado sobre o líquido~~ *(implementada — suíte completa, 0 falhas)*
-- [TASK-193](tasks/TASK-193.md) — Frontend: página própria `/private/admin/financials` | 🟠 Alto
+- ~~**[TASK-193](tasks/TASK-193.md)**~~ — ~~Frontend: página própria `/private/admin/financials`~~ *(implementada — `npm run build` limpo, não validada visualmente por mim)*
 - [TASK-194](tasks/TASK-194.md) — Frontend: seções de cadastro de despesas e regras de comissão manual | 🟠 Alto
 
 **EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, PR aberta para staging — *(23/08/2026)***:
