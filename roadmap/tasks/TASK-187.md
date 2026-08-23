@@ -103,12 +103,20 @@ não duplica a checagem.
 
 ## Critérios de Aceite
 
-- [ ] `landing_leads` tem as colunas `phone` (nullable) e `origin_type` (not null, default
+- [x] `landing_leads` tem as colunas `phone` (nullable) e `origin_type` (not null, default
       `WEBSITE_FORM`)
-- [ ] Backfill: leads existentes sem e-mail ficam `WHATSAPP_CLICK`, os com e-mail ficam
+- [x] Backfill: leads existentes sem e-mail ficam `WHATSAPP_CLICK`, os com e-mail ficam
       `WEBSITE_FORM`
-- [ ] `LeadService.createLead()` grava `originType` corretamente nos dois cenários (com/sem e-mail)
-- [ ] `mvn test` sem regressão
+- [x] `LeadService.createLead()` grava `originType` corretamente nos dois cenários (com/sem e-mail)
+- [x] `mvn test` sem regressão
+
+**Nota de implementação**: o teste de migration/backfill descrito no escopo (item 5, `@DataJpaTest`
+validando o `UPDATE` da V92 num banco real) não foi escrito — nenhum teste deste projeto ativa o
+Flyway de verdade (todo `@DataJpaTest` usa `ddl-auto=create-drop`, schema gerado pela entidade, sem
+rodar migrations), então não haveria como exercitar o `UPDATE` da migration sem introduzir um padrão
+de teste novo só pra isso. A lógica equivalente (que origem cada cenário de `createLead()` grava) já
+está coberta pelos 2 testes de `LeadServiceTest`. Validação do backfill em si fica pra QA manual
+direto no banco, como já indicado em "QA obrigatório" acima.
 
 ## Dependências
 Nenhuma técnica. Precede TASK-188 (usa os campos/enums novos).
@@ -121,4 +129,7 @@ existente (`CreateLeadRequest`/`LeadResponse` não mudam nesta task).
 Baixo
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/leads-manual-registration`
+(`easy-maintenance-api`, commit `f7a21e7`) — mesma branch reúne toda a Fase 2 (TASK-187 a
+TASK-189), a pedido de Douglas. Testes do módulo `leads`: 31 passando, 0 falhas. Ainda sem PR —
+aguardando Douglas testar local e em staging.

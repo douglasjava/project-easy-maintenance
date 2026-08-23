@@ -152,12 +152,12 @@ Mesmo `@RequestMapping`/autenticação já existente de `/private/admin/leads`.
 
 ## Critérios de Aceite
 
-- [ ] `POST /admin/leads` cria lead com `originType = MANUAL`, `status = NEW`
-- [ ] `PUT /admin/leads/{id}` atualiza nome/e-mail/telefone/fonte sem alterar `originType`/`status`
-- [ ] Ambos rejeitam (400) quando não há nome, ou quando não há nem e-mail nem telefone
-- [ ] Telefone inválido retorna 400 com mensagem clara, telefone válido é normalizado pra E.164
-- [ ] Id inexistente em `PUT` retorna 404
-- [ ] `mvn test` sem regressão
+- [x] `POST /admin/leads` cria lead com `originType = MANUAL`, `status = NEW`
+- [x] `PUT /admin/leads/{id}` atualiza nome/e-mail/telefone/fonte sem alterar `originType`/`status`
+- [x] Ambos rejeitam (400) quando não há nome, ou quando não há nem e-mail nem telefone
+- [x] Telefone inválido retorna 400 com mensagem clara, telefone válido é normalizado pra E.164
+- [x] Id inexistente em `PUT` retorna 404
+- [x] `mvn test` sem regressão
 
 ## Dependências
 **TASK-187** — precisa de `phone`, `origin_type`, `LeadOriginType`, `ManualLeadSource`.
@@ -170,4 +170,7 @@ Baixo — CRUD aditivo sobre uma tabela já existente, endpoints novos não toca
 Médio
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/leads-manual-registration`
+(`easy-maintenance-api`, commit `1577bf5`). 8 testes novos em `LeadAdminServiceTest` (11 no total),
+0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2, aguardando Douglas testar local e em
+staging.

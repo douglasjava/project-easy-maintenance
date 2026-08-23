@@ -111,7 +111,13 @@ type LeadFormModalProps = {
       texto livre nos demais casos
 - [ ] Coluna Telefone exibe o número mascarado ou "-"
 - [ ] Coluna Canal reflete `originType` real, não mais inferência por e-mail
-- [ ] `npm run build` limpo
+- [x] `npm run build` limpo
+
+**Nota**: os 7 itens acima (exceto build) dependem de clicar de verdade na tela — não pude validar
+visualmente, mesma limitação já registrada em tasks anteriores (tela exige login, sem credenciais
+de teste disponíveis pra automação). Implementação segue a spec e o código dos endpoints da
+TASK-188 (que esses fluxos consomem) já está com teste automatizado cobrindo o contrato. Aguardando
+Douglas testar em navegador real.
 
 ## Dependências
 **TASK-188** — precisa de `POST /admin/leads` e `PUT /admin/leads/{id}` existirem.
@@ -124,4 +130,8 @@ relatórios de top fontes/referrers já implementados.
 Médio
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/leads-manual-registration`
+(`easy-maintenance-web`, commit `5e5e7c6`). `npm run build` limpo. **Não validada visualmente por
+mim** — mesma limitação já registrada em TASK-186 (tela exige login, sem credenciais de teste).
+Última das 3 tasks da Fase 2 — backend e frontend prontos, aguardando Douglas testar local e em
+staging antes de abrir PR.
