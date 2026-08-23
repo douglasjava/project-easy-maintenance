@@ -97,7 +97,13 @@ mesmo `StatusBadge` já usado em outras telas admin), Ações (Encerrar, só vis
 - [ ] "Encerrar" muda o status pra "Encerrada" sem remover a linha da tabela
 - [ ] Cadastrar despesa ou regra e voltar pra tela reflete nos cards/gráfico (TASK-193) depois de
       recarregar
-- [ ] `npm run build` limpo
+- [x] `npm run build` limpo
+
+**Nota**: os 5 itens acima (exceto build) dependem de clicar de verdade na tela — não pude validar
+visualmente, mesma limitação já registrada em tasks anteriores (tela exige login, sem credenciais
+de teste). Implementação segue a spec e consome os endpoints da TASK-191, já com teste automatizado
+cobrindo o contrato. Aguardando Douglas testar em navegador real — isso fecha a QA de toda a
+Fase 2 (TASK-190 a TASK-194) numa passada só, já que tudo está na mesma branch.
 
 ## Dependências
 **TASK-191** (endpoints) e **TASK-193** (página onde as seções entram).
@@ -110,4 +116,8 @@ Leads (EPIC-021 Fase 2) e Afiliados.
 Médio
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/financial-module-v2`
+(`easy-maintenance-web`, commit `6d0c54a`). `npm run build` limpo. **Não validada visualmente por
+mim** — mesma limitação já registrada em tasks anteriores (tela exige login, sem credenciais de
+teste). Última das 5 tasks da Fase 2 — backend e frontend 100% prontos, aguardando Douglas testar
+local e em staging antes de abrir PR.
