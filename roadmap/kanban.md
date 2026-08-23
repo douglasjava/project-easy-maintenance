@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 23/08/2026 — **EPIC-021 Fase 2: PR aberta para staging** — tudo validado
+> localmente por Douglas, PR [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42)
+> (`easy-maintenance-api`) e PR [#48](https://github.com/douglasjava/easy-maintenance-web/pull/48)
+> (`easy-maintenance-web`) abertas contra `staging`.
 > Atualizado em: 23/08/2026 — **EPIC-021 Fase 2: 3/3 tasks implementadas** (TASK-187 a TASK-189),
 > registro manual de lead + edição completa (telefone incluso). Tudo na mesma branch
 > `feature/leads-manual-registration` (mesmo nome nos repos `easy-maintenance-api` e
@@ -809,13 +813,14 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, aguardando teste local de Douglas — *(23/08/2026)***:
+**EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, PR aberta para staging — *(23/08/2026)***:
 *(todas as tasks desta leva na mesma branch `feature/leads-manual-registration` —
-`easy-maintenance-api`/`easy-maintenance-web` — sem PR por task; Douglas testa tudo local e em
-staging junto no final, antes de abrir a(s) PR(s))*
-- ~~**[TASK-187](tasks/TASK-187.md)**~~ — ~~Backend: `phone` + `origin_type` em `landing_leads`~~ *(implementada)*
-- ~~**[TASK-188](tasks/TASK-188.md)**~~ — ~~Backend: criação manual + edição completa de lead~~ *(implementada — 11 testes em `LeadAdminServiceTest`, 0 falhas)*
-- ~~**[TASK-189](tasks/TASK-189.md)**~~ — ~~Frontend: modal de criar/editar + colunas Telefone/Canal~~ *(implementada — `npm run build` limpo, não validada visualmente por mim)*
+`easy-maintenance-api`/`easy-maintenance-web` — testadas localmente por Douglas antes da abertura
+das PRs: [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42) (api) e
+[#48](https://github.com/douglasjava/easy-maintenance-web/pull/48) (web))*
+- ~~**[TASK-187](tasks/TASK-187.md)**~~ — ~~Backend: `phone` + `origin_type` em `landing_leads`~~ *(implementada, PR #42)*
+- ~~**[TASK-188](tasks/TASK-188.md)**~~ — ~~Backend: criação manual + edição completa de lead~~ *(implementada, PR #42 — 11 testes em `LeadAdminServiceTest`, 0 falhas)*
+- ~~**[TASK-189](tasks/TASK-189.md)**~~ — ~~Frontend: modal de criar/editar + colunas Telefone/Canal~~ *(implementada, PR #48 — `npm run build` limpo, validada localmente por Douglas)*
 
 **EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 6/6 tasks implementadas, PRs abertas para staging — *(21/08/2026)***:
 *(todas as tasks desta leva na mesma branch `feature/ai-onboarding-catalog-filter` —

@@ -1,14 +1,16 @@
 # EPIC-021 — Painel de Leads (visão agregada + mini-CRM de status)
 
 ## Status
-🟡 **Fase 2 implementada, aguardando teste local/staging de Douglas antes do PR** (23/08/2026) — as
-3 tasks (TASK-187 a TASK-189) estão commitadas na branch `feature/leads-manual-registration`
-(mesmo nome nos dois repos, `easy-maintenance-api` e `easy-maintenance-web`, sem PR por task —
-Douglas testa tudo local e em staging junto, antes de abrir a(s) PR(s)). Backend: 31 testes no
-módulo `leads`, 0 falhas. Frontend: `npm run build` limpo — UI não validada visualmente por mim
-(tela exige login, sem credenciais de teste). Spec aprovada em
-`docs/superpowers/specs/2026-08-23-leads-screen-improvements-design.md`. Fase 1 (visão agregada +
-mini-CRM de status) segue **Em Validação** — todas as 5 tasks implementadas (TASK-163 a TASK-167).
+🟡 **Fase 2 validada localmente por Douglas, PR aberta para staging** (23/08/2026) — as 3 tasks
+(TASK-187 a TASK-189) estão commitadas na branch `feature/leads-manual-registration` (mesmo nome
+nos dois repos, `easy-maintenance-api` e `easy-maintenance-web`). PR
+[#42](https://github.com/douglasjava/easy-maintenance-api/pull/42) (api) e PR
+[#48](https://github.com/douglasjava/easy-maintenance-web/pull/48) (web) abertas em 23/08/2026.
+Backend: 31 testes no módulo `leads`, 0 falhas. Frontend: `npm run build` limpo — UI não validada
+visualmente por mim (tela exige login, sem credenciais de teste), validação foi 100% do Douglas.
+Spec aprovada em `docs/superpowers/specs/2026-08-23-leads-screen-improvements-design.md`. Fase 1
+(visão agregada + mini-CRM de status) segue **Em Validação** — todas as 5 tasks implementadas
+(TASK-163 a TASK-167).
 PRs abertas pra `staging`: [backend #32](https://github.com/douglasjava/easy-maintenance-api/pull/32),
 [frontend #35](https://github.com/douglasjava/easy-maintenance-web/pull/35). QA manual com dado
 real pendente por Douglas (mesmo bloqueio de secrets locais registrado nas TASK-166/167).

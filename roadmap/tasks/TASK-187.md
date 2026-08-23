@@ -131,5 +131,6 @@ Baixo
 ## Status
 ✅ Implementada e commitada (23/08/2026) na branch `feature/leads-manual-registration`
 (`easy-maintenance-api`, commit `f7a21e7`) — mesma branch reúne toda a Fase 2 (TASK-187 a
-TASK-189), a pedido de Douglas. Testes do módulo `leads`: 31 passando, 0 falhas. Ainda sem PR —
-aguardando Douglas testar local e em staging.
+TASK-189). Testes do módulo `leads`: 31 passando, 0 falhas. PR
+[#42](https://github.com/douglasjava/easy-maintenance-api/pull/42) aberta em 23/08/2026, validada
+localmente por Douglas.

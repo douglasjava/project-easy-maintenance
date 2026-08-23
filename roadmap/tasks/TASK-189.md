@@ -132,6 +132,6 @@ Médio
 ## Status
 ✅ Implementada e commitada (23/08/2026) na branch `feature/leads-manual-registration`
 (`easy-maintenance-web`, commit `5e5e7c6`). `npm run build` limpo. **Não validada visualmente por
-mim** — mesma limitação já registrada em TASK-186 (tela exige login, sem credenciais de teste).
-Última das 3 tasks da Fase 2 — backend e frontend prontos, aguardando Douglas testar local e em
-staging antes de abrir PR.
+mim** — mesma limitação já registrada em TASK-186 (tela exige login, sem credenciais de teste); a
+validação foi 100% do Douglas. PR [#48](https://github.com/douglasjava/easy-maintenance-web/pull/48)
+aberta em 23/08/2026.

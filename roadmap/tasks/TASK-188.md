@@ -172,5 +172,5 @@ Médio
 ## Status
 ✅ Implementada e commitada (23/08/2026) na branch `feature/leads-manual-registration`
 (`easy-maintenance-api`, commit `1577bf5`). 8 testes novos em `LeadAdminServiceTest` (11 no total),
-0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2, aguardando Douglas testar local e em
-staging.
+0 falhas. PR [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42) aberta em
+23/08/2026 (mesma branch reúne toda a Fase 2), validada localmente por Douglas.
