@@ -1,12 +1,50 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-QA manual aprovado por Douglas (11/08/2026) — as 4 tasks (TASK-159 a 162) implementadas e
-validadas de ponta a ponta, incluindo o ajuste de rótulo pra categoria "Outros" adicionado após o
-teste manual. **As PRs para `staging` ainda estão abertas, não mergeadas**
+🔵 **Fase 2 criada** (23/08/2026) — página própria, bruto/líquido, despesa em lançamento avulso,
+comissão manual e de afiliado sobre o líquido, saldo do mês/acumulado. 5 tasks novas (TASK-190 a
+TASK-194), spec aprovada em `docs/superpowers/specs/2026-08-23-financial-module-design.md`. Fase 1
+(grid + gráfico + custo de infra por taxa recorrente) segue como abaixo — **QA manual aprovado por
+Douglas (11/08/2026)** — as 4 tasks (TASK-159 a 162) implementadas e validadas de ponta a ponta,
+incluindo o ajuste de rótulo pra categoria "Outros" adicionado após o teste manual. **As PRs para
+`staging` ainda estão abertas, não mergeadas**
 ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
 [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)) — o teste
 foi feito fora de `staging` (branch local/preview, não confirmado exatamente onde).
+
+### Fase 2 — Página própria, bruto/líquido, despesas avulsas, comissão manual (criada 23/08/2026)
+
+Douglas quer migrar o controle financeiro da empresa de uma planilha externa pra dentro do sistema
+— "aqui está a verdade": os dados reais de pagamento (Asaas) e comissão já vivem no banco. Pedido
+explícito de brainstorm "mais completo" por ser um redesenho maior da Fase 1. Spec aprovada:
+`docs/superpowers/specs/2026-08-23-financial-module-design.md`.
+
+**Achados que motivaram esta fase:**
+1. A tela hoje é uma aba dentro de Faturamento — devia ser página própria de primeiro nível.
+2. `FinancialsService` soma `Payment.amountCents` (**bruto**) como receita — mas `Payment` já tem
+   `netAmountCents` pronto do Asaas. É uma correção de cálculo, não só uma feature nova.
+3. `ReferralCommission` (comissão de afiliado) é calculada sobre o preço do plano, não sobre o
+   líquido recebido — decisão de Douglas: passa a ser sobre o líquido, só pra comissões novas.
+4. `OperatingExpenseRate` modela despesa como taxa mensal recorrente por categoria — Douglas quer
+   lançamento avulso (um registro por despesa), como numa planilha. Tabela antiga é **derrubada sem
+   migrar histórico** (decisão explícita).
+5. Não existe "comissão manual" — vira uma regra recorrente (nome + % + vigência), calculada
+   automaticamente sobre o líquido do período, igual à comissão de afiliado.
+6. Não existe "saldo acumulado" (soma corrida entre meses) — só valores isolados por mês.
+
+**Tasks da Fase 2:**
+
+| ID | Título | Tipo | Prioridade |
+|---|---|---|---|
+| [TASK-190](../tasks/TASK-190.md) | Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules` | BACKEND | 🟠 Alto |
+| [TASK-191](../tasks/TASK-191.md) | Backend: CRUD de despesas e regras de comissão manual | BACKEND | 🟠 Alto |
+| [TASK-192](../tasks/TASK-192.md) | Backend: reescreve `FinancialsService` (bruto/líquido, saldo do mês/acumulado) + comissão de afiliado sobre o líquido | BUGFIX/BACKEND | 🔴 Crítico |
+| [TASK-193](../tasks/TASK-193.md) | Frontend: página própria `/private/admin/financials` | FRONTEND | 🟠 Alto |
+| [TASK-194](../tasks/TASK-194.md) | Frontend: seções de cadastro de despesas e regras de comissão manual | FRONTEND | 🟠 Alto |
+
+Ordem: TASK-190 primeiro (schema, sem dependência) → TASK-191 e TASK-192 podem andar em paralelo
+(ambas só dependem da TASK-190) → TASK-193 (depende do endpoint agregado da TASK-192) → TASK-194
+(depende dos endpoints de CRUD da TASK-191 e da página já existir, TASK-193).
 
 ## Objetivo
 Dar visibilidade real de receita recebida vs. custo do negócio (infraestrutura + comissão de
@@ -54,7 +92,7 @@ que o afiliado foi efetivamente pago, pra ficar coerente com a receita do mesmo 
 
 ---
 
-## Tasks
+## Tasks — Fase 1
 
 | ID | Título | Tipo | Prioridade |
 |---|---|---|---|
@@ -71,6 +109,7 @@ na mesma página já criada na TASK-161).
 
 ## Critério de Conclusão do Épico
 
+**Fase 1:**
 - [x] `/private/admin/billing/financeiro` acessível só pelo admin, mesma autenticação já existente
 - [x] Grid mostra Recebido/Gasto/Total do mês atual, calculado a partir de pagamento confirmado
       (não MRR de assinatura ativa)
@@ -81,14 +120,33 @@ na mesma página já criada na TASK-161).
 - [x] `npm run build` (frontend) e suíte de testes (backend) sem regressão
 - [x] **QA manual com dado real** — aprovado por Douglas (11/08/2026)
 
+**Fase 2:**
+- [ ] `expenses` e `manual_commission_rules` substituem `operating_expense_rates` sem resíduo
+      órfão (TASK-190)
+- [ ] CRUD de despesas e regras de comissão manual funcionando (TASK-191)
+- [ ] `FinancialsService` calcula bruto/líquido, saldo do mês e saldo acumulado corretamente;
+      comissão de afiliado nova usa o líquido como base (TASK-192)
+- [ ] `/private/admin/financials` é página própria, fora das abas de Faturamento (TASK-193)
+- [ ] Cadastro de despesa e de regra de comissão manual funcionando na tela (TASK-194)
+
 ---
 
 ## Fora de Escopo
 
+**Fase 1:**
 - Despesas gerais do negócio (ferramentas, contador, etc.) — só infraestrutura + comissão.
-- Lançamento avulso de custo por data — só valor fixo mensal por categoria.
+- ~~Lançamento avulso de custo por data~~ — passa a ser escopo da **Fase 2** (TASK-190/191).
 - Qualquer nível de permissão além do admin já existente.
 - Projeção/forecast de receita ou custo futuro — só histórico real.
+
+**Fase 2:**
+- Recálculo/correção de comissões de afiliado já registradas no sistema.
+- Migração dos dados históricos de `operating_expense_rates` para `expenses` (decisão explícita de
+  Douglas: começar do zero).
+- Edição de despesa ou de regra de comissão manual já criada — só criar/remover/encerrar.
+- Data de corte configurável para o saldo acumulado.
+- Notificação/alerta automático disparado por saldo negativo ou métrica financeira.
+- Exportação (CSV/PDF) dos dados financeiros.
 
 ## Riscos
 Baixo — extensão aditiva da área admin existente, não altera nenhum fluxo de cliente. Único ponto

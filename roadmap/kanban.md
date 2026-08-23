@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 23/08/2026 — **EPIC-020 Fase 2 criada**: módulo financeiro migra de planilha
+> externa pro sistema — página própria (sai das abas de Faturamento), receita bruta/líquida
+> (`Payment.netAmountCents`, hoje ignorado no cálculo), despesa vira lançamento avulso (substitui
+> `operating_expense_rates`, sem migrar histórico — decisão explícita de Douglas), comissão manual
+> (regra recorrente de % sobre o líquido, nova) e comissão de afiliado passam a ser calculadas sobre
+> o valor líquido (só daí pra frente, sem recalcular comissões já registradas), saldo do mês e saldo
+> acumulado. 5 tasks novas (TASK-190 a TASK-194), reaproveitando o EPIC-020 (mesmo épico da primeira
+> versão do painel financeiro). Brainstorm formal ("mais completo", a pedido de Douglas) + spec
+> aprovada em `docs/superpowers/specs/2026-08-23-financial-module-design.md`.
 > Atualizado em: 23/08/2026 — **EPIC-021 Fase 2: PR aberta para staging** — tudo validado
 > localmente por Douglas, PR [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42)
 > (`easy-maintenance-api`) e PR [#48](https://github.com/douglasjava/easy-maintenance-web/pull/48)
@@ -812,6 +821,13 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**EPIC-020 Fase 2 — módulo financeiro (página própria, bruto/líquido, despesas, comissão manual) — 5 tasks prontas para implementar — *(23/08/2026)***:
+- [TASK-190](tasks/TASK-190.md) — Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules` | 🟠 Alto
+- [TASK-191](tasks/TASK-191.md) — Backend: CRUD de despesas e regras de comissão manual | 🟠 Alto
+- [TASK-192](tasks/TASK-192.md) — Backend: reescreve `FinancialsService` (bruto/líquido, saldo do mês/acumulado) + comissão de afiliado sobre o líquido | 🔴 Crítico
+- [TASK-193](tasks/TASK-193.md) — Frontend: página própria `/private/admin/financials` | 🟠 Alto
+- [TASK-194](tasks/TASK-194.md) — Frontend: seções de cadastro de despesas e regras de comissão manual | 🟠 Alto
 
 **EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, PR aberta para staging — *(23/08/2026)***:
 *(todas as tasks desta leva na mesma branch `feature/leads-manual-registration` —
