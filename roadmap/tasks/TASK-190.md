@@ -179,12 +179,20 @@ nenhum resíduo órfão (pedido explícito de Douglas).
 
 ## Critérios de Aceite
 
-- [ ] `operating_expense_rates` não existe mais no banco após a migration
-- [ ] `expenses` e `manual_commission_rules` criadas conforme o schema acima
-- [ ] `Expense`, `ManualCommissionRule` mapeadas corretamente, com repositórios básicos
-- [ ] `OperatingExpenseRate` e todo código relacionado (entidade, repositório, DTO, serviço, enum
+- [x] `operating_expense_rates` não existe mais no banco após a migration
+- [x] `expenses` e `manual_commission_rules` criadas conforme o schema acima
+- [x] `Expense`, `ManualCommissionRule` mapeadas corretamente, com repositórios básicos
+- [x] `OperatingExpenseRate` e todo código relacionado (entidade, repositório, DTO, serviço, enum
       antigo) removidos do projeto
-- [ ] `mvn test` sem regressão
+- [x] `mvn test` sem regressão
+
+**Nota de implementação**: derrubar `OperatingExpenseRate` quebrava a compilação de
+`FinancialsService`/`AdminBillingController` (dependiam dele pra calcular custo). Pra manter o
+critério "`mvn test` sem regressão" desta task isoladamente, `FinancialsService` recebeu o ajuste
+mínimo necessário — trocar a fonte do custo pra `ExpenseRepository.sumAmountCentsByExpenseDateBetween()`
+(método já adiantado desta task, não só criado na TASK-192) — sem tocar em bruto/líquido, comissão
+manual ou saldo acumulado, que continuam 100% escopo da TASK-192. `AdminBillingController` perdeu os
+2 endpoints `/expense-rates` (sem substituto ainda — entram na TASK-191).
 
 ## Dependências
 Nenhuma técnica. Precede TASK-191 e TASK-192 (usam as tabelas/entidades novas).
@@ -198,4 +206,7 @@ histórico); nenhum outro módulo do sistema depende de `operating_expense_rates
 Baixo-Médio
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/financial-module-v2`
+(`easy-maintenance-api`, commit `4e63eda`) — mesma branch reúne toda a Fase 2 (TASK-190 a
+TASK-194), a pedido de Douglas. Suíte completa: 771 testes, 0 falhas. Ainda sem PR — mesma branch
+reúne toda a Fase 2.
