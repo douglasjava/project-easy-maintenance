@@ -1,9 +1,11 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-🔵 **Fase 2 criada** (23/08/2026) — página própria, bruto/líquido, despesa em lançamento avulso,
-comissão manual e de afiliado sobre o líquido, saldo do mês/acumulado. 5 tasks novas (TASK-190 a
-TASK-194), spec aprovada em `docs/superpowers/specs/2026-08-23-financial-module-design.md`. Fase 1
+🟡 **Fase 2 em andamento** (23/08/2026) — TASK-190 e TASK-191 implementadas (schema + CRUD de
+despesas/comissão manual), na branch `feature/financial-module-v2` (`easy-maintenance-api`).
+Próxima: TASK-192 (recálculo de `FinancialsService` — bruto/líquido, saldo do mês/acumulado,
+comissão de afiliado sobre o líquido). Spec aprovada em
+`docs/superpowers/specs/2026-08-23-financial-module-design.md`. Fase 1
 (grid + gráfico + custo de infra por taxa recorrente) segue como abaixo — **QA manual aprovado por
 Douglas (11/08/2026)** — as 4 tasks (TASK-159 a 162) implementadas e validadas de ponta a ponta,
 incluindo o ajuste de rótulo pra categoria "Outros" adicionado após o teste manual. **As PRs para
@@ -34,13 +36,13 @@ explícito de brainstorm "mais completo" por ser um redesenho maior da Fase 1. S
 
 **Tasks da Fase 2:**
 
-| ID | Título | Tipo | Prioridade |
-|---|---|---|---|
-| [TASK-190](../tasks/TASK-190.md) | Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules` | BACKEND | 🟠 Alto |
-| [TASK-191](../tasks/TASK-191.md) | Backend: CRUD de despesas e regras de comissão manual | BACKEND | 🟠 Alto |
+| ID                               | Título                                                                                                                | Tipo           | Prioridade |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------|----------------|------------|
+| [TASK-190](../tasks/TASK-190.md) | Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules`                               | BACKEND        | 🟠 Alto    |
+| [TASK-191](../tasks/TASK-191.md) | Backend: CRUD de despesas e regras de comissão manual                                                                 | BACKEND        | 🟠 Alto    |
 | [TASK-192](../tasks/TASK-192.md) | Backend: reescreve `FinancialsService` (bruto/líquido, saldo do mês/acumulado) + comissão de afiliado sobre o líquido | BUGFIX/BACKEND | 🔴 Crítico |
-| [TASK-193](../tasks/TASK-193.md) | Frontend: página própria `/private/admin/financials` | FRONTEND | 🟠 Alto |
-| [TASK-194](../tasks/TASK-194.md) | Frontend: seções de cadastro de despesas e regras de comissão manual | FRONTEND | 🟠 Alto |
+| [TASK-193](../tasks/TASK-193.md) | Frontend: página própria `/private/admin/financials`                                                                  | FRONTEND       | 🟠 Alto    |
+| [TASK-194](../tasks/TASK-194.md) | Frontend: seções de cadastro de despesas e regras de comissão manual                                                  | FRONTEND       | 🟠 Alto    |
 
 Ordem: TASK-190 primeiro (schema, sem dependência) → TASK-191 e TASK-192 podem andar em paralelo
 (ambas só dependem da TASK-190) → TASK-193 (depende do endpoint agregado da TASK-192) → TASK-194
@@ -94,12 +96,12 @@ que o afiliado foi efetivamente pago, pra ficar coerente com a receita do mesmo 
 
 ## Tasks — Fase 1
 
-| ID | Título | Tipo | Prioridade |
-|---|---|---|---|
-| [TASK-159](../tasks/TASK-159.md) | Backend: modelo de dados + CRUD de custo de infraestrutura (`operating_expense_rates`) | BACKEND | 🟠 Alto |
-| [TASK-160](../tasks/TASK-160.md) | Backend: endpoint agregado de financeiro por mês (receita/custo/comissão/lucro) | BACKEND | 🟠 Alto |
-| [TASK-161](../tasks/TASK-161.md) | Frontend: página `/financeiro` — grid de totalizadores + gráfico Recharts de 12 meses | FRONTEND | 🟠 Alto |
-| [TASK-162](../tasks/TASK-162.md) | Frontend: seção de cadastro/edição de custo de infraestrutura na página `/financeiro` | FRONTEND | 🟠 Alto |
+| ID                               | Título                                                                                 | Tipo     | Prioridade |
+|----------------------------------|----------------------------------------------------------------------------------------|----------|------------|
+| [TASK-159](../tasks/TASK-159.md) | Backend: modelo de dados + CRUD de custo de infraestrutura (`operating_expense_rates`) | BACKEND  | 🟠 Alto    |
+| [TASK-160](../tasks/TASK-160.md) | Backend: endpoint agregado de financeiro por mês (receita/custo/comissão/lucro)        | BACKEND  | 🟠 Alto    |
+| [TASK-161](../tasks/TASK-161.md) | Frontend: página `/financeiro` — grid de totalizadores + gráfico Recharts de 12 meses  | FRONTEND | 🟠 Alto    |
+| [TASK-162](../tasks/TASK-162.md) | Frontend: seção de cadastro/edição de custo de infraestrutura na página `/financeiro`  | FRONTEND | 🟠 Alto    |
 
 Ordem: TASK-159 primeiro (o endpoint agregado da TASK-160 depende dos dados de custo existirem) →
 TASK-160 → TASK-161 (a página precisa do endpoint agregado) → TASK-162 (a seção de cadastro entra

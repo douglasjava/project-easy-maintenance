@@ -130,12 +130,20 @@ Mesma autenticação admin já usada em `AdminLeadController`/`AdminBillingContr
 
 ## Critérios de Aceite
 
-- [ ] `POST/GET/DELETE /private/admin/financials/expenses` funcionam conforme o escopo
-- [ ] `POST/GET/PATCH .../close/DELETE /private/admin/financials/commission-rules` funcionam
+- [x] `POST/GET/DELETE /private/admin/financials/expenses` funcionam conforme o escopo
+- [x] `POST/GET/PATCH .../close/DELETE /private/admin/financials/commission-rules` funcionam
       conforme o escopo
-- [ ] Filtro de despesas por categoria e período (isolado e combinado) funciona
-- [ ] Encerrar regra já encerrada retorna erro, não sobrescreve `effectiveTo`
-- [ ] `mvn test` sem regressão
+- [x] Filtro de despesas por categoria e período (isolado e combinado) funciona
+- [x] Encerrar regra já encerrada retorna erro, não sobrescreve `effectiveTo`
+- [x] `mvn test` sem regressão
+
+**Nota de implementação**: `Expense`/`ManualCommissionRule` e seus repositórios foram movidos para
+um subpacote `financials/` isolado (dentro de `billing.domain`/`billing.infrastructure.persistence`)
+— sem isso, o `@DataJpaTest` do teste de filtro (`ExpenseFilterPersistenceTest`) tentava inicializar
+`BillingAccount`/`BillingAccountRepository` e outras entidades não relacionadas que vivem no mesmo
+pacote, e falhava por associação fora do escopo do scan. Mesmo problema/solução já documentado em
+`LandingLeadFilterPersistenceTest` (EPIC-021 Fase 2), aqui um pouco mais severo por `billing.domain`
+ter muito mais entidades do que `leads.domain`.
 
 ## Dependências
 **TASK-190** — precisa de `Expense`, `ManualCommissionRule` e seus repositórios.
@@ -147,4 +155,6 @@ Baixo — CRUD aditivo sobre tabelas novas, sem tocar em fluxo existente.
 Médio
 
 ## Status
-🔵 Backlog
+✅ Implementada e commitada (23/08/2026) na branch `feature/financial-module-v2`
+(`easy-maintenance-api`, commit `e735f78`) — mesma branch reúne toda a Fase 2. Suíte completa: 787
+testes, 0 falhas. Ainda sem PR — mesma branch reúne toda a Fase 2.
