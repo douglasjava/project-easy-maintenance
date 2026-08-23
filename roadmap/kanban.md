@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 23/08/2026 — **EPIC-021 Fase 2 criada**: registro manual de lead + edição completa
+> (nome/e-mail/telefone/fonte), 3 tasks novas (TASK-187 a TASK-189). Motivação: Douglas recebe leads
+> de fontes fora do fluxo de ADS (indicação, evento, boca a boca) e não tinha onde registrá-los; e
+> leads de clique de WhatsApp nunca guardaram telefone (a tela nem tinha esse campo), sem forma de
+> editar um lead depois de criado — hoje só existe troca de status. Brainstorm formal + spec
+> aprovada em `docs/superpowers/specs/2026-08-23-leads-screen-improvements-design.md`. Decisões:
+> edição completa (não só telefone); fonte de lead manual por lista fixa (Indicação/Evento/Boca a
+> boca/Outro), não texto livre, pra não poluir o relatório de Top Fontes; `origin_type` novo vira
+> dado real gravado na criação, substituindo a inferência atual da coluna "Canal" (que só olhava se
+> tinha e-mail); UI com modal único reaproveitado pra criar e editar. TASK-187 (schema) →
+> TASK-188 (endpoints) → TASK-189 (frontend), nessa sequência.
 > Atualizado em: 21/08/2026 — **EPIC-025: PRs de staging para main abertas** — PR
 > [#41](https://github.com/douglasjava/easy-maintenance-api/pull/41) (`easy-maintenance-api`) e PR
 > [#47](https://github.com/douglasjava/easy-maintenance-web/pull/47) (`easy-maintenance-web`),
@@ -788,6 +799,11 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3 tasks prontas para implementar — *(23/08/2026)***:
+- [TASK-187](tasks/TASK-187.md) — Backend: `phone` + `origin_type` em `landing_leads` | 🟠 Alto
+- [TASK-188](tasks/TASK-188.md) — Backend: criação manual + edição completa de lead | 🟠 Alto
+- [TASK-189](tasks/TASK-189.md) — Frontend: modal de criar/editar + colunas Telefone/Canal | 🟠 Alto
 
 **EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 6/6 tasks implementadas, PRs abertas para staging — *(21/08/2026)***:
 *(todas as tasks desta leva na mesma branch `feature/ai-onboarding-catalog-filter` —

@@ -1,12 +1,41 @@
 # EPIC-021 — Painel de Leads (visão agregada + mini-CRM de status)
 
 ## Status
-Em Validação — todas as 5 tasks implementadas (TASK-163 a TASK-167). PRs abertas pra `staging`:
-[backend #32](https://github.com/douglasjava/easy-maintenance-api/pull/32),
+🔵 **Fase 2 criada** (23/08/2026) — registro manual de leads + edição completa (telefone incluso),
+3 tasks novas (TASK-187 a TASK-189), spec aprovada em
+`docs/superpowers/specs/2026-08-23-leads-screen-improvements-design.md`. Fase 1 (visão agregada +
+mini-CRM de status) segue **Em Validação** — todas as 5 tasks implementadas (TASK-163 a TASK-167).
+PRs abertas pra `staging`: [backend #32](https://github.com/douglasjava/easy-maintenance-api/pull/32),
 [frontend #35](https://github.com/douglasjava/easy-maintenance-web/pull/35). QA manual com dado
 real pendente por Douglas (mesmo bloqueio de secrets locais registrado nas TASK-166/167).
 Desenhado via brainstorm com Douglas em 11/08/2026, spec aprovada em
 `docs/superpowers/specs/2026-08-11-painel-leads-design.md`.
+
+### Fase 2 — Registro manual de lead + edição completa (telefone) (criada 23/08/2026)
+
+Douglas pediu duas melhorias pontuais depois de usar a tela por um tempo: (1) registrar leads que
+chegam por fontes fora do fluxo de ADS/tráfego pago (indicação, evento, boca a boca); (2) capturar
+telefone — hoje ausente inclusive nos leads antigos de clique de WhatsApp, que nunca tiveram forma
+de guardar contato nenhum além do que a mensagem de WhatsApp real trouxe (fora do sistema).
+Brainstorm formal conduzido em 23/08/2026, spec aprovada:
+`docs/superpowers/specs/2026-08-23-leads-screen-improvements-design.md`.
+
+**Decisões de escopo**: edição completa do lead (não só telefone, já que a capacidade de editar
+precisa ser criada do zero de qualquer forma — hoje só existe troca de status); fonte de lead
+manual via lista fixa (Indicação/Evento/Boca a boca/Outro), não texto livre, pra não poluir o
+relatório de Top Fontes; canal de origem (`origin_type`) passa a ser um dado real gravado na
+criação, substituindo a inferência atual por presença de e-mail; UI usa um modal único reaproveitado
+pra criar e editar, em vez de edição inline na tabela ou telas separadas.
+
+**Tasks da Fase 2:**
+
+| ID | Título | Tipo | Prioridade |
+|---|---|---|---|
+| [TASK-187](../tasks/TASK-187.md) | Backend: `phone` + `origin_type` em `landing_leads` | BACKEND | 🟠 Alto |
+| [TASK-188](../tasks/TASK-188.md) | Backend: criação manual + edição completa de lead | BACKEND | 🟠 Alto |
+| [TASK-189](../tasks/TASK-189.md) | Frontend: modal de criar/editar + colunas Telefone/Canal | FRONTEND | 🟠 Alto |
+
+Ordem: TASK-187 → TASK-188 → TASK-189, nessa sequência (cada uma depende da anterior).
 
 ## Objetivo
 Dar visibilidade de quantos leads chegam pela landing, de onde vêm (fonte/referrer), e um fluxo
@@ -81,14 +110,28 @@ andar em paralelo (endpoints independentes) → TASK-166 (depende do endpoint ag
 
 Falta apenas: QA manual com dado real (Douglas) e merge dos PRs [#32](https://github.com/douglasjava/easy-maintenance-api/pull/32) (backend) e [#35](https://github.com/douglasjava/easy-maintenance-web/pull/35) (frontend) pra `staging`.
 
+**Fase 2:**
+- [ ] `landing_leads` tem `phone` e `origin_type`, com backfill correto (TASK-187)
+- [ ] `POST /admin/leads` (criação manual) e `PUT /admin/leads/{id}` (edição completa) funcionando
+      (TASK-188)
+- [ ] Tela permite criar lead manual e editar qualquer lead (incluindo acrescentar telefone a um
+      lead antigo do WhatsApp) (TASK-189)
+
 ---
 
 ## Fora de Escopo
 
+**Fase 1:**
 - Filtro/breakdown por `medium`.
 - Qualquer automação disparada por mudança de status (e-mail, notificação).
-- Edição de outros campos do lead além do status.
+- ~~Edição de outros campos do lead além do status~~ — passa a ser escopo da **Fase 2**
+  (TASK-187 a TASK-189).
 - Exportação (CSV) da lista.
+
+**Fase 2:**
+- Exclusão de lead.
+- Histórico/auditoria de alterações (quem editou o quê e quando).
+- Import em massa de leads manuais (CSV etc.).
 
 ## Riscos
 Baixo — extensão aditiva, não altera nenhum fluxo de captura de lead já existente (EPIC-018). Único
