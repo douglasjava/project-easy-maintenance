@@ -116,23 +116,28 @@ long monthlyBalanceCents = revenueNetCents - affiliateCommissionCents - manualCo
 
 ### Endpoints
 
-`GET /admin/financials` (já existente, resposta expandida): `revenueGrossCents`, `revenueNetCents`,
+Todos sob `/easy-maintenance/api/v1/private/admin/financials` — **novo prefixo**, não mais aninhado
+sob `/private/admin/billing/...` (o endpoint atual é `/private/admin/billing/financials`; muda de
+lugar junto com a página, pra refletir que Financeiro deixou de ser parte de Faturamento).
+
+`GET /private/admin/financials` (substitui o `GET /private/admin/billing/financials` atual, mesmo
+formato de resposta mensal, campos expandidos): `revenueGrossCents`, `revenueNetCents`,
 `gatewayFeeCents`, `affiliateCommissionCents`, `manualCommissionCents`, `expenseCents`,
 `monthlyBalanceCents`, `cumulativeBalanceCents`, por mês.
 
 Despesas:
-- `GET /admin/financials/expenses` — lista paginada, filtrável por categoria e período.
-- `POST /admin/financials/expenses` — cria (`category`, `description`, `amountCents`, `expenseDate`).
-- `DELETE /admin/financials/expenses/{id}` — remove. **Sem edição** — lançamento errado é apagado e
-  recriado, não editado (evita rastrear histórico de edição de um valor financeiro; consistente com
-  a ideia de que cada linha representa um fato imutável, como numa planilha).
+- `GET /private/admin/financials/expenses` — lista paginada, filtrável por categoria e período.
+- `POST /private/admin/financials/expenses` — cria (`category`, `description`, `amountCents`, `expenseDate`).
+- `DELETE /private/admin/financials/expenses/{id}` — remove. **Sem edição** — lançamento errado é
+  apagado e recriado, não editado (evita rastrear histórico de edição de um valor financeiro;
+  consistente com a ideia de que cada linha representa um fato imutável, como numa planilha).
 
 Comissões manuais:
-- `GET /admin/financials/commission-rules` — lista todas (ativas e encerradas).
-- `POST /admin/financials/commission-rules` — cria (`payeeName`, `percentage`, `effectiveFrom`).
-- `PATCH /admin/financials/commission-rules/{id}/close` — seta `effectiveTo = hoje`, preserva
+- `GET /private/admin/financials/commission-rules` — lista todas (ativas e encerradas).
+- `POST /private/admin/financials/commission-rules` — cria (`payeeName`, `percentage`, `effectiveFrom`).
+- `PATCH /private/admin/financials/commission-rules/{id}/close` — seta `effectiveTo = hoje`, preserva
   histórico.
-- `DELETE /admin/financials/commission-rules/{id}` — só pra regra criada por engano, que nunca
+- `DELETE /private/admin/financials/commission-rules/{id}` — só pra regra criada por engano, que nunca
   deveria ter existido (diferente de "encerrar", que preserva o histórico da regra nos meses em que
   esteve ativa).
 
