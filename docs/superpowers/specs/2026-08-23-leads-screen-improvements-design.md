@@ -43,6 +43,8 @@ UPDATE landing_leads SET origin_type = 'WHATSAPP_CLICK' WHERE email IS NULL;
 
 Campos novos são opcionais/com default — nenhuma mudança de comportamento nos fluxos de criação pública existentes.
 
+`medium`, `campaign` e `referrer` (já existentes na entidade) não entram em `CreateManualLeadRequest`/`UpdateLeadRequest` — são conceitos de rastreio UTM que não se aplicam a um lead registrado manualmente; ficam `null` nesses registros, sem necessidade de exibi-los como campo vazio no formulário.
+
 ## Backend
 
 **`LeadService.createLead()`** (`POST /landing/leads`, já existente): passa a setar `originType` automaticamente — `WEBSITE_FORM` se `email` vier preenchido, senão `WHATSAPP_CLICK`.
