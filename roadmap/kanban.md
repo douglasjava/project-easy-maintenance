@@ -1,5 +1,95 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/08/2026 — **TASK-199 implementada e com PR aberta** — "Receita Total" em
+> `/private/admin/billing` somava `plan.priceCents` (preço de tabela) em vez de `item.valueCents`
+> (valor real cobrado); item `ORGANIZATION` está zerado desde a EPIC-014, então a receita das
+> organizações aparecia inflada. Corrigido em `BillingAccountRepository`
+> (`findPayersSummary`/`findTopPayers`), com `@DataJpaTest` novo provando o cenário contra H2 real.
+> Commit `edd6d43`, PR [#44](https://github.com/douglasjava/easy-maintenance-api/pull/44) contra
+> `staging` (branch `bugfix/TASK-199-receita-total-org-zerada`). Suíte completa: 798 testes, 0
+> falhas.
+> Atualizado em: 24/08/2026 — **EPIC-020 Fase 2: PRs abertas contra `staging`** —
+> [easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43) e
+> [easy-maintenance-web#49](https://github.com/douglasjava/easy-maintenance-web/pull/49), reunindo
+> TASK-190 a 198 mais os bugfixes achados no QA manual de Douglas (migration V95,
+> `SimulationController` — PAYMENT_CREATED e `existingUserId`, `ConfirmModal` no lugar do
+> `confirm()` nativo). Backend: 796 testes, 0 falhas. Frontend: `npm run build` limpo.
+> Achado durante o mesmo QA, fora do escopo da EPIC-020: `/private/admin/billing` (Faturamento)
+> mostra "Receita Total" inflada porque a query soma o preço de tabela do plano em vez do valor
+> real cobrado no item — o item `ORGANIZATION` está zerado desde a EPIC-014, mas a query nunca
+> olhava pro valor real do item. Registrado como **TASK-199** (nova, branch própria a partir de
+> `staging` — Douglas vai atualizar `staging` com as PRs acima antes).
+> Atualizado em: 24/08/2026 — **Simulador de QA: `existingUserId`** (a pedido de Douglas):
+> `SimulationController` sempre criava um usuário sintético novo a cada chamada — sem jeito de
+> gerar uma comissão de teste pra um usuário real já criado/atribuído via fluxo normal da
+> aplicação. `SimulationRequest` ganhou `existingUserId` opcional: pula a captura de lead e
+> reaproveita o usuário/`BillingAccount` existentes, sem sobrescrever o `referralCode` já salvo.
+> Commit `582eb1f` (`feature/financial-module-v2`, `easy-maintenance-api`). Suíte completa: 796
+> testes, 0 falhas.
+> Atualizado em: 24/08/2026 — **Simulador de QA corrigido** (achado no roteiro de QA da revisão do
+> EPIC-020): `SimulationController` disparava só `PAYMENT_RECEIVED`, sem passar pelo
+> `PAYMENT_CREATED` que grava `netAmountCents`/`gatewayFeeCents` no fluxo real — a comissão
+> simulada calculava sobre o bruto (fallback já documentado desde a TASK-192, não bug novo) e a
+> tela de financeiro mostrava taxa Asaas zerada. Corrigido disparando os dois webhooks na ordem
+> certa, reaproveitando `PaymentCreatedHandler` de verdade. Commit `28416b1`
+> (`feature/financial-module-v2`, `easy-maintenance-api`). Suíte completa: 796 testes, 0 falhas.
+> Atualizado em: 24/08/2026 — **Bug na migration V95 corrigido** (achado no teste local de
+> Douglas): `DROP INDEX uk_referral_commissions_org` explícito falhava sempre — o `ALTER`
+> anterior na mesma migration já derruba `organization_id` (única coluna daquela unique key) e o
+> MySQL remove o índice sozinho junto. Não era drift de schema, quebrava em qualquer ambiente.
+> Corrigido e verificado rodando a migration de ponta a ponta contra o MySQL local dele (commit
+> `175906f`, `feature/financial-module-v2`, `easy-maintenance-api`). Suíte completa: 796 testes,
+> 0 falhas.
+> Atualizado em: 24/08/2026 — **TASK-198 implementada — Revisão da Fase 2 do EPIC-020 completa
+> (4/4)**: tela de afiliados ganha seção "Comissionados" (não existia — a página só listava
+> transações de comissão), com edição de %/recorrência e atribuição de cliente por busca de
+> nome/e-mail; achado e corrigido no processo um contrato quebrado pela TASK-196
+> (`c.organizationId` → `c.userId`, coluna "Org ID" ficou silenciosamente errada na branch).
+> Tela de financeiro troca "Comissões manuais" pela seção "Comissões por pessoa" (endpoint da
+> TASK-197). Commit `4a4ff78` em `feature/financial-module-v2` (`easy-maintenance-web`), `npm run
+> build` limpo (52 rotas). **As 4 tasks da revisão (TASK-195 a 198) estão completas** — próximo
+> passo é QA manual de ponta a ponta por Douglas (local/staging) e abertura do(s) PR(s) reunindo
+> toda a Fase 2 (TASK-190 a 198) de uma vez.
+> Atualizado em: 24/08/2026 — **TASK-197 implementada** (EPIC-020, revisão da Fase 2):
+> `manualCommissionCents` removido de `MonthlyFinancialsResponse` e do cálculo de
+> `monthlyBalanceCents` — `affiliateCommissionCents` (`ReferralCommission`) já cobre afiliado
+> público e comissionado interno na mesma fonte desde TASK-195/196. Endpoint novo
+> `GET /private/admin/financials/commissions-breakdown?month=YYYY-MM` agrega comissão por
+> `affiliateId` dentro do mês (nome, e-mail, % atual, recorrência, valor total, contagem
+> pendente/pago) — uma linha por comissionado mesmo quando `RECURRING` gerou várias comissões no
+> período. Commit `b38b617` em `feature/financial-module-v2` (`easy-maintenance-api`), 796 testes,
+> 0 falhas. Próxima: TASK-198 (frontend — edição de afiliado, atribuição a cliente, breakdown na
+> tela de financeiro) — última da revisão da Fase 2.
+> Atualizado em: 24/08/2026 — **TASK-196 implementada** (EPIC-020, revisão da Fase 2): rekey de
+> `referral_commissions.organization_id` para `user_id` + `cycle_number` (migration `V95`);
+> `PaymentReceivedHandler` passa a resolver o comissionado via item `USER` da assinatura +
+> `User.referralCode` (não mais `Organization.referralCode`) e dispara em todo pagamento — a decisão
+> `ONE_TIME` (único, idempotente por usuário) vs `RECURRING` (uma comissão por ciclo) fica inteira em
+> `CommissionService`. Endpoint novo `PATCH /private/admin/users/{userId}/referral-code` pra
+> atribuir/reatribuir comissionado a cliente existente. `SimulationController` (dev/QA) ajustado pra
+> continuar exercitando o fluxo com o novo modelo. Commit `506e529` em `feature/financial-module-v2`
+> (`easy-maintenance-api`), 792 testes, 0 falhas. Próxima: TASK-197 (`FinancialsService` sem comissão
+> manual + endpoint de breakdown por comissionado).
+> Atualizado em: 24/08/2026 — **TASK-195 implementada** (EPIC-020, revisão da Fase 2): `Affiliate`
+> ganha `recurrenceType` (`ONE_TIME`/`RECURRING`) e `PATCH /private/admin/affiliates-commissions/{id}`
+> pra editar percentual/recorrência; `manual_commission_rules` removida por completo (entidade,
+> repositório, DTO, serviço, endpoints, migration `V94`). Ajuste mínimo em `FinancialsService` pra
+> compilar sem a dependência removida (`manualCommissionCents` zerado, remoção definitiva do campo é
+> escopo da TASK-196/197). Commit `02417bf` em `feature/financial-module-v2`
+> (`easy-maintenance-api`), 786 testes, 0 falhas. Próxima: TASK-196 (rekey `organization_id` →
+> `user_id`, comissão recorrente).
+> Atualizado em: 24/08/2026 — **EPIC-020 Fase 2: revisão antes do PR** — testando a tela nova,
+> Douglas identificou que `manual_commission_rules` (TASK-190/191) modela comissão errada (% da
+> receita **total** da empresa, sem vínculo com cliente) quando o caso real é comissão **por cliente
+> atribuído** a um comissionado. Análise de código confirmou que `Affiliate`/`ReferralCommission` já
+> resolve exatamente isso (pessoa + %, vínculo com pagamento) — só faltava edição de % e um conceito
+> de recorrência (`ONE_TIME`/`RECURRING`). Decisão: `manual_commission_rules` é removida, `Affiliate`
+> é estendido em vez de manter duas estruturas paralelas. Achado à parte na mesma análise: desde a
+> EPIC-014 (13/07/2026, cobrança só por `USER`), a atribuição de comissão em `referral_commissions`
+> ficou semanticamente errada — travada em `organization_id`, quando quem paga é o `user_id`; nunca
+> documentado até agora. 4 tasks novas: [TASK-195](tasks/TASK-195.md), [TASK-196](tasks/TASK-196.md),
+> [TASK-197](tasks/TASK-197.md), [TASK-198](tasks/TASK-198.md). Spec:
+> `docs/superpowers/specs/2026-08-24-affiliate-commission-rework.md`.
 > Atualizado em: 23/08/2026 — **EPIC-020 Fase 2: 5/5 tasks implementadas** (TASK-190 a TASK-194),
 > módulo financeiro completo (backend + frontend). Tudo na mesma branch `feature/financial-module-v2`
 > (mesmo nome nos repos `easy-maintenance-api` e `easy-maintenance-web`), sem PR por task — Douglas
@@ -832,14 +922,30 @@ _Vazio_
 
 ## Pronto para Implementar
 
+**EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
+implementadas, PRs abertas contra `staging` — *(24/08/2026)***:
+*(estende `Affiliate`/`ReferralCommission` em vez de manter `manual_commission_rules` — ver
+`docs/superpowers/specs/2026-08-24-affiliate-commission-rework.md`;
+[easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43),
+[easy-maintenance-web#49](https://github.com/douglasjava/easy-maintenance-web/pull/49))*
+- ~~**[TASK-195](tasks/TASK-195.md)**~~ — ~~Backend: `Affiliate` ganha `recurrenceType`; CRUD admin de edição; remove `ManualCommissionRule`~~ *(implementada — commit `02417bf`, 786 testes, 0 falhas)*
+- ~~**[TASK-196](tasks/TASK-196.md)**~~ — ~~Backend: rekey `referral_commissions.organization_id` → `user_id`; corrige atribuição; suporta comissão recorrente~~ *(implementada — commit `506e529`, 792 testes, 0 falhas)*
+- ~~**[TASK-197](tasks/TASK-197.md)**~~ — ~~Backend: `FinancialsService` sem comissão manual; endpoint de breakdown por comissionado~~ *(implementada — commit `b38b617`, 796 testes, 0 falhas)*
+- ~~**[TASK-198](tasks/TASK-198.md)**~~ — ~~Frontend: edição de afiliado (%/recorrência), atribuição a cliente, breakdown na tela de financeiro~~ *(implementada — commit `4a4ff78`, `npm run build` limpo, não validada visualmente por mim)*
+
+**EPIC-014 — bugfix achado no QA da EPIC-020, sem relação direta — *(24/08/2026)***:
+*(branch própria a partir de `staging` — aguardando Douglas atualizar `staging` com as PRs #43/#49
+acima antes de puxar a branch nova)*
+- ~~**[TASK-199](tasks/TASK-199.md)**~~ — ~~Backend: "Receita Total" no Faturamento soma preço de tabela do item ORGANIZATION, que está zerado desde a EPIC-014~~ *(implementada — commit `edd6d43`, PR [#44](https://github.com/douglasjava/easy-maintenance-api/pull/44), 798 testes, 0 falhas)*
+
 **EPIC-020 Fase 2 — módulo financeiro (página própria, bruto/líquido, despesas, comissão manual) — 5/5 tasks implementadas, aguardando teste local de Douglas — *(23/08/2026)***:
 *(na branch `feature/financial-module-v2`, `easy-maintenance-api` + `easy-maintenance-web`, sem PR
 por task — mesma convenção das leves anteriores)*
-- ~~**[TASK-190](tasks/TASK-190.md)**~~ — ~~Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules`~~ *(implementada)*
-- ~~**[TASK-191](tasks/TASK-191.md)**~~ — ~~Backend: CRUD de despesas e regras de comissão manual~~ *(implementada — 787 testes, 0 falhas)*
+- ~~**[TASK-190](tasks/TASK-190.md)**~~ — ~~Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules`~~ *(implementada — a parte de `manual_commission_rules` é revertida pela TASK-195)*
+- ~~**[TASK-191](tasks/TASK-191.md)**~~ — ~~Backend: CRUD de despesas e regras de comissão manual~~ *(implementada — 787 testes, 0 falhas; a parte de regras de comissão manual é revertida pela TASK-195)*
 - ~~**[TASK-192](tasks/TASK-192.md)**~~ — ~~Backend: reescreve `FinancialsService` (bruto/líquido, saldo do mês/acumulado) + comissão de afiliado sobre o líquido~~ *(implementada — suíte completa, 0 falhas)*
 - ~~**[TASK-193](tasks/TASK-193.md)**~~ — ~~Frontend: página própria `/private/admin/financials`~~ *(implementada — `npm run build` limpo, não validada visualmente por mim)*
-- ~~**[TASK-194](tasks/TASK-194.md)**~~ — ~~Frontend: seções de cadastro de despesas e regras de comissão manual~~ *(implementada — `npm run build` limpo, não validada visualmente por mim)*
+- ~~**[TASK-194](tasks/TASK-194.md)**~~ — ~~Frontend: seções de cadastro de despesas e regras de comissão manual~~ *(implementada — `npm run build` limpo, não validada visualmente por mim; seção de comissão manual é removida pela TASK-198)*
 
 **EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, PR aberta para staging — *(23/08/2026)***:
 *(todas as tasks desta leva na mesma branch `feature/leads-manual-registration` —

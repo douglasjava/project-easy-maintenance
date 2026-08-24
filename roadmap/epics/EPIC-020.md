@@ -1,12 +1,14 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-🟡 **Fase 2 implementada, aguardando teste local/staging de Douglas antes do PR** (23/08/2026) — as
-5 tasks (TASK-190 a TASK-194) estão commitadas na branch `feature/financial-module-v2` (mesmo nome
-nos dois repos, `easy-maintenance-api` e `easy-maintenance-web`, sem PR por task — Douglas testa
-tudo local e em staging junto, antes de abrir a(s) PR(s)). Backend: suíte completa, 0 falhas.
-Frontend: `npm run build` limpo — UI não validada visualmente por mim (tela exige login, sem
-credenciais de teste). Spec aprovada em `docs/superpowers/specs/2026-08-23-financial-module-design.md`.
+🟢 **PRs abertas contra `staging`** (24/08/2026) —
+[easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43) e
+[easy-maintenance-web#49](https://github.com/douglasjava/easy-maintenance-web/pull/49), reunindo
+toda a Fase 2 (TASK-190 a 198) mais os bugfixes achados no QA manual (migration V95,
+`SimulationController`). Backend: suíte completa, 796 testes, 0 falhas. Frontend: `npm run build`
+limpo (99/102 testes — 3 falhas pré-existentes em `middleware.test.ts`, sem relação). QA manual de
+Douglas em andamento durante o desenvolvimento (vários achados já corrigidos na própria branch, ver
+"Revisão da Fase 2" abaixo); QA final acontece em cima da PR.
 Fase 1
 (grid + gráfico + custo de infra por taxa recorrente) segue como abaixo — **QA manual aprovado por
 Douglas (11/08/2026)** — as 4 tasks (TASK-159 a 162) implementadas e validadas de ponta a ponta,
@@ -49,6 +51,74 @@ explícito de brainstorm "mais completo" por ser um redesenho maior da Fase 1. S
 Ordem: TASK-190 primeiro (schema, sem dependência) → TASK-191 e TASK-192 podem andar em paralelo
 (ambas só dependem da TASK-190) → TASK-193 (depende do endpoint agregado da TASK-192) → TASK-194
 (depende dos endpoints de CRUD da TASK-191 e da página já existir, TASK-193).
+
+### Revisão da Fase 2 — comissão manual substituída por comissionado atribuído (24/08/2026)
+
+Durante o teste local de Douglas na tela nova, dois problemas de modelagem foram identificados por
+análise de código (não em produção — 0 clientes pagantes, branch sem PR aberta):
+
+**1. `manual_commission_rules` modela a coisa errada.** A regra calcula % sobre a receita líquida
+**total** da empresa (`FinancialsService`, `rule.percentage × revenueNetCents` do mês inteiro), sem
+nenhum vínculo com cliente. Confirmado com Douglas: o caso real de negócio é **comissão por cliente
+atribuído** ("vendedor fecha o cliente X, ganha % da receita desse cliente especificamente"), não
+rateio do total — o modelo commitado em TASK-190/191 não serve pro requisito real.
+
+**2. `affiliates`/`referral_commissions` já resolve exatamente esse problema — e não deve ser
+duplicado.** `Affiliate.commissionRate` + `ReferralCommission` (evento por cliente, vínculo com
+pagamento via `Organization.referralCode`, status PENDENTE/PAGO) é estruturalmente o mesmo conceito
+que "comissão manual" tentou reconstruir do zero, só que sem os dois recursos que faltavam:
+percentual individual editável (já existe o campo, só falta endpoint de edição) e tipo de recorrência
+(`ONE_TIME` vs `RECURRING`, que não existe hoje — toda comissão de afiliado é sempre única, travada
+em 3 camadas: `PaymentReceivedHandler` só dispara no `cycleNumber == 1`, `CommissionService` tem
+idempotência por `organizationId`, e o banco tem `UNIQUE KEY uk_referral_commissions_org
+(organization_id)`). Decisão de Douglas: **estender `Affiliate`/`ReferralCommission` em vez de manter
+duas estruturas paralelas fazendo a mesma coisa com nomes diferentes** — `manual_commission_rules` é
+removida por completo.
+
+**3. Achado à parte, descoberto na mesma análise — bug de atribuição pré-existente.** Desde a
+EPIC-014 (13/07/2026, commit `48cc214`), a cobrança é só por `USER` — itens `BillingSubscriptionItem`
+do tipo `ORGANIZATION` valem `0` (`BillingSubscriptionService.java:378-380`, migration `V79`), viram
+só registro de vínculo pra limite de pool. **O valor da comissão não é afetado** (`PaymentReceivedHandler`
+usa `Payment.amountCents`/`netAmountCents`, o valor real cobrado do gateway, não `item.getValueCents()`).
+Mas a **atribuição** continua inteiramente organizada por organização (`Organization.referralCode` →
+`Affiliate`, `ReferralCommission.organizationId` com `UNIQUE`), enquanto quem paga de fato — e quem
+carrega o `referralCode` de origem — é o `User` (`User.referralCode` já existe, mas só é copiado pra
+`Organization.referralCode` uma vez, na criação da org; se aplicado depois, nunca propaga). Numa conta
+com múltiplas organizações, a comissão hoje prende na organização escolhida arbitrariamente pela
+ordem de iteração dos itens da assinatura — não documentado em nenhuma epic até agora (EPIC-012,
+21/06/2026, nunca foi revisitada quando a EPIC-014 mudou o modelo de cobrança, 13/07/2026). Corrigido
+junto, pois RECURRING sem isso herdaria a mesma ambiguidade a cada ciclo.
+
+**Novo modelo** (spec completa: `docs/superpowers/specs/2026-08-24-affiliate-commission-rework.md`):
+
+- `Affiliate` ganha `recurrenceType` (`ONE_TIME` | `RECURRING`) e endpoint de edição admin
+  (`commissionRate`, `recurrenceType`) — hoje só existe criação, nunca update.
+- `referral_commissions.organization_id` → `user_id` (rekey de schema + `PaymentReceivedHandler`
+  passa a resolver o afiliado via item `USER` da assinatura + `User.referralCode`, não mais via item
+  `ORGANIZATION` + `Organization.referralCode`).
+- `PaymentReceivedHandler`/`CommissionService`: `ONE_TIME` mantém a trava atual (só no primeiro
+  ciclo); `RECURRING` passa a gerar uma comissão por ciclo de pagamento, enquanto o afiliado estiver
+  `ACTIVE`.
+- Endpoint novo pra atribuir/reatribuir um afiliado a um usuário já existente (hoje só é setado na
+  criação do usuário via admin, sem rota pra alterar depois).
+- `manual_commission_rules`/`ManualCommissionRule` removidos por completo (entidade, service,
+  controller, migration de drop, seção de frontend).
+- Tela `/private/admin/financials` ganha detalhamento por comissionado (nome, %, recorrência, valor
+  do período) — fonte única (`ReferralCommission`), cobrindo afiliado público e comissionado interno
+  juntos.
+
+**Tasks da revisão:**
+
+| ID                               | Título                                                                                                          | Tipo    | Prioridade |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------|---------|------------|
+| ~~[TASK-195](../tasks/TASK-195.md)~~ | ~~Backend: `Affiliate` ganha `recurrenceType`; CRUD admin de edição; remove `ManualCommissionRule`~~ | BACKEND | 🔴 Crítico *(implementada)* |
+| ~~[TASK-196](../tasks/TASK-196.md)~~ | ~~Backend: rekey `referral_commissions.organization_id` → `user_id`; corrige atribuição; suporta comissão recorrente~~ | BUGFIX/BACKEND | 🔴 Crítico *(implementada)* |
+| ~~[TASK-197](../tasks/TASK-197.md)~~ | ~~Backend: `FinancialsService` sem comissão manual; endpoint de breakdown por comissionado~~ | BACKEND | 🟠 Alto *(implementada)* |
+| ~~[TASK-198](../tasks/TASK-198.md)~~ | ~~Frontend: edição de afiliado (%/recorrência), atribuição a cliente, breakdown na tela de financeiro~~ | FRONTEND | 🟠 Alto *(implementada)* |
+
+Ordem: TASK-195 primeiro (schema/entidade base, `recurrenceType`) → TASK-196 (depende do
+`recurrenceType` da TASK-195 pra decidir o comportamento de geração) → TASK-197 (depende da TASK-196
+pra agregar comissão corretamente) → TASK-198 (depende dos endpoints da TASK-195/197).
 
 ## Objetivo
 Dar visibilidade real de receita recebida vs. custo do negócio (infraestrutura + comissão de
@@ -125,13 +195,19 @@ na mesma página já criada na TASK-161).
 - [x] **QA manual com dado real** — aprovado por Douglas (11/08/2026)
 
 **Fase 2:**
-- [ ] `expenses` e `manual_commission_rules` substituem `operating_expense_rates` sem resíduo
-      órfão (TASK-190)
-- [ ] CRUD de despesas e regras de comissão manual funcionando (TASK-191)
-- [ ] `FinancialsService` calcula bruto/líquido, saldo do mês e saldo acumulado corretamente;
+- [x] `expenses` substitui `operating_expense_rates` sem resíduo órfão (TASK-190)
+- [x] CRUD de despesas funcionando (TASK-191)
+- [x] `FinancialsService` calcula bruto/líquido, saldo do mês e saldo acumulado corretamente;
       comissão de afiliado nova usa o líquido como base (TASK-192)
-- [ ] `/private/admin/financials` é página própria, fora das abas de Faturamento (TASK-193)
-- [ ] Cadastro de despesa e de regra de comissão manual funcionando na tela (TASK-194)
+- [x] `/private/admin/financials` é página própria, fora das abas de Faturamento (TASK-193)
+- [x] Cadastro de despesa funcionando na tela (TASK-194, parte de despesas)
+- [ ] ~~Regra de comissão manual (% do faturamento total)~~ — **substituída**, ver "Revisão da Fase 2"
+- [x] `Affiliate` suporta percentual editável e recorrência (`ONE_TIME`/`RECURRING`) (TASK-195)
+- [x] Atribuição de comissão é por `user_id`, não `organization_id`; comissão recorrente gera uma
+      linha por ciclo pra afiliados `RECURRING` (TASK-196)
+- [x] Financeiro mostra breakdown por comissionado sem depender de `manual_commission_rules`
+      (TASK-197)
+- [x] Edição de afiliado (%/recorrência) e atribuição a cliente funcionando em admin (TASK-198)
 
 ---
 
@@ -147,10 +223,20 @@ na mesma página já criada na TASK-161).
 - Recálculo/correção de comissões de afiliado já registradas no sistema.
 - Migração dos dados históricos de `operating_expense_rates` para `expenses` (decisão explícita de
   Douglas: começar do zero).
-- Edição de despesa ou de regra de comissão manual já criada — só criar/remover/encerrar.
+- Edição de despesa já criada — só criar/remover.
 - Data de corte configurável para o saldo acumulado.
 - Notificação/alerta automático disparado por saldo negativo ou métrica financeira.
 - Exportação (CSV/PDF) dos dados financeiros.
+
+**Revisão da Fase 2 (24/08/2026):**
+- Recálculo retroativo de comissões `referral_commissions` já geradas antes desta mudança — só
+  comissões novas (a partir do deploy) usam `user_id`/recorrência.
+- Um cliente com mais de um comissionado atribuído ao mesmo tempo — confirmado com Douglas: sempre
+  um comissionado ativo por cliente, por vez (histórico preservado se reatribuído).
+- Correção do fluxo de autocadastro público (cookie `em_ref` → onboarding) não propagar
+  `referralCode` pro usuário automaticamente — bug pré-existente, encontrado na mesma análise, sem
+  relação com esta revisão; não bloqueia porque atribuição de comissionado interno é sempre manual
+  via admin. Vale abrir bug à parte depois.
 
 ## Riscos
 Baixo — extensão aditiva da área admin existente, não altera nenhum fluxo de cliente. Único ponto
