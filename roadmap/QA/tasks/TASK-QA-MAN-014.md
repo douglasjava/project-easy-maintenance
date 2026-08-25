@@ -58,22 +58,33 @@ Ainda sem PR — testar local primeiro.
 
 ### C1 — Onboarding bloqueia CPF inválido (passo 1, obrigatório)
 
-| Passo | Ação                                                                                   | Resultado esperado                                                                    |
-|-------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| Passo | Ação                                                                                                                 | Resultado esperado                                                                                           |
+|-------|----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | 1     | Abrir `/onboarding`, preencher o campo CPF com `266.848.958-03` (o CPF real do caso do Ricardo) e submeter o passo 1 | Formulário **não** submete; campo CPF fica com borda vermelha e mensagem "CPF inválido — confira os dígitos" |
-| 2     | Conferir a aba Network                                                                  | Nenhuma chamada a `POST /me/onboarding/user` foi disparada — bloqueou antes de sair do front |
-| 3     | Trocar por um CPF válido real (o seu próprio, ou qualquer CPF real) e submeter novamente | Passa normalmente, avança pro passo 2                                                  |
-| 4     | Tentar um CPF com todos os dígitos iguais, ex. `111.111.111-11`                         | Bloqueado também (sequência repetida é sempre inválida, mesmo passando no cálculo)      |
+| 2     | Conferir a aba Network                                                                                               | Nenhuma chamada a `POST /me/onboarding/user` foi disparada — bloqueou antes de sair do front                 |
+| 3     | Trocar por um CPF válido real (o seu próprio, ou qualquer CPF real) e submeter novamente                             | Passa normalmente, avança pro passo 2                                                                        |
+| 4     | Tentar um CPF com todos os dígitos iguais, ex. `111.111.111-11`                                                      | Bloqueado também (sequência repetida é sempre inválida, mesmo passando no cálculo)                           |
 
 ---
 
 ### C2 — Onboarding bloqueia CNPJ/CPF inválido (passo 2, opcional)
 
-| Passo | Ação                                                                                   | Resultado esperado                                                                    |
-|-------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| 1     | No passo 2, deixar o campo "CNPJ/CPF" vazio e submeter                                  | Passa normalmente — campo é opcional                                                    |
-| 2     | Preencher com um CNPJ de dígito verificador errado (ex. `11.222.333/0001-99`)           | Bloqueado, mensagem "CNPJ/CPF inválido — confira os dígitos"                            |
-| 3     | Corrigir pra um CNPJ válido real e submeter                                             | Passa normalmente, organização criada                                                   |
+**Achado (Douglas, 25/08/2026)**: submeter o passo 2 com o formulário inteiro em branco (não só o
+CNPJ/CPF) causava `500 Erro interno inesperado` — o form tem `noValidate` mas nunca implementava a
+checagem de campo obrigatório; `companyType: ""` ia pro backend, e o Jackson quebrava tentando
+desserializar string vazia como enum, antes até do `@Valid` rodar. **Corrigido**: checagem de
+nome/tipo/CEP obrigatórios no front antes de submeter (`easy-maintenance-web` commit `445e866`) +
+handler dedicado de `HttpMessageNotReadableException` no backend, devolvendo erro de validação
+normal em vez de 500 pra qualquer enum vazio, em qualquer endpoint (`easy-maintenance-api` commit
+`4008255`).
+
+| Passo | Ação                                                                          | Resultado esperado                                           |
+|-------|-------------------------------------------------------------------------------|--------------------------------------------------------------|
+| 1     | No passo 2, deixar o formulário inteiro em branco (nome, tipo, CEP) e submeter | Bloqueado no front, sem chamada de rede — mensagens nos três campos ("Informe o nome da organização", "Selecione o tipo de organização", "Informe o CEP") |
+| 2     | Preencher só nome/tipo/CEP (válidos), deixar o campo "CNPJ/CPF" vazio e submeter | Passa normalmente — CNPJ/CPF é opcional                     |
+| 3     | Preencher com um CNPJ de dígito verificador errado (ex. `11.222.333/0001-99`) | Bloqueado, mensagem "CNPJ/CPF inválido — confira os dígitos" |
+| 4     | Corrigir pra um CNPJ válido real e submeter                                   | Passa normalmente, organização criada                        |
+| 5     | (Defesa em profundidade) Via Postman, chamar `POST /me/onboarding/organization` com `companyType: ""` direto | `422`/`400` com erro de validação claro — **não** mais 500 |
 
 ---
 
@@ -82,41 +93,41 @@ Ainda sem PR — testar local primeiro.
 Usar Postman/curl/Insomnia — simula alguém chamando a API direto, sem passar pela validação do
 frontend.
 
-| Passo | Ação                                                                                                              | Resultado esperado                                                              |
-|-------|----------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| 1     | `POST /easy-maintenance/api/v1/me/onboarding/user` com `doc: "26684895803"` (autenticado, resto dos campos válidos) | `422` com mensagem de validação mencionando o campo `doc`                          |
-| 2     | `PUT /easy-maintenance/api/v1/private/admin/users/{userId}/account` com `doc: "26684895803"` (token admin)          | `422`, mesmo comportamento                                                          |
-| 3     | Repetir o passo 1 com `doc` omitido/nulo                                                                             | Passa normalmente (campo continua opcional)                                        |
+| Passo | Ação                                                                                                                | Resultado esperado                                        |
+|-------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| 1     | `POST /easy-maintenance/api/v1/me/onboarding/user` com `doc: "26684895803"` (autenticado, resto dos campos válidos) | `422` com mensagem de validação mencionando o campo `doc` |
+| 2     | `PUT /easy-maintenance/api/v1/private/admin/users/{userId}/account` com `doc: "26684895803"` (token admin)          | `422`, mesmo comportamento                                |
+| 3     | Repetir o passo 1 com `doc` omitido/nulo                                                                            | Passa normalmente (campo continua opcional)               |
 
 ---
 
 ### C4 — Onboarding completo com CPF válido continua funcionando (regressão do caminho feliz)
 
-| Passo | Ação                                                                                     | Resultado esperado                                                              |
-|-------|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| 1     | Cadastrar um usuário de teste novo, completar onboarding (passo 1 e 2) com CPF/CNPJ válidos reais | Onboarding completo sem erros, redireciona normalmente                          |
-| 2     | Conferir no banco: `SELECT external_customer_id FROM billing_accounts WHERE user_id = <novo_id>;` | `external_customer_id` preenchido (cliente criado na Asaas com sucesso)         |
+| Passo | Ação                                                                                              | Resultado esperado                                                      |
+|-------|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| 1     | Cadastrar um usuário de teste novo, completar onboarding (passo 1 e 2) com CPF/CNPJ válidos reais | Onboarding completo sem erros, redireciona normalmente                  |
+| 2     | Conferir no banco: `SELECT external_customer_id FROM billing_accounts WHERE user_id = <novo_id>;` | `external_customer_id` preenchido (cliente criado na Asaas com sucesso) |
 
 ---
 
 ### C5 — Ressincronização manual corrige uma conta com `external_customer_id` nulo
 
-| Passo | Ação                                                                                     | Resultado esperado                                                              |
-|-------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| 1     | Preparar uma conta de teste com `external_customer_id = NULL` (ver Pré-condições) e `doc` **válido** | —                                                                                |
-| 2     | Abrir `/private/users/{userId}` dessa conta, aba **Pagamento**                              | Badge "⚠️ Pendente de sincronização com Asaas" aparece perto do título; botão "Ressincronizar com Asaas" visível |
-| 3     | Clicar em "Ressincronizar com Asaas"                                                        | Toast de sucesso ("Cliente Asaas sincronizado com sucesso."); badge some da tela |
-| 4     | Conferir no banco                                                                            | `external_customer_id` da conta agora preenchido                                |
+| Passo | Ação                                                                                                 | Resultado esperado                                                                                               |
+|-------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| 1     | Preparar uma conta de teste com `external_customer_id = NULL` (ver Pré-condições) e `doc` **válido** | —                                                                                                                |
+| 2     | Abrir `/private/users/{userId}` dessa conta, aba **Pagamento**                                       | Badge "⚠️ Pendente de sincronização com Asaas" aparece perto do título; botão "Ressincronizar com Asaas" visível |
+| 3     | Clicar em "Ressincronizar com Asaas"                                                                 | Toast de sucesso ("Cliente Asaas sincronizado com sucesso."); badge some da tela                                 |
+| 4     | Conferir no banco                                                                                    | `external_customer_id` da conta agora preenchido                                                                 |
 
 ---
 
 ### C6 — Ressincronização mostra o erro real quando a Asaas ainda rejeita
 
-| Passo | Ação                                                                                     | Resultado esperado                                                              |
-|-------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| 1     | Numa conta com `external_customer_id = NULL`, editar o campo Documento pra um CPF **inválido** (dígito verificador errado) e salvar (botão "Salvar" da aba Pagamento) | Salva normalmente — a edição admin não bloqueia CPF inválido de propósito (ver Riscos/observação abaixo) |
-| 2     | Clicar em "Ressincronizar com Asaas"                                                        | Toast de **erro** com a mensagem real da Asaas (algo como "O CPF/CNPJ informado é inválido"), não uma mensagem genérica tipo "Erro interno inesperado" |
-| 3     | Badge continua aparecendo                                                                   | Sim — nada foi sincronizado                                                     |
+| Passo | Ação                                                                                                                                                                  | Resultado esperado                                                                                                                                     |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Numa conta com `external_customer_id = NULL`, editar o campo Documento pra um CPF **inválido** (dígito verificador errado) e salvar (botão "Salvar" da aba Pagamento) | Salva normalmente — a edição admin não bloqueia CPF inválido de propósito (ver Riscos/observação abaixo)                                               |
+| 2     | Clicar em "Ressincronizar com Asaas"                                                                                                                                  | Toast de **erro** com a mensagem real da Asaas (algo como "O CPF/CNPJ informado é inválido"), não uma mensagem genérica tipo "Erro interno inesperado" |
+| 3     | Badge continua aparecendo                                                                                                                                             | Sim — nada foi sincronizado                                                                                                                            |
 
 **Observação:** o passo 1 revela um ponto de atenção — a *edição* de conta pelo admin
 (`PUT /admin/users/{id}/account`) já tem `@Doc` aplicado (TASK-203), então na verdade o passo 1
@@ -128,9 +139,9 @@ esperado dado o que foi implementado.
 
 ### C7 — Botão/badge não aparecem quando a conta já está sincronizada
 
-| Passo | Ação                                                                                     | Resultado esperado                                                              |
-|-------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| 1     | Abrir a aba Pagamento de uma conta com `external_customer_id` já preenchido                 | Nenhum badge de aviso, nenhum botão de ressincronizar — tela como era antes      |
+| Passo | Ação                                                                                                                    | Resultado esperado                                                                      |
+|-------|-------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| 1     | Abrir a aba Pagamento de uma conta com `external_customer_id` já preenchido                                             | Nenhum badge de aviso, nenhum botão de ressincronizar — tela como era antes             |
 | 2     | (Opcional) Chamar `POST /admin/billing/users/{userId}/account/sync-external-customer` direto via Postman pra essa conta | `409 Conflict`, "Esta conta já possui um cliente Asaas vinculado — nada a sincronizar." |
 
 ---
@@ -140,25 +151,25 @@ esperado dado o que foi implementado.
 Local, `SENTRY_DSN_BACKEND` normalmente vazio → Sentry roda em modo no-op (não envia nada). Esse
 cenário só é totalmente verificável em staging/produção, onde o DSN está configurado.
 
-| Passo | Ação                                                                                     | Resultado esperado                                                              |
-|-------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| 1     | (Só se `SENTRY_DSN_BACKEND` estiver setado local) Forçar falha de criação de cliente Asaas (onboarding com CPF que passe na validação do front mas falhe na Asaas, ou repetir C6) | Evento aparece no painel do Sentry, com a exceção `AsaasException` e contexto |
-| 2     | Se não tiver DSN local                                                                       | Pular esse cenário — cobertura já garantida pelos testes automatizados (`mvn test`) e pela revisão de código; reconferir depois que for pra staging |
+| Passo | Ação                                                                                                                                                                              | Resultado esperado                                                                                                                                  |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | (Só se `SENTRY_DSN_BACKEND` estiver setado local) Forçar falha de criação de cliente Asaas (onboarding com CPF que passe na validação do front mas falhe na Asaas, ou repetir C6) | Evento aparece no painel do Sentry, com a exceção `AsaasException` e contexto                                                                       |
+| 2     | Se não tiver DSN local                                                                                                                                                            | Pular esse cenário — cobertura já garantida pelos testes automatizados (`mvn test`) e pela revisão de código; reconferir depois que for pra staging |
 
 ---
 
 ### C9 — Regressão automatizada
 
-| Passo | Ação                                     | Resultado esperado                          |
-|-------|-------------------------------------------|----------------------------------------------|
-| 1     | `mvn test` na api                          | 809/809 passando, 0 falhas                    |
-| 2     | `npm run build` no web                     | Build limpo, sem erro de TypeScript           |
+| Passo | Ação                   | Resultado esperado                  |
+|-------|------------------------|-------------------------------------|
+| 1     | `mvn test` na api      | 811/811 passando, 0 falhas (+2 do fix de `HttpMessageNotReadableException`) |
+| 2     | `npm run build` no web | Build limpo, sem erro de TypeScript |
 
 ---
 
 ## Critérios de Aceite da Suite
 
-- [ ] C1: CPF inválido bloqueado no passo 1 do onboarding, CPF válido passa
+- [X] C1: CPF inválido bloqueado no passo 1 do onboarding, CPF válido passa
 - [ ] C2: CNPJ/CPF inválido bloqueado no passo 2 (quando preenchido), vazio passa (opcional)
 - [ ] C3: API rejeita `doc` inválido direto (`422`), aceita `doc` nulo
 - [ ] C4: onboarding com CPF válido continua criando o cliente Asaas normalmente
