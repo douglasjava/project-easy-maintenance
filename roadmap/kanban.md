@@ -1,8 +1,7 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 25/08/2026 — **TASK-200 mergeada em `staging`, PRs `staging → main` abertas**:
-> [api#47](https://github.com/douglasjava/easy-maintenance-api/pull/47),
-> [web#52](https://github.com/douglasjava/easy-maintenance-web/pull/52).
+> Atualizado em: 25/08/2026 — **TASK-200 concluída** — [api#47](https://github.com/douglasjava/easy-maintenance-api/pull/47)
+> e [web#52](https://github.com/douglasjava/easy-maintenance-web/pull/52) mergeadas em `main`.
 > Atualizado em: 25/08/2026 — **TASK-200 criada**: campo de descrição livre (opcional, até 1000
 > caracteres) no registro de manutenção — hoje não existe em lugar nenhum (nem entidade, nem
 > request), e o registro fica só data+tipo+custo, sem dizer o que foi feito de verdade. Motivador:
@@ -1042,7 +1041,6 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção (staging → main: api#47, web#52) | 🟠 Alto | — |
 | [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
 | [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
@@ -1109,6 +1107,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção — api#47 e web#52 mergeadas em main | 🟠 Alto | — |
 | [TASK-180](tasks/TASK-180.md) | Conteúdo: revisar post do blog sobre NBR 5674 — PR #45 mergeada em staging | 🔵 Baixo | EPIC-025 |
 | [TASK-178](tasks/TASK-178.md) | Backend: novo item de catálogo para instalação de gás combustível — PR #39 mergeada em staging (V90) | 🟡 Médio | EPIC-025 |
 | [TASK-179](tasks/TASK-179.md) | Frontend: atualizar página `/norms` com os achados do levantamento — PR #44 mergeada em staging | 🟠 Alto | EPIC-025 |
