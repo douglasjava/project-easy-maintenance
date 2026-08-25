@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 25/08/2026 — **TASK-201 a 205 criadas** (EPIC-002 Fase 3): achado real no primeiro
+> cliente pagante — CPF com dígito verificador inválido no onboarding foi rejeitado pela Asaas e
+> engolido silenciosamente, deixando a conta sem `externalCustomerId`. Escopo: ressincronização
+> manual pelo admin (TASK-201), validação de CPF/CNPJ front+back (TASK-202/203), alerta Sentry
+> (TASK-204), indicador visual de pendência (TASK-205). Avaliado e descartado por ora: self-service
+> do próprio usuário editar CPF/CNPJ depois do onboarding — caso raro (troca CPF→CNPJ pra nota
+> fiscal), coberto pelo admin existente; complexidade de cancelar assinatura de cartão ativa na
+> Asaas não justifica agora.
 > Atualizado em: 25/08/2026 — **TASK-200 concluída** — [api#47](https://github.com/douglasjava/easy-maintenance-api/pull/47)
 > e [web#52](https://github.com/douglasjava/easy-maintenance-web/pull/52) mergeadas em `main`.
 > Atualizado em: 25/08/2026 — **TASK-200 criada**: campo de descrição livre (opcional, até 1000
@@ -928,6 +936,15 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**EPIC-002 Fase 3 — Falha silenciosa de criação de cliente Asaas no onboarding — *(25/08/2026)***:
+*(achado real no onboarding do primeiro cliente pagante — CPF com dígito verificador inválido
+rejeitado pela Asaas e engolido silenciosamente; ver [EPIC-002](epics/EPIC-002.md) Fase 3)*
+- **[TASK-201](tasks/TASK-201.md)** — Full-stack: ressincronização manual de cliente Asaas por usuário (botão no admin)
+- **[TASK-202](tasks/TASK-202.md)** — Frontend: validação de dígito verificador de CPF/CNPJ no onboarding
+- **[TASK-203](tasks/TASK-203.md)** — Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade)
+- **[TASK-204](tasks/TASK-204.md)** — Backend: alerta (Sentry) quando falha a criação do cliente Asaas
+- **[TASK-205](tasks/TASK-205.md)** — Frontend: indicador visual de sincronização pendente com Asaas
 
 **EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
 implementadas, PRs abertas contra `staging` — *(24/08/2026)***:
