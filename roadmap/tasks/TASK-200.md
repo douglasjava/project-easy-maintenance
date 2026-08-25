@@ -117,10 +117,12 @@ contrato pra quem já consome a API sem esse campo.
 Baixo
 
 ## Status
-🟡 Em validação — testado localmente pelo Douglas, PRs abertas contra `staging`.
+🟡 Em validação — testado localmente pelo Douglas, mergeada em `staging`, PRs `staging → main` abertas.
 
 - api: `5f162c7` — migration V96, entidade/DTO/mapper/service, 2 testes novos (800/800 passando) —
-  [PR #46](https://github.com/douglasjava/easy-maintenance-api/pull/46)
+  [PR #46](https://github.com/douglasjava/easy-maintenance-api/pull/46) (mergeada em staging),
+  [PR #47](https://github.com/douglasjava/easy-maintenance-api/pull/47) (staging → main)
 - web: `ad9e034` — textarea no registro (Passo 1), exibição no modal de detalhes de
   `/maintenances`, ícone indicador no histórico do item (`items/[id]`) —
-  [PR #51](https://github.com/douglasjava/easy-maintenance-web/pull/51)
+  [PR #51](https://github.com/douglasjava/easy-maintenance-web/pull/51) (mergeada em staging),
+  [PR #52](https://github.com/douglasjava/easy-maintenance-web/pull/52) (staging → main)

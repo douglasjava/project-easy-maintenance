@@ -1,8 +1,8 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 25/08/2026 — **TASK-200 testada localmente pelo Douglas, PRs abertas contra
-> `staging`**: [api#46](https://github.com/douglasjava/easy-maintenance-api/pull/46),
-> [web#51](https://github.com/douglasjava/easy-maintenance-web/pull/51).
+> Atualizado em: 25/08/2026 — **TASK-200 mergeada em `staging`, PRs `staging → main` abertas**:
+> [api#47](https://github.com/douglasjava/easy-maintenance-api/pull/47),
+> [web#52](https://github.com/douglasjava/easy-maintenance-web/pull/52).
 > Atualizado em: 25/08/2026 — **TASK-200 criada**: campo de descrição livre (opcional, até 1000
 > caracteres) no registro de manutenção — hoje não existe em lugar nenhum (nem entidade, nem
 > request), e o registro fica só data+tipo+custo, sem dizer o que foi feito de verdade. Motivador:
@@ -1042,7 +1042,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção (PRs abertas: api#46, web#51) | 🟠 Alto | — |
+| [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção (staging → main: api#47, web#52) | 🟠 Alto | — |
 | [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
 | [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
