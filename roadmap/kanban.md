@@ -1,5 +1,15 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 25/08/2026 — **TASK-200 implementada** (backend + frontend), em `feature/TASK-200-
+> maintenance-description` nos dois repos, PR ainda **não aberta** a pedido do Douglas (quer testar
+> localmente primeiro). api `5f162c7` (migration V96 + entidade/DTO/mapper/service + 2 testes,
+> 800/800 passando); web `ad9e034` (textarea no registro, exibição no modal de detalhes, ícone
+> indicador no histórico do item). `npm run build` limpo.
+> Atualizado em: 25/08/2026 — **TASK-200 criada**: campo de descrição livre (opcional, até 1000
+> caracteres) no registro de manutenção — hoje não existe em lugar nenhum (nem entidade, nem
+> request), e o registro fica só data+tipo+custo, sem dizer o que foi feito de verdade. Motivador:
+> Douglas conseguiu um cliente pra validar em trial. Sem épico específico (nenhum candidato
+> existente é o lugar certo). Full-stack, esforço baixo — ainda não implementada.
 > Atualizado em: 24/08/2026 — **TASK-199 implementada e com PR aberta** — "Receita Total" em
 > `/private/admin/billing` somava `plan.priceCents` (preço de tabela) em vez de `item.valueCents`
 > (valor real cobrado); item `ORGANIZATION` está zerado desde a EPIC-014, então a receita das
@@ -1034,6 +1044,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção (aguardando teste local do Douglas antes do PR) | 🟠 Alto | — |
 | [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
 | [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
