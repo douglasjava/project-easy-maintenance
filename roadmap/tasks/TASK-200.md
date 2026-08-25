@@ -117,10 +117,10 @@ contrato pra quem já consome a API sem esse campo.
 Baixo
 
 ## Status
-🟡 Em validação — implementado em `feature/TASK-200-maintenance-description` nos dois repos,
-aguardando teste manual do Douglas antes de abrir PR (pedido explícito: "pode implementar criar
-uma branch nova depois de pronto vou testar localmente").
+🟡 Em validação — testado localmente pelo Douglas, PRs abertas contra `staging`.
 
-- api: `5f162c7` — migration V96, entidade/DTO/mapper/service, 2 testes novos (800/800 passando)
+- api: `5f162c7` — migration V96, entidade/DTO/mapper/service, 2 testes novos (800/800 passando) —
+  [PR #46](https://github.com/douglasjava/easy-maintenance-api/pull/46)
 - web: `ad9e034` — textarea no registro (Passo 1), exibição no modal de detalhes de
-  `/maintenances`, ícone indicador no histórico do item (`items/[id]`)
+  `/maintenances`, ícone indicador no histórico do item (`items/[id]`) —
+  [PR #51](https://github.com/douglasjava/easy-maintenance-web/pull/51)
