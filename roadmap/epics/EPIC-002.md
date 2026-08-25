@@ -1,9 +1,10 @@
 # EPIC-002 — Confiabilidade Operacional
 
 ## Status
-Parcial — 3/4 tasks da Fase 1/2 entregues (TASK-025 — fila/retry e-mails — pendente); Fase 3 criada
-em 25/08/2026 (5 tasks, achadas ao investigar falha silenciosa de criação de cliente Asaas no
-onboarding — caso real do primeiro cliente pagante)
+Parcial — 3/4 tasks da Fase 1/2 entregues (TASK-025 — fila/retry e-mails — pendente); Fase 3
+implementada em 25/08/2026 (5/5 tasks, `feature/EPIC-002-fase3-asaas-sync` nos dois repos, PR ainda
+não aberta — achadas ao investigar falha silenciosa de criação de cliente Asaas no onboarding, caso
+real do primeiro cliente pagante)
 
 ## Objetivo
 Garantir que o sistema opere de forma estável e previsível em produção, sem falhas em cascata, jobs duplicados ou e-mails perdidos.

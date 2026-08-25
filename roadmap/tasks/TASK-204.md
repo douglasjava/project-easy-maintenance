@@ -79,4 +79,7 @@ Baixo — só adiciona observabilidade, não altera fluxo de negócio.
 Baixo
 
 ## Status
-🔵 Não iniciada
+🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` (api), commits `ff1ef31`
+(`OnboardingService.createUser`) e `738d7a6` (`ExternalCustomerSyncService`, junto de TASK-201 —
+mesmo arquivo). `Sentry.captureException(e)` nos dois pontos que engoliam a falha da Asaas, sem
+mudar comportamento funcional.

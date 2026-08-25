@@ -75,4 +75,10 @@ válido.
 Baixo
 
 ## Status
-🔵 Não iniciada
+🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` (api), commit `2e6e15a`.
+Achado ao investigar: `@Doc`/`DocumentValidator` (Hibernate Validator `@CPF`/`@CNPJ`) já existiam no
+projeto e já eram usados em `OrganizationDTO`, mas o import ficou órfão em `OnboardingDTO` — nunca
+foi aplicado em `AccountUserRequest.doc` nem `AccountOrganizationRequest.doc`. Escopo reduzido a
+aplicar `@Doc` nesses dois campos + `UpdateBillingAccountRequest.doc` (edição admin), em vez de
+criar validador do zero. 5 testes novos cobrindo o CPF real do caso do Ricardo (rejeitado) e
+CPF/CNPJ/null válidos (aceitos), 809/809 passando.

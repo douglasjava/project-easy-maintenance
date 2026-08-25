@@ -63,4 +63,6 @@ Baixo — só leitura/exibição de um campo que a API já retorna.
 Baixo
 
 ## Status
-🔵 Não iniciada
+🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` (web), commit `0620743`
+(junto de TASK-201 — mesmo arquivo/mesma tela). Badge "⚠️ Pendente de sincronização com Asaas" na
+aba Pagamento quando `externalCustomerId` está vazio. `npm run build` limpo.

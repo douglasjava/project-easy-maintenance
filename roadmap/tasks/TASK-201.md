@@ -96,4 +96,10 @@ Baixo — endpoint aditivo, sem mudança em fluxo existente.
 Baixo
 
 ## Status
-🔵 Não iniciada
+🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` nos dois repos.
+
+- api: `738d7a6` — `ExternalCustomerSyncService.syncOne`, endpoint
+  `POST /admin/billing/users/{userId}/account/sync-external-customer`, novo handler de
+  `AsaasException` no `GlobalExceptionHandler` (antes caía no genérico e mascarava a mensagem),
+  4 testes novos (809/809 passando)
+- web: `0620743` — botão "Ressincronizar com Asaas" na aba Pagamento do admin

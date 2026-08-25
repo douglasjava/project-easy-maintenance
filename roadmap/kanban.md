@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 25/08/2026 — **TASK-201 a 205 implementadas** (EPIC-002 Fase 3), branch
+> `feature/EPIC-002-fase3-asaas-sync` nos dois repos, PR ainda não aberta. api: 809/809 testes
+> passando (`2e6e15a`, `738d7a6`, `ff1ef31`); web: `npm run build` limpo (`4b82e2b`, `0620743`).
+> Achado no meio do caminho: `@Doc`/CPF-CNPJ (Hibernate Validator) já existia no projeto e já era
+> usado em `OrganizationDTO` — só faltava aplicar em `OnboardingDTO`, reduziu o escopo de TASK-203.
 > Atualizado em: 25/08/2026 — **TASK-201 a 205 criadas** (EPIC-002 Fase 3): achado real no primeiro
 > cliente pagante — CPF com dígito verificador inválido no onboarding foi rejeitado pela Asaas e
 > engolido silenciosamente, deixando a conta sem `externalCustomerId`. Escopo: ressincronização
@@ -937,15 +942,6 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**EPIC-002 Fase 3 — Falha silenciosa de criação de cliente Asaas no onboarding — *(25/08/2026)***:
-*(achado real no onboarding do primeiro cliente pagante — CPF com dígito verificador inválido
-rejeitado pela Asaas e engolido silenciosamente; ver [EPIC-002](epics/EPIC-002.md) Fase 3)*
-- **[TASK-201](tasks/TASK-201.md)** — Full-stack: ressincronização manual de cliente Asaas por usuário (botão no admin)
-- **[TASK-202](tasks/TASK-202.md)** — Frontend: validação de dígito verificador de CPF/CNPJ no onboarding
-- **[TASK-203](tasks/TASK-203.md)** — Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade)
-- **[TASK-204](tasks/TASK-204.md)** — Backend: alerta (Sentry) quando falha a criação do cliente Asaas
-- **[TASK-205](tasks/TASK-205.md)** — Frontend: indicador visual de sincronização pendente com Asaas
-
 **EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
 implementadas, PRs abertas contra `staging` — *(24/08/2026)***:
 *(estende `Affiliate`/`ReferralCommission` em vez de manter `manual_commission_rules` — ver
@@ -1058,6 +1054,11 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário (botão no admin) | 🟠 Alto | EPIC-002 |
+| [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding            | 🟠 Alto    | EPIC-002 |
+| [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade)  | 🟡 Médio   | EPIC-002 |
+| [TASK-204](tasks/TASK-204.md) | Backend: alerta (Sentry) quando falha a criação do cliente Asaas               | 🟠 Alto    | EPIC-002 |
+| [TASK-205](tasks/TASK-205.md) | Frontend: indicador visual de sincronização pendente com Asaas                 | 🟡 Médio   | EPIC-002 |
 | [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
 | [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
