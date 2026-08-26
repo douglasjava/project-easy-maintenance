@@ -218,6 +218,16 @@ estendido + `metaCapi.test.ts` novo (frontend). Suíte completa do backend (`mvn
 (`META_CAPI_ACCESS_TOKEN`/`META_CAPI_DATASET_ID` configuradas, eventos `Lead`/`LeadQualified`/
 `LeadConverted` confirmados no Test Events da Meta, dedupe com o Pixel funcionando). Mergeado em
 `staging`: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51),
-[web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). PRs de promoção
-`staging → main` abertas: [api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52),
+[web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). Promovido pra `main`:
+[api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52),
 [web#57](https://github.com/douglasjava/easy-maintenance-web/pull/57).
+
+**Confirmado em produção (Railway) em 26/08/2026, 21:47-21:50** — Douglas configurou
+`META_CAPI_ACCESS_TOKEN`/`META_CAPI_DATASET_ID` reais no serviço `easy-maintenance-api` e gerou um
+lead de teste real (`samueloliveira@gmail.com`, lead id 22) passando pelas três transições. Log de
+produção confirma os três envios com sucesso, sem nenhum `WARN`/falha:
+`Lead` (21:47:21) → `LeadQualified` (21:49:10) → `LeadConverted` (21:50:19). TASK-157 está
+**ativa e funcionando de ponta a ponta em produção** — não é mais só código, os eventos chegam de
+verdade na Meta. Próximo passo não é mais técnico: manter o hábito de atualizar o status dos leads
+em `/private/admin/leads` é o que faz a Meta acumular sinal de qualidade suficiente para liberar a
+otimização "Maximizar leads qualificados".
