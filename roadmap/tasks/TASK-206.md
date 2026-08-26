@@ -1,4 +1,4 @@
-# TASK-206 — BUGFIX Frontend: rota morta de assinatura por usuário no admin (mostra plano errado)
+# TASK-206 — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado)
 
 ## Tipo
 BUGFIX
@@ -78,4 +78,13 @@ Baixo — mudança isolada na aba Pagamento do admin, sem afetar cobrança real.
 Baixo
 
 ## Status
-🔵 Não iniciada
+🟡 Em validação — implementada em `bugfix/TASK-206-user-subscription-route` nos dois repos,
+aguardando teste local.
+
+- api: `714badf` — `BillingSubscriptionItemService.findByUser`, endpoint
+  `GET /admin/billing/users/{userId}/subscription` (reaproveita
+  `BillingSubscriptionItemRepository.findBySourceTypeAndSourceId` já existente), 2 testes novos
+  (813/813 passando)
+- web: `a25f247` — `admin-billing.service.ts` aponta pra rota nova (plural). Corrige as duas abas
+  que dependiam da rota morta: Assinatura (`fetchUserBilling`) e Pagamento (`fetchUserPayment`).
+  `npm run build` limpo.
