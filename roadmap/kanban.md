@@ -1,5 +1,8 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 26/08/2026 — **TASK-206 testada localmente, PRs abertas contra `staging`**:
+> [api#49](https://github.com/douglasjava/easy-maintenance-api/pull/49),
+> [web#54](https://github.com/douglasjava/easy-maintenance-web/pull/54).
 > Atualizado em: 26/08/2026 — **TASK-206 implementada**, branch `bugfix/TASK-206-user-subscription-route`
 > nos dois repos, aguardando teste local. api `714badf` (rota nova `GET /users/{userId}/subscription`,
 > 813/813 testes); web `a25f247` (aponta pra rota nova, corrige abas Assinatura e Pagamento).
@@ -960,7 +963,7 @@ _Vazio_
 ## Pronto para Implementar
 
 **Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
-- **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — implementada, aguardando teste local
+- **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — testado local, PR api#49/web#54
 
 **EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
 implementadas, PRs abertas contra `staging` — *(24/08/2026)***:
