@@ -216,6 +216,8 @@ estendido + `metaCapi.test.ts` novo (frontend). Suíte completa do backend (`mvn
 **QA manual aprovado por Douglas em 26/08/2026** — os 7 cenários do
 [TASK-QA-MAN-015](../QA/tasks/TASK-QA-MAN-015.md) validados, incluindo Parte B com credenciais reais
 (`META_CAPI_ACCESS_TOKEN`/`META_CAPI_DATASET_ID` configuradas, eventos `Lead`/`LeadQualified`/
-`LeadConverted` confirmados no Test Events da Meta, dedupe com o Pixel funcionando). PRs abertas
-contra `staging`: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51),
-[web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56).
+`LeadConverted` confirmados no Test Events da Meta, dedupe com o Pixel funcionando). Mergeado em
+`staging`: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51),
+[web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). PRs de promoção
+`staging → main` abertas: [api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52),
+[web#57](https://github.com/douglasjava/easy-maintenance-web/pull/57).
