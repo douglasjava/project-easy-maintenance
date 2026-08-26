@@ -96,7 +96,9 @@ Baixo — endpoint aditivo, sem mudança em fluxo existente.
 Baixo
 
 ## Status
-🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` nos dois repos.
+🟡 Em validação — testada localmente pelo Douglas (`TASK-QA-MAN-014`, todos os cenários), PRs
+abertas contra `staging`: [api#48](https://github.com/douglasjava/easy-maintenance-api/pull/48),
+[web#53](https://github.com/douglasjava/easy-maintenance-web/pull/53).
 
 - api: `738d7a6` — `ExternalCustomerSyncService.syncOne`, endpoint
   `POST /admin/billing/users/{userId}/account/sync-external-customer`, novo handler de

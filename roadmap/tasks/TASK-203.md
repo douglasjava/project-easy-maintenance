@@ -75,7 +75,8 @@ válido.
 Baixo
 
 ## Status
-🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` (api), commit `2e6e15a`.
+🟡 Em validação — testada localmente pelo Douglas (`TASK-QA-MAN-014`), PR api#48 aberta contra
+`staging`. Implementada em `feature/EPIC-002-fase3-asaas-sync` (api), commit `2e6e15a`.
 Achado ao investigar: `@Doc`/`DocumentValidator` (Hibernate Validator `@CPF`/`@CNPJ`) já existiam no
 projeto e já eram usados em `OrganizationDTO`, mas o import ficou órfão em `OnboardingDTO` — nunca
 foi aplicado em `AccountUserRequest.doc` nem `AccountOrganizationRequest.doc`. Escopo reduzido a

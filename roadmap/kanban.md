@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 26/08/2026 — **TASK-201 a 205 testadas localmente pelo Douglas** (`TASK-QA-MAN-014`,
+> todos os cenários passaram), **PRs abertas contra `staging`**:
+> [api#48](https://github.com/douglasjava/easy-maintenance-api/pull/48),
+> [web#53](https://github.com/douglasjava/easy-maintenance-web/pull/53).
 > Atualizado em: 26/08/2026 — **TASK-206 criada** (bugfix, sem épico): aba Pagamento do admin
 > (`/private/users/[id]`) chama uma rota que não existe mais desde o refactor de billing por
 > usuário (`GET /admin/billing/user/{id}/subscription`, removida no commit `815e36e`) — cai num
@@ -1063,11 +1067,11 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário (botão no admin) | 🟠 Alto | EPIC-002 |
-| [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding            | 🟠 Alto    | EPIC-002 |
-| [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade)  | 🟡 Médio   | EPIC-002 |
-| [TASK-204](tasks/TASK-204.md) | Backend: alerta (Sentry) quando falha a criação do cliente Asaas               | 🟠 Alto    | EPIC-002 |
-| [TASK-205](tasks/TASK-205.md) | Frontend: indicador visual de sincronização pendente com Asaas                 | 🟡 Médio   | EPIC-002 |
+| [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
+| [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — testado local, PR web#53 | 🟠 Alto | EPIC-002 |
+| [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — testado local, PR api#48 | 🟡 Médio | EPIC-002 |
+| [TASK-204](tasks/TASK-204.md) | Backend: alerta (Sentry) quando falha a criação do cliente Asaas — testado local, PR api#48 | 🟠 Alto | EPIC-002 |
+| [TASK-205](tasks/TASK-205.md) | Frontend: indicador visual de sincronização pendente com Asaas — testado local, PR web#53 | 🟡 Médio | EPIC-002 |
 | [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
 | [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |

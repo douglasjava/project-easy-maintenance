@@ -77,6 +77,6 @@ Baixo — validação client-side aditiva, não muda contrato com o backend.
 Baixo
 
 ## Status
-🟡 Em validação — implementada em `feature/EPIC-002-fase3-asaas-sync` (web), commit `4b82e2b`.
-`isValidCPF`/`isValidCNPJ` (mod 11 + rejeição de sequências repetidas) bloqueando `handleStep1`
-(CPF obrigatório) e `handleStep2` (CNPJ/CPF opcional). `npm run build` limpo.
+🟡 Em validação — testada localmente pelo Douglas (`TASK-QA-MAN-014`), PR web#53 aberta contra
+`staging`. `isValidCPF`/`isValidCNPJ` (mod 11 + rejeição de sequências repetidas) bloqueando
+`handleStep1` (CPF obrigatório) e `handleStep2` (CNPJ/CPF opcional). `npm run build` limpo.

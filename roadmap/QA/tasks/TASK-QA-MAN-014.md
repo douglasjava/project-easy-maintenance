@@ -78,13 +78,13 @@ handler dedicado de `HttpMessageNotReadableException` no backend, devolvendo err
 normal em vez de 500 pra qualquer enum vazio, em qualquer endpoint (`easy-maintenance-api` commit
 `4008255`).
 
-| Passo | Ação                                                                          | Resultado esperado                                           |
-|-------|-------------------------------------------------------------------------------|--------------------------------------------------------------|
-| 1     | No passo 2, deixar o formulário inteiro em branco (nome, tipo, CEP) e submeter | Bloqueado no front, sem chamada de rede — mensagens nos três campos ("Informe o nome da organização", "Selecione o tipo de organização", "Informe o CEP") |
-| 2     | Preencher só nome/tipo/CEP (válidos), deixar o campo "CNPJ/CPF" vazio e submeter | Passa normalmente — CNPJ/CPF é opcional                     |
-| 3     | Preencher com um CNPJ de dígito verificador errado (ex. `11.222.333/0001-99`) | Bloqueado, mensagem "CNPJ/CPF inválido — confira os dígitos" |
-| 4     | Corrigir pra um CNPJ válido real e submeter                                   | Passa normalmente, organização criada                        |
-| 5     | (Defesa em profundidade) Via Postman, chamar `POST /me/onboarding/organization` com `companyType: ""` direto | `422`/`400` com erro de validação claro — **não** mais 500 |
+| Passo | Ação                                                                                                         | Resultado esperado                                                                                                                                        |
+|-------|--------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | No passo 2, deixar o formulário inteiro em branco (nome, tipo, CEP) e submeter                               | Bloqueado no front, sem chamada de rede — mensagens nos três campos ("Informe o nome da organização", "Selecione o tipo de organização", "Informe o CEP") |
+| 2     | Preencher só nome/tipo/CEP (válidos), deixar o campo "CNPJ/CPF" vazio e submeter                             | Passa normalmente — CNPJ/CPF é opcional                                                                                                                   |
+| 3     | Preencher com um CNPJ de dígito verificador errado (ex. `11.222.333/0001-99`)                                | Bloqueado, mensagem "CNPJ/CPF inválido — confira os dígitos"                                                                                              |
+| 4     | Corrigir pra um CNPJ válido real e submeter                                                                  | Passa normalmente, organização criada                                                                                                                     |
+| 5     | (Defesa em profundidade) Via Postman, chamar `POST /me/onboarding/organization` com `companyType: ""` direto | `422`/`400` com erro de validação claro — **não** mais 500                                                                                                |
 
 ---
 
@@ -160,26 +160,29 @@ cenário só é totalmente verificável em staging/produção, onde o DSN está 
 
 ### C9 — Regressão automatizada
 
-| Passo | Ação                   | Resultado esperado                  |
-|-------|------------------------|-------------------------------------|
+| Passo | Ação                   | Resultado esperado                                                          |
+|-------|------------------------|-----------------------------------------------------------------------------|
 | 1     | `mvn test` na api      | 811/811 passando, 0 falhas (+2 do fix de `HttpMessageNotReadableException`) |
-| 2     | `npm run build` no web | Build limpo, sem erro de TypeScript |
+| 2     | `npm run build` no web | Build limpo, sem erro de TypeScript                                         |
 
 ---
 
 ## Critérios de Aceite da Suite
 
 - [X] C1: CPF inválido bloqueado no passo 1 do onboarding, CPF válido passa
-- [ ] C2: CNPJ/CPF inválido bloqueado no passo 2 (quando preenchido), vazio passa (opcional)
-- [ ] C3: API rejeita `doc` inválido direto (`422`), aceita `doc` nulo
-- [ ] C4: onboarding com CPF válido continua criando o cliente Asaas normalmente
-- [ ] C5: botão de ressincronização corrige uma conta pendente com sucesso
-- [ ] C6: falha de ressincronização mostra a mensagem real da Asaas, não uma genérica
-- [ ] C7: badge/botão somem quando a conta já está sincronizada; endpoint retorna 409 se chamado mesmo assim
-- [ ] C8: (se aplicável local) evento aparece no Sentry
-- [ ] C9: suíte automatizada sem regressão
+- [X] C2: CNPJ/CPF inválido bloqueado no passo 2 (quando preenchido), vazio passa (opcional)
+- [X] C3: API rejeita `doc` inválido direto (`422`), aceita `doc` nulo
+- [X] C4: onboarding com CPF válido continua criando o cliente Asaas normalmente
+- [X] C5: botão de ressincronização corrige uma conta pendente com sucesso
+- [X] C6: falha de ressincronização mostra a mensagem real da Asaas, não uma genérica
+- [X] C7: badge/botão somem quando a conta já está sincronizada; endpoint retorna 409 se chamado mesmo assim
+- [X] C8: (se aplicável local) evento aparece no Sentry
+- [X] C9: suíte automatizada sem regressão
 
 ---
 
 ## Status
-Aguardando validação local do Douglas.
+Todos os cenários validados localmente por Douglas (26/08/2026), incluindo o achado e fix do C2
+(500 com formulário em branco no passo 2). PRs abertas contra `staging`:
+[api#48](https://github.com/douglasjava/easy-maintenance-api/pull/48),
+[web#53](https://github.com/douglasjava/easy-maintenance-web/pull/53).
