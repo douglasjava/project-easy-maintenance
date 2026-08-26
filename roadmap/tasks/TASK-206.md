@@ -85,6 +85,12 @@ aguardando teste local.
   `GET /admin/billing/users/{userId}/subscription` (reaproveita
   `BillingSubscriptionItemRepository.findBySourceTypeAndSourceId` já existente), 2 testes novos
   (813/813 passando)
-- web: `a25f247` — `admin-billing.service.ts` aponta pra rota nova (plural). Corrige as duas abas
-  que dependiam da rota morta: Assinatura (`fetchUserBilling`) e Pagamento (`fetchUserPayment`).
-  `npm run build` limpo.
+- web: `a25f247` — `admin-billing.service.ts` aponta pra rota nova (plural). Corrige a busca de
+  dados; `d9df6b1` — badge "Plano atual: X" na aba Pagamento (o dado já era buscado desde sempre,
+  mas nunca era exibido em lugar nenhum — achado do Douglas ao revisar a correção). `npm run build`
+  limpo.
+
+**Achado à parte, não corrigido nesta task**: existe uma aba "Assinatura" (`billing`) definida no
+tipo `UserTab`, com toda a lógica de busca (`fetchUserBilling`) e edição — mas sem botão nem bloco
+de conteúdo renderizado, nunca aparece na tela. Código morto, provavelmente órfão de alguma remoção
+de UI anterior. Fora de escopo aqui; considerar limpeza numa task futura se fizer sentido.
