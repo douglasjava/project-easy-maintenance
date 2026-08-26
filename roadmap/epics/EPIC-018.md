@@ -6,8 +6,11 @@ tracking` (ambos os repos), suíte backend completa e `npm run build` do fronten
 manual em browser feita (Playwright) — inclusive um bug real encontrado e corrigido nessa validação
 (link de WhatsApp em `/obrigado` nunca incluía o contexto de UTM por mismatch de hidratação, ver
 TASK-155). Falta: QA manual formal, abrir PR para `staging` em ambos os repos, e os IDs de Meta
-Pixel/Google Tag do Douglas para fechar de fato o épico (TASK-156). TASK-157 permanece no backlog,
-bloqueada por credenciais.
+Pixel/Google Tag do Douglas para fechar de fato o épico (TASK-156). TASK-157 concluída em
+26/08/2026 — QA manual aprovado (7 cenários, incluindo validação real no Test Events da Meta com
+credenciais configuradas), PRs abertas contra `staging`:
+[api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51),
+[web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56).
 
 ## Objetivo
 Preparar o site público (`easymaintenance.com.br`) para o início de tráfego pago (Meta Ads, Google
@@ -64,7 +67,7 @@ evento já cabeados, porém como no-op até os IDs serem fornecidos).
 | [TASK-154](../tasks/TASK-154.md) | Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração | FRONTEND | 🟠 Alto |
 | [TASK-155](../tasks/TASK-155.md) | Frontend: página `/obrigado` + correção da whitelist `isAuth` no `Shell.tsx` | FRONTEND | 🟠 Alto |
 | [TASK-156](../tasks/TASK-156.md) | Frontend: scaffolding de eventos de conversão (Lead/Contact) — pendente de IDs de pixel | FRONTEND | 🟡 Médio |
-| [TASK-157](../tasks/TASK-157.md) | Fase 2 (backlog): Conversions API (Meta) / Enhanced Conversions (Google) server-side | BACKEND | 🟡 Médio |
+| [TASK-157](../tasks/TASK-157.md) | Fase 2 (backlog): Meta Conversions API — dedupe de Lead + sinal de qualidade (CONTACTED/CONVERTED). Google Enhanced Conversions descopado, ver task | FULL_STACK | 🟡 Médio |
 
 Ordem sugerida: TASK-152 e TASK-153 em paralelo (trilhas independentes) → TASK-155 (página, pode
 andar em paralelo com as anteriores) → TASK-154 (depende do helper de UTM da TASK-153 e do campo de

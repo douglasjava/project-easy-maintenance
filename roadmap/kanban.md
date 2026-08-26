@@ -1039,7 +1039,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-154](tasks/TASK-154.md)**~~ — ~~Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração~~ *(em validação)*
 - ~~**[TASK-155](tasks/TASK-155.md)**~~ — ~~Frontend: página `/obrigado` + correção da whitelist `isAuth`~~ *(em validação)*
 - ~~**[TASK-156](tasks/TASK-156.md)**~~ — ~~Frontend: scaffolding de eventos Lead/Contact — pendente de IDs de pixel~~ *(em validação)*
-- **[TASK-157](tasks/TASK-157.md)** — *(backlog, não "pronta")* Conversions API (Meta) / Enhanced Conversions (Google) server-side — bloqueada por credenciais que Douglas ainda vai levantar (🟡 Médio | EPIC-018)
+- **[TASK-157](tasks/TASK-157.md)** — *(QA aprovado 26/08/2026, PRs abertas contra `staging`)* Meta Conversions API — dedupe de Lead + sinal de qualidade (CONTACTED/CONVERTED), credenciais reais configuradas e validadas no Test Events da Meta (🟡 Médio | EPIC-018). PRs: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51), [web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). QA: [TASK-QA-MAN-015](QA/tasks/TASK-QA-MAN-015.md)
 
 **🔴 Crítico (bug ativo de receita) — sequência sugerida**:
 - ~~**TASK-058**~~ — Refatorar job de expiração de TRIAL: PIX via DETACHED *(em validação)*
