@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 26/08/2026 — **TASK-206 criada** (bugfix, sem épico): aba Pagamento do admin
+> (`/private/users/[id]`) chama uma rota que não existe mais desde o refactor de billing por
+> usuário (`GET /admin/billing/user/{id}/subscription`, removida no commit `815e36e`) — cai num
+> `.catch(() => null)` que não quebra a tela, mas faz o campo "Plano" sempre mostrar "STARTER"
+> mesmo pra quem está em outro plano. Achado por Douglas ao testar EPIC-002 Fase 3
+> (`TASK-QA-MAN-014`), sem relação com ela — registrada separada, foco continua na Fase 3.
 > Atualizado em: 25/08/2026 — **TASK-201 a 205 implementadas** (EPIC-002 Fase 3), branch
 > `feature/EPIC-002-fase3-asaas-sync` nos dois repos, PR ainda não aberta. api: 809/809 testes
 > passando (`2e6e15a`, `738d7a6`, `ff1ef31`); web: `npm run build` limpo (`4b82e2b`, `0620743`).
@@ -941,6 +947,9 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
+- **[TASK-206](tasks/TASK-206.md)** — BUGFIX Frontend: rota morta de assinatura por usuário no admin (mostra plano errado)
 
 **EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
 implementadas, PRs abertas contra `staging` — *(24/08/2026)***:
