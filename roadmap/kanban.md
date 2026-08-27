@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/08/2026 — **Plano de QA manual criado** para o split de comissão (EPIC-020,
+> TASK-207/208): [TASK-QA-MAN-016](QA/tasks/TASK-QA-MAN-016.md), 8 cenários (C1 suíte automatizada,
+> C2 gerar comissão de teste via `/dev/simulate/affiliate-flow`, C3 regressão em afiliado sem split,
+> C4 configurar split 100%, C5 bloqueio de soma errada, C6 valores corretos no financeiro, C7 remover
+> divisão, C8 contratos de erro do backend). Aguardando execução por Douglas antes de abrir as PRs.
 > Atualizado em: 27/08/2026 — **TASK-208 implementada** (EPIC-020, split de comissão): ação
 > "Dividir comissão" na tela de afiliados abre `CommissionSplitModal.tsx` (novo) — lista editável de
 > beneficiários (nome + %), validação client-side de soma = 100% antes de habilitar "Salvar", ação
@@ -1121,7 +1126,7 @@ _Vazio_
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — implementada, branch `feature/TASK-207-commission-split` | 🟠 Alto | EPIC-020 |
-| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — implementada, branch `feature/TASK-208-commission-split-ui`, QA manual pendente | 🟠 Alto | EPIC-020 |
+| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — implementada, branch `feature/TASK-208-commission-split-ui`, QA: [TASK-QA-MAN-016](QA/tasks/TASK-QA-MAN-016.md) | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
 | [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — testado local, PR web#53 | 🟠 Alto | EPIC-002 |
 | [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — testado local, PR api#48 | 🟡 Médio | EPIC-002 |
