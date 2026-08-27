@@ -120,6 +120,30 @@ Ordem: TASK-195 primeiro (schema/entidade base, `recurrenceType`) → TASK-196 (
 `recurrenceType` da TASK-195 pra decidir o comportamento de geração) → TASK-197 (depende da TASK-196
 pra agregar comissão corretamente) → TASK-198 (depende dos endpoints da TASK-195/197).
 
+### Revisão da Fase 2 — split de comissão entre beneficiários (27/08/2026)
+
+Caso real levantado por Douglas: "Grupo Silva" precisa repassar comissão pra duas pessoas — o
+grupo/afiliado e o vendedor que fechou a venda — sobre o mesmo cliente. A regra "1 comissionado
+ativo por cliente" (confirmada na revisão anterior, ver acima) não muda — o que faltava era o
+`Affiliate` poder declarar como o valor da comissão que ele gera é dividido entre N beneficiários,
+sem duplicar atribuição de cliente nem mexer no schema de `ReferralCommission`/`CommissionService`.
+
+**Decisão**: tabela nova `affiliate_commission_splits` (afiliado → beneficiário + percentual do
+total, somando 100%), consultada só na hora de montar o breakdown mensal
+(`FinancialsService.getCommissionsBreakdown`) — a comissão continua sendo criada e persistida como
+hoje, um único evento por ciclo no valor total do `commissionRate` do afiliado. Afiliado sem split
+configurado continua se comportando exatamente como antes (100% pro próprio afiliado) — feature
+aditiva, sem migração de dado.
+
+**Tasks:**
+
+| ID                               | Título                                                                                   | Tipo     | Prioridade |
+|-----------------------------------|-------------------------------------------------------------------------------------------|----------|------------|
+| ~~[TASK-207](../tasks/TASK-207.md)~~ | ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ | BACKEND  | 🟠 Alto *(implementada — commit `fcadbbb`, 843 testes, 0 falhas)* |
+| [TASK-208](../tasks/TASK-208.md) | Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro | FRONTEND | 🟠 Alto    |
+
+Ordem: TASK-207 primeiro (schema/endpoints) → TASK-208 (depende dos endpoints da TASK-207).
+
 ## Objetivo
 Dar visibilidade real de receita recebida vs. custo do negócio (infraestrutura + comissão de
 afiliado) e o lucro resultante, numa área administrativa nova — hoje a tela de overview de billing
@@ -208,6 +232,9 @@ na mesma página já criada na TASK-161).
 - [x] Financeiro mostra breakdown por comissionado sem depender de `manual_commission_rules`
       (TASK-197)
 - [x] Edição de afiliado (%/recorrência) e atribuição a cliente funcionando em admin (TASK-198)
+- [x] Afiliado suporta divisão de comissão entre beneficiários, sem alterar a regra de 1
+      comissionado por cliente (TASK-207)
+- [ ] Divisão configurável e visível no financeiro em admin (TASK-208)
 
 ---
 
@@ -237,6 +264,13 @@ na mesma página já criada na TASK-161).
   `referralCode` pro usuário automaticamente — bug pré-existente, encontrado na mesma análise, sem
   relação com esta revisão; não bloqueia porque atribuição de comissionado interno é sempre manual
   via admin. Vale abrir bug à parte depois.
+
+**Split de comissão (27/08/2026):**
+- Beneficiário do split ter sua própria recorrência/vínculo de cliente independente (ex.: vendedor
+  virar afiliado próprio pra outros clientes) — se isso for necessário, é hierarquia de afiliados
+  (`parentAffiliateId`), caso mais invasivo, avaliado e não escolhido para este pedido.
+- Pagamento automático/split direto na gateway (Asaas) — a divisão é só de visão/relatório dentro do
+  sistema; o repasse de fato pro beneficiário continua manual, como já é hoje pro afiliado.
 
 ## Riscos
 Baixo — extensão aditiva da área admin existente, não altera nenhum fluxo de cliente. Único ponto

@@ -1,5 +1,28 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/08/2026 — **TASK-207 implementada** (EPIC-020, split de comissão): tabela
+> `affiliate_commission_splits` (migration `V98`), endpoints
+> `GET`/`PUT /private/admin/affiliates-commissions/{id}/splits` (validação de soma 100% via
+> `RuleException`, substituição atômica, lista vazia remove o split) e campo `beneficiaries` novo em
+> `GET /private/admin/financials/commissions-breakdown`. Não altera `ReferralCommission`/
+> `CommissionService`; afiliado sem split continua 100% pra ele mesmo. Branch
+> `feature/TASK-207-commission-split` (`easy-maintenance-api`, a partir de `staging`), commit
+> `fcadbbb`. Suíte completa: 843 testes, 0 falhas. Sem PR aberta — aguardando TASK-208 (frontend)
+> pra QA de ponta a ponta e PR conjunta. **Achado durante a implementação, registrado na task**: o
+> valor de cada beneficiário é truncado (não arredondado) igual ao total do afiliado já era — a soma
+> dos beneficiários pode ficar 1 centavo abaixo do total por truncamento; aceito por ora (mesmo
+> comportamento já existente no resto do módulo), watch-list se virar problema real no financeiro.
+> Atualizado em: 27/08/2026 — **TASK-207/208 criadas** (EPIC-020, split de comissão entre
+> beneficiários): caso real levantado por Douglas — "Grupo Silva" precisa dividir a comissão de um
+> cliente entre o grupo/afiliado e o vendedor que fechou a venda. Hoje um cliente tem no máximo um
+> comissionado ativo (regra confirmada na Revisão da Fase 2, 24/08), com uma única
+> `commissionRate` — cadastrar o percentual somado funciona mas perde rastreabilidade de quem
+> recebe o quê no relatório "Comissões por pessoa". Decisão: tabela nova
+> `affiliate_commission_splits` (afiliado → beneficiário + % do total, somando 100%), consultada só
+> na hora de montar o breakdown mensal — não altera `ReferralCommission`/`CommissionService` nem a
+> regra de 1 comissionado por cliente; afiliado sem split continua 100% pra ele mesmo, sem
+> migração. TASK-207 (backend: schema + endpoints + breakdown) → TASK-208 (frontend: modal de
+> divisão + sub-linhas no financeiro). Priorizado por Douglas — precisa implementar agora.
 > Atualizado em: 26/08/2026 — **TASK-206 testada localmente, PRs abertas contra `staging`**:
 > [api#49](https://github.com/douglasjava/easy-maintenance-api/pull/49),
 > [web#54](https://github.com/douglasjava/easy-maintenance-web/pull/54).
@@ -961,6 +984,12 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
+*(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
+comissionado por cliente)*
+- ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(implementada — branch `feature/TASK-207-commission-split`, commit `fcadbbb`, 843 testes, 0 falhas; sem PR ainda, aguardando TASK-208)*
+- **[TASK-208](tasks/TASK-208.md)** — Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro (🟠 Alto)
 
 **Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
 - **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — testado local, PR api#49/web#54
