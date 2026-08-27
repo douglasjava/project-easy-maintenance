@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/08/2026 — **TASK-208: achado no QA manual de Douglas** — cenário C6 (sub-linhas
+> de beneficiário no financeiro) inicialmente pareceu não funcionar, mas era só a seção
+> "Comissões por pessoa" não ter refeito o fetch depois do split ser configurado numa aba já
+> aberta (recarregar a página resolveu — sem bug de código). No mesmo QA, Douglas pediu uma coluna
+> nova "Usuários" na mesma seção, contando `pendingCount + paidCount` (dado já existente na API,
+> sem mudança de backend) — adicionada e commitada (`9c0ad14`, `npm run build` limpo).
 > Atualizado em: 27/08/2026 — **Plano de QA manual criado** para o split de comissão (EPIC-020,
 > TASK-207/208): [TASK-QA-MAN-016](QA/tasks/TASK-QA-MAN-016.md), 8 cenários (C1 suíte automatizada,
 > C2 gerar comissão de teste via `/dev/simulate/affiliate-flow`, C3 regressão em afiliado sem split,

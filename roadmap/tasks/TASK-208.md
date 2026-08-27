@@ -97,3 +97,9 @@ aguardando Douglas testar em navegador real.
   sem querer.
 - Sub-linhas de beneficiário no financeiro usam `Fragment` com `key` no afiliado (não no `<>` sem
   key) — React exige key no elemento de topo retornado por `.map()`.
+
+**Achado no QA manual de Douglas (27/08/2026)**: coluna nova "Usuários" na seção "Comissões por
+pessoa" (`CommissionsBreakdownSection.tsx`), contando `pendingCount + paidCount` — dado já existente
+na resposta da API (`FinancialsDTO.CommissionBreakdownResponse`), sem mudança de backend. Vazia nas
+sub-linhas de beneficiário (não há contagem separada por beneficiário, só rateio do valor total).
+Commit `9c0ad14`, `npm run build` limpo.
