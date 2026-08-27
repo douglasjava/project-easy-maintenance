@@ -139,8 +139,8 @@ aditiva, sem migração de dado.
 
 | ID                               | Título                                                                                   | Tipo     | Prioridade |
 |-----------------------------------|-------------------------------------------------------------------------------------------|----------|------------|
-| ~~[TASK-207](../tasks/TASK-207.md)~~ | ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ | BACKEND  | 🟠 Alto *(implementada — commit `fcadbbb`, 843 testes, 0 falhas)* |
-| ~~[TASK-208](../tasks/TASK-208.md)~~ | ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ | FRONTEND | 🟠 Alto *(implementada — commit `1c628e5`, `npm run build` limpo, não validada visualmente por mim)* |
+| ~~[TASK-207](../tasks/TASK-207.md)~~ | ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ | BACKEND  | 🟠 Alto *(QA aprovado, PR [api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) aberta contra `staging`)* |
+| ~~[TASK-208](../tasks/TASK-208.md)~~ | ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ | FRONTEND | 🟠 Alto *(QA aprovado, PR [web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58) aberta contra `staging`)* |
 
 Ordem: TASK-207 primeiro (schema/endpoints) → TASK-208 (depende dos endpoints da TASK-207).
 
@@ -234,8 +234,8 @@ na mesma página já criada na TASK-161).
 - [x] Edição de afiliado (%/recorrência) e atribuição a cliente funcionando em admin (TASK-198)
 - [x] Afiliado suporta divisão de comissão entre beneficiários, sem alterar a regra de 1
       comissionado por cliente (TASK-207)
-- [x] Divisão configurável e visível no financeiro em admin (TASK-208) — falta QA manual de ponta a
-      ponta por Douglas
+- [x] Divisão configurável e visível no financeiro em admin (TASK-208) — QA manual aprovado
+      (`TASK-QA-MAN-016`, cenários C1-C7)
 
 ---
 

@@ -98,13 +98,13 @@ Toda a implementação está em branches próprias, sem PR aberta ainda:
 
 ### C4 — Configurar split de 2 beneficiários somando 100% (caso real: vendedora 35% + Grupo Silva 10%)
 
-| Passo | Ação                                                                                                        | Resultado esperado                                                               |
-|-------|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| 1     | Cadastrar/editar o afiliado "Grupo Silva" com `commissionRate` = **45%** (35 da vendedora + 10 do grupo)    | Afiliado salvo com 45%                                                            |
-| 2     | Em `/private/admin/affiliates`, clicar "Dividir comissão" na linha do Grupo Silva                          | Modal abre, vazio (2 linhas em branco, nenhum split configurado ainda)           |
-| 3     | Preencher linha 1: "Vendedora" / **77,78%** — linha 2: "Grupo Silva" / **22,22%** (proporção de 35 e 10 dentro dos 45% totais) | Texto "Soma atual: 100%" aparece em cinza (não vermelho)          |
-| 4     | Clicar "Salvar"                                                                                              | Toast de sucesso ("Divisão de comissão salva"), modal fecha                      |
-| 5     | Reabrir "Dividir comissão" no mesmo afiliado                                                                 | Modal carrega as 2 linhas já preenchidas com os valores salvos (77,78% e 22,22%) |
+| Passo | Ação                                                                                                                           | Resultado esperado                                                               |
+|-------|--------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| 1     | Cadastrar/editar o afiliado "Grupo Silva" com `commissionRate` = **45%** (35 da vendedora + 10 do grupo)                       | Afiliado salvo com 45%                                                           |
+| 2     | Em `/private/admin/affiliates`, clicar "Dividir comissão" na linha do Grupo Silva                                              | Modal abre, vazio (2 linhas em branco, nenhum split configurado ainda)           |
+| 3     | Preencher linha 1: "Vendedora" / **77,78%** — linha 2: "Grupo Silva" / **22,22%** (proporção de 35 e 10 dentro dos 45% totais) | Texto "Soma atual: 100%" aparece em cinza (não vermelho)                         |
+| 4     | Clicar "Salvar"                                                                                                                | Toast de sucesso ("Divisão de comissão salva"), modal fecha                      |
+| 5     | Reabrir "Dividir comissão" no mesmo afiliado                                                                                   | Modal carrega as 2 linhas já preenchidas com os valores salvos (77,78% e 22,22%) |
 
 ---
 
@@ -120,11 +120,11 @@ Toda a implementação está em branches próprias, sem PR aberta ainda:
 
 ### C6 — Financeiro mostra sub-linhas de beneficiário com valores corretos
 
-| Passo | Ação                                                                                                              | Resultado esperado                                                                                                                                                    |
-|-------|-------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1     | Com o split de C4 configurado (Vendedora 77,78% / Grupo Silva 22,22%) e uma comissão gerada (C2)                  | —                                                                                                                                                                    |
-| 2     | Abrir `/private/admin/financials`, mês corrente, anotar o valor total da linha "Grupo Silva" (ex.: R$X)          | Logo abaixo da linha principal, 2 sub-linhas indentadas aparecem: "↳ Vendedora" e "↳ Grupo Silva"                                                                   |
-| 3     | Calcular manualmente 77,78% e 22,22% de R$X e comparar com os valores das sub-linhas                              | Sub-linha "Vendedora" ≈ 77,78% de R$X; sub-linha "Grupo Silva" ≈ 22,22% de R$X — a soma das duas pode ficar 1 centavo abaixo de R$X por truncamento (documentado na TASK-207, não é bug) |
+| Passo | Ação                                                                                                    | Resultado esperado                                                                                                                                                                       |
+|-------|---------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Com o split de C4 configurado (Vendedora 77,78% / Grupo Silva 22,22%) e uma comissão gerada (C2)        | —                                                                                                                                                                                        |
+| 2     | Abrir `/private/admin/financials`, mês corrente, anotar o valor total da linha "Grupo Silva" (ex.: R$X) | Logo abaixo da linha principal, 2 sub-linhas indentadas aparecem: "↳ Vendedora" e "↳ Grupo Silva"                                                                                        |
+| 3     | Calcular manualmente 77,78% e 22,22% de R$X e comparar com os valores das sub-linhas                    | Sub-linha "Vendedora" ≈ 77,78% de R$X; sub-linha "Grupo Silva" ≈ 22,22% de R$X — a soma das duas pode ficar 1 centavo abaixo de R$X por truncamento (documentado na TASK-207, não é bug) |
 
 ---
 
@@ -155,14 +155,16 @@ Toda a implementação está em branches próprias, sem PR aberta ainda:
 - [X] C1: suíte automatizada (backend + frontend) sem regressão
 - [X] C2: comissão de teste gerada via simulador, aparece no breakdown
 - [X] C3: afiliado sem split — nenhuma mudança visual ou de comportamento
-- [ ] C4: configurar split de 2 beneficiários somando 100% persiste e recarrega corretamente
-- [ ] C5: soma diferente de 100% bloqueia o salvamento no cliente, sem chamar a API
+- [X] C4: configurar split de 2 beneficiários somando 100% persiste e recarrega corretamente
+- [X] C5: soma diferente de 100% bloqueia o salvamento no cliente, sem chamar a API
 - [ ] C6: sub-linhas no financeiro mostram valores proporcionais corretos
-- [ ] C7: remover divisão (com confirmação) volta o afiliado a 100% pra ele mesmo
-- [ ] C8 (opcional): contratos de erro do backend (404/400) corretos
+- [X] C7: remover divisão (com confirmação) volta o afiliado a 100% pra ele mesmo
+- [X] C8 (opcional): contratos de erro do backend (404/400) corretos
 
 ---
 
 ## Status
-📋 Criada (27/08/2026) — aguardando execução por Douglas. Sem PR aberta ainda em nenhum dos dois
-repos; abrir só depois desta QA passar.
+✅ Executada e aprovada por Douglas (27/08/2026) — todos os cenários C1-C7 confirmados (C6 exigiu
+recarregar a página do financeiro pra refletir o split recém-configurado; sem bug de código). PRs
+abertas contra `staging`: [api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53),
+[web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58).

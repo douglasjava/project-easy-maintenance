@@ -81,12 +81,11 @@ Baixo — extensão da tela de afiliados e financeiro já existentes, mesmo padr
 Médio
 
 ## Status
-✅ Implementada e commitada (27/08/2026) na branch `feature/TASK-208-commission-split-ui`
-(`easy-maintenance-web`, commit `1c628e5`, a partir de `staging`). `npm run build` limpo (54
-rotas). `npm test`: 105/108 passando — as 3 falhas são em `middleware.test.ts`, pré-existentes e
-sem relação (mesma limitação já registrada em tasks anteriores do projeto). **Não validada
-visualmente por mim** — tela exige login, sem credenciais de teste disponíveis pra automação;
-aguardando Douglas testar em navegador real.
+✅ Implementada, QA manual aprovado (`TASK-QA-MAN-016`, cenários C1-C7) e PR aberta contra `staging`:
+[easy-maintenance-web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58) (27/08/2026).
+Branch `feature/TASK-208-commission-split-ui`, commits `1c628e5` (dividir comissão) e `9c0ad14`
+(coluna "Usuários", achado no QA). `npm run build` limpo (54 rotas). `npm test`: 105/108 passando —
+as 3 falhas são em `middleware.test.ts`, pré-existentes e sem relação.
 
 **Notas de implementação**:
 - `CommissionSplitModal.tsx` (novo) exige no mínimo 2 beneficiários preenchidos antes de habilitar

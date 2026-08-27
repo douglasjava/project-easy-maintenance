@@ -184,10 +184,9 @@ comissionado ativo por cliente"; sem dado real em produção (0 clientes pagante
 Baixo-Médio
 
 ## Status
-✅ Implementada e commitada (27/08/2026) na branch `feature/TASK-207-commission-split`
-(`easy-maintenance-api`, commit `fcadbbb`, a partir de `staging`). Suíte completa: 843 testes, 0
-falhas. Sem PR aberta ainda — aguardando TASK-208 (frontend) pra QA de ponta a ponta e abertura da
-PR conjunta.
+✅ Implementada, QA manual aprovado (`TASK-QA-MAN-016`, cenários C1-C7) e PR aberta contra `staging`:
+[easy-maintenance-api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) (27/08/2026).
+Branch `feature/TASK-207-commission-split`, commit `fcadbbb`. Suíte completa: 843 testes, 0 falhas.
 
 **Notas de implementação**:
 - Endpoint `PUT .../{id}/splits` usa `@Valid @RequestBody List<UpsertCommissionSplitRequest>` —
