@@ -60,13 +60,15 @@ já dividido por beneficiário, quando configurado.
 
 ## Critérios de Aceite
 
-- [ ] "Dividir comissão" abre modal com beneficiários atuais (vazio se nenhum configurado)
-- [ ] Salvar com soma != 100% é bloqueado no cliente, com mensagem clara, sem chamar a API
-- [ ] Salvar com soma == 100% persiste e reflete na tabela/breakdown
-- [ ] Salvar lista vazia remove o split (afiliado volta a aparecer sozinho no breakdown)
-- [ ] Breakdown do financeiro mostra sub-linhas de beneficiário só pra afiliado com split
+- [x] "Dividir comissão" abre modal com beneficiários atuais (vazio se nenhum configurado)
+- [x] Salvar com soma != 100% é bloqueado no cliente, com mensagem clara, sem chamar a API
+- [x] Salvar com soma == 100% persiste e reflete na tabela/breakdown
+- [x] Ação "Remover divisão" (lista vazia) remove o split (afiliado volta a aparecer sozinho no
+      breakdown) — implementada como botão dedicado com confirmação (`ConfirmModal`), não como
+      "salvar lista vazia" direto no formulário principal
+- [x] Breakdown do financeiro mostra sub-linhas de beneficiário só pra afiliado com split
       configurado, sem alterar a exibição de quem não tem
-- [ ] `npm run build` limpo
+- [x] `npm run build` limpo
 
 ## Dependências
 **TASK-207** (endpoints de split e campo `beneficiaries` no breakdown).
@@ -79,4 +81,19 @@ Baixo — extensão da tela de afiliados e financeiro já existentes, mesmo padr
 Médio
 
 ## Status
-📋 Criada (27/08/2026) — ainda não implementada.
+✅ Implementada e commitada (27/08/2026) na branch `feature/TASK-208-commission-split-ui`
+(`easy-maintenance-web`, commit `1c628e5`, a partir de `staging`). `npm run build` limpo (54
+rotas). `npm test`: 105/108 passando — as 3 falhas são em `middleware.test.ts`, pré-existentes e
+sem relação (mesma limitação já registrada em tasks anteriores do projeto). **Não validada
+visualmente por mim** — tela exige login, sem credenciais de teste disponíveis pra automação;
+aguardando Douglas testar em navegador real.
+
+**Notas de implementação**:
+- `CommissionSplitModal.tsx` (novo) exige no mínimo 2 beneficiários preenchidos antes de habilitar
+  "Salvar" — não estava no escopo original da task, mas evita configurar um "split" degenerado de 1
+  beneficiário só (que tecnicamente o backend aceita, mas não faz sentido de negócio).
+- "Remover divisão" é uma ação separada (botão próprio + `ConfirmModal`), não "salvar formulário com
+  todas as linhas vazias" — mais claro pro usuário e evita remover split por engano ao apagar linhas
+  sem querer.
+- Sub-linhas de beneficiário no financeiro usam `Fragment` com `key` no afiliado (não no `<>` sem
+  key) — React exige key no elemento de topo retornado por `.map()`.

@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/08/2026 — **TASK-208 implementada** (EPIC-020, split de comissão): ação
+> "Dividir comissão" na tela de afiliados abre `CommissionSplitModal.tsx` (novo) — lista editável de
+> beneficiários (nome + %), validação client-side de soma = 100% antes de habilitar "Salvar", ação
+> "Remover divisão" (lista vazia, confirmada via `ConfirmModal` já existente) que volta o afiliado a
+> 100% pra ele mesmo. `CommissionsBreakdownSection` (financeiro) ganha sub-linhas indentadas por
+> beneficiário quando o afiliado tem split configurado; sem split, comportamento idêntico ao atual.
+> Branch `feature/TASK-208-commission-split-ui` (`easy-maintenance-web`, a partir de `staging`),
+> commit `1c628e5`. `npm run build` limpo (54 rotas); `npm test`: 105/108 passando, as 3 falhas são
+> em `middleware.test.ts`, pré-existentes e sem relação. **Não validada visualmente** — mesma
+> limitação já registrada em tasks anteriores (tela exige login, sem credenciais de teste
+> disponíveis pra automação). **As 2 tasks da revisão de split (TASK-207/208) estão implementadas**
+> — falta QA manual de ponta a ponta por Douglas e abertura das PRs (api + web) contra `staging`.
 > Atualizado em: 27/08/2026 — **TASK-207 implementada** (EPIC-020, split de comissão): tabela
 > `affiliate_commission_splits` (migration `V98`), endpoints
 > `GET`/`PUT /private/admin/affiliates-commissions/{id}/splits` (validação de soma 100% via
@@ -988,8 +1000,10 @@ _Vazio_
 **EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
 *(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
 comissionado por cliente)*
-- ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(implementada — branch `feature/TASK-207-commission-split`, commit `fcadbbb`, 843 testes, 0 falhas; sem PR ainda, aguardando TASK-208)*
-- **[TASK-208](tasks/TASK-208.md)** — Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro (🟠 Alto)
+- ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(implementada — branch `feature/TASK-207-commission-split`, commit `fcadbbb`, 843 testes, 0 falhas)*
+- ~~**[TASK-208](tasks/TASK-208.md)**~~ — ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ *(implementada — branch `feature/TASK-208-commission-split-ui`, commit `1c628e5`, `npm run build` limpo, não validada visualmente por mim)*
+
+*(2/2 tasks implementadas — falta QA manual de Douglas e abertura das PRs, api e web, contra `staging`)*
 
 **Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
 - **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — testado local, PR api#49/web#54
@@ -1106,6 +1120,8 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — implementada, branch `feature/TASK-207-commission-split` | 🟠 Alto | EPIC-020 |
+| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — implementada, branch `feature/TASK-208-commission-split-ui`, QA manual pendente | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
 | [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — testado local, PR web#53 | 🟠 Alto | EPIC-002 |
 | [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — testado local, PR api#48 | 🟡 Médio | EPIC-002 |
