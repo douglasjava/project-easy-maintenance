@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/08/2026 — **TASK-207/208: mergeadas em `staging`, PRs `staging → main`
+> abertas**: [easy-maintenance-api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54)
+> e [easy-maintenance-web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59). PRs
+> anteriores contra `staging` ([api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53),
+> [web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58)) já mergeadas.
 > Atualizado em: 27/08/2026 — **TASK-207/208: PRs abertas contra `staging`** —
 > [easy-maintenance-api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) e
 > [easy-maintenance-web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58). QA manual
@@ -1016,10 +1021,10 @@ _Vazio_
 **EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
 *(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
 comissionado por cliente)*
-- ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(implementada, QA aprovado, PR [api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) aberta contra `staging`)*
-- ~~**[TASK-208](tasks/TASK-208.md)**~~ — ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ *(implementada, QA aprovado, PR [web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58) aberta contra `staging`)*
+- ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta)*
+- ~~**[TASK-208](tasks/TASK-208.md)**~~ — ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ *(mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta)*
 
-*(2/2 tasks com QA manual aprovado — PRs abertas, aguardando merge)*
+*(2/2 tasks mergeadas em staging — PRs staging→main abertas, aguardando merge final em produção)*
 
 **Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
 - **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — testado local, PR api#49/web#54
@@ -1136,8 +1141,8 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — QA aprovado, PR [api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) aberta contra `staging` | 🟠 Alto | EPIC-020 |
-| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — QA aprovado, PR [web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58) aberta contra `staging` | 🟠 Alto | EPIC-020 |
+| [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
+| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
 | [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — testado local, PR web#53 | 🟠 Alto | EPIC-002 |
 | [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — testado local, PR api#48 | 🟡 Médio | EPIC-002 |

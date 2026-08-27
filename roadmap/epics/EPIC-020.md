@@ -139,8 +139,8 @@ aditiva, sem migração de dado.
 
 | ID                               | Título                                                                                   | Tipo     | Prioridade |
 |-----------------------------------|-------------------------------------------------------------------------------------------|----------|------------|
-| ~~[TASK-207](../tasks/TASK-207.md)~~ | ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ | BACKEND  | 🟠 Alto *(QA aprovado, PR [api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) aberta contra `staging`)* |
-| ~~[TASK-208](../tasks/TASK-208.md)~~ | ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ | FRONTEND | 🟠 Alto *(QA aprovado, PR [web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58) aberta contra `staging`)* |
+| ~~[TASK-207](../tasks/TASK-207.md)~~ | ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ | BACKEND  | 🟠 Alto *(mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta)* |
+| ~~[TASK-208](../tasks/TASK-208.md)~~ | ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ | FRONTEND | 🟠 Alto *(mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta)* |
 
 Ordem: TASK-207 primeiro (schema/endpoints) → TASK-208 (depende dos endpoints da TASK-207).
 
