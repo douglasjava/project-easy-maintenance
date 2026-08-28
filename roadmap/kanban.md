@@ -1,8 +1,9 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 28/08/2026 — **🔴 TASK-209: PR aberta contra `staging`**:
-> [easy-maintenance-api#55](https://github.com/douglasjava/easy-maintenance-api/pull/55). Aguardando
-> merge + promoção pra `main` + deploy — só depois disso o job `PixRenewalJob` (01:30 diário) vai
+> Atualizado em: 28/08/2026 — **🔴 TASK-209: mergeada em `staging`, PR `staging → main` aberta**:
+> [easy-maintenance-api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) (PR contra
+> staging [#55](https://github.com/douglasjava/easy-maintenance-api/pull/55) já mergeada). Falta
+> mergear o #56 e aguardar o deploy — só depois disso o job `PixRenewalJob` (01:30 diário) vai
 > reprocessar e desbloquear a assinatura de teste do Douglas automaticamente.
 > Atualizado em: 28/08/2026 — **🔴 TASK-209 criada e implementada (BUGFIX crítico)**: Douglas,
 > testando com usuário próprio em produção (onboarding PIX → trocou pra Cartão no meio do ciclo),
@@ -1162,7 +1163,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — PR [api#55](https://github.com/douglasjava/easy-maintenance-api/pull/55) aberta contra `staging` | 🔴 Crítico | — |
+| [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |

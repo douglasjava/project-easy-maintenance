@@ -133,13 +133,12 @@ sem alterar o contrato do job em lote nem a lógica de criação de fatura nova.
 Baixo
 
 ## Status
-✅ Implementada, commitada e PR aberta contra `staging` (28/08/2026):
-[easy-maintenance-api#55](https://github.com/douglasjava/easy-maintenance-api/pull/55). Branch
-`bugfix/TASK-209-invoice-already-exists-silent-skip`, commit `0d3851c`. Suíte completa: 844 testes,
-0 falhas (inclui `InvoiceServiceTest.generateInvoiceForPayer_invoiceAlreadyExists_shouldReturnExistingInvoiceNotEmpty`,
-caso novo que reproduz o bug relatado). Douglas está com um usuário de teste travado em produção
-(`subscriptionId=2`) por causa deste bug; assim que o fix for promovido (`staging` → `main` →
-deploy), o job `PixRenewalJob` (roda diariamente às 01:30) deve reprocessar e gerar o checkout
-automaticamente, sem intervenção manual — não existe endpoint de trigger manual pra esse job
-específico hoje (`/run-jobs/**` cobre outros jobs, não este). QA final (assinatura de Douglas
-desbloqueada) pendente do deploy.
+✅ Mergeada em `staging` (PR [api#55](https://github.com/douglasjava/easy-maintenance-api/pull/55)),
+PR de promoção `staging → main` aberta: [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56)
+(28/08/2026). Branch `bugfix/TASK-209-invoice-already-exists-silent-skip`, commit `0d3851c`. Suíte
+completa: 844 testes, 0 falhas. Douglas está com um usuário de teste travado em produção
+(`subscriptionId=2`) por causa deste bug; assim que o #56 for mergeado e o deploy acontecer, o job
+`PixRenewalJob` (roda diariamente às 01:30) deve reprocessar e gerar o checkout automaticamente, sem
+intervenção manual — não existe endpoint de trigger manual pra esse job específico hoje
+(`/run-jobs/**` cobre outros jobs, não este). QA final (assinatura de Douglas desbloqueada) pendente
+do deploy em produção.
