@@ -1,5 +1,22 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/08/2026 — **🔴 TASK-209 criada e implementada (BUGFIX crítico)**: Douglas,
+> testando com usuário próprio em produção (onboarding PIX → trocou pra Cartão no meio do ciclo),
+> achou que a assinatura ficou travada com "Pagamento pendente R$ 299,00" sem link de checkout.
+> Causa raiz: `InvoiceService.processPayerInvoice` retorna `Optional.empty()` tanto pra "nada a
+> faturar" quanto pra "fatura do período já existe" (idempotência) — `generateInvoiceForPayer`
+> repassava esse `Optional.empty()` ambíguo pra 4 fluxos diferentes (`CardTransitionService`,
+> `PixRenewalService`, `PaymentMethodTransitionService.initiateCardUpdate`,
+> `BillingRecoveryService`), todos os quais desistiam silenciosamente quando a fatura já existia —
+> travando a assinatura pra sempre (o job reprocessa todo dia às 01:30 e falha do mesmo jeito).
+> **Mais grave que o caso do Douglas**: o mesmo bug atinge `PixRenewalService` — renovação PIX de
+> qualquer cliente pagante real pode travar do mesmo jeito, sem cobrança nova e sem alerta visível.
+> Fix cirúrgico em `generateInvoiceForPayer` (busca a fatura existente em vez de propagar o
+> `Optional.empty()` ambíguo), sem tocar nos 4 pontos de chamada nem no job em lote
+> `generateInvoices`. Branch `bugfix/TASK-209-invoice-already-exists-silent-skip`
+> (`easy-maintenance-api`, commit `0d3851c`, a partir de `staging`). 844/844 testes, 0 falhas. Sem
+> PR aberta ainda. Assinatura travada do Douglas deve se autocorrigir no próximo run do job após o
+> deploy (não existe trigger manual pra esse job específico).
 > Atualizado em: 27/08/2026 — **TASK-207/208: mergeadas em `staging`, PRs `staging → main`
 > abertas**: [easy-maintenance-api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54)
 > e [easy-maintenance-web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59). PRs
@@ -1141,6 +1158,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção | 🔴 Crítico | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
