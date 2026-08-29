@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/08/2026 — **🔴 TASK-210 e TASK-211: mergeadas em `staging`, PR `staging → main`
+> aberta**: [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) (promove as duas
+> juntas). Douglas confirmou o merge das duas PRs individuais ([api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57)
+> e [api#58](https://github.com/douglasjava/easy-maintenance-api/pull/58)) em `staging` e já validou
+> a TASK-211 manualmente, recadastrando o lead do síndico. Das 2 tentativas originais do lead
+> (`sindifacil@gmail.com`, 29/08 00:10-00:11), 1 foi recuperada manualmente; a outra (mesmo e-mail,
+> ~25s de diferença, provável duplo clique no envio) foi considerada perdida. Falta mergear o #59 e
+> aguardar o deploy.
 > Atualizado em: 29/08/2026 — **🔴 TASK-211 criada e implementada (BUGFIX crítico)**: Douglas achou
 > no log de produção 2 tentativas seguidas (00:10) do lead `sindifacil@gmail.com` falhando com
 > `Data truncation: Data too long for column 'fbc'`. Causa raiz: a `V97` (TASK-157, Meta CAPI) criou
@@ -1192,8 +1200,8 @@ _Vazio_
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
-| [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — PR contra staging [api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57) aberta | 🔴 Crítico | — |
-| [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — PR contra staging [api#58](https://github.com/douglasjava/easy-maintenance-api/pull/58) aberta | 🔴 Crítico | — |
+| [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
+| [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |

@@ -112,10 +112,10 @@ interface.
 Baixo
 
 ## Status
-✅ Implementado e PR aberta contra `staging`: [api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57).
-Branch `bugfix/TASK-210-invoice-items-lazy-loading`, commit `d07fc6a`. Suíte completa: 852/852
-testes, 0 falhas. Teste JPA novo (`InvoiceRepositoryPersistenceTest`) comprovadamente pega a
-regressão (falha sem o fix, passa com ele). Douglas optou por esperar o próximo run automático do
-`PixRenewalJob` (01:30) em vez de criar um endpoint de trigger manual agora. QA final (assinatura de
-Douglas, subscriptionId=2, desbloqueada) pendente do merge, deploy em produção e do próximo run do
-job.
+✅ Mergeada em `staging` (PR [api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57)),
+PR de promoção `staging → main` aberta: [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59)
+(29/08/2026, junto com a TASK-211). Branch `bugfix/TASK-210-invoice-items-lazy-loading`, commit
+`d07fc6a`. Suíte completa: 852/852 testes, 0 falhas. Teste JPA novo
+(`InvoiceRepositoryPersistenceTest`) comprovadamente pega a regressão (falha sem o fix, passa com
+ele). QA final (assinatura de Douglas, subscriptionId=2, desbloqueada) pendente do merge do #59 e
+deploy em produção.

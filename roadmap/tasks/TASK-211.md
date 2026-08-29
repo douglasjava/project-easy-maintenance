@@ -87,6 +87,13 @@ mesmo padrão de risco.
 - [ ] QA manual: lead com `_fbc` real (cookie de clique de anúncio Meta) persiste sem erro em
       produção — pendente de deploy
 
+## Nota — leads perdidos antes do fix
+
+Das 2 tentativas de cadastro do lead do síndico (`sindifacil@gmail.com`, 29/08 00:10-00:11), nenhuma
+foi persistida (as duas falharam com o mesmo erro). Douglas recadastrou manualmente 1 delas depois do
+fix. A outra tentativa (mesma pessoa, mesmo e-mail, ~25s de diferença — provavelmente um duplo clique
+no envio do formulário) não tem dado adicional pra recuperar e foi considerada perdida.
+
 ## Dependências
 Nenhuma (TASK-157 introduziu o campo; independente da TASK-209/210).
 
@@ -99,7 +106,9 @@ contrato). Mesmo padrão de teste de migration já usado em
 Baixo
 
 ## Status
-✅ Implementado e PR aberta contra `staging`: [api#58](https://github.com/douglasjava/easy-maintenance-api/pull/58).
-Branch `bugfix/TASK-211-landing-lead-fbc-column-too-short`, commit `b5982cb` (a partir de `staging`,
-já com a TASK-210 mergeada). Suíte completa: 854/854 testes, 0 falhas. QA final (lead com `_fbc` real
-persistindo em produção) pendente do merge e deploy.
+✅ Mergeada em `staging` (PR [api#58](https://github.com/douglasjava/easy-maintenance-api/pull/58)),
+PR de promoção `staging → main` aberta: [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59)
+(29/08/2026, junto com a TASK-210). Branch `bugfix/TASK-211-landing-lead-fbc-column-too-short`,
+commit `b5982cb`. Suíte completa: 854/854 testes, 0 falhas. Douglas já validou manualmente
+recadastrando o lead do síndico. QA final (lead com `_fbc` real persistindo em produção) pendente do
+merge do #59 e deploy.
