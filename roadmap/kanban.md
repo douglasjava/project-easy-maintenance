@@ -1,5 +1,22 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/08/2026 — **🔴 TASK-212 criada e implementada (FULL_STACK crítico)**: Douglas
+> reportou que a tela de cadastro de itens permitia registrar um item regulatório como operacional e
+> vice-versa — "Tipo do item" (livre) e "Categoria" eram campos totalmente independentes. Causa raiz:
+> `item_types` (autocomplete) e `norms` (catálogo curado no EPIC-025) eram dois vocabulários livres
+> sem relação estrutural nenhuma; `MaintenanceItemService.update()` também não tinha nenhuma
+> validação de consistência (achado durante a investigação). Fix: `item_types.norm_id` (V100) vira
+> fonte de verdade — tipo com norma vinculada = sempre REGULATORY; sem norma = sempre OPERATIONAL,
+> backend ignora `itemCategory`/`normId` do request. `V101` vincula automaticamente os 27 `item_types`
+> reais de produção que hoje são REGULATORY (confirmado por Douglas via query em produção — 26 batiam
+> por igualdade exata de nome, o 27º — `LIMPEZA CAIXA DAGUA` — confirmado manualmente por ele).
+> Frontend: dropdowns livres de Categoria/Norma viram indicadores derivados. Dois bugs pegos e
+> corrigidos em teste (H2) antes do deploy na própria V101: comparação precisa ignorar `_` dos dois
+> lados, e a sintaxe `UPDATE ... JOIN ... SET` do MySQL nem parseia no H2 (reescrita como subquery
+> correlacionada). Branch `feature/TASK-212-item-category-derived-from-type` (api e web, a partir de
+> `staging`). PRs abertas: [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) e
+> [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60). 860/860 testes, 0 falhas.
+> Curadoria dos ~150 `item_types` restantes (fora dos 27 já cobertos) fica com Douglas.
 > Atualizado em: 29/08/2026 — **🔴 TASK-210 e TASK-211: mergeadas em `staging`, PR `staging → main`
 > aberta**: [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) (promove as duas
 > juntas). Douglas confirmou o merge das duas PRs individuais ([api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57)
@@ -1202,6 +1219,7 @@ _Vazio_
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
 | [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
+| [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — PR aberta [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) / [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60) | 🔴 Crítico | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
