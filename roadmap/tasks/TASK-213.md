@@ -84,7 +84,6 @@ Baixo — mudança de ordem de duas linhas, sem novo comportamento além de corr
 Baixo
 
 ## Status
-Implementado na branch `feature/TASK-212-item-category-derived-from-type` (mesma branch/PR da
-TASK-212, por conveniência — achado durante a mesma sessão de validação). Commit `228d2a7`, já no
-PR [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60). Suíte completa: 855/855,
-0 falhas.
+✅ Mergeada em `staging` junto com a TASK-212 (mesma branch/PR
+[api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60), commit `228d2a7`, 30/08/2026).
+Suíte completa: 855/855, 0 falhas.

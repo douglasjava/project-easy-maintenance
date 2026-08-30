@@ -153,9 +153,9 @@ editar itens regulatórios existentes.
 Médio
 
 ## Status
-✅ Implementado, PRs abertas contra `staging`:
+✅ Mergeada em `staging` — PRs
 [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) e
-[web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60). Branch
+[web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60) (30/08/2026). Branch
 `feature/TASK-212-item-category-derived-from-type` nos dois repos. Suíte completa da API
 (`mvn clean test`): 853/853, 0 falhas. Typecheck e lint do frontend sem regressão (mesmos 4 avisos
 pré-existentes de `no-explicit-any`, não introduzidos por esta task). Curadoria ampla dos ~150
