@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/08/2026 — **🟡 TASK-214 implementada, PRs abertas contra `staging`**:
+> [api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) e
+> [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61). Backend:
+> `remove()` ganhou a mesma checagem de manutenção que `update()` já tinha; `DELETE /items/batch`
+> novo, não é tudo-ou-nada (removidos/pulados por item, mesmo padrão de `AiBootstrapApplyResponse`).
+> Frontend: checkbox por linha + "selecionar todos nesta página" (sobrevive à paginação cursor,
+> reseta com os filtros), barra de ação, modal de confirmação, toast com resumo do resultado.
+> `mvn clean test`: 859/859, 0 falhas; typecheck/lint do frontend sem regressão. **Não testado num
+> browser real nesta sessão** — boot local completo da API precisa de credenciais Firebase/AWS não
+> configuradas neste ambiente (infra não relacionada à task). Douglas recomendado a validar
+> visualmente antes do merge.
 > Atualizado em: 30/08/2026 — **🟡 TASK-214 criada (backlog, não iniciada)**: Douglas pediu seleção
 > múltipla + remoção em massa na tela de itens, depois de validar a TASK-212/213 em `staging`.
 > Achado durante a análise (antes de implementar): a regra "não pode apagar item com manutenção
@@ -1242,6 +1253,7 @@ _Vazio_
 | [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) / [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60)) | 🔴 Crítico | — |
 | [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60)) | 🔴 Crítico | — |
+| [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — PR aberta [api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) / [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61) | 🟡 Médio | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |

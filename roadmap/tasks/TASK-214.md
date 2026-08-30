@@ -67,13 +67,20 @@ apagar em lote itens com histórico), esta task fecha os dois lados juntos: adic
   (reaproveitar `ConfirmModal` já usado no delete individual).
 - Feedback pós-ação: toast ou resumo com quantos foram removidos e quantos pulados (com motivo).
 
-## Critérios de Aceite (a refinar na execução)
+## Critérios de Aceite
 
-- [ ] `remove()` bloqueia item com manutenção registrada (mesma mensagem de `update()`)
-- [ ] Endpoint de remoção em lote existe, aplica a regra por item, não é tudo-ou-nada
-- [ ] Teste cobrindo: lote misto (alguns com manutenção, outros sem) remove só os elegíveis
-- [ ] Frontend: seleção múltipla funcional, sobrevive à paginação, feedback claro do resultado
-- [ ] `mvn test` e typecheck/lint do frontend sem regressão
+- [x] `remove()` bloqueia item com manutenção registrada (mesma mensagem de `update()`)
+- [x] Endpoint de remoção em lote (`DELETE /items/batch`) existe, aplica a regra por item, não é
+      tudo-ou-nada
+- [x] Teste cobrindo: lote misto (alguns com manutenção, outros sem) remove só os elegíveis; id
+      desconhecido/de outra org é pulado sem abortar o resto do lote
+- [x] Frontend: seleção múltipla funcional, sobrevive à paginação, feedback claro do resultado
+      (toast com quantos removidos/pulados, motivo legível)
+- [x] `mvn clean test` (859/859, 0 falhas) e typecheck/lint do frontend sem regressão
+- [ ] QA manual em produção pós-deploy — **não testado num browser real nesta sessão**: boot local
+      completo da API exige credenciais Firebase/AWS não configuradas neste ambiente (infra não
+      relacionada a esta task — `PushNotificationProvider` exige um bean `FirebaseMessaging` real).
+      Douglas já roda local rotineiramente; recomendado validar visualmente lá antes do merge.
 
 ## Dependências
 Nenhuma (independente da TASK-212/213, achada durante a mesma sessão de validação).
@@ -86,4 +93,9 @@ já ser soft-delete (reversível via banco, não é perda física de dado).
 Médio
 
 ## Status
-📋 Backlog — só a task foi criada, implementação ainda não iniciada.
+✅ Implementado, PRs abertas contra `staging`:
+[api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) e
+[web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61). Branch
+`feature/TASK-214-bulk-select-remove-items` nos dois repos. Suíte completa da API: 859/859, 0
+falhas. Typecheck/lint do frontend sem regressão. QA manual pendente — não validado num browser real
+nesta sessão (ver critério de aceite acima).
