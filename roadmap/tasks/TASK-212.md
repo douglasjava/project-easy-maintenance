@@ -62,6 +62,10 @@ request), a tela só reflete o que vai ser salvo de fato.
   1267) ao tentar subir a aplicação local. Corrigido com `COLLATE utf8mb4_unicode_ci` explícito na
   comparação; validado contra o MySQL real local dele (transação com `ROLLBACK`, sem side effect) —
   27/27 `item_types` REGULATORY vinculados corretamente com o fix, erro reproduzido sem ele.
+- `V102`: primeira curadoria manual pós-deploy, confirmada por Douglas — `INSPECAO DE EXTINTORES`
+  vinculado à norma `EXTINTOR`. `RECARGA DE EXTINTORES` decidido como operacional, de propósito
+  (ver "Curadoria adicional" abaixo). Mesmo padrão de comparação literal (sem join entre tabelas) da
+  V101 pra evitar o mesmo risco de collation.
 - `MaintenanceItemService`: `resolveClassification(itemType)` substitui `validateCreate` — resolve
   `ItemTypes` pelo nome normalizado e deriva categoria/normId; `create()` e `update()` aplicam a
   mesma regra (fechando também o gap do `update()` sem validação nenhuma).
@@ -102,6 +106,16 @@ produção fica exposto ao rebaixamento** com o estado atual da migration.
 
 Se novos `item_types` REGULATORY aparecerem depois (uso normal do produto), a query acima continua
 válida pra auditoria antes de editar itens antigos.
+
+**Curadoria adicional (V102, 30/08):** Douglas revisou os `item_types` sem norma em ambiente local e
+confirmou o primeiro caso de curadoria manual: `INSPECAO DE EXTINTORES` (seed V8) vinculado à norma
+`EXTINTOR` (NBR 12962 já trata inspeção e recarga como a mesma obrigação anual). `RECARGA DE
+EXTINTORES` fica de fora de propósito — decidido como ação operacional derivada, não a obrigação
+legal em si. Outros candidatos próximos identificados mas **não** vinculados (aguardando decisão):
+`SPDA` (a norma bare foi removida na V78, viraria `SPDA_INSPECAO_VISUAL`/`_COMPLETA`),
+`ALARME_INCENDIO` (falta "DE" pra bater com `ALARME_DE_INCENDIO`), `BOMBA_INCENDIO` (singular/sufixo
+diferente de `BOMBAS_INCENDIO_SISTEMA`). `ELEVADOR` não tem norma nenhuma no catálogo ainda —
+lacuna do catálogo em si, não de vinculação.
 
 ## Achado relacionado (não corrigido aqui, fora de escopo)
 
