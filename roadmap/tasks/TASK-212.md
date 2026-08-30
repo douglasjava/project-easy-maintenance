@@ -55,6 +55,13 @@ request), a tela só reflete o que vai ser salvo de fato.
   ignorar `_` dos dois lados (`normalized_name` nunca tem, os slugs de `norms.item_type` sempre têm),
   e (2) a sintaxe `UPDATE ... JOIN ... SET` (MySQL) nem parseia no H2 — a migration usa `UPDATE` com
   subquery correlacionada em vez disso, portável e testável nos dois.
+  **Terceiro problema, só reproduzível em MySQL real** (H2 não modela collation): `item_types` (V6) e
+  `norms` (V1) foram criadas sem `COLLATE` explícito, herdando o default do schema no momento em que
+  cada uma rodou — no MySQL local de Douglas, `item_types` ficou `utf8mb4_unicode_ci` e `norms`
+  `utf8mb4_0900_ai_ci`, e comparar as duas direto quebra com `Illegal mix of collations` (MySQL
+  1267) ao tentar subir a aplicação local. Corrigido com `COLLATE utf8mb4_unicode_ci` explícito na
+  comparação; validado contra o MySQL real local dele (transação com `ROLLBACK`, sem side effect) —
+  27/27 `item_types` REGULATORY vinculados corretamente com o fix, erro reproduzido sem ele.
 - `MaintenanceItemService`: `resolveClassification(itemType)` substitui `validateCreate` — resolve
   `ItemTypes` pelo nome normalizado e deriva categoria/normId; `create()` e `update()` aplicam a
   mesma regra (fechando também o gap do `update()` sem validação nenhuma).
@@ -114,8 +121,8 @@ fix por vez").
       tipo curado não vira OPERATIONAL, tipo não-curado não vira REGULATORY com normId inventado
 - [x] Teste novo (`ItemTypesNormLinkingMigrationTest`) comprova a lógica de vinculação da V101 em
       H2 real — falha sem o `REPLACE(..., '_', '')`, passa com ele
-- [x] `mvn test` sem regressão (858/858 antes desta correção; suíte completa novamente após o fix
-      do H2/MySQL na V101)
+- [x] `mvn clean test` sem regressão (853/853, 0 falhas — confirmado após o fix de collation na
+      V101)
 - [x] Frontend: categoria/norma na tela `items/new` são derivadas, não escolhas livres
 - [ ] QA manual em produção pós-deploy (pendente)
 
@@ -135,7 +142,15 @@ Médio
 ✅ Implementado, PRs abertas contra `staging`:
 [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) e
 [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60). Branch
-`feature/TASK-212-item-category-derived-from-type` nos dois repos. Suíte completa da API: 860/860,
-0 falhas. Typecheck e lint do frontend sem regressão (mesmos 4 avisos pré-existentes de
-`no-explicit-any`, não introduzidos por esta task). Curadoria ampla dos ~150 `item_types` (além dos
-27 já cobertos pela V101, confirmados 27/27 contra produção) fica com Douglas, fora desta task.
+`feature/TASK-212-item-category-derived-from-type` nos dois repos. Suíte completa da API
+(`mvn clean test`): 853/853, 0 falhas. Typecheck e lint do frontend sem regressão (mesmos 4 avisos
+pré-existentes de `no-explicit-any`, não introduzidos por esta task). Curadoria ampla dos ~150
+`item_types` (além dos 27 já cobertos pela V101, confirmados 27/27 contra produção) fica com
+Douglas, fora desta task.
+
+**30/08, correção pós-push:** subir a API localmente falhou no boot — V101 quebrava com
+`Illegal mix of collations` (MySQL 1267) porque `item_types` e `norms` foram criadas em migrations
+diferentes sem `COLLATE` explícito e ficaram com collations diferentes no MySQL local
+(`utf8mb4_unicode_ci` vs. `utf8mb4_0900_ai_ci`). Corrigido com `COLLATE utf8mb4_unicode_ci`
+explícito na comparação; validado contra o MySQL real local de Douglas (transação com `ROLLBACK`,
+sem alterar dado real) — 27/27 vinculados corretamente com o fix. Commit `4d4553c`, já no PR #60.
