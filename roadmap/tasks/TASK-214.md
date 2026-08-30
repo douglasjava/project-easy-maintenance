@@ -107,6 +107,19 @@ nesta sessão (ver critério de aceite acima).
    usuário só descobria pelo erro 409 depois do clique (a validação em si já estava correta desde
    a implementação inicial).
 
+**30/08, mesma correção espelhada em `/items/[id]` (commit `0c0d890`, web):** o botão Remover da
+tela de detalhe do item tinha a mesma lacuna (Editar já checava `data?.canUpdate`, Remover não).
+
+## Débito técnico registrado (não corrigido, guardado a pedido de Douglas)
+
+Ao mexer em `/items/[id]/page.tsx` (commit `0c0d890`), achei **dois modais de confirmação de
+exclusão sobrepostos** nessa página, ambos controlados pelo mesmo estado `showDeleteModal`: o
+componente `<ConfirmModal>` padrão (linha ~131) e um modal Bootstrap "cru" duplicado mais abaixo no
+arquivo (linha ~492). Os dois renderizam juntos quando o usuário clica em Remover — pré-existente,
+não introduzido por esta task, não relacionado ao pedido original. Douglas já mergeou TASK-214 em
+`staging` e pediu pra guardar isso como débito técnico pra remover o duplicado depois, sem abrir
+task nova por ora.
+
 Fix: `itemBlockedReasonMessage()` mapeia os códigos conhecidos pra PT-BR; Remover passou a reusar
 o mesmo `it.canUpdate`/`it.reason` que a API já calcula pra Editar (mesma regra —
 `existsByItemId`) — os dois botões agora ficam desabilitados de antemão, com tooltip legível, em
