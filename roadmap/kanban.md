@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/08/2026 — **🟡 TASK-216 implementada, PRs abertas contra `staging`**:
+> [api#63](https://github.com/douglasjava/easy-maintenance-api/pull/63) e
+> [web#62](https://github.com/douglasjava/easy-maintenance-web/pull/62). `register()` agora rejeita
+> `nextDueAt` manual pra item REGULATORY (`RuleException` explícita) e aplica de verdade pra
+> OPERATIONAL (pula o cálculo por período quando informado; sem valor, cai no cálculo automático de
+> sempre). Frontend: campo "Próxima manutenção" só aparece pra itens OPERATIONAL. 3 testes novos
+> comprovam os 3 casos, confirmados falhando sem o fix antes de reaplicar. `mvn clean test`:
+> 864/864, 0 falhas.
 > Atualizado em: 30/08/2026 — **🟡 TASK-216 criada (backlog, não iniciada)**: Douglas achou, ao
 > validar a TASK-215 em ambiente local, que "Data da Próxima manutenção" no registro de manutenção
 > é puramente decorativa — `MaintenanceService.applyPerformedMaintenance` sempre recalcula
@@ -1280,6 +1288,7 @@ _Vazio_
 | [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60)) | 🔴 Crítico | — |
 | [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — mergeada em staging ([api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) / [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61)) | 🟡 Médio | — |
 | [TASK-215](tasks/TASK-215.md) | 🔴 BUGFIX Backend: checkout Asaas rejeitado por item ORGANIZATION de valor zero (item de R$0 desde a EPIC-014 quebrava o checkout inteiro) — PR aberta [api#62](https://github.com/douglasjava/easy-maintenance-api/pull/62) | 🔴 Crítico | — |
+| [TASK-216](tasks/TASK-216.md) | 🟡 FULL_STACK: "Próxima manutenção" manual no registro — rejeitada pra REGULATORY, aplicada de verdade pra OPERATIONAL — PR aberta [api#63](https://github.com/douglasjava/easy-maintenance-api/pull/63) / [web#62](https://github.com/douglasjava/easy-maintenance-web/pull/62) | 🟡 Médio | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |

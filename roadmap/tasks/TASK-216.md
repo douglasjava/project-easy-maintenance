@@ -73,15 +73,16 @@ input livre furar uma garantia central do produto):
 
 ## Critérios de Aceite
 
-- [ ] `register()` rejeita `nextDueAt` manual pra item REGULATORY, com mensagem clara
-- [ ] `register()` aplica `nextDueAt` manual como `item.nextDueAt` pra item OPERATIONAL quando
+- [x] `register()` rejeita `nextDueAt` manual pra item REGULATORY, com mensagem clara
+- [x] `register()` aplica `nextDueAt` manual como `item.nextDueAt` pra item OPERATIONAL quando
       informado
-- [ ] `register()` sem `nextDueAt` continua calculando automaticamente (sem regressão pro
+- [x] `register()` sem `nextDueAt` continua calculando automaticamente (sem regressão pro
       comportamento atual)
-- [ ] Frontend: campo "Próxima manutenção" só aparece pra itens OPERATIONAL
-- [ ] Teste cobrindo os 3 casos (REGULATORY rejeita, OPERATIONAL usa o manual, OPERATIONAL sem
-      valor cai no automático)
-- [ ] `mvn test` e typecheck/lint do frontend sem regressão
+- [x] Frontend: campo "Próxima manutenção" só aparece pra itens OPERATIONAL
+- [x] Teste cobrindo os 3 casos (REGULATORY rejeita, OPERATIONAL usa o manual, OPERATIONAL sem
+      valor cai no automático) — confirmados falhando sem o fix antes de reaplicar
+- [x] `mvn clean test` (864/864, 0 falhas) e typecheck/lint do frontend sem regressão
+- [ ] QA manual em produção pós-deploy (pendente)
 
 ## Dependências
 Nenhuma (achada durante validação da TASK-215, independente dela).
@@ -95,4 +96,8 @@ efeito real. Sem migração de dado necessária.
 Baixo-Médio
 
 ## Status
-📋 Backlog — task criada, implementação ainda não iniciada.
+✅ Implementado, PRs abertas contra `staging`:
+[api#63](https://github.com/douglasjava/easy-maintenance-api/pull/63) e
+[web#62](https://github.com/douglasjava/easy-maintenance-web/pull/62). Branch
+`feature/TASK-216-operational-manual-next-due-date` nos dois repos. Suíte completa da API:
+864/864, 0 falhas. Typecheck/lint do frontend sem regressão.
