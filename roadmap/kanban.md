@@ -1,5 +1,19 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/08/2026 — **🔴 TASK-215 criada e implementada (BUGFIX crítico de receita)**: o
+> `PixRenewalJob` continuava falhando toda madrugada pra subscriptionId=2, agora com Asaas 400 "O
+> campo value deve ser informado" ao criar o checkout de cartão. Causa raiz confirmada via query
+> direta em produção: a fatura tem um item ORGANIZATION com `amount_cents=0` (desde a EPIC-014,
+> plano único por conta — todo item ORGANIZATION é só registro de vínculo/limite, nunca cobrado
+> separadamente) junto do item USER real (R$299). `buildCheckoutRequest`
+> (`PaymentMethodTransitionService` e a cópia quase idêntica em `BillingRecoveryService`) mandava
+> **todos** os itens da fatura pro array `items` do checkout sem filtrar — a linha fantasma de R$0
+> fazia o Asaas rejeitar o request inteiro. Fix: filtro `amountCents > 0` nos dois lugares antes de
+> montar o checkout; o total da fatura não muda (o item de R$0 já não contribuía pra soma). Testes
+> novos reproduzem o dado real de produção (item USER + item ORGANIZATION zerado) e provam que só o
+> item real chega ao Asaas. Branch `bugfix/TASK-215-asaas-checkout-zero-value-item`, commit
+> `b381b48`, PR contra staging [api#62](https://github.com/douglasjava/easy-maintenance-api/pull/62)
+> aberta. 861/861 testes, 0 falhas.
 > Atualizado em: 30/08/2026 — **🟡 TASK-214 implementada, PRs abertas contra `staging`**:
 > [api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) e
 > [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61). Backend:
@@ -1253,7 +1267,8 @@ _Vazio_
 | [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) / [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60)) | 🔴 Crítico | — |
 | [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60)) | 🔴 Crítico | — |
-| [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — PR aberta [api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) / [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61) | 🟡 Médio | — |
+| [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — mergeada em staging ([api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) / [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61)) | 🟡 Médio | — |
+| [TASK-215](tasks/TASK-215.md) | 🔴 BUGFIX Backend: checkout Asaas rejeitado por item ORGANIZATION de valor zero (item de R$0 desde a EPIC-014 quebrava o checkout inteiro) — PR aberta [api#62](https://github.com/douglasjava/easy-maintenance-api/pull/62) | 🔴 Crítico | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
