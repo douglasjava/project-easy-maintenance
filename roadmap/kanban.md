@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/08/2026 — **🔴 TASK-213 criada e implementada (BUGFIX crítico)**: achado por
+> Douglas ao validar as normas da TASK-212 em ambiente local — editar `lastPerformedAt` de um item
+> não recalculava `nextDueAt` de verdade, ficava preso na data de antes da edição (`update()`
+> calculava `nextDueAt` **antes** de aplicar o novo `lastPerformedAt` do request). Bug pré-existente
+> em `staging`, não introduzido pela TASK-212 (confirmado via `git show staging:...`) — só ficou
+> visível porque a TASK-212 fez a classificação REGULATORY funcionar de verdade pela primeira vez.
+> Fix: inverte a ordem de duas linhas (`setLastPerformedAt` antes de `resolvePeriod`/`setNextDueAt`),
+> mesma ordem que `create()` já usava. `MaintenanceItemUpdateNextDueAtTest` comprova a regressão —
+> reproduz o `2026-06-04` errado que Douglas viu, passa com o fix. Mesma branch/PR da TASK-212
+> (commit `228d2a7`, [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60)). 855/855
+> testes, 0 falhas. Itens já salvos com `nextDueAt` desatualizado precisam de um re-save manual pra
+> recalcular — sem migration de dado (ambiente de teste, baixo volume).
 > Atualizado em: 30/08/2026 — **🔴 TASK-212 criada e implementada (FULL_STACK crítico)**: Douglas
 > reportou que a tela de cadastro de itens permitia registrar um item regulatório como operacional e
 > vice-versa — "Tipo do item" (livre) e "Categoria" eram campos totalmente independentes. Causa raiz:
@@ -1220,6 +1232,7 @@ _Vazio_
 | [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — PR aberta [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) / [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60) | 🔴 Crítico | — |
+| [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — PR aberta [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) | 🔴 Crítico | — |
 | [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
 | [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
