@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 30/08/2026 — **🟡 TASK-216 criada (backlog, não iniciada)**: Douglas achou, ao
+> validar a TASK-215 em ambiente local, que "Data da Próxima manutenção" no registro de manutenção
+> é puramente decorativa — `MaintenanceService.applyPerformedMaintenance` sempre recalcula
+> `item.nextDueAt` a partir de `performedAt + período do item`, ignorando o valor digitado (que só
+> fica salvo no registro histórico da manutenção, sem efeito no item). Decisão de produto discutida
+> com Douglas: comportamento correto depende da categoria — **REGULATORY** (obrigação legal, norma +
+> tolerância) não pode ser sobrescrita por digitação livre, mesmo princípio da TASK-212; o campo sai
+> do formulário e o backend rejeita explicitamente se vier preenchido via API. **OPERATIONAL** (sem
+> obrigação legal) mantém o campo editável, mas passa a valer de verdade: se preenchido, define
+> `item.nextDueAt` direto; se vazio, cai no cálculo automático de hoje. Task registrada, escopo
+> proposto em `TASK-216.md`, implementação ainda não iniciada.
 > Atualizado em: 30/08/2026 — **🔴 TASK-215 criada e implementada (BUGFIX crítico de receita)**: o
 > `PixRenewalJob` continuava falhando toda madrugada pra subscriptionId=2, agora com Asaas 400 "O
 > campo value deve ser informado" ao criar o checkout de cartão. Causa raiz confirmada via query
