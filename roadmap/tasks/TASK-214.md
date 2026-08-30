@@ -99,3 +99,15 @@ Médio
 `feature/TASK-214-bulk-select-remove-items` nos dois repos. Suíte completa da API: 859/859, 0
 falhas. Typecheck/lint do frontend sem regressão. QA manual pendente — não validado num browser real
 nesta sessão (ver critério de aceite acima).
+
+**30/08, dois ajustes pedidos por Douglas (commit `71cd0c0`, web):**
+1. Tooltip do botão Editar desabilitado mostrava o código bruto do backend em inglês
+   (`ITEM_ALREADY_USED_IN_MAINTENANCE`) em vez de uma mensagem legível.
+2. O botão Remover não era bloqueado no cliente pra item com manutenção — ficava clicável, o
+   usuário só descobria pelo erro 409 depois do clique (a validação em si já estava correta desde
+   a implementação inicial).
+
+Fix: `itemBlockedReasonMessage()` mapeia os códigos conhecidos pra PT-BR; Remover passou a reusar
+o mesmo `it.canUpdate`/`it.reason` que a API já calcula pra Editar (mesma regra —
+`existsByItemId`) — os dois botões agora ficam desabilitados de antemão, com tooltip legível, em
+vez de só falhar depois do clique.
