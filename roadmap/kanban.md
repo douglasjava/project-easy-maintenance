@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/08/2026 — **🟡 TASK-217 criada (desenhada, não iniciada)**: investigação de um
+> caso real em PRD (subscriptionId=2) — checkout PIX→CC pago de verdade, mas `invoices.status` ficou
+> preso em `OPEN` e `billing_subscriptions.external_subscription_id` ficou vazio. Causa raiz:
+> `PaymentCreatedHandler` sobrescreve `payments.external_payment_id` do id do checkout pro id da
+> cobrança assim que chega, e 3 handlers que processam eventos seguintes (`CheckoutPaidHandler`,
+> `CheckoutExpiredHandler`, `SubscriptionCreatedHandler`) ainda buscam o pagamento pelo id do
+> checkout na mesma coluna — se `PAYMENT_CREATED` chega primeiro (caso real), a busca falha em
+> silêncio. Dado de produção já corrigido manualmente via `UPDATE` transacional validado (não é a
+> correção do código, só do estado). Fix proposto: nova coluna estável `payments.checkout_session_id`
+> (migration V104), preenchida uma vez na criação do `Payment` e nunca sobrescrita; os 3 handlers
+> passam a buscar por ela primeiro, com fallback pro `external_payment_id` (compatibilidade com
+> pagamentos antigos). Detalhe completo em `TASK-217.md`. Implementação ainda não iniciada.
 > Atualizado em: 30/08/2026 — **🟡 TASK-216 implementada, PRs abertas contra `staging`**:
 > [api#63](https://github.com/douglasjava/easy-maintenance-api/pull/63) e
 > [web#62](https://github.com/douglasjava/easy-maintenance-web/pull/62). `register()` agora rejeita
