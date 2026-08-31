@@ -119,6 +119,18 @@ Baixo-Médio
 `payments.checkout_session_id`; `CheckoutPaidHandler`, `CheckoutExpiredHandler` e
 `SubscriptionCreatedHandler` passam a buscar por ela (com fallback pro `external_payment_id`) via
 novo helper `AbstractAsaasWebhookStrategy.findPaymentByCheckoutId`. `SubscriptionCreatedHandler`
-ganhou log de erro quando não encontra o pagamento. 4 testes novos reproduzem a race condition real,
-confirmados falhando sem o fix antes de reaplicar. `mvn clean test`: 868/868, 0 falhas. Falta QA
-manual em staging pós-deploy.
+ganhou log de erro quando não encontra o pagamento.
+
+**Correção pós-revisão (mesma PR, 2º commit)**: o desenho inicial só cobria
+`PaymentMethodTransitionService.initiateCardUpdate` (transição manual) e
+`BillingRecoveryService.recoverWithCheckout` (recuperação de inadimplência). Ao ser questionado se o
+fluxo normal (entrar em CC e continuar, ou PIX e continuar) tinha algum impacto, achamos 2 pontos que
+também criam `Payment` a partir de checkout e ficaram de fora: `TrialExpirationService` (primeira
+cobrança real após o trial, contas não-PIX) e `CardTransitionService` (job automático de transição
+PIX→CC por ciclo). Comparando o `external_reference` do incidente real de produção
+(`CARD-UPDATE-2-CYCLE-...`) com o padrão de cada serviço, o `-CYCLE-` só existe em
+`CardTransitionService` — **esse job automático foi o que causou o bug real, não o
+`initiateCardUpdate` corrigido no 1º commit**. Ambos os pontos corrigidos, com testes provando
+`checkoutSessionId` preenchido nos fluxos de checkout e `null` no fluxo PIX puro (onde não se
+aplica). 7 testes novos/atualizados no total. `mvn clean test`: 868/868, 0 falhas. Falta QA manual em
+staging pós-deploy.

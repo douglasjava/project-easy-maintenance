@@ -10,6 +10,15 @@
 > encontra o pagamento (antes era silencioso). 4 testes novos reproduzem a race condition real
 > (`PAYMENT_CREATED` sobrescrevendo a coluna antes do handler seguinte precisar dela), confirmados
 > falhando sem o fix antes de reaplicar. `mvn clean test`: 868/868, 0 falhas.
+> Atualizado em: 31/08/2026 — **🟡 TASK-217 correção pós-revisão (mesma PR)**: Douglas perguntou se o
+> fluxo normal (entrar em CC e continuar, ou PIX e continuar) tinha algum impacto da coluna nova —
+> achamos que sim: o desenho inicial só cobria os 2 fluxos de transição manual/recuperação, faltando
+> `TrialExpirationService` (primeira cobrança pós-trial, contas não-PIX) e `CardTransitionService`
+> (job automático de transição PIX→CC por ciclo). Comparando o `external_reference` do incidente real
+> (`CARD-UPDATE-2-CYCLE-...`) com o padrão de cada serviço, **o job automático `CardTransitionService`
+> foi o que causou o bug real de produção**, não o fluxo manual corrigido no primeiro commit. Ambos
+> corrigidos, 7 testes novos/atualizados no total, confirmados falhando sem o fix. `mvn clean test`:
+> 868/868, 0 falhas.
 > Atualizado em: 31/08/2026 — **🟡 TASK-217 criada (desenhada, não iniciada)**: investigação de um
 > caso real em PRD (subscriptionId=2) — checkout PIX→CC pago de verdade, mas `invoices.status` ficou
 > preso em `OPEN` e `billing_subscriptions.external_subscription_id` ficou vazio. Causa raiz:
