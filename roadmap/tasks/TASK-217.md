@@ -113,5 +113,12 @@ no futuro (mitigado por só existir esses 2 pontos hoje, mapeados acima).
 Baixo-Médio
 
 ## Status
-🟡 Desenhada (analisada e discutida com Douglas, incluindo correção manual do dado em PRD via
-`UPDATE` validado em transação). Implementação ainda não iniciada.
+✅ Implementada, PR aberta contra `staging`:
+[api#65](https://github.com/douglasjava/easy-maintenance-api/pull/65). Branch
+`bugfix/TASK-217-webhook-out-of-order-checkout-lookup`. Migration `V104` adiciona
+`payments.checkout_session_id`; `CheckoutPaidHandler`, `CheckoutExpiredHandler` e
+`SubscriptionCreatedHandler` passam a buscar por ela (com fallback pro `external_payment_id`) via
+novo helper `AbstractAsaasWebhookStrategy.findPaymentByCheckoutId`. `SubscriptionCreatedHandler`
+ganhou log de erro quando não encontra o pagamento. 4 testes novos reproduzem a race condition real,
+confirmados falhando sem o fix antes de reaplicar. `mvn clean test`: 868/868, 0 falhas. Falta QA
+manual em staging pós-deploy.

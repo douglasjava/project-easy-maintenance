@@ -1,5 +1,15 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/08/2026 — **🟡 TASK-217 implementada, PR aberta contra `staging`**:
+> [api#65](https://github.com/douglasjava/easy-maintenance-api/pull/65). Migration `V104` adiciona
+> `payments.checkout_session_id`, preenchida uma vez na criação do `Payment` a partir de um checkout
+> e nunca sobrescrita depois. `CheckoutPaidHandler`, `CheckoutExpiredHandler` e
+> `SubscriptionCreatedHandler` passam a buscar por ela primeiro (novo helper
+> `AbstractAsaasWebhookStrategy.findPaymentByCheckoutId`, com fallback pro `external_payment_id` pra
+> compatibilidade com pagamentos antigos). `SubscriptionCreatedHandler` ganhou log de erro quando não
+> encontra o pagamento (antes era silencioso). 4 testes novos reproduzem a race condition real
+> (`PAYMENT_CREATED` sobrescrevendo a coluna antes do handler seguinte precisar dela), confirmados
+> falhando sem o fix antes de reaplicar. `mvn clean test`: 868/868, 0 falhas.
 > Atualizado em: 31/08/2026 — **🟡 TASK-217 criada (desenhada, não iniciada)**: investigação de um
 > caso real em PRD (subscriptionId=2) — checkout PIX→CC pago de verdade, mas `invoices.status` ficou
 > preso em `OPEN` e `billing_subscriptions.external_subscription_id` ficou vazio. Causa raiz:
