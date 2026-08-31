@@ -132,5 +132,8 @@ PIX→CC por ciclo). Comparando o `external_reference` do incidente real de prod
 `CardTransitionService` — **esse job automático foi o que causou o bug real, não o
 `initiateCardUpdate` corrigido no 1º commit**. Ambos os pontos corrigidos, com testes provando
 `checkoutSessionId` preenchido nos fluxos de checkout e `null` no fluxo PIX puro (onde não se
-aplica). 7 testes novos/atualizados no total. `mvn clean test`: 868/868, 0 falhas. Falta QA manual em
-staging pós-deploy.
+aplica). 7 testes novos/atualizados no total. `mvn clean test`: 868/868, 0 falhas.
+
+**31/08/2026 — mergeada em `staging`, PR `staging→main` aberta**:
+[api#66](https://github.com/douglasjava/easy-maintenance-api/pull/66). Falta QA manual em produção
+pós-deploy.

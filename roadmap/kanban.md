@@ -1,5 +1,8 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/08/2026 — **🟢 TASK-217 mergeada em `staging`, PR `staging→main` aberta**:
+> [api#66](https://github.com/douglasjava/easy-maintenance-api/pull/66). Falta QA manual em produção
+> pós-deploy.
 > Atualizado em: 31/08/2026 — **🟡 TASK-217 implementada, PR aberta contra `staging`**:
 > [api#65](https://github.com/douglasjava/easy-maintenance-api/pull/65). Migration `V104` adiciona
 > `payments.checkout_session_id`, preenchida uma vez na criação do `Payment` a partir de um checkout
