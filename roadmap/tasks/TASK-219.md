@@ -48,6 +48,15 @@ na tela de comparação de planos, pra ficar visível pro cliente.
 - `PlanFeatures` (interface): adicionar `maxFileSizeMb: number`.
 - `FEATURE_ROWS`: nova linha "Tamanho máximo por arquivo", formatada como `"${v} MB"`.
 
+### Frontend (mensagem de erro do upload) — pedido de Douglas na revisão
+- `maintenances/new/page.tsx` (`handleUploadAttachments`) e `maintenances/page.tsx`
+  (`handleUploadAttachmentToExisting`): os dois catch engoliam o erro real da API e sempre mostravam
+  mensagem genérica ("Erro ao enviar anexo(s)"), mesmo quando o backend retorna motivo claro (ex.:
+  `RuleException` de tamanho excedido, já exposto em `ProblemDetail.detail` via
+  `GlobalExceptionHandler.handleRuleException`). Corrigido pra extrair `err?.response?.data?.detail`
+  com fallback pra mensagem genérica — mesmo padrão já usado no `handleSubmitMaintenance` do mesmo
+  arquivo.
+
 ## Critérios de Aceite
 
 - [x] Teto rígido em produção passa a ser 20MB
@@ -80,5 +89,13 @@ Baixo
 `feature/TASK-219-increase-attachment-size-limit` nos dois repos. Backend: teto rígido 10MB→20MB em
 `application.properties`, sem mudança de lógica/mensagem. Frontend: nova linha "Tamanho máximo por
 arquivo" em `PlanComparisonSection.tsx`. Testes existentes sem regressão (typecheck/lint com só os
-erros pré-existentes de sempre, confirmados via stash). Falta QA manual: subir anexo ~15MB numa conta
-Business.
+erros pré-existentes de sempre, confirmados via stash).
+
+**01/09/2026 — ajuste pós-revisão (mesma PR web#64)**: Douglas notou que, ao estourar o limite, o
+front mostrava só "Erro ao enviar o anexo" genérico em vez do motivo real. Corrigido nos 2 pontos de
+upload de anexo (`maintenances/new/page.tsx`, `maintenances/page.tsx`) — agora mostra
+`ProblemDetail.detail` do backend quando disponível. Typecheck/lint sem regressão (mesmo padrão
+`catch (err: any)` já usado 9x nesses 2 arquivos).
+
+Falta QA manual: subir anexo ~15MB numa conta Business e confirmar que a mensagem de erro (se
+estourar) mostra o valor real do teto.
