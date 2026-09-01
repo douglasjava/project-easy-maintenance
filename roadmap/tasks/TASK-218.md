@@ -14,7 +14,7 @@ alto valor).
 
 | # | Resumo | Classificação | Achado ao investigar | Decisão |
 |---|---|---|---|---|
-| 1 | Msg de erro de anexo pouco clara + tamanho "10GB"? | BUG / UX | `application.properties`: `aws.s3.upload.max-file-size-mb=10` é o **teto rígido**, aplicado via `Math.min(planMaxFileSizeMb, hardMaxFileSizeMb)` — capa **todos os planos** em 10MB, mesmo os configurados pra 20/50MB (`V63__restructure_billing_plans.sql`). Não é 10GB, é 10MB — o teto está bem abaixo do que os planos pagos prometem. | **DO NOW** — mensagem confusa + teto provavelmente errado (limita valor que o próprio plano paga) |
+| 1 | Msg de erro de anexo pouco clara + tamanho | BUG / UX | Confirmado por Douglas: é 10MB mesmo (não 10GB) — `aws.s3.upload.max-file-size-mb=10` em `application.properties`, teto rígido via `Math.min(planMaxFileSizeMb, hardMaxFileSizeMb)`, capa **todos os planos** mesmo os configurados pra 20/50MB (`V63__restructure_billing_plans.sql`). Cliente tentou subir um arquivo de exatos 10MB e foi barrado — o teto está justo demais pra uso real (foto/PDF de manutenção passa fácil de 10MB). Douglas: "podemos aumentar um pouco". | **DO NOW** — subir o teto (valor a definir) + mensagem mais clara |
 | 2 | Download não funcionou pra ele, funcionou pro Douglas | Não reproduzido | Sem causa raiz — Douglas testou com o próprio usuário e funcionou | **DEFER** — só monitorar, sem repro não dá pra investigar às cegas |
 | 3 | Limite de 2 anexos por manutenção é pouco | UX / produto | Não achei limite "2" no backend — parece ser estrutura fixa da tela (frontend), não regra de negócio | **PLAN** — decisão de produto (novo limite? qual?) antes de mexer na tela |
 | 4 | Alerta deveria começar 1 mês antes | Dúvida de regra | Não achei config de antecedência de alerta na busca inicial — precisa investigação dedicada no job de notificação (EPIC-015) | **PLAN** — investigar regra atual antes de decidir se é bug ou ajuste de config |
@@ -25,6 +25,7 @@ alto valor).
 | 9 | Tipo de anexo (enum) sem opção "outro" com texto livre | Produto / dado | É enum hoje — mudar exige decisão (enum aberto vira dado livre, impacto em relatórios/filtros existentes) | **PLAN** — avaliar viabilidade antes de decidir |
 | 10 | Menu lateral esquerdo — melhoria de UX | UX | Genérico, sem escopo definido ainda | **PLAN** — precisa virar um brainstorm dedicado (`superpowers:brainstorming`) antes de qualquer mudança |
 | 11 | Lista de fornecedores nas notificações agradou — priorizar | Produto | Já existe: **EPIC-023**, `TASK-172` (status "Pronto para implementar", ainda não iniciada), `TASK-173`, `TASK-174` | **DO NOW** — só precisa dar o start, spec já pronta |
+| 12 | Campo "Descrição" (observação) da manutenção ficou pequeno | UX | Confirmado em `maintenances/new/page.tsx:580-590`: `<textarea rows={3} maxLength={1000}>` — o limite de caracteres já é generoso (1000), o problema é só a altura visível (3 linhas). Sem `resize`/auto-grow configurado. | **DO NEXT** — ajuste visual simples (mais rows, ou auto-grow), baixo risco |
 
 ## Itens que exigem decisão do Douglas antes de qualquer código
 
@@ -39,8 +40,10 @@ alto valor).
 ## Sugestão de ordem (a confirmar com Douglas)
 
 1. **Já prontos pra abrir task e implementar**: #1 (limite/mensagem de anexo), #5a (mapear norma de
-   ancoragem), #6a (debounce na busca de item), #11 (start da TASK-172).
-2. **Precisam de decisão rápida antes de virar task**: #8 (fluxo pós-criação de item).
+   ancoragem), #6a (debounce na busca de item), #11 (start da TASK-172), #12 (aumentar campo de
+   descrição da manutenção).
+2. **Precisam de decisão rápida antes de virar task**: #8 (fluxo pós-criação de item), #1 (qual novo
+   valor de teto de MB).
 3. **Precisam de conversa/investigação mais longa antes de qualquer task**: #3, #4, #5b, #6b
    (performance ampla), #7, #9, #10.
 4. **Sem ação por ora**: #2 (sem repro).
