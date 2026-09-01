@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-222 criada e implementada, PR aberta contra `staging`**:
+> [web#67](https://github.com/douglasjava/easy-maintenance-web/pull/67). Itens #10 (sidebar fixa em
+> desktop) e #12 (campo de descrição maior) da TASK-218, agrupados numa task só a pedido do Douglas.
+> `offcanvas-lg` nativo do Bootstrap não resolvia (assume nav horizontal, não sidebar vertical
+> persistente — descoberto via teste isolado num browser real antes de aplicar no código). Fix real:
+> regra própria em `globals.css` forçando a sidebar a ficar visível/estática a partir de 992px.
+> Validado visualmente em desktop; **não foi possível validar em mobile real neste ambiente**
+> (limitação da ferramenta de resize) — recomendado QA manual em mobile antes do merge.
 > Atualizado em: 01/09/2026 — **🟡 TASK-221 criada e implementada, PR aberta contra `staging`**:
 > [web#66](https://github.com/douglasjava/easy-maintenance-web/pull/66). Item #8 da TASK-218 — análise
 > de UX discutida com Douglas antes de implementar (rejeitado modal 50/50 pro item, que mataria
