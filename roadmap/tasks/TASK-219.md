@@ -102,4 +102,4 @@ estourar) mostra o valor real do teto.
 
 **01/09/2026 — mergeada em `staging`, PR `staging→main` aberta**:
 [web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69) (promove TASK-219 a TASK-223
-juntas).
+juntas) e [api#68](https://github.com/douglasjava/easy-maintenance-api/pull/68) (só TASK-219, backend).

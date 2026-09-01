@@ -5,7 +5,8 @@
 > teto de anexo 20MB + limite exibido no plano (TASK-219), lista de anexos com upload imediato e
 > limite de 6 (TASK-220), navegação pós-criação em item/manutenção (TASK-221), sidebar fixa em
 > desktop (TASK-222), refinamento visual da sidebar + correção de `/items/new` (TASK-223). Falta QA
-> manual em produção pós-deploy em todas.
+> manual em produção pós-deploy em todas. Backend: PR `staging→main` também aberta
+> ([api#68](https://github.com/douglasjava/easy-maintenance-api/pull/68), só TASK-219).
 > Atualizado em: 01/09/2026 — **🟡 TASK-223 criada e implementada, PR aberta contra `staging`**:
 > [web#68](https://github.com/douglasjava/easy-maintenance-web/pull/68). Refinamento visual da
 > sidebar via skill `frontend-design`, sobre a TASK-222 já mergeada. Ícone emoji por item (reaproveita
