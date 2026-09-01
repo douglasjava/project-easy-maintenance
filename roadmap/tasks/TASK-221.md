@@ -95,3 +95,7 @@ Baixo
 `feature/TASK-221-post-create-navigation`. `tsc`/`eslint` sem regressão (confirmado via stash).
 Falta QA manual: os 3 caminhos do painel de item, os 3 `origin` de finalização de manutenção,
 regressão na edição de item.
+
+**01/09/2026 — mergeada em `staging`, PR `staging→main` aberta**:
+[web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69) (promove TASK-219 a TASK-223
+juntas).

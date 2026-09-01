@@ -98,3 +98,7 @@ reaproveitado nas duas telas conforme desenhado. `tsc`/`eslint` sem regressão (
 stash). **Nota de merge**: branch criada antes de web#64 (TASK-219) mergear — as duas tocam a mesma
 função em `maintenances/page.tsx`; recomendado mergear TASK-219 primeiro pra evitar conflito. Falta
 QA manual: registro com 3+ anexos, edição até bater 6, responsividade mobile.
+
+**01/09/2026 — mergeada em `staging`, PR `staging→main` aberta**:
+[web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69) (promove TASK-219 a TASK-223
+juntas).

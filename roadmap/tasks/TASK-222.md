@@ -102,3 +102,7 @@ ambiente — a ferramenta de resize de janela não afetou o viewport do browser 
 sessão. A garantia de que o mobile fica inalterado é lógica (a regra nova só existe dentro da media
 query maior, sem tocar em nada usado abaixo do breakpoint), não visual. **QA manual em mobile real
 recomendado antes do merge.**
+
+**01/09/2026 — mergeada em `staging`, PR `staging→main` aberta**:
+[web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69) (promove TASK-219 a TASK-223
+juntas).

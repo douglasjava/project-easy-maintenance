@@ -99,3 +99,7 @@ upload de anexo (`maintenances/new/page.tsx`, `maintenances/page.tsx`) — agora
 
 Falta QA manual: subir anexo ~15MB numa conta Business e confirmar que a mensagem de erro (se
 estourar) mostra o valor real do teto.
+
+**01/09/2026 — mergeada em `staging`, PR `staging→main` aberta**:
+[web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69) (promove TASK-219 a TASK-223
+juntas).

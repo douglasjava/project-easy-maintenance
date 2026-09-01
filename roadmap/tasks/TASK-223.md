@@ -101,3 +101,7 @@ nunca renderizava. Decisão do Douglas: sem construir o recurso completo agora (
 migration + DTO + endpoint), só `mx-auto` pra centralizar os cards de `/items/new` + remoção do
 código morto (payload de `location` no create/edit, bloco de exibição no detalhe do item).
 `tsc`/`eslint` sem regressão (mesmos 4 erros pré-existentes de sempre).
+
+**01/09/2026 — mergeada em `staging`, PR `staging→main` aberta**:
+[web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69) (promove TASK-219 a TASK-223
+juntas). Falta QA manual em produção pós-deploy.
