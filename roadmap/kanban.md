@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🔴 TASK-225 criada e implementada, PR aberta contra `staging`
+> (urgente)**: [api#71](https://github.com/douglasjava/easy-maintenance-api/pull/71). Lead de trial
+> real com 20 condomínios batendo no teto do Business (15, definido na `V103` de 30/08) — 5 abaixo
+> do próprio teto que `contexto-comercial.md` já documenta pro ICP desse plano ("síndico
+> profissional, 5-20 condomínios"). `V105` sobe pra 20. Enterprise não muda (perfil diferente —
+> administradora com múltiplos clientes). Docs de produto atualizados. Recomendado mergear e
+> deployar rápido, cliente esperando.
 > Atualizado em: 01/09/2026 — **🟢 TASK-224 mergeada em `staging`, PRs `staging→main` abertas**:
 > [api#70](https://github.com/douglasjava/easy-maintenance-api/pull/70) e
 > [web#71](https://github.com/douglasjava/easy-maintenance-web/pull/71). Falta QA manual em

@@ -1,6 +1,6 @@
 # Easy Maintenance — Contexto Comercial
 **Use este texto como contexto de produto em prompts para a frente comercial (follow-up de leads, prospecção, negociação, parcerias).**
-*Versão: 17/08/2026*
+*Versão: 01/09/2026 — limite de empresas do Business atualizado de 15 para 20 (V105), ver `pricing-rationale.md`*
 
 ---
 
@@ -24,8 +24,8 @@ Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva que
 | Plano | Preço/mês | Empresas | Usuários | Itens | Suporte |
 |---|---|---|---|---|---|
 | Starter | R$149 | até 3 | até 3 | até 100 | Comunidade |
-| Business | R$299 | até 3 | até 10 | até 500 | E-mail prioritário |
-| Enterprise | R$899 | até 10 | até 100 | até 5.000 | Dedicado |
+| Business | R$299 | até 20 | até 10 | até 500 | E-mail prioritário |
+| Enterprise | R$899 | até 50 | até 100 | até 5.000 | Dedicado |
 
 **Planos anuais** (17% de desconto = 2 meses grátis): Starter R$1.490/ano, Business R$2.990/ano, Enterprise R$8.990/ano. **Não existe outro desconto documentado** — qualquer coisa além disso precisa de aprovação do Douglas antes de ser prometida a um prospect.
 
