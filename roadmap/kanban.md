@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-219 criada e implementada, PRs abertas contra `staging`**:
+> [api#67](https://github.com/douglasjava/easy-maintenance-api/pull/67) e
+> [web#64](https://github.com/douglasjava/easy-maintenance-web/pull/64). Item #1 da TASK-218: cliente
+> foi barrado subindo um arquivo de exatos 10MB. Teto rígido `aws.s3.upload.max-file-size-mb`
+> 10MB→20MB — resolve contas Business (plano já prometia 20MB, estava sendo capado abaixo do
+> prometido); Enterprise (50MB) fica capado em 20MB por ora, aumento progressivo fica pra depois
+> (decisão consciente do Douglas). Frontend: `PlanComparisonSection.tsx` passa a exibir o tamanho
+> máximo de anexo por plano (dado já vinha da API, só não era exibido). Sem regressão em nenhum dos
+> dois repos.
 > Atualizado em: 31/08/2026 — **🔵 TASK-218 criada (intake, triagem feita)**: feedback de demo real
 > com o cliente Rogerio Dantas — 11 pontos (bug/UX/performance/produto), acompanhados ao vivo por
 > Douglas. Achados concretos já investigados: (1) `aws.s3.upload.max-file-size-mb=10` em
