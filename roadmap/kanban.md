@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-221 criada e implementada, PR aberta contra `staging`**:
+> [web#66](https://github.com/douglasjava/easy-maintenance-web/pull/66). Item #8 da TASK-218 — análise
+> de UX discutida com Douglas antes de implementar (rejeitado modal 50/50 pro item, que mataria
+> cadastro em lote). `items/new`: painel de sucesso com 3 caminhos ("Registrar manutenção agora"
+> primário, "Ver lista de itens" secundário, "Cadastrar outro item" discreto). `maintenances/new`:
+> "Finalizar registro" navega pro `backHref` já calculado a partir do `origin` (item/dashboard/
+> listagem) em vez de só resetar o formulário. `tsc`/`eslint` sem regressão.
 > Atualizado em: 01/09/2026 — **🟡 TASK-220 implementada, PR aberta contra `staging`**:
 > [web#65](https://github.com/douglasjava/easy-maintenance-web/pull/65). Hook
 > `useMaintenanceAttachments` criado (upload imediato, lista local, teto de 6 anexos só no front) e
