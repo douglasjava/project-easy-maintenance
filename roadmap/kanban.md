@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-223 criada e implementada, PR aberta contra `staging`**:
+> [web#68](https://github.com/douglasjava/easy-maintenance-web/pull/68). Refinamento visual da
+> sidebar via skill `frontend-design`, sobre a TASK-222 já mergeada. Ícone emoji por item (reaproveita
+> vocabulário do `QuickActions.tsx`), hover, estado ativo mais legível (fundo + peso + barra lateral),
+> divisores entre seções. Mockup validado num browser real antes de implementar no componente de
+> produção. `eslint`: de 6 pra 2 erros pré-existentes no arquivo (melhora, não regressão).
 > Atualizado em: 01/09/2026 — **🟡 TASK-222 criada e implementada, PR aberta contra `staging`**:
 > [web#67](https://github.com/douglasjava/easy-maintenance-web/pull/67). Itens #10 (sidebar fixa em
 > desktop) e #12 (campo de descrição maior) da TASK-218, agrupados numa task só a pedido do Douglas.
