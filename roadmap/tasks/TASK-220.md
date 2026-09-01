@@ -91,4 +91,10 @@ mas sem tocar em contrato de API nem em regra de negócio do backend.
 Médio
 
 ## Status
-🟡 Em andamento.
+✅ Implementada, PR aberta contra `staging`:
+[web#65](https://github.com/douglasjava/easy-maintenance-web/pull/65). Branch
+`feature/TASK-220-maintenance-attachments-list`. Hook `useMaintenanceAttachments` criado e
+reaproveitado nas duas telas conforme desenhado. `tsc`/`eslint` sem regressão (confirmado via
+stash). **Nota de merge**: branch criada antes de web#64 (TASK-219) mergear — as duas tocam a mesma
+função em `maintenances/page.tsx`; recomendado mergear TASK-219 primeiro pra evitar conflito. Falta
+QA manual: registro com 3+ anexos, edição até bater 6, responsividade mobile.

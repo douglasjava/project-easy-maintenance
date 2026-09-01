@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-220 implementada, PR aberta contra `staging`**:
+> [web#65](https://github.com/douglasjava/easy-maintenance-web/pull/65). Hook
+> `useMaintenanceAttachments` criado (upload imediato, lista local, teto de 6 anexos só no front) e
+> reaproveitado no registro e na edição de manutenção. Registro perde a grade fixa de 2 caixas.
+> `tsc`/`eslint` sem regressão. **Atenção ao merge**: branch criada antes de web#64 (TASK-219) —
+> ambas tocam `maintenances/page.tsx`, mergear TASK-219 primeiro evita conflito.
 > Atualizado em: 01/09/2026 — **🟡 TASK-220 criada (desenhada, não iniciada)**: item #3 da TASK-218
 > — tela de registro de manutenção limitava a 2 anexos (grade fixa, sem limite real no backend).
 > Decisão de design confirmada com Douglas antes de criar a task: upload imediato por arquivo (igual
