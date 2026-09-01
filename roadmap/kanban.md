@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 EPIC-026 criado + TASK-224 criada (não iniciada)**: investigação
+> de performance (item #6 da TASK-218, skill `performance-expert`, só análise — nenhum código
+> alterado). Achados: busca de tipo de item sem debounce (4 req/530ms confirmado em log real +
+> código); N+1 confirmado em `MaintenanceItemService` (`resolveNormInfo` chamado por item dentro do
+> `.map()`, sem batch/cache, ao lado de um padrão de batching que o time já usa bem 3 linhas acima
+> no mesmo método). TASK-224 extrai os dois achados de baixo risco pra implementar já. Resto fica
+> documentado no épico: hipótese de cold start no Railway (não confirmada, precisa acesso), origem
+> de `/events?cee=no` (candidato: Sentry tracing, não confirmado), plano de observabilidade e teste
+> de carga pra depois.
 > Atualizado em: 01/09/2026 — **🟢 TASK-219 a TASK-223 mergeadas em `staging`, PR `staging→main`
 > aberta**: [web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69). Promove junto:
 > teto de anexo 20MB + limite exibido no plano (TASK-219), lista de anexos com upload imediato e
