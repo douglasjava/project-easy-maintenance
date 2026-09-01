@@ -89,3 +89,15 @@ Baixo
 flagada antes desta task). Design validado num mockup isolado em browser real antes de implementar.
 Não foi possível testar o componente de produção num browser real (exige login) — QA manual
 recomendado.
+
+**01/09/2026 — ajuste adicional (mesma PR web#68)**: a pedido do Douglas, avaliada também a tela
+`/items/new`, que ficava desequilibrada (card de 760px solto à esquerda do container, área cinza
+grande e assimétrica à direita — mais visível agora que a sidebar fixa sobrou mais espaço). Mockup
+inicial propunha um painel de "Localização" (endereço/complemento) ao lado, aproveitando que a tela
+de detalhe do item já exibia esses dados — mas investigando a fundo, descoberto que **esse recurso
+não existe no backend**: `CreateItemRequest`/`ItemResponse` não têm nenhum campo de
+`location`/`address`/`complement`, e o bloco de exibição na tela de detalhe (`{data.location && (...)}`)
+nunca renderizava. Decisão do Douglas: sem construir o recurso completo agora (precisaria de
+migration + DTO + endpoint), só `mx-auto` pra centralizar os cards de `/items/new` + remoção do
+código morto (payload de `location` no create/edit, bloco de exibição no detalhe do item).
+`tsc`/`eslint` sem regressão (mesmos 4 erros pré-existentes de sempre).
