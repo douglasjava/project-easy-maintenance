@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 31/08/2026 — **🔵 TASK-218 criada (intake, triagem feita)**: feedback de demo real
+> com o cliente Rogerio Dantas — 11 pontos (bug/UX/performance/produto), acompanhados ao vivo por
+> Douglas. Achados concretos já investigados: (1) `aws.s3.upload.max-file-size-mb=10` em
+> `application.properties` capa **todos os planos** em 10MB, mesmo os configurados pra 20/50MB — não
+> é 10GB como Douglas achava; (5) item "INSTALAÇÃO DE PONTOS DE ANCORAGEM" confirmado sem norma
+> mapeada, e reabre debate da TASK-212 (trava de Regulatório/Operacional) — decisão de produto
+> pendente, não resolver sozinho; (6) log confirma busca de item sem debounce (4 requests em ~530ms
+> por letra digitada); (11) já existe EPIC-023/TASK-172 pronta pra implementar, só precisa priorizar.
+> Detalhe completo e triagem por item em `TASK-218.md`. Aguardando Douglas escolher ordem.
 > Atualizado em: 31/08/2026 — **🟢 TASK-217 mergeada em `staging`, PR `staging→main` aberta**:
 > [api#66](https://github.com/douglasjava/easy-maintenance-api/pull/66). Falta QA manual em produção
 > pós-deploy.
