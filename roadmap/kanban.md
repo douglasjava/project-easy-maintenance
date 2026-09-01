@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-220 criada (desenhada, não iniciada)**: item #3 da TASK-218
+> — tela de registro de manutenção limitava a 2 anexos (grade fixa, sem limite real no backend).
+> Decisão de design confirmada com Douglas antes de criar a task: upload imediato por arquivo (igual
+> ao padrão que a tela de edição já usa), lógica extraída num hook compartilhado
+> `useMaintenanceAttachments` reaproveitado nas duas telas, teto de 6 anexos só no front, mensagem
+> amigável sugerindo zipar arquivos ao atingir o limite. Detalhe completo em `TASK-220.md`.
 > Atualizado em: 01/09/2026 — **🟡 TASK-219 criada e implementada, PRs abertas contra `staging`**:
 > [api#67](https://github.com/douglasjava/easy-maintenance-api/pull/67) e
 > [web#64](https://github.com/douglasjava/easy-maintenance-web/pull/64). Item #1 da TASK-218: cliente
