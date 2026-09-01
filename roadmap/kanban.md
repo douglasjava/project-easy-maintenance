@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟡 TASK-224 implementada, PRs abertas contra `staging`**:
+> [api#69](https://github.com/douglasjava/easy-maintenance-api/pull/69) (N+1 de normas) e
+> [web#70](https://github.com/douglasjava/easy-maintenance-web/pull/70) (debounce). Backend: batch
+> lookup de normas + `@Cacheable`, bug de `Map.of()`/NPE pego durante o TDD antes de virar prod. 9
+> testes novos, `mvn clean test` 877/877. Frontend: utilitário `debounceAsync` extraído (testável
+> isoladamente), 5 testes novos com fake timers. Sem regressão nos dois repos.
 > Atualizado em: 01/09/2026 — **🟡 EPIC-026 criado + TASK-224 criada (não iniciada)**: investigação
 > de performance (item #6 da TASK-218, skill `performance-expert`, só análise — nenhum código
 > alterado). Achados: busca de tipo de item sem debounce (4 req/530ms confirmado em log real +

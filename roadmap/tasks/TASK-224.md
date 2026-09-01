@@ -68,4 +68,21 @@ back (mesma resposta, só menos round-trips). Sem migração, sem mudança de co
 Baixo
 
 ## Status
-🟡 Em andamento.
+✅ Implementada, PRs abertas contra `staging`:
+[api#69](https://github.com/douglasjava/easy-maintenance-api/pull/69) (N+1 de normas) e
+[web#70](https://github.com/douglasjava/easy-maintenance-web/pull/70) (debounce). Branches
+`feature/TASK-224-fix-item-listing-n-plus-1` e `feature/TASK-224-debounce-item-type-search`.
+
+**Backend**: `NormService.findAllByIdsAsMap` (batch) + `@Cacheable("norms")` em `findById`.
+`MaintenanceItemService.resolveNormInfoBatch` substitui a chamada por item nos 4 métodos de
+listagem. Bug pego durante o TDD (`Map.of()` lança NPE em `getOrDefault(null, ...)`, corrigido pra
+`Collections.emptyMap()`) — achado só porque os testes novos rodaram antes de considerar pronto. 9
+testes novos/atualizados, confirmados falhando sem o fix. `mvn clean test`: 877/877, 0 falhas.
+
+**Frontend**: extraído utilitário `debounceAsync` (`src/lib/`, testável isoladamente já que o
+projeto não tem `@testing-library/react`), debounce 300ms + cancelamento via `AbortController`. 5
+testes novos com fake timers, confirmados falhando sem o arquivo. `tsc`/`eslint` sem regressão;
+suite completa 110/113 (3 falhas pré-existentes em `middleware.test.ts`, sem relação).
+
+Falta QA manual: Network tab confirmando 1 requisição por pausa (não por letra); conferir contagem
+de query numa listagem de itens com REGULATORY via SQL log/Hibernate statistics.
