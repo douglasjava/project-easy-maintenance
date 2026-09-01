@@ -86,3 +86,7 @@ suite completa 110/113 (3 falhas pré-existentes em `middleware.test.ts`, sem re
 
 Falta QA manual: Network tab confirmando 1 requisição por pausa (não por letra); conferir contagem
 de query numa listagem de itens com REGULATORY via SQL log/Hibernate statistics.
+
+**01/09/2026 — mergeadas em `staging`, PRs `staging→main` abertas**:
+[api#70](https://github.com/douglasjava/easy-maintenance-api/pull/70) e
+[web#71](https://github.com/douglasjava/easy-maintenance-web/pull/71).

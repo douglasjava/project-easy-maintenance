@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/09/2026 — **🟢 TASK-224 mergeada em `staging`, PRs `staging→main` abertas**:
+> [api#70](https://github.com/douglasjava/easy-maintenance-api/pull/70) e
+> [web#71](https://github.com/douglasjava/easy-maintenance-web/pull/71). Falta QA manual em
+> produção pós-deploy nas duas.
 > Atualizado em: 01/09/2026 — **🟡 TASK-224 implementada, PRs abertas contra `staging`**:
 > [api#69](https://github.com/douglasjava/easy-maintenance-api/pull/69) (N+1 de normas) e
 > [web#70](https://github.com/douglasjava/easy-maintenance-web/pull/70) (debounce). Backend: batch
