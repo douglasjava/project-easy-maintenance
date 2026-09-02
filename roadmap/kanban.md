@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/09/2026 — **🟡 TASK-227 criada e implementada, PR aberta contra `staging`**:
+> [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75). Biblioteca de 10 queries
+> SQL tituladas de acompanhamento de clientes (leads não convertidos, trial ativo/dias
+> restantes/expirado, pagantes ativos, receita por plano, atraso, cancelados, perto do limite de
+> organizações do plano) num arquivo único fora das migrations Flyway. Motivada por clientes reais
+> entrando em TRIAL — evita reescrever SELECT toda hora. Recomendado rodar cada query uma vez
+> contra o banco real antes de usar no dia a dia (schema conferido via migrations, mas sem acesso
+> direto ao banco pra testar).
 > Atualizado em: 02/09/2026 — **🟡 TASK-226 mergeada em `staging`, PR `staging→main` aberta**:
 > [api#73](https://github.com/douglasjava/easy-maintenance-api/pull/73) /
 > [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74). Motivada por feedback
@@ -1407,6 +1415,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 10 queries SQL de acompanhamento de clientes (trial/pagantes/atraso) — PR aberta [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75) | 🟡 Médio | — |
 | [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em staging, PR staging→main [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) aberta | 🟡 Médio | — |
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
 | [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
