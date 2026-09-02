@@ -23,7 +23,10 @@ Lista inicial de 10 queries (confirmada via `AskUserQuestion` antes de implement
 pode seguir"), salva num arquivo `.sql` único com seções tituladas (opção escolhida sobre "um
 arquivo por query"). Depois, mesma sessão, Douglas pediu mais 4 (leads convertidos, trial nunca
 ativado, usuário sem item cadastrado, itens/manutenções cadastradas por cliente) — acrescentadas
-na mesma branch/PR por ainda estar aberta.
+na mesma branch/PR por ainda estar aberta. Por fim, Douglas trouxe uma query própria já pronta
+(funil de onboarding por estágio) — acrescentada como query 15, e a revisão dela expôs que as
+queries 3-14 não filtravam `deleted_at` (soft delete existente desde TASK-018/V57), corrigido em
+todas.
 
 ## Escopo
 
@@ -50,6 +53,9 @@ na mesma branch/PR por ainda estar aberta.
   14. Itens e manutenções cadastradas por cliente (volume de uso de todo mundo em TRIAL/ACTIVE:
       quantidade de itens, quantidade de manutenções já registradas em `maintenances` e data da
       última manutenção — complemento da query 13, mostra quem está engajado de verdade)
+  15. Funil de onboarding do trial por estágio (query trazida pelo Douglas já pronta) — classifica
+      cada trial em `CADASTRO_SEM_ONBOARDING` / `TRIAL_SEM_ORGANIZACAO` / `TRIAL_SEM_ITEM` /
+      `TRIAL_SEM_MANUTENCAO` numa única visão, em vez das queries 12/13/14 separadas
 
 ## Critérios de Aceite
 
@@ -58,6 +64,9 @@ na mesma branch/PR por ainda estar aberta.
       `billing_accounts`, `billing_subscription_items`, `billing_plans`, `landing_leads`,
       `user_organizations`)
 - [x] Fora do diretório de migrations Flyway (não pode ser confundido com schema change)
+- [x] Soft delete (`deleted_at`, TASK-018/V57) filtrado em toda query que junta `users`,
+      `organizations`, `maintenance_items` ou `maintenances` — corrigido nas queries 3-14 depois
+      de revisar a query 15 do Douglas, que já vinha com esse filtro
 - [ ] Rodar cada query pelo menos uma vez contra o banco real pra confirmar (não foi possível
       nesta sessão — sem acesso direto ao banco)
 
