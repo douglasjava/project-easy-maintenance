@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/09/2026 — **🟡 TASK-228 criada e implementada, PR aberta contra `staging`**:
+> [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77). Item #5a do feedback do
+> Rogerio Dantas (TASK-218) — norma `PONTOS_ANCORAGEM` (12 meses, NR-35 item 35.6.6.3 + ABNT NBR
+> 16325 Partes 1-3, periodicidade pesquisada e verificada antes de implementar) criada em
+> `V106__seed_pontos_ancoragem_norm.sql`, mesmo padrão da TASK-178/V90. Sem mudança de frontend —
+> dropdown de normas já é dinâmico. `mvn test` limpo (878 testes). TASK-218 agora com 8/12 itens
+> resolvidos.
 > Atualizado em: 02/09/2026 — **🟡 TASK-227 mergeada em `staging`, PR `staging→main` aberta**:
 > [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75) /
 > [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76). Biblioteca de 15 queries
@@ -1419,6 +1426,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — PR aberta [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77) | 🟡 Médio | EPIC-025 |
 | [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em staging, PR staging→main [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) aberta | 🟡 Médio | — |
 | [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em staging, PR staging→main [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) aberta | 🟡 Médio | — |
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
