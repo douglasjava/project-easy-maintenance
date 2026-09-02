@@ -70,6 +70,6 @@ de disparar zap nos 3 checkpoints de atraso profundo).
 Baixo
 
 ## Status
-✅ Implementada e testada localmente na branch `feature/TASK-226-whatsapp-notification-channel-rework`
-(api). `mvn -Dtest="com.brainbyte.easy_maintenance.infrastructure.notification.**" test` → 70/70
-passando. Falta abrir PR contra `staging`.
+✅ Mergeada em `staging` ([api#73](https://github.com/douglasjava/easy-maintenance-api/pull/73)),
+PR `staging→main` aberta ([api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74)).
+`mvn -Dtest="com.brainbyte.easy_maintenance.infrastructure.notification.**" test` → 70/70 passando.
