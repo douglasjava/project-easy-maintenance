@@ -21,8 +21,9 @@ depois deixar tudo num lugar só, com título, pra só buscar e rodar.
 
 Lista inicial de 10 queries (confirmada via `AskUserQuestion` antes de implementar — "cobre tudo,
 pode seguir"), salva num arquivo `.sql` único com seções tituladas (opção escolhida sobre "um
-arquivo por query"). Depois, mesma sessão, Douglas pediu mais 3 (leads convertidos, trial nunca
-ativado, usuário sem item cadastrado) — acrescentadas na mesma branch/PR por ainda estar aberta.
+arquivo por query"). Depois, mesma sessão, Douglas pediu mais 4 (leads convertidos, trial nunca
+ativado, usuário sem item cadastrado, itens/manutenções cadastradas por cliente) — acrescentadas
+na mesma branch/PR por ainda estar aberta.
 
 ## Escopo
 
@@ -46,6 +47,9 @@ ativado, usuário sem item cadastrado) — acrescentadas na mesma branch/PR por 
       organização; sem essa linha, o usuário só criou login e nunca completou esse passo)
   13. Usuários sem nenhum item cadastrado (trial/ativo mas produto nunca usado de verdade —
       cobre tanto onboarding incompleto quanto quem criou org e nunca cadastrou item)
+  14. Itens e manutenções cadastradas por cliente (volume de uso de todo mundo em TRIAL/ACTIVE:
+      quantidade de itens, quantidade de manutenções já registradas em `maintenances` e data da
+      última manutenção — complemento da query 13, mostra quem está engajado de verdade)
 
 ## Critérios de Aceite
 
