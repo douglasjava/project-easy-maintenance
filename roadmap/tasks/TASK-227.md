@@ -80,7 +80,7 @@ Nenhum — não é executado pela aplicação, não entra em nenhum fluxo automa
 Baixo
 
 ## Status
-✅ Implementada, PR aberta contra `staging`:
-[api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75). Recomendado rodar cada
-query uma vez contra o banco real antes do uso do dia a dia, já que este cowork não tem acesso
-direto ao banco pra validar.
+✅ Mergeada em `staging` ([api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75)),
+PR `staging→main` aberta ([api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76)).
+Recomendado rodar cada query uma vez contra o banco real antes do uso do dia a dia, já que este
+cowork não tem acesso direto ao banco pra validar.

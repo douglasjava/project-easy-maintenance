@@ -1,7 +1,8 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 02/09/2026 — **🟡 TASK-227 criada e implementada, PR aberta contra `staging`**:
-> [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75). Biblioteca de 15 queries
+> Atualizado em: 02/09/2026 — **🟡 TASK-227 mergeada em `staging`, PR `staging→main` aberta**:
+> [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75) /
+> [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76). Biblioteca de 15 queries
 > SQL tituladas de acompanhamento de clientes (leads não convertidos, funil por status, trial
 > ativo/dias restantes/expirado, pagantes ativos, receita por plano, atraso, cancelados, perto do
 > limite de organizações do plano, leads já convertidos em usuário, trial nunca ativado, usuário
@@ -1418,7 +1419,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — PR aberta [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75) | 🟡 Médio | — |
+| [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em staging, PR staging→main [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) aberta | 🟡 Médio | — |
 | [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em staging, PR staging→main [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) aberta | 🟡 Médio | — |
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
 | [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
