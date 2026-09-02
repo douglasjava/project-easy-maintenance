@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/09/2026 — **🟡 TASK-226 criada e implementada, PR aberta contra `staging`**:
+> [api#73](https://github.com/douglasjava/easy-maintenance-api/pull/73). Motivada por feedback
+> direto de cliente na call de demo (TASK-218 item #4): precisa de pelo menos 1 mês de antecedência
+> pra buscar fornecedor. WhatsApp passa a entrar em todos os checkpoints de NEAR_DUE (30/15/7/1
+> dias antes), não só no último. No OVERDUE, WhatsApp fica restrito ao dia do vencimento
+> (`daysOffset==0`) — a partir do primeiro checkpoint de atraso de verdade (7/15/30 dias vencidos)
+> vira só push+email. Config morta (`urgent-threshold-hours`) removida.
 > Atualizado em: 01/09/2026 — **🔴 TASK-225 criada e implementada, PR aberta contra `staging`
 > (urgente)**: [api#71](https://github.com/douglasjava/easy-maintenance-api/pull/71). Lead de trial
 > real com 20 condomínios batendo no teto do Business (15, definido na `V103` de 30/08) — 5 abaixo
@@ -1399,6 +1406,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — PR aberta [api#73](https://github.com/douglasjava/easy-maintenance-api/pull/73) | 🟡 Médio | — |
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
 | [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
 | [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
