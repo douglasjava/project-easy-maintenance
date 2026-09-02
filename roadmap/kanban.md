@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/09/2026 — **🔵 TASK-218 item #7 investigado e fechado (sem construir feature)**:
+> cliente queria baixar normas na íntegra. NRs são públicas, podem ser linkadas/baixadas livremente.
+> ABNT NBR: a tese de "sem direito autoral" não é decisão vinculante do STF (é artigo de opinião de
+> um ministro), e a própria ABNT continua vendendo/licenciando o texto — risco jurídico real demais
+> pra essa fase. Cotado Target GEDWeb (~R$15k/ano) como alternativa licenciada, mas o modelo de
+> acesso é por IP/e-mail de domínio da empresa contratante (uso interno), incompatível com expor o
+> conteúdo pros clientes finais de um SaaS multi-tenant sem negociação de redistribuição à parte
+> (sem preço público). Decisão: manter modelo atual (`notes` com resumo interpretativo próprio +
+> `doc_url` linkando pra fonte oficial) — o motor do produto não depende do texto protegido, só a
+> reprodução literal do PDF da ABNT ficaria de fora. TASK-218 agora com 9/12 itens
+> resolvidos/esclarecidos.
 > Atualizado em: 02/09/2026 — **🟡 TASK-228 criada e implementada, PR aberta contra `staging`**:
 > [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77). Item #5a do feedback do
 > Rogerio Dantas (TASK-218) — norma `PONTOS_ANCORAGEM` (12 meses, NR-35 item 35.6.6.3 + ABNT NBR
