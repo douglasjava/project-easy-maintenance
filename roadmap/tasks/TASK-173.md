@@ -72,16 +72,16 @@ decisão de produto de 03/09/2026).
 
 ## Critérios de Aceite
 
-- [ ] `NotificationChannelResolver`: `NEAR_DUE` com `daysOffset=30` inclui `EMAIL` (além de
+- [x] `NotificationChannelResolver`: `NEAR_DUE` com `daysOffset=30` inclui `EMAIL` (além de
       `PUSH`+`WHATSAPP`); `daysOffset` 15/7/1 não inclui `EMAIL`
-- [ ] E-mail de `NEAR_DUE daysOffset=30` inclui bloco de fornecedores quando `SupplierLookupService`
+- [x] E-mail de `NEAR_DUE daysOffset=30` inclui bloco de fornecedores quando `SupplierLookupService`
       retorna 1+ resultados
-- [ ] E-mail de `OVERDUE` **não** busca fornecedor (nem chama `SupplierLookupService`)
-- [ ] E-mail sem fornecedor encontrado renderiza normalmente, sem a seção
-- [ ] Testes cobrindo o roteamento de canal (`NotificationChannelResolverTest`) e o HTML gerado
+- [x] E-mail de `OVERDUE` **não** busca fornecedor (nem chama `SupplierLookupService`)
+- [x] E-mail sem fornecedor encontrado renderiza normalmente, sem a seção
+- [x] Testes cobrindo o roteamento de canal (`NotificationChannelResolverTest`) e o HTML gerado
       (`EmailTemplateHelperTest`, já existente) e a nova guarda de evento
       (`BusinessEmailNotificationServiceTest`)
-- [ ] `mvn test` sem regressão
+- [x] `mvn test` sem regressão (896/896)
 
 ## Dependências
 TASK-172 (`SupplierLookupService`), já implementada.
@@ -96,7 +96,8 @@ mas escopado a 1x por item/manutenção no ciclo (só o checkpoint de 30 dias), 
 Baixo-Médio
 
 ## Status
-🔵 Card ajustado em 03/09/2026 após conversa com Douglas — implementação da v1 (PR
-[api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79)) ainda não mergeada, será
-retrabalhada nesta mesma branch pra refletir o novo desenho (fornecedor no `NEAR_DUE` de 30 dias,
-não no `OVERDUE`). Aguardando confirmação pra implementar.
+✅ Implementada (v2), PR aberta contra `staging`: [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79).
+Branch `feature/TASK-173-supplier-in-email-notification` (mesma da v1, retrabalhada). TDD: todos os
+testes tocados falharam contra o comportamento anterior antes da mudança, passaram depois.
+`mvn test` → 896/896, 0 regressão. Falta TASK-174 (WhatsApp, depende de aprovação de template pela
+Meta) pra fechar a EPIC-023 por completo.

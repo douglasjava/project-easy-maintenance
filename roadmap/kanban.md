@@ -1,11 +1,13 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 03/09/2026 — **🟡 TASK-173 criada e implementada, PR aberta contra `staging`**:
-> [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79). Segunda task da EPIC-023 —
-> e-mail de item/manutenção vencida (`OVERDUE`, único evento que dispara e-mail hoje) passa a
-> incluir bloco com fornecedores próximos quando `SupplierLookupService` (TASK-172) encontrar
-> algum. Sem aprovação externa envolvida (diferente do WhatsApp). `mvn test` limpo (894 testes).
-> Falta só TASK-174 (WhatsApp, depende de aprovação de template pela Meta) pra fechar a EPIC-023.
+> Atualizado em: 03/09/2026 — **🟡 TASK-173 (v2) implementada, PR aberta contra `staging`**:
+> [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79). Revisão de produto: bloco
+> de fornecedores sai do e-mail de `OVERDUE` (v1) e vai pro checkpoint `NEAR_DUE` de 30 dias antes
+> de vencer — faz mais sentido dar tempo de contratar do que sugerir fornecedor só depois de já ter
+> vencido. Exigiu reabrir o `NotificationChannelResolver` (3ª vez na sessão) pra `EMAIL` passar a
+> disparar nesse checkpoint, o que nunca acontecia antes. Só o checkpoint de 30 dias, não os 4 de
+> `NEAR_DUE`, pra não pesar na cota mensal de e-mail. `mvn test` limpo (896 testes). Falta só
+> TASK-174 (WhatsApp, depende de aprovação de template pela Meta) pra fechar a EPIC-023.
 > Atualizado em: 03/09/2026 — **🟡 TASK-172 criada e implementada, PR aberta contra `staging`**:
 > [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78). Item #11 do feedback do
 > Rogerio Dantas (TASK-218), primeira task da EPIC-023 (fornecedores nas notificações de
