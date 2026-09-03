@@ -51,13 +51,16 @@ uma lista de fornecedores próximos (nome, telefone, endereço/link do Maps), nu
 
 ## Critérios de Aceite
 
-- [ ] `findNearbyByCityState` retorna fornecedores reais via Google Places Text Search
-- [ ] Resultado cacheado 7 dias por `(organizationCode, categoryKeyword)`, sem chamar a API de novo
+- [x] `findNearbyByCityState` retorna fornecedores reais via Google Places Text Search
+- [x] Resultado cacheado 7 dias por `(organizationCode, categoryKeyword)`, sem chamar a API de novo
       dentro da janela
-- [ ] Erro de API (mock de timeout/4xx/5xx) retorna lista vazia, não lança exceção
-- [ ] Categoria sem resultado retorna lista vazia
-- [ ] Whitelist itemType→keyword reaproveitado de `SupplierSearchService`, não duplicado
-- [ ] Testes unitários cobrindo os 4 cenários acima
+- [x] Erro de API (mock de timeout/4xx/5xx) retorna lista vazia, não lança exceção
+- [x] Categoria sem resultado retorna lista vazia
+- [x] Whitelist itemType→keyword reaproveitado de `SupplierSearchService`, não duplicado
+- [x] Testes unitários cobrindo os 4 cenários acima
+- [x] (Adicional, fora do critério original) Enriquecimento via Place Details (telefone/site) —
+      necessário pro objetivo real da EPIC-023, sem isso a feature ficaria pronta mas inútil pras
+      próximas tasks (WhatsApp/e-mail precisam de telefone)
 
 ## Dependências
 Nenhuma.
@@ -69,4 +72,9 @@ Baixo — serviço novo e isolado, sem consumidor ainda (TASK-173/174 conectam d
 Baixo-Médio
 
 ## Status
-Pronto para implementar.
+✅ Implementada, PR aberta contra `staging`: [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78).
+Branch `feature/TASK-172-supplier-lookup-service`. Cache Caffeine próprio (não `@Cacheable`, pra
+não mexer no `CacheManager` compartilhado com TTL de 24h já usado por `suppliersNearby`/`norms`).
+`mvn test` → 884/884 passando, 0 regressão. TDD: teste falhou por compilação antes da
+implementação, passou depois. Sem consumidor ainda — TASK-173 (WhatsApp) e TASK-174 (e-mail)
+conectam depois.

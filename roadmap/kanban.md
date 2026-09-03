@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 03/09/2026 — **🟡 TASK-172 criada e implementada, PR aberta contra `staging`**:
+> [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78). Item #11 do feedback do
+> Rogerio Dantas (TASK-218), primeira task da EPIC-023 (fornecedores nas notificações de
+> vencimento). `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) via Google
+> Places Text Search, já que o job de notificação roda sem navegador/geolocalização. Cache Caffeine
+> próprio de 7 dias (não mexe no `CacheManager` compartilhado). Whitelist `itemType→keyword`
+> extraído de `SupplierSearchService` pra local compartilhado, sem duplicar. `mvn test` limpo
+> (884 testes). Sem consumidor ainda — TASK-173 (WhatsApp) e TASK-174 (e-mail) conectam depois.
 > Atualizado em: 02/09/2026 — **🔵 TASK-218 item #7 investigado e fechado (sem construir feature)**:
 > cliente queria baixar normas na íntegra. NRs são públicas, podem ser linkadas/baixadas livremente.
 > ABNT NBR: a tese de "sem direito autoral" não é decisão vinculante do STF (é artigo de opinião de
@@ -1382,7 +1390,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - **[TASK-176](tasks/TASK-176.md)** — Backend: webhook do Cal.com cria lead via `LeadService` (🟠 Alto | EPIC-024)
 
 **🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento) — *(backlog, não priorizado agora, 18/08/2026)***:
-- **[TASK-172](tasks/TASK-172.md)** — Backend: `SupplierLookupService` — busca textual + cache 7 dias (🟠 Alto | EPIC-023)
+- ~~**[TASK-172](tasks/TASK-172.md)**~~ — ~~Backend: `SupplierLookupService` — busca textual + cache 7 dias~~ *(implementada, PR api#78 aberta contra staging)*
 - **[TASK-173](tasks/TASK-173.md)** — Backend: fornecedores no e-mail de notificação (🟠 Alto | EPIC-023)
 - **[TASK-174](tasks/TASK-174.md)** — Backend: fornecedores no WhatsApp — template v3, depende de aprovação Meta (🟡 Médio | EPIC-023)
 
@@ -1437,6 +1445,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — PR aberta [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78) | 🟠 Alto | EPIC-023 |
 | [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — PR aberta [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77) | 🟡 Médio | EPIC-025 |
 | [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em staging, PR staging→main [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) aberta | 🟡 Médio | — |
 | [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em staging, PR staging→main [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) aberta | 🟡 Médio | — |
