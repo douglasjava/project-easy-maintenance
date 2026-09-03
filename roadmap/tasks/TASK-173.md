@@ -43,12 +43,12 @@ e-mail hoje) passa a incluir um bloco com os fornecedores próximos encontrados,
 
 ## Critérios de Aceite
 
-- [ ] E-mail de evento `OVERDUE` inclui bloco de fornecedores quando `SupplierLookupService`
+- [x] E-mail de evento `OVERDUE` inclui bloco de fornecedores quando `SupplierLookupService`
       retorna 1 ou mais resultados
-- [ ] E-mail sem fornecedor encontrado renderiza normalmente, sem a seção (sem espaço em branco
+- [x] E-mail sem fornecedor encontrado renderiza normalmente, sem a seção (sem espaço em branco
       estranho nem erro)
-- [ ] Testes cobrindo HTML gerado com 0, 1 e 3 fornecedores
-- [ ] `mvn test` sem regressão
+- [x] Testes cobrindo HTML gerado com 0, 1 e 3 fornecedores
+- [x] `mvn test` sem regressão (894/894)
 
 ## Dependências
 TASK-172 (`SupplierLookupService`).
@@ -60,4 +60,7 @@ Baixo — canal sem restrição de aprovação externa, mudança aditiva no temp
 Baixo
 
 ## Status
-Pronto para implementar (depende da TASK-172 estar concluída).
+✅ Implementada, PR aberta contra `staging`: [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79).
+Branch `feature/TASK-173-supplier-in-email-notification`. TDD: testes falharam por compilação
+antes da implementação, passaram depois. `mvn test` → 894/894, 0 regressão. Falta TASK-174
+(WhatsApp, depende de aprovação de template pela Meta) pra fechar a EPIC-023 por completo.

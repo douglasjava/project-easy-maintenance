@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 03/09/2026 — **🟡 TASK-173 criada e implementada, PR aberta contra `staging`**:
+> [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79). Segunda task da EPIC-023 —
+> e-mail de item/manutenção vencida (`OVERDUE`, único evento que dispara e-mail hoje) passa a
+> incluir bloco com fornecedores próximos quando `SupplierLookupService` (TASK-172) encontrar
+> algum. Sem aprovação externa envolvida (diferente do WhatsApp). `mvn test` limpo (894 testes).
+> Falta só TASK-174 (WhatsApp, depende de aprovação de template pela Meta) pra fechar a EPIC-023.
 > Atualizado em: 03/09/2026 — **🟡 TASK-172 criada e implementada, PR aberta contra `staging`**:
 > [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78). Item #11 do feedback do
 > Rogerio Dantas (TASK-218), primeira task da EPIC-023 (fornecedores nas notificações de
@@ -1391,7 +1397,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 
 **🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento) — *(backlog, não priorizado agora, 18/08/2026)***:
 - ~~**[TASK-172](tasks/TASK-172.md)**~~ — ~~Backend: `SupplierLookupService` — busca textual + cache 7 dias~~ *(implementada, PR api#78 aberta contra staging)*
-- **[TASK-173](tasks/TASK-173.md)** — Backend: fornecedores no e-mail de notificação (🟠 Alto | EPIC-023)
+- ~~**[TASK-173](tasks/TASK-173.md)**~~ — ~~Backend: fornecedores no e-mail de notificação~~ *(implementada, PR api#79 aberta contra staging)*
 - **[TASK-174](tasks/TASK-174.md)** — Backend: fornecedores no WhatsApp — template v3, depende de aprovação Meta (🟡 Médio | EPIC-023)
 
 **🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
@@ -1445,6 +1451,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — PR aberta [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79) | 🟠 Alto | EPIC-023 |
 | [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — PR aberta [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78) | 🟠 Alto | EPIC-023 |
 | [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — PR aberta [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77) | 🟡 Médio | EPIC-025 |
 | [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em staging, PR staging→main [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) aberta | 🟡 Médio | — |
