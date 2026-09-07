@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **🟡 TASK-229 implementada, PRs abertas contra `staging`**:
+> [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (atualizada) /
+> [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). A Meta aprovou o template
+> `vencimento_manutencao_v3` (TASK-174, fornecedores no WhatsApp), mas só como categoria
+> **Marketing** — tentativa de reformular o texto pra virar Utility não teve jeito. Douglas decidiu
+> aceitar Marketing e construir o opt-in específico em vez de deixar o fornecedor fora do zap: novo
+> campo `whatsappMarketingOptIn` (V107), independente do opt-in genérico já existente, com validação
+> em cascata (desligar utilidade desliga marketing junto). Novo toggle no perfil, aninhado sob o de
+> WhatsApp, desabilitado até esse estar ligado. `mvn test` limpo (911 testes). TASK-218 item #11
+> resolvido no código por completo — falta só mergear as duas PRs e ligar
+> `notification.whatsapp.supplier-template-enabled=true` em produção.
 > Atualizado em: 03/09/2026 — **🟡 TASK-174 implementada, PR aberta contra `staging`**:
 > [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80). Fecha a EPIC-023 do lado
 > de código — fornecedor no WhatsApp, restrito ao checkpoint de 30 dias antes de vencer, mesma
@@ -1463,6 +1474,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — PRs abertas [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) / [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | EPIC-023 |
 | [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — PR aberta [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (ativação em produção pendente de aprovação da Meta) | 🟡 Médio | EPIC-023 |
 | [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — PR aberta [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79) | 🟠 Alto | EPIC-023 |
 | [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — PR aberta [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78) | 🟠 Alto | EPIC-023 |

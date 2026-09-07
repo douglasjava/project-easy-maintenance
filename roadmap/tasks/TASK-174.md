@@ -116,8 +116,11 @@ Médio (mais a incerteza de tempo da aprovação externa, fora do esforço de c�
 ## Status
 ✅ Código implementado, PR aberta contra `staging`: [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80).
 Branch `feature/TASK-174-supplier-in-whatsapp-notification`. TDD: todos os testes tocados falharam
-por erro de compilação antes da implementação, passaram depois. `mvn test` → 906/906, 0 regressão.
-**Bloqueado pra produção**: falta Douglas submeter `vencimento_manutencao_v3` à Meta e ligar
-`notification.whatsapp.supplier-template-enabled=true` depois da aprovação. Sem isso, o código fica
-no ar mas inativo (sempre usa `v2`, sem fornecedor) — comportamento seguro por padrão. Com essa PR,
-a EPIC-023 fica com todo o código pronto; só falta a aprovação externa da Meta.
+por erro de compilação antes da implementação, passaram depois.
+
+**Atualização (07/09/2026)**: a Meta aprovou o template `vencimento_manutencao_v3`, mas só como
+categoria **Marketing** — tentativa de reformular o texto pra ficar como Utility não teve jeito. Em
+vez de deixar o fornecedor fora do WhatsApp, Douglas decidiu aceitar Marketing e construir o
+opt-in específico — ver [TASK-229](TASK-229.md), implementada na mesma branch/PR. `mvn test` →
+911/911, 0 regressão. Falta mergear as PRs (api + [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72))
+e ligar `notification.whatsapp.supplier-template-enabled=true` em produção.
