@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **✅ TASK-218 fechada (guarda-chuva de intake, feedback Rogerio
+> Dantas)**: triagem dos 11 pontos concluída — 9 resolvidos/implementados, 1 fechado sem reprodução
+> (item #2 — Douglas tentou reproduzir várias vezes e não conseguiu; reabre com task nova se
+> acontecer de novo). Os 3 pontos que seguem como decisão de produto em aberto (item #5b — reabrir
+> trava Regulatório/Operacional; item #6b — investigação de performance mais ampla, aguardando
+> acesso Railway/Sentry; item #9 — enum de anexo virar texto livre) não bloqueiam o fechamento —
+> seguem soltos como pendências, sem task própria, até Douglas priorizar algum. Detalhe em
+> `TASK-218.md`.
 > Atualizado em: 07/09/2026 — **✅ Sincronização geral: tudo mergeado em `main`, zero PRs abertas**.
 > Douglas confirmou que todas as branches foram mergeadas. Verificado via `gh pr list --state open`
 > nos dois repos (`easy-maintenance-api`, `easy-maintenance-web`): **zero PRs abertas** nos dois.
