@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **💡 EPIC-027 e EPIC-028 registradas como ideias (sem brainstorm,
+> sem tasks)**: [EPIC-027](epics/EPIC-027.md) (moradores abrem/acompanham chamados) e
+> [EPIC-028](epics/EPIC-028.md) (usuários cadastram fornecedores + pontuação/indicação entre
+> edificações próximas — Douglas marcou explicitamente como case futuro de monetização, não abrir
+> mão dessa porta no desenho). Pedido do Douglas: registrar em nível bem macro agora, sem
+> aprofundar — análise/brainstorm fica pra depois.
 > Atualizado em: 07/09/2026 — **🟢 EPIC-023 completa, PRs `staging→main` abertas**:
 > [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (TASK-172/173/174/228/229/230/232)
 > / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (TASK-229/231). Fornecedores
@@ -1456,6 +1462,13 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-179](tasks/TASK-179.md)**~~ — ~~Frontend: atualizar página `/norms` com os achados do levantamento~~ *(concluída — PR #44 mergeada em staging)*
 - ~~**[TASK-178](tasks/TASK-178.md)**~~ — ~~Backend: novo item de catálogo para instalação de gás combustível~~ *(concluída — PR #39 mergeada em staging)*
 - ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
+
+**💡 Ideias registradas, sem brainstorm/tasks ainda — *(07/09/2026)***:
+- **[EPIC-027](epics/EPIC-027.md)** — Chamados de moradores (abrir + acompanhar) — *aguardando
+  sessão de brainstorm*
+- **[EPIC-028](epics/EPIC-028.md)** — Cadastro de fornecedores pelos usuários + pontuação/indicação
+  entre edificações próximas — *case futuro de monetização (explícito), aguardando sessão de
+  brainstorm*
 
 **🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
