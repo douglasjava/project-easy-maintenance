@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **🟡 TASK-232 implementada, mesma PR da TASK-174/229**:
+> [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80). Douglas testou o `v3`
+> ponta a ponta em ambiente real (primeiro teste completo do fluxo!) e a mensagem chegou certa, mas
+> os 2 fornecedores vieram sem telefone ("não informado"). Causa: telefone só vem do Place Details
+> da API do Google (custo à parte), controlado pelo mesmo flag (`google.places.details-enabled`)
+> usado pela busca interativa — que está desligado desde sempre por custo (dispara a cada clique,
+> sem cache). Decisão: desacoplar — liga telefone só na busca de notificação (`SupplierLookupService`,
+> novo campo `notificationDetailsEnabled`, cache de 7 dias já contém o custo), interativa continua
+> sem telefone por ora. `mvn test` limpo (912 testes).
 > Atualizado em: 07/09/2026 — **🟡 TASK-231 implementada, mesma PR da TASK-229**:
 > [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). Douglas testou o opt-in de
 > WhatsApp em call de demo real e o cliente quase não achou/entendeu o toggle mesmo procurando
@@ -1502,6 +1511,7 @@ _Vazio_
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mesma PR [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — PRs abertas [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) / [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | EPIC-023 |
+| [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mesma PR [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) | 🟡 Médio | EPIC-023 |
 | [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — PR aberta [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (ativação em produção pendente de aprovação da Meta) | 🟡 Médio | EPIC-023 |
 | [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — PR aberta [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79) | 🟠 Alto | EPIC-023 |
 | [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — PR aberta [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78) | 🟠 Alto | EPIC-023 |
