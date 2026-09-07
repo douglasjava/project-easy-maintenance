@@ -76,6 +76,11 @@ há teste com Testcontainers ativo hoje apesar da dependência estar no `pom.xml
 espelhando exatamente a estrutura da V90 (já validada em produção), mas vale conferir no primeiro
 deploy.
 
+**Risco se confirmou (07/09/2026)**: `notes` (~700 caracteres) excedeu `VARCHAR(500)` da coluna,
+rejeitado por MySQL em modo estrito no primeiro boot real. Corrigido na
+[TASK-230](TASK-230.md) (editada `V106` diretamente, já que nunca aplicou com sucesso em nenhum
+ambiente) — validado de verdade contra MySQL 8 real, não só suposto.
+
 ## Esforço
 Baixo
 

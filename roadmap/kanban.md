@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **🔴 TASK-230 criada e corrigida, PR aberta contra `staging`**
+> **(urgente — bloqueia qualquer deploy)**: [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81).
+> Douglas reportou `V106` (TASK-228, norma de pontos de ancoragem) falhando contra MySQL real: coluna
+> `notes` é `VARCHAR(500)`, o texto da norma tem ~700 caracteres, MySQL em modo estrito rejeita o
+> `INSERT` inteiro — exatamente o risco já sinalizado no card da TASK-228. Flyway para nessa
+> migration e bloqueia todas as seguintes (inclusive a `V107` da TASK-229, ainda não mergeada).
+> Corrigido alargando a coluna (`VARCHAR(2000)`) direto na `V106` — ela nunca aplicou com sucesso em
+> lugar nenhum, então editá-la é o remédio certo aqui, não uma migration nova. **Verificado de
+> verdade**: reproduzi o erro exato contra MySQL 8 real (Docker efêmero) e confirmei que a correção
+> resolve, rodando as 106 migrations do zero. **Ação pendente do Douglas**: rodar `DELETE FROM
+> flyway_schema_history WHERE version = '106' AND success = 0;` em qualquer banco onde já tentou e
+> falhou, antes do próximo boot/deploy.
 > Atualizado em: 07/09/2026 — **🟡 TASK-229 implementada, PRs abertas contra `staging`**:
 > [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (atualizada) /
 > [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). A Meta aprovou o template
@@ -1215,6 +1227,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-230](tasks/TASK-230.md)                  | `V106` falha em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueia todo deploy — PR aberta [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
 | [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |
 | TASK-QA-BUG-016                                | E-mail de alerta exibe ID do item em vez do nome — referenceId usado em vez de referenceLabel                                   | 🟠 Alto    | EPIC-006 | MÉDIA      |
