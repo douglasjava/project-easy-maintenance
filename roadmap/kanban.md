@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **🟢 TASK-230 mergeada em `staging`**:
+> [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81). Douglas confirmou que
+> rodou certinho contra o banco real depois do `DELETE` na `flyway_schema_history`. Branch da
+> TASK-174/229 já atualizada com a correção (merge de `staging`, sem conflito, `mvn test` →
+> 911/911) — segue liberada pra testes locais.
 > Atualizado em: 07/09/2026 — **🔴 TASK-230 criada e corrigida, PR aberta contra `staging`**
 > **(urgente — bloqueia qualquer deploy)**: [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81).
 > Douglas reportou `V106` (TASK-228, norma de pontos de ancoragem) falhando contra MySQL real: coluna
@@ -1227,7 +1232,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-230](tasks/TASK-230.md)                  | `V106` falha em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueia todo deploy — PR aberta [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81) | 🔴 Crítico | EPIC-025 | ALTA       |
+| [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging, confirmada pelo Douglas [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
 | [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |
 | TASK-QA-BUG-016                                | E-mail de alerta exibe ID do item em vez do nome — referenceId usado em vez de referenceLabel                                   | 🟠 Alto    | EPIC-006 | MÉDIA      |

@@ -89,10 +89,8 @@ tentou e falhou, precisa do `DELETE` manual antes do próximo deploy — comunic
 Baixo
 
 ## Status
-✅ Corrigida e validada contra MySQL real (Docker efêmero, mesmo erro reproduzido e resolvido). PR
-aberta contra `staging`: [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81).
-Branch `bugfix/TASK-230-norms-notes-column-too-short`, a partir de `staging` (não da branch da
-TASK-174/229, que ainda não foi mergeada — este bugfix precisa chegar em produção independente e
-mais rápido). **Ação pendente do Douglas**: rodar `DELETE FROM flyway_schema_history WHERE
-version = '106' AND success = 0;` em qualquer banco onde `V106` já tentou e falhou, antes do
-próximo boot/deploy.
+✅ Mergeada em `staging` ([api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81)) —
+Douglas confirmou que rodou certinho contra o banco real depois do `DELETE` na `flyway_schema_history`.
+Branch da TASK-174/229 (`feature/TASK-174-supplier-in-whatsapp-notification`, PR
+[api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80)) já atualizada com essa
+correção (merge de `staging`, sem conflito, `mvn test` → 911/911).
