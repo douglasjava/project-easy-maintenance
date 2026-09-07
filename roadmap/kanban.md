@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **🟡 TASK-231 implementada, mesma PR da TASK-229**:
+> [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). Douglas testou o opt-in de
+> WhatsApp em call de demo real e o cliente quase não achou/entendeu o toggle mesmo procurando
+> ativamente na tela de Perfil — era só uma linha dentro de um formulário grande. Seção dos dois
+> toggles (utilidade + marketing) vira um card com fundo/borda verde, cada um ganha rótulo de estado
+> explícito em texto ("Ativado"/"Desativado") ao lado do switch, legível à distância numa tela
+> compartilhada. Validado visualmente via mockup estático (sem credenciais pra abrir `/profile`
+> logado). `npm run build` limpo.
 > Atualizado em: 07/09/2026 — **🟢 TASK-230 mergeada em `staging`**:
 > [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81). Douglas confirmou que
 > rodou certinho contra o banco real depois do `DELETE` na `flyway_schema_history`. Branch da
@@ -1492,6 +1500,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mesma PR [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — PRs abertas [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) / [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | EPIC-023 |
 | [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — PR aberta [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (ativação em produção pendente de aprovação da Meta) | 🟡 Médio | EPIC-023 |
 | [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — PR aberta [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79) | 🟠 Alto | EPIC-023 |
