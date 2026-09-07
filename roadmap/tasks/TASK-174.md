@@ -114,7 +114,10 @@ só pra ativar a flag em produção, não bloqueia implementação/testes.
 Médio (mais a incerteza de tempo da aprovação externa, fora do esforço de código em si)
 
 ## Status
-✅ Código implementado, PR aberta contra `staging`: [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80).
+✅ Mergeada em `staging`, PR `staging→main` aberta: [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82).
+**Testado ponta a ponta pelo Douglas em ambiente real** — mensagem de WhatsApp recebida com 2
+fornecedores e telefone correto, template `v3` aprovado pela Meta (categoria Marketing).
+PR original: [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80).
 Branch `feature/TASK-174-supplier-in-whatsapp-notification`. TDD: todos os testes tocados falharam
 por erro de compilação antes da implementação, passaram depois.
 

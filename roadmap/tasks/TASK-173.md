@@ -96,7 +96,8 @@ mas escopado a 1x por item/manutenção no ciclo (só o checkpoint de 30 dias), 
 Baixo-Médio
 
 ## Status
-✅ Implementada (v2), PR aberta contra `staging`: [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79).
+✅ Mergeada em `staging`, PR `staging→main` aberta: [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82).
+PR original (v2): [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79).
 Branch `feature/TASK-173-supplier-in-email-notification` (mesma da v1, retrabalhada). TDD: todos os
 testes tocados falharam contra o comportamento anterior antes da mudança, passaram depois.
 `mvn test` → 896/896, 0 regressão. Falta TASK-174 (WhatsApp, depende de aprovação de template pela

@@ -89,7 +89,8 @@ tentou e falhou, precisa do `DELETE` manual antes do próximo deploy — comunic
 Baixo
 
 ## Status
-✅ Mergeada em `staging` ([api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81)) —
+✅ Mergeada em `staging` e em `main` (via PR combinada [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82)).
+PR original de `staging`: [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81) —
 Douglas confirmou que rodou certinho contra o banco real depois do `DELETE` na `flyway_schema_history`.
 Branch da TASK-174/229 (`feature/TASK-174-supplier-in-whatsapp-notification`, PR
 [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80)) já atualizada com essa

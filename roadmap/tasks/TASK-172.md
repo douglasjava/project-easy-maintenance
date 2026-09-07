@@ -72,7 +72,8 @@ Baixo — serviço novo e isolado, sem consumidor ainda (TASK-173/174 conectam d
 Baixo-Médio
 
 ## Status
-✅ Implementada, PR aberta contra `staging`: [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78).
+✅ Mergeada em `staging`, PR `staging→main` aberta: [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82).
+PR original: [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78).
 Branch `feature/TASK-172-supplier-lookup-service`. Cache Caffeine próprio (não `@Cacheable`, pra
 não mexer no `CacheManager` compartilhado com TTL de 24h já usado por `suppliersNearby`/`norms`).
 `mvn test` → 884/884 passando, 0 regressão. TDD: teste falhou por compilação antes da

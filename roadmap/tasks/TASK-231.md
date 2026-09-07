@@ -65,5 +65,6 @@ Baixo — só classes CSS/Bootstrap e reposicionamento de texto, nenhuma mudanç
 Baixo
 
 ## Status
-✅ Implementada na mesma branch/PR da TASK-229 (`feature/TASK-229-whatsapp-marketing-opt-in`,
-[web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72), ainda aberta).
+✅ Mergeada em `staging`, PR `staging→main` aberta: [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73).
+Implementada na mesma branch/PR original da TASK-229
+([web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72)).

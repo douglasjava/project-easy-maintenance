@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **🟢 EPIC-023 completa, PRs `staging→main` abertas**:
+> [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (TASK-172/173/174/228/229/230/232)
+> / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (TASK-229/231). Fornecedores
+> nas notificações de vencimento (item #11 do feedback Rogerio Dantas) testado ponta a ponta pelo
+> Douglas em ambiente real — WhatsApp chegando com item, empresa, data, 2 fornecedores e telefone
+> correto, template `v3` aprovado pela Meta (categoria Marketing) com opt-in próprio funcionando.
+> TASK-230 (bugfix crítico de migration) também vai junto nesta promoção. Falta só ligar
+> `notification.whatsapp.supplier-template-enabled=true` em produção pra ativar de vez.
 > Atualizado em: 07/09/2026 — **🟡 TASK-232 implementada, mesma PR da TASK-174/229**:
 > [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80). Douglas testou o `v3`
 > ponta a ponta em ambiente real (primeiro teste completo do fluxo!) e a mensagem chegou certa, mas
@@ -1249,7 +1257,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging, confirmada pelo Douglas [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81) | 🔴 Crítico | EPIC-025 | ALTA       |
+| [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
 | [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |
 | TASK-QA-BUG-016                                | E-mail de alerta exibe ID do item em vez do nome — referenceId usado em vez de referenceLabel                                   | 🟠 Alto    | EPIC-006 | MÉDIA      |
@@ -1509,13 +1517,13 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mesma PR [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | — |
-| [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — PRs abertas [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) / [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72) | 🟡 Médio | EPIC-023 |
-| [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mesma PR [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) | 🟡 Médio | EPIC-023 |
-| [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — PR aberta [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (ativação em produção pendente de aprovação da Meta) | 🟡 Médio | EPIC-023 |
-| [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — PR aberta [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79) | 🟠 Alto | EPIC-023 |
-| [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — PR aberta [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78) | 🟠 Alto | EPIC-023 |
-| [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — PR aberta [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77) | 🟡 Médio | EPIC-025 |
+| [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em staging, PR staging→main [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) aberta | 🟡 Médio | — |
+| [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em staging, PRs staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) abertas | 🟡 Médio | EPIC-023 |
+| [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟡 Médio | EPIC-023 |
+| [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — testado ponta a ponta em ambiente real, mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟡 Médio | EPIC-023 |
+| [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟠 Alto | EPIC-023 |
+| [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟠 Alto | EPIC-023 |
+| [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟡 Médio | EPIC-025 |
 | [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em staging, PR staging→main [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) aberta | 🟡 Médio | — |
 | [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em staging, PR staging→main [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) aberta | 🟡 Médio | — |
 | [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |

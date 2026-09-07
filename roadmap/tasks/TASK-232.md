@@ -69,7 +69,9 @@ Baixo — campo novo aditivo, comportamento da busca interativa não muda. Custo
 Baixo
 
 ## Status
-✅ Implementada, na mesma branch/PR da TASK-174/229
+✅ Mergeada em `staging`, PR `staging→main` aberta: [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82).
+**Confirmado por Douglas em ambiente real** — telefone chegou correto nos dois fornecedores.
+Implementada na mesma branch/PR original da TASK-174/229
 ([api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80)). TDD: testes falharam por
 erro de compilação (construtor com 6 argumentos) antes da implementação, passaram depois. `mvn
 test` → 912/912, 0 regressão.

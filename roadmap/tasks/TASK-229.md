@@ -78,7 +78,10 @@ comportamento correto (consentimento não pode ser presumido).
 Baixo-Médio
 
 ## Status
-✅ Implementada — continuação da TASK-174 na mesma branch/PR
+✅ Mergeada em `staging`, PRs `staging→main` abertas: [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82)
+/ [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73). **Testado ponta a ponta
+pelo Douglas em ambiente real.**
+Implementada como continuação da TASK-174 na mesma branch/PR original
 ([api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80)), depois da Meta confirmar
 que o template só é aprovado como Marketing. Frontend em PR separada:
 [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). `mvn test` → 911/911, 0

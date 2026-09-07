@@ -85,7 +85,8 @@ ambiente) — validado de verdade contra MySQL 8 real, não só suposto.
 Baixo
 
 ## Status
-✅ Implementada, PR aberta contra `staging`. Branch `feature/TASK-228-pontos-ancoragem-norm`.
+✅ Mergeada em `staging`, PR `staging→main` aberta: [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82).
+Branch original `feature/TASK-228-pontos-ancoragem-norm`.
 `mvn test` limpo (878 testes, 0 regressão — suite roda em H2, não valida a migration contra MySQL
 real, ver Riscos). Falta QA manual (cadastro de item real) e confirmação do Douglas sobre a
 nomenclatura do `item_type` antes do primeiro deploy em produção.
