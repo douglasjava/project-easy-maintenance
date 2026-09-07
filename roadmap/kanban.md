@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **✅ `notification.whatsapp.supplier-template-enabled=true` ligada em
+> `staging`**: Douglas ligou a flag e subiu direto pra `staging` (EPIC-023 completo). Feature de
+> fornecedores no WhatsApp (template `v3`) ativa em `staging`. Falta o mesmo flip em **produção**
+> quando Douglas decidir promover.
 > Atualizado em: 07/09/2026 — **✅ TASK-218 fechada (guarda-chuva de intake, feedback Rogerio
 > Dantas)**: triagem dos 11 pontos concluída — 9 resolvidos/implementados, 1 fechado sem reprodução
 > (item #2 — Douglas tentou reproduzir várias vezes e não conseguiu; reabre com task nova se
