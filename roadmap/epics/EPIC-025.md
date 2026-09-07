@@ -1,13 +1,10 @@
 # EPIC-025 — Conteúdo e Governança das Normas Técnicas (ABNT/NR/RDC)
 
 ## Status
-🟡 **Fase 2 mergeada em staging, PRs abertas de staging para main** (21/08/2026) — as 6 tasks
-(TASK-181 a TASK-186), mais Fase 1 (TASK-177/178/179/180), estão mergeadas em `staging` nos dois
-repos. PR [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api) e PR
-[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (web) — `feature/...` → `staging`
-— já mergeadas. PR [#41](https://github.com/douglasjava/easy-maintenance-api/pull/41) (api) e PR
-[#47](https://github.com/douglasjava/easy-maintenance-web/pull/47) (web) — `staging` → `main` —
-abertas em 21/08/2026, aguardando aprovação/merge pra produção.
+✅ **Fase 1 + Fase 2 mergeadas em `main`** (confirmado 07/09/2026) — as 6 tasks da Fase 2
+(TASK-181 a TASK-186), mais Fase 1 (TASK-177/178/179/180), via
+[api#41](https://github.com/douglasjava/easy-maintenance-api/pull/41) /
+[web#47](https://github.com/douglasjava/easy-maintenance-web/pull/47) (staging: api#40/web#46).
 Backend: 779 testes, 0 falhas. Frontend: `npm run build` limpo. Plano de teste manual em
 [TASK-QA-MAN-013](../QA/tasks/TASK-QA-MAN-013.md) (13 cenários) — C1-C13 validados localmente por
 Douglas. Fase 1 (auditoria e correção de conteúdo) está ✅ concluída desde 19/08/2026.

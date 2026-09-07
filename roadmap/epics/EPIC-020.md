@@ -1,11 +1,13 @@
 # EPIC-020 — Painel Financeiro Admin (Receita vs. Custo)
 
 ## Status
-🟢 **PRs abertas contra `staging`** (24/08/2026) —
-[easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43) e
-[easy-maintenance-web#49](https://github.com/douglasjava/easy-maintenance-web/pull/49), reunindo
-toda a Fase 2 (TASK-190 a 198) mais os bugfixes achados no QA manual (migration V95,
-`SimulationController`). Backend: suíte completa, 796 testes, 0 falhas. Frontend: `npm run build`
+✅ **Mergeada em `main`** (confirmado 07/09/2026) — Fase 2 via
+[api#45](https://github.com/douglasjava/easy-maintenance-api/pull/45) /
+[web#50](https://github.com/douglasjava/easy-maintenance-web/pull/50) (TASK-190 a 198, migration
+V95, `SimulationController`); split de comissão (TASK-207/208, caso Grupo Silva) via
+[api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) /
+[web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59). Backend: suíte completa, 796
+testes, 0 falhas. Frontend: `npm run build`
 limpo (99/102 testes — 3 falhas pré-existentes em `middleware.test.ts`, sem relação). QA manual de
 Douglas em andamento durante o desenvolvimento (vários achados já corrigidos na própria branch, ver
 "Revisão da Fase 2" abaixo); QA final acontece em cima da PR.

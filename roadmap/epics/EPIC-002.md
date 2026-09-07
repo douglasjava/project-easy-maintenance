@@ -2,9 +2,10 @@
 
 ## Status
 Parcial — 3/4 tasks da Fase 1/2 entregues (TASK-025 — fila/retry e-mails — pendente); Fase 3
-implementada em 25/08/2026 (5/5 tasks, `feature/EPIC-002-fase3-asaas-sync` nos dois repos, PR ainda
-não aberta — achadas ao investigar falha silenciosa de criação de cliente Asaas no onboarding, caso
-real do primeiro cliente pagante)
+(5/5 tasks, TASK-201 a 206) ✅ mergeada em `main` (confirmado 07/09/2026) via
+[api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) /
+[web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) — achadas ao investigar falha
+silenciosa de criação de cliente Asaas no onboarding, caso real do primeiro cliente pagante
 
 ## Objetivo
 Garantir que o sistema opere de forma estável e previsível em produção, sem falhas em cascata, jobs duplicados ou e-mails perdidos.

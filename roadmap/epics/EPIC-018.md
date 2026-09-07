@@ -1,11 +1,11 @@
 # EPIC-018 — Tracking de Conversão para Ads (UTM, Consentimento LGPD, Página de Obrigado)
 
 ## Status
-**Em Validação — 30/07/2026.** TASK-152 a 156 implementadas em `feature/EPIC-018-conversion-
-tracking` (ambos os repos), suíte backend completa e `npm run build` do frontend verdes, validação
-manual em browser feita (Playwright) — inclusive um bug real encontrado e corrigido nessa validação
-(link de WhatsApp em `/obrigado` nunca incluía o contexto de UTM por mismatch de hidratação, ver
-TASK-155). Falta: QA manual formal, abrir PR para `staging` em ambos os repos, e os IDs de Meta
+✅ **Concluída, mergeada em `main`** (confirmado 07/09/2026) — via
+[api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52) /
+[web#57](https://github.com/douglasjava/easy-maintenance-web/pull/57). TASK-152 a 157 (inclui
+Meta Conversions API) implementadas, QA manual aprovado, credenciais reais validadas no Test Events
+da Meta.
 Pixel/Google Tag do Douglas para fechar de fato o épico (TASK-156). TASK-157 concluída em
 26/08/2026 — QA manual aprovado (7 cenários, incluindo validação real no Test Events da Meta com
 credenciais configuradas), PRs abertas contra `staging`:

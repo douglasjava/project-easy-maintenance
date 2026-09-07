@@ -1,5 +1,18 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 07/09/2026 — **✅ Sincronização geral: tudo mergeado em `main`, zero PRs abertas**.
+> Douglas confirmou que todas as branches foram mergeadas. Verificado via `gh pr list --state open`
+> nos dois repos (`easy-maintenance-api`, `easy-maintenance-web`): **zero PRs abertas** nos dois.
+> Itens que este documento ainda descrevia como "PR aberta"/"staging→main aberta" foram conferidos
+> um a um contra o histórico real do GitHub e corrigidos — destaque pro que estava mais desatualizado:
+> **EPIC-023** (fornecedores nas notificações, TASK-172/173/174/228/229/230/231/232) via
+> [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82)/[web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73);
+> **EPIC-020** (split de comissão, TASK-207/208) via
+> [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54)/[web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59);
+> TASK-212/214/215/216 e EPIC-002 Fase 3 (TASK-201-206) também já estavam mergeados em `main` há
+> alguns dias, só a documentação não tinha acompanhado. Único item real ainda pendente de ação
+> **em produção** (não é PR, é config): ligar `notification.whatsapp.supplier-template-enabled=true`
+> pra ativar de vez o fornecedor no WhatsApp (EPIC-023).
 > Atualizado em: 07/09/2026 — **💡 EPIC-027 e EPIC-028 registradas como ideias (sem brainstorm,
 > sem tasks)**: [EPIC-027](epics/EPIC-027.md) (moradores abrem/acompanham chamados) e
 > [EPIC-028](epics/EPIC-028.md) (usuários cadastram fornecedores + pontuação/indicação entre
@@ -1406,13 +1419,13 @@ comissionado por cliente)*
 - ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta)*
 - ~~**[TASK-208](tasks/TASK-208.md)**~~ — ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ *(mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta)*
 
-*(2/2 tasks mergeadas em staging — PRs staging→main abertas, aguardando merge final em produção)*
+*(2/2 tasks mergeadas em `main` — [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) / [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59), confirmado 07/09/2026)*
 
 **Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
 - **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — testado local, PR api#49/web#54
 
 **EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
-implementadas, PRs abertas contra `staging` — *(24/08/2026)***:
+implementadas, mergeadas em `main` — *(24/08/2026, confirmado 07/09/2026)***:
 *(estende `Affiliate`/`ReferralCommission` em vez de manter `manual_commission_rules` — ver
 `docs/superpowers/specs/2026-08-24-affiliate-commission-rework.md`;
 [easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43),
@@ -1436,7 +1449,7 @@ por task — mesma convenção das leves anteriores)*
 - ~~**[TASK-193](tasks/TASK-193.md)**~~ — ~~Frontend: página própria `/private/admin/financials`~~ *(implementada — `npm run build` limpo, não validada visualmente por mim)*
 - ~~**[TASK-194](tasks/TASK-194.md)**~~ — ~~Frontend: seções de cadastro de despesas e regras de comissão manual~~ *(implementada — `npm run build` limpo, não validada visualmente por mim; seção de comissão manual é removida pela TASK-198)*
 
-**EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, PR aberta para staging — *(23/08/2026)***:
+**EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, mergeadas em `main` (via [api#45](https://github.com/douglasjava/easy-maintenance-api/pull/45)/[web#50](https://github.com/douglasjava/easy-maintenance-web/pull/50)) — *(23/08/2026, confirmado 07/09/2026)***:
 *(todas as tasks desta leva na mesma branch `feature/leads-manual-registration` —
 `easy-maintenance-api`/`easy-maintenance-web` — testadas localmente por Douglas antes da abertura
 das PRs: [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42) (api) e
@@ -1474,10 +1487,10 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
 - **[TASK-176](tasks/TASK-176.md)** — Backend: webhook do Cal.com cria lead via `LeadService` (🟠 Alto | EPIC-024)
 
-**🟠 Alto (EPIC-023 — fornecedores nas notificações de vencimento) — *(backlog, não priorizado agora, 18/08/2026)***:
-- ~~**[TASK-172](tasks/TASK-172.md)**~~ — ~~Backend: `SupplierLookupService` — busca textual + cache 7 dias~~ *(implementada, PR api#78 aberta contra staging)*
-- ~~**[TASK-173](tasks/TASK-173.md)**~~ — ~~Backend: fornecedores no e-mail de notificação~~ *(implementada, PR api#79 aberta contra staging)*
-- ~~**[TASK-174](tasks/TASK-174.md)**~~ — ~~Backend: fornecedores no WhatsApp — template v3~~ *(código implementado, PR api#80 aberta; ativação em produção depende de aprovação do template pela Meta)*
+**🟢 EPIC-023 — fornecedores nas notificações de vencimento — CONCLUÍDA (07/09/2026)**:
+*(bloco antigo mantido pra histórico — status real está na [EPIC-023](epics/EPIC-023.md) e na
+tabela "Em Validação" abaixo; TASK-172/173/174/228/229/230/231/232 mergeadas em `main` via
+[api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73))*
 
 **🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
 - ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
@@ -1492,7 +1505,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-154](tasks/TASK-154.md)**~~ — ~~Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração~~ *(em validação)*
 - ~~**[TASK-155](tasks/TASK-155.md)**~~ — ~~Frontend: página `/obrigado` + correção da whitelist `isAuth`~~ *(em validação)*
 - ~~**[TASK-156](tasks/TASK-156.md)**~~ — ~~Frontend: scaffolding de eventos Lead/Contact — pendente de IDs de pixel~~ *(em validação)*
-- **[TASK-157](tasks/TASK-157.md)** — *(QA aprovado 26/08/2026, mergeada em `staging`, PRs `staging → main` abertas)* Meta Conversions API — dedupe de Lead + sinal de qualidade (CONTACTED/CONVERTED), credenciais reais configuradas e validadas no Test Events da Meta (🟡 Médio | EPIC-018). Mergeados: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51), [web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). Promoção pra main: [api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52), [web#57](https://github.com/douglasjava/easy-maintenance-web/pull/57). QA: [TASK-QA-MAN-015](QA/tasks/TASK-QA-MAN-015.md)
+- ~~**[TASK-157](tasks/TASK-157.md)**~~ — *(QA aprovado 26/08/2026, mergeada em `main`)* Meta Conversions API — dedupe de Lead + sinal de qualidade (CONTACTED/CONVERTED), credenciais reais configuradas e validadas no Test Events da Meta (🟡 Médio | EPIC-018). Mergeados: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51), [web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). Promoção pra main: [api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52), [web#57](https://github.com/douglasjava/easy-maintenance-web/pull/57). QA: [TASK-QA-MAN-015](QA/tasks/TASK-QA-MAN-015.md)
 
 **🔴 Crítico (bug ativo de receita) — sequência sugerida**:
 - ~~**TASK-058**~~ — Refatorar job de expiração de TRIAL: PIX via DETACHED *(em validação)*
@@ -1528,34 +1541,41 @@ _Vazio_
 
 ## Em Validação
 
+> **Nota (07/09/2026)**: verificado via `gh pr list --state open` nos dois repos — **zero PRs
+> abertas** em `easy-maintenance-api` e `easy-maintenance-web` neste momento. Toda a tabela abaixo
+> (linhas que ainda falam em "PR aberta"/"staging→main aberta") está com a linguagem desatualizada:
+> **todos os itens listados já estão mergeados em `main`**. Mantida como tabela única (não
+> reestruturada) para não perder o histórico — tratar qualquer menção a "PR aberta" abaixo como
+> "já mergeada em main", confirmado item a item nesta data.
+
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em staging, PR staging→main [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) aberta | 🟡 Médio | — |
-| [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em staging, PRs staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) abertas | 🟡 Médio | EPIC-023 |
-| [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟡 Médio | EPIC-023 |
-| [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — testado ponta a ponta em ambiente real, mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟡 Médio | EPIC-023 |
-| [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟠 Alto | EPIC-023 |
-| [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟠 Alto | EPIC-023 |
-| [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — mergeada em staging, PR staging→main [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) aberta | 🟡 Médio | EPIC-025 |
-| [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em staging, PR staging→main [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) aberta | 🟡 Médio | — |
-| [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em staging, PR staging→main [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) aberta | 🟡 Médio | — |
-| [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em staging, PR staging→main [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) aberta | 🔴 Crítico | — |
-| [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
-| [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em staging, PR staging→main [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) aberta | 🔴 Crítico | — |
-| [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) / [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60)) | 🔴 Crítico | — |
-| [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — mergeada em staging ([api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60)) | 🔴 Crítico | — |
-| [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — mergeada em staging ([api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) / [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61)) | 🟡 Médio | — |
-| [TASK-215](tasks/TASK-215.md) | 🔴 BUGFIX Backend: checkout Asaas rejeitado por item ORGANIZATION de valor zero (item de R$0 desde a EPIC-014 quebrava o checkout inteiro) — PR aberta [api#62](https://github.com/douglasjava/easy-maintenance-api/pull/62) | 🔴 Crítico | — |
-| [TASK-216](tasks/TASK-216.md) | 🟡 FULL_STACK: "Próxima manutenção" manual no registro — rejeitada pra REGULATORY, aplicada de verdade pra OPERATIONAL — PR aberta [api#63](https://github.com/douglasjava/easy-maintenance-api/pull/63) / [web#62](https://github.com/douglasjava/easy-maintenance-web/pull/62) | 🟡 Médio | — |
-| [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta | 🟠 Alto | EPIC-020 |
-| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta | 🟠 Alto | EPIC-020 |
-| [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — testado local, PR api#48/web#53 | 🟠 Alto | EPIC-002 |
-| [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — testado local, PR web#53 | 🟠 Alto | EPIC-002 |
-| [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — testado local, PR api#48 | 🟡 Médio | EPIC-002 |
-| [TASK-204](tasks/TASK-204.md) | Backend: alerta (Sentry) quando falha a criação do cliente Asaas — testado local, PR api#48 | 🟠 Alto | EPIC-002 |
-| [TASK-205](tasks/TASK-205.md) | Frontend: indicador visual de sincronização pendente com Asaas — testado local, PR web#53 | 🟡 Médio | EPIC-002 |
-| [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5             | 🟠 Alto    | EPIC-022 |
-| [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674)            | 🟠 Alto    | EPIC-022 |
+| [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
+| [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
+| [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
+| [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — testado ponta a ponta em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
+| [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟠 Alto | EPIC-023 |
+| [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟠 Alto | EPIC-023 |
+| [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-025 |
+| [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em `main` via [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) (02/09) | 🟡 Médio | — |
+| [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em `main` via [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) (02/09) | 🟡 Médio | — |
+| [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em `main` via [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) | 🔴 Crítico | — |
+| [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em `main` via [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) | 🔴 Crítico | — |
+| [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em `main` via [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) | 🔴 Crítico | — |
+| [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) / [web#63](https://github.com/douglasjava/easy-maintenance-web/pull/63) (staging: api#60/web#60) | 🔴 Crítico | — |
+| [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) (staging: api#60) | 🔴 Crítico | — |
+| [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) / [web#63](https://github.com/douglasjava/easy-maintenance-web/pull/63) (staging: api#61/web#61) | 🟡 Médio | — |
+| [TASK-215](tasks/TASK-215.md) | 🔴 BUGFIX Backend: checkout Asaas rejeitado por item ORGANIZATION de valor zero (item de R$0 desde a EPIC-014 quebrava o checkout inteiro) — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) (staging: api#62) | 🔴 Crítico | — |
+| [TASK-216](tasks/TASK-216.md) | 🟡 FULL_STACK: "Próxima manutenção" manual no registro — rejeitada pra REGULATORY, aplicada de verdade pra OPERATIONAL — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) / [web#63](https://github.com/douglasjava/easy-maintenance-web/pull/63) (staging: api#63/web#62) | 🟡 Médio | — |
+| [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em `main` via [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) | 🟠 Alto | EPIC-020 |
+| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em `main` via [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) | 🟠 Alto | EPIC-020 |
+| [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — mergeada em `main` via [api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) / [web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) (staging: api#48/web#53) | 🟠 Alto | EPIC-002 |
+| [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — mergeada em `main` via [web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) (staging: web#53) | 🟠 Alto | EPIC-002 |
+| [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — mergeada em `main` via [api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) (staging: api#48) | 🟡 Médio | EPIC-002 |
+| [TASK-204](tasks/TASK-204.md) | Backend: alerta (Sentry) quando falha a criação do cliente Asaas — mergeada em `main` via [api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) (staging: api#48) | 🟠 Alto | EPIC-002 |
+| [TASK-205](tasks/TASK-205.md) | Frontend: indicador visual de sincronização pendente com Asaas — mergeada em `main` via [web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) (staging: web#53) | 🟡 Médio | EPIC-002 |
+| [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5 — mergeada em `main` via [web#43](https://github.com/douglasjava/easy-maintenance-web/pull/43)             | 🟠 Alto    | EPIC-022 |
+| [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674) — mergeada em `main` via [web#43](https://github.com/douglasjava/easy-maintenance-web/pull/43)            | 🟠 Alto    | EPIC-022 |
 | [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
 | [TASK-168](tasks/TASK-168.md) | BUGFIX Frontend: botão "Ver todos os recursos" da landing sem destino          | 🟡 Médio   | —        |
 | [TASK-158](tasks/TASK-158.md) | Frontend: página pública de Termos de Uso — corrige link quebrado do rodapé     | 🟠 Alto    | —        |
