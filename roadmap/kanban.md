@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **💡 EPIC-029 criado (desenhado via brainstorm), 3 tasks prontas para
+> implementar**: [EPIC-029](epics/EPIC-029.md) — teste de carga estrutural (achar gargalos de
+> código: N+1, índice faltando, pool mal dimensionado — sem hardware/infra). Derivado do item #6b
+> da TASK-218 (já fechada). Spec em
+> `docs/superpowers/specs/2026-09-08-load-testing-epic-design.md`. Tasks: TASK-233 (seed sintético,
+> escala média), TASK-234 (profile `loadtest` — contagem de query por request), TASK-235 (scripts
+> k6 pros 3 fluxos priorizados — login, `/items`, detecção de notificação — + relatório de
+> achados). Entregável é só diagnóstico; corrigir cada gargalo achado vira task própria depois.
 > Atualizado em: 07/09/2026 — **✅ `notification.whatsapp.supplier-template-enabled=true` ligada em
 > `staging`**: Douglas ligou a flag e subiu direto pra `staging` (EPIC-023 completo). Feature de
 > fornecedores no WhatsApp (template `v3`) ativa em `staging`. Falta o mesmo flip em **produção**
@@ -1494,6 +1502,11 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - **[EPIC-028](epics/EPIC-028.md)** — Cadastro de fornecedores pelos usuários + pontuação/indicação
   entre edificações próximas — *case futuro de monetização (explícito), aguardando sessão de
   brainstorm*
+
+**🟡 Médio (EPIC-029 — teste de carga estrutural) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
+- **[TASK-233](tasks/TASK-233.md)** — Seed sintético de dados (`loadtest-seed.sql`, escala média) (🟡 Médio | EPIC-029)
+- **[TASK-234](tasks/TASK-234.md)** — Profile `loadtest` — Hibernate statistics + contagem de query por request (🟡 Médio | EPIC-029)
+- **[TASK-235](tasks/TASK-235.md)** — Scripts k6 (login, `/items`, detecção de notificação) + execução + relatório de achados (🟡 Médio | EPIC-029)
 
 **🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
