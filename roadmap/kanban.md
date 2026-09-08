@@ -1,5 +1,34 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **🟡 TASK-236 implementada (branch
+> `bugfix/TASK-236-trial-expiring-wrong-due-date`, commit `333f941`, a partir de `staging`)**:
+> `TrialExpirationService` ganhou `resolveDueDate(BillingSubscription)` (mesmo padrão já usado em
+> `CardTransitionService`/`PixRenewalService`) — cobrança (PIX e checkout) e e-mail passam a usar o
+> `currentPeriodEnd` real da assinatura, não mais `invoice.getDueDate()`/`invoice.getPeriodStart()`.
+> `SubscriptionAccessService.resolveEffectiveStatus` deixou de ser `static` e ganhou grace period
+> configurável (`billing.trial.grace-days=3`, propriedade própria, independente do
+> `billing.blocking.days-after-due` do `PAST_DUE`) — trial só vira `TRIAL_EXPIRED`/`READ_ONLY` depois
+> do grace, não mais no segundo exato do vencimento. `FeatureAccessService` migrado pra usar o bean
+> injetado nas 3 chamadas que eram estáticas. Verificação real: `git stash` do código de produção
+> (mantendo os testes novos) confirmou vermelho (2+4+1 erros/falhas nas 3 classes tocadas); com o fix
+> restaurado, `mvn clean test` → **918/918, 0 falhas**. `InvoiceService.processPayerInvoice`
+> (`periodEnd.plusDays(5)`) não foi alterado — decisão consciente, é usado fora do fluxo de trial
+> também. Detalhe completo em [TASK-236](tasks/TASK-236.md). **Sem PR aberta ainda** — aguardando
+> decisão do Douglas.
+> Atualizado em: 08/09/2026 — **🔴 TASK-236 criada (bug real reportado por Douglas, cliente Ricardo
+> Cerqueira, `actioncond@gmail.com`)**: e-mail de `TRIAL_EXPIRING` mostrou "Data de vencimento:
+> 2026-10-12" enquanto a cobrança real no Asaas venceu 2026-09-08 (hoje). Causa raiz:
+> `TrialExpirationService.sendTrialExpirationEmail` usa `invoice.getDueDate()` (=
+> `periodEnd.plusDays(5)`, sem relação com a cobrança) em vez do `nextDueDate` real enviado ao Asaas.
+> Investigação foi além do texto errado: `nextDueDate` da cobrança de trial é sempre "hoje" (dia do
+> job), nunca o `currentPeriodEnd` real da assinatura; e `SubscriptionAccessService` corta acesso
+> pra `READ_ONLY` no segundo exato em que o trial vence, sem grace period — diferente da assinatura
+> **paga** inadimplente, que já tem 3 dias de graça (`SubscriptionBlockingService`,
+> `billing.blocking.days-after-due`). Decisão com Douglas: escopo fecha com Opção B (cobrança e
+> e-mail com vencimento real, amarrado ao `currentPeriodEnd`) + Opção C1 (grace period cirúrgico em
+> `SubscriptionAccessService.resolveEffectiveStatus`, reaproveitando o padrão já validado em
+> produção pra assinatura paga). Detalhe completo em [TASK-236](tasks/TASK-236.md). Implementação
+> ainda não iniciada.
 > Atualizado em: 08/09/2026 — **💡 EPIC-029 criado (desenhado via brainstorm), 3 tasks prontas para
 > implementar**: [EPIC-029](epics/EPIC-029.md) — teste de carga estrutural (achar gargalos de
 > código: N+1, índice faltando, pool mal dimensionado — sem hardware/infra). Derivado do item #6b
@@ -1296,6 +1325,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — implementado (Opção B + C1), 918/918 testes, sem PR aberta ainda | 🔴 Alto | — | ALTA |
 | [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
 | [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |
