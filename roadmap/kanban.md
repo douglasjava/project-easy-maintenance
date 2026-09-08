@@ -1,5 +1,8 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **🟡 TASK-236: PR aberta contra `staging`**:
+> [api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83). Douglas confirmou intenção
+> de publicar imediatamente após o QA manual completo (C1-C7) aprovado.
 > Atualizado em: 08/09/2026 — **✅ TASK-QA-MAN-017: QA manual completo aprovado (C1-C7)** — Opção C1
 > (grace period) testada com conta real do Douglas (`douglasmarquesdias+T2508@gmail.com`, restaurada
 > ao valor original ao final) via `/me/access-context` autenticado: trial vencido há 1 dia (dentro do
@@ -1353,7 +1356,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — implementado (Opção B + C1), 918/918 testes + QA manual completo (C1-C7) aprovado, sem PR aberta ainda | 🔴 Alto | — | ALTA |
+| [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — implementado (Opção B + C1), 918/918 testes + QA manual completo (C1-C7) aprovado, PR aberta contra `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)) | 🔴 Alto | — | ALTA |
 | [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
 | [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |

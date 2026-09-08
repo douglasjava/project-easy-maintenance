@@ -182,4 +182,5 @@ confirmados contra ambiente real**:
   continua `FULL_ACCESS`; vencido há 4 dias (fora do grace) vira `TRIAL_EXPIRED`/`READ_ONLY`.
 
 ## Status
-🟢 Implementada e validada em QA manual (C1-C7) — falta decidir sobre abrir PR
+🟢 Implementada, validada em QA manual (C1-C7), PR aberta contra `staging`:
+[api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)
