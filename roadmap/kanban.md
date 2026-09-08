@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **💡 EPIC-028 desenhado (idea → design completo via brainstorm), 3
+> tasks prontas para implementar**: [EPIC-028](epics/EPIC-028.md) — cadastro de fornecedores pelos
+> usuários + pontuação. Spec em `docs/superpowers/specs/2026-09-08-supplier-registry-design.md`.
+> `Supplier` vira entidade compartilhada entre organizações (exceção deliberada ao isolamento
+> multi-tenant), deduplicada por CNPJ obrigatório, pontuação = contagem de organizações vinculadas
+> (sem avaliação explícita), proximidade por cidade/estado (mesmo critério do EPIC-023). Separado
+> do fluxo de notificação nesta v1 — reaproveita o módulo `supplier` existente. Tasks: TASK-241
+> (entidades/migration), TASK-242 (endpoints cadastro+busca), TASK-243 (tela dedicada).
 > Atualizado em: 08/09/2026 — **💡 EPIC-027 desenhado (idea → design completo via brainstorm), 4
 > tasks prontas para implementar**: [EPIC-027](epics/EPIC-027.md) — chamados de moradores. Spec em
 > `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Morador acessa via QR code (usa
@@ -1569,10 +1577,10 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-178](tasks/TASK-178.md)**~~ — ~~Backend: novo item de catálogo para instalação de gás combustível~~ *(concluída — PR #39 mergeada em staging)*
 - ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
 
-**💡 Ideias registradas, sem brainstorm/tasks ainda — *(07/09/2026)***:
-- **[EPIC-028](epics/EPIC-028.md)** — Cadastro de fornecedores pelos usuários + pontuação/indicação
-  entre edificações próximas — *case futuro de monetização (explícito), aguardando sessão de
-  brainstorm*
+**🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
+- **[TASK-241](tasks/TASK-241.md)** — Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration (🟡 Médio | EPIC-028)
+- **[TASK-242](tasks/TASK-242.md)** — Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região) (🟡 Médio | EPIC-028)
+- **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
 
 **🟠 Alto (EPIC-027 — chamados de moradores) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
 - **[TASK-237](tasks/TASK-237.md)** — Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto) (🟠 Alto | EPIC-027)
