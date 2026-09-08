@@ -1,5 +1,19 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **✅ TASK-QA-MAN-017: Opção B validada** — 3 cenários (PIX, Cartão,
+> fallback) rodados contra Asaas sandbox + MailHog reais, disparados pelo Douglas via
+> `/run-jobs/execute-trial-expiration`. Achado durante a execução: `billing_accounts` sem endereço
+> derrubava o checkout de Cartão (Asaas exige `address/addressNumber/postalCode/province/city` pro
+> customer em `/checkouts`, `/payments` do PIX não) — corrigido no setup SQL do plano. Também achado
+> (e documentado, não é bug): `processTrialsExpiringWithinDays` é `@Transactional` no método inteiro,
+> então a falha de um cenário do lote desfaz os outros que já tinham dado certo. Resultado final:
+> e-mail e cobrança Asaas batem exatamente nos 3 cenários (C3 PIX: 2026-09-09/2026-09-09; C4 Cartão:
+> 2026-09-10/2026-09-10; C5 fallback: `currentPeriodEnd` 2026-08-29 já passado → dueDate cai pra hoje
+> 2026-09-08, não retroativo) — bug original confirmado corrigido. Falta só C6/C7 (grace period),
+> que exigem sessão autenticada de um usuário real. Nota à parte, sem impacto: checkout do Asaas
+> sandbox mostrou expiração de ~1h mesmo com `checkout-minutes-to-expire=120` configurado — campo
+> não tocado pela TASK-236, aparenta ser comportamento do sandbox. Detalhe em
+> [TASK-QA-MAN-017](QA/tasks/TASK-QA-MAN-017.md).
 > Atualizado em: 08/09/2026 — **📋 TASK-QA-MAN-017 criado**: plano de QA manual local pra TASK-236 —
 > setup SQL sintético (`QA-TASK236-*`) pros 3 cenários da Opção B (PIX/Cartão dentro da janela do
 > job + fallback quando `currentPeriodEnd` já passou), rodando contra Asaas sandbox + MailHog; e

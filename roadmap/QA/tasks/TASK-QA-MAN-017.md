@@ -255,6 +255,25 @@ mesmo `billing_account`. Sem problema pro teste, só um registro a mais no sandb
 
 ---
 
+### ✅ Resultado real da execução (08/09/2026, após correção do endereço)
+
+| Cenário | `current_period_end` | Data no e-mail (MailHog) | `dueDate` enviado ao Asaas (log) | Link Asaas |
+|---|---|---|---|---|
+| C3 (PIX) | 2026-09-09 13:32:39 | **2026-09-09** | `"2026-09-09"` | `sandbox.asaas.com/i/y0rskn8866hvim0i` |
+| C4 (Cartão) | 2026-09-10 13:33:21 | **2026-09-10** | (checkout, mesma data no `subscription.nextDueDate`) | `sandbox.asaas.com/checkoutSession/show/cb7779ca-...` |
+| C5 (fallback) | 2026-08-29 13:33:51 (já passado) | **2026-09-08 (hoje)** | `"2026-09-08"` | `sandbox.asaas.com/i/3r2obc5avavc20x8` |
+
+E-mail e cobrança Asaas batem exatamente em todos os 3 — bug original (data do e-mail divergente do
+vencimento real) confirmado corrigido. C5 confirma o fallback: `currentPeriodEnd` no passado não gera
+cobrança retroativa, cai pra hoje.
+
+**Nota à parte (não é regressão da TASK-236):** o checkout do Asaas sandbox (C4) mostrou expiração de
+link de ~1h na tela, mesmo `asaas.checkout-minutes-to-expire=120` (2h) sendo o que a API manda no
+request. Campo não tocado por esta task — comportamento aparenta ser do sandbox Asaas (possível teto
+próprio pra conta de teste), não do nosso código. Sem impacto nos critérios de aceite da TASK-236.
+
+---
+
 ### C6 — Dentro do grace period: acesso permanece liberado
 
 Troque `SEU-USUARIO-DE-TESTE@...` pelo e-mail de um usuário local que você já loga (a
@@ -352,13 +371,14 @@ DELETE FROM organizations WHERE code IN
 ## Critérios de Aceite da Suíte
 
 - [X] C1: suíte automatizada sem regressão (918/918)
-- [ ] C2: setup roda sem erro, 3 subscriptions sintéticas criadas
-- [ ] C3: e-mail e cobrança PIX mostram a mesma data real (`currentPeriodEnd`), não mais a data errada do bug original
-- [ ] C4: mesmo resultado pro fluxo de Cartão/checkout
-- [ ] C5: `currentPeriodEnd` no passado cai pra hoje, nunca gera cobrança com vencimento retroativo
+- [X] C2: setup roda sem erro, 3 subscriptions sintéticas criadas (após correção do endereço em `billing_accounts`)
+- [X] C3: e-mail e cobrança PIX mostram a mesma data real (`currentPeriodEnd`), não mais a data errada do bug original
+- [X] C4: mesmo resultado pro fluxo de Cartão/checkout
+- [X] C5: `currentPeriodEnd` no passado cai pra hoje, nunca gera cobrança com vencimento retroativo
 - [ ] C6: trial vencido há 1 dia (dentro do grace de 3) continua `FULL_ACCESS`
 - [ ] C7: trial vencido há 4 dias (fora do grace) vira `READ_ONLY`/`TRIAL_EXPIRED`; regressão do caso normal (trial ainda válido) confirmada
 - [ ] C8 (opcional): contratos confirmados via curl
 
 ## Status
-🔴 Não executada
+🟡 Opção B validada (C1-C5 aprovados, 08/09/2026) — falta C6/C7 (grace period), que exigem sessão
+autenticada de um usuário real (não executados por mim: precisam do login do Douglas).
