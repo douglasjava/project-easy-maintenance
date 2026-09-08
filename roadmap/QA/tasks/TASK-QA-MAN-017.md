@@ -54,8 +54,8 @@ seguro de rodar local/dev. **Não rodar contra staging/produção.**
 
 ### C1 — Suíte automatizada, sem regressão
 
-| Passo | Ação                                                                    | Resultado esperado |
-|-------|--------------------------------------------------------------------------|---------------------|
+| Passo | Ação                                                                       | Resultado esperado                                                                                                                               |
+|-------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1     | `mvn clean test` na branch `bugfix/TASK-236-trial-expiring-wrong-due-date` | **918/918 testes passando**, incluindo os novos casos de `TrialExpirationServiceTest`/`SubscriptionAccessServiceTest`/`FeatureAccessServiceTest` |
 
 Já executado e confirmado durante a implementação (ver `TASK-236.md`, seção Implementação) —
@@ -78,6 +78,11 @@ SELECT code FROM billing_plans WHERE code = 'BUSINESS';
 
 -- CPF de checksum válido, uso genérico em testes (529.982.247-25) — só pra passar a validação do
 -- Asaas ao criar o customer sandbox just-in-time (resolveExternalCustomerId).
+--
+-- IMPORTANTE: o endpoint /checkouts do Asaas (fluxo de Cartão, C4) exige que o customer já tenha
+-- endereço completo (address/addressNumber/postalCode/province/city) -- diferente de /payments
+-- (PIX, C3/C5), que aceita sem. Por isso os 3 billing_accounts abaixo já vêm com endereço
+-- preenchido, mesmo os PIX -- evita 400 "O campo address deve existir para o customer informado."
 
 -- ------------------------------------------------------------
 -- C3 — PIX, dentro da janela do job (daysAhead=2): currentPeriodEnd = amanhã
@@ -94,8 +99,11 @@ SET @user_c3 = LAST_INSERT_ID();
 
 INSERT INTO user_organizations (user_id, organization_code) VALUES (@user_c3, 'QA-TASK236-C3');
 
-INSERT INTO billing_accounts (user_id, billing_email, name, payment_method, doc)
-VALUES (@user_c3, 'qa-task236-c3@teste.local', 'QA TASK-236 C3 PIX', 'PIX', '52998224725');
+INSERT INTO billing_accounts
+  (user_id, billing_email, name, payment_method, doc, street, number, neighborhood, city, state, zip_code)
+VALUES
+  (@user_c3, 'qa-task236-c3@teste.local', 'QA TASK-236 C3 PIX', 'PIX', '52998224725',
+   'Avenida Paulista', '1000', 'Bela Vista', 'São Paulo', 'SP', '01310100');
 SET @account_c3 = LAST_INSERT_ID();
 
 INSERT INTO billing_subscriptions
@@ -124,8 +132,11 @@ SET @user_c4 = LAST_INSERT_ID();
 
 INSERT INTO user_organizations (user_id, organization_code) VALUES (@user_c4, 'QA-TASK236-C4');
 
-INSERT INTO billing_accounts (user_id, billing_email, name, payment_method, doc)
-VALUES (@user_c4, 'qa-task236-c4@teste.local', 'QA TASK-236 C4 CARD', 'CARD', '52998224725');
+INSERT INTO billing_accounts
+  (user_id, billing_email, name, payment_method, doc, street, number, neighborhood, city, state, zip_code)
+VALUES
+  (@user_c4, 'qa-task236-c4@teste.local', 'QA TASK-236 C4 CARD', 'CARD', '52998224725',
+   'Avenida Paulista', '1000', 'Bela Vista', 'São Paulo', 'SP', '01310100');
 SET @account_c4 = LAST_INSERT_ID();
 
 INSERT INTO billing_subscriptions
@@ -154,8 +165,11 @@ SET @user_c5 = LAST_INSERT_ID();
 
 INSERT INTO user_organizations (user_id, organization_code) VALUES (@user_c5, 'QA-TASK236-C5');
 
-INSERT INTO billing_accounts (user_id, billing_email, name, payment_method, doc)
-VALUES (@user_c5, 'qa-task236-c5@teste.local', 'QA TASK-236 C5 Fallback', 'PIX', '52998224725');
+INSERT INTO billing_accounts
+  (user_id, billing_email, name, payment_method, doc, street, number, neighborhood, city, state, zip_code)
+VALUES
+  (@user_c5, 'qa-task236-c5@teste.local', 'QA TASK-236 C5 Fallback', 'PIX', '52998224725',
+   'Avenida Paulista', '1000', 'Bela Vista', 'São Paulo', 'SP', '01310100');
 SET @account_c5 = LAST_INSERT_ID();
 
 INSERT INTO billing_subscriptions
@@ -174,33 +188,59 @@ SELECT @sub_c5 AS c5_subscription_id, CURDATE() AS c5_expected_due_date;
 Anote os 3 `subscription_id` retornados (`@sub_c3`, `@sub_c4`, `@sub_c5`) — usados na conferência
 pós-job.
 
-> Se a criação do customer Asaas sandbox falhar com 400 (CPF/dados insuficientes),
-> preencha `city`/`state`/`zip_code`/`street`/`number` em `billing_accounts` pro usuário em questão,
-> ou informe um `external_customer_id` de um customer sandbox já existente antes de rodar o job.
+> Se mesmo assim a criação do customer/checkout falhar com 400 no seu sandbox (endereço já vem
+> preenchido acima, mas o Asaas pode exigir outro campo específico da sua conta sandbox — ex.
+> telefone), ajuste o `INSERT INTO billing_accounts` do usuário em questão com o campo pedido pela
+> mensagem de erro, ou informe direto um `external_customer_id` de um customer sandbox já existente.
+
+⚠️ **`processTrialsExpiringWithinDays` é `@Transactional` no método inteiro** — se qualquer cenário
+do lote falhar (ex.: C4 dando 400 no Asaas), a exceção propaga e desfaz a transação **inteira**,
+incluindo os cenários que já tinham dado certo antes dele (C3/C5 nesse exemplo). As linhas de
+`organizations`/`users`/`billing_accounts`/`billing_subscriptions`/`billing_subscription_items`
+inseridas pelo seu SQL direto continuam no banco (não fazem parte dessa transação), então **não
+precisa refazer o INSERT do zero** — só corrija o que causou o erro e rode o job de novo:
+
+```sql
+-- Exemplo: corrigir endereço de uma conta já inserida (troque o e-mail pelo que falhou)
+UPDATE billing_accounts ba
+JOIN users u ON u.id = ba.user_id
+SET ba.street = 'Avenida Paulista', ba.number = '1000', ba.neighborhood = 'Bela Vista',
+    ba.city = 'São Paulo', ba.state = 'SP', ba.zip_code = '01310100'
+WHERE u.email = 'qa-task236-c4@teste.local';
+```
+
+Depois, chame `GET /run-jobs/execute-trial-expiration` de novo — a geração de invoice é idempotente
+por período/payer, então C3/C5 (que não tinham invoice ainda, por causa do rollback) são reprocessados
+normalmente junto com o C4 corrigido.
+
+(Nota lateral, sem impacto no teste: o customer criado no Asaas sandbox na tentativa que falhou
+— `cus_000009038174` no log do exemplo — fica órfão lá, já que o `externalCustomerId` não foi
+persistido por causa do rollback; no rerun, `resolveExternalCustomerId` cria um customer novo pro
+mesmo `billing_account`. Sem problema pro teste, só um registro a mais no sandbox.)
 
 ---
 
 ### C3 — PIX dentro da janela: cobrança e e-mail com o vencimento real
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Rodar o setup de C3 (bloco acima) | `@sub_c3` anotado |
-| 2 | `GET /easy-maintenance/api/v1/run-jobs/execute-trial-expiration` (job usa `daysAhead=2`) | 200, sem erro |
-| 3 | Abrir MailHog (`http://localhost:8025` por padrão) e localizar o e-mail enviado pra `qa-task236-c3@teste.local`, assunto "Renove sua assinatura - Easy Maintenance" | E-mail chegou |
-| 4 | Conferir o campo **"Data de vencimento"** no corpo do e-mail | Bate com `NOW() + 1 dia` anotado no setup (não pode ser ~34 dias no futuro — bug antigo) |
-| 5 | `SELECT payment_link FROM payments WHERE billing_subscription_id = <@sub_c3>;` e abrir o link retornado | Abre a página de cobrança PIX no Asaas sandbox |
-| 6 | Conferir "Data de vencimento" na página do Asaas | **Idêntica** à do e-mail (passo 4) — é o cerne do bug original |
+| Passo | Ação                                                                                                                                                                | Resultado esperado                                                                       |
+|-------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| 1     | Rodar o setup de C3 (bloco acima)                                                                                                                                   | `@sub_c3` anotado                                                                        |
+| 2     | `GET /easy-maintenance/api/v1/run-jobs/execute-trial-expiration` (job usa `daysAhead=2`)                                                                            | 200, sem erro                                                                            |
+| 3     | Abrir MailHog (`http://localhost:8025` por padrão) e localizar o e-mail enviado pra `qa-task236-c3@teste.local`, assunto "Renove sua assinatura - Easy Maintenance" | E-mail chegou                                                                            |
+| 4     | Conferir o campo **"Data de vencimento"** no corpo do e-mail                                                                                                        | Bate com `NOW() + 1 dia` anotado no setup (não pode ser ~34 dias no futuro — bug antigo) |
+| 5     | `SELECT payment_link FROM payments WHERE billing_subscription_id = <@sub_c3>;` e abrir o link retornado                                                             | Abre a página de cobrança PIX no Asaas sandbox                                           |
+| 6     | Conferir "Data de vencimento" na página do Asaas                                                                                                                    | **Idêntica** à do e-mail (passo 4) — é o cerne do bug original                           |
 
 ---
 
 ### C4 — Cartão (checkout) dentro da janela: mesma validação, outro método
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Setup de C4 já rodado junto do bloco C2 | `@sub_c4` anotado |
-| 2 | Já disparado no mesmo `GET /run-jobs/execute-trial-expiration` do C3 (roda todos os elegíveis de uma vez) | — |
-| 3 | Localizar no MailHog o e-mail pra `qa-task236-c4@teste.local` | Data de vencimento = `NOW() + 2 dias` anotado no setup |
-| 4 | `SELECT payment_link FROM payments WHERE billing_subscription_id = <@sub_c4>;` e abrir o checkout Asaas | Vencimento do checkout bate com a mesma data do e-mail |
+| Passo | Ação                                                                                                      | Resultado esperado                                     |
+|-------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| 1     | Setup de C4 já rodado junto do bloco C2                                                                   | `@sub_c4` anotado                                      |
+| 2     | Já disparado no mesmo `GET /run-jobs/execute-trial-expiration` do C3 (roda todos os elegíveis de uma vez) | —                                                      |
+| 3     | Localizar no MailHog o e-mail pra `qa-task236-c4@teste.local`                                             | Data de vencimento = `NOW() + 2 dias` anotado no setup |
+| 4     | `SELECT payment_link FROM payments WHERE billing_subscription_id = <@sub_c4>;` e abrir o checkout Asaas   | Vencimento do checkout bate com a mesma data do e-mail |
 
 ---
 
@@ -311,7 +351,7 @@ DELETE FROM organizations WHERE code IN
 
 ## Critérios de Aceite da Suíte
 
-- [ ] C1: suíte automatizada sem regressão (918/918)
+- [X] C1: suíte automatizada sem regressão (918/918)
 - [ ] C2: setup roda sem erro, 3 subscriptions sintéticas criadas
 - [ ] C3: e-mail e cobrança PIX mostram a mesma data real (`currentPeriodEnd`), não mais a data errada do bug original
 - [ ] C4: mesmo resultado pro fluxo de Cartão/checkout
