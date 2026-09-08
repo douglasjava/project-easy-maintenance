@@ -182,5 +182,6 @@ confirmados contra ambiente real**:
   continua `FULL_ACCESS`; vencido há 4 dias (fora do grace) vira `TRIAL_EXPIRED`/`READ_ONLY`.
 
 ## Status
-🟢 Implementada, validada em QA manual (C1-C7), PR aberta contra `staging`:
-[api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)
+🟢 Mergeada em `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)).
+PR `staging → main` aberta: [api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84)
+(promove junto com TASK-174, que já estava à frente do `main`).
