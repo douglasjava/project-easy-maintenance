@@ -138,6 +138,18 @@ Painel interno (autenticado): nova página/seção com o kanban de 3 colunas, bi
 **dnd-kit** (recomendada — leve, mantida ativamente, acessível; alternativa descartada:
 `@hello-pangea/dnd`, fork mais antigo do react-beautiful-dnd, comunidade menor).
 
+### QR code (achado depois do desenho inicial — geração/exibição pro ADMIN)
+
+O QR code físico fixado na edificação precisa ser gerado e disponibilizado em algum lugar das
+rotas privadas — não estava coberto na primeira versão do desenho. Como o QR só encoda a URL
+pública (`/c/{orgCode}`, a partir do `Organization.code` que a tela autenticada já tem
+disponível), **não precisa de endpoint novo no backend** — geração 100% client-side via biblioteca
+leve (ex. `qrcode`).
+
+Decisão (08/09/2026): fica em **Configurações/Perfil da organização** (não junto do kanban) — tratado
+como algo que se configura uma vez, não uma tela de uso diário. Nova seção nessa página existente
+mostrando o QR code + botão de baixar/imprimir.
+
 ---
 
 ## Fora de Escopo (v1)
