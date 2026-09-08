@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **📋 TASK-QA-MAN-017 criado**: plano de QA manual local pra TASK-236 —
+> setup SQL sintético (`QA-TASK236-*`) pros 3 cenários da Opção B (PIX/Cartão dentro da janela do
+> job + fallback quando `currentPeriodEnd` já passou), rodando contra Asaas sandbox + MailHog; e
+> `UPDATE` parametrizado num usuário de teste já logável pros 2 cenários da Opção C1/grace period
+> (dentro e fora do grace de 3 dias). Ainda não executado. Detalhe em
+> [TASK-QA-MAN-017](QA/tasks/TASK-QA-MAN-017.md).
 > Atualizado em: 08/09/2026 — **🟡 TASK-236 implementada (branch
 > `bugfix/TASK-236-trial-expiring-wrong-due-date`, commit `333f941`, a partir de `staging`)**:
 > `TrialExpirationService` ganhou `resolveDueDate(BillingSubscription)` (mesmo padrão já usado em

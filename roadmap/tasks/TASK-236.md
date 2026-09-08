@@ -172,5 +172,10 @@ Médio (B: ~4-6h, C1: ~4-6h — total próximo de 1 dia)
 
 Branch `bugfix/TASK-236-trial-expiring-wrong-due-date` (a partir de `staging`), commit `333f941`. Sem PR aberta ainda.
 
+## QA Manual
+[TASK-QA-MAN-017](../QA/tasks/TASK-QA-MAN-017.md) — plano local (setup via SQL sintético + Asaas
+sandbox/MailHog para Opção B, `UPDATE` em usuário de teste existente para Opção C1/grace period).
+Ainda não executado.
+
 ## Status
-🟡 Implementada, aguardando decisão de abrir PR
+🟡 Implementada, aguardando QA manual (TASK-QA-MAN-017) e decisão de abrir PR
