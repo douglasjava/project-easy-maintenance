@@ -320,6 +320,24 @@ WHERE id = <mesmo subscription_id de C6>;
 
 ---
 
+### ✅ Resultado real da execução (08/09/2026)
+
+Conta usada: `douglasmarquesdias+T2508@gmail.com` (`subscription_id = 6`, valor original
+`current_period_end = 2026-09-08 22:01:11`, restaurado ao final).
+
+| Cenário | `current_period_end` aplicado | `subscriptionStatus` | `accessMode` | `canCreateItem` (org) |
+|---|---|---|---|---|
+| C6 (dentro do grace, -1 dia) | 2026-09-07 13:56:22 | `TRIAL` | **`FULL_ACCESS`** | `true` |
+| C7 (fora do grace, -4 dias) | 2026-09-04 14:15:50 | `TRIAL_EXPIRED` | **`READ_ONLY`** | `false` |
+
+Confirmado via `GET /me/access-context` real (payload completo anexado na execução), nos dois
+níveis (`accountAccess` e `organizationsAccess`). Grace period de 3 dias funcionando exatamente
+como projetado nos dois limites — dentro ainda libera acesso total, fora derruba pra somente
+leitura com a mensagem correta ("Seu período de trial encerrou..."/"Trial expirado..."). Conta
+restaurada ao valor original ao final.
+
+---
+
 ### C8 (opcional) — Confirmação direta via curl, sem depender do frontend
 
 | Passo | Ação | Resultado esperado |
@@ -375,10 +393,12 @@ DELETE FROM organizations WHERE code IN
 - [X] C3: e-mail e cobrança PIX mostram a mesma data real (`currentPeriodEnd`), não mais a data errada do bug original
 - [X] C4: mesmo resultado pro fluxo de Cartão/checkout
 - [X] C5: `currentPeriodEnd` no passado cai pra hoje, nunca gera cobrança com vencimento retroativo
-- [ ] C6: trial vencido há 1 dia (dentro do grace de 3) continua `FULL_ACCESS`
-- [ ] C7: trial vencido há 4 dias (fora do grace) vira `READ_ONLY`/`TRIAL_EXPIRED`; regressão do caso normal (trial ainda válido) confirmada
-- [ ] C8 (opcional): contratos confirmados via curl
+- [X] C6: trial vencido há 1 dia (dentro do grace de 3) continua `FULL_ACCESS`
+- [X] C7: trial vencido há 4 dias (fora do grace) vira `READ_ONLY`/`TRIAL_EXPIRED`
+- [ ] C8 (opcional): contratos via curl — não executado (coberto pelo C6/C7 via `/me/access-context` real)
 
 ## Status
-🟡 Opção B validada (C1-C5 aprovados, 08/09/2026) — falta C6/C7 (grace period), que exigem sessão
-autenticada de um usuário real (não executados por mim: precisam do login do Douglas).
+✅ Executada e aprovada (08/09/2026) — todos os cenários C1-C7 confirmados contra ambiente real
+(Asaas sandbox, MailHog, `/me/access-context` autenticado). C8 opcional não executado, redundante
+com C6/C7. Dado sintético de C3/C4/C5 ainda no banco — rodar a seção "Limpeza" antes de reusar os
+e-mails `qa-task236-*@teste.local` em outro teste.

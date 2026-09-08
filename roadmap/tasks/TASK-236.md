@@ -173,11 +173,13 @@ Médio (B: ~4-6h, C1: ~4-6h — total próximo de 1 dia)
 Branch `bugfix/TASK-236-trial-expiring-wrong-due-date` (a partir de `staging`), commit `333f941`. Sem PR aberta ainda.
 
 ## QA Manual
-[TASK-QA-MAN-017](../QA/tasks/TASK-QA-MAN-017.md) — **Opção B validada (08/09/2026)**: 3 cenários
-(PIX, Cartão, fallback com `currentPeriodEnd` no passado) rodados contra Asaas sandbox + MailHog
-reais — e-mail e cobrança batem exatamente em todos, bug original confirmado corrigido. Falta
-Opção C1 (grace period, C6/C7 do plano), que exige sessão autenticada de um usuário real.
+[TASK-QA-MAN-017](../QA/tasks/TASK-QA-MAN-017.md) — ✅ **Executada e aprovada (08/09/2026), C1-C7
+confirmados contra ambiente real**:
+- Opção B (C3/C4/C5): PIX, Cartão e fallback com `currentPeriodEnd` no passado, rodados contra Asaas
+  sandbox + MailHog reais — e-mail e cobrança batem exatamente em todos.
+- Opção C1 (C6/C7): testado com conta real (`douglasmarquesdias+T2508@gmail.com`, restaurada ao
+  final) via `/me/access-context` autenticado — trial vencido há 1 dia (dentro do grace de 3)
+  continua `FULL_ACCESS`; vencido há 4 dias (fora do grace) vira `TRIAL_EXPIRED`/`READ_ONLY`.
 
 ## Status
-🟡 Implementada, Opção B validada em QA manual — falta validar Opção C1 (grace period) e decidir
-sobre abrir PR
+🟢 Implementada e validada em QA manual (C1-C7) — falta decidir sobre abrir PR

@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **✅ TASK-QA-MAN-017: QA manual completo aprovado (C1-C7)** — Opção C1
+> (grace period) testada com conta real do Douglas (`douglasmarquesdias+T2508@gmail.com`, restaurada
+> ao valor original ao final) via `/me/access-context` autenticado: trial vencido há 1 dia (dentro do
+> grace de 3) → `TRIAL`/`FULL_ACCESS`; vencido há 4 dias (fora do grace) → `TRIAL_EXPIRED`/`READ_ONLY`,
+> com permissões corretamente restritas (`canCreateItem: false` etc.) e mensagem certa pro usuário.
+> Combinado com a Opção B já validada (nota anterior), **TASK-236 está com QA manual completo e
+> aprovado** — falta só decidir sobre abrir a PR. Detalhe em
+> [TASK-QA-MAN-017](QA/tasks/TASK-QA-MAN-017.md) / [TASK-236](tasks/TASK-236.md).
 > Atualizado em: 08/09/2026 — **✅ TASK-QA-MAN-017: Opção B validada** — 3 cenários (PIX, Cartão,
 > fallback) rodados contra Asaas sandbox + MailHog reais, disparados pelo Douglas via
 > `/run-jobs/execute-trial-expiration`. Achado durante a execução: `billing_accounts` sem endereço
@@ -1345,7 +1353,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — implementado (Opção B + C1), 918/918 testes, sem PR aberta ainda | 🔴 Alto | — | ALTA |
+| [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — implementado (Opção B + C1), 918/918 testes + QA manual completo (C1-C7) aprovado, sem PR aberta ainda | 🔴 Alto | — | ALTA |
 | [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
 | [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |
