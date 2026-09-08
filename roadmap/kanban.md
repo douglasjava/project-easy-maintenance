@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **💡 EPIC-027 desenhado (idea → design completo via brainstorm), 4
+> tasks prontas para implementar**: [EPIC-027](epics/EPIC-027.md) — chamados de moradores. Spec em
+> `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Morador acessa via QR code (usa
+> `Organization.code` existente, sem entidade de "unidade" nova), abre chamado com telefone+CPF
+> (obrigatórios), acompanha depois só com CPF, foto opcional. Painel interno ganha kanban de 3
+> colunas com drag-and-drop (`dnd-kit`) + QR code em Configurações/Perfil. Tasks: TASK-237/238
+> (backend público/autenticado), TASK-239/240 (frontend público/kanban+QR).
 > Atualizado em: 08/09/2026 — **🟢 TASK-236: mergeada em `staging`, PR `staging → main` aberta**:
 > [api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83) mergeada;
 > [api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84) promove pra `main` junto com
@@ -1563,11 +1570,15 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
 
 **💡 Ideias registradas, sem brainstorm/tasks ainda — *(07/09/2026)***:
-- **[EPIC-027](epics/EPIC-027.md)** — Chamados de moradores (abrir + acompanhar) — *aguardando
-  sessão de brainstorm*
 - **[EPIC-028](epics/EPIC-028.md)** — Cadastro de fornecedores pelos usuários + pontuação/indicação
   entre edificações próximas — *case futuro de monetização (explícito), aguardando sessão de
   brainstorm*
+
+**🟠 Alto (EPIC-027 — chamados de moradores) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
+- **[TASK-237](tasks/TASK-237.md)** — Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto) (🟠 Alto | EPIC-027)
+- **[TASK-238](tasks/TASK-238.md)** — Backend: endpoints autenticados (listar/mudar status) + notificação por e-mail + flag WhatsApp (🟠 Alto | EPIC-027)
+- **[TASK-239](tasks/TASK-239.md)** — Frontend: fluxo público em 2 telas (`/c/[orgCode]`) (🟠 Alto | EPIC-027)
+- **[TASK-240](tasks/TASK-240.md)** — Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil (🟠 Alto | EPIC-027)
 
 **🟡 Médio (EPIC-029 — teste de carga estrutural) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
 - **[TASK-233](tasks/TASK-233.md)** — Seed sintético de dados (`loadtest-seed.sql`, escala média) (🟡 Médio | EPIC-029)
