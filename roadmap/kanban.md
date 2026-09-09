@@ -1,5 +1,15 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟢 EPIC-030: as 7 decisões em aberto foram respondidas, TASK-246
+> pronta pra abrir branch**: fórmula do índice aceita como v1; itens obrigatórios por tipo de
+> estabelecimento resolvidos usando `AiBootstrapService` (já existe, sem seed table); "Exportar
+> PDF" fora de escopo desta v1; meta de conformidade fixa em 95% em código (sem config por tenant
+> ainda — não há UI pra isso hoje); snapshot histórico começa a ser gravado já, junto com a
+> TASK-246 (histórico nasce vazio, fica útil em algumas semanas); taxonomia de categoria de custo
+> criada (Incêndio/Proteção contra descargas/Hidráulica/Emergência/Climatização/Outros, mapeando os
+> `itemType` já usados em `SupplierCategoryKeywords`). Ainda pendente como achado técnico (não é
+> uma das 7 decisões): entidade de documento/laudo com validade não existe, fica como sub-escopo da
+> própria TASK-246 antes da fórmula completa (parte c) poder rodar.
 > Atualizado em: 09/09/2026 — **🟡 EPIC-030 registrado (Compliance Dashboard) — análise técnica,
 > ainda sem código**: Douglas trouxe um protótipo/9 tasks prontas de outra sessão do Claude Code
 > (que só tinha acesso a um artifact visual, não ao código) pra redesenhar o dashboard principal
@@ -1636,11 +1646,12 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**🟡 EPIC-030 — Compliance Dashboard (redesenho do dashboard) — *(em análise técnica, 09/09/2026)***:
+**🟢 EPIC-030 — Compliance Dashboard (redesenho do dashboard) — *(decisões respondidas, 09/09/2026)***:
 *(protótipo/tasks trazidos prontos por Douglas de outra sessão, sem acesso ao código — cada task
-abaixo ganhou uma seção "Viabilidade Técnica" com achados reais antes de qualquer implementação
-começar; ver [EPIC-030](epics/EPIC-030.md) pro resumo executivo e as decisões em aberto)*
-- **[TASK-246](tasks/TASK-246.md)** — Backend: índice de conformidade + `GET /dashboard/summary` (🔴 Crítico | EPIC-030) — *bloqueada por decisões #1/#5/#6/#7 do épico; entidade de documento não existe*
+abaixo ganhou uma seção "Viabilidade Técnica" e as 7 decisões em aberto já foram respondidas; ver
+[EPIC-030](epics/EPIC-030.md) pro resumo executivo. Entidade de documento (achado técnico, não uma
+das 7 decisões) segue como sub-escopo da TASK-246)*
+- **[TASK-246](tasks/TASK-246.md)** — Backend: índice de conformidade + `GET /dashboard/summary` (🔴 Crítico | EPIC-030) — pronta pra abrir branch
 - **[TASK-247](tasks/TASK-247.md)** — Backend: `GET /dashboard/series` (🟠 Alto | EPIC-030) — depende de TASK-246
 - **[TASK-248](tasks/TASK-248.md)** — Backend: fila de ações + adiar (🟠 Alto | EPIC-030) — pode começar em paralelo
 - **[TASK-249](tasks/TASK-249.md)** — Frontend: shell do dashboard (🔴 Crítico | EPIC-030) — reescreve `src/app/page.tsx`, bloqueia o resto do frontend

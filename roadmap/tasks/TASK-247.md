@@ -52,9 +52,9 @@ resposta só).
 **Não existe e precisa ser criado:**
 - `costByCategory` por categoria de exibição (ex. "Incêndio") não tem de onde vir — `itemType` é
   string livre (`MaintenanceItem.itemType`), `ItemCategory` só distingue `REGULATORY`/
-  `OPERACIONAL` (não é a mesma coisa). Precisa de um dicionário `itemType → categoria de exibição`
-  novo, mesmo espírito de `SupplierCategoryKeywords` (que existe mas é só pra fornecedores/Google
-  Places, não cobre isso). Ver decisão #7 do épico.
+  `OPERACIONAL` (não é a mesma coisa). Decisão #7 do épico (respondida 09/09/2026): criar o
+  dicionário `itemType → categoria de exibição` — taxonomia inicial já proposta no EPIC-030,
+  mesmo espírito de `SupplierCategoryKeywords`.
 - `unitsRanking` por organização depende do índice de conformidade por org (TASK-246) já estar
   pronto — não pode ser implementado isoladamente antes dela.
 
@@ -68,15 +68,14 @@ resposta só).
   de uma ação).
 
 ## Dependências
-TASK-246 (índice de conformidade precisa existir pro `unitsRanking`). Decisão #7 do épico
-(taxonomia de categoria) bloqueia `costByCategory`.
+TASK-246 (índice de conformidade precisa existir pro `unitsRanking`).
 
 ## Riscos
 Médio — a parte de séries/buckets é rotina de agregação SQL; o risco real está em `unitsRanking`
-(mesma classe de bug cross-tenant da TASK-246) e na ausência da taxonomia de categoria.
+(mesma classe de bug cross-tenant da TASK-246).
 
 ## Esforço
-Médio, condicionado a TASK-246 e à decisão #7 já estarem resolvidas.
+Médio.
 
 ## Status
 🔴 Não iniciada — bloqueada por TASK-246.

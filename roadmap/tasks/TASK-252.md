@@ -40,10 +40,10 @@ coerente com o resto do stack).
 
 **Dependência real de dado, não de código:**
 - Os 4 gráficos são só tão bons quanto o dado que `/dashboard/series` (TASK-247) consegue
-  entregar — `costByCategory` depende da taxonomia de categoria (decisão #7 do épico) e
-  `unitsRanking` depende do índice por organização (TASK-246) já existir. Sem essas duas
-  resolvidas, os gráficos de custo e ranking renderizam vazios/incorretos mesmo com o componente
-  de UI pronto.
+  entregar — `costByCategory` usa a taxonomia de categoria já definida (decisão #7 do épico,
+  respondida) e `unitsRanking` depende do índice por organização (TASK-246) já existir. Sem a
+  TASK-247 pronta, os gráficos de custo e ranking renderizam vazios/incorretos mesmo com o
+  componente de UI pronto.
 
 ## Dependências
 TASK-247 (dado), TASK-249 (shell).

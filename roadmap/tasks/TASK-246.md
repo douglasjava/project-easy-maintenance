@@ -84,13 +84,14 @@ no frontend, com um `complianceScore` **simplificado** (`Kpis.complianceScore` =
 - **`previousComplianceIndex`/sparklines de 6 meses não têm de onde vir.** Nada no sistema grava
   snapshot periódico do estado de conformidade — `MaintenanceItem`/`Maintenance` são mutáveis sem
   histórico versionado. "Recalcular como estava há 30 dias" não é possível reconstruindo do estado
-  atual. Precisa de uma decisão explícita (épico, decisão #6): iniciar um job de snapshot agora
-  (histórico nasce vazio/achatado, fica útil depois de algumas semanas/meses) é a proposta — nunca
-  inventar/estimar retroativamente, contraria a regra do próprio protótipo de nunca mostrar dado
-  placeholder.
-- **Meta de conformidade (`targetIndex`, default 95, configurável por tenant)** não tem onde morar
-  hoje — nem em `organizations`, nem em `billing_accounts`. Precisa decidir a coluna/tabela antes
-  de implementar (mesma decisão #5 do épico).
+  atual. **Decisão #6 (respondida 09/09/2026): começar a gravar snapshot diário já**, a partir
+  desta task — histórico nasce vazio/achatado, fica útil depois de algumas semanas/meses. Escopo
+  desta task passa a incluir: job diário simples gravando `(organizationId, date, eligible,
+  compliant, index)`.
+- **Meta de conformidade (`targetIndex`)**: **decisão #5 (respondida): 95% fixo em código na v1,
+  sem configuração por tenant** — não existe hoje tela de configurações de organização que peça
+  esse ajuste; criar coluna/tabela pra uma config sem UI real é over-engineering agora. Simplifica
+  esta task (constante, não campo de banco).
 
 **Requer cuidado extra (não é "achado que falta", é "existe mas precisa atenção"):**
 - Escopo `PORTFOLIO` (agregação cross-organização) exige `TenantContext.runCrossOrg(...)`
@@ -105,8 +106,9 @@ no frontend, com um `complianceScore` **simplificado** (`Kpis.complianceScore` =
   verdade divergentes por muito tempo.
 
 ## Dependências
-Decisões #1, #5, #6, #7 do EPIC-030 precisam de resposta do Douglas antes de começar (formula/meta/
-snapshot/taxonomia de categoria) — sem isso o escopo real desta task não está fechado.
+Nenhuma — decisões #1/#5/#6/#7 do EPIC-030 já respondidas (09/09/2026). Entidade de documento
+(achado técnico, não uma das 7 decisões) segue como sub-escopo próprio desta task antes da fórmula
+completa poder rodar com a parte (c).
 
 ## Riscos
 Alto — não pelo código em si (a agregação SQL é rotina), mas porque duas das três partes da fórmula
@@ -121,5 +123,4 @@ Grande — reclassificado a partir da estimativa implícita do documento origina
 a fórmula/endpoint em si.
 
 ## Status
-🟡 Em análise técnica — aguardando decisões #1/#5/#6/#7 do épico antes de estimar esforço final e
-abrir branch.
+🔴 Não iniciada — decisões resolvidas, pronta pra abrir branch.

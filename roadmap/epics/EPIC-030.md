@@ -1,13 +1,13 @@
 # EPIC-030 — Compliance Dashboard (redesenho do dashboard principal)
 
 ## Status
-🟡 Em análise técnica (09/09/2026) — protótipo/tasks recebidos prontos de uma sessão do Claude Code
-rodada por Douglas com um artifact visual ("Painel de Conformidade", 3 estados de conta), que **não
-tinha acesso ao código** (só aos prints/artifact). As 9 tasks foram replicadas abaixo (renumeradas
-TASK-130-138 → TASK-246-254, conforme a nota do próprio documento original) e cada uma ganhou uma
-seção **Viabilidade Técnica** com o que já existe no código vs. o que o protótipo assume que existe
-mas não existe. Nenhuma implementação começou ainda — esta é a etapa de "entender o impacto antes de
-codar" pedida pelo Douglas.
+🟢 Decisões respondidas (09/09/2026) — pronto pra iniciar TASK-246. Protótipo/tasks recebidos
+prontos de uma sessão do Claude Code rodada por Douglas com um artifact visual ("Painel de
+Conformidade", 3 estados de conta), que **não tinha acesso ao código** (só aos prints/artifact). As
+9 tasks foram replicadas (renumeradas TASK-130-138 → TASK-246-254, conforme a nota do próprio
+documento original), cada uma ganhou uma seção **Viabilidade Técnica**, e as 7 decisões em aberto
+foram respondidas (ver seção própria abaixo) — nenhuma implementação começou ainda, mas o escopo
+real de cada task já está fechado o suficiente pra abrir a TASK-246.
 
 ## Objetivo
 Substituir o dashboard atual (4 contadores igualmente pesados, estado vazio "Tudo em dia ✅", duas
@@ -47,8 +47,8 @@ ou exige uma decisão de produto antes de codar:
    `Maintenance` e (quando existir) documentos são todos mutáveis, sem snapshot. "Recalcular a
    fórmula como estava há 30 dias" não é possível reconstruindo do estado atual; exige um job que
    comece a gravar snapshots periódicos **a partir de agora** (histórico vai nascer vazio/achatado
-   e só fica útil depois de ~1-6 meses rodando). Douglas já sinalizou isso como decisão em aberto
-   (#1 do documento original) — reforçando aqui porque é o item de maior risco de todo o épico.
+   e só fica útil depois de ~1-6 meses rodando). Decisão #6 (respondida 09/09/2026): começar a
+   gravar já — reforçando aqui porque é o item de maior risco de todo o épico.
 3. **Todo o resto do sistema opera com isolamento single-tenant por requisição** (header
    `X-Org-Id`, filtro Hibernate `tenantFilter` aplicado via AOP só em `MaintenanceItemRepository` —
    ver `TenantFilterAspect`). Agregação `PORTFOLIO` (somar métricas de várias organizações numa
@@ -122,17 +122,35 @@ index         = round(compliant / eligible * 100)      // 0 quando eligible == 0
 | [TASK-253](../tasks/TASK-253.md) | Estado `ONBOARDING` | Frontend | 🟡 Médio | TASK-249 |
 | [TASK-254](../tasks/TASK-254.md) | E2E e regressão | QA/Infra | 🟡 Médio | TASK-250, TASK-251, TASK-252, TASK-253 |
 
-## Decisões em aberto (dono: Douglas) — herdadas do documento original, com viabilidade anotada
+## Decisões — respondidas em 09/09/2026
 
-| # | Decisão | Bloqueia | Default proposto | Nota de viabilidade |
-|---|---|---|---|---|
-| 1 | Fórmula do índice — §3 está correta? | TASK-246 | Ship §3 como v1, peso fica pra v2 | Parte (c) exige entidade de documento nova — ver resumo executivo #1 |
-| 2 | Quais itens contam como *obrigatórios* por tipo de estabelecimento | TASK-246, TASK-253 | Tabela seed por tipo, substituída pelo SAMU depois | `AiBootstrapService` já existe — TASK-253 provavelmente não precisa de seed, pode chamar direto |
-| 3 | SAMU já sugere itens por tipo de estabelecimento? | TASK-253 | Assumir que não; usar seed | **Já sugere** — `AiBootstrapController`/`AiBootstrapService.preview` faz exatamente isso hoje |
-| 4 | "Exportar PDF" está no escopo deste épico? | TASK-249 | Botão desabilitado com tooltip; épico separado | Sem achado técnico contrário — decisão de escopo pura |
-| 5 | Meta de conformidade default | TASK-246 | 95%, configurável por tenant | Não existe hoje um lugar de "configuração por tenant" pra isso — precisa decidir onde mora (billing_accounts? organizations? nova tabela de settings?) |
-| 6 (novo) | Snapshot histórico começa a ser gravado quando? | TASK-246, TASK-247 | Sugestão: começar já, aceitar sparklines achatados nos primeiros meses | Sem isso, `previousComplianceIndex` e os sparklines de 6 meses não têm dado real pra mostrar |
-| 7 (novo) | Taxonomia de categoria de custo/exibição (ex. "Incêndio") | TASK-246, TASK-247, TASK-252 | Criar dicionário `itemType → categoria`, mesmo padrão de `SupplierCategoryKeywords` | Não existe hoje — `itemType` é string livre |
+Todas as 7 decisões abaixo foram respondidas (proposta minha, sujeita a revisão do Douglas — nenhuma
+é irreversível, mas destrava início de implementação das tasks bloqueadas por elas).
+
+| # | Decisão | Resposta | Justificativa |
+|---|---|---|---|
+| 1 | Fórmula do índice — §3 está correta? | ✅ **Sim, aceitar como v1.** Peso REGULATORIO > OPERACIONAL fica pra v2 | (a)/(b) têm dado real hoje; (c) fica faseada pela decisão #6/#7 abaixo — motivo pra sequenciar, não pra rejeitar a fórmula |
+| 2 | Quais itens contam como *obrigatórios* por tipo de estabelecimento | ✅ **Resolvida pela #3** — usar `AiBootstrapService` direto | Não precisa de seed table; o serviço já responde isso |
+| 3 | SAMU já sugere itens por tipo de estabelecimento? | ✅ **Sim, confirmado** — `AiBootstrapController`/`AiBootstrapService.preview` já faz isso, recebe `CompanyType` | Achado técnico, não suposição |
+| 4 | "Exportar PDF" está no escopo deste épico? | ❌ **Não.** Botão desabilitado com tooltip nesta v1; PDF vira épico separado | Evita escopo crescer no meio de um redesenho já grande |
+| 5 | Meta de conformidade default | **95% fixo em código na v1, sem configuração por tenant ainda** | Não existe hoje nenhuma tela de configurações de organização que peça esse ajuste — criar coluna/tabela pra uma config sem UI real é over-engineering agora; configurabilidade entra quando houver demanda real |
+| 6 | Snapshot histórico começa a ser gravado quando? | **Agora, assim que a TASK-246 for implementada** (job diário simples) | Sparklines/`previousComplianceIndex` nascem vazios/achatados, ficam úteis depois de algumas semanas — sem isso não existe dado real, e não dá pra inventar retroativamente sem violar a regra do próprio protótipo |
+| 7 | Taxonomia de categoria de custo/exibição (ex. "Incêndio") | **Criar dicionário `itemType → categoria` agora**, ver mapeamento inicial abaixo | Pequeno, contido, necessário pra TASK-247/252 |
+
+### Taxonomia inicial da decisão #7 (`itemType → categoria de exibição`)
+
+Ponto de partida mapeando os `itemType` que já existem no sistema (mesmos usados em
+`SupplierCategoryKeywords`, EPIC-023) — qualquer `itemType` fora da lista cai em **"Outros"**, pra
+nunca travar cadastro de item novo:
+
+| Categoria de exibição | `itemType` |
+|---|---|
+| Incêndio | `EXTINTOR`, `HIDRANTE` |
+| Proteção contra descargas | `SPDA` |
+| Hidráulica | `CAIXA_DAGUA` |
+| Emergência | `ILUMINACAO_EMERGENCIA` |
+| Climatização | `AR_COND` |
+| Outros | qualquer outro `itemType` |
 
 ## Sequenciamento sugerido
 
