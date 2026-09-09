@@ -5,6 +5,13 @@ Desenhado via brainstorm com Douglas (08/09/2026), pronto para implementar. Spec
 `docs/superpowers/specs/2026-09-08-supplier-registry-design.md`. Ideia original registrada em
 07/09/2026 (macro, sem desenho).
 
+**09/09/2026 — TASK-241/242/243 implementadas e testadas** numa branch única
+`feature/EPIC-028-supplier-registry` (decisão do Douglas de consolidar o épico, em vez de uma
+branch/PR por task): entidades + migration (backend, `mvn test` 949/949), endpoints com dedup por
+CNPJ + busca por região (backend), tela dedicada `/fornecedores` (frontend, `npm run build`/`npm
+test` sem regressão). Aguardando [TASK-QA-MAN-020](../QA/tasks/TASK-QA-MAN-020.md) — QA manual
+ponta a ponta — antes de abrir as PRs pra `staging`.
+
 ## Objetivo
 Permitir que organizações clientes cadastrem fornecedores por conta própria, construindo um
 registro com sinal de confiança real (quantas organizações usam o mesmo fornecedor) — hoje o

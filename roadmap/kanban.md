@@ -1,5 +1,15 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟡 EPIC-028 completo (TASK-241/242/243), aguardando QA manual**:
+> as 3 tasks do épico implementadas na branch única `feature/EPIC-028-supplier-registry` (api +
+> web). Backend: `mvn test` 949/949 (entidades/migration + endpoints com dedup por CNPJ/pontuação/
+> busca por região). Frontend: nova tela `/fornecedores` (formulário de cadastro com máscara/
+> validação de CNPJ real, filtro por categoria, lista responsiva com pontuação), `npm run build`
+> limpo, `npm test` sem regressão nova. Não deu pra validar num navegador real nesta sessão — a API
+> local completa não sobe sem `FIREBASE_SERVICE_ACCOUNT_JSON` real (`PushNotificationProvider`
+> exige um bean `FirebaseMessaging`, e essa credencial só existe no ambiente do Douglas). QA manual
+> formalizada em [TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md) — falta rodar o fluxo ponta a ponta
+> antes de abrir as PRs pra `staging` (nos dois repos).
 > Atualizado em: 09/09/2026 — **🔵 EPIC-028: branch consolidada por épico, decisão de Douglas**:
 > a partir de agora TASK-241/242/243 seguem todas na mesma branch
 > `feature/EPIC-028-supplier-registry` (renomeada de `feature/TASK-241-supplier-entities-migration`,
@@ -1658,7 +1668,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 **🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
 - ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(implementada, `mvn test` 942/942, migration validada contra MySQL real — na branch `feature/EPIC-028-supplier-registry`, junto com TASK-242/243; PR única do épico abre no final)*
 - ~~**[TASK-242](tasks/TASK-242.md)**~~ — ~~Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região)~~ *(implementada, `mvn test` 948/948 — mesma branch `feature/EPIC-028-supplier-registry`)*
-- **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
+- ~~**[TASK-243](tasks/TASK-243.md)**~~ — ~~Frontend: tela dedicada de fornecedores (lista + filtro + cadastro)~~ *(implementada, `npm run build`/`npm test` sem regressão — mesma branch `feature/EPIC-028-supplier-registry`; EPIC-028 completo, aguardando [TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md) antes de abrir as PRs)*
 
 **🟢 EPIC-027 — chamados de moradores — *(QA manual aprovado, PRs staging abertas, 09/09/2026)***:
 - ~~**[TASK-237](tasks/TASK-237.md)**~~ — ~~Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto)~~ *(PR aberta contra `staging`: [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85))*
