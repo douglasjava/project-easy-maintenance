@@ -100,9 +100,14 @@ Baixo
   a app rodar de verdade nessa branch (senão o Flyway tentaria recriar as tabelas e falharia com
   "table already exists").
 
-Branch `feature/TASK-241-supplier-entities-migration` (a partir de `staging`).
+Branch renomeada de `feature/TASK-241-supplier-entities-migration` para
+`feature/EPIC-028-supplier-registry` (a partir de `staging`) — commit `056c35d` preservado. A partir
+daqui TASK-242 e TASK-243 seguem na mesma branch (decisão do Douglas: uma PR só cobrindo o épico
+completo, com QA manual ponta a ponta no final em vez de QA por task). PR individual
+[api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87) fechada sem merge por causa
+disso — reabre no final, como PR do EPIC-028.
 
 ## Status
 🟢 Implementado, testado (`mvn test` 942/942) e validado manualmente contra MySQL real — QA
-obrigatório desta task (as duas constraints) já confirmado com evidência, sem necessidade de rodada
-de QA manual adicional (nenhum fluxo externo/pagamento envolvido). Pronto pra PR `staging`.
+obrigatório desta task (as duas constraints) já confirmado com evidência. Aguardando TASK-242/243
+(mesma branch) antes de abrir a PR final do EPIC-028.

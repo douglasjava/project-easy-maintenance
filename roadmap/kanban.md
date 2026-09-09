@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🔵 EPIC-028: branch consolidada por épico, decisão de Douglas**:
+> a partir de agora TASK-241/242/243 seguem todas na mesma branch
+> `feature/EPIC-028-supplier-registry` (renomeada de `feature/TASK-241-supplier-entities-migration`,
+> commit `056c35d` preservado), em vez de uma branch/PR por task. PR individual
+> [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87) fechada sem merge — reabre
+> no final cobrindo o épico completo (entidades + endpoints + tela). QA também muda de escopo: em
+> vez de uma TASK-QA-MAN por task, uma única task de QA manual valida o fluxo ponta a ponta no final
+> (cadastro de fornecedor novo, dedup por CNPJ, busca por região, tela).
 > Atualizado em: 09/09/2026 — **🟢 EPIC-028 iniciado: TASK-241 implementada, PR `staging` aberta**:
 > [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87) — primeira entidade
 > persistida do módulo `supplier` (`Supplier`, compartilhado entre organizações — exceção deliberada
@@ -1648,7 +1656,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
 
 **🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
-- ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(implementada, `mvn test` 942/942, migration validada contra MySQL real — PR aberta contra `staging`: [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87))*
+- ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(implementada, `mvn test` 942/942, migration validada contra MySQL real — na branch `feature/EPIC-028-supplier-registry`, junto com TASK-242/243; PR única do épico abre no final)*
 - **[TASK-242](tasks/TASK-242.md)** — Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região) (🟡 Médio | EPIC-028)
 - **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
 
