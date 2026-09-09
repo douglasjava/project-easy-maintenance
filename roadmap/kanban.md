@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **🟡 TASK-QA-MAN-018: 1ª rodada de QA do Douglas, 7 achados
+> corrigidos**: URL renomeada de `/c/[orgCode]` pra `/chamados/[orgCode]` (mais memorável),
+> validação de CPF (dígito verificador) na tela inicial, mensagens de erro reais da API no formulário
+> (tipo/tamanho de foto inválido), e-mail do ADMIN agora rastreado via
+> `CriticalEmailDispatchService`/`business_email_dispatches` (reenvio automático se falhar), máscara
+> de telefone no formulário, e página A4 pronta pra imprimir e colar na edificação (PDF via
+> `@react-pdf/renderer`, marca + QR grande + instruções). Tudo na mesma branch
+> `feature/EPIC-027-resident-tickets`, `mvn test` 935/935, `npm test`/`npm run build` sem regressão.
+> Aguardando Douglas retestar antes de aprovar.
 > Atualizado em: 08/09/2026 — **📋 TASK-QA-MAN-018 criado**: plano de QA manual local pro EPIC-027
 > (chamados de moradores) — 12 cenários (C1-C12), com destaque pros dois que a QA anterior não
 > conseguiu validar sem o ambiente do Douglas: upload de foto contra S3 real (C4) e drag-and-drop
