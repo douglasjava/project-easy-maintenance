@@ -41,14 +41,14 @@ completo em `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`.
 
 ## Critérios de Aceite
 
-- [ ] `GET /resident-tickets` só retorna chamados da organização do token (`X-Org-Id`)
-- [ ] `PATCH /resident-tickets/{id}/status` rejeita chamado de outra organização
-- [ ] E-mail disparado pros ADMINs da organização ao criar um chamado (best-effort, não bloqueia
-      criação se falhar)
-- [ ] Flag `notification.whatsapp.resident-ticket-enabled=false` existe e não dispara nada por
+- [x] `GET /resident-tickets` só retorna chamados da organização do token (`X-Org-Id`)
+- [x] `PATCH /resident-tickets/{id}/status` rejeita chamado de outra organização (404)
+- [x] E-mail disparado pros ADMINs da organização ao criar um chamado (best-effort, não bloqueia
+      criação se falhar — try/catch isolado, testado forçando falha do `MailService`)
+- [x] Flag `notification.whatsapp.resident-ticket-enabled=false` existe e não dispara nada por
       padrão
-- [ ] Testes cobrindo isolamento multi-tenant + fluxo de notificação (mock do provedor de e-mail)
-- [ ] `mvn test` sem regressão
+- [x] Testes cobrindo isolamento multi-tenant + fluxo de notificação (mock do provedor de e-mail)
+- [x] `mvn test` sem regressão (935/935)
 
 ## Dependências
 Precisa da entidade/módulo criado na TASK-237 (mesma tabela, mesmo módulo). Independente da
@@ -63,4 +63,6 @@ sistema, nada novo em termos de risco de segurança.
 Médio
 
 ## Status
-🔴 Não iniciada
+✅ Implementada na branch `feature/EPIC-027-resident-tickets` (`easy-maintenance-api`), mesma branch
+da TASK-237. `mvn test` → 935/935, 0 regressão. Aguardando TASK-239/240 (frontend) antes de abrir
+PR — épico inteiro testado ponta a ponta antes de ir pra `staging`.

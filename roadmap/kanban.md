@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **🟢 EPIC-027 implementado e validado ponta a ponta**: 4 tasks
+> (TASK-237/238/239/240) na branch `feature/EPIC-027-resident-tickets` (api + web), testado num
+> navegador real contra a API local — abertura de chamado, consulta por CPF, kanban, drag-and-drop
+> (PATCH confirmado) e QR code. Achado real durante a QA: `TenantFilter` bloqueava os endpoints
+> públicos com "Missing X-Org-Id header" (corrigido). Pendências antes de produção: upload de foto
+> com S3 real (local usa credenciais fake) e teste em viewport mobile de verdade. `mvn test`
+> 935/935, `npm run build`/`npm test` sem regressão. Ainda não mergeado em `staging` — aguardando
+> Douglas revisar/testar.
 > Atualizado em: 08/09/2026 — **💡 EPIC-028 desenhado (idea → design completo via brainstorm), 3
 > tasks prontas para implementar**: [EPIC-028](epics/EPIC-028.md) — cadastro de fornecedores pelos
 > usuários + pontuação. Spec em `docs/superpowers/specs/2026-09-08-supplier-registry-design.md`.
@@ -1582,11 +1590,11 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - **[TASK-242](tasks/TASK-242.md)** — Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região) (🟡 Médio | EPIC-028)
 - **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
 
-**🟠 Alto (EPIC-027 — chamados de moradores) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
-- **[TASK-237](tasks/TASK-237.md)** — Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto) (🟠 Alto | EPIC-027)
-- **[TASK-238](tasks/TASK-238.md)** — Backend: endpoints autenticados (listar/mudar status) + notificação por e-mail + flag WhatsApp (🟠 Alto | EPIC-027)
-- **[TASK-239](tasks/TASK-239.md)** — Frontend: fluxo público em 2 telas (`/c/[orgCode]`) (🟠 Alto | EPIC-027)
-- **[TASK-240](tasks/TASK-240.md)** — Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil (🟠 Alto | EPIC-027)
+**🟢 EPIC-027 — chamados de moradores — *(implementada e validada num navegador real, aguardando revisão do Douglas antes de PR, 08/09/2026)***:
+- ~~**[TASK-237](tasks/TASK-237.md)**~~ — ~~Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto)~~ *(implementada, branch `feature/EPIC-027-resident-tickets`)*
+- ~~**[TASK-238](tasks/TASK-238.md)**~~ — ~~Backend: endpoints autenticados (listar/mudar status) + notificação por e-mail + flag WhatsApp~~ *(implementada, mesma branch)*
+- ~~**[TASK-239](tasks/TASK-239.md)**~~ — ~~Frontend: fluxo público em 2 telas (`/c/[orgCode]`)~~ *(implementada, mesma branch)*
+- ~~**[TASK-240](tasks/TASK-240.md)**~~ — ~~Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil~~ *(implementada, mesma branch)*
 
 **🟡 Médio (EPIC-029 — teste de carga estrutural) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
 - **[TASK-233](tasks/TASK-233.md)** — Seed sintético de dados (`loadtest-seed.sql`, escala média) (🟡 Médio | EPIC-029)

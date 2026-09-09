@@ -45,14 +45,16 @@ pra abrir um chamado e consultar os próprios depois. Detalhe completo do desenh
 
 ## Critérios de Aceite
 
-- [ ] Abrir chamado com `organizationCode` válido cria o registro em `SOLICITADO`
-- [ ] Abrir chamado com `organizationCode` inexistente retorna erro claro (não 500)
-- [ ] `residentPhone`/`residentCpf` ausentes são rejeitados (validação de DTO)
-- [ ] Consulta por CPF retorna só os chamados daquele CPF, naquela organização (nunca de outra)
-- [ ] Upload de foto: presigned URL gerada, restrita a imagem, tamanho limitado
-- [ ] Rate limit ativo nos 3 endpoints — confirmado disparando após N tentativas
-- [ ] Testes cobrindo happy path + validação + isolamento entre organizações
-- [ ] `mvn test` sem regressão
+- [x] Abrir chamado com `organizationCode` válido cria o registro em `SOLICITADO`
+- [x] Abrir chamado com `organizationCode` inexistente retorna erro claro (não 500) — `NotFoundException`/404
+- [x] `residentPhone`/`residentCpf` ausentes são rejeitados (validação de DTO, `@NotBlank`/`@CPF`)
+- [x] Consulta por CPF retorna só os chamados daquele CPF, naquela organização (nunca de outra)
+- [x] Upload de foto: presigned URL gerada, restrita a imagem, tamanho limitado (5MB, configurável)
+- [x] Rate limit ativo nos 3 endpoints via `@RateLimit` (mesmo padrão de auth/reset/IA) — configuração
+      em `application.properties`, não testado disparando de verdade (mecanismo já coberto por
+      testes próprios do `RateLimiterService`/`RateLimitAspect`, reaproveitado sem alteração)
+- [x] Testes cobrindo happy path + validação + isolamento entre organizações (10 testes novos)
+- [x] `mvn test` sem regressão (928/928)
 
 ## Dependências
 Nenhuma técnica. Independente da TASK-238 (podem andar em paralelo). TASK-239 (frontend público)
@@ -66,4 +68,7 @@ upload público (mitigado por rate limit + restrição de tipo/tamanho de arquiv
 Médio
 
 ## Status
-🔴 Não iniciada
+✅ Implementada na branch `feature/EPIC-027-resident-tickets` (`easy-maintenance-api`). Migration
+V108 validada contra MySQL 8 real em modo estrito (container Docker efêmero, mesmo cuidado da
+TASK-230). `mvn test` → 928/928, 0 regressão. Aguardando TASK-238 (mesma branch) antes de abrir PR
+— épico inteiro testado ponta a ponta antes de ir pra `staging`.

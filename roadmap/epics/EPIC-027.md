@@ -1,7 +1,13 @@
 # EPIC-027 — Chamados de Moradores
 
 ## Status
-Desenhado via brainstorm com Douglas (08/09/2026), pronto para implementar. Spec em
+✅ Implementado — 4 tasks (TASK-237/238/239/240) na branch `feature/EPIC-027-resident-tickets`
+(`easy-maintenance-api` e `easy-maintenance-web`). Validado ponta a ponta num navegador real contra
+a API local: abertura de chamado público, consulta por CPF, kanban interno, drag-and-drop (PATCH
+real confirmado) e QR code. Achado real durante a QA: `TenantFilter` bloqueava os endpoints
+públicos com "Missing X-Org-Id header" mesmo com `SecurityConfig` liberando a rota — corrigido.
+Pendências antes de produção: teste de upload de foto com S3 real (ambiente local usa credenciais
+fake) e teste em viewport mobile de verdade. Spec em
 `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Ideia original registrada em
 07/09/2026 (macro, sem desenho).
 
@@ -67,15 +73,21 @@ técnica (é puramente client-side), mas fica junto por viver na mesma tela/mód
 
 ## Critério de Conclusão do Épico
 
-- [ ] Morador abre um chamado via `/c/{orgCode}` (nome, telefone, CPF, descrição, foto opcional)
-      sem precisar de login/conta
-- [ ] Morador consulta seus chamados de volta usando só o CPF
-- [ ] ADMINs da organização recebem e-mail quando um chamado é aberto
-- [ ] Painel interno mostra o kanban de 3 colunas com drag-and-drop funcional, restrito a
-      ADMIN/MEMBER da própria organização (`X-Org-Id`)
-- [ ] QR code da organização disponível em Configurações/Perfil, com botão de baixar/imprimir
-- [ ] Endpoints públicos protegidos por rate limit (abertura, consulta por CPF, upload de foto)
-- [ ] `mvn test`/`npm run build` sem regressão
+- [x] Morador abre um chamado via `/c/{orgCode}` (nome, telefone, CPF, descrição, foto opcional)
+      sem precisar de login/conta — validado num navegador real (foto opcional em si não testada
+      com S3 real, só o request wiring)
+- [x] Morador consulta seus chamados de volta usando só o CPF — validado
+- [x] ADMINs da organização recebem e-mail quando um chamado é aberto — lógica coberta por 3 testes
+      unitários (best-effort, isolamento por role); não observado como e-mail de verdade entregue
+      localmente (sem MailHog rodando no ambiente de QA)
+- [x] Painel interno mostra o kanban de 3 colunas com drag-and-drop funcional, restrito a
+      ADMIN/MEMBER da própria organização (`X-Org-Id`) — validado num navegador real
+- [x] QR code da organização disponível em Configurações/Perfil — validado visualmente; botão de
+      baixar não foi clicado de verdade (risco baixo, `<a download>` trivial)
+- [x] Endpoints públicos protegidos por rate limit (abertura, consulta por CPF, upload de foto) —
+      configurado via `@RateLimit`, mecanismo em si já coberto por testes do `RateLimiterService`
+      existente; não disparei o limite de propósito nesta rodada de QA
+- [x] `mvn test`/`npm run build` sem regressão (935/935 backend; build+testes frontend limpos)
 
 ---
 

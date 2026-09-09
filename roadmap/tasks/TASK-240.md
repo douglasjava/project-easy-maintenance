@@ -44,12 +44,17 @@ tela onde o ADMIN consegue baixar/imprimir o QR code pra colar na edificação. 
 
 ## Critérios de Aceite
 
-- [ ] Kanban mostra os 3 status como colunas, só com chamados da organização logada
-- [ ] Arrastar um card entre colunas atualiza o status via API e reflete na tela
-- [ ] QR code exibido em Configurações/Perfil, apontando pra `/c/{organizationCode}` correto
-- [ ] Botão de baixar/imprimir o QR code funciona
-- [ ] `npm run build` sem erro
-- [ ] Validado num navegador real — drag-and-drop é interação que build limpo não garante
+- [x] Kanban mostra os 3 status como colunas, só com chamados da organização logada
+- [x] Arrastar um card entre colunas atualiza o status via API e reflete na tela — confirmado num
+      navegador real: sequência de `PointerEvent` disparada via JS (o gesto de drag do automation
+      tool não ativa o `PointerSensor` do dnd-kit), `PATCH /resident-tickets/{id}/status` disparado
+      de verdade (200, network tab confirmado), card mudou de coluna e persistiu após refetch
+- [x] QR code exibido em Configurações/Perfil, apontando pra `/c/{organizationCode}` correto —
+      confirmado visualmente num navegador real
+- [ ] Botão de baixar/imprimir o QR code — não cliquei de verdade (é um `<a download>` trivial
+      sobre uma data URL, risco baixo, mas não confirmado)
+- [x] `npm run build` sem erro
+- [x] Validado num navegador real — drag-and-drop confirmado ponta a ponta (ver acima)
 
 ## Dependências
 TASK-238 (endpoints autenticados) precisa estar pronta antes de integrar o kanban de verdade. A
@@ -62,6 +67,12 @@ simples, decisão explícita de Douglas. Sem risco pro restante do sistema (tela
 
 ## Esforço
 Médio-Alto
+
+## Status
+✅ Implementada na branch `feature/EPIC-027-resident-tickets` (`easy-maintenance-web`). Validada num
+navegador real contra a API local: kanban carrega os chamados certos, drag-and-drop confirmado
+ponta a ponta (PATCH real + persistência), QR code renderiza com a URL correta. `npm run build`/
+`npm test` sem regressão.
 
 ## Status
 🔴 Não iniciada
