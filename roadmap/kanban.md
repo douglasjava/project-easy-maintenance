@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟢 EPIC-028 aprovado no QA manual, PRs `staging` abertas**:
+> [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88) /
+> [web#75](https://github.com/douglasjava/easy-maintenance-web/pull/75). Douglas confirmou C1-C7
+> do [TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md) contra a API local rodando de verdade. Dois
+> achados durante a execução, ambos endereçados antes da PR: [TASK-245](tasks/TASK-245.md) (bug de
+> item USER duplicado, não relacionado a fornecedores — branch e PR separadas) e badge de pontuação
+> por faixa (Novo/Confiável/Muito usado) em vez de só o número.
 > Atualizado em: 09/09/2026 — **🔴 TASK-245 achado durante QA do EPIC-028 (bug não relacionado a
 > fornecedores), corrigido**: Douglas testando `/organizations/new` (TASK-QA-MAN-020) recebeu 500 —
 > `NonUniqueResultException`. Causa raiz: `POST /me/onboarding/user` não é idempotente —
@@ -1679,9 +1686,9 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
 
 **🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
-- ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(implementada, `mvn test` 942/942, migration validada contra MySQL real — na branch `feature/EPIC-028-supplier-registry`, junto com TASK-242/243; PR única do épico abre no final)*
-- ~~**[TASK-242](tasks/TASK-242.md)**~~ — ~~Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região)~~ *(implementada, `mvn test` 948/948 — mesma branch `feature/EPIC-028-supplier-registry`)*
-- ~~**[TASK-243](tasks/TASK-243.md)**~~ — ~~Frontend: tela dedicada de fornecedores (lista + filtro + cadastro)~~ *(implementada, `npm run build`/`npm test` sem regressão — mesma branch `feature/EPIC-028-supplier-registry`; EPIC-028 completo, aguardando [TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md) antes de abrir as PRs)*
+- ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(QA aprovado, PR aberta: [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88))*
+- ~~**[TASK-242](tasks/TASK-242.md)**~~ — ~~Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região)~~ *(QA aprovado, mesma PR: [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88))*
+- ~~**[TASK-243](tasks/TASK-243.md)**~~ — ~~Frontend: tela dedicada de fornecedores (lista + filtro + cadastro)~~ *(QA aprovado ([TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md)), badge de pontuação por faixa ajustado, PR aberta: [web#75](https://github.com/douglasjava/easy-maintenance-web/pull/75))*
 
 **🟢 EPIC-027 — chamados de moradores — *(QA manual aprovado, PRs staging abertas, 09/09/2026)***:
 - ~~**[TASK-237](tasks/TASK-237.md)**~~ — ~~Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto)~~ *(PR aberta contra `staging`: [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85))*

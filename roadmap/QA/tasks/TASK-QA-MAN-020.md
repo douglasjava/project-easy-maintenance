@@ -62,10 +62,10 @@ rodar contra staging/produção.**
 
 ### C1 — Suítes automatizadas, sem regressão
 
-| Passo | Ação                                                                         | Resultado esperado                                                                    |
-|-------|-------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| 1     | `mvn clean test` na branch `feature/EPIC-028-supplier-registry` (`easy-maintenance-api`) | **949/949** |
-| 2     | `npm run build` e `npm test` na branch equivalente (`easy-maintenance-web`)  | Build limpo; jest sem regressão nova (3 falhas em `middleware.test.ts` são pré-existentes, não relacionadas) |
+| Passo | Ação                                                                                     | Resultado esperado                                                                                           |
+|-------|------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| 1     | `mvn clean test` na branch `feature/EPIC-028-supplier-registry` (`easy-maintenance-api`) | **949/949**                                                                                                  |
+| 2     | `npm run build` e `npm test` na branch equivalente (`easy-maintenance-web`)              | Build limpo; jest sem regressão nova (3 falhas em `middleware.test.ts` são pré-existentes, não relacionadas) |
 
 Já executado e confirmado durante a implementação (sem subir a API completa).
 
@@ -73,34 +73,34 @@ Já executado e confirmado durante a implementação (sem subir a API completa).
 
 ### C2 — Cadastrar fornecedor novo (CNPJ inédito)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Acessar `/fornecedores` (menu lateral → "Fornecedores", ícone 🧰, seção de recursos) | Tela carrega, lista vazia ou com fornecedores já existentes da sua região |
-| 2 | Clicar "+ Novo Fornecedor" | Formulário inline abre (CNPJ, Nome, Telefone, Categoria) |
-| 3 | Digitar um CNPJ com formato válido mas dígito verificador errado (ex.: `11.222.333/0001-99`), tentar enviar | Bloqueado — campo fica com borda vermelha, mensagem "CNPJ inválido. Verifique os dígitos.", sem chamar a API |
-| 4 | Corrigir pra um CNPJ válido inédito (ex.: gerar um novo pra teste), preencher Nome, Telefone (conferir máscara `(11) 91234-5678` formatando em tempo real), Categoria (ex.: `EXTINTOR`), enviar | Toast "Fornecedor cadastrado com sucesso!", formulário fecha, fornecedor aparece na lista com pontuação **1 org.** |
-| 5 | `SELECT * FROM suppliers WHERE cnpj = '<cnpj sem pontuação>'` | 1 linha, `registration_count = 1`, `city`/`state` preenchidos com a cidade/estado da SUA organização (herdado, não foi pedido no formulário) |
-| 6 | `SELECT * FROM supplier_organization_links WHERE supplier_id = <id>` | 1 linha, `organization_id` = o da sua organização ativa |
+| Passo | Ação                                                                                                                                                                                            | Resultado esperado                                                                                                                           |
+|-------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Acessar `/fornecedores` (menu lateral → "Fornecedores", ícone 🧰, seção de recursos)                                                                                                            | Tela carrega, lista vazia ou com fornecedores já existentes da sua região                                                                    |
+| 2     | Clicar "+ Novo Fornecedor"                                                                                                                                                                      | Formulário inline abre (CNPJ, Nome, Telefone, Categoria)                                                                                     |
+| 3     | Digitar um CNPJ com formato válido mas dígito verificador errado (ex.: `11.222.333/0001-99`), tentar enviar                                                                                     | Bloqueado — campo fica com borda vermelha, mensagem "CNPJ inválido. Verifique os dígitos.", sem chamar a API                                 |
+| 4     | Corrigir pra um CNPJ válido inédito (ex.: gerar um novo pra teste), preencher Nome, Telefone (conferir máscara `(11) 91234-5678` formatando em tempo real), Categoria (ex.: `EXTINTOR`), enviar | Toast "Fornecedor cadastrado com sucesso!", formulário fecha, fornecedor aparece na lista com pontuação **1 org.**                           |
+| 5     | `SELECT * FROM suppliers WHERE cnpj = '<cnpj sem pontuação>'`                                                                                                                                   | 1 linha, `registration_count = 1`, `city`/`state` preenchidos com a cidade/estado da SUA organização (herdado, não foi pedido no formulário) |
+| 6     | `SELECT * FROM supplier_organization_links WHERE supplier_id = <id>`                                                                                                                            | 1 linha, `organization_id` = o da sua organização ativa                                                                                      |
 
 ---
 
 ### C3 — Cadastrar o mesmo CNPJ pela mesma organização de novo (idempotência)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Repetir o cadastro do C2 com o **mesmo CNPJ**, ainda logado na mesma organização | Toast de sucesso (sem erro), mas... |
-| 2 | Conferir a lista / `SELECT registration_count FROM suppliers WHERE cnpj = '...'` | **Continua 1** — não duplicou o vínculo nem somou pontuação de novo |
-| 3 | `SELECT COUNT(*) FROM supplier_organization_links WHERE supplier_id = <id>` | Continua **1** linha, não 2 |
+| Passo | Ação                                                                             | Resultado esperado                                                  |
+|-------|----------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| 1     | Repetir o cadastro do C2 com o **mesmo CNPJ**, ainda logado na mesma organização | Toast de sucesso (sem erro), mas...                                 |
+| 2     | Conferir a lista / `SELECT registration_count FROM suppliers WHERE cnpj = '...'` | **Continua 1** — não duplicou o vínculo nem somou pontuação de novo |
+| 3     | `SELECT COUNT(*) FROM supplier_organization_links WHERE supplier_id = <id>`      | Continua **1** linha, não 2                                         |
 
 ---
 
 ### C4 — Filtro por categoria
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Com pelo menos 2 fornecedores de categorias diferentes cadastrados (ex.: `EXTINTOR` e `SPDA`), digitar `EXTINTOR` no filtro de categoria | Lista atualiza pra mostrar só os de categoria `EXTINTOR` |
-| 2 | Limpar o filtro (botão "✕ Limpar") | Lista volta a mostrar todos |
-| 3 | Filtrar por uma categoria sem nenhum fornecedor cadastrado | Estado vazio: "Nenhum fornecedor nessa categoria ainda" |
+| Passo | Ação                                                                                                                                     | Resultado esperado                                       |
+|-------|------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| 1     | Com pelo menos 2 fornecedores de categorias diferentes cadastrados (ex.: `EXTINTOR` e `SPDA`), digitar `EXTINTOR` no filtro de categoria | Lista atualiza pra mostrar só os de categoria `EXTINTOR` |
+| 2     | Limpar o filtro (botão "✕ Limpar")                                                                                                       | Lista volta a mostrar todos                              |
+| 3     | Filtrar por uma categoria sem nenhum fornecedor cadastrado                                                                               | Estado vazio: "Nenhum fornecedor nessa categoria ainda"  |
 
 ---
 
@@ -112,32 +112,32 @@ INSERT INTO organizations (code, name, city, state, company_type, require_2fa)
 VALUES (UUID(), 'QA EPIC028 Org B', 'Rio de Janeiro', 'RJ', 'CONDOMINIO', 0);
 ```
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Anotar o CNPJ cadastrado no C2 (org A) | — |
-| 2 | Trocar pra Org B (ou logar como usuário da Org B), acessar `/fornecedores`, cadastrar um fornecedor **com o mesmo CNPJ do C2**, mas com Nome/Telefone **diferentes** dos originais | Toast diferente do C2: "Esse CNPJ já estava cadastrado por outra organização — vinculado à sua conta com os dados já registrados (`<nome original da Org A>`)" — não o nome que você acabou de digitar |
-| 3 | Conferir a lista da Org B | Fornecedor aparece com o **nome/telefone originais da Org A** (dado nunca sobrescrito), pontuação agora **2 orgs.** |
-| 4 | Conferir a lista da Org A de novo | Mesmo fornecedor, mesma pontuação **2 orgs.** — muda pra ambas, é global |
-| 5 | `SELECT registration_count FROM suppliers WHERE cnpj = '...'` | **2** |
-| 6 | `SELECT * FROM supplier_organization_links WHERE supplier_id = <id>` | **2** linhas, uma por organização |
+| Passo | Ação                                                                                                                                                                               | Resultado esperado                                                                                                                                                                                     |
+|-------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Anotar o CNPJ cadastrado no C2 (org A)                                                                                                                                             | —                                                                                                                                                                                                      |
+| 2     | Trocar pra Org B (ou logar como usuário da Org B), acessar `/fornecedores`, cadastrar um fornecedor **com o mesmo CNPJ do C2**, mas com Nome/Telefone **diferentes** dos originais | Toast diferente do C2: "Esse CNPJ já estava cadastrado por outra organização — vinculado à sua conta com os dados já registrados (`<nome original da Org A>`)" — não o nome que você acabou de digitar |
+| 3     | Conferir a lista da Org B                                                                                                                                                          | Fornecedor aparece com o **nome/telefone originais da Org A** (dado nunca sobrescrito), pontuação agora **2 orgs.**                                                                                    |
+| 4     | Conferir a lista da Org A de novo                                                                                                                                                  | Mesmo fornecedor, mesma pontuação **2 orgs.** — muda pra ambas, é global                                                                                                                               |
+| 5     | `SELECT registration_count FROM suppliers WHERE cnpj = '...'`                                                                                                                      | **2**                                                                                                                                                                                                  |
+| 6     | `SELECT * FROM supplier_organization_links WHERE supplier_id = <id>`                                                                                                               | **2** linhas, uma por organização                                                                                                                                                                      |
 
 ---
 
 ### C6 — Busca por região (cidade/estado)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Fornecedor cadastrado pela Org B (C5) tem `city`/`state` da Org B (Rio de Janeiro/RJ, herdado) | — |
-| 2 | Acessar `/fornecedores` logado na Org A (São Paulo/SP, ou a cidade real da sua org de teste) | Lista mostra só fornecedores da região de SP — o fornecedor do RJ (Org B) **não aparece** |
+| Passo | Ação                                                                                           | Resultado esperado                                                                        |
+|-------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| 1     | Fornecedor cadastrado pela Org B (C5) tem `city`/`state` da Org B (Rio de Janeiro/RJ, herdado) | —                                                                                         |
+| 2     | Acessar `/fornecedores` logado na Org A (São Paulo/SP, ou a cidade real da sua org de teste)   | Lista mostra só fornecedores da região de SP — o fornecedor do RJ (Org B) **não aparece** |
 
 ---
 
 ### C7 — Responsividade
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Abrir `/fornecedores` numa viewport mobile (DevTools ou celular real) | Lista vira cards empilhados (não a tabela), formulário e filtro continuam usáveis, botão "+ Novo Fornecedor" acessível |
-| 2 | Repetir em desktop | Lista em tabela, colunas Fornecedor/Categoria/Telefone/Cidade-UF/Pontuação |
+| Passo | Ação                                                                  | Resultado esperado                                                                                                     |
+|-------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| 1     | Abrir `/fornecedores` numa viewport mobile (DevTools ou celular real) | Lista vira cards empilhados (não a tabela), formulário e filtro continuam usáveis, botão "+ Novo Fornecedor" acessível |
+| 2     | Repetir em desktop                                                    | Lista em tabela, colunas Fornecedor/Categoria/Telefone/Cidade-UF/Pontuação                                             |
 
 ---
 
@@ -153,19 +153,24 @@ DELETE FROM organizations WHERE name = 'QA EPIC028 Org B';
 
 ## Critérios de Aceite da Suíte
 
-- [ ] C1: suítes automatizadas sem regressão (backend 949/949 + frontend build/test)
-- [ ] C2: cadastro de CNPJ novo — cria `Supplier` + vínculo, `registrationCount = 1`, cidade/estado
+- [X] C1: suítes automatizadas sem regressão (backend 949/949 + frontend build/test)
+- [X] C2: cadastro de CNPJ novo — cria `Supplier` + vínculo, `registrationCount = 1`, cidade/estado
       herdados da organização
-- [ ] C3: mesma organização recadastrando o mesmo CNPJ é idempotente — não duplica vínculo nem
+- [X] C3: mesma organização recadastrando o mesmo CNPJ é idempotente — não duplica vínculo nem
       pontuação
-- [ ] C4: filtro por categoria funciona (com resultado e sem resultado)
-- [ ] C5: CNPJ já cadastrado por outra organização — só vincula, soma pontuação, **não sobrescreve**
+- [X] C4: filtro por categoria funciona (com resultado e sem resultado)
+- [X] C5: CNPJ já cadastrado por outra organização — só vincula, soma pontuação, **não sobrescreve**
       nome/telefone, mensagem clara na tela sobre isso
-- [ ] C6: busca por região não vaza fornecedor de outra cidade/estado
-- [ ] C7: responsivo em mobile e desktop
+- [X] C6: busca por região não vaza fornecedor de outra cidade/estado
+- [X] C7: responsivo em mobile e desktop
 
 ## Status
-🟡 Aguardando execução por Douglas — implementação e testes automatizados prontos (backend
-`mvn test` 949/949, frontend `npm run build`/`npm test` sem regressão), na branch
-`feature/EPIC-028-supplier-registry` nos dois repos. Falta validar C2-C7 contra a API local rodando
-de verdade (bloqueada nesta sessão por falta de credencial Firebase) antes de abrir as PRs finais.
+✅ Aprovado por Douglas (09/09/2026) — C1-C7 confirmados contra a API local rodando de verdade
+(com credenciais reais, inclusive Firebase). Dois achados durante a execução, ambos endereçados:
+1) [TASK-245](../../tasks/TASK-245.md) — bug não relacionado a fornecedores (`POST /organizations`
+   500 por item USER duplicado da assinatura), corrigido em branch separada
+   (`bugfix/TASK-245-duplicate-user-billing-item`), aguardando confirmação antes de abrir a PR
+   dessa branch especificamente.
+2) Pontuação exibida só como número não passava confiança — trocado por badge em faixa
+   (Novo/Confiável/Muito usado), commit `45dbafe` na própria branch do EPIC-028.
+PRs do EPIC-028 abertas pra `staging` (api + web).
