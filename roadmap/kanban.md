@@ -1,5 +1,19 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟡 EPIC-030 registrado (Compliance Dashboard) — análise técnica,
+> ainda sem código**: Douglas trouxe um protótipo/9 tasks prontas de outra sessão do Claude Code
+> (que só tinha acesso a um artifact visual, não ao código) pra redesenhar o dashboard principal
+> (3 estados de conta — ONBOARDING/OPERATING/PORTFOLIO — + índice de conformidade proprietário).
+> Renumerado TASK-130-138 → TASK-246-254 (números já em uso). Cada task ganhou uma seção
+> "Viabilidade Técnica" com achados reais do código: já existe um módulo `dashboard` completo em
+> produção (não é greenfield); `MaintenanceAttachment`, `AuditLog` e `AiBootstrapService` (o
+> "SAMU") já existem e cobrem partes que o protótipo assumia como trabalho novo; em contrapartida,
+> **não existe nenhuma entidade de documento/laudo com validade** (parte central da fórmula do
+> índice e do painel "Laudos e documentos"), **não existe histórico/snapshot** pra
+> `previousComplianceIndex`/sparklines de 6 meses, e agregação `PORTFOLIO` cross-organização
+> precisa do padrão `TenantContext.runCrossOrg` aplicado com cuidado (mesma classe de bug já vista
+> antes no projeto). Ver [EPIC-030](epics/EPIC-030.md) pro resumo executivo e decisões em aberto
+> (7 itens, dono Douglas) antes de abrir qualquer branch.
 > Atualizado em: 09/09/2026 — **🟢 EPIC-028 aprovado no QA manual, PRs `staging` abertas**:
 > [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88) /
 > [web#75](https://github.com/douglasjava/easy-maintenance-web/pull/75). Douglas confirmou C1-C7
@@ -1621,6 +1635,20 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**🟡 EPIC-030 — Compliance Dashboard (redesenho do dashboard) — *(em análise técnica, 09/09/2026)***:
+*(protótipo/tasks trazidos prontos por Douglas de outra sessão, sem acesso ao código — cada task
+abaixo ganhou uma seção "Viabilidade Técnica" com achados reais antes de qualquer implementação
+começar; ver [EPIC-030](epics/EPIC-030.md) pro resumo executivo e as decisões em aberto)*
+- **[TASK-246](tasks/TASK-246.md)** — Backend: índice de conformidade + `GET /dashboard/summary` (🔴 Crítico | EPIC-030) — *bloqueada por decisões #1/#5/#6/#7 do épico; entidade de documento não existe*
+- **[TASK-247](tasks/TASK-247.md)** — Backend: `GET /dashboard/series` (🟠 Alto | EPIC-030) — depende de TASK-246
+- **[TASK-248](tasks/TASK-248.md)** — Backend: fila de ações + adiar (🟠 Alto | EPIC-030) — pode começar em paralelo
+- **[TASK-249](tasks/TASK-249.md)** — Frontend: shell do dashboard (🔴 Crítico | EPIC-030) — reescreve `src/app/page.tsx`, bloqueia o resto do frontend
+- **[TASK-250](tasks/TASK-250.md)** — Frontend: hero + KPI tiles (🟠 Alto | EPIC-030)
+- **[TASK-251](tasks/TASK-251.md)** — Frontend: fila de ações + documentos (🟠 Alto | EPIC-030) — painel de documentos bloqueado pela mesma entidade que falta
+- **[TASK-252](tasks/TASK-252.md)** — Frontend: gráficos (🟡 Médio | EPIC-030)
+- **[TASK-253](tasks/TASK-253.md)** — Frontend: estado ONBOARDING (🟡 Médio | EPIC-030) — SAMU já existe (`AiBootstrapService`), esforço menor que estimado
+- **[TASK-254](tasks/TASK-254.md)** — E2E e regressão (🟡 Médio | EPIC-030)
 
 **EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
 *(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
