@@ -37,9 +37,11 @@ no frontend, com um `complianceScore` **simplificado** (`Kpis.complianceScore` =
                        AND todo documento obrigatório vinculado está válido
   index     = round(compliant / eligible * 100), 0 quando eligible == 0
   ```
-- Novo `GET /easy-maintenance/api/v1/dashboard/summary` — params `companyId` (opcional, omitir =
-  todas as organizações que o usuário acessa), `from`, `to` (ISO, default últimos 12 meses),
-  `category` (opcional).
+- Novo `GET /easy-maintenance/api/v1/dashboard/summary` — params `companyCode` (opcional, omitir =
+  todas as organizações que o usuário acessa; renomeado de `companyId` do documento original, ver
+  Decisões tomadas durante a implementação), `from`, `to` (ISO, default últimos 12 meses),
+  `category` (opcional — não implementado nesta task, entra junto da TASK-247/taxonomia de
+  categoria).
 - Campo `state` (`ONBOARDING`/`OPERATING`/`PORTFOLIO`) calculado no backend — frontend nunca
   re-deriva.
 - `previousComplianceIndex` — ver Viabilidade Técnica, depende da decisão #6 do épico.
@@ -47,14 +49,14 @@ no frontend, com um `complianceScore` **simplificado** (`Kpis.complianceScore` =
 
 ## Critérios de Aceite
 
-- [ ] Isolamento multi-tenant garantido em nível de repositório; um usuário nunca lê número de
+- [x] Isolamento multi-tenant garantido em nível de repositório; um usuário nunca lê número de
       outro tenant
-- [ ] `state` calculado no backend conforme a tabela do §2 do documento original
-- [ ] Sparklines sempre com exatamente 6 entradas (zero-fill), mais antigo primeiro
-- [ ] Agregados calculados em SQL, não carregando entidades em memória
-- [ ] Testes unitários cobrindo: zero itens elegíveis, item nunca vencido, vencido com evidência,
+- [x] `state` calculado no backend conforme a tabela do §2 do documento original
+- [x] Sparklines sempre com exatamente 6 entradas (zero-fill), mais antigo primeiro
+- [x] Agregados calculados em SQL, não carregando entidades em memória
+- [x] Testes unitários cobrindo: zero itens elegíveis, item nunca vencido, vencido com evidência,
       em dia sem evidência, documento vinculado vencido
-- [ ] Decisão registrada (não silenciosa) sobre snapshot histórico antes de implementar
+- [x] Decisão registrada (não silenciosa) sobre snapshot histórico antes de implementar
       `previousComplianceIndex`/sparklines reais
 
 ## Viabilidade Técnica
@@ -122,5 +124,77 @@ Grande — reclassificado a partir da estimativa implícita do documento origina
 (migration+CRUD mínimo), decisão + implementação do snapshot, dicionário de categoria, e só então
 a fórmula/endpoint em si.
 
+## Implementação
+
+### Arquivos criados
+
+| Arquivo | Descrição |
+|---|---|
+| `db/migration/V110__create_item_documents_and_compliance_snapshots.sql` | tabelas `item_documents` (laudo/documento vinculado ao item, com `valid_until`) e `compliance_snapshots` (snapshot diário por organização, unique `(organization_code, snapshot_date)`) |
+| `assets/domain/ItemDocument.java` + `assets/infrastructure/persistence/ItemDocumentRepository.java` | entidade + repositório mínimo (sem CRUD/endpoint ainda — fica pra quando a TASK-251 precisar de verdade) |
+| `dashboard/domain/ComplianceSnapshot.java` + `dashboard/infrastructure/persistence/ComplianceSnapshotRepository.java` | snapshot diário — busca exata por data, por intervalo, e "mais próximo anterior ou igual" (usado pra `previousComplianceIndex`) |
+| `dashboard/infrastructure/persistence/ComplianceMetricsRepository.java` + `ComplianceCountsProjection.java` | a fórmula em si — query nativa com CTE + `ROW_NUMBER()` pra achar a última manutenção de cada item, sem carregar entidade nenhuma em memória |
+| `dashboard/application/ComplianceIndexService.java` | `computeCounts` (uma organização) / `computePortfolioCounts` (soma eligible/compliant entre organizações, nunca média — EPIC-030 §3). Meta fixa em `DEFAULT_TARGET_INDEX = 95` (decisão #5) |
+| `dashboard/application/DashboardSummaryService.java` | orquestra tudo: resolve organizações do usuário autenticado, decide `scope`/`state`, monta a resposta com KPIs + sparklines |
+| `dashboard/infrastructure/web/dto/DashboardSummaryResponse.java` | DTO da resposta |
+| `jobs/service/ComplianceSnapshotService.java` + `jobs/ComplianceSnapshotJob.java` | job diário (decisão #6), mesmo padrão dos outros jobs (`@SchedulerLock`, isolamento de falha por organização, `JobHealthReporter`) |
+| `test/.../ComplianceMetricsRepositoryTest.java` | 6 testes com H2 real cobrindo os 5 casos de borda exigidos + 1 caso positivo (documento válido) |
+| `test/.../DashboardSummaryServiceTest.java` | 7 testes: sem organização, ONBOARDING por poucos itens, OPERATING, PORTFOLIO (soma não é média), `companyCode` restringe mesmo com múltiplas orgs, `companyCode` de organização alheia lança `NotFoundException`, `previousComplianceIndex` null sem snapshot |
+| `test/.../ComplianceSnapshotServiceTest.java` | 3 testes: cria snapshot novo, atualiza snapshot existente do mesmo dia (idempotência), isolamento de falha entre organizações |
+
+### Arquivos modificados
+| Arquivo | Operação |
+|---|---|
+| `assets/infrastructure/persistence/MaintenanceRepository.java` | novos métodos `countByOrgsInAndPerformedBetween`/`sumCostCentsByOrgsInAndPerformedBetween` (variantes cross-org dos já existentes, pro escopo `PORTFOLIO`) |
+| `org_users/infrastructure/persistence/OrganizationRepository.java` | novo método `findAllCodes()` (usado pelo job, que roda em contexto de sistema, não de um usuário específico) |
+| `dashboard/infrastructure/web/DashboardController.java` | novo `GET /dashboard/summary`, endpoint antigo (`GET /dashboard`) intocado |
+
+### Decisões tomadas durante a implementação
+- **`companyId` do documento original virou `companyCode`** — o resto do sistema identifica
+  organização por `code` (UUID), não por `id` numérico (é o que `X-Org-Id`/`TenantContext` já usam
+  em todo o resto da API, e o que o frontend já guarda em `localStorage`). Usar `companyId`
+  introduziria um segundo identificador só pra este endpoint, exigindo tradução id↔code sem
+  necessidade real.
+- **`/dashboard/summary` não usa `X-Org-Id`/`@RequireTenant`** — resolve as organizações do
+  usuário autenticado direto via `OrganizationRepository.findAllByUserId`, porque o escopo
+  `PORTFOLIO` precisa olhar mais de uma organização na mesma chamada, o que o header de tenant
+  único por requisição não suporta. `companyCode` (quando informado) é validado contra as
+  organizações do usuário antes de qualquer query — 404 genérico se não pertencer a ele, nunca
+  revela se o código existe.
+- **`TenantContext.runCrossOrg` em toda chamada a `MaintenanceItemRepository`** (a única
+  interceptada por `TenantFilterAspect`) — seguro porque a validação de posse já aconteceu antes.
+  `ComplianceMetricsRepository`/`MaintenanceRepository` não precisam disso: filtram
+  `organization_code` explicitamente na própria query (nativa ou JPQL), mesmo padrão já usado
+  nas outras queries nativas do projeto.
+- **`monthlyCost` não depende do snapshot** — `Maintenance.costCents`/`performedAt` já são
+  histórico real e imutável, diferente de `overdue`/`dueIn30Days` (estado mutável do item). Só os
+  dois últimos ficam com `spark`/`previous` zero-fill/null enquanto o `ComplianceSnapshotJob` não
+  tiver acumulado histórico de verdade.
+- **Sem endpoint de CRUD pra `ItemDocument` nesta task** — só entidade + repositório mínimo (uma
+  busca por item). Cadastro/upload de documento é decisão de UI que pertence à TASK-251; aqui só
+  o necessário pra fórmula funcionar.
+- **`from`/`to`/`category` do documento original não foram implementados como parâmetro nesta
+  task** — `complianceIndex`/KPIs são sempre calculados relativos a "hoje" (índice atual, mês
+  corrente, sparkline dos últimos 6 meses); um filtro de período arbitrário não se encaixa nesse
+  desenho sem redefinir o que "índice atual" significa quando `to` é uma data passada. `category`
+  depende da taxonomia da decisão #7 (só usada de fato pela TASK-247/`costByCategory`). Corte de
+  escopo deliberado, não esquecimento — sinalizar se o Douglas quiser esses filtros nesta v1 antes
+  do merge.
+- **Query nativa da fórmula validada duas vezes**: `ComplianceMetricsRepositoryTest` (H2,
+  `ddl-auto=create-drop`) e diretamente contra o MySQL real do docker local (CTE + `ROW_NUMBER()`
+  aplicados/revertidos manualmente, mesmo cuidado da TASK-230/241 — sintaxe confirmada compatível
+  com MySQL 8.0.33, resultado cruzado com uma contagem de overdue independente pra sanity check).
+
+### Verificação
+- `mvn clean test` → **965/965, 0 falhas** (949 de staging + 16 testes novos desta task).
+- Migration `V110` aplicada e testada diretamente contra o MySQL real do docker local (mesmo
+  cuidado da TASK-230/241), depois revertida (`DROP TABLE`) pra não conflitar com o Flyway quando
+  a app rodar de verdade nesta branch.
+
+Branch `feature/TASK-246-compliance-index-summary` (a partir de `staging`).
+
 ## Status
-🔴 Não iniciada — decisões resolvidas, pronta pra abrir branch.
+🟢 Implementado e testado (`mvn test` 965/965) — pronto pra QA manual/PR. Não deu pra validar o
+endpoint `/dashboard/summary` num navegador/HTTP real nesta sessão (mesmo bloqueio de credencial
+Firebase já documentado no EPIC-030/TASK-243 — a API local completa não sobe sem
+`FIREBASE_SERVICE_ACCOUNT_JSON`).
