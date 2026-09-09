@@ -156,12 +156,11 @@ nem `FeatureAccessServiceTest`). Reconfirmado em sessão de finalização (09/09
 938/938 antes do commit.
 
 Branch `bugfix/TASK-244-trial-duplicate-charge-email` (a partir de `staging`), commit `98a4716`.
-QA manual formalizada em [TASK-QA-MAN-019](../QA/tasks/TASK-QA-MAN-019.md) — nota importante lá: a
-guarda de idempotência escolhida (`existsByBillingSubscriptionId`) não depende de data, então validar
-"duas execuções no mesmo dia" já é suficiente (não precisa mais cruzar dias de calendário como o
-critério de aceite original sugeria). Sem PR aberta ainda — falta Douglas rodar TASK-QA-MAN-019
-contra o Asaas sandbox local antes de abrir o PR pra `staging`.
+QA manual aprovada por Douglas em [TASK-QA-MAN-019](../QA/tasks/TASK-QA-MAN-019.md) (09/09/2026) —
+dois trials sintéticos vencidos e sem `Payment` prévio, cada um gerou exatamente 1 cobrança/e-mail
+Asaas, sem duplicidade em reexecuções nem vazamento entre assinaturas.
 
 ## Status
-🟡 Implementado, testado localmente (938/938) e commitado (`98a4716`) — aguardando QA manual
-([TASK-QA-MAN-019](../QA/tasks/TASK-QA-MAN-019.md)) antes de abrir PR para `staging`.
+🟢 Implementado, testado (`mvn test` 938/938), commitado (`98a4716`) e validado manualmente contra
+Asaas sandbox ([TASK-QA-MAN-019](../QA/tasks/TASK-QA-MAN-019.md), aprovado por Douglas 09/09/2026) —
+PR aberta para `staging`.

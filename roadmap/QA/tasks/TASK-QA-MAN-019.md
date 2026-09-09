@@ -60,8 +60,8 @@ rodar contra staging/produção** (cobrança real no Asaas sandbox já é sufici
 
 ### C1 — Suíte automatizada, sem regressão
 
-| Passo | Ação                                                                     | Resultado esperado |
-|-------|---------------------------------------------------------------------------|---------------------|
+| Passo | Ação                                                                      | Resultado esperado                                                                                      |
+|-------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | 1     | `mvn clean test` na branch `bugfix/TASK-244-trial-duplicate-charge-email` | **938/938**, sem falha em `TrialExpirationServiceTest`, `PixRenewalServiceTest` ou `InvoiceServiceTest` |
 
 Já executado e confirmado nesta sessão.
@@ -97,26 +97,26 @@ Anote `<subscription_id>` — vai usar para conferir o resultado nos próximos p
 
 ### C3 — Primeira execução: cria cobrança + e-mail
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | `GET http://localhost:8080/easy-maintenance/api/v1/run-jobs/execute-trial-expiration` (autenticado) | 200, sem erro |
-| 2 | `SELECT * FROM payments WHERE billing_subscription_id = <subscription_id>` | Exatamente **1** linha nova, com `paymentLink`/`externalPaymentId` preenchidos |
-| 3 | Conferir no painel do Asaas sandbox (ou `GET` na API do Asaas pelo `externalPaymentId`) | Cobrança existe, valor/vencimento batem com o plano da assinatura |
-| 4 | Abrir MailHog (`http://localhost:8025`) | E-mail de expiração de trial chegou pro e-mail do payer, com o link de pagamento |
-| 5 | Log da aplicação | Linha `Create Subscription And Payment for Provider ...` — **não** deve aparecer `Trial expiration payment already exists ... Skipping` nesta primeira execução |
+| Passo | Ação                                                                                                | Resultado esperado                                                                                                                                              |
+|-------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | `GET http://localhost:8080/easy-maintenance/api/v1/run-jobs/execute-trial-expiration` (autenticado) | 200, sem erro                                                                                                                                                   |
+| 2     | `SELECT * FROM payments WHERE billing_subscription_id = <subscription_id>`                          | Exatamente **1** linha nova, com `paymentLink`/`externalPaymentId` preenchidos                                                                                  |
+| 3     | Conferir no painel do Asaas sandbox (ou `GET` na API do Asaas pelo `externalPaymentId`)             | Cobrança existe, valor/vencimento batem com o plano da assinatura                                                                                               |
+| 4     | Abrir MailHog (`http://localhost:8025`)                                                             | E-mail de expiração de trial chegou pro e-mail do payer, com o link de pagamento                                                                                |
+| 5     | Log da aplicação                                                                                    | Linha `Create Subscription And Payment for Provider ...` — **não** deve aparecer `Trial expiration payment already exists ... Skipping` nesta primeira execução |
 
 ---
 
 ### C4 — Segunda execução: **não** duplica (o cenário que este QA existe pra provar)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Repetir exatamente o mesmo `GET .../run-jobs/execute-trial-expiration` de novo (mesmo dia, sem esperar nada) | 200, sem erro |
-| 2 | `SELECT * FROM payments WHERE billing_subscription_id = <subscription_id>` | Ainda **exatamente 1** linha — a mesma do C3, nenhuma nova |
-| 3 | Painel do Asaas sandbox | Nenhuma cobrança nova criada para esse cliente |
-| 4 | MailHog | Nenhum e-mail novo de expiração de trial pra esse payer |
-| 5 | Log da aplicação | Linha `Trial expiration payment already exists for subscription <subscription_id>. Skipping.` |
-| 6 | (Opcional, reforça a robustez) Repetir mais 1-2 vezes | Mesmo resultado — sempre skip, nunca duplica |
+| Passo | Ação                                                                                                         | Resultado esperado                                                                            |
+|-------|--------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| 1     | Repetir exatamente o mesmo `GET .../run-jobs/execute-trial-expiration` de novo (mesmo dia, sem esperar nada) | 200, sem erro                                                                                 |
+| 2     | `SELECT * FROM payments WHERE billing_subscription_id = <subscription_id>`                                   | Ainda **exatamente 1** linha — a mesma do C3, nenhuma nova                                    |
+| 3     | Painel do Asaas sandbox                                                                                      | Nenhuma cobrança nova criada para esse cliente                                                |
+| 4     | MailHog                                                                                                      | Nenhum e-mail novo de expiração de trial pra esse payer                                       |
+| 5     | Log da aplicação                                                                                             | Linha `Trial expiration payment already exists for subscription <subscription_id>. Skipping.` |
+| 6     | (Opcional, reforça a robustez) Repetir mais 1-2 vezes                                                        | Mesmo resultado — sempre skip, nunca duplica                                                  |
 
 ---
 
@@ -124,18 +124,18 @@ Anote `<subscription_id>` — vai usar para conferir o resultado nos próximos p
 
 Garante que a guarda de idempotência não "trava" o job inteiro nem esconde outros trials legítimos.
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Ter (ou criar) um **segundo** trial vencido, diferente do C2, sem `Payment` prévio | — |
-| 2 | Rodar `GET .../run-jobs/execute-trial-expiration` de novo | Esse segundo trial recebe sua cobrança/e-mail normalmente (mesmo comportamento do C3), **e** o trial do C2 continua não gerando nada novo (mesmo comportamento do C4) — confirma que o loop isola por assinatura e não há vazamento entre elas |
+| Passo | Ação                                                                               | Resultado esperado                                                                                                                                                                                                                             |
+|-------|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Ter (ou criar) um **segundo** trial vencido, diferente do C2, sem `Payment` prévio | —                                                                                                                                                                                                                                              |
+| 2     | Rodar `GET .../run-jobs/execute-trial-expiration` de novo                          | Esse segundo trial recebe sua cobrança/e-mail normalmente (mesmo comportamento do C3), **e** o trial do C2 continua não gerando nada novo (mesmo comportamento do C4) — confirma que o loop isola por assinatura e não há vazamento entre elas |
 
 ---
 
 ### C6 — `DailyTrialJob` (cron) usa o mesmo caminho
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Conferir `DailyTrialJob.java` | Chama `trialExpirationService.processTrialsExpiringWithinDays(...)` — mesmo método validado em C3/C4, não precisa de teste manual separado pro cron em si |
+| Passo | Ação                          | Resultado esperado                                                                                                                                        |
+|-------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Conferir `DailyTrialJob.java` | Chama `trialExpirationService.processTrialsExpiringWithinDays(...)` — mesmo método validado em C3/C4, não precisa de teste manual separado pro cron em si |
 
 ---
 
@@ -150,14 +150,18 @@ DELETE FROM payments WHERE billing_subscription_id IN (<subscription_id>, <subsc
 
 ## Critérios de Aceite da Suíte
 
-- [ ] C1: `mvn clean test` 938/938 sem regressão
-- [ ] C2: trial vencido de teste disponível, sem `Payment` prévio
-- [ ] C3: primeira execução cria 1 cobrança Asaas + 1 e-mail
-- [ ] C4: segunda execução (mesmo dia) **não** cria cobrança nem e-mail novos — log mostra skip
-- [ ] C5: um segundo trial vencido continua sendo processado normalmente (sem vazamento entre assinaturas)
-- [ ] C6: `DailyTrialJob` confirmado como o mesmo caminho de código (não precisa rodar via cron de verdade)
+- [X] C1: `mvn clean test` 938/938 sem regressão
+- [X] C2: trial vencido de teste disponível, sem `Payment` prévio
+- [X] C3: primeira execução cria 1 cobrança Asaas + 1 e-mail
+- [X] C4: segunda execução (mesmo dia) **não** cria cobrança nem e-mail novos — log mostra skip
+- [X] C5: um segundo trial vencido continua sendo processado normalmente (sem vazamento entre assinaturas)
+- [X] C6: `DailyTrialJob` confirmado como o mesmo caminho de código (não precisa rodar via cron de verdade)
 
 ## Status
-🟡 Aguardando execução por Douglas — implementação e testes automatizados prontos (commit `98a4716`
-na branch `bugfix/TASK-244-trial-duplicate-charge-email`), falta validar C2-C5 contra Asaas sandbox
-real antes de abrir a PR para `staging`.
+✅ Aprovado por Douglas (09/09/2026) — C1-C6 confirmados contra Asaas sandbox local. Dois trials
+sintéticos usados (`subscription_id` 14 e 15, ambos vencidos de propósito e sem `Payment` prévio):
+cada um gerou exatamente 1 cobrança/e-mail (`payment_count = 1`), sem duplicidade em reexecuções
+nem vazamento entre assinaturas — confirma C3/C4 (14) e C5 (15 processado isoladamente). Vencimento
+enviado ao Asaas caiu em 09/09 pros dois (fallback de `resolveDueDate` pra "hoje", já que o período
+sintético estava no passado — comportamento esperado, coberto por
+`whenCurrentPeriodEndIsInThePast_thenDueDateFallsBackToToday`). PR liberada para `staging`.
