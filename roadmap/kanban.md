@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟢 EPIC-028 iniciado: TASK-241 implementada, PR `staging` aberta**:
+> [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87) — primeira entidade
+> persistida do módulo `supplier` (`Supplier`, compartilhado entre organizações — exceção deliberada
+> ao isolamento multi-tenant — dedup por `cnpj` único; `SupplierOrganizationLink`, constraint única
+> em `(supplier_id, organization_id)`). Migration `V109` validada diretamente contra o MySQL real do
+> docker local (mesmo cuidado da TASK-230): aplica limpo, `cnpj` duplicado falha, vínculo duplicado
+> falha, FK inválida falha — tabelas revertidas depois pra não conflitar com o Flyway quando a app
+> rodar de verdade. `mvn clean test` 942/942, sem regressão. QA obrigatório da task (as duas
+> constraints) já confirmado com evidência nesta sessão — sem necessidade de QA manual adicional
+> (nenhum fluxo externo envolvido). Próxima: TASK-242 (endpoints `POST`/`GET /suppliers`), depende
+> desta.
 > Atualizado em: 09/09/2026 — **🟢 TASK-244 aprovado no QA manual, PR `staging` aberta**:
 > [api#86](https://github.com/douglasjava/easy-maintenance-api/pull/86). QA manual
 > ([TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md)) rodada contra Asaas sandbox local com dois trials
@@ -1637,7 +1648,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
 
 **🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
-- **[TASK-241](tasks/TASK-241.md)** — Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration (🟡 Médio | EPIC-028)
+- ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(implementada, `mvn test` 942/942, migration validada contra MySQL real — PR aberta contra `staging`: [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87))*
 - **[TASK-242](tasks/TASK-242.md)** — Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região) (🟡 Médio | EPIC-028)
 - **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
 
