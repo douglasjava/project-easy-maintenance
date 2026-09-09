@@ -345,7 +345,17 @@
       "Bash(openssl genrsa *)",
       "Bash(taskkill //F //FI \"WINDOWTITLE eq *\" //IM java.exe //FI \"MEMUSAGE gt 100000\")",
       "Bash(taskkill *)",
-      "Bash(mvn -o -Dtest=BillingAccountRepositoryPersistenceTest -DfailIfNoTests=false test)"
+      "Bash(mvn -o -Dtest=BillingAccountRepositoryPersistenceTest -DfailIfNoTests=false test)",
+      "Bash(mvn -o -q test)",
+      "Bash(tee /tmp/test_out.log)",
+      "Bash(echo \"EXIT CODE: $?\")",
+      "Bash(mvn -q -o test -Dtest=DocValidationTest)",
+      "Bash(mvn -o test -Dtest=DocValidationTest)",
+      "Bash(mvn -o test -Dtest=ExternalCustomerSyncServiceTest)",
+      "Bash(sort -t- -k4 -n)",
+      "Bash(xargs -I{} sh -c 'echo === {} ===; cat {}')",
+      "Bash(mvn -o test -Dtest=GlobalExceptionHandlerHttpMessageNotReadableTest)",
+      "Bash(mvn -o test -Dtest=BillingSubscriptionItemServiceFindByUserTest)"
     ]
   }
 }

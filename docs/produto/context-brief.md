@@ -91,8 +91,8 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 | Plano          | Preço/mês | Empresas | Usuários | Itens     | Suporte            |
 |----------------|-----------|----------|----------|-----------|--------------------|
 | **Starter**    | R$ 149    | até 3    | até 3    | até 100   | Comunidade         |
-| **Business**   | R$ 299    | até 3    | até 10   | até 500   | E-mail prioritário |
-| **Enterprise** | R$ 899    | até 10   | até 100  | até 5.000 | Dedicado           |
+| **Business**   | R$ 299    | até 15   | até 10   | até 500   | E-mail prioritário |
+| **Enterprise** | R$ 899    | até 50   | até 100  | até 5.000 | Dedicado           |
 
 ### Planos anuais (17% de desconto = 2 meses grátis)
 | Plano                | Preço/ano    | Equivalente mensal |
