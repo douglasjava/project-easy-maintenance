@@ -202,7 +202,7 @@ DELETE FROM organizations WHERE name = 'QA EPIC027 Org B';
 | 1     | Acessar `/organizations/<ORG_CODE>` (Configurações da sua organização)            | Nova seção "QR Code — Chamados de Moradores", QR renderizado, URL abaixo dele mostra `.../chamados/<ORG_CODE>` |
 | 2     | Clicar "Baixar QR code"                                                           | Arquivo `qrcode-chamados-<ORG_CODE>.png` baixado                                                        |
 | 3     | Escanear o QR (celular real, se disponível) ou colar a URL mostrada num navegador | Abre a tela de CPF do C3                                                                                |
-| 4     | Clicar "Baixar página para impressão (A4)"                                        | PDF `chamados-<ORG_CODE>-para-imprimir.pdf` baixado — marca "EASY MAINTENANCE" no topo, QR grande centralizado, nome da organização, 3 instruções numeradas, URL no rodapé |
+| 4     | Clicar "Baixar página para impressão (A4)"                                        | PDF `chamados-<ORG_CODE>-para-imprimir.pdf` baixado — logo real da Easy Maintenance no topo (não mais texto), QR grande centralizado, nome da organização, 3 instruções numeradas com bolinha verde, URL no rodapé, cores batendo com a marca (azul `#2563EB`) |
 | 5     | Abrir o PDF e conferir visualmente                                                | Layout A4, QR legível e nítido (gerado em 600px pro PDF, não o mesmo de 240px da tela), nada cortado nas margens |
 | 6     | Escanear o QR **do PDF impresso** (se tiver impressora à mão) ou do PDF na tela   | Abre a mesma tela de CPF do C3                                                                          |
 
