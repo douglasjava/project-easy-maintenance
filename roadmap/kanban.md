@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🔴 TASK-245 achado durante QA do EPIC-028 (bug não relacionado a
+> fornecedores), corrigido**: Douglas testando `/organizations/new` (TASK-QA-MAN-020) recebeu 500 —
+> `NonUniqueResultException`. Causa raiz: `POST /me/onboarding/user` não é idempotente —
+> `OnboardingService.createUser` encontrava a `BillingSubscription` já existente mas seguia direto
+> pro `addItem(USER, ...)` incondicional, duplicando o item a cada rechamada do endpoint (qualquer
+> usuário autenticado pode chamar de novo). Efeito real no usuário 6:
+> `billing_subscriptions.total_cents` dobrado (59800 em vez de 29900) e `validateOrgLimit`
+> (e outros 6+ pontos que assumem só 1 item USER por assinatura) quebrando com resultado não-único.
+> Teste reproduzindo o bug (`createUser` chamado 2x), fix (mesma guarda já usada em
+> `addOrganizationSubscription`), `mvn test` 939/939, dado do usuário 6 reparado no banco local.
+> Branch `bugfix/TASK-245-duplicate-user-billing-item` (a partir de `staging`, independente do
+> EPIC-028). Aguardando Douglas confirmar `/organizations/new` funcionando de novo antes da PR.
 > Atualizado em: 09/09/2026 — **🟡 EPIC-028 completo (TASK-241/242/243), aguardando QA manual**:
 > as 3 tasks do épico implementadas na branch única `feature/EPIC-028-supplier-registry` (api +
 > web). Backend: `mvn test` 949/949 (entidades/migration + endpoints com dedup por CNPJ/pontuação/
@@ -1463,6 +1475,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-245](tasks/TASK-245.md)                  | `POST /me/onboarding/user` duplicava item USER da assinatura (cobrança em dobro) — quebrava `POST /organizations` (500) — achado por Douglas testando `/organizations/new` durante QA do EPIC-028, corrigido, `mvn test` 939/939, dado local reparado — aguardando confirmação antes de abrir PR | 🔴 Crítico | — | GRAVE |
 | [TASK-244](tasks/TASK-244.md)                  | `TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job — corrigido (`98a4716`), `mvn test` 938/938, [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) aprovada por Douglas, PR `staging` aberta ([api#86](https://github.com/douglasjava/easy-maintenance-api/pull/86)) | 🔴 Crítico | — | GRAVE |
 | [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — mergeada em `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)), PR `staging→main` aberta ([api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84)) | 🔴 Alto | — | ALTA |
 | [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
