@@ -1657,7 +1657,7 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 
 **🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
 - ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(implementada, `mvn test` 942/942, migration validada contra MySQL real — na branch `feature/EPIC-028-supplier-registry`, junto com TASK-242/243; PR única do épico abre no final)*
-- **[TASK-242](tasks/TASK-242.md)** — Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região) (🟡 Médio | EPIC-028)
+- ~~**[TASK-242](tasks/TASK-242.md)**~~ — ~~Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região)~~ *(implementada, `mvn test` 948/948 — mesma branch `feature/EPIC-028-supplier-registry`)*
 - **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
 
 **🟢 EPIC-027 — chamados de moradores — *(QA manual aprovado, PRs staging abertas, 09/09/2026)***:
