@@ -1,5 +1,18 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟡 TASK-244 implementado e commitado, aguardando QA manual**:
+> [TASK-244](tasks/TASK-244.md) — bug crítico achado durante a validação em produção da TASK-236:
+> `TrialExpirationService` gerava uma nova cobrança Asaas + link de pagamento + e-mail a cada
+> execução do job (cron diário ou `GET /run-jobs/execute-trial-expiration`), pra qualquer trial
+> vencido e não pago, sem limite — foi o que causou a segunda cobrança do Ricardo Cerqueira no
+> mesmo dia em que o fix da TASK-236 foi publicado. Corrigido replicando o padrão já validado do
+> `PixRenewalService`: período ancorado em `resolveDueDate(subscription)` em vez de
+> `LocalDate.now()`, guarda de idempotência explícita
+> (`paymentRepository.existsByBillingSubscriptionId`) e isolamento de falha por assinatura no loop.
+> Branch `bugfix/TASK-244-trial-duplicate-charge-email`, commit `98a4716`, `mvn clean test` 938/938
+> (3 testes novos cobrindo exatamente o cenário real: job rodando duas vezes pro mesmo trial).
+> QA manual formalizada em [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) — precisa rodar contra
+> Asaas sandbox local (cobrança real) antes de abrir a PR pra `staging`.
 > Atualizado em: 09/09/2026 — **🟢 EPIC-027 aprovado no QA manual, PRs `staging` abertas**:
 > [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85) /
 > [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74). Douglas confirmou os 12
@@ -1415,6 +1428,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-244](tasks/TASK-244.md)                  | `TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job — corrigido e commitado (`98a4716`), `mvn test` 938/938, aguardando [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) contra Asaas sandbox antes de abrir PR | 🔴 Crítico | — | GRAVE |
 | [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — mergeada em `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)), PR `staging→main` aberta ([api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84)) | 🔴 Alto | — | ALTA |
 | [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
 | [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
