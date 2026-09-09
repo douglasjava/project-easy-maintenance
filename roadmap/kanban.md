@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 08/09/2026 — **📋 TASK-QA-MAN-018 criado**: plano de QA manual local pro EPIC-027
+> (chamados de moradores) — 12 cenários (C1-C12), com destaque pros dois que a QA anterior não
+> conseguiu validar sem o ambiente do Douglas: upload de foto contra S3 real (C4) e drag-and-drop
+> com mouse de verdade (C9). [TASK-QA-MAN-018](QA/tasks/TASK-QA-MAN-018.md).
 > Atualizado em: 08/09/2026 — **🟢 EPIC-027 implementado e validado ponta a ponta**: 4 tasks
 > (TASK-237/238/239/240) na branch `feature/EPIC-027-resident-tickets` (api + web), testado num
 > navegador real contra a API local — abertura de chamado, consulta por CPF, kanban, drag-and-drop
