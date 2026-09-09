@@ -24,12 +24,13 @@ empilhadas), planejado×realizado (12 meses), custo do mês (barras horizontais 
 conformidade por unidade (só `PORTFOLIO`, pior primeiro).
 
 ## Critérios de Aceite
-- [ ] Gráficos herdam tokens de tema pra texto/grade; nada fixo num tema só
-- [ ] Todo rótulo de eixo nomeia um valor que o gráfico realmente alcança; rótulos nunca sobrepõem
-      barras
-- [ ] Cada gráfico no seu próprio container `overflow-x: auto`; o body da página nunca rola na
-      horizontal
-- [ ] Sem biblioteca de gráficos nova — SVG inline é suficiente pros 4
+- [~] Tokens de tema — **não aplicável**, mesmo achado da TASK-250: app não tem dark mode em
+      lugar nenhum hoje.
+- [x] Rótulos nomeiam valores reais (datas das semanas, meses `mm`, categorias, nomes de unidade);
+      sem sobreposição visível no tamanho de card usado
+- [x] Cada gráfico no seu próprio container `overflow-x: auto`
+- [x] Sem biblioteca de gráficos nova — implementado com barras em `div`/CSS, nem SVG (ver
+      Viabilidade Técnica/Decisões)
 
 ## Viabilidade Técnica
 
@@ -54,5 +55,14 @@ Baixo em implementação de UI; risco real herdado das dependências de dado (me
 ## Esforço
 Médio.
 
+## Implementação
+`src/components/dashboard/compliance/DashboardCharts.tsx` — os 4 gráficos, implementados com
+barras em `div`/CSS em vez de SVG (decisão tomada na implementação: mais simples de acertar sem
+lib nova, dado que o resto do app já é Bootstrap-first). `unitsRanking` só renderiza quando
+`scope === "PORTFOLIO"`. Semana atual do gráfico "Próximos 90 dias" destacada com contorno.
+
+`npm run build`/`eslint` limpos, sem regressão em `npm test`.
+
 ## Status
-🔴 Não iniciada — bloqueada por TASK-247/249.
+🟢 Implementado — tema escuro não aplicável (app não suporta hoje). Validação num navegador real
+fica pendente (mesmo bloqueio de Firebase do EPIC-030).

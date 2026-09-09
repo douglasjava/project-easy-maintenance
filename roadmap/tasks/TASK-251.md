@@ -23,12 +23,13 @@ Renumerada de TASK-135 do documento original. Substitui o card "Atenção agora"
 ações real, mais o painel "Laudos e documentos".
 
 ## Escopo
-- Fila de ações: faixa de severidade, nome do item, pill de severidade, chip da norma, categoria,
-  linha de contexto, ações inline conforme `allowedActions`.
-- Adiar abre diálogo exigindo motivo.
-- Painel "Laudos e documentos" — documentos vinculados por validade.
-- Estado vazio real: fila vazia + conta com histórico → "Nenhuma pendência — próxima manutenção em
-  X dias" (não um check genérico).
+- [x] Fila de ações: faixa de severidade, nome do item, pill de severidade, chip da norma,
+      categoria, linha de contexto, ações inline conforme `allowedActions`.
+- [x] Adiar abre diálogo exigindo motivo.
+- [ ] Painel "Laudos e documentos" — **não implementado**, ver Viabilidade Técnica.
+- [~] Estado vazio real — implementado sem o "próxima manutenção em X dias" específico (essa data
+      não vem em nenhum response quando a fila está vazia; adicionar exigiria um campo novo no
+      backend só pra esse texto). Mensagem genérica porém honesta: "Nenhuma pendência agora".
 
 ## Viabilidade Técnica
 
@@ -58,5 +59,22 @@ atrasada").
 ## Esforço
 Médio (fila de ações) + indeterminado (painel de documentos, depende de escopo ainda não fechado).
 
+## Implementação
+`src/components/dashboard/compliance/ActionQueue.tsx` — fila real + diálogo de adiamento
+(`newDueDate` + `reason` obrigatório, chama `POST /dashboard/actions/{id}/postpone` da TASK-248,
+invalida `dashboard-actions`/`dashboard-summary`/`dashboard-series` depois de confirmar). `COMPLETE`
+linka pra `/maintenances/new?itemId=X`, `ATTACH_EVIDENCE` linka pro detalhe do item (`/items/{id}`)
+— não existe uma tela dedicada de "anexar evidência numa manutenção já concluída" em lugar nenhum
+do app hoje, esse é o destino real mais próximo.
+
+**Painel "Laudos e documentos" não implementado** — confirmado o achado da Viabilidade Técnica:
+`ItemDocument` (TASK-246) só tem a entidade + `findByItemIdOrderByValidUntilAsc`, sem endpoint de
+leitura exposto no controller. Construir esse painel exigiria primeiro um `GET` novo no backend
+(fora do escopo original das 9 tasks do épico) — registrado aqui como pendência real, não
+escondido.
+
+`npm run build`/`eslint` limpos, sem regressão em `npm test`.
+
 ## Status
-🔴 Não iniciada — bloqueada por TASK-248/249.
+🟡 Fila de ações implementada e testada; painel de documentos pendente de um endpoint de backend
+que não existe (fora do escopo das 9 tasks originais do épico).

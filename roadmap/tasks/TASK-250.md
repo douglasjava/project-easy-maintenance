@@ -30,11 +30,15 @@ de KPI com sparkline.
   aritmético.
 
 ## Critérios de Aceite
-- [ ] `font-variant-numeric: tabular-nums` em todo número
-- [ ] Sparklines vêm só do array da API; nenhum dado aleatório/placeholder
-- [ ] Anel com `role="img"` e `aria-label` com o percentual
-- [ ] Funciona em tema claro e escuro; cores semânticas (crítico/atenção/ok) são tokens separados
-      do azul da marca
+- [x] `font-variant-numeric: tabular-nums` em todo número
+- [x] Sparklines vêm só do array da API; nenhum dado aleatório/placeholder
+- [x] Anel com `role="img"` e `aria-label` com o percentual
+- [x] Cores semânticas (crítico/atenção/ok) são tokens separados do azul da marca
+- [~] Tema claro/escuro — **não aplicável**: achado durante a implementação — `globals.css` do
+      projeto não trata `prefers-color-scheme` em lugar nenhum, o app inteiro não tem suporte a
+      dark mode hoje (mesmo achado já registrado em memória de sessão anterior, demo Rogerio
+      Dantas). Cores fixas (hex direto), consistente com o resto do app — não é uma regressão
+      desta task, é o estado atual de todo o produto.
 
 ## Viabilidade Técnica
 
@@ -61,5 +65,15 @@ Baixo em implementação, alto em ficar bloqueado esperando o snapshot históric
 ## Esforço
 Médio.
 
+## Implementação
+`src/components/dashboard/compliance/ComplianceHero.tsx` (anel) + `KpiTiles.tsx` (3 tiles +
+sparkline). Cor semântica dos KPIs via flag `lowerIsBetter` explícita (não pelo sinal aritmético
+cru) — os 3 KPIs desta v1 (vencidos/vencendo em 30 dias/custo) são todos "quanto menor, melhor".
+`previousComplianceIndex`/`previous`/`spark` ficam `null`/zero-fill quando a TASK-246 ainda não tem
+snapshot acumulado (conta nova ou job rodando há pouco tempo) — nunca inventado.
+
+`npm run build`/`eslint` limpos, sem regressão em `npm test`.
+
 ## Status
-🔴 Não iniciada — bloqueada por TASK-249.
+🟢 Implementado — dark mode não aplicável (ver critério acima). Validação num navegador real fica
+pendente (mesmo bloqueio de Firebase do EPIC-030).

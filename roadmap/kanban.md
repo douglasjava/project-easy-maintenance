@@ -1,5 +1,20 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟢 EPIC-030 completo em código (TASK-246 a TASK-254), pendente QA
+> manual do Douglas**. Onda 3 (TASK-254, E2E): seed sintético de 3 tenants (`ONBOARDING`/
+> `OPERATING`/`PORTFOLIO`) + primeiro spec Playwright do projeto `ui` (`tests/frontend/
+> compliance-dashboard.spec.ts`, `easy-maintenance-e2e` — repo compartilha a árvore git da raiz,
+> commit direto em `main` como o resto do roadmap). Os dados sintéticos (5 organizações, índices
+> 60%/83% desenhados) foram validados rodando a query real de `ComplianceMetricsRepository` contra
+> o MySQL de dev (reaplicando/revertendo a migration V110, mesmo padrão das outras tasks) — os
+> números batem exatamente. `npx tsc --noEmit` limpo (precisou add `"DOM"` ao `lib` do
+> `tsconfig.json`, primeiro uso de `page.evaluate` com global de browser no repo). O Playwright em
+> si não rodou nesta sessão: não há MySQL de E2E ativo na porta 3307 e a API não sobe localmente
+> aqui (mesmo bloqueio de credencial Firebase real do resto do épico). Ver TASK-254 pros detalhes
+> completos e a decisão de testar `POSTPONE` em vez de `COMPLETE` no cenário "ação muda o índice".
+> Próximo passo: escrever a QA manual consolidada do épico inteiro (padrão TASK-QA-MAN-019/020) e
+> aguardar aprovação antes de abrir as PRs de `api`/`web` pra staging.
+
 > Atualizado em: 09/09/2026 — **🟢 TASK-246 implementada (EPIC-030)**: índice de conformidade
 > (`ComplianceIndexService`, query nativa com CTE + `ROW_NUMBER()`, SQL puro sem carregar entidade
 > em memória) + `GET /dashboard/summary` (`DashboardSummaryService`, resolve organizações do
@@ -1665,12 +1680,15 @@ das 7 decisões) segue como sub-escopo da TASK-246)*
 - ~~**[TASK-246](tasks/TASK-246.md)**~~ — ~~Backend: índice de conformidade + `GET /dashboard/summary`~~ *(implementada, `mvn test` 965/965, branch `feature/EPIC-030-compliance-dashboard` — falta QA manual antes de abrir PR)*
 - ~~**[TASK-247](tasks/TASK-247.md)**~~ — ~~Backend: `GET /dashboard/series`~~ *(implementada, `mvn test` 976/976 — achado: `plannedVsDone` fica esparso hoje, `Maintenance.nextDueAt` majoritariamente NULL nos dados reais, documentado na task)*
 - ~~**[TASK-248](tasks/TASK-248.md)**~~ — ~~Backend: fila de ações + adiar~~ *(implementada, `mvn test` 984/984 — Onda 1/backend do EPIC-030 completa, seguindo pra Onda 2/frontend na mesma branch)*
-- **[TASK-249](tasks/TASK-249.md)** — Frontend: shell do dashboard (🔴 Crítico | EPIC-030) — reescreve `src/app/page.tsx`, bloqueia o resto do frontend
-- **[TASK-250](tasks/TASK-250.md)** — Frontend: hero + KPI tiles (🟠 Alto | EPIC-030)
-- **[TASK-251](tasks/TASK-251.md)** — Frontend: fila de ações + documentos (🟠 Alto | EPIC-030) — painel de documentos bloqueado pela mesma entidade que falta
-- **[TASK-252](tasks/TASK-252.md)** — Frontend: gráficos (🟡 Médio | EPIC-030)
-- **[TASK-253](tasks/TASK-253.md)** — Frontend: estado ONBOARDING (🟡 Médio | EPIC-030) — SAMU já existe (`AiBootstrapService`), esforço menor que estimado
-- **[TASK-254](tasks/TASK-254.md)** — E2E e regressão (🟡 Médio | EPIC-030)
+- ~~**[TASK-249](tasks/TASK-249.md)**~~ — ~~Frontend: shell do dashboard~~ *(implementada — `src/app/page.tsx` reescrito, big-bang confirmado, `npm run build`/`eslint`/`npm test` limpos, branch `feature/EPIC-030-compliance-dashboard`)*
+- ~~**[TASK-250](tasks/TASK-250.md)**~~ — ~~Frontend: hero + KPI tiles~~ *(implementada — `ComplianceHero`/`KpiTiles`, dark mode não aplicável ao app hoje)*
+- ~~**[TASK-251](tasks/TASK-251.md)**~~ — ~~Frontend: fila de ações + documentos~~ *(fila de ações implementada e testada; painel "Laudos e documentos" pendente de endpoint de backend que não existe, fora do escopo original das 9 tasks)*
+- ~~**[TASK-252](tasks/TASK-252.md)**~~ — ~~Frontend: gráficos~~ *(implementada — 4 gráficos em `div`/CSS, sem lib nova)*
+- ~~**[TASK-253](tasks/TASK-253.md)**~~ — ~~Frontend: estado ONBOARDING~~ *(implementada com escopo reduzido — 4 passos reais em vez dos 7 do protótipo, achado: `OnboardingChecklist` antigo era `localStorage`, não dado real)*
+- ~~**[TASK-254](tasks/TASK-254.md)**~~ — ~~E2E e regressão~~ *(seed + spec Playwright implementados, dados sintéticos validados contra o MySQL real da query de conformidade; execução do Playwright em si não rodou nesta sessão — mesmo bloqueio de Firebase)*
+- **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)** — QA Manual consolidada do épico inteiro (9
+  cenários — 3 estados de conta, fila de ações, gráficos, job de snapshot, regressão de banners) —
+  aguardando execução do Douglas no ambiente real antes de abrir as PRs `api`/`web` pra staging
 
 **EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
 *(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1

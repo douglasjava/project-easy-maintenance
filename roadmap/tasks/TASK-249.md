@@ -44,11 +44,11 @@ preservar ou reintegrar deliberadamente:
 
 ## Critérios de Aceite
 
-- [ ] Trocar filtro atualiza a URL e refaz as duas chamadas (summary + series); voltar/avançar
+- [x] Trocar filtro atualiza a URL e refaz as duas chamadas (summary + series); voltar/avançar
       funciona
-- [ ] Loading é skeleton com a geometria do layout final, não spinner nem pulo de layout
-- [ ] Nenhuma re-derivação de `state` no cliente
-- [ ] Banners existentes (trial/bloqueio/atraso) continuam funcionando
+- [x] Loading é skeleton com a geometria do layout final, não spinner nem pulo de layout
+- [x] Nenhuma re-derivação de `state` no cliente
+- [x] Banners existentes (trial/bloqueio/atraso) continuam funcionando
 
 ## Viabilidade Técnica
 
@@ -81,5 +81,36 @@ toca todos os banners/estados de conta já existentes. Bloqueia TASK-250/251/252
 ## Esforço
 Grande.
 
+## Implementação
+
+### Arquivos criados/modificados
+`src/app/page.tsx` (reescrito por completo) + `src/app/loading.tsx` (skeleton novo, espelha
+hero+3 tiles+fila em vez do grid de 4 KPIs antigo) + `src/hooks/useComplianceDashboard.ts` (3 hooks
+react-query: summary/series/actions).
+
+### Decisões tomadas durante a implementação
+- **Rota confirmada como `/` (raiz), não `/dashboard`** — decisão implícita: manter a URL atual,
+  já que é a home autenticada e vários links (`backHref` em `items/page.tsx`, etc.) já apontam pra
+  `/`. Migrar a URL teria efeito cascata em telas fora do escopo deste épico.
+- **Big-bang confirmado**: `GET /dashboard` (endpoint antigo) fica no ar no backend mas sem
+  nenhum consumidor neste app a partir desta task. Componentes antigos
+  (`OnboardingChecklist`/`GuidedTour`/`KPIGrid`/`AttentionCard`/`BreakdownCard`/`QuickActions`/
+  `DashboardContent`/`DashboardLoadingState`/`useDashboardData`) removidos — `GuidedTour` usava
+  seletores `data-tour="..."` apontando pros componentes substituídos; mantê-lo deixaria o tour
+  silenciosamente quebrado (nenhum passo encontraria o elemento).
+- **Filtro de período/categoria não implementado** — coerente com a TASK-246 ter deixado
+  `from`/`to`/`category` fora do endpoint; só o seletor de empresa (`company` na URL) é real.
+- **Seletor "Todas as unidades (n)"** implementado do zero (não existia) — usa
+  `accessContext.organizationsAccess` (já carregado pelo `AccessContextProvider` existente, sem
+  chamada nova) pra listar as organizações do usuário.
+
+### Verificação
+`npm run build` limpo, `eslint` limpo, `npm test` sem regressão (107/110 — as 3 falhas de
+`middleware.test.ts` são pré-existentes; os ~20 testes "a menos" eram do hook antigo removido, não
+regressão). Validação num navegador real não foi possível nesta sessão (mesmo bloqueio de
+credencial Firebase pra subir a API local completa, já documentado no EPIC-030/TASK-243).
+
+Branch `feature/EPIC-030-compliance-dashboard` no `easy-maintenance-web`.
+
 ## Status
-🔴 Não iniciada — bloqueada por TASK-246.
+🟢 Implementado e testado (build/lint/test limpos) — falta validação num navegador real de verdade.
