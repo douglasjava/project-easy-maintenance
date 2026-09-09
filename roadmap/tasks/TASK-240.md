@@ -70,9 +70,11 @@ Médio-Alto
 
 ## Status
 ✅ Implementada na branch `feature/EPIC-027-resident-tickets` (`easy-maintenance-web`). Validada num
-navegador real contra a API local: kanban carrega os chamados certos, drag-and-drop confirmado
-ponta a ponta (PATCH real + persistência), QR code renderiza com a URL correta. `npm run build`/
-`npm test` sem regressão.
+navegador real, incluindo com mouse de verdade no ambiente do Douglas: kanban carrega os chamados
+certos, drag-and-drop confirmado ponta a ponta (PATCH real + persistência), QR code + página A4
+pra impressão (logo real, cores da marca) renderizando certo — QA manual completo e aprovado
+([TASK-QA-MAN-018](../QA/tasks/TASK-QA-MAN-018.md)). `npm run build`/`npm test` sem regressão. PR
+contra `staging` aberta: [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74).
 
 ## Status
 🔴 Não iniciada

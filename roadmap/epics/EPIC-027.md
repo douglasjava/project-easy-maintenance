@@ -1,15 +1,18 @@
 # EPIC-027 — Chamados de Moradores
 
 ## Status
-✅ Implementado — 4 tasks (TASK-237/238/239/240) na branch `feature/EPIC-027-resident-tickets`
-(`easy-maintenance-api` e `easy-maintenance-web`). Validado ponta a ponta num navegador real contra
-a API local: abertura de chamado público, consulta por CPF, kanban interno, drag-and-drop (PATCH
-real confirmado) e QR code. Achado real durante a QA: `TenantFilter` bloqueava os endpoints
-públicos com "Missing X-Org-Id header" mesmo com `SecurityConfig` liberando a rota — corrigido.
-Pendências antes de produção: teste de upload de foto com S3 real (ambiente local usa credenciais
-fake) e teste em viewport mobile de verdade. Spec em
-`docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Ideia original registrada em
-07/09/2026 (macro, sem desenho).
+✅ Implementado, QA manual aprovado por Douglas, PRs `staging` abertas — 4 tasks
+(TASK-237/238/239/240) na branch `feature/EPIC-027-resident-tickets`
+([api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85) /
+[web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74)). Duas rodadas de QA
+([TASK-QA-MAN-018](../QA/tasks/TASK-QA-MAN-018.md)): a primeira achou 7 pontos reais (URL pouco
+memorável, falta validação de CPF, mensagem de erro genérica, e-mail sem rastreamento, sem máscara
+de telefone, QR sem versão pra impressão) — todos corrigidos; a segunda, já no ambiente real do
+Douglas, confirmou tudo incluindo os dois cenários que só davam pra validar lá (upload de foto com
+S3 real, drag-and-drop com mouse de verdade). Achado técnico ao longo do caminho: `TenantFilter`
+bloqueava os endpoints públicos com "Missing X-Org-Id header" mesmo com `SecurityConfig` liberando
+a rota — corrigido. Spec em `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Ideia
+original registrada em 07/09/2026 (macro, sem desenho).
 
 ## Objetivo
 Dar aos moradores das edificações atendidas uma forma de abrir e acompanhar chamados/solicitações

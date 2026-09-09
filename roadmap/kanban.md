@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **🟢 EPIC-027 aprovado no QA manual, PRs `staging` abertas**:
+> [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85) /
+> [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74). Douglas confirmou os 12
+> cenários do [TASK-QA-MAN-018](QA/tasks/TASK-QA-MAN-018.md) no próprio ambiente, incluindo os dois
+> que só davam pra validar lá — upload de foto com S3 real e drag-and-drop com mouse de verdade.
+> Chamados de moradores (abertura pública sem login, kanban interno, QR code + página A4 pra
+> imprimir) prontos pra revisão de código antes do merge.
 > Atualizado em: 09/09/2026 — **⚠️ Bug pré-existente encontrado, fora do escopo do EPIC-027**: o
 > logo SVG oficial (`public/assets/brand/logos/logo-horizontal.svg`, usado em `BrandLogo` — topbar
 > de todo o app autenticado) tem uma regra `@media (prefers-color-scheme: dark)` que deixa o texto
@@ -1614,11 +1621,11 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - **[TASK-242](tasks/TASK-242.md)** — Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região) (🟡 Médio | EPIC-028)
 - **[TASK-243](tasks/TASK-243.md)** — Frontend: tela dedicada de fornecedores (lista + filtro + cadastro) (🟡 Médio | EPIC-028)
 
-**🟢 EPIC-027 — chamados de moradores — *(implementada e validada num navegador real, aguardando revisão do Douglas antes de PR, 08/09/2026)***:
-- ~~**[TASK-237](tasks/TASK-237.md)**~~ — ~~Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto)~~ *(implementada, branch `feature/EPIC-027-resident-tickets`)*
-- ~~**[TASK-238](tasks/TASK-238.md)**~~ — ~~Backend: endpoints autenticados (listar/mudar status) + notificação por e-mail + flag WhatsApp~~ *(implementada, mesma branch)*
-- ~~**[TASK-239](tasks/TASK-239.md)**~~ — ~~Frontend: fluxo público em 2 telas (`/c/[orgCode]`)~~ *(implementada, mesma branch)*
-- ~~**[TASK-240](tasks/TASK-240.md)**~~ — ~~Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil~~ *(implementada, mesma branch)*
+**🟢 EPIC-027 — chamados de moradores — *(QA manual aprovado, PRs staging abertas, 09/09/2026)***:
+- ~~**[TASK-237](tasks/TASK-237.md)**~~ — ~~Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto)~~ *(PR aberta contra `staging`: [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85))*
+- ~~**[TASK-238](tasks/TASK-238.md)**~~ — ~~Backend: endpoints autenticados (listar/mudar status) + notificação por e-mail + flag WhatsApp~~ *(mesma PR, api#85)*
+- ~~**[TASK-239](tasks/TASK-239.md)**~~ — ~~Frontend: fluxo público em 2 telas (`/chamados/[orgCode]`)~~ *(PR aberta contra `staging`: [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74))*
+- ~~**[TASK-240](tasks/TASK-240.md)**~~ — ~~Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil~~ *(mesma PR, web#74)*
 
 **🟡 Médio (EPIC-029 — teste de carga estrutural) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
 - **[TASK-233](tasks/TASK-233.md)** — Seed sintético de dados (`loadtest-seed.sql`, escala média) (🟡 Médio | EPIC-029)

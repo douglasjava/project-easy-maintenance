@@ -70,5 +70,6 @@ Médio
 ## Status
 ✅ Implementada na branch `feature/EPIC-027-resident-tickets` (`easy-maintenance-api`). Migration
 V108 validada contra MySQL 8 real em modo estrito (container Docker efêmero, mesmo cuidado da
-TASK-230). `mvn test` → 928/928, 0 regressão. Aguardando TASK-238 (mesma branch) antes de abrir PR
-— épico inteiro testado ponta a ponta antes de ir pra `staging`.
+TASK-230). `mvn test` → 935/935, 0 regressão. QA manual completo e aprovado por Douglas
+([TASK-QA-MAN-018](../QA/tasks/TASK-QA-MAN-018.md)). PR contra `staging` aberta:
+[api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85).

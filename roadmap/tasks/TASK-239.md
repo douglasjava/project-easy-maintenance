@@ -65,7 +65,7 @@ Médio
 
 ## Status
 ✅ Implementada na branch `feature/EPIC-027-resident-tickets` (`easy-maintenance-web`). Validada num
-navegador real contra a API local (não só build) — fluxo completo de abertura funcionando ponta a
-ponta. Pendências reais antes de ir pra produção: teste de upload de foto com S3 real (ambiente
-local só tem credenciais fake) e teste em viewport mobile de verdade. `npm run build`/`npm test`
-sem regressão (3 falhas em `middleware.test.ts` pré-existentes, não relacionadas).
+navegador real, incluindo upload de foto com S3 real no ambiente do Douglas — QA manual completo e
+aprovado ([TASK-QA-MAN-018](../QA/tasks/TASK-QA-MAN-018.md)). `npm run build`/`npm test` sem
+regressão (3 falhas em `middleware.test.ts` pré-existentes, não relacionadas). PR contra `staging`
+aberta: [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74).
