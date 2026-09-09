@@ -191,7 +191,7 @@ a fórmula/endpoint em si.
   cuidado da TASK-230/241), depois revertida (`DROP TABLE`) pra não conflitar com o Flyway quando
   a app rodar de verdade nesta branch.
 
-Branch `feature/TASK-246-compliance-index-summary` (a partir de `staging`).
+Branch `feature/EPIC-030-compliance-dashboard` (a partir de `staging`).
 
 ## Status
 🟢 Implementado e testado (`mvn test` 965/965) — pronto pra QA manual/PR. Não deu pra validar o

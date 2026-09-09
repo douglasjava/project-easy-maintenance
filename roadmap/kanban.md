@@ -9,7 +9,7 @@
 > partir de agora — única forma de `previousComplianceIndex`/sparklines de 6 meses terem dado real
 > no futuro. Query nativa validada com H2 (6 testes cobrindo os 5 casos de borda exigidos) e
 > diretamente contra o MySQL real do docker local. `mvn test` 965/965, sem regressão. Branch
-> `feature/TASK-246-compliance-index-summary` — falta QA manual (Douglas, ambiente real) antes de
+> `feature/EPIC-030-compliance-dashboard` — falta QA manual (Douglas, ambiente real) antes de
 > abrir a PR.
 > Atualizado em: 09/09/2026 — **🟢 EPIC-030: as 7 decisões em aberto foram respondidas, TASK-246
 > pronta pra abrir branch**: fórmula do índice aceita como v1; itens obrigatórios por tipo de
@@ -1662,7 +1662,7 @@ _Vazio_
 abaixo ganhou uma seção "Viabilidade Técnica" e as 7 decisões em aberto já foram respondidas; ver
 [EPIC-030](epics/EPIC-030.md) pro resumo executivo. Entidade de documento (achado técnico, não uma
 das 7 decisões) segue como sub-escopo da TASK-246)*
-- ~~**[TASK-246](tasks/TASK-246.md)**~~ — ~~Backend: índice de conformidade + `GET /dashboard/summary`~~ *(implementada, `mvn test` 965/965, branch `feature/TASK-246-compliance-index-summary` — falta QA manual antes de abrir PR)*
+- ~~**[TASK-246](tasks/TASK-246.md)**~~ — ~~Backend: índice de conformidade + `GET /dashboard/summary`~~ *(implementada, `mvn test` 965/965, branch `feature/EPIC-030-compliance-dashboard` — falta QA manual antes de abrir PR)*
 - **[TASK-247](tasks/TASK-247.md)** — Backend: `GET /dashboard/series` (🟠 Alto | EPIC-030) — depende de TASK-246
 - **[TASK-248](tasks/TASK-248.md)** — Backend: fila de ações + adiar (🟠 Alto | EPIC-030) — pode começar em paralelo
 - **[TASK-249](tasks/TASK-249.md)** — Frontend: shell do dashboard (🔴 Crítico | EPIC-030) — reescreve `src/app/page.tsx`, bloqueia o resto do frontend
