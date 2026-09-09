@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/09/2026 — **⚠️ Bug pré-existente encontrado, fora do escopo do EPIC-027**: o
+> logo SVG oficial (`public/assets/brand/logos/logo-horizontal.svg`, usado em `BrandLogo` — topbar
+> de todo o app autenticado) tem uma regra `@media (prefers-color-scheme: dark)` que deixa o texto
+> "EASY" quase invisível em dispositivo com tema escuro. O app não tem suporte a dark mode em
+> lugar nenhum (`globals.css` não trata `prefers-color-scheme`), então esse SVG já fica dessincronizado
+> do resto da página em qualquer tela hoje, pra qualquer usuário com o SO/navegador em modo escuro
+> — não é um problema novo, é pré-existente. Achado incidentalmente ao adicionar a marca nas telas
+> públicas de chamados (TASK-239) — lá usei o PNG de cor fixa em vez do SVG (ver TASK-QA-MAN-018),
+> mas o resto do app continua exposto. Sem task aberta ainda — avaliar se vale a pena tirar a regra
+> de tema escuro do SVG (o app não suporta dark mode de verdade, então a regra não serve pra nada
+> hoje) ou se é melhor esperar até dark mode virar prioridade de verdade.
 > Atualizado em: 08/09/2026 — **🟡 TASK-QA-MAN-018: 1ª rodada de QA do Douglas, 7 achados
 > corrigidos**: URL renomeada de `/c/[orgCode]` pra `/chamados/[orgCode]` (mais memorável),
 > validação de CPF (dígito verificador) na tela inicial, mensagens de erro reais da API no formulário

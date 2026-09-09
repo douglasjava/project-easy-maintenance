@@ -98,6 +98,11 @@ usuário novo.
 
 ### C3 — Abrir chamado público sem foto
 
+Logo real da marca no topo das duas telas (`/chamados/<ORG_CODE>` e `.../meus-chamados`) — usa o
+PNG hi-res, não o SVG do resto do app (achado testando: o SVG tem regra de tema escuro que deixa
+"EASY" quase invisível em dispositivo com dark mode; como aqui é qualquer morador em qualquer
+celular, sem controle do tema, usei a versão de cor fixa).
+
 | Passo | Ação                                                                                          | Resultado esperado                                                                    |
 |-------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
 | 1     | Acessar `http://localhost:3000/chamados/<ORG_CODE>` (sem estar logado — vale abrir numa aba anônima) | Tela só com campo de CPF, sem sidebar/navbar interna                                  |
