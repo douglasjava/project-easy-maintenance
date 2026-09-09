@@ -244,7 +244,7 @@ DELETE FROM resident_tickets WHERE organization_id = (SELECT id FROM organizatio
 - [X] C2: código da organização de teste obtido
 - [X] C3: chamado sem foto — abre, lista, persiste (retestar passos 2/3/7, novos: validação de CPF
       com dígito verificador + máscara de telefone)
-- [ ] C4: chamado com foto — **retestar**: upload S3 real + confirmar que as mensagens de erro
+- [X] C4: chamado com foto — **retestar**: upload S3 real + confirmar que as mensagens de erro
       (tipo/tamanho inválido) agora mostram o texto real da API, não mais genérico
 - [X] C5: organização inválida — erro claro
 - [X] C6: isolamento por CPF — sem vazamento entre moradores
@@ -253,21 +253,22 @@ DELETE FROM resident_tickets WHERE organization_id = (SELECT id FROM organizatio
 - [X] C8: kanban carrega os chamados certos
 - [X] C9: drag-and-drop com mouse real — persiste após reload
 - [X] C10: isolamento multi-tenant — org B não vaza pra org A
-- [ ] C11: **retestar** — URL mudou pra `/chamados/<ORG_CODE>` e tem botão novo (página A4 pra
+- [X] C11: **retestar** — URL mudou pra `/chamados/<ORG_CODE>` e tem botão novo (página A4 pra
       impressão)
 - [X] C12 (opcional): rate limit dispara depois do limite configurado
 
 **Novos pontos desta rodada (achados do seu teste manual, 08/09/2026):**
-- [ ] Validação de CPF (dígito verificador) bloqueia CPF inválido na tela inicial
-- [ ] Máscara de telefone formata em tempo real no formulário de abertura
-- [ ] Mensagens de erro do C4 mostram o texto real da API
-- [ ] `SELECT * FROM business_email_dispatches WHERE event_type = 'RESIDENT_TICKET_CREATED'` retorna
+- [X] Validação de CPF (dígito verificador) bloqueia CPF inválido na tela inicial
+- [X] Máscara de telefone formata em tempo real no formulário de abertura
+- [X] Mensagens de erro do C4 mostram o texto real da API
+- [X] `SELECT * FROM business_email_dispatches WHERE event_type = 'RESIDENT_TICKET_CREATED'` retorna
       a linha do e-mail enviado no C7, com `status = 'SENT'`
-- [ ] Página A4 gerada corretamente (C11, passos 4-6)
+- [X] Página A4 gerada corretamente (C11, passos 4-6)
 
 ## Status
-🟡 Primeira rodada executada por Douglas (08/09/2026) — C1/C2/C3/C5/C6/C7/C8/C9/C10/C12 passaram,
-7 pontos reais encontrados (URL pouco memorável, falta validação de CPF, mensagem de erro genérica
-no C4, e-mail sem rastreamento, sem máscara de telefone, QR sem versão pra impressão). Todos
-corrigidos na mesma branch (`feature/EPIC-027-resident-tickets`) — aguardando Douglas retestar C4,
-C11 e os "Novos pontos desta rodada" acima antes de considerar aprovado.
+✅ Aprovado por Douglas (09/09/2026) — todos os 12 cenários (C1-C12) e os 5 pontos novos da segunda
+rodada confirmados, incluindo C4 (upload real ao S3) e C11 (URL nova + página A4) — os dois que só
+davam pra validar no ambiente dele. Primeira rodada (08/09/2026) tinha encontrado 7 pontos reais
+(URL pouco memorável, falta validação de CPF, mensagem de erro genérica no C4, e-mail sem
+rastreamento, sem máscara de telefone, QR sem versão pra impressão), todos corrigidos e
+reconfirmados nesta segunda rodada. EPIC-027 liberado pra PR `staging`.
