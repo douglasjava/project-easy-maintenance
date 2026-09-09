@@ -112,8 +112,18 @@ Médio
 Branch `feature/EPIC-028-supplier-registry` no `easy-maintenance-web` (mesmo nome do
 `easy-maintenance-api`, repositórios separados).
 
+### Ajuste pós-QA manual (09/09/2026) — pontuação por faixa
+Achado de Douglas testando C2-C5 do [TASK-QA-MAN-020](../QA/tasks/TASK-QA-MAN-020.md): o badge só
+com o número ("1 org.") não deixava claro o sinal de confiança. Trocado por faixa com rótulo —
+`trustBadge(registrationCount)` em `fornecedores/page.tsx`: **Novo** (1), **Confiável** (2-4),
+**Muito usado** (5+) — contagem exata continua disponível no tooltip (`title`,
+"Usado por N organizações"). Estrutura de dado/vínculo não mudou, só a exibição (confirmado
+explicitamente pelo Douglas: "a estrutura não precisa mudar... é a forma de exibir que precisamos
+melhorar"). `npm run build`/`npm test` sem regressão nova (commit `45dbafe`).
+
 ## Status
-🟡 Implementado e testado (`npm run build` limpo, `npm test` sem regressão nova) — falta validação
-num navegador real de verdade (bloqueada nesta sessão por falta de credencial Firebase pra subir a
-API local completa). Ver [TASK-QA-MAN-020](../QA/tasks/TASK-QA-MAN-020.md) pra Douglas rodar o fluxo
-ponta a ponta (backend + frontend) antes de abrir as PRs finais do EPIC-028.
+🟡 Implementado e testado (`npm run build` limpo, `npm test` sem regressão nova, incluindo o ajuste
+de pontuação por faixa) — falta validação num navegador real de verdade (bloqueada nesta sessão por
+falta de credencial Firebase pra subir a API local completa). Ver
+[TASK-QA-MAN-020](../QA/tasks/TASK-QA-MAN-020.md) pra Douglas rodar o fluxo ponta a ponta (backend +
+frontend) antes de abrir as PRs finais do EPIC-028.
