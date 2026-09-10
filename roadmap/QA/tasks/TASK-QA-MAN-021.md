@@ -49,7 +49,8 @@ todas):
    pra `ItemDocument` que não existe no controller hoje. `ItemDocument`/`item_documents` só tem a
    entidade + migration, sem CRUD.
 2. Filtro de período/categoria (protótipo original) **não existe** — só o filtro de empresa é real.
-3. "Exportar PDF" fica sempre desabilitado com tooltip explicando que chega depois.
+3. "Exportar PDF" foi removido da barra de filtro antes do merge (TASK-257) — não aparece mais na
+   tela nesta v1, nem desabilitado. Volta junto com o endpoint real, em épico separado.
 4. Sparklines de 6 meses / `previousComplianceIndex` só aparecem depois que o
    `ComplianceSnapshotJob` (novo, roda `02:45` por padrão) tiver acumulado histórico — numa conta
    nova ou logo após o deploy, aparecem como "sem histórico ainda" / zero-fill, não inventado.

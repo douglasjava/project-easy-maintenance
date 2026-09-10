@@ -1705,6 +1705,7 @@ das 7 decisões) segue como sub-escopo da TASK-246)*
 - ~~**[TASK-253](tasks/TASK-253.md)**~~ — ~~Frontend: estado ONBOARDING~~ *(implementada com escopo reduzido — 4 passos reais em vez dos 7 do protótipo, achado: `OnboardingChecklist` antigo era `localStorage`, não dado real)*
 - ~~**[TASK-254](tasks/TASK-254.md)**~~ — ~~E2E e regressão~~ *(seed + spec Playwright implementados, dados sintéticos validados contra o MySQL real da query de conformidade; execução do Playwright em si não rodou nesta sessão — mesmo bloqueio de Firebase)*
 - ~~**[TASK-256](tasks/TASK-256.md)**~~ — ~~BUGFIX: fila de ações do PORTFOLIO navegava com organização ativa errada~~ *(achado do Douglas em teste manual real — `GET /dashboard/actions` ganhou `companyCode`, frontend troca a organização ativa antes de navegar pra `/maintenances/new`/`/items/{id}`; `mvn test` 985/985)*
+- ~~**[TASK-257](tasks/TASK-257.md)**~~ — ~~UX: remover botão "Exportar PDF" desabilitado~~ *(pedido do Douglas pré-merge — botão desabilitado com tooltip ainda convida clique)*
 - **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)** — QA Manual consolidada do épico inteiro (9
   cenários — 3 estados de conta, fila de ações, gráficos, job de snapshot, regressão de banners) —
   aguardando execução do Douglas no ambiente real antes de abrir as PRs `api`/`web` pra staging
