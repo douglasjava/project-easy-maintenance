@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/09/2026 — **🟢 EPIC-030 — PRs abertas pra staging**: `feature/EPIC-030-compliance-dashboard`
+> consolidada (TASK-246 a TASK-257, incluindo os 3 achados de QA manual do Douglas — TASK-255/256/257
+> — já corrigidos na mesma branch) e enviada: [api#90](https://github.com/douglasjava/easy-maintenance-api/pull/90),
+> [web#77](https://github.com/douglasjava/easy-maintenance-web/pull/77). `mvn test` 985/985,
+> `npm run build`/`eslint` limpos, `npm test` 107/110 (3 falhas pré-existentes). QA manual
+> consolidada ([TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)) segue em paralelo com o Douglas
+> testando direto no ambiente local dele.
+
 > Atualizado em: 10/09/2026 — **🟢 [TASK-256](tasks/TASK-256.md) corrigida**: fila de ações do
 > `PORTFOLIO` mistura itens de várias organizações, mas "Concluir"/"Anexar evidência" levavam pra
 > telas single-tenant que usam a organização ativa do storage como `X-Org-Id` — dava "Item não
@@ -1708,7 +1716,10 @@ das 7 decisões) segue como sub-escopo da TASK-246)*
 - ~~**[TASK-257](tasks/TASK-257.md)**~~ — ~~UX: remover botão "Exportar PDF" desabilitado~~ *(pedido do Douglas pré-merge — botão desabilitado com tooltip ainda convida clique)*
 - **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)** — QA Manual consolidada do épico inteiro (9
   cenários — 3 estados de conta, fila de ações, gráficos, job de snapshot, regressão de banners) —
-  aguardando execução do Douglas no ambiente real antes de abrir as PRs `api`/`web` pra staging
+  Douglas já testou boa parte diretamente no ambiente real dele (achou e TASK-255/256/257 já
+  corrigidas); PRs abertas pra staging:
+  [api#90](https://github.com/douglasjava/easy-maintenance-api/pull/90),
+  [web#77](https://github.com/douglasjava/easy-maintenance-web/pull/77)
 
 **EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
 *(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
