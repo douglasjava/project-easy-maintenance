@@ -1,5 +1,18 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/09/2026 — **🟢 EPIC-029 concluído (Teste de Carga Estrutural)**: as 3 tasks
+> (TASK-233/234/235) implementadas E **realmente executadas** contra a API local rodando de
+> verdade (não só escritas) — 500 organizações/50 mil itens/150 mil manutenções sintéticas, MySQL
+> efêmero via Docker. **Achado crítico**: `NotificationOrchestratorService.dispatch()` processa
+> eventos um a um sem lote — 5.000 eventos, 17.510 queries, ~5 minutos numa única execução do job
+> de notificação. `/items` e login saudáveis (login sofre de rate-limit de IP, não de gargalo de
+> código). **Achado colateral**: [TASK-258](tasks/TASK-258.md) corrigiu um bug real
+> (`FirebaseMessaging` travava o boot local sem credencial) que bloqueava validação HTTP real desde
+> o início da sessão — inclusive de EPIC-028 e EPIC-030 anteriormente. A própria instrumentação da
+> TASK-234 tinha um bug sob concorrência (contador global de query em vez de por-thread),
+> encontrado e corrigido no processo. Relatório completo:
+> `docs/superpowers/reports/2026-09-10-load-test-findings.md`. `mvn test` 990/990.
+
 > Atualizado em: 10/09/2026 — **🟢 EPIC-030 — `staging` → `main` aberta**: PRs #90 (api) e #77 (web)
 > mergeadas em `staging` pelo Douglas depois de testar no ambiente real dele; PRs de promoção pra
 > `main` abertas: [api#91](https://github.com/douglasjava/easy-maintenance-api/pull/91),
@@ -1800,10 +1813,11 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-239](tasks/TASK-239.md)**~~ — ~~Frontend: fluxo público em 2 telas (`/chamados/[orgCode]`)~~ *(PR aberta contra `staging`: [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74))*
 - ~~**[TASK-240](tasks/TASK-240.md)**~~ — ~~Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil~~ *(mesma PR, web#74)*
 
-**🟡 Médio (EPIC-029 — teste de carga estrutural) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
-- **[TASK-233](tasks/TASK-233.md)** — Seed sintético de dados (`loadtest-seed.sql`, escala média) (🟡 Médio | EPIC-029)
-- **[TASK-234](tasks/TASK-234.md)** — Profile `loadtest` — Hibernate statistics + contagem de query por request (🟡 Médio | EPIC-029)
-- **[TASK-235](tasks/TASK-235.md)** — Scripts k6 (login, `/items`, detecção de notificação) + execução + relatório de achados (🟡 Médio | EPIC-029)
+**🟢 EPIC-029 — teste de carga estrutural — *(concluído 10/09/2026, 1 achado crítico real)***:
+- ~~**[TASK-233](tasks/TASK-233.md)**~~ — ~~Seed sintético de dados~~ *(500 orgs/50k itens/150k manutenções, validado contra MySQL real efêmero, ~9,4s pra rodar)*
+- ~~**[TASK-234](tasks/TASK-234.md)**~~ — ~~Profile `loadtest`~~ *(implementada e depois corrigida — contador global de query virou `ThreadLocal` depois de achado real sob concorrência, ver TASK-235)*
+- ~~**[TASK-235](tasks/TASK-235.md)**~~ — ~~Scripts k6 + execução + relatório~~ *(executados de verdade contra a API local real — achado crítico: `NotificationOrchestratorService.dispatch()` sem lote, 17.510 queries/~5min pra 5.000 eventos. Relatório: `docs/superpowers/reports/2026-09-10-load-test-findings.md`)*
+- ~~**[TASK-258](tasks/TASK-258.md)**~~ — ~~BUGFIX: FirebaseMessaging travava o boot local~~ *(achado colateral que desbloqueou rodar o k6 de verdade — e a validação HTTP real de EPIC-028/030 também, retroativamente)*
 
 **🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
 - **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)

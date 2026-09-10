@@ -69,5 +69,50 @@ problema. Registrar essa limitação no relatório final se for o caso.
 ## Esforço
 Médio
 
+## Implementação
+
+### Arquivos criados
+- `loadtest/login.js`, `loadtest/items-search.js`, `loadtest/notification-detection.js` — scripts
+  k6, rampa de carga (0→10→50→100 VUs pros dois primeiros; concorrência baixa de propósito pro
+  terceiro, ver comentário no próprio arquivo).
+- `loadtest/README.md` — pré-requisitos, como rodar, como cruzar com `loadtest.querycount`.
+- `docs/superpowers/reports/2026-09-10-load-test-findings.md` — relatório final, 4 achados (1
+  crítico real, 1 metodológico/rate-limit, 1 negativo válido, 1 correção na própria
+  instrumentação da TASK-234).
+
+### Bloqueio resolvido nesta sessão: boot local sem Firebase (TASK-258)
+A API local nunca tinha subido de verdade nesta sessão inteira (bloqueou validação HTTP real de
+EPIC-028 e EPIC-030 também) — `FirebaseConfig.firebaseMessaging()` retorna `null` sem credencial, e
+o Spring recusava injetar um bean nulo no construtor obrigatório de `PushNotificationProvider`.
+Corrigido (`Optional<FirebaseMessaging>`, TASK-258) — **desbloqueou rodar o k6 de verdade**, não só
+escrever os scripts.
+
+### Execução real (não simulada) — ambiente
+MySQL 8.0.33 efêmero via Docker (porta 3308, schema copiado via `mysqldump --no-data` +
+`flyway_schema_history` real, nunca tocando o banco de dev), semeado pela TASK-233 (500 orgs/50k
+itens/150k manutenções). API local com `--spring.profiles.active=local,loadtest`, chave RSA gerada
+via `RsaKeyGenerator` (já existia no projeto, só não tinha sido usada), `FIREBASE_SERVICE_ACCOUNT_JSON`
+vazia. **Achado à parte, corrigido**: `application-local.properties` tem a URL do datasource fixa
+em `localhost:3306` (não lê `${DB_HOST}`/`${DB_PORT}`) — pra apontar pro banco efêmero foi preciso
+sobrescrever via `EASY_DATASOURCE_URL` (relaxed binding do Spring). Documentado no
+`loadtest/README.md` pra não repetir a confusão.
+
+### Achados (resumo — detalhes completos no relatório)
+1. 🔴 **Crítico**: `NotificationOrchestratorService.dispatch()` processa 5.000 eventos
+   sequencialmente, sem lote — 17.510 queries, ~5 minutos numa única execução.
+2. ℹ️ Rate limit de login (10/min/IP) impede medir capacidade real de login a partir de uma
+   máquina só — comportamento correto do rate limiter, não um bug.
+3. ✅ `/items` sem gargalo nesta escala — 2-3 queries/request, p95 203ms sob 100 VUs.
+4. 🔧 A própria instrumentação da TASK-234 tinha um bug sob concorrência (contador global vs.
+   por-thread) — corrigido na mesma sessão, ver TASK-234.
+
+### Verificação
+`mvn test` 990/990. k6 realmente executado (não só escrito) contra a API local real, 3 rodadas de
+`items-search.js` (uma inválida por sintaxe incompatível com o motor JS do k6, uma com o
+instrumento ainda quebrado, uma final correta) + 1 rodada de `login.js` + 1 execução completa do
+job de notificação. Container Docker e app derrubados ao final — nada persistiu.
+
 ## Status
-🔴 Não iniciada
+🟢 Implementada e **executada de verdade** (não só escrita) — 1 achado crítico real, documentado
+com causa raiz, evidência numérica e sugestão de correção (sem implementar, conforme escopo do
+épico). Relatório final entregue.

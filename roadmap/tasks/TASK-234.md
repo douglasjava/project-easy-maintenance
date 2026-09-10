@@ -81,5 +81,16 @@ Baixo
   `POST /auth/login -> 3 queries, 100 ms, status=200` e `GET /items -> N queries, ...` — usado de
   fato pra cruzar com os resultados do k6.
 
+### Correção pós-validação — contador global sob concorrência
+Rodando a TASK-235 (k6 até 100 VUs), a contagem de query de `/items` apareceu variando de 2 a 60 —
+investigado a fundo (nenhum código explicava isso), causa raiz real: `Statistics.getQueryExecutionCount()`
+é um contador **global** do `SessionFactory`, não por-request — sob concorrência, uma request
+contava query de *outra* request simultânea. Trocado por `LoadTestStatementInspector`
+(`StatementInspector` do Hibernate + `ThreadLocal`), preciso mesmo sob concorrência real (JDBC
+síncrono no thread da requisição). Novo teste de concorrência (20 threads simultâneas) prova
+isolamento. `mvn test` 990/990. Detalhes completos em
+`docs/superpowers/reports/2026-09-10-load-test-findings.md` (achado #4).
+
 ## Status
-🟢 Implementada, testada e validada com a API rodando de verdade sob carga.
+🟢 Implementada, testada, e **corrigida** depois de um achado real sob carga real (contador global
+→ `ThreadLocal`). Validada de ponta a ponta contra a API rodando de verdade.

@@ -1,7 +1,10 @@
 # EPIC-029 — Teste de Carga Estrutural (achar gargalos de código, sem hardware/infra)
 
 ## Status
-Desenhado via brainstorm com Douglas (08/09/2026), pronto para implementar. Spec em
+🟢 Concluído (10/09/2026) — as 3 tasks implementadas e executadas de verdade contra a API local
+real, com 1 achado crítico real (gargalo de notificação sem lote) e 1 achado colateral que
+desbloqueou o boot local pra toda a sessão (TASK-258). Relatório final em
+`docs/superpowers/reports/2026-09-10-load-test-findings.md`. Spec original em
 `docs/superpowers/specs/2026-09-08-load-testing-epic-design.md`.
 
 ## Objetivo
@@ -66,15 +69,21 @@ raiz, não só tempo de resposta.
 
 ## Critério de Conclusão do Épico
 
-- [ ] Seed sintético roda contra um banco local descartável e monta a hierarquia
+- [x] Seed sintético roda contra um banco local descartável e monta a hierarquia
       org→usuário→item→manutenção em escala média, respeitando FKs/multi-tenant
-- [ ] Profile `loadtest` liga contagem de query por request sem alterar comportamento padrão de
+- [x] Profile `loadtest` liga contagem de query por request sem alterar comportamento padrão de
       dev/staging/produção
-- [ ] Scripts k6 cobrindo os 3 fluxos priorizados, versionados no repo, com README de como rodar
-- [ ] Relatório final de achados: cada gargalo reportado com sintoma + causa raiz + evidência +
-      sugestão (sem implementar a correção)
-- [ ] `mvn test`/`npm run build` sem regressão (nenhuma mudança deste épico deve afetar o
-      comportamento padrão da aplicação)
+- [x] Scripts k6 cobrindo os 3 fluxos priorizados, versionados no repo, com README de como rodar
+      — **e realmente executados** (não só escritos) contra a API local rodando de verdade
+- [x] Relatório final de achados: cada gargalo reportado com sintoma + causa raiz + evidência +
+      sugestão (sem implementar a correção) — `docs/superpowers/reports/2026-09-10-load-test-findings.md`
+- [x] `mvn test`/`npm run build` sem regressão (990/990) — nenhuma mudança deste épico afeta o
+      comportamento padrão da aplicação (tudo opt-in via profile `loadtest`)
+
+**Bônus não previsto no desenho original**: TASK-258 (bugfix `FirebaseMessaging`) desbloqueou o
+boot local da API pela primeira vez em toda a sessão — sem ele, o k6 teria ficado só escrito, nunca
+executado de verdade, e o achado crítico do orquestrador de notificações (#1 no relatório) nunca
+teria aparecido.
 
 ---
 
