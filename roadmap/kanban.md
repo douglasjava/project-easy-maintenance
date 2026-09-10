@@ -1716,6 +1716,11 @@ _Vazio_
 
 ## Pronto para Implementar
 
+**[TASK-259](tasks/TASK-259.md)** — Backend: lotear o despacho de notificações
+(`NotificationOrchestratorService`) (🟡 Médio | sem épico — achado real do EPIC-029, 5.000
+eventos/17.510 queries/~5min numa execução, ver
+`docs/superpowers/reports/2026-09-10-load-test-findings.md`)
+
 **🟢 EPIC-030 — Compliance Dashboard (redesenho do dashboard) — *(decisões respondidas, 09/09/2026)***:
 *(protótipo/tasks trazidos prontos por Douglas de outra sessão, sem acesso ao código — cada task
 abaixo ganhou uma seção "Viabilidade Técnica" e as 7 decisões em aberto já foram respondidas; ver
