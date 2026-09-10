@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/09/2026 — **🟢 [TASK-256](tasks/TASK-256.md) corrigida**: fila de ações do
+> `PORTFOLIO` mistura itens de várias organizações, mas "Concluir"/"Anexar evidência" levavam pra
+> telas single-tenant que usam a organização ativa do storage como `X-Org-Id` — dava "Item não
+> pertence a essa organização" quando o item clicado era de uma organização diferente da ativa.
+> `GET /dashboard/actions` agora expõe `companyCode` por item; frontend troca a organização ativa
+> antes de navegar (mesmo mecanismo do `/select-organization`, não um jeito novo de furar o
+> tenant). `POSTPONE` não precisava de ajuste (já autoriza por item, não por `X-Org-Id`). `mvn test`
+> 985/985, sem regressão no frontend.
+
 > Atualizado em: 10/09/2026 — **🟢 EPIC-030 em teste manual real pelo Douglas**: dados sintéticos de
 > TASK-254 (3 usuários, um por estado — `tenant-c/d/e-admin@e2e.test`) inseridos no MySQL local dele
 > (dessa vez sem reverter, pra teste visual contínuo). Achado real: filtrar `PORTFOLIO` pra uma
@@ -1695,6 +1704,7 @@ das 7 decisões) segue como sub-escopo da TASK-246)*
 - ~~**[TASK-252](tasks/TASK-252.md)**~~ — ~~Frontend: gráficos~~ *(implementada — 4 gráficos em `div`/CSS, sem lib nova)*
 - ~~**[TASK-253](tasks/TASK-253.md)**~~ — ~~Frontend: estado ONBOARDING~~ *(implementada com escopo reduzido — 4 passos reais em vez dos 7 do protótipo, achado: `OnboardingChecklist` antigo era `localStorage`, não dado real)*
 - ~~**[TASK-254](tasks/TASK-254.md)**~~ — ~~E2E e regressão~~ *(seed + spec Playwright implementados, dados sintéticos validados contra o MySQL real da query de conformidade; execução do Playwright em si não rodou nesta sessão — mesmo bloqueio de Firebase)*
+- ~~**[TASK-256](tasks/TASK-256.md)**~~ — ~~BUGFIX: fila de ações do PORTFOLIO navegava com organização ativa errada~~ *(achado do Douglas em teste manual real — `GET /dashboard/actions` ganhou `companyCode`, frontend troca a organização ativa antes de navegar pra `/maintenances/new`/`/items/{id}`; `mvn test` 985/985)*
 - **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)** — QA Manual consolidada do épico inteiro (9
   cenários — 3 estados de conta, fila de ações, gráficos, job de snapshot, regressão de banners) —
   aguardando execução do Douglas no ambiente real antes de abrir as PRs `api`/`web` pra staging
