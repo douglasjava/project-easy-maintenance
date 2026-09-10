@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/09/2026 — **🟢 EPIC-030 em teste manual real pelo Douglas**: dados sintéticos de
+> TASK-254 (3 usuários, um por estado — `tenant-c/d/e-admin@e2e.test`) inseridos no MySQL local dele
+> (dessa vez sem reverter, pra teste visual contínuo). Achado real: filtrar `PORTFOLIO` pra uma
+> unidade com poucos itens mas manutenção real mostrava `ONBOARDING` indevidamente —
+> `itemsTotal < 5` removido do critério de estado (`DashboardSummaryService`), agora só
+> `maintenancesEver == 0` decide `ONBOARDING`. Corrigido direto na branch
+> `feature/EPIC-030-compliance-dashboard` (ainda não tem PR aberta), `mvn test` 985/985. Detalhes em
+> [TASK-246](tasks/TASK-246.md).
+
 > Atualizado em: 09/09/2026 — **🟢 EPIC-030 completo em código (TASK-246 a TASK-254), pendente QA
 > manual do Douglas**. Onda 3 (TASK-254, E2E): seed sintético de 3 tenants (`ONBOARDING`/
 > `OPERATING`/`PORTFOLIO`) + primeiro spec Playwright do projeto `ui` (`tests/frontend/

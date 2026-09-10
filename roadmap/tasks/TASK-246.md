@@ -193,8 +193,18 @@ a fórmula/endpoint em si.
 
 Branch `feature/EPIC-030-compliance-dashboard` (a partir de `staging`).
 
+### Achado no teste manual do Douglas (10/09) — critério de `ONBOARDING` corrigido
+Testando com a conta `PORTFOLIO` de 3 organizações (ver TASK-254), filtrar pra uma unidade
+específica com poucos itens (2) mas manutenção real registrada mostrava `ONBOARDING` em vez do
+dashboard real — o critério original (`itemsTotal < 5 OR maintenancesEver == 0`) reacionava mesmo
+com histórico de uso genuíno. Decisão do Douglas: remover `itemsTotal < 5` do critério, deixar só
+`maintenancesEver == 0` (`DashboardSummaryService.getSummary`). `itemsTotal` continua sendo
+retornado e usado como incentivo dentro do `OnboardingPanel` (frontend, TASK-253), só não decide
+mais o `state`. Novo teste `singleOrganization_fewItemsButRealHistory_returnsOperating`, `mvn test`
+985/985.
+
 ## Status
-🟢 Implementado e testado (`mvn test` 965/965) — pronto pra QA manual/PR. Não deu pra validar o
-endpoint `/dashboard/summary` num navegador/HTTP real nesta sessão (mesmo bloqueio de credencial
-Firebase já documentado no EPIC-030/TASK-243 — a API local completa não sobe sem
-`FIREBASE_SERVICE_ACCOUNT_JSON`).
+🟢 Implementado, testado e com um achado real de QA manual já corrigido (`mvn test` 985/985) —
+pronto pra nova rodada de QA/PR. Endpoint `/dashboard/summary` já validado por Douglas contra o
+ambiente local real dele (dados sintéticos de TASK-254 inseridos no MySQL local dele, não revertidos
+desta vez, pra ele continuar testando visualmente).
