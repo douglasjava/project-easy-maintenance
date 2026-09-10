@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/09/2026 — **🟢 EPIC-030 — `staging` → `main` aberta**: PRs #90 (api) e #77 (web)
+> mergeadas em `staging` pelo Douglas depois de testar no ambiente real dele; PRs de promoção pra
+> `main` abertas: [api#91](https://github.com/douglasjava/easy-maintenance-api/pull/91),
+> [web#78](https://github.com/douglasjava/easy-maintenance-web/pull/78).
+
 > Atualizado em: 10/09/2026 — **🟢 EPIC-030 — PRs abertas pra staging**: `feature/EPIC-030-compliance-dashboard`
 > consolidada (TASK-246 a TASK-257, incluindo os 3 achados de QA manual do Douglas — TASK-255/256/257
 > — já corrigidos na mesma branch) e enviada: [api#90](https://github.com/douglasjava/easy-maintenance-api/pull/90),
