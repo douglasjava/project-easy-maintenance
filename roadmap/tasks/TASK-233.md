@@ -63,5 +63,32 @@ suficiente pra rodar de novo sem fricção.
 ## Esforço
 Médio
 
+## Implementação
+
+### Arquivos criados
+- `db/queries/loadtest-seed.sql` — 100% set-based (`INSERT...SELECT` via tabela auxiliar de
+  números 0..999, cross join de "dígitos", sem recursão/stored procedure), respeitando FKs e o
+  modelo multi-tenant real (`user_organizations`, não a antiga coluna direta em `users`).
+- `db/queries/README-loadtest.md` — como rodar, tempo medido, credenciais geradas.
+
+### Decisões tomadas durante a implementação
+- **Código de organização precisa ser hex-válido**: a primeira versão usava um prefixo
+  `loadtest-...` legível, mas a API valida `X-Org-Id` como UUID (regex hex) — `loadtest` tem
+  letras fora de `a-f` e a validação rejeitava com 400. Trocado pro padrão clássico `deadbeef-...`
+  (hex válido, ainda reconhecível como dado sintético).
+- **`seq_0999` referenciada duas vezes na mesma query (papel de org e de item) quebra**: MySQL não
+  permite abrir a mesma `TEMPORARY TABLE` duas vezes numa query (`Can't reopen table`). Corrigido
+  criando `seq_0999b`, uma segunda cópia idêntica, só pra esse caso.
+- Todos os itens são `OPERATIONAL` (sem `norm_id`) — os 3 fluxos priorizados não distinguem
+  item regulatório de operacional, e evitar o join com `norms` mantém a geração mais simples/rápida.
+
+### Verificação (contra MySQL 8.0.33 real, container Docker efêmero)
+- Volume bate exato com o alvo: 500 orgs / 500 users / 50.000 itens / 150.000 manutenções.
+- Zero item/manutenção órfã; todo org com exatamente 100 itens (sem vazamento cross-tenant).
+- Idempotente: rodado 2x seguidas, mesmo volume final nas duas.
+- Tempo: ~9,4s primeira execução, ~22,3s reexecução (limpa antes de recriar).
+- **Validado de ponta a ponta com a API real rodando** (TASK-235/258): login, `/items` e o job de
+  detecção de notificação todos funcionaram contra este seed.
+
 ## Status
-🔴 Não iniciada
+🟢 Implementada, testada e validada com a API rodando de verdade contra o dado gerado.

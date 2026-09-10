@@ -62,5 +62,24 @@ durante o teste de carga em ambiente descartável, nunca em produção/staging.
 ## Esforço
 Baixo
 
+## Implementação
+
+### Arquivos criados
+- `src/main/resources/application-loadtest.properties` — liga
+  `spring.jpa.properties.hibernate.generate_statistics=true`.
+- `src/main/java/.../shared/web/filter/LoadTestQueryCountFilter.java` — `@Component
+  @Profile("loadtest")` (bean nem existe fora do profile), `OncePerRequestFilter` que lê
+  `Statistics.getQueryExecutionCount()` antes/depois de cada request via
+  `EntityManagerFactory.unwrap(SessionFactory.class)`, loga o delta no logger
+  `loadtest.querycount`.
+
+### Verificação
+- `LoadTestQueryCountFilterTest` (2 testes, Mockito + Logback `ListAppender`) — confirma o cálculo
+  do delta e que o log sai mesmo quando o request downstream lança exceção.
+- `mvn test` completo sem regressão (o profile não é ativado pela suíte de testes).
+- **Validado com a API real rodando** (TASK-235): confirmado no log de verdade, ex.
+  `POST /auth/login -> 3 queries, 100 ms, status=200` e `GET /items -> N queries, ...` — usado de
+  fato pra cruzar com os resultados do k6.
+
 ## Status
-🔴 Não iniciada
+🟢 Implementada, testada e validada com a API rodando de verdade sob carga.
