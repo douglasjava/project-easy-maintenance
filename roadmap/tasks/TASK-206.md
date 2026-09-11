@@ -57,9 +57,9 @@ decidir entre as duas opções:
 
 ## Critérios de Aceite
 
-- [ ] Aba Pagamento não mostra mais "STARTER" fixo pra usuários com outro plano
-- [ ] Nenhuma chamada de rede pra rota inexistente (`/user/{id}/subscription`)
-- [ ] `mvn test` e `npm run build` sem regressão
+- [X] Aba Pagamento não mostra mais "STARTER" fixo pra usuários com outro plano
+- [X] Nenhuma chamada de rede pra rota inexistente (`/user/{id}/subscription`)
+- [X] `mvn test` e `npm run build` sem regressão
 
 ## Fora de Escopo
 
@@ -78,9 +78,10 @@ Baixo — mudança isolada na aba Pagamento do admin, sem afetar cobrança real.
 Baixo
 
 ## Status
-🟡 Em validação — testada localmente pelo Douglas, PRs abertas contra `staging`:
-[api#49](https://github.com/douglasjava/easy-maintenance-api/pull/49),
-[web#54](https://github.com/douglasjava/easy-maintenance-web/pull/54).
+🟢 Concluída — testada localmente pelo Douglas, PRs mergeadas em `staging` (26/08/2026) e já
+promovidas pra `main`: [api#49](https://github.com/douglasjava/easy-maintenance-api/pull/49),
+[web#54](https://github.com/douglasjava/easy-maintenance-web/pull/54). Confirmado fechado por
+Douglas em 11/09/2026.
 
 - api: `714badf` — `BillingSubscriptionItemService.findByUser`, endpoint
   `GET /admin/billing/users/{userId}/subscription` (reaproveita

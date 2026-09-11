@@ -1754,7 +1754,7 @@ comissionado por cliente)*
 *(2/2 tasks mergeadas em `main` — [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) / [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59), confirmado 07/09/2026)*
 
 **Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
-- **[TASK-206](tasks/TASK-206.md)** — BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado) — testado local, PR api#49/web#54
+- ~~**[TASK-206](tasks/TASK-206.md)**~~ — ~~BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado)~~ *(confirmado fechado por Douglas 11/09/2026 — PRs mergeadas em `staging` 26/08 e já em `main`: api#49/web#54)*
 
 **EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
 implementadas, mergeadas em `main` — *(24/08/2026, confirmado 07/09/2026)***:
