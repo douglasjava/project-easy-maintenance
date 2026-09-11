@@ -340,6 +340,9 @@ CREATE TABLE supplier_access_tokens (
 );
 CREATE INDEX idx_supplier_access_tokens_supplier ON supplier_access_tokens (supplier_id);
 
+-- COLLATE explicito: organizations.code usa utf8mb4_0900_ai_ci, diferente do default do banco
+-- (utf8mb4_unicode_ci) -- sem isso a FK falha com "incompatible collation" (erro 3780, achado
+-- validando esta migration contra o MySQL real, mesmo padrão já usado em user_organizations).
 CREATE TABLE supplier_budget_requests (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     supplier_id BIGINT NOT NULL,
@@ -349,7 +352,7 @@ CREATE TABLE supplier_budget_requests (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_supplier_budget_requests_supplier FOREIGN KEY (supplier_id) REFERENCES suppliers (id),
     CONSTRAINT fk_supplier_budget_requests_organization FOREIGN KEY (organization_code) REFERENCES organizations (code)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 CREATE INDEX idx_supplier_budget_requests_supplier ON supplier_budget_requests (supplier_id);
 ```
 
@@ -583,14 +586,35 @@ import com.brainbyte.easy_maintenance.supplier_billing.domain.SupplierSubscripti
 import com.brainbyte.easy_maintenance.supplier_billing.domain.enums.SupplierSubscriptionStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+// Flyway desabilitado: as migrations reais (V1 em diante) usam sintaxe MySQL (ENGINE=InnoDB etc.)
+// que o H2 de teste não entende -- mesmo ajuste já usado em SupplierPersistenceTest (TASK-241).
+// EntityScan/EnableJpaRepositories restritos: um @DataJpaTest sem escopo varre TODOS os
+// repositórios da aplicação, incluindo InAppNotificationRepository (query @Modifying com
+// CURRENT_TIMESTAMP -> Instant, falha de validação do Hibernate sem relação nenhuma com este
+// teste) -- mesmo padrão já usado em SupplierPersistenceTest.
 @DataJpaTest
+@EntityScan(basePackageClasses = {Supplier.class, SupplierSubscription.class})
+@EnableJpaRepositories(
+        basePackageClasses = {SupplierRepository.class, SupplierSubscriptionRepository.class},
+        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+                classes = {SupplierRepository.class, SupplierSubscriptionRepository.class})
+)
+@TestPropertySource(properties = {
+        "spring.flyway.enabled=false",
+        "spring.jpa.hibernate.ddl-auto=create-drop"
+})
 class SupplierBillingPersistenceTest {
 
     @Autowired SupplierSubscriptionRepository subscriptionRepository;
@@ -1356,6 +1380,7 @@ class SupplierPaymentActivationServiceTest {
                 .marketplaceEnabled(false).build();
         when(supplierRepository.findById(100L)).thenReturn(Optional.of(supplier));
         when(accessTokenRepository.findBySupplierId(100L)).thenReturn(Optional.empty());
+        when(accessTokenRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
         when(emailTemplateHelper.generateSupplierActivationHtml(anyString(), anyString())).thenReturn("<html></html>");
 
         service.activateFromWebhook(100L);
@@ -2175,6 +2200,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

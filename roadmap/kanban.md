@@ -1,16 +1,17 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 11/09/2026 — **🟡 EPIC-028 Fase 2 (Marketplace de Fornecedores) em andamento**:
-> braintorme + spec + plano aprovados por Douglas
-> (`docs/superpowers/specs/2026-09-11-supplier-marketplace-monetization-design.md`,
-> `docs/superpowers/plans/2026-09-11-supplier-marketplace-monetization.md`). Fornecedor cadastrado
-> pelo síndico continua livre; auto-cadastro público paga R$15,99/mês (PIX) pra ficar visível pra
-> outras organizações e "chamável" via WhatsApp. Implementação em andamento na branch
-> `feature/EPIC-028-fase2-marketplace` (repo api) — Tasks 1-6/12 do plano concluídas e testadas
-> (TASK-260 a TASK-265): generalização CPF/CNPJ, entidades de cobrança isolada, gating de
-> visibilidade, "Solicitar Orçamento", auto-cadastro + cobrança PIX, ativação via webhook. Restam
-> Tasks 7-9 (gestão via link mágico, job de cobrança mensal, ativação manual pelo admin) e Tasks
-> 10-12 (frontend). Sem PR aberta ainda — Douglas vai testar tudo junto no final do épico.
+> Atualizado em: 11/09/2026 — **🟡 EPIC-028 Fase 2 (Marketplace de Fornecedores) — implementação
+> completa, aguardando QA do Douglas**: as 12 tasks do plano
+> (`docs/superpowers/plans/2026-09-11-supplier-marketplace-monetization.md`) concluídas e testadas
+> — 9 no repo `api` (TASK-260 a TASK-268: generalização CPF/CNPJ, entidades de cobrança isolada,
+> gating de visibilidade, "Solicitar Orçamento", auto-cadastro + cobrança PIX, ativação via
+> webhook, gestão via link mágico, job mensal de cobrança/suspensão, ativação manual admin) e 3 no
+> repo `web` (TASK-269 a TASK-271: CPF/CNPJ + Solicitar Orçamento em `/fornecedores`, página
+> pública de auto-cadastro, página pública de gestão via link mágico). Branch
+> `feature/EPIC-028-fase2-marketplace` em ambos os repos, `mvn test` e `npm run build`/`eslint`
+> limpos em cada task. Plano de teste manual consolidado:
+> [TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md). Sem PR aberta ainda — Douglas vai testar tudo
+> junto (não roda nesta sessão por falta de credenciais Asaas/SMTP reais no ambiente).
 
 > Atualizado em: 11/09/2026 — **🟢 EPIC-029 — `staging` → `main` aberta**: PR
 > [api#92](https://github.com/douglasjava/easy-maintenance-api/pull/92) mergeada em `staging` pelo
