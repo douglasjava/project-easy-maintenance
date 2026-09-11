@@ -214,17 +214,22 @@ confira sua FK antes de rodar se estiver num banco que você não pode recriar d
 ## Critérios de Aceite da Suíte
 
 - [X] C1: suítes automatizadas sem regressão (backend 984/984 + frontend build/test + e2e typecheck)
-- [ ] C2: estado ONBOARDING renderiza corretamente, sem gráfico/índice fabricado
-- [ ] C3: estado OPERATING — hero, KPIs, fila de ações, `aria-label` do anel
-- [ ] C4: estado PORTFOLIO — seletor de unidades, índice agregado (soma, não média), filtro via URL
-- [ ] C5: adiar sem motivo é bloqueado no cliente; adiar com motivo funciona e recalcula o índice
-- [ ] C6: completar e anexar evidência levam pros destinos certos
-- [ ] C7: os 4 gráficos renderizam com dado real, sem overflow no body
-- [ ] C8: job de snapshot roda, é idempotente, alimenta o histórico
-- [ ] C9: banners e estados de conta existentes não regrediram
+- [X] C2: estado ONBOARDING renderiza corretamente, sem gráfico/índice fabricado
+- [X] C3: estado OPERATING — hero, KPIs, fila de ações, `aria-label` do anel
+- [X] C4: estado PORTFOLIO — seletor de unidades, índice agregado (soma, não média), filtro via URL
+- [X] C5: adiar sem motivo é bloqueado no cliente; adiar com motivo funciona e recalcula o índice
+- [X] C6: completar e anexar evidência levam pros destinos certos
+- [X] C7: os 4 gráficos renderizam com dado real, sem overflow no body
+- [X] C8: job de snapshot roda, é idempotente, alimenta o histórico
+- [X] C9: banners e estados de conta existentes não regrediram
 
 ## Status
-🔴 Aguardando execução por Douglas contra o ambiente local real (com Firebase/credenciais
-verdadeiras) — mesmo bloqueio de sempre impediu qualquer validação end-to-end nesta sessão. PRs de
-`api`/`web` para `staging` só devem ser abertas depois desta aprovação, seguindo o mesmo padrão do
-EPIC-028 ([TASK-QA-MAN-020](TASK-QA-MAN-020.md)).
+✅ Aprovado por Douglas (11/09/2026) — testado contra o ambiente real dele (com
+Firebase/credenciais verdadeiras). Achados durante a execução, todos corrigidos na própria branch
+antes do merge: [TASK-255](../../tasks/TASK-255.md) (cache `norms` faltando nos profiles),
+[TASK-256](../../tasks/TASK-256.md) (fila de ações do PORTFOLIO navegava com organização ativa
+errada), [TASK-257](../../tasks/TASK-257.md) (botão "Exportar PDF" desabilitado removido). PRs
+`api`/`web` pra `staging` abertas e mergeadas ([api#90](https://github.com/douglasjava/easy-maintenance-api/pull/90),
+[web#77](https://github.com/douglasjava/easy-maintenance-web/pull/77)), promovidas pra `main`
+([api#91](https://github.com/douglasjava/easy-maintenance-api/pull/91),
+[web#78](https://github.com/douglasjava/easy-maintenance-web/pull/78)) — EPIC-030 concluído.

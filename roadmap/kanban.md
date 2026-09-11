@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 11/09/2026 — **🟢 EPIC-029 — `staging` → `main` aberta**: PR
+> [api#92](https://github.com/douglasjava/easy-maintenance-api/pull/92) mergeada em `staging` pelo
+> Douglas; PR de promoção pra `main` aberta:
+> [api#93](https://github.com/douglasjava/easy-maintenance-api/pull/93). **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)
+> aprovada** — QA manual consolidada do EPIC-030 (9 cenários) fechada por Douglas, C1-C9 confirmados.
+
 > Atualizado em: 10/09/2026 — **🟢 EPIC-029 concluído (Teste de Carga Estrutural)**: as 3 tasks
 > (TASK-233/234/235) implementadas E **realmente executadas** contra a API local rodando de
 > verdade (não só escritas) — 500 organizações/50 mil itens/150 mil manutenções sintéticas, MySQL
@@ -1737,12 +1743,7 @@ das 7 decisões) segue como sub-escopo da TASK-246)*
 - ~~**[TASK-254](tasks/TASK-254.md)**~~ — ~~E2E e regressão~~ *(seed + spec Playwright implementados, dados sintéticos validados contra o MySQL real da query de conformidade; execução do Playwright em si não rodou nesta sessão — mesmo bloqueio de Firebase)*
 - ~~**[TASK-256](tasks/TASK-256.md)**~~ — ~~BUGFIX: fila de ações do PORTFOLIO navegava com organização ativa errada~~ *(achado do Douglas em teste manual real — `GET /dashboard/actions` ganhou `companyCode`, frontend troca a organização ativa antes de navegar pra `/maintenances/new`/`/items/{id}`; `mvn test` 985/985)*
 - ~~**[TASK-257](tasks/TASK-257.md)**~~ — ~~UX: remover botão "Exportar PDF" desabilitado~~ *(pedido do Douglas pré-merge — botão desabilitado com tooltip ainda convida clique)*
-- **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)** — QA Manual consolidada do épico inteiro (9
-  cenários — 3 estados de conta, fila de ações, gráficos, job de snapshot, regressão de banners) —
-  Douglas já testou boa parte diretamente no ambiente real dele (achou e TASK-255/256/257 já
-  corrigidas); PRs abertas pra staging:
-  [api#90](https://github.com/douglasjava/easy-maintenance-api/pull/90),
-  [web#77](https://github.com/douglasjava/easy-maintenance-web/pull/77)
+- ~~**[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)**~~ — ~~QA Manual consolidada do épico inteiro (9 cenários)~~ *(✅ aprovado por Douglas 11/09/2026 — C1-C9 confirmados, 3 achados já corrigidos na própria branch (TASK-255/256/257); PRs `api`/`web` mergeadas em `staging` e promovidas pra `main`)*
 
 **EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
 *(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
