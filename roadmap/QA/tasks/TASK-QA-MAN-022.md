@@ -21,8 +21,12 @@ Full-Stack / Monetização (novo domínio de cobrança + 2 páginas públicas no
 [TASK-268](../../tasks/TASK-268.md) (ativação manual admin) /
 [TASK-269](../../tasks/TASK-269.md) (frontend `/fornecedores`) /
 [TASK-270](../../tasks/TASK-270.md) (frontend auto-cadastro) /
-[TASK-271](../../tasks/TASK-271.md) (frontend gestão via link) — [EPIC-028](../../epics/EPIC-028.md)
-Fase 2
+[TASK-271](../../tasks/TASK-271.md) (frontend gestão via link) /
+[TASK-272](../../tasks/TASK-272.md) (bugfix páginas públicas redirecionando pro login) /
+[TASK-273](../../tasks/TASK-273.md) (bugfix 403 nos endpoints públicos) /
+[TASK-274](../../tasks/TASK-274.md) (bugfix X-Org-Id obrigatório) /
+[TASK-275](../../tasks/TASK-275.md) (categorias estruturadas + recobrança + link permanente +
+layout) — [EPIC-028](../../epics/EPIC-028.md) Fase 2
 
 ---
 
@@ -136,16 +140,24 @@ Já executado e confirmado durante a implementação.
 > foi adicionado. Corrigido em `feature/EPIC-028-fase2-marketplace` (repo `api`), commit
 > `TASK-274`, com teste de regressão novo. Confirmado que não há mais nenhuma camada transversal
 > pendente (checado `ApiRequestContextFilter`, `BootstrapAdminFilter`, `RateLimitAspect`).
-> **Repita o teste do C4/C6 a partir desta correção.**
+>
+> **Melhorias de produto pedidas pelo Douglas na mesma sessão de teste** (via brainstorm formal,
+> ver [TASK-275](../../tasks/TASK-275.md)): categoria vira multi-select estruturado (não mais texto
+> livre), telefone/categoria obrigatórios, recobrança reaproveita a cobrança pendente em vez de
+> gerar uma nova a cada tentativa (o 409 do passo 4 original era justamente esse bug), e o
+> cadastro agora devolve também um link permanente de acompanhamento da conta. Os passos abaixo já
+> refletem o comportamento novo. **Repita o teste do C4/C6 a partir desta versão.**
 
-| Passo | Ação                                                                                    | Resultado esperado                                                                                                     |
-|-------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| 1     | Acessar `/fornecedores/cadastro` (sem estar logado, aba anônima)                        | Formulário público: CPF/CNPJ, nome, e-mail, telefone, categoria                                                        |
-| 2     | Preencher com dados válidos e um documento **novo** (nunca cadastrado antes) e submeter | Cria o `Supplier`, gera cliente + cobrança PIX no Asaas, mostra tela "Quase lá!" com o link de pagamento (R$15,99/mês) |
-| 3     | Abrir o link de pagamento                                                               | Deve ser um checkout PIX válido do Asaas (sandbox), vencimento em 3 dias                                               |
-| 4     | Repetir o cadastro com o **mesmo** documento do passo 2                                 | Reaproveita o `Supplier` existente (não duplica), gera uma nova cobrança pro mesmo fornecedor                          |
-| 5     | Tentar submeter 6 vezes seguidas do mesmo IP em menos de 1 hora                         | A partir da 6ª, deve ser bloqueado pelo rate limit (`supplier-self-register`: 5/hora/IP)                               |
-| 6     | Tentar submeter com CPF/CNPJ inválido                                                   | Erro de validação no campo, sem chamar o backend                                                                       |
+| Passo | Ação                                                                                    | Resultado esperado                                                                                                                                          |
+|-------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Acessar `/fornecedores/cadastro` (sem estar logado, aba anônima)                        | Formulário público com o logo do produto no topo: CPF/CNPJ, nome, e-mail, telefone, categorias (chips clicáveis, pelo menos 1 obrigatória, cada uma pode expandir uma lista de serviços opcional) |
+| 2     | Tentar submeter sem marcar nenhuma categoria                                            | Bloqueado no cliente, mensagem "Selecione pelo menos uma categoria"                                                                                        |
+| 3     | Preencher com dados válidos, marcar 1+ categorias (e opcionalmente alguns serviços) e um documento **novo**, submeter | Cria o `Supplier`, gera cliente + cobrança PIX no Asaas, mostra tela de sucesso com o link de pagamento (R$15,99/mês) **e** um link permanente "guarde este link" (`/fornecedores/gerenciar/<token>`) |
+| 4     | Abrir o link de pagamento                                                               | Checkout PIX válido do Asaas (sandbox), vencimento em 3 dias                                                                                               |
+| 5     | Repetir o cadastro com o **mesmo** documento do passo 3, sem pagar a cobrança anterior  | Reaproveita o `Supplier` e a `SupplierSubscription` existentes — **mesmo** link de pagamento devolvido, sem chamar o Asaas de novo (antes disso dava 409 — se ainda der, é regressão) |
+| 6     | Aguardar a cobrança vencer (3 dias) ou forçar `current_period_end` pro passado no banco, repetir o cadastro | Gera uma cobrança **nova** (link diferente), mas atualiza a mesma `SupplierSubscription` — confira que não criou uma segunda linha em `supplier_subscriptions` pro mesmo `supplier_id` |
+| 7     | Tentar submeter 6 vezes seguidas do mesmo IP em menos de 1 hora                         | A partir da 6ª, deve ser bloqueado pelo rate limit (`supplier-self-register`: 5/hora/IP)                                                                   |
+| 8     | Tentar submeter com CPF/CNPJ inválido                                                   | Erro de validação no campo, sem chamar o backend                                                                                                           |
 
 ---
 
@@ -163,13 +175,14 @@ Já executado e confirmado durante a implementação.
 
 ### C6 — Gestão via link mágico
 
-| Passo | Ação                                                                                               | Resultado esperado                                                          |
-|-------|----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| 1     | Acessar `/fornecedores/gerenciar/<token>` com o token recebido no C5                               | Mostra nome, badge "Visível no marketplace", status da assinatura ("Ativa") |
-| 2     | Alterar telefone e categoria, salvar                                                               | Toast de sucesso, dados refletem na tela                                    |
-| 3     | Conferir em `/fornecedores` (organização que enxerga o fornecedor)                                 | Telefone/categoria atualizados aparecem na busca                            |
-| 4     | Acessar `/fornecedores/gerenciar/token-invalido-qualquer-coisa`                                    | Mensagem "Link inválido ou expirado", sem quebrar a página                  |
-| 5     | Tentar mais de 30 requisições em 1 minuto pro mesmo endpoint (script simples ou recarregar rápido) | Rate limit (`supplier-manage`: 30/min/IP) bloqueia a partir da 31ª          |
+| Passo | Ação                                                                                               | Resultado esperado                                                                                                              |
+|-------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Acessar o link permanente gerado no C4 passo 3 (**antes** de pagar)                                | Mostra nome, badge "Não visível", banner laranja de pagamento pendente com o mesmo link de pagamento do C4 |
+| 2     | Acessar de novo depois de ativado (C5)                                                             | Banner de pagamento pendente some; badge vira "Visível no marketplace", status "Ativa"                                          |
+| 3     | Alterar telefone e as categorias/serviços marcados (usando os chips/checkboxes), salvar             | Toast de sucesso, dados refletem na tela                                                                                        |
+| 4     | Conferir em `/fornecedores` (organização que enxerga o fornecedor)                                 | Telefone/categorias atualizados aparecem na busca                                                                               |
+| 5     | Acessar `/fornecedores/gerenciar/token-invalido-qualquer-coisa`                                    | Mensagem "Link inválido ou expirado", sem quebrar a página                                                                      |
+| 6     | Tentar mais de 30 requisições em 1 minuto pro mesmo endpoint (script simples ou recarregar rápido) | Rate limit (`supplier-manage`: 30/min/IP) bloqueia a partir da 31ª                                                              |
 
 ---
 
@@ -212,12 +225,18 @@ DELETE FROM supplier_budget_requests WHERE summary LIKE 'QA-EPIC028F2%' OR suppl
   SELECT id FROM suppliers WHERE name LIKE 'QA-EPIC028F2%');
 DELETE FROM supplier_access_tokens WHERE supplier_id IN (
   SELECT id FROM suppliers WHERE name LIKE 'QA-EPIC028F2%');
+DELETE FROM supplier_service_links WHERE supplier_id IN (
+  SELECT id FROM suppliers WHERE name LIKE 'QA-EPIC028F2%');
+DELETE FROM supplier_category_links WHERE supplier_id IN (
+  SELECT id FROM suppliers WHERE name LIKE 'QA-EPIC028F2%');
 DELETE FROM supplier_subscriptions WHERE supplier_id IN (
   SELECT id FROM suppliers WHERE name LIKE 'QA-EPIC028F2%');
 DELETE FROM supplier_organization_links WHERE supplier_id IN (
   SELECT id FROM suppliers WHERE name LIKE 'QA-EPIC028F2%');
 DELETE FROM suppliers WHERE name LIKE 'QA-EPIC028F2%';
 ```
+(Não apague `supplier_categories`/`supplier_services` — é o seed fixo da taxonomia, não dado de
+teste.)
 (Cancele/estorne no painel Asaas sandbox as cobranças de teste geradas no C4, se aplicável — a
 limpeza acima só cobre o banco local.)
 

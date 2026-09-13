@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-275](tasks/TASK-275.md) concluída**:
+> depois dos 3 bugfixes de acesso público, Douglas pediu (brainstorm formal, sem PR ainda)
+> 4 melhorias de produto + 2 correções de fluxo antes de continuar testando: categoria vira
+> taxonomia estruturada própria (13 categorias/42 serviços, N:N — um fornecedor pode ter várias),
+> telefone obrigatório no cadastro do síndico, layout com o logo real nas páginas públicas, e
+> recobrança reaproveitando a cobrança PIX pendente em vez de gerar uma nova a cada tentativa
+> (corrige o 409 que ele encontrou). Token de acesso agora é gerado já no registro — cadastro
+> público mostra o link de pagamento **e** um link permanente de acompanhamento da conta.
+> Implementado e testado (backend + frontend, sem regressão) nos dois repos. Plano de QA
+> ([TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md)) atualizado com os cenários C2/C4/C6 revisados —
+> Douglas retesta a partir daqui.
+
 > Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-274](tasks/TASK-274.md) corrigida**:
 > terceira camada do mesmo bug do TASK-272/273 — `POST /public/suppliers/register` agora passava
 > pelo Spring Security mas voltava `400 "Missing X-Org-Id header"`. Causa: `TenantFilter` exige
