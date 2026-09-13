@@ -81,11 +81,11 @@ C4 dispara uma cobrança PIX real no Asaas (mesmo em sandbox, gera registro lá)
 
 ### C1 — Suítes automatizadas, sem regressão
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | `mvn test` na branch `feature/EPIC-028-fase2-marketplace` (`easy-maintenance-api`) | PASS, sem regressão em nenhum módulo (inclusive `PaymentReceivedHandlerTest` já existente — fluxo de organização intocado) |
-| 2 | `npm run build` e `npm test` na branch equivalente (`easy-maintenance-web`) | Build limpo (rotas `/fornecedores`, `/fornecedores/cadastro`, `/fornecedores/gerenciar/[token]` geradas); jest 107/110 (3 falhas pré-existentes em `middleware.test.ts`, não relacionadas) |
-| 3 | `npx eslint src/app/fornecedores/` (`easy-maintenance-web`) | Sem erros |
+| Passo | Ação                                                                               | Resultado esperado                                                                                                                                                                         |
+|-------|------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | `mvn test` na branch `feature/EPIC-028-fase2-marketplace` (`easy-maintenance-api`) | PASS, sem regressão em nenhum módulo (inclusive `PaymentReceivedHandlerTest` já existente — fluxo de organização intocado)                                                                 |
+| 2     | `npm run build` e `npm test` na branch equivalente (`easy-maintenance-web`)        | Build limpo (rotas `/fornecedores`, `/fornecedores/cadastro`, `/fornecedores/gerenciar/[token]` geradas); jest 107/110 (3 falhas pré-existentes em `middleware.test.ts`, não relacionadas) |
+| 3     | `npx eslint src/app/fornecedores/` (`easy-maintenance-web`)                        | Sem erros                                                                                                                                                                                  |
 
 Já executado e confirmado durante a implementação.
 
@@ -93,93 +93,102 @@ Já executado e confirmado durante a implementação.
 
 ### C2 — Cadastro pelo síndico continua livre (regressão do EPIC-028 v1)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Logado numa organização A, ir em `/fornecedores`, cadastrar um fornecedor novo com CPF válido (ex: gerar um CPF de teste válido) | Cadastra normalmente, sem cobrança, `registrationCount = 1`, aparece na lista da própria organização |
-| 2 | Repetir o cadastro com um CNPJ válido | Também aceita — campo agora é "CPF ou CNPJ", máscara ajusta sozinha ao tamanho digitado |
-| 3 | Logado numa organização B (diferente, mesma cidade/estado), cadastrar o **mesmo** documento do passo 1 | Não duplica — só cria o vínculo, mesmo comportamento já existente da TASK-242; `registrationCount` sobe pra 2 |
-| 4 | Ainda em B, ir em `/fornecedores` e buscar por essa região | **Não aparece** o fornecedor do passo 1 pra B, a menos que B tenha sido quem cadastrou ou vinculou — é o gating novo (TASK-262): só aparece pra quem cadastrou/vinculou, ou se `marketplace_enabled=true` |
-| 5 | Voltar pra organização A | O fornecedor cadastrado por A continua aparecendo normalmente pra A, mesmo sem pagar |
+| Passo | Ação                                                                                                                             | Resultado esperado                                                                                                                                                                                        |
+|-------|----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Logado numa organização A, ir em `/fornecedores`, cadastrar um fornecedor novo com CPF válido (ex: gerar um CPF de teste válido) | Cadastra normalmente, sem cobrança, `registrationCount = 1`, aparece na lista da própria organização                                                                                                      |
+| 2     | Repetir o cadastro com um CNPJ válido                                                                                            | Também aceita — campo agora é "CPF ou CNPJ", máscara ajusta sozinha ao tamanho digitado                                                                                                                   |
+| 3     | Logado numa organização B (diferente, mesma cidade/estado), cadastrar o **mesmo** documento do passo 1                           | Não duplica — só cria o vínculo, mesmo comportamento já existente da TASK-242; `registrationCount` sobe pra 2                                                                                             |
+| 4     | Ainda em B, ir em `/fornecedores` e buscar por essa região                                                                       | **Não aparece** o fornecedor do passo 1 pra B, a menos que B tenha sido quem cadastrou ou vinculou — é o gating novo (TASK-262): só aparece pra quem cadastrou/vinculou, ou se `marketplace_enabled=true` |
+| 5     | Voltar pra organização A                                                                                                         | O fornecedor cadastrado por A continua aparecendo normalmente pra A, mesmo sem pagar                                                                                                                      |
 
 ---
 
 ### C3 — "Solicitar Orçamento"
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Na lista de fornecedores (`/fornecedores`), clicar "Solicitar Orçamento" num fornecedor com telefone cadastrado | Abre modal pedindo o resumo da necessidade |
-| 2 | Preencher o resumo e confirmar | Toast/fechamento do modal, e uma nova aba abre com `wa.me/55<telefone>?text=...` com a mensagem pronta |
-| 3 | Conferir no backend (`supplier_budget_requests`) | Linha nova gravada com `organization_code`/`requested_by_user_id`/`summary` corretos |
-| 4 | Repetir com um fornecedor **sem** telefone cadastrado | Solicitação é registrada normalmente, mas não tenta abrir o WhatsApp (sem `phone`, o `window.open` é pulado) |
-| 5 | Testar no mobile (viewport estreito) | Botão aparece no card, mesmo comportamento |
+| Passo | Ação                                                                                                            | Resultado esperado                                                                                           |
+|-------|-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| 1     | Na lista de fornecedores (`/fornecedores`), clicar "Solicitar Orçamento" num fornecedor com telefone cadastrado | Abre modal pedindo o resumo da necessidade                                                                   |
+| 2     | Preencher o resumo e confirmar                                                                                  | Toast/fechamento do modal, e uma nova aba abre com `wa.me/55<telefone>?text=...` com a mensagem pronta       |
+| 3     | Conferir no backend (`supplier_budget_requests`)                                                                | Linha nova gravada com `organization_code`/`requested_by_user_id`/`summary` corretos                         |
+| 4     | Repetir com um fornecedor **sem** telefone cadastrado                                                           | Solicitação é registrada normalmente, mas não tenta abrir o WhatsApp (sem `phone`, o `window.open` é pulado) |
+| 5     | Testar no mobile (viewport estreito)                                                                            | Botão aparece no card, mesmo comportamento                                                                   |
 
 ---
 
 ### C4 — Auto-cadastro público + cobrança PIX (⚠️ crítico — dinheiro real/sandbox)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Acessar `/fornecedores/cadastro` (sem estar logado, aba anônima) | Formulário público: CPF/CNPJ, nome, e-mail, telefone, categoria |
-| 2 | Preencher com dados válidos e um documento **novo** (nunca cadastrado antes) e submeter | Cria o `Supplier`, gera cliente + cobrança PIX no Asaas, mostra tela "Quase lá!" com o link de pagamento (R$15,99/mês) |
-| 3 | Abrir o link de pagamento | Deve ser um checkout PIX válido do Asaas (sandbox), vencimento em 3 dias |
-| 4 | Repetir o cadastro com o **mesmo** documento do passo 2 | Reaproveita o `Supplier` existente (não duplica), gera uma nova cobrança pro mesmo fornecedor |
-| 5 | Tentar submeter 6 vezes seguidas do mesmo IP em menos de 1 hora | A partir da 6ª, deve ser bloqueado pelo rate limit (`supplier-self-register`: 5/hora/IP) |
-| 6 | Tentar submeter com CPF/CNPJ inválido | Erro de validação no campo, sem chamar o backend |
+> **🔴 Bug bloqueante encontrado por Douglas (13/09/2026) e corrigido:** `/fornecedores/cadastro`
+> redirecionava pro `/login` em vez de renderizar publicamente. Causa raiz: `Shell.tsx` guarda toda
+> rota fora de uma allowlist (`isAuth`) atrás de login client-side (`middleware.ts` não protege
+> nada — é só client-side, ver comentário no próprio arquivo). As páginas novas
+> `/fornecedores/cadastro` e `/fornecedores/gerenciar/[token]` não estavam nessa allowlist. Corrigido
+> em `feature/EPIC-028-fase2-marketplace` (repo `web`), commit `TASK-272` — adicionadas as duas
+> rotas na allowlist, mesmo padrão já usado pra `/chamados/`. **Repita o teste do C4/C6 a partir
+> desta correção.**
+
+| Passo | Ação                                                                                    | Resultado esperado                                                                                                     |
+|-------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| 1     | Acessar `/fornecedores/cadastro` (sem estar logado, aba anônima)                        | Formulário público: CPF/CNPJ, nome, e-mail, telefone, categoria                                                        |
+| 2     | Preencher com dados válidos e um documento **novo** (nunca cadastrado antes) e submeter | Cria o `Supplier`, gera cliente + cobrança PIX no Asaas, mostra tela "Quase lá!" com o link de pagamento (R$15,99/mês) |
+| 3     | Abrir o link de pagamento                                                               | Deve ser um checkout PIX válido do Asaas (sandbox), vencimento em 3 dias                                               |
+| 4     | Repetir o cadastro com o **mesmo** documento do passo 2                                 | Reaproveita o `Supplier` existente (não duplica), gera uma nova cobrança pro mesmo fornecedor                          |
+| 5     | Tentar submeter 6 vezes seguidas do mesmo IP em menos de 1 hora                         | A partir da 6ª, deve ser bloqueado pelo rate limit (`supplier-self-register`: 5/hora/IP)                               |
+| 6     | Tentar submeter com CPF/CNPJ inválido                                                   | Erro de validação no campo, sem chamar o backend                                                                       |
 
 ---
 
 ### C5 — Ativação via webhook (⚠️ crítico — depende de pagamento confirmado)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Pagar a cobrança PIX gerada no C4 (sandbox Asaas) | Asaas dispara o webhook `PAYMENT_RECEIVED` pra sua API |
-| 2 | Conferir o `Supplier` no banco | `marketplace_enabled = true`, `activated_at` preenchido, `activation_source = SELF_REGISTERED` |
-| 3 | Conferir a caixa de entrada do e-mail cadastrado | E-mail de boas-vindas recebido, com o link `/fornecedores/gerenciar/<token>` |
-| 4 | Logado numa organização diferente da que cadastrou (se aplicável) ou em qualquer organização da mesma região | O fornecedor agora **aparece** na busca — confirma que o gating do C2 realmente libera após a ativação |
-| 5 | Reenviar o mesmo webhook (simular reentrega do Asaas) | Idempotente — não duplica o token de acesso nem reenvia o e-mail (`SupplierPaymentActivationServiceTest` cobre isso via mock, mas vale confirmar no log real) |
+| Passo | Ação                                                                                                         | Resultado esperado                                                                                                                                            |
+|-------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Pagar a cobrança PIX gerada no C4 (sandbox Asaas)                                                            | Asaas dispara o webhook `PAYMENT_RECEIVED` pra sua API                                                                                                        |
+| 2     | Conferir o `Supplier` no banco                                                                               | `marketplace_enabled = true`, `activated_at` preenchido, `activation_source = SELF_REGISTERED`                                                                |
+| 3     | Conferir a caixa de entrada do e-mail cadastrado                                                             | E-mail de boas-vindas recebido, com o link `/fornecedores/gerenciar/<token>`                                                                                  |
+| 4     | Logado numa organização diferente da que cadastrou (se aplicável) ou em qualquer organização da mesma região | O fornecedor agora **aparece** na busca — confirma que o gating do C2 realmente libera após a ativação                                                        |
+| 5     | Reenviar o mesmo webhook (simular reentrega do Asaas)                                                        | Idempotente — não duplica o token de acesso nem reenvia o e-mail (`SupplierPaymentActivationServiceTest` cobre isso via mock, mas vale confirmar no log real) |
 
 ---
 
 ### C6 — Gestão via link mágico
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Acessar `/fornecedores/gerenciar/<token>` com o token recebido no C5 | Mostra nome, badge "Visível no marketplace", status da assinatura ("Ativa") |
-| 2 | Alterar telefone e categoria, salvar | Toast de sucesso, dados refletem na tela |
-| 3 | Conferir em `/fornecedores` (organização que enxerga o fornecedor) | Telefone/categoria atualizados aparecem na busca |
-| 4 | Acessar `/fornecedores/gerenciar/token-invalido-qualquer-coisa` | Mensagem "Link inválido ou expirado", sem quebrar a página |
-| 5 | Tentar mais de 30 requisições em 1 minuto pro mesmo endpoint (script simples ou recarregar rápido) | Rate limit (`supplier-manage`: 30/min/IP) bloqueia a partir da 31ª |
+| Passo | Ação                                                                                               | Resultado esperado                                                          |
+|-------|----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| 1     | Acessar `/fornecedores/gerenciar/<token>` com o token recebido no C5                               | Mostra nome, badge "Visível no marketplace", status da assinatura ("Ativa") |
+| 2     | Alterar telefone e categoria, salvar                                                               | Toast de sucesso, dados refletem na tela                                    |
+| 3     | Conferir em `/fornecedores` (organização que enxerga o fornecedor)                                 | Telefone/categoria atualizados aparecem na busca                            |
+| 4     | Acessar `/fornecedores/gerenciar/token-invalido-qualquer-coisa`                                    | Mensagem "Link inválido ou expirado", sem quebrar a página                  |
+| 5     | Tentar mais de 30 requisições em 1 minuto pro mesmo endpoint (script simples ou recarregar rápido) | Rate limit (`supplier-manage`: 30/min/IP) bloqueia a partir da 31ª          |
 
 ---
 
 ### C7 — Job mensal de cobrança + suspensão por atraso
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Com a assinatura `ACTIVE` do C5, adiantar manualmente `current_period_end` no banco pra ontem (ou aguardar o ciclo real) | No próximo disparo do `SupplierBillingJob` (cron `02:15`, ou chamando `processDueCycles()` manualmente), gera nova cobrança PIX, `currentPeriodEnd` avança |
-| 2 | Simular uma assinatura `PAST_DUE` com `current_period_end` há mais de 3 dias (prazo de graça) | `suspendOverdueSubscriptions()` desliga `marketplace_enabled` — fornecedor some da busca de outras organizações (mas continua visível pra quem cadastrou, regra do C2) |
-| 3 | Conferir os logs do job | `[SupplierBillingJob] Lock adquirido...`/`Execução concluída` — shedlock evita execução duplicada se rodar em mais de uma instância |
+| Passo | Ação                                                                                                                     | Resultado esperado                                                                                                                                                     |
+|-------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Com a assinatura `ACTIVE` do C5, adiantar manualmente `current_period_end` no banco pra ontem (ou aguardar o ciclo real) | No próximo disparo do `SupplierBillingJob` (cron `02:15`, ou chamando `processDueCycles()` manualmente), gera nova cobrança PIX, `currentPeriodEnd` avança             |
+| 2     | Simular uma assinatura `PAST_DUE` com `current_period_end` há mais de 3 dias (prazo de graça)                            | `suspendOverdueSubscriptions()` desliga `marketplace_enabled` — fornecedor some da busca de outras organizações (mas continua visível pra quem cadastrou, regra do C2) |
+| 3     | Conferir os logs do job                                                                                                  | `[SupplierBillingJob] Lock adquirido...`/`Execução concluída` — shedlock evita execução duplicada se rodar em mais de uma instância                                    |
 
 ---
 
 ### C8 — Ativação/desativação manual (admin)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Com um fornecedor cadastrado pelo síndico (sem pagar), chamar `POST /private/admin/suppliers/{id}/activate` com o token de admin | `marketplace_enabled = true`, `activation_source = MANUALLY_ACTIVATED`, `activated_at` preenchido — sem cobrança nenhuma |
-| 2 | Conferir que o fornecedor passa a aparecer pra outras organizações | Sim, mesmo gating do C2/C5 |
-| 3 | Chamar `POST /private/admin/suppliers/{id}/deactivate` | `marketplace_enabled = false` — volta a só aparecer pra quem cadastrou |
-| 4 | Chamar qualquer um dos dois endpoints sem o header de autenticação admin | Bloqueado pelo filtro de admin (mesmo comportamento do resto do `/private/admin/`) |
-| 5 | Chamar com um `id` inexistente | 404 (`NotFoundException`) |
+| Passo | Ação                                                                                                                             | Resultado esperado                                                                                                       |
+|-------|----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| 1     | Com um fornecedor cadastrado pelo síndico (sem pagar), chamar `POST /private/admin/suppliers/{id}/activate` com o token de admin | `marketplace_enabled = true`, `activation_source = MANUALLY_ACTIVATED`, `activated_at` preenchido — sem cobrança nenhuma |
+| 2     | Conferir que o fornecedor passa a aparecer pra outras organizações                                                               | Sim, mesmo gating do C2/C5                                                                                               |
+| 3     | Chamar `POST /private/admin/suppliers/{id}/deactivate`                                                                           | `marketplace_enabled = false` — volta a só aparecer pra quem cadastrou                                                   |
+| 4     | Chamar qualquer um dos dois endpoints sem o header de autenticação admin                                                         | Bloqueado pelo filtro de admin (mesmo comportamento do resto do `/private/admin/`)                                       |
+| 5     | Chamar com um `id` inexistente                                                                                                   | 404 (`NotFoundException`)                                                                                                |
 
 ---
 
 ### C9 — Isolamento do domínio de cobrança (regressão do billing de organização)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Disparar um pagamento normal de organização (billing existente, cartão ou PIX) | Segue o fluxo de sempre, sem nenhuma interferência do branch novo (`externalReference` não começa com `SUPPLIER-`) |
-| 2 | Conferir que nenhuma tabela de billing de organização (`billing_subscriptions`, `payments`, etc.) foi tocada pelas migrations/entidades novas | Domínio `supplier_billing` é isolado — tabelas próprias (`supplier_subscriptions`, `supplier_access_tokens`), sem FK cruzada com billing de organização |
+| Passo | Ação                                                                                                                                          | Resultado esperado                                                                                                                                      |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Disparar um pagamento normal de organização (billing existente, cartão ou PIX)                                                                | Segue o fluxo de sempre, sem nenhuma interferência do branch novo (`externalReference` não começa com `SUPPLIER-`)                                      |
+| 2     | Conferir que nenhuma tabela de billing de organização (`billing_subscriptions`, `payments`, etc.) foi tocada pelas migrations/entidades novas | Domínio `supplier_billing` é isolado — tabelas próprias (`supplier_subscriptions`, `supplier_access_tokens`), sem FK cruzada com billing de organização |
 
 ---
 
@@ -204,9 +213,9 @@ limpeza acima só cobre o banco local.)
 
 ## Critérios de Aceite da Suíte
 
-- [ ] C1: suítes automatizadas sem regressão (backend + frontend build/eslint/test)
-- [ ] C2: cadastro do síndico continua livre; gating de visibilidade funciona nos dois sentidos
-- [ ] C3: "Solicitar Orçamento" registra a solicitação e abre o WhatsApp corretamente
+- [X] C1: suítes automatizadas sem regressão (backend + frontend build/eslint/test)
+- [X] C2: cadastro do síndico continua livre; gating de visibilidade funciona nos dois sentidos
+- [X] C3: "Solicitar Orçamento" registra a solicitação e abre o WhatsApp corretamente
 - [ ] C4: auto-cadastro público gera cobrança PIX real (sandbox), rate limit funciona
 - [ ] C5: webhook de pagamento ativa o marketplace + envia o e-mail com o link mágico
 - [ ] C6: gestão via link mágico funciona, token inválido tratado, rate limit funciona

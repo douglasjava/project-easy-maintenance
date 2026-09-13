@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-272](tasks/TASK-272.md) corrigida**:
+> achado de QA do Douglas (C4 do [TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md)) —
+> `/fornecedores/cadastro` redirecionava pro `/login` em vez de renderizar como página pública.
+> Causa: `Shell.tsx` guarda toda rota fora de uma allowlist client-side atrás de login
+> (`middleware.ts` não protege nada — é só client-side); as 2 páginas públicas novas
+> (`/fornecedores/cadastro`, `/fornecedores/gerenciar/[token]`) não estavam nessa allowlist.
+> Corrigido na mesma branch `feature/EPIC-028-fase2-marketplace` (repo `web`). C1-C3 do QA já
+> aprovados por Douglas; C4 em diante aguardando reteste a partir desta correção.
+
 > Atualizado em: 11/09/2026 — **🟡 EPIC-028 Fase 2 (Marketplace de Fornecedores) — implementação
 > completa, aguardando QA do Douglas**: as 12 tasks do plano
 > (`docs/superpowers/plans/2026-09-11-supplier-marketplace-monetization.md`) concluídas e testadas
