@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-274](tasks/TASK-274.md) corrigida**:
+> terceira camada do mesmo bug do TASK-272/273 — `POST /public/suppliers/register` agora passava
+> pelo Spring Security mas voltava `400 "Missing X-Org-Id header"`. Causa: `TenantFilter` exige
+> `X-Org-Id` por padrão em toda rota, com bypass explícito por prefixo — `/public/suppliers` nunca
+> foi adicionado (só `/public/resident-tickets` estava lá). Corrigido no repo `api`, com teste de
+> regressão novo. Confirmado que não há mais nenhuma camada transversal pendente (checado
+> `ApiRequestContextFilter`, `BootstrapAdminFilter`, `RateLimitAspect` — nenhum bloqueia). C4 em
+> diante aguardando reteste do Douglas a partir desta correção.
+
 > Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-273](tasks/TASK-273.md) corrigida**:
 > segunda camada do mesmo bug do TASK-272 — depois do frontend destravado, Douglas encontrou
 > `POST /public/suppliers/register` retornando `403 Forbidden` do backend. Causa: `SecurityConfig`

@@ -128,8 +128,15 @@ Já executado e confirmado durante a implementação.
 > **🔴 Segundo bug bloqueante, mesma sessão de teste:** com o frontend destravado, `POST
 > /public/suppliers/register` retornava `403 Forbidden` do backend. Causa raiz: `SecurityConfig`
 > nunca foi atualizado com `/public/suppliers/**` na lista de rotas liberadas. Corrigido em
-> `feature/EPIC-028-fase2-marketplace` (repo `api`), commit `TASK-273`. **Repita o teste do C4/C6 a
-> partir desta correção.**
+> `feature/EPIC-028-fase2-marketplace` (repo `api`), commit `TASK-273`.
+>
+> **🔴 Terceiro bug bloqueante, mesma sessão de teste:** com os dois primeiros corrigidos, a
+> chamada passava a retornar `400 "Missing X-Org-Id header"`. Causa raiz: `TenantFilter` exige
+> `X-Org-Id` por padrão em toda rota, com bypass explícito por prefixo — `/public/suppliers` nunca
+> foi adicionado. Corrigido em `feature/EPIC-028-fase2-marketplace` (repo `api`), commit
+> `TASK-274`, com teste de regressão novo. Confirmado que não há mais nenhuma camada transversal
+> pendente (checado `ApiRequestContextFilter`, `BootstrapAdminFilter`, `RateLimitAspect`).
+> **Repita o teste do C4/C6 a partir desta correção.**
 
 | Passo | Ação                                                                                    | Resultado esperado                                                                                                     |
 |-------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
