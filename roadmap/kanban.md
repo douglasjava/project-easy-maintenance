@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-273](tasks/TASK-273.md) corrigida**:
+> segunda camada do mesmo bug do TASK-272 — depois do frontend destravado, Douglas encontrou
+> `POST /public/suppliers/register` retornando `403 Forbidden` do backend. Causa: `SecurityConfig`
+> nunca foi atualizado com `/public/suppliers/**` na lista de rotas liberadas (só
+> `/public/resident-tickets/**` e os webhooks estavam lá) — gap real do plano original, que não
+> cobriu essa configuração ao desenhar os endpoints públicos das Tasks 5/7. Corrigido na mesma
+> branch (repo `api`). C4 em diante aguardando reteste do Douglas a partir desta correção.
+
 > Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-272](tasks/TASK-272.md) corrigida**:
 > achado de QA do Douglas (C4 do [TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md)) —
 > `/fornecedores/cadastro` redirecionava pro `/login` em vez de renderizar como página pública.

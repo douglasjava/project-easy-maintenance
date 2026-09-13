@@ -123,8 +123,13 @@ Já executado e confirmado durante a implementação.
 > nada — é só client-side, ver comentário no próprio arquivo). As páginas novas
 > `/fornecedores/cadastro` e `/fornecedores/gerenciar/[token]` não estavam nessa allowlist. Corrigido
 > em `feature/EPIC-028-fase2-marketplace` (repo `web`), commit `TASK-272` — adicionadas as duas
-> rotas na allowlist, mesmo padrão já usado pra `/chamados/`. **Repita o teste do C4/C6 a partir
-> desta correção.**
+> rotas na allowlist, mesmo padrão já usado pra `/chamados/`.
+>
+> **🔴 Segundo bug bloqueante, mesma sessão de teste:** com o frontend destravado, `POST
+> /public/suppliers/register` retornava `403 Forbidden` do backend. Causa raiz: `SecurityConfig`
+> nunca foi atualizado com `/public/suppliers/**` na lista de rotas liberadas. Corrigido em
+> `feature/EPIC-028-fase2-marketplace` (repo `api`), commit `TASK-273`. **Repita o teste do C4/C6 a
+> partir desta correção.**
 
 | Passo | Ação                                                                                    | Resultado esperado                                                                                                     |
 |-------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
