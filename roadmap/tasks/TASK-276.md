@@ -132,9 +132,23 @@ Branch `bugfix/TASK-276-trial-checkout-zero-value-and-period-drift` (a partir de
   cron 01:15) reprocessa as duas assinaturas (5 e 6) normalmente — a guarda de `Payment` inexistente
   ainda deixa passar, e agora o checkout não deve mais ser rejeitado.
 
+### QA manual em produção (14/09/2026)
+`GET /run-jobs/execute-trial-expiration` reprocessado após o deploy. Checkout Asaas + e-mail
+`TRIAL_EXPIRING` gerados com sucesso para as 3 assinaturas elegíveis no momento — subscriptionId 5
+(Rogério, dispatch=44), 6 (Aparecida, dispatch=45) e 7 (Sidnei, achado novo, dispatch=46). Nenhuma
+invoice duplicada gerada (dedup por período funcionando — log mostrou "Invoice already exists ...
+Skipping" nas reexecuções seguintes). Validado por Douglas via SQL: 1 `Payment` `PENDING` + 1
+`Invoice` `OPEN` por assinatura, sem duplicata.
+
+Durante o QA, subscriptionId 7 (Sidnei, payer 12) expôs um bug **não relacionado** a esta task:
+customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) — Asaas rejeitava o checkout
+com `400 "O campo email deve existir para o customer informado."`. Contornado manualmente por
+Douglas direto no painel do Asaas. Causa raiz sistêmica registrada separadamente em
+[TASK-277](TASK-277.md) (backlog).
+
 ## Status
-🟢 Implementado, testado (`mvn test` 992/992), commitado e mergeado em `staging`
-([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)). Invoice duplicada limpa em
-produção por Douglas. PR `staging→main` aberta
-([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)) — aguardando merge e QA
-manual pós-deploy (reprocessar subscriptionId 5 e 6).
+🟢 Concluído. Implementado, testado (`mvn test` 992/992), mergeado em `staging`
+([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)) e em `main`
+([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)). Invoice duplicada limpa em
+produção. QA manual aprovada por Douglas (14/09/2026) — 3/3 assinaturas reprocessadas com sucesso,
+sem duplicidade.

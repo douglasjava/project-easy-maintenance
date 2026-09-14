@@ -1,20 +1,21 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 14/09/2026 — **🟢 [TASK-276](tasks/TASK-276.md) mergeada em `staging`, PR para
-> `main` aberta**: bug crítico em PRD reportado por Douglas — trial vencido (Rogério Dantas,
-> subscriptionId 5) sem e-mail `TRIAL_EXPIRING` nem cobrança, com 2 invoices `OPEN` duplicadas.
-> Causa raiz dupla: (1) checkout Asaas rejeitado com 400 "O campo value deve ser informado" — mesmo
-> bug da TASK-215, nunca portado para `TrialExpirationService`, item `ORGANIZATION` de valor zero
-> quebrava o request inteiro (confirmado em log real, afeta também subscriptionId 6); (2)
-> `resolveDueDate` usava "hoje" como âncora do período da invoice quando o trial já tinha vencido —
-> como o `Payment` nunca chegava a ser criado (causa 1), o guard do TASK-244 nunca bloqueava o
-> retry, e cada execução diária gerava uma invoice nova com período deslocado. Fix: filtro de item
-> zerado no checkout (idêntico à TASK-215) + período da invoice desacoplado do vencimento
-> cobrado/exibido. `mvn test` 992/992 sem regressão, 2 testes novos provados falhando sem o fix.
-> Mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)),
-> invoice duplicada (`id=8`) removida por Douglas em produção, PR `staging→main` aberta
-> ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)) — aguardando merge e QA
-> manual pós-deploy reprocessando subscriptionId 5 e 6.
+> Atualizado em: 14/09/2026 — **🟢 [TASK-276](tasks/TASK-276.md) concluída, QA manual aprovada**:
+> bug crítico em PRD reportado por Douglas — trial vencido (Rogério Dantas, subscriptionId 5) sem
+> e-mail `TRIAL_EXPIRING` nem cobrança, com 2 invoices `OPEN` duplicadas. Causa raiz dupla: (1)
+> checkout Asaas rejeitado com 400 "O campo value deve ser informado" — mesmo bug da TASK-215, nunca
+> portado para `TrialExpirationService`, item `ORGANIZATION` de valor zero quebrava o request
+> inteiro (confirmado em log real, afeta também subscriptionId 6); (2) `resolveDueDate` usava "hoje"
+> como âncora do período da invoice quando o trial já tinha vencido — como o `Payment` nunca chegava
+> a ser criado (causa 1), o guard do TASK-244 nunca bloqueava o retry, e cada execução diária gerava
+> uma invoice nova com período deslocado. Fix: filtro de item zerado no checkout (idêntico à
+> TASK-215) + período da invoice desacoplado do vencimento cobrado/exibido. `mvn test` 992/992 sem
+> regressão. Mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94))
+> e `main` ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)), invoice
+> duplicada removida em produção. QA manual: job reprocessado, 3/3 assinaturas elegíveis (5, 6 e uma
+> nova — 7) geraram checkout + e-mail com sucesso, validado por Douglas via SQL, sem duplicidade.
+> Achado à parte durante o QA (subscriptionId 7, customer Asaas sem e-mail) registrado como backlog
+> em [TASK-277](tasks/TASK-277.md), não urgente.
 
 > Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-275](tasks/TASK-275.md) concluída**:
 > depois dos 3 bugfixes de acesso público, Douglas pediu (brainstorm formal, sem PR ainda)
@@ -1649,7 +1650,6 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-276](tasks/TASK-276.md)                  | Trial vencido sem e-mail/cobrança (checkout Asaas rejeitado por item `ORGANIZATION` zerado, mesmo bug da TASK-215 nunca portado) + invoice duplicada por período instável em retry — corrigido, `mvn test` 992/992, mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)), invoice duplicada limpa em PRD, PR `staging→main` aberta ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)) | 🔴 Crítico | — | GRAVE |
 | [TASK-245](tasks/TASK-245.md)                  | `POST /me/onboarding/user` duplicava item USER da assinatura (cobrança em dobro) — quebrava `POST /organizations` (500) — achado por Douglas testando `/organizations/new` durante QA do EPIC-028, corrigido, `mvn test` 939/939, dado local reparado — aguardando confirmação antes de abrir PR | 🔴 Crítico | — | GRAVE |
 | [TASK-244](tasks/TASK-244.md)                  | `TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job — corrigido (`98a4716`), `mvn test` 938/938, [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) aprovada por Douglas, PR `staging` aberta ([api#86](https://github.com/douglasjava/easy-maintenance-api/pull/86)) | 🔴 Crítico | — | GRAVE |
 | [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — mergeada em `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)), PR `staging→main` aberta ([api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84)) | 🔴 Alto | — | ALTA |
@@ -1676,6 +1676,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-276](tasks/TASK-276.md)                  | Trial vencido sem e-mail/cobrança (checkout Asaas rejeitado por item `ORGANIZATION` zerado, mesmo bug da TASK-215 nunca portado) + invoice duplicada por período instável em retry — corrigido, `mvn test` 992/992, mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)) e `main` ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)), QA manual aprovada por Douglas | 🔴 Crítico | — | GRAVE |
 | TASK-QA-BUG-006                                | Erro ao cadastrar nova empresa — paymentMethod obrigatório + orElseGet + pre-populate name/billingEmail do User | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente)              | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo                                         | 🟠 Alto    | EPIC-006 | ALTA       |
@@ -1684,7 +1685,9 @@ _Vazio_
 
 ## 🐛 Bugs — Backlog
 
-_Vazio_
+| ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
+| [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
 
 ---
 
