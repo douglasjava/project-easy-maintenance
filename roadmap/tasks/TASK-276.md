@@ -122,15 +122,19 @@ Pequeno (~1-2h: dois fixes cirúrgicos + testes de regressão).
 - Com o fix: `mvn clean test` → **992/992, 0 falhas** (`TrialExpirationServiceTest` 11/11), sem
   regressão nos testes já existentes da TASK-236/244.
 
-Branch `bugfix/TASK-276-trial-checkout-zero-value-and-period-drift` (a partir de `staging`).
+Branch `bugfix/TASK-276-trial-checkout-zero-value-and-period-drift` (a partir de `staging`), commit
+`4b8217a`. PR `staging` mergeada: [api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)
+(14/09/2026, `80627d3`). PR `staging→main` aberta: [api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95).
 
 ### Remediação manual (dados de produção, fora do código)
-- Cancelar `invoices.id=8` (duplicada; `invoices.id=7` já tem o período correto e deve ser mantida).
-- Após o deploy, disparar `GET /run-jobs/execute-trial-expiration` (ou aguardar o próximo cron
-  01:15) reprocessa as duas assinaturas (5 e 6) normalmente — a guarda de `Payment` inexistente
+- ✅ `invoices.id=8` (duplicada) removida por Douglas diretamente em produção.
+- Após o deploy em `main`, disparar `GET /run-jobs/execute-trial-expiration` (ou aguardar o próximo
+  cron 01:15) reprocessa as duas assinaturas (5 e 6) normalmente — a guarda de `Payment` inexistente
   ainda deixa passar, e agora o checkout não deve mais ser rejeitado.
 
 ## Status
-🟡 Implementado e testado localmente (`mvn test` 992/992). Aguardando confirmação de Douglas para
-commit/push/PR contra `staging`, e aguardando ele rodar a limpeza manual (`invoices.id=8`) antes do
-reprocessamento.
+🟢 Implementado, testado (`mvn test` 992/992), commitado e mergeado em `staging`
+([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)). Invoice duplicada limpa em
+produção por Douglas. PR `staging→main` aberta
+([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)) — aguardando merge e QA
+manual pós-deploy (reprocessar subscriptionId 5 e 6).
