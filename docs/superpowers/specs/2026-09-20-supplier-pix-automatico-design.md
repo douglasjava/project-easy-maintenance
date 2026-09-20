@@ -99,20 +99,24 @@ vencida) se aplica igual.
 
 ### Fluxo 2 — Ativação (`PaymentReceivedHandler` + `SupplierPaymentActivationService`)
 
-**Não muda.** A sequência real de eventos da Asaas é `PAYMENT_CREATED → PAYMENT_RECEIVED →
+**Quase não muda.** A sequência real de eventos da Asaas é `PAYMENT_CREATED → PAYMENT_RECEIVED →
 PIX_AUTOMATIC_RECURRING_AUTHORIZATION_ACTIVATED` — o `PAYMENT_RECEIVED` chega primeiro e já é quem
 aciona `activateFromWebhook` hoje (branch `externalReference` = `SUPPLIER-{id}`, que continua
 existindo já que a cobrança do primeiro ciclo também é um `Payment` normal). O evento de
-autorização `ACTIVATED` só é usado pra atualizar `authorization_status` (observabilidade).
+autorização `ACTIVATED` em si não precisa de handler novo — não é usado pra nada. Única adição:
+`activateFromWebhook` passa a limpar `qr_code_payload`/`qr_code_image` (não fazem mais sentido com
+a assinatura já `ACTIVE`) e gravar `authorization_status = "ACTIVE"` (observabilidade).
 
 ### Fluxo 3 — Ciclos recorrentes (`SupplierBillingService.chargeNextCycle`)
 
 Quase não muda: continua criando a cobrança do próximo ciclo via `POST /payments`, só que agora
-inclui `pixAutomaticAuthorizationId` no request (referencia a autorização ativa). Guarda
-`qrCodePayload`/`qrCodeImage` da nova cobrança pra exibir se o fornecedor reabrir o link de gestão
-antes de pagar. **Atenção na implementação**: a doc recomenda criar a instrução entre 2 e 10 dias
-úteis antes do vencimento — o `PIX_DUE_DAYS = 3` atual (dias corridos) deve ser revisto nesse
-momento.
+inclui `pixAutomaticAuthorizationId` no request (referencia a autorização ativa). **Não gera QR
+Code novo** — com o mandato `ACTIVE`, o banco do fornecedor debita automaticamente, sem precisar de
+nenhuma ação dele (esse é o ganho real do Pix Automático sobre o manual). `qrCodePayload`/
+`qrCodeImage` só existem pro primeiro ciclo (antes da autorização ativar) ou pra uma reautorização
+depois de `CANCELLED`/`EXPIRED` (Fluxo 4). **Atenção na implementação**: a doc recomenda criar a
+instrução entre 2 e 10 dias úteis antes do vencimento — o `PIX_DUE_DAYS = 3` atual (dias corridos)
+deve ser revisto nesse momento.
 
 ### Fluxo 4 — Novo: mandato cancelado/expirado
 
@@ -122,11 +126,15 @@ Dois handlers novos em `webhooks/asaas/strategy/impl/` (mesmo padrão dos handle
   CANCELLED`)
 - `PixAutomaticAuthorizationExpiredHandler` (evento `..._EXPIRED`)
 
-Ambos: resolvem `supplierId` via `contractId` (mesmo padrão `SUPPLIER-{id}` já usado em
-`externalReference`), marcam `SupplierSubscription.status = PAST_DUE`, `authorizationStatus`
-atualizado, e disparam a geração de uma **autorização nova** (reaproveita a lógica do Fluxo 1) pro
-fornecedor reautorizar — o mandato cancelado não pode ser "reativado", precisa de um novo QR.
-Fecha a lacuna que já existia no fluxo manual (nada setava `PAST_DUE` automaticamente).
+Ambos: resolvem `SupplierSubscription` via `authorization.id()` do payload contra a coluna
+`external_authorization_id` (confirmado por fetch direto da doc, 20/09/2026 — o payload real do
+webhook **não** re-envia `contractId`, só `{event, authorization: {id, status, customerId,
+frequency, value, startDate, finishDate, immediateQrCode}}`; mesmo princípio de resolução já usado
+em `PAYMENT_RECEIVED`, que tenta `externalReference` e cai pra `externalPaymentId`), marcam
+`SupplierSubscription.status = PAST_DUE`, `authorizationStatus` atualizado, e disparam a geração de
+uma **autorização nova** (reaproveita a lógica do Fluxo 1) pro fornecedor reautorizar — o mandato
+cancelado não pode ser "reativado", precisa de um novo QR. Fecha a lacuna que já existia no fluxo
+manual (nada setava `PAST_DUE` automaticamente).
 
 ### Frontend
 
