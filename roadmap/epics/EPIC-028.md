@@ -101,3 +101,26 @@ sobrescreve) — risco aceito conscientemente. Cold start (registro nasce vazio,
 significativa depois de uso real — por isso a integração com EPIC-023 fica pra depois). Baixo risco
 pro restante do sistema — módulo já existente, arquivos novos aditivos, nenhum fluxo existente é
 alterado.
+
+---
+
+## Ideias Futuras (registradas sem brainstorm, 22/09/2026)
+
+Levantadas durante o QA do Pix Automático (Fase 2, TASK-278). Nenhuma das duas foi desenhada ainda —
+registro pra não perder, não é compromisso de próxima sprint.
+
+- **[TASK-279](../tasks/TASK-279.md) — Busca de fornecedor por raio geográfico real (lat/long)**,
+  não mais match literal de `city`/`state`. Hoje `SupplierRepository.findByRegionVisibleTo` exige
+  `city`/`state` idênticos — um fornecedor de "São Paulo/SP" não aparece pra organização de
+  "Guarulhos/SP" mesmo sendo vizinhas. Já era um item de "Fora de Escopo" explícito desde o design
+  original (acima) — fica pior em regiões metropolitanas fragmentadas em muitos municípios
+  pequenos. Precisaria de geocodificação (lat/long no cadastro) + cálculo de distância na query.
+
+- **[TASK-280](../tasks/TASK-280.md) — Fornecedor consegue ver os orçamentos solicitados a ele.**
+  `supplier_budget_requests` (TASK-263, "Solicitar Orçamento") já grava cada pedido
+  (`supplierId`/`organizationCode`/`summary`/`createdAt`) desde a Fase 2 — mas nada lê essa tabela
+  de volta hoje (`SupplierBudgetRequestRepository` não tem nenhum finder além do CRUD padrão, sem
+  controller/endpoint de listagem). Dado que já é coletado e pago (R$15,99/mês) sem entregar valor
+  nenhum de volta pro fornecedor — exibir a lista na tela `/fornecedores/gerenciar/[token]` (já
+  existe, sem login) é ganho direto de percepção de valor pro assinante, achado relevante dado o
+  motivo original do Pix Automático (reduzir churn/atrito do fornecedor pagante).

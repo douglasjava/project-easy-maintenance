@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 22/09/2026 — **💡 Duas ideias futuras registradas em [EPIC-028](epics/EPIC-028.md)
+> (sem brainstorm, sem tasks)**: levantadas durante o QA do Pix Automático em produção —
+> [TASK-279](tasks/TASK-279.md) (busca de fornecedor por raio geográfico real, não mais match
+> literal de `city`/`state`) e [TASK-280](tasks/TASK-280.md) (fornecedor conseguir ver os
+> orçamentos que foram solicitados a ele — `supplier_budget_requests` já grava isso desde a Fase 2,
+> só nunca foi exposto de volta).
+
 > Atualizado em: 14/09/2026 — **🟢 [TASK-276](tasks/TASK-276.md) concluída, QA manual aprovada**:
 > bug crítico em PRD reportado por Douglas — trial vencido (Rogério Dantas, subscriptionId 5) sem
 > e-mail `TRIAL_EXPIRING` nem cobrança, com 2 invoices `OPEN` duplicadas. Causa raiz dupla: (1)
