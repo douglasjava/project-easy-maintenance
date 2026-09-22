@@ -148,16 +148,16 @@ Já executado e confirmado durante a implementação.
 > cadastro agora devolve também um link permanente de acompanhamento da conta. Os passos abaixo já
 > refletem o comportamento novo. **Repita o teste do C4/C6 a partir desta versão.**
 
-| Passo | Ação                                                                                    | Resultado esperado                                                                                                                                          |
-|-------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1     | Acessar `/fornecedores/cadastro` (sem estar logado, aba anônima)                        | Formulário público com o logo do produto no topo: CPF/CNPJ, nome, e-mail, telefone, categorias (chips clicáveis, pelo menos 1 obrigatória, cada uma pode expandir uma lista de serviços opcional) |
-| 2     | Tentar submeter sem marcar nenhuma categoria                                            | Bloqueado no cliente, mensagem "Selecione pelo menos uma categoria"                                                                                        |
+| Passo | Ação                                                                                                                  | Resultado esperado                                                                                                                                                                                    |
+|-------|-----------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Acessar `/fornecedores/cadastro` (sem estar logado, aba anônima)                                                      | Formulário público com o logo do produto no topo: CPF/CNPJ, nome, e-mail, telefone, categorias (chips clicáveis, pelo menos 1 obrigatória, cada uma pode expandir uma lista de serviços opcional)     |
+| 2     | Tentar submeter sem marcar nenhuma categoria                                                                          | Bloqueado no cliente, mensagem "Selecione pelo menos uma categoria"                                                                                                                                   |
 | 3     | Preencher com dados válidos, marcar 1+ categorias (e opcionalmente alguns serviços) e um documento **novo**, submeter | Cria o `Supplier`, gera cliente + cobrança PIX no Asaas, mostra tela de sucesso com o link de pagamento (R$15,99/mês) **e** um link permanente "guarde este link" (`/fornecedores/gerenciar/<token>`) |
-| 4     | Abrir o link de pagamento                                                               | Checkout PIX válido do Asaas (sandbox), vencimento em 3 dias                                                                                               |
-| 5     | Repetir o cadastro com o **mesmo** documento do passo 3, sem pagar a cobrança anterior  | Reaproveita o `Supplier` e a `SupplierSubscription` existentes — **mesmo** link de pagamento devolvido, sem chamar o Asaas de novo (antes disso dava 409 — se ainda der, é regressão) |
-| 6     | Aguardar a cobrança vencer (3 dias) ou forçar `current_period_end` pro passado no banco, repetir o cadastro | Gera uma cobrança **nova** (link diferente), mas atualiza a mesma `SupplierSubscription` — confira que não criou uma segunda linha em `supplier_subscriptions` pro mesmo `supplier_id` |
-| 7     | Tentar submeter 6 vezes seguidas do mesmo IP em menos de 1 hora                         | A partir da 6ª, deve ser bloqueado pelo rate limit (`supplier-self-register`: 5/hora/IP)                                                                   |
-| 8     | Tentar submeter com CPF/CNPJ inválido                                                   | Erro de validação no campo, sem chamar o backend                                                                                                           |
+| 4     | Abrir o link de pagamento                                                                                             | Checkout PIX válido do Asaas (sandbox), vencimento em 3 dias                                                                                                                                          |
+| 5     | Repetir o cadastro com o **mesmo** documento do passo 3, sem pagar a cobrança anterior                                | Reaproveita o `Supplier` e a `SupplierSubscription` existentes — **mesmo** link de pagamento devolvido, sem chamar o Asaas de novo (antes disso dava 409 — se ainda der, é regressão)                 |
+| 6     | Aguardar a cobrança vencer (3 dias) ou forçar `current_period_end` pro passado no banco, repetir o cadastro           | Gera uma cobrança **nova** (link diferente), mas atualiza a mesma `SupplierSubscription` — confira que não criou uma segunda linha em `supplier_subscriptions` pro mesmo `supplier_id`                |
+| 7     | Tentar submeter 6 vezes seguidas do mesmo IP em menos de 1 hora                                                       | A partir da 6ª, deve ser bloqueado pelo rate limit (`supplier-self-register`: 5/hora/IP)                                                                                                              |
+| 8     | Tentar submeter com CPF/CNPJ inválido                                                                                 | Erro de validação no campo, sem chamar o backend                                                                                                                                                      |
 
 ---
 
@@ -175,14 +175,14 @@ Já executado e confirmado durante a implementação.
 
 ### C6 — Gestão via link mágico
 
-| Passo | Ação                                                                                               | Resultado esperado                                                                                                              |
-|-------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Passo | Ação                                                                                               | Resultado esperado                                                                                         |
+|-------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
 | 1     | Acessar o link permanente gerado no C4 passo 3 (**antes** de pagar)                                | Mostra nome, badge "Não visível", banner laranja de pagamento pendente com o mesmo link de pagamento do C4 |
-| 2     | Acessar de novo depois de ativado (C5)                                                             | Banner de pagamento pendente some; badge vira "Visível no marketplace", status "Ativa"                                          |
-| 3     | Alterar telefone e as categorias/serviços marcados (usando os chips/checkboxes), salvar             | Toast de sucesso, dados refletem na tela                                                                                        |
-| 4     | Conferir em `/fornecedores` (organização que enxerga o fornecedor)                                 | Telefone/categorias atualizados aparecem na busca                                                                               |
-| 5     | Acessar `/fornecedores/gerenciar/token-invalido-qualquer-coisa`                                    | Mensagem "Link inválido ou expirado", sem quebrar a página                                                                      |
-| 6     | Tentar mais de 30 requisições em 1 minuto pro mesmo endpoint (script simples ou recarregar rápido) | Rate limit (`supplier-manage`: 30/min/IP) bloqueia a partir da 31ª                                                              |
+| 2     | Acessar de novo depois de ativado (C5)                                                             | Banner de pagamento pendente some; badge vira "Visível no marketplace", status "Ativa"                     |
+| 3     | Alterar telefone e as categorias/serviços marcados (usando os chips/checkboxes), salvar            | Toast de sucesso, dados refletem na tela                                                                   |
+| 4     | Conferir em `/fornecedores` (organização que enxerga o fornecedor)                                 | Telefone/categorias atualizados aparecem na busca                                                          |
+| 5     | Acessar `/fornecedores/gerenciar/token-invalido-qualquer-coisa`                                    | Mensagem "Link inválido ou expirado", sem quebrar a página                                                 |
+| 6     | Tentar mais de 30 requisições em 1 minuto pro mesmo endpoint (script simples ou recarregar rápido) | Rate limit (`supplier-manage`: 30/min/IP) bloqueia a partir da 31ª                                         |
 
 ---
 
@@ -247,13 +247,12 @@ limpeza acima só cobre o banco local.)
 - [X] C1: suítes automatizadas sem regressão (backend + frontend build/eslint/test)
 - [X] C2: cadastro do síndico continua livre; gating de visibilidade funciona nos dois sentidos
 - [X] C3: "Solicitar Orçamento" registra a solicitação e abre o WhatsApp corretamente
-- [ ] C4: auto-cadastro público gera cobrança PIX real (sandbox), rate limit funciona
-- [ ] C5: webhook de pagamento ativa o marketplace + envia o e-mail com o link mágico
-- [ ] C6: gestão via link mágico funciona, token inválido tratado, rate limit funciona
-- [ ] C7: job mensal gera nova cobrança e suspende por atraso além do prazo de graça
-- [ ] C8: ativação/desativação manual pelo admin funciona, autenticado corretamente
-- [ ] C9: nenhuma regressão no billing de organização existente
+- [X] C4: auto-cadastro público gera cobrança PIX real (sandbox), rate limit funciona
+- [X] C5: webhook de pagamento ativa o marketplace + envia o e-mail com o link mágico
+- [X] C6: gestão via link mágico funciona, token inválido tratado, rate limit funciona
+- [X] C7: job mensal gera nova cobrança e suspende por atraso além do prazo de graça
+- [X] C8: ativação/desativação manual pelo admin funciona, autenticado corretamente
+- [X] C9: nenhuma regressão no billing de organização existente
 
 ## Status
-🟡 Aguardando execução — Douglas testa contra o ambiente real dele (com credenciais Asaas
-sandbox/SMTP verdadeiras), igual ao padrão dos épicos anteriores. Sem PR aberta até esta aprovação.
+🟡 Concluido

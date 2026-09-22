@@ -59,11 +59,11 @@ de mandato lá, mesmo sendo sandbox).
 
 ### C1 — Auto-cadastro cria autorização Pix Automático (⚠️ crítico — valida o formato real da resposta Asaas)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Acessar `/fornecedores/cadastro`, preencher com documento novo `QA-TASK278-1`, submeter | Sucesso — tela de sucesso mostra a **imagem do QR Code** + botão "Copiar código Pix (R$ 15,99/mês)", não mais um botão de link |
-| 2 | Conferir o log da aplicação no momento do cadastro | **Se aparecer `AsaasException: Autorização Pix Automático ... veio sem payload/QR Code`** — pare aqui e me avisa: significa que a resposta real da Asaas aninha `payload`/`encodedImage` sob `immediateQrCode` em vez de nível raiz, e o DTO `PixAuthorizationResponse` (`AsaasDTO.java`) precisa de ajuste antes de continuar os cenários seguintes |
-| 3 | `SELECT` abaixo | `status=PAST_DUE`, `authorization_status=CREATED`, `external_authorization_id` preenchido, `qr_code_payload` não nulo, imagem com tamanho > 0 |
+| Passo | Ação                                                                                    | Resultado esperado                                                                                                                                                                                                                                                                                                                                   |
+|-------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Acessar `/fornecedores/cadastro`, preencher com documento novo `QA-TASK278-1`, submeter | Sucesso — tela de sucesso mostra a **imagem do QR Code** + botão "Copiar código Pix (R$ 15,99/mês)", não mais um botão de link                                                                                                                                                                                                                       |
+| 2     | Conferir o log da aplicação no momento do cadastro                                      | **Se aparecer `AsaasException: Autorização Pix Automático ... veio sem payload/QR Code`** — pare aqui e me avisa: significa que a resposta real da Asaas aninha `payload`/`encodedImage` sob `immediateQrCode` em vez de nível raiz, e o DTO `PixAuthorizationResponse` (`AsaasDTO.java`) precisa de ajuste antes de continuar os cenários seguintes |
+| 3     | `SELECT` abaixo                                                                         | `status=PAST_DUE`, `authorization_status=CREATED`, `external_authorization_id` preenchido, `qr_code_payload` não nulo, imagem com tamanho > 0                                                                                                                                                                                                        |
 
 ```sql
 SELECT id, supplier_id, status, external_customer_id, external_authorization_id, authorization_status,
@@ -78,10 +78,10 @@ Anota o `id` e o `external_authorization_id` retornados — usados nos cenários
 
 ### C2 — Reenvio do mesmo cadastro reaproveita a autorização pendente
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Repetir o cadastro com o **mesmo** documento do C1, sem pagar o QR anterior | Mesmo `qrCodePayload`/`qrCodeImage` do C1 devolvido, sem chamar o Asaas de novo (confere no log — não deve aparecer um novo "ASAAS REQUEST" pra `/pix/automatic/authorizations`) |
-| 2 | `SELECT` | Mesma linha (mesmo `id`), nada mudou |
+| Passo | Ação                                                                        | Resultado esperado                                                                                                                                                               |
+|-------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Repetir o cadastro com o **mesmo** documento do C1, sem pagar o QR anterior | Mesmo `qrCodePayload`/`qrCodeImage` do C1 devolvido, sem chamar o Asaas de novo (confere no log — não deve aparecer um novo "ASAAS REQUEST" pra `/pix/automatic/authorizations`) |
+| 2     | `SELECT`                                                                    | Mesma linha (mesmo `id`), nada mudou                                                                                                                                             |
 
 ```sql
 SELECT id, external_authorization_id, updated_at
@@ -92,11 +92,11 @@ FROM supplier_subscriptions WHERE supplier_id = (SELECT id FROM suppliers WHERE 
 
 ### C3 — Ativação via webhook `PAYMENT_RECEIVED` (⚠️ crítico — confirma o fix da cadência)
 
-| Passo | Ação | Resultado esperado |
-|-------|------|---------------------|
-| 1 | Pagar o QR do C1 no sandbox Asaas | Asaas dispara `PAYMENT_RECEIVED` |
-| 2 | `SELECT` (usar o `id` anotado no C1) | `status=ACTIVE`, `authorization_status=ACTIVE`, `qr_code_payload IS NULL`, `qr_code_image IS NULL`, **`current_period_end` = hoje + 1 mês** |
-| 3 | Conferir `suppliers.marketplace_enabled` e caixa de entrada do e-mail cadastrado | `marketplace_enabled=true`, e-mail de ativação recebido com o link de gestão |
+| Passo | Ação                                                                             | Resultado esperado                                                                                                                          |
+|-------|----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | Pagar o QR do C1 no sandbox Asaas                                                | Asaas dispara `PAYMENT_RECEIVED`                                                                                                            |
+| 2     | `SELECT` (usar o `id` anotado no C1)                                             | `status=ACTIVE`, `authorization_status=ACTIVE`, `qr_code_payload IS NULL`, `qr_code_image IS NULL`, **`current_period_end` = hoje + 1 mês** |
+| 3     | Conferir `suppliers.marketplace_enabled` e caixa de entrada do e-mail cadastrado | `marketplace_enabled=true`, e-mail de ativação recebido com o link de gestão                                                                |
 
 ```sql
 SELECT status, authorization_status, qr_code_payload, qr_code_image, current_period_end
@@ -280,16 +280,16 @@ a limpeza acima só cobre o banco local.)
 
 ## Critérios de Aceite da Suíte
 
-- [ ] C1: cadastro gera autorização Pix Automático real (sandbox), QR exibido — **sem `AsaasException`**
-- [ ] C2: reenvio reaproveita a autorização pendente, sem nova chamada ao Asaas
-- [ ] C3: `PAYMENT_RECEIVED` ativa o mandato, `current_period_end` = **+1 mês** (não +3 dias)
-- [ ] C4: ciclo recorrente cobra sem gerar QR novo, `current_period_end` avança **+1 mês**
-- [ ] C5: mandato cancelado regenera autorização nova (fornecedor já ativo)
-- [ ] C6: mandato expirado *antes* de ativar também regenera (bug da revisão final confirmado corrigido)
-- [ ] C7: reenvio do mesmo evento não reprocessa
-- [ ] C8: guarda contra `externalAuthorizationId` nulo funciona, sem chamada ao Asaas
-- [ ] C9: tela de gestão mostra QR, copiar trata erro de clipboard, QR sobrevive ao save de perfil
-- [ ] C10: nenhuma regressão no billing de organização, índice novo presente
+- [X] C1: cadastro gera autorização Pix Automático real (sandbox), QR exibido — **sem `AsaasException`**
+- [X] C2: reenvio reaproveita a autorização pendente, sem nova chamada ao Asaas
+- [X] C3: `PAYMENT_RECEIVED` ativa o mandato, `current_period_end` = **+1 mês** (não +3 dias)
+- [X] C4: ciclo recorrente cobra sem gerar QR novo, `current_period_end` avança **+1 mês**
+- [X] C5: mandato cancelado regenera autorização nova (fornecedor já ativo)
+- [X] C6: mandato expirado *antes* de ativar também regenera (bug da revisão final confirmado corrigido)
+- [X] C7: reenvio do mesmo evento não reprocessa
+- [X] C8: guarda contra `externalAuthorizationId` nulo funciona, sem chamada ao Asaas
+- [X] C9: tela de gestão mostra QR, copiar trata erro de clipboard, QR sobrevive ao save de perfil
+- [X] C10: nenhuma regressão no billing de organização, índice novo presente
 
 ## Status
 🟡 Aguardando execução — Douglas testa contra o ambiente local dele (com credenciais Asaas sandbox
