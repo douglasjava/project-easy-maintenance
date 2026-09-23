@@ -103,11 +103,9 @@ ainda o que tocou a invoice nesse intervalo; a assinatura foi ativada corretamen
 - [x] `/private/admin/financials` (via `GET /admin/financials`) passa a contar pagamentos com
       status `PAID` e `CHECKOUT_PAID`, além de `RECEIVED`, na receita bruta/líquida do mês —
       implementado (`FinancialsService.SETTLED_PAYMENT_STATUSES`)
-- [~] Pagamento real do userId=2 (`pay_ub6qpsk6hmvp2u4n`, R$ 299,00, `paid_at` 2026-08-31) aparece
-      no mês de agosto/2026 ao consultar o endpoint — reproduzido de forma equivalente em teste
-      sintético (`PaymentRepositoryPersistenceTest`, RECEIVED+PAID+CHECKOUT_PAID somados contra H2
-      real); **não confirmado contra o banco de produção** — pendente Douglas conferir
-      `/private/admin/financials` ou a query SQL após o deploy
+- [x] Pagamento real do userId=2 (`pay_ub6qpsk6hmvp2u4n`, R$ 299,00, `paid_at` 2026-08-31) aparece
+      no mês de agosto/2026 ao consultar o endpoint — **confirmado por Douglas em produção via SQL**
+      (23/09/2026): `situacao = ENTRA NA RECEITA`, `mes_computado = 2026-08`
 - [x] Teste de regressão cobrindo: soma de múltiplos status settled no mesmo mês + status não-settled
       continuam excluídos — `PaymentRepositoryPersistenceTest` (2 testes, H2 real via `@DataJpaTest`)
 - [x] `mvn clean test` sem regressão — **1060/1060**, 0 falhas, 0 erros
@@ -145,9 +143,7 @@ Pequeno (~1-2h): 1 query de repositório + 1 ajuste de service + testes.
 - `mvn clean test`: **1060/1060**, 0 falhas, 0 erros
 
 ## Status
-🟢 Mergeada em `main` — [api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)
-(`staging`) e [api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111) (`staging` →
-`main`, commit `c0e92a2`) ambas mergeadas.
-Falta só: confirmar o pagamento real (userId=2, `pay_ub6qpsk6hmvp2u4n`) aparecendo em
-`/private/admin/financials` depois do deploy em produção (critério de aceite parcial) antes de mover
-pra `Done`.
+✅ **Done** — mergeada em `main` ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)
+`staging`, [api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111) `staging`→`main`,
+commit `c0e92a2`) e confirmada em produção por Douglas via SQL (23/09/2026): pagamento do userId=2
+aparece corretamente na receita de agosto/2026. Todos os critérios de aceite atendidos.

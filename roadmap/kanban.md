@@ -1,10 +1,11 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 23/09/2026 — **🟢 [TASK-281](tasks/TASK-281.md) — `staging` → `main` mergeada**: PR
-> [api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110) (`staging`) e
-> [api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111) (`staging` → `main`,
-> commit `c0e92a2`) ambas mergeadas por Douglas. Falta só confirmar o pagamento real (userId=2)
-> aparecendo em `/private/admin/financials` depois do deploy em produção, antes de mover pra `Done`.
+> Atualizado em: 23/09/2026 — **✅ [TASK-281](tasks/TASK-281.md) concluída**: mergeada em `staging`
+> ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)) e `main`
+> ([api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111), commit `c0e92a2`).
+> Douglas confirmou em produção via SQL que o pagamento do userId=2 (`pay_ub6qpsk6hmvp2u4n`) agora
+> aparece corretamente na receita de agosto/2026 em `/private/admin/financials`. Todos os critérios
+> de aceite atendidos.
 
 > Atualizado em: 23/09/2026 — **🟡 [TASK-281](tasks/TASK-281.md) implementada, em validação**:
 > fix aplicado na branch `bugfix/TASK-281-financials-missing-card-revenue` (a partir de `staging`,
@@ -1677,7 +1678,6 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-281](tasks/TASK-281.md)                  | `/private/admin/financials` não contava receita de cartão/checkout (`FinancialsService` filtrava só `PaymentStatus.RECEIVED`) — corrigido pra somar `RECEIVED`+`PAID`+`CHECKOUT_PAID`, `mvn test` 1060/1060, mergeada em `staging` ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)) e `main` ([api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111)) — falta só confirmar o pagamento real (userId=2) na tela em produção | 🔴 Alto | — | ALTA |
 | [TASK-245](tasks/TASK-245.md)                  | `POST /me/onboarding/user` duplicava item USER da assinatura (cobrança em dobro) — quebrava `POST /organizations` (500) — achado por Douglas testando `/organizations/new` durante QA do EPIC-028, corrigido, `mvn test` 939/939, dado local reparado — aguardando confirmação antes de abrir PR | 🔴 Crítico | — | GRAVE |
 | [TASK-244](tasks/TASK-244.md)                  | `TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job — corrigido (`98a4716`), `mvn test` 938/938, [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) aprovada por Douglas, PR `staging` aberta ([api#86](https://github.com/douglasjava/easy-maintenance-api/pull/86)) | 🔴 Crítico | — | GRAVE |
 | [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — mergeada em `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)), PR `staging→main` aberta ([api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84)) | 🔴 Alto | — | ALTA |
@@ -1704,6 +1704,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-281](tasks/TASK-281.md)                  | `/private/admin/financials` não contava receita de cartão/checkout (`FinancialsService` filtrava só `PaymentStatus.RECEIVED`) — corrigido pra somar `RECEIVED`+`PAID`+`CHECKOUT_PAID`, `mvn test` 1060/1060, mergeada em `staging`/`main` ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)/[api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111)), confirmado em produção por Douglas via SQL | 🔴 Alto | — | ALTA |
 | [TASK-276](tasks/TASK-276.md)                  | Trial vencido sem e-mail/cobrança (checkout Asaas rejeitado por item `ORGANIZATION` zerado, mesmo bug da TASK-215 nunca portado) + invoice duplicada por período instável em retry — corrigido, `mvn test` 992/992, mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)) e `main` ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)), QA manual aprovada por Douglas | 🔴 Crítico | — | GRAVE |
 | TASK-QA-BUG-006                                | Erro ao cadastrar nova empresa — paymentMethod obrigatório + orElseGet + pre-populate name/billingEmail do User | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente)              | 🟠 Alto    | EPIC-006 | ALTA       |
