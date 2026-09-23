@@ -145,6 +145,8 @@ Pequeno (~1-2h): 1 query de repositório + 1 ajuste de service + testes.
 - `mvn clean test`: **1060/1060**, 0 falhas, 0 erros
 
 ## Status
-🟡 Em Validação — implementado, testado (`mvn clean test` 1060/1060), sem PR aberta ainda.
-Falta: Douglas confirmar o pagamento real (userId=2) aparecendo em `/private/admin/financials` após
-o deploy (critério de aceite parcial acima) antes de mover pra `Done`.
+🟡 Em Validação — implementado, testado (`mvn clean test` 1060/1060), PR aberta contra `staging`:
+[api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110).
+Falta: Douglas revisar/mergear a PR e confirmar o pagamento real (userId=2) aparecendo em
+`/private/admin/financials` após o deploy (critério de aceite parcial acima) antes de mover pra
+`Done`.
