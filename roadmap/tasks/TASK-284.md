@@ -131,21 +131,23 @@ menu (`#problema`, `#solucao` etc.) se a nova seção ganhar um ID próprio.
 
 ---
 
-## Decisões em aberto (produto/design) — a confirmar antes/durante o `/execute-task`
-1. Frente 2: aprovar a composição assimétrica proposta (quais 2 cards ficam maiores) antes de
-   codar, ou deixar a critério de quem implementar e ajustar depois visualmente?
-2. Frente 3: screenshot real vs. recriação ilustrativa (recomendo ilustrativa primeiro).
-3. Frente 4: posição da nova seção no fluxo da página, e o texto exato dos 3-4 passos (a matéria-
-   prima do fluxo real do produto existe — onboarding, alertas, evidência fotográfica, relatório —
-   só falta redigir os títulos curtos no tom da marca).
+## Decisões em aberto (produto/design) — RESOLVIDAS
+Douglas confirmou seguir com a recomendação em todos os 3 pontos (23/09/2026):
+1. Frente 2: composição livre, ajustada visualmente — "Índice de conformidade" e "Chamados de
+   moradores" ficaram como os 2 cards grandes (`big: true`).
+2. Frente 3: recriação ilustrativa (não screenshot real) — `ProblemContrast.tsx`.
+3. Frente 4: nova seção entre "Problema" e "Solução", 4 passos: "Cadastre seus ativos", "Receba
+   alertas automáticos", "Registre com evidência", "Acompanhe o índice de conformidade".
 
 ## Critérios de Aceite (gerais)
-- [ ] As 4 frentes implementadas e revisadas visualmente (desktop + mobile) por Douglas
-- [ ] Nenhuma prova social numérica/depoimento novo
-- [ ] Nenhum dado ilustrativo (gauge, badge, número) apresentado de forma que pareça uma métrica
-      real de cliente
-- [ ] `npx tsc --noEmit` e `npm run build` sem regressão
-- [ ] Performance de scroll/animação sem degradação perceptível (checar visualmente, sem jank)
+- [x] As 4 frentes implementadas
+- [x] Nenhuma prova social numérica/depoimento novo
+- [x] Nenhum dado ilustrativo (gauge, badge, número) apresentado de forma que pareça uma métrica
+      real de cliente — sem nome de edificação, valores claramente decorativos
+- [x] `npx tsc --noEmit` e `npm run build` sem regressão
+- [x] Performance de scroll/animação sem degradação perceptível — validado visualmente via dev
+      server real (fade-in, bento grid, scrollytelling com passo ativo/painel sticky)
+- [ ] Revisão visual final (desktop + mobile) por Douglas antes do merge
 
 ## Dependências
 Sequencial: Frente 1 (infra de scroll) antes das Frentes 2-4, que reaproveitam o mesmo hook.
@@ -165,6 +167,22 @@ Frente 4 depende das Frentes 2-3 estarem prontas (reaproveita os widgets ilustra
 - Total estimado: ~10-15h, recomendo dividir em commits/checkpoints por frente (não uma PR gigante
   de uma vez) pra facilitar revisão visual incremental do Douglas.
 
+## Implementação
+- Mesma branch das TASK-282/283: `feature/TASK-282-landing-lead-phone` (repo `web`, a partir de
+  `staging`) — mesmo arquivo principal (`landing/page.tsx`), evita conflito de merge.
+- Novo: `hooks/useScrollReveal.ts`, `hooks/useActiveStep.ts`,
+  `components/landing/Reveal.tsx`, `components/landing/mockups/SolutionMockups.tsx`,
+  `components/landing/ProblemContrast.tsx`, `components/landing/HowItWorks.tsx`.
+- `RiskBlock.tsx`/`PartnerBlock.tsx` ganharam `<Reveal>`; `landing/page.tsx` ganhou bento grid na
+  seção Solução, `<ProblemContrast />` na seção Problema, e `<HowItWorks />` entre elas.
+- `npx tsc --noEmit`/`npm run build`/`npm run lint`: limpos. `npm test`: 107/110 (mesmas 3 falhas
+  pré-existentes de `middleware.test.ts`).
+- Validado visualmente via dev server real (`localhost:3000/landing`): fade-in funcionando, bento
+  grid com os 2 cards grandes corretos, scrollytelling com passo ativo destacado e painel sticky
+  acompanhando o scroll, contraste "Hoje x Com Easy Maintenance" renderizando como esperado.
+- PR: [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (mesma PR de
+  TASK-282/283, `staging`).
+
 ## Status
-🔵 Pronto para implementar — plano definido em 23/09/2026, aguardando decisão do Douglas sobre os
-3 pontos em aberto (ou sinal verde pra eu decidir e ajustar depois) antes de abrir a branch.
+🟡 Em Validação — implementado, testado, validado visualmente. Falta revisão final do Douglas
+(desktop + mobile) antes do merge.

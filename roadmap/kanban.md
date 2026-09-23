@@ -1,11 +1,17 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 23/09/2026 — **💡 [TASK-284](tasks/TASK-284.md) criada, plano pronto**: Douglas
-> comparou a landing com `easyalert.com.br` (concorrente direto) e pediu mais "vida"/dinamismo.
-> Benchmark levantou 5 técnicas (mockups ilustrativos em vez de emoji, contraste "antes/depois" na
-> seção de problema, bento grid assimétrico, fade-in no scroll, scrollytelling em "Como funciona")
-> — condensadas em 4 frentes sequenciais na task, sem prova social numérica nova (mantendo a
-> restrição da TASK-283). 3 decisões de design em aberto antes de abrir a branch.
+> Atualizado em: 23/09/2026 — **🟡 [TASK-284](tasks/TASK-284.md) implementada, mesma PR da
+> TASK-282/283**: Douglas comparou a landing com `easyalert.com.br` (concorrente direto) e pediu
+> mais "vida"/dinamismo, aprovando seguir com a recomendação nas 3 decisões de design em aberto.
+> 4 frentes: `useScrollReveal`/`Reveal` (fade-in no scroll, IntersectionObserver, sem lib nova) em
+> `RiskBlock`/`PartnerBlock`/seções principais; bento grid assimétrico + mini-mockups ilustrativos
+> (`SolutionMockups.tsx`) na seção Solução; `ProblemContrast.tsx` (contraste "Hoje" x "Com Easy
+> Maintenance", puramente ilustrativo) na seção Problema; nova seção `HowItWorks.tsx`
+> (scrollytelling, `useActiveStep`, painel sticky no desktop). Sem prova social numérica/depoimento
+> novo. `npx tsc --noEmit`/`npm run build`/`npm run lint` limpos, `npm test` 107/110 (mesmas 3
+> falhas pré-existentes). Validado visualmente via dev server real. PR:
+> [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) — pendente revisão final do
+> Douglas.
 
 > Atualizado em: 23/09/2026 — **🟡 [TASK-282](tasks/TASK-282.md) e [TASK-283](tasks/TASK-283.md)
 > implementadas, PRs abertas**: telefone virou **obrigatório** (decisão do Douglas: "senão vamos
@@ -1841,12 +1847,6 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**[TASK-284](tasks/TASK-284.md)** — Frontend: mais vida/dinamismo na landing, benchmark
-`easyalert.com.br` (🟡 Médio | sem épico — pedido de Douglas 23/09/2026, 4 frentes: fade-in de
-scroll, bento grid + mini-mockups ilustrativos na seção Solução, contraste visual "hoje x com Easy
-Maintenance" na seção Problema, e scrollytelling na nova seção "Como funciona"; 3 decisões de
-design em aberto, ver task)
-
 **[TASK-259](tasks/TASK-259.md)** — Backend: lotear o despacho de notificações
 (`NotificationOrchestratorService`) (🟡 Médio | sem épico — achado real do EPIC-029, 5.000
 eventos/17.510 queries/~5min numa execução, ver
@@ -2019,6 +2019,7 @@ _Vazio_
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
 | [TASK-282](tasks/TASK-282.md) | Full-stack: telefone obrigatório no formulário público de leads — **PR aberta contra `staging`, ainda não mergeada** ([api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) / [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88)) — `mvn test` 1062/1062, `npm run build` limpo (23/09) | 🟠 Alto | — |
 | [TASK-283](tasks/TASK-283.md) | Frontend: recursos/diferenciais da landing atualizados com funcionalidades já shippadas — **PR aberta contra `staging`, mesma PR da TASK-282** ([web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88)), redação pendente de revisão do Douglas (23/09) | 🟡 Médio | — |
+| [TASK-284](tasks/TASK-284.md) | Frontend: mais dinamismo na landing (benchmark `easyalert.com.br`) — fade-in no scroll, bento grid + mini-mockups ilustrativos, contraste "hoje x com Easy Maintenance", scrollytelling "Como funciona" — **mesma PR da TASK-282/283** ([web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88)), validado visualmente via dev server, pendente revisão do Douglas (23/09) | 🟡 Médio | — |
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
 | [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
