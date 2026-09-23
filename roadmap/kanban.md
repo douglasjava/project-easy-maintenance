@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 23/09/2026 — **💡 [TASK-282](tasks/TASK-282.md) e [TASK-283](tasks/TASK-283.md)
+> criadas, planos prontos**: Douglas pediu melhoria na landing — telefone no formulário público de
+> leads (hoje só e-mail, apesar de `LandingLead.phone`/`LeadAdminDTO` já existirem, é só a "fiação"
+> do form público que falta) e atualizar os recursos/diferenciais listados com funcionalidades já
+> shippadas e ausentes do copy atual (índice de conformidade, chamados de moradores, marketplace de
+> fornecedores, notificação WhatsApp, onboarding assistido). Aguardando Douglas revisar os planos
+> antes de abrir as branches.
+
 > Atualizado em: 23/09/2026 — **✅ [TASK-281](tasks/TASK-281.md) concluída**: mergeada em `staging`
 > ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)) e `main`
 > ([api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111), commit `c0e92a2`).
@@ -1821,6 +1829,16 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**[TASK-282](tasks/TASK-282.md)** — Full-stack: capturar telefone no formulário público da landing
+(`POST /landing/leads`) (🟠 Alto | sem épico — pedido de Douglas 23/09/2026; `LandingLead.phone` e
+`LeadAdminDTO` já existem/expõem telefone, só falta o form público enviar e o `LeadService` mapear —
+gap de "fiação", reaproveita `PhoneNumberNormalizer`/`phoneMask.ts` já validados em produção)
+
+**[TASK-283](tasks/TASK-283.md)** — Frontend: atualizar recursos/diferenciais da landing com
+funcionalidades já shippadas (índice de conformidade, chamados de moradores, marketplace de
+fornecedores, notificação WhatsApp, onboarding assistido) (🟡 Médio | sem épico — pedido de Douglas
+23/09/2026, junto da TASK-282; redação final depende de revisão do Douglas)
 
 **[TASK-259](tasks/TASK-259.md)** — Backend: lotear o despacho de notificações
 (`NotificationOrchestratorService`) (🟡 Médio | sem épico — achado real do EPIC-029, 5.000
