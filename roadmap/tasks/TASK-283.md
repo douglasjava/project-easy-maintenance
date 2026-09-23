@@ -68,15 +68,17 @@ prima (o que existe e não está comunicado); a redação final deve ser revisad
 publicar, não só tecnicamente correta.
 
 ## Critérios de Aceite
-- [ ] Pelo menos os 2 recursos mais fortes (índice de conformidade, chamados de moradores) citados
-      em algum bloco da landing (solução ou diferenciais)
-- [ ] Nenhuma prova social numérica inventada ou não confirmada por Douglas
-- [ ] Grid desktop (`d-none d-md-block`) e carrossel mobile (`CardCarousel`) renderizando
-      corretamente com a lista atualizada (checar visualmente, os 2 layouts são independentes)
-- [ ] `npm run build` sem regressão
+- [x] Pelo menos os 2 recursos mais fortes (índice de conformidade, chamados de moradores) citados
+      em algum bloco da landing (solução ou diferenciais) — adicionados em `SOLUTION_ITEMS`
+- [x] Nenhuma prova social numérica inventada ou não confirmada por Douglas
+- [~] Grid desktop (`d-none d-md-block`) e carrossel mobile (`CardCarousel`) renderizando
+      corretamente com a lista atualizada — `npm run build` gera a página sem erro; renderização
+      visual real (desktop + mobile) pendente de revisão do Douglas
+- [x] `npm run build` sem regressão
 
 ## Dependências
-Nenhuma. Pode ser feita independente da TASK-282.
+Nenhuma tecnicamente, mas implementada na **mesma branch/arquivo** da TASK-282
+(`landing/page.tsx`) pra evitar conflito de merge entre as duas.
 
 ## Riscos
 Baixo — mudança de conteúdo estático em componentes React já existentes, sem lógica nova, sem
@@ -85,6 +87,17 @@ mudança de contrato de API.
 ## Esforço
 Pequeno (~1-2h): redação dos novos itens + ajuste dos arrays + QA visual (desktop/mobile).
 
+## Implementação
+- Mesma branch da TASK-282: `feature/TASK-282-landing-lead-phone` (repo `web`, a partir de `staging`)
+- `SOLUTION_ITEMS`: +2 itens ("Índice de conformidade", "Chamados de moradores"); "Gestão de
+  fornecedores" e "Agenda de vencimentos" com descrição enriquecida (marketplace/pontuação,
+  notificação WhatsApp)
+- `DIFERENCIAIS_ITEMS`: +1 item ("Comece em minutos", onboarding assistido por IA)
+- `structuredData`/meta description: não alterados (decisão consciente — mudança de posicionamento
+  central fica pra quando Douglas quiser revisar o pitch principal, fora do escopo desta task)
+- PR: [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (`staging`, mesma PR da
+  TASK-282)
+
 ## Status
-🔵 Pronto para implementar — plano definido em 23/09/2026, aguardando Douglas revisar/priorizar os
-recursos e a redação antes de eu abrir a branch.
+🟡 Em Validação — implementado, `npm run build`/`npx tsc --noEmit` limpos. Redação final e
+renderização visual (desktop/mobile) pendentes de revisão do Douglas antes do merge.

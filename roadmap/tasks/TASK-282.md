@@ -44,13 +44,17 @@ validado em produção (`LeadAdminService`) e componente de máscara já em uso 
 1. **Backend — `CreateLeadRequest`**: adicionar campo `String phone`.
 2. **Backend — `LeadService.createLead`**: normalizar com `PhoneNumberNormalizer.toE164BR(request.phone())`
    (mesmo padrão do `LeadAdminService.normalizePhone`) e popular `LandingLead.builder().phone(...)`.
-   Telefone inválido não deve derrubar o form inteiro — decidir no `/execute-task` se ignora
-   silenciosamente (loga e segue sem phone) ou rejeita com 400 (mais rígido, mas evita lead "sujo").
-   Recomendação: rejeitar com 400 e mensagem clara, já que o campo é opcional — se o usuário
-   preencheu algo, deve ser válido.
-3. **Frontend — `landing/page.tsx`**: adicionar `<input>` de telefone no formulário do hero, com
-   `maskBRPhoneInput` (mesmo padrão do `LeadFormModal.tsx`), campo **opcional** (recomendação — ver
-   nota abaixo), e enviar `phone: phone.trim() || undefined` no `handleSubmit`.
+   **Decisão confirmada por Douglas (23/09/2026): telefone é obrigatório** no formulário principal —
+   sem ele, volta o problema original de lead sem contato viável. Regra: obrigatório só quando
+   `hasEmail` for `true` (ou seja, é o formulário principal, `originType = WEBSITE_FORM`) — **não**
+   se aplica ao ping de clique do WhatsApp (`originType = WHATSAPP_CLICK`, sem e-mail nem telefone,
+   já coberto pelo teste `createLead_savesWithoutConsentCheck_whenEmailIsAbsent`), que continua
+   funcionando exatamente como hoje. Telefone ausente no form principal → 400 "Telefone é
+   obrigatório."; telefone preenchido mas inválido → 400 "Telefone inválido." (nunca 500, nunca
+   ignorado silenciosamente).
+3. **Frontend — `landing/page.tsx`**: adicionar `<input required>` de telefone no formulário do
+   hero, com `maskBRPhoneInput` (mesmo padrão do `LeadFormModal.tsx`), e enviar `phone` no
+   `handleSubmit`. Não mexer em `handleWhatsAppClick` (ping de clique, propositalmente sem contato).
 4. **Meta CAPI**: `MetaCapiClient.sendEvent` já recebe o `LandingLead` inteiro — conferir se já usa
    `phone` pra melhorar o match do Conversions API (`em`/`ph` hash) ou se precisa de ajuste pontual;
    se já usa, o ganho de qualidade de match vem de graça com esta task.
@@ -58,21 +62,27 @@ validado em produção (`LeadAdminService`) e componente de máscara já em uso 
    `/private/admin/leads` com telefone preenchido/normalizado, e testar telefone inválido (deve
    dar erro claro, não 500).
 
-## Decisão em aberto (produto)
-Campo obrigatório ou opcional? Recomendação: **opcional**, seguindo o padrão de menor fricção do
-form atual (só e-mail é obrigatório hoje) — evita queda de conversão por campo extra obrigatório,
-mas já resolve o problema de contato pra quem preencher. Se Douglas preferir obrigatório, é só trocar
-a validação no passo 2/3.
+## Decisão (produto) — RESOLVIDA
+Telefone **obrigatório** no formulário principal da landing, confirmado por Douglas 23/09/2026:
+"pode ser obrigatório pq senão vamos cair no mesmo problema". Não se aplica ao ping de clique do
+WhatsApp (sem contato, tracking best-effort).
 
 ## Critérios de Aceite
-- [ ] `POST /landing/leads` aceita `phone` opcional e persiste normalizado (E.164) em `landing_leads.phone`
-- [ ] Telefone inválido retorna 400 com mensagem clara (não 500, não silenciosamente ignorado)
-- [ ] Formulário da landing tem campo de telefone com máscara BR, visualmente alinhado ao form atual
-- [ ] Lead submetido com telefone aparece corretamente em `/private/admin/leads` (coluna já existe)
-- [ ] Lead submetido sem telefone continua funcionando normalmente (regressão)
-- [ ] Teste de regressão no backend (`LeadServiceTest` ou equivalente) cobrindo: telefone válido
-      normalizado, telefone inválido rejeitado, ausência de telefone não quebra o fluxo
-- [ ] `mvn clean test` e `npm run build`/`npm test` sem regressão
+- [x] `POST /landing/leads` exige `phone` quando `email` está presente (form principal); persiste
+      normalizado (E.164) em `landing_leads.phone`
+- [x] Telefone ausente ou inválido no form principal retorna 400 com mensagem clara (não 500)
+- [x] Ping de clique do WhatsApp (sem e-mail, sem telefone) continua funcionando sem exigir contato
+      (regressão do `originType = WHATSAPP_CLICK`) — coberto por
+      `createLead_savesWithoutConsentCheck_whenEmailIsAbsent`
+- [x] Formulário da landing tem campo de telefone `required` com máscara BR, visualmente alinhado ao
+      form atual
+- [~] Lead submetido com telefone aparece corretamente em `/private/admin/leads` (coluna já existe)
+      — código pronto, pendente confirmação visual do Douglas após deploy
+- [x] Teste de regressão no backend (`LeadServiceTest`) cobrindo: telefone válido normalizado,
+      telefone ausente rejeitado quando há e-mail, telefone inválido rejeitado, ping de WhatsApp sem
+      contato continua passando
+- [x] `mvn clean test` (1062/1062) e `npm run build`/`npx tsc --noEmit` sem regressão; `npm test`
+      107/110 (3 falhas pré-existentes em `middleware.test.ts`, não relacionadas)
 
 ## Dependências
 Nenhuma — reaproveita `PhoneNumberNormalizer` e `phoneMask.ts` já existentes.
@@ -80,12 +90,25 @@ Nenhuma — reaproveita `PhoneNumberNormalizer` e `phoneMask.ts` já existentes.
 ## Riscos
 - Baixo — aditivo, reaproveita padrão e componentes já validados em produção (`LeadAdminService`,
   `LeadFormModal`).
-- Risco de conversão: campo extra no form, mesmo opcional, pode reduzir levemente a taxa de
-  preenchimento — mitigado por ser opcional e por reaproveitar UX já usada em outros forms do app.
+- Risco de conversão: campo obrigatório a mais no form pode reduzir levemente a taxa de
+  preenchimento — decisão consciente do Douglas ("senão vamos cair no mesmo problema"), prioriza
+  qualidade de contato sobre volume bruto de leads.
 
 ## Esforço
 Pequeno (~2-3h): 1 campo de DTO + 1 normalização + 1 input de frontend + testes.
 
+## Implementação
+- Branch: `feature/TASK-282-landing-lead-phone` (repos `api` e `web`, a partir de `staging`)
+- Backend: `CreateLeadRequest.phone` (novo campo) + `LeadService.normalizePhone` (obrigatório só
+  quando `hasEmail`) + `LeadServiceTest` com 2 testes novos + testes existentes ajustados pro novo
+  campo posicional. `mvn clean test`: 1062/1062.
+- Frontend: `landing/page.tsx` ganha `<input type="tel" required>` com `maskBRPhoneInput`, envia
+  `phone` no `handleSubmit`, e o catch agora mostra `err.response.data.detail` (mensagem real do
+  backend) em vez de alerta genérico.
+- PRs: [api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) (`staging`),
+  [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (`staging`, branch
+  consolidada com TASK-283 — mesmo arquivo `landing/page.tsx`).
+
 ## Status
-🔵 Pronto para implementar — plano definido em 23/09/2026, aguardando decisão do Douglas pra abrir
-a branch.
+🟡 Em Validação — implementado, testado, PRs abertas contra `staging`. Falta Douglas revisar/mergear
+e confirmar telefone aparecendo em `/private/admin/leads` após deploy.

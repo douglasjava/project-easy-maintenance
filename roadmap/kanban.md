@@ -1,12 +1,16 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 23/09/2026 — **💡 [TASK-282](tasks/TASK-282.md) e [TASK-283](tasks/TASK-283.md)
-> criadas, planos prontos**: Douglas pediu melhoria na landing — telefone no formulário público de
-> leads (hoje só e-mail, apesar de `LandingLead.phone`/`LeadAdminDTO` já existirem, é só a "fiação"
-> do form público que falta) e atualizar os recursos/diferenciais listados com funcionalidades já
-> shippadas e ausentes do copy atual (índice de conformidade, chamados de moradores, marketplace de
-> fornecedores, notificação WhatsApp, onboarding assistido). Aguardando Douglas revisar os planos
-> antes de abrir as branches.
+> Atualizado em: 23/09/2026 — **🟡 [TASK-282](tasks/TASK-282.md) e [TASK-283](tasks/TASK-283.md)
+> implementadas, PRs abertas**: telefone virou **obrigatório** (decisão do Douglas: "senão vamos
+> cair no mesmo problema") no formulário público de leads — `CreateLeadRequest.phone` +
+> `LeadService` normalizando via `PhoneNumberNormalizer`, exigido só no form principal
+> (`originType=WEBSITE_FORM`), sem afetar o ping de clique do WhatsApp. Landing também ganhou 2
+> recursos novos em `SOLUTION_ITEMS` (índice de conformidade, chamados de moradores) e descrições
+> enriquecidas (marketplace de fornecedores, notificação WhatsApp) + 1 diferencial (onboarding
+> assistido). `mvn clean test` 1062/1062, `npm run build`/`tsc --noEmit` limpos. PRs contra
+> `staging`: [api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112),
+> [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (TASK-282+TASK-283 na mesma
+> branch/PR do repo `web`, mesmo arquivo `landing/page.tsx`). Aguardando revisão/merge do Douglas.
 
 > Atualizado em: 23/09/2026 — **✅ [TASK-281](tasks/TASK-281.md) concluída**: mergeada em `staging`
 > ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)) e `main`
@@ -1830,16 +1834,6 @@ _Vazio_
 
 ## Pronto para Implementar
 
-**[TASK-282](tasks/TASK-282.md)** — Full-stack: capturar telefone no formulário público da landing
-(`POST /landing/leads`) (🟠 Alto | sem épico — pedido de Douglas 23/09/2026; `LandingLead.phone` e
-`LeadAdminDTO` já existem/expõem telefone, só falta o form público enviar e o `LeadService` mapear —
-gap de "fiação", reaproveita `PhoneNumberNormalizer`/`phoneMask.ts` já validados em produção)
-
-**[TASK-283](tasks/TASK-283.md)** — Frontend: atualizar recursos/diferenciais da landing com
-funcionalidades já shippadas (índice de conformidade, chamados de moradores, marketplace de
-fornecedores, notificação WhatsApp, onboarding assistido) (🟡 Médio | sem épico — pedido de Douglas
-23/09/2026, junto da TASK-282; redação final depende de revisão do Douglas)
-
 **[TASK-259](tasks/TASK-259.md)** — Backend: lotear o despacho de notificações
 (`NotificationOrchestratorService`) (🟡 Médio | sem épico — achado real do EPIC-029, 5.000
 eventos/17.510 queries/~5min numa execução, ver
@@ -2010,6 +2004,8 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-282](tasks/TASK-282.md) | Full-stack: telefone obrigatório no formulário público de leads — **PR aberta contra `staging`, ainda não mergeada** ([api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) / [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88)) — `mvn test` 1062/1062, `npm run build` limpo (23/09) | 🟠 Alto | — |
+| [TASK-283](tasks/TASK-283.md) | Frontend: recursos/diferenciais da landing atualizados com funcionalidades já shippadas — **PR aberta contra `staging`, mesma PR da TASK-282** ([web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88)), redação pendente de revisão do Douglas (23/09) | 🟡 Médio | — |
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
 | [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
