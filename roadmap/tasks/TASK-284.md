@@ -185,5 +185,5 @@ Frente 4 depende das Frentes 2-3 estarem prontas (reaproveita os widgets ilustra
   [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
 
 ## Status
-🟢 `staging` → `main` aberta — [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
-Douglas aprovou o resultado visual ("ficou ótimo") antes de pedir a promoção.
+✅ **Done** — [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89) mergeada em
+`main` por Douglas (23/09/2026). Aprovado o resultado visual ("ficou ótimo") antes da promoção.

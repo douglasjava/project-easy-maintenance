@@ -112,8 +112,6 @@ Pequeno (~2-3h): 1 campo de DTO + 1 normalização + 1 input de frontend + teste
   aberta: [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
 
 ## Status
-🟢 `staging` → `main` aberta — [api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113)
-e [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89). Precisam ir pra produção
-**juntas** — telefone obrigatório na tela sem o backend aceitar deixaria o dado sendo descartado
-silenciosamente. Falta mergear e confirmar telefone aparecendo em `/private/admin/leads` em
-produção.
+✅ **Done** — [api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) e
+[web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89) mergeadas em `main` por
+Douglas (23/09/2026).

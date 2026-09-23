@@ -1,13 +1,10 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 23/09/2026 — **🟢 TASK-282/TASK-283/TASK-284 — `staging` → `main` aberta**: Douglas
-> aprovou o resultado visual da landing ("ficou ótimo") e mergeou
-> [api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) /
-> [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) em `staging`. Promoção pra
-> `main` aberta: [api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) /
-> [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89). **Atenção**: as duas PRs de
-> `main` (api + web) precisam ir juntas — telefone obrigatório na tela sem o backend aceitar faria o
-> dado ser descartado silenciosamente (Jackson ignora campo desconhecido por padrão, sem erro).
+> Atualizado em: 23/09/2026 — **✅ TASK-282/TASK-283/TASK-284 concluídas**: telefone obrigatório no
+> formulário público de leads, recursos/diferenciais da landing atualizados com funcionalidades já
+> shippadas, e mais dinamismo na página (benchmark `easyalert.com.br`) — mergeadas em `main` por
+> Douglas ([api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) /
+> [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)).
 
 > Atualizado em: 23/09/2026 — **🟡 [TASK-284](tasks/TASK-284.md) implementada, mesma PR da
 > TASK-282/283**: Douglas comparou a landing com `easyalert.com.br` (concorrente direto) e pediu
@@ -2026,9 +2023,6 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-282](tasks/TASK-282.md) | Full-stack: telefone obrigatório no formulário público de leads — mergeada em `staging` ([api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) / [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88)), **promoção pra `main` aberta** ([api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) / [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)) — `mvn test` 1062/1062 (23/09) | 🟠 Alto | — |
-| [TASK-283](tasks/TASK-283.md) | Frontend: recursos/diferenciais da landing atualizados com funcionalidades já shippadas — mergeada em `staging`, **promoção pra `main` aberta** ([web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)), Douglas aprovou o resultado visual (23/09) | 🟡 Médio | — |
-| [TASK-284](tasks/TASK-284.md) | Frontend: mais dinamismo na landing (benchmark `easyalert.com.br`) — fade-in no scroll, bento grid + mini-mockups ilustrativos, contraste "hoje x com Easy Maintenance", scrollytelling "Como funciona" — mergeada em `staging`, **promoção pra `main` aberta** ([web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)), Douglas aprovou o resultado visual (23/09) | 🟡 Médio | — |
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
 | [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
@@ -2119,6 +2113,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-282](tasks/TASK-282.md) / [TASK-283](tasks/TASK-283.md) / [TASK-284](tasks/TASK-284.md) | Landing: telefone obrigatório no form de leads + recursos atualizados + mais dinamismo (fade-in, bento grid, contraste hoje/depois, scrollytelling "Como funciona") — mergeadas em `main` ([api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) / [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)) por Douglas | 🟠 Alto | — |
 | [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção — api#47 e web#52 mergeadas em main | 🟠 Alto | — |
 | [TASK-180](tasks/TASK-180.md) | Conteúdo: revisar post do blog sobre NBR 5674 — PR #45 mergeada em staging | 🔵 Baixo | EPIC-025 |
 | [TASK-178](tasks/TASK-178.md) | Backend: novo item de catálogo para instalação de gás combustível — PR #39 mergeada em staging (V90) | 🟡 Médio | EPIC-025 |
