@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 23/09/2026 — **💡 [TASK-284](tasks/TASK-284.md) criada, plano pronto**: Douglas
+> comparou a landing com `easyalert.com.br` (concorrente direto) e pediu mais "vida"/dinamismo.
+> Benchmark levantou 5 técnicas (mockups ilustrativos em vez de emoji, contraste "antes/depois" na
+> seção de problema, bento grid assimétrico, fade-in no scroll, scrollytelling em "Como funciona")
+> — condensadas em 4 frentes sequenciais na task, sem prova social numérica nova (mantendo a
+> restrição da TASK-283). 3 decisões de design em aberto antes de abrir a branch.
+
 > Atualizado em: 23/09/2026 — **🟡 [TASK-282](tasks/TASK-282.md) e [TASK-283](tasks/TASK-283.md)
 > implementadas, PRs abertas**: telefone virou **obrigatório** (decisão do Douglas: "senão vamos
 > cair no mesmo problema") no formulário público de leads — `CreateLeadRequest.phone` +
@@ -1833,6 +1840,12 @@ _Vazio_
 ---
 
 ## Pronto para Implementar
+
+**[TASK-284](tasks/TASK-284.md)** — Frontend: mais vida/dinamismo na landing, benchmark
+`easyalert.com.br` (🟡 Médio | sem épico — pedido de Douglas 23/09/2026, 4 frentes: fade-in de
+scroll, bento grid + mini-mockups ilustrativos na seção Solução, contraste visual "hoje x com Easy
+Maintenance" na seção Problema, e scrollytelling na nova seção "Como funciona"; 3 decisões de
+design em aberto, ver task)
 
 **[TASK-259](tasks/TASK-259.md)** — Backend: lotear o despacho de notificações
 (`NotificationOrchestratorService`) (🟡 Médio | sem épico — achado real do EPIC-029, 5.000
