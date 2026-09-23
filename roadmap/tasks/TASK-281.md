@@ -145,9 +145,9 @@ Pequeno (~1-2h): 1 query de repositório + 1 ajuste de service + testes.
 - `mvn clean test`: **1060/1060**, 0 falhas, 0 erros
 
 ## Status
-🟢 `staging` → `main` aberta — [api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)
-mergeada em `staging` por Douglas; promoção pra `main` aberta:
-[api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111).
-Falta: mergear #111 e confirmar o pagamento real (userId=2) aparecendo em
-`/private/admin/financials` em produção (critério de aceite parcial acima) antes de mover pra
-`Done`.
+🟢 Mergeada em `main` — [api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)
+(`staging`) e [api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111) (`staging` →
+`main`, commit `c0e92a2`) ambas mergeadas.
+Falta só: confirmar o pagamento real (userId=2, `pay_ub6qpsk6hmvp2u4n`) aparecendo em
+`/private/admin/financials` depois do deploy em produção (critério de aceite parcial) antes de mover
+pra `Done`.
