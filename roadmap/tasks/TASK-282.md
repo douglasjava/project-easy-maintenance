@@ -105,10 +105,15 @@ Pequeno (~2-3h): 1 campo de DTO + 1 normalização + 1 input de frontend + teste
 - Frontend: `landing/page.tsx` ganha `<input type="tel" required>` com `maskBRPhoneInput`, envia
   `phone` no `handleSubmit`, e o catch agora mostra `err.response.data.detail` (mensagem real do
   backend) em vez de alerta genérico.
-- PRs: [api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) (`staging`),
-  [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (`staging`, branch
-  consolidada com TASK-283 — mesmo arquivo `landing/page.tsx`).
+- PRs: [api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112) mergeada em
+  `staging`, promoção pra `main` aberta: [api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113).
+  [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) mergeada em `staging`
+  (branch consolidada com TASK-283/284 — mesmo arquivo `landing/page.tsx`), promoção pra `main`
+  aberta: [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
 
 ## Status
-🟡 Em Validação — implementado, testado, PRs abertas contra `staging`. Falta Douglas revisar/mergear
-e confirmar telefone aparecendo em `/private/admin/leads` após deploy.
+🟢 `staging` → `main` aberta — [api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113)
+e [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89). Precisam ir pra produção
+**juntas** — telefone obrigatório na tela sem o backend aceitar deixaria o dado sendo descartado
+silenciosamente. Falta mergear e confirmar telefone aparecendo em `/private/admin/leads` em
+produção.

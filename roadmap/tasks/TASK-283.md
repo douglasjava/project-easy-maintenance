@@ -95,9 +95,9 @@ Pequeno (~1-2h): redação dos novos itens + ajuste dos arrays + QA visual (desk
 - `DIFERENCIAIS_ITEMS`: +1 item ("Comece em minutos", onboarding assistido por IA)
 - `structuredData`/meta description: não alterados (decisão consciente — mudança de posicionamento
   central fica pra quando Douglas quiser revisar o pitch principal, fora do escopo desta task)
-- PR: [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (`staging`, mesma PR da
-  TASK-282)
+- PR: [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) mergeada em `staging`,
+  promoção pra `main` aberta: [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)
 
 ## Status
-🟡 Em Validação — implementado, `npm run build`/`npx tsc --noEmit` limpos. Redação final e
-renderização visual (desktop/mobile) pendentes de revisão do Douglas antes do merge.
+🟢 `staging` → `main` aberta — [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
+Douglas aprovou o resultado visual ("ficou ótimo") antes de pedir a promoção.

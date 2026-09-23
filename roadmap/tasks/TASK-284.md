@@ -180,9 +180,10 @@ Frente 4 depende das Frentes 2-3 estarem prontas (reaproveita os widgets ilustra
 - Validado visualmente via dev server real (`localhost:3000/landing`): fade-in funcionando, bento
   grid com os 2 cards grandes corretos, scrollytelling com passo ativo destacado e painel sticky
   acompanhando o scroll, contraste "Hoje x Com Easy Maintenance" renderizando como esperado.
-- PR: [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (mesma PR de
-  TASK-282/283, `staging`).
+- PR: [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) mergeada em `staging`
+  (mesma PR de TASK-282/283), promoção pra `main` aberta:
+  [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
 
 ## Status
-🟡 Em Validação — implementado, testado, validado visualmente. Falta revisão final do Douglas
-(desktop + mobile) antes do merge.
+🟢 `staging` → `main` aberta — [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89).
+Douglas aprovou o resultado visual ("ficou ótimo") antes de pedir a promoção.
