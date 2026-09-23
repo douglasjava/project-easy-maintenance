@@ -1,7 +1,13 @@
 # EPIC-024 — Agendamento de Demonstração (Cal.com)
 
 ## Status
-Desenhado via brainstorm com Douglas (19/08/2026), pronto para implementar. Spec em
+🟡 Em Validação (23/09/2026) — TASK-175 e TASK-176 implementadas, testadas, PRs abertas contra
+`staging`: [api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114) /
+[web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90). Falta Douglas configurar a
+conta/evento real no Cal.com (`NEXT_PUBLIC_CALCOM_LINK`, `CALCOM_WEBHOOK_SECRET`) e testar um
+agendamento real de ponta a ponta.
+
+Desenhado via brainstorm com Douglas (19/08/2026). Spec em
 `docs/superpowers/specs/2026-08-19-agendamento-demo-design.md`.
 
 ## Objetivo
@@ -58,16 +64,19 @@ painel do Cal.com apontando pro endpoint antes do rollout completo fazer sentido
 
 ## Critério de Conclusão do Épico
 
-- [ ] `/agendar` acessível publicamente, com o embed do Cal.com funcional
-- [ ] Botão "Agendar demonstração" na navbar da landing, sem alterar nenhum outro elemento da
+- [x] `/agendar` acessível publicamente, com o embed do Cal.com funcional (validado com link de
+      teste; evento real do Douglas pendente)
+- [x] Botão "Agendar demonstração" na navbar da landing, sem alterar nenhum outro elemento da
       página
-- [ ] Webhook `POST /landing/leads/calcom-webhook` valida assinatura, extrai UTM/afiliado/
+- [x] Webhook `POST /landing/leads/calcom-webhook` valida assinatura, extrai UTM/afiliado/
       consentimento, cria `landing_lead` via `LeadService.createLead`
-- [ ] Agendamento aparece no painel de leads (`/private/admin/leads`) igual a qualquer outro lead
-- [ ] Formulário de e-mail + botão "Solicitar Demonstração" existentes continuam funcionando sem
+- [~] Agendamento aparece no painel de leads (`/private/admin/leads`) igual a qualquer outro lead
+      — código pronto, confirmação com agendamento real pendente
+- [x] Formulário de e-mail + botão "Solicitar Demonstração" existentes continuam funcionando sem
       nenhuma mudança
-- [ ] Testes cobrindo assinatura válida/inválida e payload sem consentimento
-- [ ] `npm run build` (frontend) e `mvn test` (backend) sem regressão
+- [x] Testes cobrindo assinatura válida/inválida e payload sem consentimento
+- [x] `npm run build` (frontend) e `mvn test` (backend) sem regressão — 1075/1075 backend, 107/110
+      frontend (3 falhas pré-existentes)
 
 ---
 

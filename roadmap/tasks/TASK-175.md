@@ -48,13 +48,14 @@ botão "Solicitar Demonstração", CTA final, footer — tudo continua exatament
 
 ## Critérios de Aceite
 
-- [ ] `/agendar` acessível publicamente, embed do Cal.com carrega e funciona (escolher
-      dia/horário, preencher formulário, confirmar)
-- [ ] UTM e `affiliateCode` armazenados no navegador chegam como parâmetro de URL no embed
-- [ ] Botão "Agendar demonstração" visível na navbar da landing, leva pra `/agendar`
-- [ ] Formulário de e-mail, botão "Solicitar Demonstração" e CTA final da landing continuam
+- [x] `/agendar` acessível publicamente, embed do Cal.com carrega e funciona — validado com link
+      de teste (iframe injetado, script carregado); escolher dia/confirmar de ponta a ponta com
+      evento real pendente de config do Douglas no Cal.com
+- [x] UTM e `affiliateCode` armazenados no navegador chegam como campo de `config` no embed
+- [x] Botão "Agendar demonstração" visível na navbar da landing, leva pra `/agendar`
+- [x] Formulário de e-mail, botão "Solicitar Demonstração" e CTA final da landing continuam
       idênticos — nenhuma mudança visual ou funcional nesses elementos
-- [ ] `npm run build` limpo
+- [x] `npm run build` limpo
 
 ## Dependências
 Nenhuma (independente da TASK-176 do ponto de vista de código).
@@ -65,5 +66,26 @@ Baixo — página nova, aditiva. Depende de conta/configuração no Cal.com (for
 ## Esforço
 Baixo-Médio
 
+## Implementação
+- Branch: `feature/EPIC-024-agendamento-calcom` (repo `web`, a partir de `staging`)
+- Nova rota `/agendar` (`src/app/agendar/page.tsx`), botão "Agendar demonstração" na navbar da
+  landing (`src/app/landing/page.tsx`), `ENV.CALCOM_LINK` novo (`NEXT_PUBLIC_CALCOM_LINK`)
+- UTM/afiliado propagados via `config` do embed (`getStoredUtm()`, `Cookies.get('em_ref')`)
+- **Achado real durante teste no browser**: shim/init/inline do Cal.com precisou ser injetado
+  manualmente via `document.createElement("script")` num `useEffect` — `next/script`
+  (`onLoad`/`onReady`) não dispara pra scripts inline (só funcionaria com `src` externo), então
+  `window.Cal("init"...)` nunca era chamado e o widget nunca inicializava. Confirmado rodando a
+  página de verdade com `NEXT_PUBLIC_CALCOM_LINK` fake: sem o fix, `window.Cal` existia mas nunca
+  fora invocado (`hasOwnProperty('loaded') === false`); com o fix, script carregado, iframe
+  injetado, tudo funcionando.
+- **Segundo achado**: `Shell.tsx` guarda toda rota fora de uma allowlist client-side atrás de
+  login (mesma classe de bug da TASK-272/273/274) — `/agendar` não estava lá e redirecionava pra
+  `/login`. Corrigido.
+- `npx tsc --noEmit`/`npm run build`/`npm run lint`: limpos. `npm test`: 107/110 (3 falhas
+  pré-existentes em `middleware.test.ts`).
+- PR: [web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90) (`staging`)
+
 ## Status
-Pronto para implementar.
+🟡 Em Validação — implementado, testado, validado no browser real (embed carregando de verdade
+com link de teste). Falta Douglas configurar o evento real no Cal.com e
+`NEXT_PUBLIC_CALCOM_LINK`, testar agendamento de ponta a ponta.

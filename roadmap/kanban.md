@@ -1,5 +1,21 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 23/09/2026 — **🟡 EPIC-024 implementado (TASK-175/TASK-176), PRs abertas**:
+> agendamento de demonstração via Cal.com — página pública `/agendar` com o embed + botão na
+> navbar da landing (TASK-175), webhook `BOOKING_CREATED` cria lead via `LeadService` reaproveitado
+> (TASK-176, `source="agendamento"`). `LeadService` ganhou overload `requirePhone` (o webhook do
+> Cal.com não garante telefone, diferente do form público endurecido na TASK-282). Dois achados
+> reais durante a implementação: (1) `next/script`'s `onLoad`/`onReady` não dispara pra scripts
+> inline — shim do Cal.com precisou ser injetado manualmente via `document.createElement`,
+> confirmado com teste real no browser (sem o fix, `window.Cal` nunca era invocado); (2)
+> `Shell.tsx` bloqueava `/agendar` atrás de login (mesma classe de bug da TASK-272/273/274),
+> corrigido. `mvn test` 1075/1075, `npm run build`/`tsc --noEmit` limpos, `npm test` 107/110
+> (falhas pré-existentes). PRs contra `staging`:
+> [api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114) /
+> [web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90). Falta Douglas configurar
+> conta/evento real no Cal.com (`NEXT_PUBLIC_CALCOM_LINK`, `CALCOM_WEBHOOK_SECRET`) antes de
+> revisar/mergear.
+
 > Atualizado em: 23/09/2026 — **✅ TASK-282/TASK-283/TASK-284 concluídas**: telefone obrigatório no
 > formulário público de leads, recursos/diferenciais da landing atualizados com funcionalidades já
 > shippadas, e mais dinamismo na página (benchmark `easyalert.com.br`) — mergeadas em `main` por
@@ -1956,10 +1972,6 @@ das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api
 - ~~**[TASK-235](tasks/TASK-235.md)**~~ — ~~Scripts k6 + execução + relatório~~ *(executados de verdade contra a API local real — achado crítico: `NotificationOrchestratorService.dispatch()` sem lote, 17.510 queries/~5min pra 5.000 eventos. Relatório: `docs/superpowers/reports/2026-09-10-load-test-findings.md`)*
 - ~~**[TASK-258](tasks/TASK-258.md)**~~ — ~~BUGFIX: FirebaseMessaging travava o boot local~~ *(achado colateral que desbloqueou rodar o k6 de verdade — e a validação HTTP real de EPIC-028/030 também, retroativamente)*
 
-**🟠 Alto (EPIC-024 — agendamento de demonstração via Cal.com) — *(backlog, não priorizado agora, 19/08/2026)***:
-- **[TASK-175](tasks/TASK-175.md)** — Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing (🟠 Alto | EPIC-024)
-- **[TASK-176](tasks/TASK-176.md)** — Backend: webhook do Cal.com cria lead via `LeadService` (🟠 Alto | EPIC-024)
-
 **🟢 EPIC-023 — fornecedores nas notificações de vencimento — CONCLUÍDA (07/09/2026)**:
 *(bloco antigo mantido pra histórico — status real está na [EPIC-023](epics/EPIC-023.md) e na
 tabela "Em Validação" abaixo; TASK-172/173/174/228/229/230/231/232 mergeadas em `main` via
@@ -2023,6 +2035,8 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-175](tasks/TASK-175.md) | Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing — **PR aberta contra `staging`, ainda não mergeada** ([web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90)) — validado no browser real, `npm run build` limpo (23/09) | 🟠 Alto | EPIC-024 |
+| [TASK-176](tasks/TASK-176.md) | Backend: webhook do Cal.com cria lead via `LeadService` — **PR aberta contra `staging`, ainda não mergeada** ([api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114)) — `mvn test` 1075/1075 (23/09) | 🟠 Alto | EPIC-024 |
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
 | [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |

@@ -46,14 +46,17 @@ lead reaproveitando o `LeadService` já existente — sem tabela nova, sem servi
 
 ## Critérios de Aceite
 
-- [ ] Webhook com assinatura válida e payload completo cria `landing_lead` corretamente, com UTM/
+- [x] Webhook com assinatura válida e payload completo cria `landing_lead` corretamente, com UTM/
       afiliado propagados
-- [ ] Webhook com assinatura inválida é rejeitado, não cria lead
-- [ ] Payload sem consentimento marcado é rejeitado (mesma regra do `LeadService`)
-- [ ] Lead criado aparece no painel `/private/admin/leads` com `source` identificando que veio do
-      agendamento
-- [ ] Testes cobrindo os 3 cenários acima
-- [ ] `mvn test` sem regressão
+- [x] Webhook com assinatura inválida é rejeitado, não cria lead
+- [x] Payload sem consentimento marcado é rejeitado (mesma regra do `LeadService`) — não propaga
+      exceção, só loga (agendamento no Cal.com já confirmado independente disso)
+- [~] Lead criado aparece no painel `/private/admin/leads` com `source` identificando que veio do
+      agendamento — código pronto (`source="agendamento"`), confirmação com agendamento real
+      pendente de Douglas configurar o Cal.com
+- [x] Testes cobrindo os cenários acima (+ trigger event ≠ BOOKING_CREATED, payload sem e-mail,
+      payload malformado)
+- [x] `mvn test` sem regressão — 1075/1075
 
 ## Dependências
 Nenhuma (independente da TASK-175 do ponto de vista de código, mas precisa da URL de produção da
@@ -66,5 +69,22 @@ robusta contra payload forjado.
 ## Esforço
 Baixo-Médio
 
+## Implementação
+- Branch: `feature/EPIC-024-agendamento-calcom` (repo `api`, a partir de `staging`)
+- `CalComWebhookController` (`POST /landing/leads/calcom-webhook`), `CalComSignatureValidator`
+  (HMAC-SHA256, mesmo padrão do `WhatsAppSignatureValidator`), `CalComWebhookDTO` (mirror do
+  payload `BOOKING_CREATED`), `CalComWebhookService` (`@Async`, extrai email/nome/telefone do
+  attendee + consentimento/UTM/afiliado de `payload.responses`, chama `LeadService.createLead`)
+- `LeadService` ganhou overload `createLead(request, remoteAddr, userAgent, requirePhone)` —
+  necessário porque o webhook roda assíncrono (sem `HttpServletRequest` vivo) e o Cal.com não
+  garante telefone (diferente do form público, TASK-282). Overload de 2 args existente
+  (`LeadController`) inalterado, delega com `requirePhone=true`.
+- `SecurityConfig`/`TenantFilter`: novo endpoint liberado, mesmo padrão Asaas/WhatsApp
+- `CalComSignatureValidatorTest` (6 testes) + `CalComWebhookServiceTest` (5 testes) + 2 testes
+  novos em `LeadServiceTest` pro overload — `mvn clean test`: 1075/1075
+- PR: [api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114) (`staging`)
+
 ## Status
-Pronto para implementar.
+🟡 Em Validação — implementado, testado. Falta Douglas configurar Webhook Secret real no painel
+do Cal.com (`CALCOM_WEBHOOK_SECRET`) e confirmar agendamento real aparecendo em
+`/private/admin/leads`.
