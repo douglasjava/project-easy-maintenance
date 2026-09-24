@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🟡 [TASK-280](tasks/TASK-280.md) implementada, PRs abertas**: kanban de
+> pedidos de orçamento do fornecedor na tela do link mágico (Novo → Em contato → Orçamento enviado →
+> Fechado / Perdido), com contato de quem pediu + aviso LGPD no modal da organização —
+> [api#116](https://github.com/douglasjava/easy-maintenance-api/pull/116) (V115 + `GET`/`PATCH`
+> escopados por fornecedor, 404 contra IDOR) e [web#95](https://github.com/douglasjava/easy-maintenance-web/pull/95).
+> [TASK-285](tasks/TASK-285.md) já mergeada em `staging`. Promoção `staging` → `main` fica pra depois
+> de tudo pronto (decisão do Douglas).
+
 > Atualizado em: 24/09/2026 — **🟡 [TASK-285](tasks/TASK-285.md) implementada, PR aberta**: página
 > pública `/para-fornecedores` (divulgação + preço + políticas + FAQ, 100% frontend) —
 > [web#94](https://github.com/douglasjava/easy-maintenance-web/pull/94) contra `staging`. Revisão

@@ -43,5 +43,30 @@ organização, bairro/cidade, nome + WhatsApp + e-mail de quem pediu; aviso LGPD
 orçamento"; backend com migration V115 (`status`, `status_updated_at`) + `GET`/`PATCH`
 `/public/suppliers/manage/{token}/budget-requests` com 404 uniforme contra IDOR.
 
+## Critérios de Aceite
+- [x] Fornecedor vê os pedidos recebidos pelo link mágico, com organização e contato de quem pediu
+- [x] Kanban Novo → Em contato → Orçamento enviado → Fechado / Perdido; mover persiste
+- [x] Pedido de outro fornecedor → 404 sem alteração (teste unitário + smoke em MySQL real)
+- [x] Organização/usuário removido não quebra a listagem ("—")
+- [x] Mobile 390px sem scroll horizontal; desktop 5 colunas
+- [x] Falha ao mover → card volta + aviso
+- [x] "Meus dados" e QR de pagamento pendente continuam funcionando
+- [~] Aviso LGPD no modal "Solicitar orçamento" — conferido por código, falta QA visual logado como organização
+
+## Implementação
+- Branch `feature/TASK-280-kanban-pedidos-fornecedor` em `api` e `web` (a partir de `staging`)
+- api: V115 (`status`, `status_updated_at`), `BudgetRequestStatus`, finders escopados, `SupplierBudgetInboxService`,
+  `GET`/`PATCH /public/suppliers/manage/{token}/budget-requests` — `mvn test` 1088/1088, V115 validada no
+  MySQL do Docker local
+- web: `src/lib/supplierBudgetBoard.ts` (+15 testes), `BudgetRequestBoard`/`BudgetRequestCard`, abas em
+  `/fornecedores/gerenciar/[token]`, aviso LGPD em `/fornecedores` — `npm test` 170/173 (3 pré-existentes)
+- Revisão final independente: 0 crítico/importante; 1 menor reclassificado e corrigido (skeleton no
+  carregamento); 8 menores registrados (duplo movimento rápido + falha, setas do teclado no select,
+  ARIA das abas, rate limit compartilhado, "há X dias" por 24h, sem teste de controller, save redundante,
+  indentação)
+- Validação de campo inválido responde **422** (padrão do `GlobalExceptionHandler`), não 400 como o spec dizia
+- PRs: [api#116](https://github.com/douglasjava/easy-maintenance-api/pull/116) ·
+  [web#95](https://github.com/douglasjava/easy-maintenance-web/pull/95) (`staging`)
+
 ## Status
-Backlog — spec aprovado, aguardando plano de implementação
+🟡 Em Validação — implementado, testado, PRs abertas contra `staging`.

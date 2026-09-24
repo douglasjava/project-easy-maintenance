@@ -142,3 +142,6 @@ Pedido do Douglas em duas partes, tratadas como subprojetos separados:
 - **24/09/2026 — TASK-285 implementada**, PR [web#94](https://github.com/douglasjava/easy-maintenance-web/pull/94)
   (`staging`). Revisão final achou gap de backend: fornecedor com débito falho nunca vira `PAST_DUE`
   e nunca é suspenso → **[TASK-288](../tasks/TASK-288.md)** (🟠 Alto).
+- **24/09/2026 — TASK-280 implementada** (kanban de pedidos do fornecedor, subprojeto B): PRs
+  [api#116](https://github.com/douglasjava/easy-maintenance-api/pull/116) e
+  [web#95](https://github.com/douglasjava/easy-maintenance-web/pull/95) contra `staging`.
