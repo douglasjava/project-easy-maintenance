@@ -113,3 +113,12 @@ do EPIC-028 — bug não relacionado a fornecedores). Sem PR aberta ainda — fa
 ## Status
 🟡 Implementado, testado (`mvn test` 939/939) e dado local reparado — aguardando confirmação do
 Douglas antes de abrir a PR pra `staging`.
+
+## Atualização 24/09/2026
+A correção (commit `1477e13`, 09/09) **nunca tinha sido mergeada** — o bug seguia ativo em PRD
+(no onboarding, "← Voltar" no passo 2 + "Próximo" já duplicava o item USER). Redescoberta durante a
+TASK-289/291. Branch atualizada com `staging` via merge (sem conflito), teste de regressão conferido
+por mutação (falha sem a correção), `mvn test` 1102/1102.
+PR: [api#119](https://github.com/douglasjava/easy-maintenance-api/pull/119) (`staging`).
+
+**Status atualizado:** 🟡 Em Validação — PR aberta contra `staging`; pré-requisito da TASK-291.

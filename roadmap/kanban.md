@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🚀 Promoção `staging` → `main` aberta** ([api#121](https://github.com/douglasjava/easy-maintenance-api/pull/121) ·
+> [web#100](https://github.com/douglasjava/easy-maintenance-web/pull/100)) com TASK-280/285/288/289/290 — e
+> TASK-245/291 entram automaticamente quando mergeadas em `staging`:
+> - [TASK-245](tasks/TASK-245.md) (**correção de 09/09 que nunca foi mergeada** — item USER duplicado em PRD):
+>   [api#119](https://github.com/douglasjava/easy-maintenance-api/pull/119)
+> - [TASK-291](tasks/TASK-291.md) — onboarding retoma do passo pendente (substitui limpar a base do cliente
+>   da TASK-289): [api#120](https://github.com/douglasjava/easy-maintenance-api/pull/120) ·
+>   [web#99](https://github.com/douglasjava/easy-maintenance-web/pull/99)
+> - 🔴 Novo achado: [TASK-292](tasks/TASK-292.md) — `GET /me/billing/accounts` parece listar contas de
+>   faturamento de todos os clientes (não confirmado em runtime; investigar antes da próxima release).
+
 > Atualizado em: 24/09/2026 — **🟡 [TASK-290](tasks/TASK-290.md) implementada, PR aberta**: contato com o
 > suporte via WhatsApp no onboarding (link inline nos dois passos com mensagem que identifica o passo,
 > reforço no banner de erro, clique rastreado) — [web#98](https://github.com/douglasjava/easy-maintenance-web/pull/98).
