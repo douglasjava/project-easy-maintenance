@@ -36,15 +36,19 @@ ao fornecedor por que participar, quanto custa e quais são as regras. Detalhe c
 
 ## Critérios de Aceite
 
-- [ ] `/para-fornecedores` acessível deslogado (sem redirect pro `/login`) e logado
-- [ ] Responsiva em 390/1024/1366/1920px, sem scroll horizontal
-- [ ] Todos os CTAs levam a `/fornecedores/cadastro`; `#politicas` funciona; links do footer da
+- [x] `/para-fornecedores` acessível deslogado (sem redirect pro `/login`) — `isPublicPath` + teste
+- [x] Responsiva — validado 390px (`scrollWidth === clientWidth`) e 1366px no browser
+- [x] Todos os CTAs levam a `/fornecedores/cadastro`; `#politicas` funciona; links do footer da
       `/landing` e de `/fornecedores/cadastro` funcionam
-- [ ] Texto de políticas bate com a tabela "Políticas → comportamento verificado" do spec
-- [ ] Nenhuma prova social numérica na página
-- [ ] Eventos Pixel/GA disparam no clique do CTA e no cadastro concluído (testes em `tracking.test.ts`)
-- [ ] Fluxo de cadastro/pagamento de fornecedor inalterado
-- [ ] `tsc`/`lint`/`build` limpos, `npm test` sem regressão nova
+- [x] Texto de políticas bate com o comportamento real do backend — revisão final achou a política
+      de "3 dias de tolerância" não aplicada (nenhum código marca fornecedor `PAST_DUE`); copy
+      ajustada e backend registrado em [TASK-288](TASK-288.md)
+- [x] Nenhuma prova social numérica na página (teste em `content.test.ts`)
+- [~] Eventos Pixel/GA: clique no CTA validado no browser; `CompleteRegistration` coberto por teste
+      unitário, ponta a ponta pendente (API local fora do ar) — conferir no Meta Events Manager
+- [x] Fluxo de cadastro/pagamento de fornecedor inalterado (só link + evento)
+- [x] `tsc`/`build` limpos, sem erro de lint novo, `npm test` 155/158 (3 falhas pré-existentes de
+      `middleware.test.ts`)
 
 ## Dependências
 Nenhuma.
@@ -55,5 +59,16 @@ Baixo — página nova, aditiva, sem backend. Atenção à allowlist do `Shell.t
 ## Esforço
 Médio
 
+## Implementação
+- Branch: `feature/TASK-285-para-fornecedores` (repo `web`, a partir de `staging`)
+- Nova rota `src/app/para-fornecedores/` (`page.tsx`, `content.ts` + teste, mockups em `_components/`,
+  `opengraph-image.tsx`), foto `public/para-fornecedores-hero.webp` (Unsplash, Emmanuel Ikwuegbu)
+- `src/lib/publicPaths.ts` (+ teste): allowlist pública extraída do `Shell.tsx`
+- `src/lib/tracking.ts`: `trackSupplierSignupClick`, `trackCompleteRegistration`
+- `sitemap.ts`, footer da `/landing`, link + evento em `/fornecedores/cadastro`
+- Revisão final independente: 2 achados importantes corrigidos (copy de tolerância → TASK-288;
+  scroll horizontal de 12px em 390px por gutter `g-5`)
+- PR: [web#94](https://github.com/douglasjava/easy-maintenance-web/pull/94) (`staging`)
+
 ## Status
-Backlog — spec aprovado, aguardando plano de implementação
+🟡 Em Validação — implementado, testado, PR aberta contra `staging`.

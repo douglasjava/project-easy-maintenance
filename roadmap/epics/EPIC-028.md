@@ -139,3 +139,6 @@ Pedido do Douglas em duas partes, tratadas como subprojetos separados:
 - Backlog gerado no brainstorm: **[TASK-286](../tasks/TASK-286.md)** (manter visível até o fim do
   período pago após cancelar — hoje sai na hora) e **[TASK-287](../tasks/TASK-287.md)** (gravar
   UTM no cadastro de fornecedor).
+- **24/09/2026 — TASK-285 implementada**, PR [web#94](https://github.com/douglasjava/easy-maintenance-web/pull/94)
+  (`staging`). Revisão final achou gap de backend: fornecedor com débito falho nunca vira `PAST_DUE`
+  e nunca é suspenso → **[TASK-288](../tasks/TASK-288.md)** (🟠 Alto).

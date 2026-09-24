@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🟡 [TASK-285](tasks/TASK-285.md) implementada, PR aberta**: página
+> pública `/para-fornecedores` (divulgação + preço + políticas + FAQ, 100% frontend) —
+> [web#94](https://github.com/douglasjava/easy-maintenance-web/pull/94) contra `staging`. Revisão
+> final achou gap de cobrança no backend: fornecedor com débito do Pix Automático falho nunca é
+> marcado `PAST_DUE` nem suspenso (continua visível e sendo cobrado) → nova
+> [TASK-288](tasks/TASK-288.md) 🟠 Alto; copy da página ajustada pra não prometer o prazo de 3 dias.
+
 > Atualizado em: 24/09/2026 — **🔵 [TASK-285](tasks/TASK-285.md) desenhada (EPIC-028)**: brainstorm
 > com Douglas da página pública `/para-fornecedores` (divulgação + preço + políticas + FAQ, 100%
 > frontend) — spec aprovado em `docs/superpowers/specs/2026-09-24-pagina-para-fornecedores-design.md`,
