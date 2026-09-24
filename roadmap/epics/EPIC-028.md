@@ -145,3 +145,6 @@ Pedido do Douglas em duas partes, tratadas como subprojetos separados:
 - **24/09/2026 — TASK-280 implementada** (kanban de pedidos do fornecedor, subprojeto B): PRs
   [api#116](https://github.com/douglasjava/easy-maintenance-api/pull/116) e
   [web#95](https://github.com/douglasjava/easy-maintenance-web/pull/95) contra `staging`.
+- **24/09/2026 — TASK-288 implementada** (fornecedor com débito falho agora é suspenso após 3 dias de
+  tolerância e reativado ao pagar): PRs [api#117](https://github.com/douglasjava/easy-maintenance-api/pull/117)
+  e [web#96](https://github.com/douglasjava/easy-maintenance-web/pull/96) contra `staging`.

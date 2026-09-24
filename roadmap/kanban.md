@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🟡 [TASK-288](tasks/TASK-288.md) implementada, PRs abertas**: fornecedor
+> com débito do Pix Automático falho nunca era suspenso (nada gravava `PAST_DUE` + período avançava na
+> criação da cobrança). Agora `currentPeriodEnd` = "pago até", suspensão após vencimento + 3 dias,
+> reativação automática ao pagar, sem cobrança dupla (V116) —
+> [api#117](https://github.com/douglasjava/easy-maintenance-api/pull/117) e
+> [web#96](https://github.com/douglasjava/easy-maintenance-web/pull/96) (copy dos 3 dias volta; mergear
+> depois do api). TASK-280 já mergeada em `staging`.
+
 > Atualizado em: 24/09/2026 — **🟡 [TASK-280](tasks/TASK-280.md) implementada, PRs abertas**: kanban de
 > pedidos de orçamento do fornecedor na tela do link mágico (Novo → Em contato → Orçamento enviado →
 > Fechado / Perdido), com contato de quem pediu + aviso LGPD no modal da organização —

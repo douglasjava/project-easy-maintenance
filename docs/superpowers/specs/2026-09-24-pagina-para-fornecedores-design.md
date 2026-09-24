@@ -58,7 +58,7 @@ brainstorm/spec próprios, depois deste.
 | Pedido de orçamento chega no WhatsApp; negociação direta, sem intermediação | `/fornecedores` (web) → `wa.me` |
 | Zero comissão | não existe cobrança além da mensalidade (decisão de negócio, item 4) |
 | Sem garantia de volume de pedidos | decisão de negócio, item 4 |
-| Débito não concluído: o perfil **pode** ser retirado do marketplace até regularizar (sem prazo de tolerância prometido) | `SupplierAdminService` (desativação manual). **Correção 24/09 (revisão final):** `suspendOverdueSubscriptions` só age sobre `PAST_DUE`, e nenhum código marca assinatura de fornecedor como `PAST_DUE` — a suspensão automática após 3 dias nunca acontece. Backend: [TASK-288](../../../roadmap/tasks/TASK-288.md) |
+| Débito falhou: 3 dias de tolerância após o vencimento; depois o perfil sai do marketplace e volta quando o pagamento é confirmado | `SupplierBillingService.suspendOverdueSubscriptions` (ciclo cobrado e não pago, fim do período + `PIX_DUE_DAYS` + `GRACE_PERIOD_DAYS`) e `SupplierPaymentActivationService.activateFromWebhook(supplierId, paymentId)` (renova/reativa). Corrigido na [TASK-288](../../../roadmap/tasks/TASK-288.md) (24/09) |
 | Cancela quando quiser revogando a autorização no app do banco; sem cobranças novas e o perfil sai do marketplace | `PixAutomaticAuthorizationCancelledHandler` (`marketplaceEnabled=false` na hora) |
 | Atualiza telefone e categorias pelo link de gerenciamento recebido no cadastro | `SupplierSelfManageService`, `/fornecedores/gerenciar/[token]` |
 
