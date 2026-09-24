@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🧪 [TASK-QA-MAN-024](QA/tasks/TASK-QA-MAN-024.md) criada**: plano de QA manual
+> da release de fornecedores (TASK-285, TASK-280, TASK-288 — tudo em `staging`, ainda não em `main`),
+> em 4 blocos: rotas públicas/privadas (regressão do `isPublicPath`), `/para-fornecedores`, kanban de
+> pedidos (inclui teste de IDOR) e ciclo de cobrança do fornecedor no Asaas sandbox (D1–D10). Critério
+> de aprovação pra promover definido no documento. Automação sugerida:
+> [TASK-QA-AUTO-007](QA/tasks/TASK-QA-AUTO-007.md) (E2E de rotas públicas) e
+> [TASK-QA-AUTO-008](QA/tasks/TASK-QA-AUTO-008.md) (API/integração do fornecedor + ciclo de cobrança).
+
 > Atualizado em: 24/09/2026 — **🟡 [TASK-288](tasks/TASK-288.md) implementada, PRs abertas**: fornecedor
 > com débito do Pix Automático falho nunca era suspenso (nada gravava `PAST_DUE` + período avançava na
 > criação da cobrança). Agora `currentPeriodEnd` = "pago até", suspensão após vencimento + 3 dias,
