@@ -124,3 +124,18 @@ registro pra não perder, não é compromisso de próxima sprint.
   nenhum de volta pro fornecedor — exibir a lista na tela `/fornecedores/gerenciar/[token]` (já
   existe, sem login) é ganho direto de percepção de valor pro assinante, achado relevante dado o
   motivo original do Pix Automático (reduzir churn/atrito do fornecedor pagante).
+
+## Divulgação para fornecedores (brainstorm 24/09/2026)
+
+Pedido do Douglas em duas partes, tratadas como subprojetos separados:
+
+- **[TASK-285](../tasks/TASK-285.md) — Página pública `/para-fornecedores`** (subprojeto A):
+  divulgação + preço + políticas claras + FAQ, 100% frontend. Spec aprovado em
+  `docs/superpowers/specs/2026-09-24-pagina-para-fornecedores-design.md`. Decisões: cancelamento a
+  qualquer momento sem multa, zero comissão, sem garantia de volume de pedidos, nenhuma prova
+  social numérica.
+- **[TASK-280](../tasks/TASK-280.md) — kanban de pedidos de orçamento do fornecedor** (subprojeto
+  B): brainstorm próprio depois da TASK-285.
+- Backlog gerado no brainstorm: **[TASK-286](../tasks/TASK-286.md)** (manter visível até o fim do
+  período pago após cancelar — hoje sai na hora) e **[TASK-287](../tasks/TASK-287.md)** (gravar
+  UTM no cadastro de fornecedor).

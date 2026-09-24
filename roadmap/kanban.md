@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🔵 [TASK-285](tasks/TASK-285.md) desenhada (EPIC-028)**: brainstorm
+> com Douglas da página pública `/para-fornecedores` (divulgação + preço + políticas + FAQ, 100%
+> frontend) — spec aprovado em `docs/superpowers/specs/2026-09-24-pagina-para-fornecedores-design.md`,
+> aguardando revisão do spec escrito e plano. Subprojeto B (kanban de pedidos do fornecedor,
+> [TASK-280](tasks/TASK-280.md)) vem depois. Backlog novo: [TASK-286](tasks/TASK-286.md) (visível até
+> o fim do período pago após cancelar) e [TASK-287](tasks/TASK-287.md) (UTM no cadastro de fornecedor).
+
 > Atualizado em: 23/09/2026 — **🟡 EPIC-024 implementado (TASK-175/TASK-176), PRs abertas**:
 > agendamento de demonstração via Cal.com — página pública `/agendar` com o embed + botão na
 > navbar da landing (TASK-175), webhook `BOOKING_CREATED` cria lead via `LeadService` reaproveitado
