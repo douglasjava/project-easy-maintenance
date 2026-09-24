@@ -7,7 +7,7 @@ FULL_STACK
 Backend / Frontend / Marketplace de Fornecedores
 
 ## Prioridade
-🟡 Médio — ideia registrada, sem brainstorm ainda
+🟠 Alto — valor percebido pelo fornecedor pagante
 
 ## Épico
 [EPIC-028](../epics/EPIC-028.md) — Marketplace de Fornecedores
@@ -34,5 +34,14 @@ e exibir a lista na tela pública `/fornecedores/gerenciar/[token]` (já existe,
 acesso) — ganho direto de percepção de valor pro fornecedor assinante, relevante dado que o motivo
 original do Pix Automático foi reduzir churn/atrito do fornecedor pagante.
 
+## Desenho (brainstorm 24/09/2026)
+
+Spec aprovado: `docs/superpowers/specs/2026-09-24-kanban-pedidos-fornecedor-design.md`. Resumo:
+aba "Pedidos" em `/fornecedores/gerenciar/[token]` com kanban Novo → Em contato → Orçamento
+enviado → Fechado / Perdido (sem drag-and-drop; abas por coluna no mobile); fornecedor vê
+organização, bairro/cidade, nome + WhatsApp + e-mail de quem pediu; aviso LGPD no modal "Solicitar
+orçamento"; backend com migration V115 (`status`, `status_updated_at`) + `GET`/`PATCH`
+`/public/suppliers/manage/{token}/budget-requests` com 404 uniforme contra IDOR.
+
 ## Status
-Backlog (ideia registrada, sem brainstorm/desenho técnico)
+Backlog — spec aprovado, aguardando plano de implementação
