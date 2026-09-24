@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🟡 [TASK-290](tasks/TASK-290.md) implementada, PR aberta**: contato com o
+> suporte via WhatsApp no onboarding (link inline nos dois passos com mensagem que identifica o passo,
+> reforço no banner de erro, clique rastreado) — [web#98](https://github.com/douglasjava/easy-maintenance-web/pull/98).
+> TASK-289 já mergeada em `staging`; promoção `staging` → `main` depois do merge da TASK-290.
+
 > Atualizado em: 24/09/2026 — **🔴→🟡 [TASK-289](tasks/TASK-289.md) — bug de PRD no onboarding corrigido, PRs
 > abertas**: cliente travado no passo 2 sem feedback. Causa: campo "CNPJ / CPF (opcional)" enviava
 > `doc: ""` e o `@Doc` (TASK-202/203, desde 25/08) rejeitava com 422; o erro ficava fora da tela no
