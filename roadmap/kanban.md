@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 24/09/2026 — **🔴→🟡 [TASK-289](tasks/TASK-289.md) — bug de PRD no onboarding corrigido, PRs
+> abertas**: cliente travado no passo 2 sem feedback. Causa: campo "CNPJ / CPF (opcional)" enviava
+> `doc: ""` e o `@Doc` (TASK-202/203, desde 25/08) rejeitava com 422; o erro ficava fora da tela no
+> celular, sem toast. Correção nos dois lados —
+> [api#118](https://github.com/douglasjava/easy-maintenance-api/pull/118) (normaliza `""` → `null`) e
+> [web#97](https://github.com/douglasjava/easy-maintenance-web/pull/97) (não envia vazio + erro sempre
+> visível). QA da release (TASK-QA-MAN-024) aprovado por Douglas; promoção `staging` → `main` depois
+> do merge da TASK-289.
+
 > Atualizado em: 24/09/2026 — **🧪 [TASK-QA-MAN-024](QA/tasks/TASK-QA-MAN-024.md) criada**: plano de QA manual
 > da release de fornecedores (TASK-285, TASK-280, TASK-288 — tudo em `staging`, ainda não em `main`),
 > em 4 blocos: rotas públicas/privadas (regressão do `isPublicPath`), `/para-fornecedores`, kanban de
