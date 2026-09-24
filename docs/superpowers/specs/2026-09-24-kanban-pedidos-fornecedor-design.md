@@ -110,7 +110,8 @@ request/comportamento.
 - `PATCH` válido → status e `status_updated_at` atualizados.
 - `PATCH` em pedido de outro fornecedor → 404 e **nada alterado** (teste de segurança).
 - `status` inválido/nulo → 400.
-- `mvn test` sem regressão (migration aplicada pela suíte).
+- `mvn test` sem regressão. A suíte roda em H2 com Flyway desligado, então a V115 é validada à
+  parte subindo a API contra o MySQL do Docker local (mesmo padrão da V109).
 
 **Frontend (Jest)**: testes das funções puras acima. `tsc`, lint dos arquivos tocados e `npm run
 build` limpos; `npm test` sem falha nova (as 3 de `middleware.test.ts` são pré-existentes).
