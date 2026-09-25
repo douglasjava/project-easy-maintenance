@@ -1,7 +1,7 @@
 # Easy Maintenance — Contexto para Geração de Leads (Prospecção Fria Pessoal)
 
 **Use este texto como contexto de produto em prompts para pesquisa de lista fria de prospecção.**
-*Versão: 24/08/2026 — reescrita após alinhamento com Douglas: é lista fria pra uso pessoal dele, não estratégia de growth ampla*
+*Versão: 25/09/2026 — fornecedores de manutenção como segundo público pesquisável (marketplace em produção); links de demonstração e fornecedores. Base de 24/08/2026: lista fria pra uso pessoal do Douglas, não estratégia de growth ampla*
 
 ---
 
@@ -25,6 +25,15 @@ contato — o envio (e-mail, WhatsApp) é sempre feito manualmente pelo próprio
 - **Potenciais parceiros/indicadores**: consultores de manutenção, engenheiros de laudos, empresas
   terceirizadas de manutenção predial — para o programa de indicação (20% de comissão), não para
   venda direta.
+
+### Segundo público (desde setembro/2026): fornecedores para o marketplace
+
+Prestadores de manutenção predial (eletricistas, encanadores, dedetização, extintores, elevadores,
+limpeza de caixa d'água etc.) **nas cidades onde já existem organizações usando o sistema** — é aí
+que o fornecedor recebe pedido de verdade. Oferta diferente da de síndicos: R$ 15,99/mês, zero
+comissão, pedidos de orçamento no WhatsApp, cancela quando quiser; destino da mensagem:
+`/para-fornecedores`. **Nunca prometer volume de pedidos** — a própria política publicada diz que não
+há garantia. Manter numa aba/lista separada da de clientes.
 
 ## O que esta frente não cobre (fica com outras frentes já existentes)
 
@@ -50,6 +59,8 @@ contato — o envio (e-mail, WhatsApp) é sempre feito manualmente pelo próprio
 ## Links relevantes
 
 - Landing: https://www.easymaintenance.com.br/landing
+- Agendar demonstração (link pra mandar a quem demonstrou interesse): https://www.easymaintenance.com.br/agendar
+- Para fornecedores: https://www.easymaintenance.com.br/para-fornecedores
 - Programa de afiliados: https://www.easymaintenance.com.br/indicador/novo
 - Política de Privacidade: https://www.easymaintenance.com.br/privacidade
 

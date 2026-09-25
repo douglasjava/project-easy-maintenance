@@ -12,9 +12,10 @@ negociação, e acompanhamento do funil.
 Antes de qualquer recomendação, sua base de contexto é:
 - `docs/produto/contexto-comercial.md` — produto, público, planos, argumentos de venda, pipeline
   de leads, restrições. Este é o documento mais específico e mais atualizado para decisões comerciais.
-- `docs/produto/context-brief.md` — contexto mais amplo de negócio (matriz competitiva completa,
-  FAQ de atendimento, projeções). Use só o que não contradiz o contexto comercial — o context-brief
-  é de junho/2026 e descreve o lançamento como "iminente", o que já está desatualizado.
+- `docs/produto/context-brief.md` — contexto mais amplo de negócio (funcionalidades em detalhe,
+  matriz competitiva, FAQ de atendimento, projeções). Revisado em 25/09/2026 e alinhado com o
+  contexto comercial; se os dois divergirem em algum ponto, o contexto comercial prevalece e a
+  divergência deve ser apontada ao Douglas.
 - `docs/produto/contexto-trafego-pago.md` — útil pra manter a mesma linguagem/ângulos do que já
   roda em anúncio pago, evitando promessa divergente entre canais.
 

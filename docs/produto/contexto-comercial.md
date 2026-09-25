@@ -1,12 +1,27 @@
 # Easy Maintenance — Contexto Comercial
 **Use este texto como contexto de produto em prompts para a frente comercial (follow-up de leads, prospecção, negociação, parcerias).**
-*Versão: 01/09/2026 — limite de empresas do Business atualizado de 15 para 20 (V105), ver `pricing-rationale.md`*
+*Versão: 25/09/2026 — funcionalidades novas (alertas por WhatsApp, chamados de moradores, índice de conformidade, marketplace de fornecedores), blog e agendamento de demonstração no ar, WhatsApp comercial corrigido*
 
 ---
 
 ## O produto em uma frase
 
 Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva que tira condomínios, hospitais, escolas e indústrias das planilhas e do WhatsApp, centralizando ativos, prazos, evidências e conformidade com normas ABNT em uma única plataforma.
+
+## O que o produto faz hoje (resumo — detalhe em `context-brief.md`, seção 3)
+
+- **Gestão da manutenção**: central de ativos, agenda de vencimentos, registro de manutenções com
+  evidência fotográfica, laudos, trilha de auditoria, cancelamento com motivo (sem apagar histórico).
+- **Alertas por WhatsApp e e-mail** antes do vencimento e em atraso — já sugerindo fornecedores próximos.
+- **Índice de conformidade**: dashboard com uma pontuação única por edificação, histórico mês a mês,
+  próximos 90 dias e fila de ações; quem gerencia várias unidades vê o ranking entre elas.
+- **Relatórios**: prestação de contas em PDF (assembleia/auditoria) + Excel analítico.
+- **Chamados de moradores**: abertura por QR code, sem login; kanban interno pro gestor.
+- **Fornecedores**: cadastro dos prestadores que a organização já usa (com pontuação por uso real) +
+  marketplace por cidade e serviço, com pedido de orçamento direto no WhatsApp do fornecedor.
+- **Normas**: 22 normas técnicas revisadas (ABNT, NRs, RDC Anvisa, Corpo de Bombeiros) — manutenção predial.
+- **Onboarding guiado por IA**, com suporte por WhatsApp em cada passo; IA SAMU nos planos Business e Enterprise.
+- **Segurança**: dois fatores (app autenticador), exigível pela organização.
 
 ## Público-alvo
 
@@ -51,27 +66,37 @@ pra tratar como concorrente distante:
   estão mais validados, só que também estão em fase inicial.
 - Tem blog ativo (`condoguardian.com.br/blog`, ~quinzenal, 6 posts desde 12/07/2026) com conteúdo
   educacional SEO-driven nas mesmas keywords do nosso plano de SEO (NBR 5674, manutenção preventiva
-  x corretiva, checklist de manutenção predial) — o Easy Maintenance não tem blog hoje, então essa é
-  uma frente onde eles têm vantagem construída, não só potencial.
+  x corretiva, checklist de manutenção predial). O Easy Maintenance também tem blog desde agosto/2026
+  (`/blog`, 5 posts sobre NBR 5674, checklist anual, preventiva x corretiva, CMMS, planilha) — a
+  vantagem deles aqui é de volume/tempo de publicação, não de existência.
 
-Os 5 argumentos mais fortes:
+Os 6 argumentos mais fortes:
 1. **"A ABNT exige, você comprova"** — cada manutenção gera evidência documental automática.
 2. **"Da planilha para o compliance em 1 dia"** — onboarding guiado por IA, sem consultor.
 3. **"Troca de síndico sem perda de histórico"** — memória técnica fica no sistema, não na pessoa.
-4. **"R$149/mês vs. multa de R$50.000+"** — argumento de ROI imediato.
-5. **"Feito para o Brasil"** — normas brasileiras, suporte em português, empresa local.
+4. **"O aviso chega no WhatsApp"** — lembrete antes do vencimento onde o gestor já está, sugerindo quem resolve.
+5. **"R$149/mês vs. multa de R$50.000+"** — argumento de ROI imediato.
+6. **"Feito para o Brasil"** — normas brasileiras, suporte em português, empresa local.
+
+**Diferenciais novos que os concorrentes diretos não divulgam** (confirmar antes de afirmar que
+"eles não têm" — ver nota da matriz no `context-brief.md`): chamados de moradores por QR code,
+índice de conformidade e marketplace de fornecedores.
 
 **Mensagens-chave por público**:
-- Síndico/gestor predial: *"Nunca mais perca um prazo de manutenção. Comprove tudo para o Corpo de Bombeiros, Anvisa e ABNT em segundos — sem planilha, sem WhatsApp."*
+- Síndico/gestor predial: *"Nunca mais perca um prazo de manutenção. O aviso chega no seu WhatsApp, e você comprova tudo para o Corpo de Bombeiros, Anvisa e ABNT em segundos — sem planilha."*
 - Administradora de condomínios: *"Gerencie todas as suas empresas em um único painel. Relatórios automáticos de conformidade para cada cliente."*
+- Fornecedor de manutenção: *"Seja encontrado por quem cuida de prédios na sua cidade. R$ 15,99/mês, zero comissão, pedidos de orçamento direto no seu WhatsApp."* (página: `/para-fornecedores`)
 - Potencial afiliado: *"Cadastre-se, compartilhe seu link e receba 20% do primeiro pagamento de cada cliente que assinar. Sem limite de indicações."*
 
 ## Pipeline de leads (Painel de Leads — EPIC-021)
 
-Existe um painel admin em `/private/admin/leads` (implementado em 11/08/2026, PRs #32 backend e #35 frontend ainda **não mergeadas em staging** — confirmar com Douglas se já está no ar antes de assumir que os dados de lá já refletem produção) com:
+Existe um painel admin em `/private/admin/leads` (em produção desde 07/09/2026) com:
 - Visão agregada: leads por status nos últimos 12 meses + top fontes (`source`) e top referrers.
 - Lista individual: cada lead tem `source`, `medium`, `campaign`, `referrer`, `affiliateCode`, `status`, `consentAcceptedAt`, `createdAt`.
 - **Status do lead** é um fluxo fechado: `NEW → CONTACTED → CONVERTED / LOST`. Todo lead nasce `NEW`.
+- **Origens de lead hoje**: formulário da landing (com telefone obrigatório) e agendamento de
+  demonstração em `/agendar` (Cal.com — os agendamentos também devem virar lead com `source = agendamento`;
+  a integração automática ainda estava sendo validada em 24/09/2026, então confira no próprio Cal.com).
 
 **Este cowork não tem acesso direto a esse painel nem ao banco.** Douglas cola aqui os dados relevantes (exportados/copiados manualmente) a cada rodada de trabalho — trabalhar só em cima do que for colado, nunca supor ou inventar lead que não foi informado.
 
@@ -86,11 +111,14 @@ Existe um painel admin em `/private/admin/leads` (implementado em 11/08/2026, PR
 ## Links relevantes
 
 - Landing: https://www.easymaintenance.com.br/landing
+- Agendar demonstração: https://www.easymaintenance.com.br/agendar
+- Para fornecedores: https://www.easymaintenance.com.br/para-fornecedores
+- Blog: https://www.easymaintenance.com.br/blog
 - Programa de afiliados: https://www.easymaintenance.com.br/indicador/novo
 - Política de Privacidade: https://www.easymaintenance.com.br/privacidade
 - Termos de Uso: https://www.easymaintenance.com.br/termos
 - E-mail comercial: comercial@easymaintenance.com.br
-- WhatsApp: (31) 99563-9390
+- WhatsApp: (31) 99982-6634
 
 ## Tom de voz
 
@@ -98,4 +126,4 @@ Direto, sem jargão de SaaS genérico. Fala a língua de quem hoje resolve isso 
 
 ---
 
-*Para contexto mais amplo (matriz competitiva completa, stack técnica, projeções financeiras, FAQ de atendimento), ver `docs/produto/context-brief.md` — atenção: esse documento é de junho/2026 e ainda descreve o lançamento como "iminente"; hoje a campanha de tráfego pago já roda (ver `docs/produto/contexto-trafego-pago.md`) e o painel de leads já foi implementado. Use o context-brief só para o que não contradiz este documento.*
+*Para contexto mais amplo (funcionalidades em detalhe, matriz competitiva, stack técnica, projeções financeiras, FAQ de atendimento), ver `docs/produto/context-brief.md` — revisado em 25/09/2026, alinhado com este documento.*

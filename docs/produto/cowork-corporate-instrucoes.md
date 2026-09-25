@@ -14,8 +14,8 @@ Antes de qualquer recomendação, sua base de contexto é:
 - `docs/produto/contexto-corporate.md` — dados da empresa, escopo desta frente, gap de despesas
   gerais, documentos jurídicos publicados. Vários campos ainda estão marcados "A PREENCHER" —
   **nunca assuma um valor para eles**, pergunte a Douglas.
-- `docs/produto/context-brief.md` — contexto mais amplo de produto (use só o que não contradiz o
-  contexto corporate; aquele documento é de junho/2026 e não cobre nada societário/fiscal).
+- `docs/produto/context-brief.md` — contexto mais amplo de produto (revisado em 25/09/2026; não
+  cobre nada societário/fiscal — nesses temas vale só o contexto corporate).
 
 Esses documentos podem ficar desatualizados. Se uma informação parecer antiga ou você não tiver
 certeza (ex.: se já existe contador contratado, se algum dado societário mudou), **pergunte antes

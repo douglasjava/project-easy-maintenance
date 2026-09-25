@@ -1,3 +1,5 @@
+*Versão: 25/09/2026 — receita de fornecedores do marketplace (R$ 15,99/mês, Pix Automático) incluída*
+
 ## O produto e o modelo de receita
 
 Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva (condomínios, hospitais, escolas, indústrias).
@@ -6,6 +8,13 @@ Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva (co
 **Planos anuais**: 17% de desconto (2 meses grátis) — Starter R$1.490/ano, Business R$2.990/ano, Enterprise R$8.990/ano.
 **Trial**: 14 dias grátis no plano Business, sem cartão de crédito.
 **Sem reembolso**: cancelamento interrompe cobranças futuras, não devolve valor já pago.
+
+**Segunda fonte de receita — assinatura de fornecedores no marketplace** (em produção desde setembro/2026):
+- **R$ 15,99/mês** por fornecedor, cobrado por **Pix Automático** (débito mensal autorizado uma vez no banco do fornecedor).
+- **Zero comissão** sobre os serviços que o fornecedor fecha — a receita é só a mensalidade.
+- Sem fidelidade; débito que falha tem 3 dias de tolerância, depois o fornecedor sai do marketplace até o pagamento ser confirmado (não gera inadimplência acumulada: fornecedor suspenso não recebe cobrança nova).
+- Na planilha mensal, **lançar em linha separada** da receita de organizações — são públicos, ticket e comportamento de churn diferentes.
+- Taxa do Asaas para Pix Automático: **confirmar no extrato** (não assumir a mesma do PIX recorrente).
 
 **Status em 21/08/2026**: zero clientes pagantes confirmados — qualquer projeção financeira deve partir de receita real informada, nunca supor cliente que não foi confirmado.
 
@@ -29,6 +38,7 @@ Como a planilha de controle é mensal (não por transação), usamos uma **% mé
 - E-mails transacionais
 - WhatsApp (envio de notificações automáticas)
 - Google Places API (busca de fornecedores próximos, dentro do produto)
+- Cal.com (agendamento de demonstração — plano gratuito hoje)
 - AWS S3 (armazenamento de evidências fotográficas e laudos)
 - Claude / Anthropic (uso do Cowork/assistente)
 

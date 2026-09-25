@@ -1,6 +1,6 @@
 # Easy Maintenance — Contexto para Tráfego Pago
 **Use este texto como contexto de produto em prompts para gestão/criação de campanhas (Meta Ads, Google Ads).**
-*Versão: 07/08/2026*
+*Versão: 25/09/2026 — telefone obrigatório no formulário, `/agendar`, campanha de fornecedores (`/para-fornecedores`), Conversions API, novos ângulos (WhatsApp, chamados)*
 
 ---
 
@@ -21,10 +21,13 @@ O posicionamento validado — testado e corrigido durante o próprio processo de
 - "Histórico que não se perde" — diferente da planilha que some a cada troca de síndico, o histórico técnico fica registrado pra sempre.
 - "Evidência que não se perde no zap" — cada manutenção nasce com a foto de execução vinculada, não perdida numa conversa de WhatsApp.
 - "Foco em legislação brasileira" — conformidade com ABNT NBR 5674, 14037, 16280 (não é feature genérica de "compliance", é a obrigação legal real do cliente).
+- "O aviso chega no seu WhatsApp" — o lembrete de vencimento vai pro WhatsApp do gestor (não só e-mail) e já sugere fornecedores próximos. Mesmo contraste com o "grupo do zap": o WhatsApp vira canal do sistema, não bagunça.
+- "Morador abre chamado pelo QR code" — sem login, com acompanhamento; o síndico para de receber pedido solto no corredor e no grupo.
 
 ## Oferta / CTA
 
-- CTA principal: **"Solicitar Demonstração"** — captura só o e-mail, sem fricção (não pedir mais campos, isso já foi testado e mantido deliberadamente simples pra tráfego frio).
+- CTA principal: **"Solicitar Demonstração"** — captura **e-mail e telefone (WhatsApp)**. O telefone passou a ser obrigatório em 23/09/2026 (TASK-282) pra permitir o contato rápido; não adicionar mais campos além desses.
+- CTA alternativo: **"Agendar demonstração"** (`/agendar`) — a pessoa escolhe dia e horário na hora (Cal.com). Bom destino pra público mais quente (remarketing, quem já visitou a landing).
 - Trial: **14 dias grátis**, sem cartão de crédito.
 - Planos (mensal): Starter R$149, Business R$299, Enterprise R$899. Anual com desconto (~17%, "2 meses grátis").
 - **Sem política de reembolso** — cancelamento interrompe cobranças futuras, não devolve valor já pago (isso é regra confirmada, não use linguagem que sugira reembolso em anúncio).
@@ -41,11 +44,22 @@ O posicionamento validado — testado e corrigido durante o próprio processo de
 - **Google Tag**: ainda **não instalado** — sem ID fornecido. Nenhuma conversão do Google Ads está sendo reportada até isso ser resolvido.
 - **UTM**: capturado e persistido em cookie de 30 dias (atribuição "first touch"), chega até o payload do lead e até o link de WhatsApp da página de agradecimento.
 - **Fluxo pós-conversão**: lead preenchido → `/obrigado` (página de confirmação, dispara evento `Lead`, oferece fallback de WhatsApp com contexto da campanha) — não é mais um simples alert de sucesso.
-- **Conversions API / server-side tracking**: não implementado ainda (fase 2 documentada, dependente de credenciais que ainda não foram levantadas).
+- **Conversions API (Meta) / server-side**: implementada no backend (evento `Lead` enviado pelo servidor com o mesmo `eventID` do Pixel, pra deduplicar). Só funciona com o token configurado em produção — confirmar no Events Manager que os eventos de servidor estão chegando antes de contar com eles.
+
+## Campanha nova: aquisição de fornecedores (desde setembro/2026)
+
+Segundo público pagante, com oferta e página próprias — **não misturar com a campanha de síndicos/administradoras**:
+- **Público**: prestadores de manutenção predial (eletricistas, encanadores, dedetização, extintores, elevadores, limpeza de caixa d'água etc.), de preferência nas cidades onde já há organizações usando o sistema.
+- **Oferta**: R$ 15,99/mês (cerca de R$ 0,53/dia), **zero comissão**, pedidos de orçamento direto no WhatsApp, cancela quando quiser (revogando o Pix Automático no banco).
+- **Destino**: `/para-fornecedores` → cadastro em `/fornecedores/cadastro`.
+- **Eventos**: `SupplierSignupClick` (Pixel, evento customizado) no clique em "Quero me cadastrar" e `CompleteRegistration` no cadastro concluído.
+- **Restrições de copy**: nunca prometer volume de pedidos (a política da própria página diz que não há garantia) e nunca usar número de prova social (quantos prédios/organizações/fornecedores).
 
 ## Links relevantes
 
 - Landing: https://www.easymaintenance.com.br/landing
+- Agendar demonstração: https://www.easymaintenance.com.br/agendar
+- Para fornecedores: https://www.easymaintenance.com.br/para-fornecedores
 - Página de obrigado (pós-lead): https://www.easymaintenance.com.br/obrigado
 - Política de Privacidade: https://www.easymaintenance.com.br/privacidade
 - Termos de Uso: https://www.easymaintenance.com.br/termos
@@ -56,4 +70,4 @@ Direto, sem jargão de SaaS genérico. Fala a língua de quem hoje resolve isso 
 
 ---
 
-*Para contexto mais amplo de produto (modelo de negócio completo, matriz competitiva, stack técnica, projeções financeiras), ver `docs/produto/context-brief.md` — mas atenção: aquele documento é de 23/06/2026 e ainda descreve o lançamento como "iminente"; hoje a campanha já está rodando, então essa seção específica dele está desatualizada.*
+*Para contexto mais amplo de produto (funcionalidades em detalhe, modelo de negócio completo com a receita de fornecedores, matriz competitiva, stack técnica, projeções), ver `docs/produto/context-brief.md` — revisado em 25/09/2026.*

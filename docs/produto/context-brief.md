@@ -1,14 +1,14 @@
 # Easy Maintenance — Context Brief
 **Documento de contexto para geração de materiais de marketing, pitch e divulgação**
-*Versão: 2026-06-23 | Use este documento como contexto base em qualquer sessão de geração de conteúdo*
+*Versão: 25/09/2026 — revisão completa das funcionalidades em produção (substitui a versão de 23/06/2026) | Use este documento como contexto base em qualquer sessão de geração de conteúdo*
 
 ---
 
 ## 1. O Produto em Uma Frase
 
-**Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva** que ajuda condomínios, hospitais, 
-escolas e indústrias a sair das planilhas e do WhatsApp para um sistema centralizado, com conformidade 
-automática às normas ABNT — a um preço que PMEs podem pagar.
+**Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva** que ajuda condomínios, hospitais,
+escolas e indústrias a sair das planilhas e do WhatsApp para um sistema centralizado, com conformidade
+às normas técnicas brasileiras (ABNT, NR, Anvisa, Corpo de Bombeiros) — a um preço que PMEs podem pagar.
 
 ---
 
@@ -22,43 +22,67 @@ Síndicos, administradoras, gestores de facilities e responsáveis técnicos enf
 - **Troca de síndico = perda de histórico** — a memória técnica do edifício some com o responsável
 - **Medo de multa e processo** — sem comprovação documental das manutenções realizadas, há exposição jurídica real
 - **Falta de previsibilidade** — não sabe o que vence quando, leva a emergências evitáveis
+- **Moradores sem canal** — problemas reportados no corredor, no grupo ou no interfone, sem registro nem retorno
 
 ### A obrigação legal ignorada
-A **ABNT NBR 5674** exige um sistema formal de manutenção preventiva com registro de evidências. 
-A maioria dos estabelecimentos brasileiros está em descumprimento — não por mal-intenção, 
-mas por falta de ferramenta acessível. Em caso de acidente ou auditoria, a ausência de documentação 
+A **ABNT NBR 5674** exige um sistema formal de manutenção preventiva com registro de evidências.
+A maioria dos estabelecimentos brasileiros está em descumprimento — não por mal-intenção,
+mas por falta de ferramenta acessível. Em caso de acidente ou auditoria, a ausência de documentação
 gera responsabilidade civil e criminal.
 
 ---
 
 ## 3. A Solução
 
-### O que o Easy Maintenance entrega
+### O que o Easy Maintenance entrega (em produção — setembro/2026)
 
-| Funcionalidade                  | O que resolve                                                              |
-|---------------------------------|----------------------------------------------------------------------------|
-| **Central de ativos**           | Inventário completo de equipamentos e sistemas com dados técnicos          |
-| **Agenda de vencimentos**       | Calendário inteligente com alertas de prazo — nunca perde um vencimento    |
-| **Registro de manutenções**     | Documentação de cada manutenção realizada, com data, responsável e custo   |
-| **Evidências fotográficas**     | Fotos vinculadas a cada manutenção — prova de execução                     |
-| **Repositório de laudos**       | Documentação técnica organizada (ART, RRT, laudos)                         |
-| **Trilha de auditoria**         | Histórico imutável de quem fez o que e quando                              |
-| **Gestão de fornecedores**      | Controle de prestadores e qualidade de entrega                             |
-| **Relatórios e exportação CSV** | Relatórios prontos para auditoria, exportáveis com filtros                 |
-| **IA SAMU**                     | Assistente inteligente que ajuda no onboarding e responde dúvidas técnicas |
-| **Notificações**                | E-mails automáticos de vencimento e alertas in-app                         |
-| **Multi-empresa**               | Um usuário gerencia múltiplas empresas/unidades com uma conta              |
-| **Programa de indicação**       | Afiliados ganham 20% do primeiro pagamento de clientes indicados           |
-| **Busca de fornecedores próximos** | Dentro da manutenção, o sistema busca profissionais especializados na região via Google — ajuda o gestor a contratar quem realiza o serviço sem sair da plataforma |
+**Gestão da manutenção**
+
+| Funcionalidade                         | O que resolve                                                                                          |
+|----------------------------------------|--------------------------------------------------------------------------------------------------------|
+| **Central de ativos**                  | Inventário completo de equipamentos e sistemas com dados técnicos                                      |
+| **Agenda de vencimentos**              | Calendário com os prazos de cada item — nunca perde um vencimento                                      |
+| **Alertas por WhatsApp e e-mail**      | Aviso automático antes do vencimento e em caso de atraso, direto no WhatsApp do responsável (não só e-mail) |
+| **Registro de manutenções**            | Documentação de cada manutenção realizada, com data, responsável e custo                               |
+| **Evidências fotográficas**            | Fotos vinculadas a cada manutenção — prova de execução                                                 |
+| **Cancelamento com motivo**            | Corrige registro errado sem apagar histórico — o cancelamento fica justificado e rastreável            |
+| **Repositório de laudos**              | Documentação técnica organizada (ART, RRT, laudos)                                                     |
+| **Trilha de auditoria**                | Histórico de quem fez o que e quando                                                                   |
+| **Índice de conformidade (dashboard)** | Pontuação única que resume o estado de conformidade da edificação, com histórico mês a mês, horizonte dos próximos 90 dias e fila de ações priorizada; quem gerencia várias unidades vê o ranking entre elas |
+| **Relatórios de prestação de contas**  | PDF pronto para apresentar em assembleia/auditoria + planilha Excel analítica                          |
+| **Normas técnicas no sistema**         | 22 normas revisadas (ABNT, NRs, RDC Anvisa, Corpo de Bombeiros) com o que cada uma exige               |
+
+**Moradores e fornecedores**
+
+| Funcionalidade                          | O que resolve                                                                                         |
+|-----------------------------------------|-------------------------------------------------------------------------------------------------------|
+| **Chamados de moradores**               | Morador abre chamado por **QR code, sem login**, e acompanha o andamento; o gestor organiza tudo num kanban interno até a conclusão |
+| **Cadastro de fornecedores com pontuação** | A organização cadastra os prestadores que já usa; cada fornecedor ganha força conforme mais organizações o cadastram (sinal de confiança real, não avaliação anônima) |
+| **Marketplace de fornecedores**         | Busca de prestadores por cidade e tipo de serviço (13 categorias, 42 serviços) e **pedido de orçamento direto no WhatsApp** do fornecedor |
+| **Fornecedores nos alertas**            | O aviso de vencimento já sugere fornecedores próximos que podem resolver                              |
+| **Busca de profissionais via Google**   | Quando não há fornecedor cadastrado, o sistema encontra profissionais na região sem sair da plataforma |
+
+**Conta, acesso e crescimento**
+
+| Funcionalidade                   | O que resolve                                                                                  |
+|----------------------------------|------------------------------------------------------------------------------------------------|
+| **Onboarding guiado por IA**     | Pré-cadastro assistido: descreve a edificação e a IA sugere os itens de manutenção; suporte por WhatsApp em cada passo do cadastro |
+| **IA SAMU**                      | Assistente que responde dúvidas técnicas e de uso (planos Business e Enterprise)               |
+| **Multi-empresa**                | Um usuário gerencia múltiplas empresas/unidades com uma conta, com hierarquia entre organizações |
+| **Autenticação em dois fatores** | Código por app autenticador, podendo ser exigido pela organização                              |
+| **Programa de indicação**        | Afiliados ganham 20% do primeiro pagamento de clientes indicados                               |
 
 ### Conformidade com normas brasileiras
-O produto é desenhado especificamente para o mercado brasileiro e cobre:
+O produto é desenhado especificamente para o mercado brasileiro. O conteúdo normativo foi auditado
+(22 normas, concluído em 19/08/2026) e cobre manutenção **predial**:
 - **ABNT NBR 5674** — Manutenção de Edificações: sistema de gestão
 - **ABNT NBR 14037** — Manual de Operação e Manutenção
 - **ABNT NBR 16280** — Reforma em Edificações: sistema de gestão
-- **NR-10, NR-13, NR-35, NR-23** — normas regulamentadoras de segurança
-- **RDC 50 e RDC 63 (Anvisa)** — estabelecimentos de saúde
+- **NR-10, NR-13, NR-23, NR-35** — normas regulamentadoras de segurança
+- **RDC 50 e RDC 63 (Anvisa)** — estabelecimentos de saúde (estrutura predial)
 - **CBMMG IT 16/17** — Corpo de Bombeiros: extintores, hidrantes, sprinklers
+
+> Escopo: manutenção predial. Não cobre manutenção de equipamento clínico ou industrial de produção.
 
 ---
 
@@ -78,6 +102,10 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 - **Gestores de facilities** — responsáveis pela manutenção em empresas e hospitais
 - **Responsáveis técnicos** — engenheiros e técnicos que assinam laudos
 
+### Segundo lado: fornecedores de manutenção (desde setembro/2026)
+- Eletricistas, encanadores, empresas de dedetização, extintores, elevadores, limpeza de caixa d'água etc.
+- Pagam uma assinatura própria para aparecer no marketplace para as organizações da sua cidade (ver seção 5).
+
 ### Influenciadores (não pagam mas recomendam)
 - Síndicos moradores que indicam para a administradora
 - Consultores de manutenção e engenheiros
@@ -87,12 +115,12 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 
 ## 5. Modelo de Negócio
 
-### Planos mensais
-| Plano          | Preço/mês | Empresas | Usuários | Itens     | Suporte            |
-|----------------|-----------|----------|----------|-----------|--------------------|
-| **Starter**    | R$ 149    | até 3    | até 3    | até 100   | Comunidade         |
-| **Business**   | R$ 299    | até 15   | até 10   | até 500   | E-mail prioritário |
-| **Enterprise** | R$ 899    | até 50   | até 100  | até 5.000 | Dedicado           |
+### Receita 1 — Assinatura das organizações (planos mensais)
+| Plano          | Preço/mês | Empresas | Usuários | Itens     | IA SAMU | Suporte            |
+|----------------|-----------|----------|----------|-----------|---------|--------------------|
+| **Starter**    | R$ 149    | até 3    | até 3    | até 100   | ❌       | Comunidade         |
+| **Business**   | R$ 299    | até 20   | até 10   | até 500   | ✅       | E-mail prioritário |
+| **Enterprise** | R$ 899    | até 50   | até 100  | até 5.000 | ✅       | Dedicado           |
 
 ### Planos anuais (17% de desconto = 2 meses grátis)
 | Plano                | Preço/ano    | Equivalente mensal |
@@ -105,9 +133,16 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 - **14 dias grátis** no plano Business — sem cartão de crédito obrigatório
 - Ao final do trial: escolhe plano e paga via PIX ou cartão
 
-### Formas de pagamento
-- PIX (recorrente via Asaas)
-- Cartão de crédito (recorrente via Asaas)
+### Formas de pagamento (organizações)
+- PIX recorrente (cobrança gerada a cada ciclo, via Asaas)
+- Cartão de crédito recorrente (via Asaas)
+
+### Receita 2 — Assinatura de fornecedores no marketplace (em produção desde setembro/2026)
+- **R$ 15,99/mês** por fornecedor (cerca de R$ 0,53/dia), cobrado por **Pix Automático** (débito mensal autorizado uma vez no banco)
+- **Zero comissão** sobre os serviços fechados — o fornecedor paga só a mensalidade
+- Visibilidade para as organizações da mesma cidade e das categorias escolhidas; pedidos de orçamento chegam no WhatsApp
+- Sem fidelidade; débito falho tem 3 dias de tolerância antes de o perfil sair do marketplace
+- Página de divulgação: `easymaintenance.com.br/para-fornecedores`
 
 ### Programa de afiliados
 - Qualquer pessoa pode se cadastrar em `easymaintenance.com.br/indicador/novo`
@@ -122,23 +157,31 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 > **"Compliance ABNT acessível"** — o único ponto do mercado onde conformidade normativa encontra preço para PMEs.
 
 ### Matriz competitiva
-| Critério                    | Easy Maintenance | Engeman/TOTVS | Fracttal          | ManFácil   |
-|-----------------------------|------------------|---------------|-------------------|------------|
-| Conformidade ABNT explícita | ✅ Sim            | ✅ Sim         | Parcial           | ❌ Não      |
-| Interface simples           | ✅ Sim            | ❌ Complexa    | ✅ Sim             | ✅ Sim      |
-| Preço acessível PME         | ✅ R$149–899      | ❌ R$2k–10k    | ❌ USD/usuário     | ✅ R$99–299 |
-| IA integrada                | ✅ Sim            | ❌ Não         | Parcial           | ❌ Não      |
-| Suporte em português        | ✅ Sim            | ✅ Sim         | ❌ Inglês/espanhol | ✅ Sim      |
-| Evidências fotográficas     | ✅ Sim            | Parcial       | ✅ Sim             | ❌ Não      |
-| Multi-empresa               | ✅ Sim            | ✅ Sim         | ✅ Sim             | ❌ Não      |
-| Trial gratuito              | ✅ 14 dias        | ❌ Não         | ❌ Não             | ✅ Sim      |
+| Critério                    | Easy Maintenance | Engeman/TOTVS | Fracttal          | ManFácil   | Condo Guardian / Easy Alert |
+|-----------------------------|------------------|---------------|-------------------|------------|-----------------------------|
+| Conformidade ABNT explícita | ✅ Sim            | ✅ Sim         | Parcial           | ❌ Não      | ✅ Sim                       |
+| Interface simples           | ✅ Sim            | ❌ Complexa    | ✅ Sim             | ✅ Sim      | Não divulgado               |
+| Preço público acessível     | ✅ R$149–899      | ❌ R$2k–10k    | ❌ USD/usuário     | ✅ R$99–299 | ❌ Sob demonstração          |
+| Trial self-service          | ✅ 14 dias        | ❌ Não         | ❌ Não             | ✅ Sim      | ❌ Não                       |
+| IA integrada                | ✅ Sim            | ❌ Não         | Parcial           | ❌ Não      | Não divulgado               |
+| Alertas por WhatsApp        | ✅ Sim            | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            |
+| Chamados de moradores       | ✅ QR code        | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            |
+| Marketplace de fornecedores | ✅ Sim            | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            |
+| Evidências fotográficas     | ✅ Sim            | Parcial       | ✅ Sim             | ❌ Não      | Não divulgado               |
+| Multi-empresa               | ✅ Sim            | ✅ Sim         | ✅ Sim             | ❌ Não      | Não divulgado               |
 
-### Os 5 argumentos de venda mais fortes
+> Condo Guardian e Easy Alert são os concorrentes de posicionamento mais próximo (mesmo ICP, mesmo
+> ângulo NBR 5674) — ambos escondem o preço atrás de demonstração e não têm trial self-service.
+> "Não divulgado" = não encontramos a informação no site público; "Não pesquisado" = critério novo
+> (set/2026) ainda sem levantamento. Em nenhum dos dois casos afirmar que o concorrente não tem.
+
+### Os 6 argumentos de venda mais fortes
 1. **"A ABNT exige, você comprova"** — cada manutenção gera evidência documental automática
 2. **"Da planilha para o compliance em 1 dia"** — onboarding guiado por IA, sem consultor
 3. **"Troca de síndico sem perda de histórico"** — a memória técnica fica no sistema, não na pessoa
-4. **"R$149/mês vs. multa de R$50.000+"** — argumento de ROI imediato
-5. **"Feito para o Brasil"** — normas brasileiras, suporte em português, empresa local
+4. **"O aviso chega no WhatsApp"** — o gestor é lembrado antes do vencimento onde ele já está, e o aviso já sugere quem resolve
+5. **"R$149/mês vs. multa de R$50.000+"** — argumento de ROI imediato
+6. **"Feito para o Brasil"** — normas brasileiras, suporte em português, empresa local
 
 ---
 
@@ -148,33 +191,35 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 |--------------------|------------------------------------------------------------------------------|
 | **Backend**        | Java 21 + Spring Boot 3                                                      |
 | **Frontend**       | Next.js (React) + TypeScript + Bootstrap 5                                   |
-| **Banco de dados** | MySQL (gerenciado)                                                           |
+| **Banco de dados** | MySQL (gerenciado), migrações versionadas (Flyway)                           |
 | **Hospedagem**     | Railway (PaaS — backend + banco) + Vercel (frontend)                         |
-| **Pagamentos**     | Asaas (gateway BR — PIX + cartão + boleto)                                   |
-| **E-mails**        | Serviço transacional configurado com retry/fila                              |
-| **IA**             | OpenAI (assistente SAMU para onboarding e FAQ)                               |
+| **Pagamentos**     | Asaas (gateway BR — PIX, Pix Automático, cartão)                             |
+| **Mensageria**     | WhatsApp (Meta Cloud API) + e-mail transacional com retry                    |
+| **IA**             | OpenAI (assistente SAMU e pré-cadastro assistido)                            |
+| **Integrações**    | Google Places (busca de profissionais), Cal.com (agendamento de demonstração) |
 | **Storage**        | AWS S3 (evidências fotográficas e laudos)                                    |
 | **Arquitetura**    | Multi-tenant SaaS, clean architecture, API REST                              |
-| **Segurança**      | JWT HttpOnly, rate limiting, CORS restrito, Swagger desabilitado em produção |
+| **Segurança**      | JWT HttpOnly, 2FA (TOTP), rate limiting, CORS restrito, Swagger desabilitado em produção |
+| **Qualidade**      | Mais de 1.100 testes automatizados no backend; teste de carga estrutural executado |
 
 ---
 
-## 8. Situação Atual (Junho 2026)
+## 8. Situação Atual (Setembro 2026)
 
 ### Status do produto
-- ✅ **Backend completo** — billing, webhooks Asaas, multi-tenant, notificações, IA
-- ✅ **Frontend completo** — dashboard, itens, manutenções, relatórios, billing, admin
-- ✅ **Pagamentos funcionais** — PIX recorrente manual + cartão via Asaas
-- ✅ **Programa de afiliados ativo** — cadastro, link único, painel, comissões
-- ✅ **Trial de 14 dias** — automático, sem cartão
-- ✅ **Landing page publicada** — www.easymaintenance.com.br
-- 🔄 **Em validação final (QA)** — bugs de UX sendo corrigidos, validação de fluxos críticos
-- 🚀 **Lançamento previsto** — iminente
+- ✅ **Em produção** — www.easymaintenance.com.br
+- ✅ **Gestão de manutenção completa** — ativos, vencimentos, manutenções com evidência, relatórios PDF/Excel, índice de conformidade
+- ✅ **Alertas por WhatsApp e e-mail** em produção
+- ✅ **Chamados de moradores** por QR code
+- ✅ **Marketplace de fornecedores** — cadastro, pontuação, pedido de orçamento, assinatura de fornecedor por Pix Automático
+- ✅ **Pagamentos funcionais** — PIX recorrente e cartão via Asaas; Pix Automático para fornecedores
+- ✅ **Trial de 14 dias** automático, sem cartão
+- ✅ **Canais de aquisição ativos** — landing com tráfego pago, blog com conteúdo SEO, agendamento de demonstração online, programa de afiliados, página de divulgação para fornecedores
 
-### Tração atual
-- Produto em fase UAT (User Acceptance Testing) com usuários reais
-- Sistema de afiliados ativo — primeiros afiliados podem se cadastrar hoje
-- Zero dependência de investimento externo para operar (infraestrutura Railway)
+### Estágio
+- Produto em produção e em fase inicial de comercialização, com trials acontecendo
+- **Não citar número de clientes, depoimentos ou cases** sem confirmação explícita do Douglas
+- Zero dependência de investimento externo para operar
 
 ---
 
@@ -192,66 +237,80 @@ O produto é desenhado especificamente para o mercado brasileiro e cobre:
 ### CAC via afiliado: R$ 59,80 (20% de R$299 — único, no primeiro pagamento)
 ### LTV estimado (12 meses × R$299 × 80% retenção): ~R$ 2.870
 
+> Projeção de junho/2026, só da receita de organizações — não inclui a receita de fornecedores do
+> marketplace (seção 5), que ainda não tem histórico para projetar.
+
 ---
 
-## 10. Potencial de Expansão do Produto (Visão Futura)
+## 10. Marketplace de Fornecedores — de visão a produto
 
-### Marketplace de Profissionais de Manutenção
-**Hoje:** dentro de cada manutenção, o sistema já exibe uma busca por profissionais especializados próximos ao 
-endereço da empresa — resultado alimentado pelo Google. O gestor encontra quem pode realizar o serviço sem sair da plataforma.
+### Hoje (em produção)
+- **Organizações cadastram os fornecedores que já usam.** O mesmo fornecedor (identificado por CNPJ) é
+  compartilhado entre organizações e ganha pontuação conforme mais organizações o cadastram — um sinal
+  de confiança construído com uso real.
+- **Busca por cidade e tipo de serviço** (13 categorias, 42 serviços) e **pedido de orçamento** que
+  chega direto no WhatsApp do fornecedor.
+- **Fornecedores pagam para participar**: R$ 15,99/mês por Pix Automático, zero comissão. Eles se
+  cadastram sozinhos pela página `/para-fornecedores` e acompanham os pedidos recebidos num kanban
+  (Novo → Em contato → Orçamento enviado → Fechado / Perdido).
+- **Alertas de vencimento já sugerem fornecedores próximos** — o momento "venceu" vira "aqui está quem resolve".
 
-**Futuro próximo:** profissionais e empresas de manutenção podem se cadastrar diretamente no Easy Maintenance, 
-criando um **marketplace vertical de manutenção predial**:
-- Eletricistas, encanadores, técnicos de elevadores, empresas de dedetização, etc.
-- Perfil com especialidades, certificações (CREA, ART) e avaliações
-- Contratação e registro da manutenção na mesma plataforma
-- Comissão sobre a transação ou modelo de assinatura para prestadores
+### Por que isso é relevante para investidores
+É o caminho clássico de expansão de receita de SaaS verticais — de ferramenta de gestão para
+marketplace — e ele já começou: existe um segundo lado pagante (fornecedores) e o produto captura o
+momento de decisão ("preciso contratar alguém para a manutenção do elevador"). A base de clientes
+(condomínios, hospitais) é o comprador natural desses serviços.
 
-**Por que isso é relevante para investidores:**
-Este é o caminho clássico de expansão de receita de SaaS verticais — de ferramenta de gestão para marketplace. 
-O produto já captura o momento de decisão ("preciso contratar alguém para manutenção preventiva do elevador") 
-e tem posição privilegiada para monetizar essa transação. A base de clientes existente (condomínios, hospitais) 
-já é o comprador natural dos serviços.
+### Próximos passos possíveis
+- Busca por raio geográfico real (hoje o match é por cidade)
+- Aviso automático ao fornecedor quando chega um pedido novo
+- Destaque/selo de fornecedor verificado como produto pago adicional
 
 ---
 
 ## 11. Roadmap — Próximos 3 Meses
 
-| Prioridade | Iniciativa                                                     |
-|------------|----------------------------------------------------------------|
-| 🔴         | Lançamento oficial e primeiras vendas                          |
-| 🔴         | Ativação do canal de afiliados (administradoras e consultores) |
-| 🟠         | Campanha Instagram/LinkedIn com foco em síndicos               |
-| 🟠         | Parceria com administradoras de condomínios                    |
-| 🟡         | Dashboard de relatórios cross-org (EPIC-011 — em validação)    |
-| 🟡         | PIX Automático (mandato bancário — EPIC-010 TASK-066)          |
-| 🟡         | App mobile (fase futura)                                       |
+| Prioridade | Iniciativa                                                                  |
+|------------|-----------------------------------------------------------------------------|
+| 🔴         | Primeiras vendas e conversão de trials                                      |
+| 🔴         | Aquisição de fornecedores para o marketplace nas cidades dos clientes       |
+| 🟠         | Ativação do canal de afiliados (administradoras e consultores)             |
+| 🟠         | Parceria com administradoras de condomínios                                 |
+| 🟡         | Pix Automático também para os planos das organizações                       |
+| 🟡         | Gestão de equipe por conta (membros e permissões)                           |
+| 🟡         | App mobile (fase futura)                                                    |
 
 ---
 
 ## 12. Contatos e Links
 
-| Item                      | Valor                                             |
-|---------------------------|---------------------------------------------------|
-| **Website**               | https://www.easymaintenance.com.br                |
-| **Landing page**          | https://www.easymaintenance.com.br/landing        |
-| **E-mail comercial**      | comercial@easymaintenance.com.br                  |
-| **WhatsApp**              | (31) 99563-9390                                   |
-| **Programa de afiliados** | https://www.easymaintenance.com.br/indicador/novo |
-| **Fundador**              | Douglas Dias — douglasmarquesdias@gmail.com       |
+| Item                        | Valor                                               |
+|-----------------------------|-----------------------------------------------------|
+| **Website**                 | https://www.easymaintenance.com.br                  |
+| **Landing page**            | https://www.easymaintenance.com.br/landing          |
+| **Agendar demonstração**    | https://www.easymaintenance.com.br/agendar          |
+| **Para fornecedores**       | https://www.easymaintenance.com.br/para-fornecedores |
+| **Blog**                    | https://www.easymaintenance.com.br/blog             |
+| **E-mail comercial**        | comercial@easymaintenance.com.br                    |
+| **WhatsApp**                | (31) 99982-6634                                     |
+| **Programa de afiliados**   | https://www.easymaintenance.com.br/indicador/novo   |
+| **Fundador**                | Douglas Dias — douglasmarquesdias@gmail.com         |
 
 ---
 
 ## 13. Mensagens-Chave por Público
 
 ### Para síndico / gestor predial
-> *"Nunca mais perca um prazo de manutenção. Comprove tudo para o Corpo de Bombeiros, Anvisa e ABNT em segundos — sem planilha, sem WhatsApp."*
+> *"Nunca mais perca um prazo de manutenção. O aviso chega no seu WhatsApp, e você comprova tudo para o Corpo de Bombeiros, Anvisa e ABNT em segundos — sem planilha."*
 
 ### Para administradora de condomínios
-> *"Gerencie todas as suas empresas em um único painel. Relatórios automáticos de conformidade para cada cliente, com a marca de qualidade que você precisa entregar."*
+> *"Gerencie todas as suas empresas em um único painel, com um índice de conformidade por unidade. Relatórios de prestação de contas prontos para cada cliente."*
 
 ### Para investidor
-> *"SaaS B2B brasileiro atacando um mercado de 500k+ condomínios e 300k+ estabelecimentos regulados que operam hoje com planilhas Excel — em descumprimento legal. Posicionamento único: conformidade ABNT a preço de PME."*
+> *"SaaS B2B brasileiro atacando um mercado de 500k+ condomínios e 300k+ estabelecimentos regulados que operam hoje com planilhas — em descumprimento legal. Posicionamento único: conformidade ABNT a preço de PME, e um marketplace de fornecedores já em produção como segunda fonte de receita."*
+
+### Para fornecedor de manutenção
+> *"Seja encontrado por quem cuida de prédios na sua cidade. R$ 15,99/mês, zero comissão, pedidos de orçamento direto no seu WhatsApp."*
 
 ### Para potencial afiliado
 > *"Você conhece síndicos, administradoras ou gestores de facilities? Cadastre-se, compartilhe seu link e receba 20% do primeiro pagamento de cada cliente que assinar. Sem limite de indicações."*
@@ -261,16 +320,19 @@ já é o comprador natural dos serviços.
 ## 14. FAQ Rápido (para usar em scripts e atendimento)
 
 **P: Precisa de treinamento para usar?**
-R: Não. O onboarding é guiado pela IA SAMU. Em menos de 1 hora você já tem seus primeiros ativos cadastrados.
+R: Não. O cadastro inicial é guiado por IA e, se travar em algum passo, o suporte está a um clique no WhatsApp.
 
 **P: Funciona para condomínios pequenos?**
-R: Sim. O plano Starter por R$149/mês já atende condomínios com até 3 empresas e 100 itens — equivale a R$ 4,97/dia.
+R: Sim. O plano Starter por R$149/mês atende até 3 empresas e 100 itens — equivale a R$ 4,97/dia.
 
 **P: Como comprova conformidade ABNT para auditoria?**
-R: O sistema gera relatórios cronológicos com data, responsável, custo e evidência fotográfica de cada manutenção — exatamente o que a ABNT NBR 5674 exige.
+R: O sistema gera o relatório de prestação de contas em PDF, com data, responsável, custo e evidência fotográfica de cada manutenção — exatamente o que a ABNT NBR 5674 exige.
+
+**P: Os moradores conseguem abrir chamado?**
+R: Sim. Pelo QR code da edificação, sem precisar de login, e acompanham o andamento.
 
 **P: E se eu quiser cancelar?**
-R: Sem multa, sem carência. Cancele quando quiser pela própria plataforma.
+R: Sem multa, sem carência. O cancelamento interrompe as cobranças futuras (não há reembolso de valor já pago).
 
 **P: Meus dados ficam seguros?**
-R: Sim. Hospedagem em nuvem brasileira, autenticação segura (JWT HttpOnly), backups automáticos.
+R: Sim. Hospedagem em nuvem, autenticação segura (JWT HttpOnly e dois fatores), backups automáticos.

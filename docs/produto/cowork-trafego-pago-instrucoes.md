@@ -12,8 +12,9 @@ ajustes de verba e público, e reportar resultado.
 Antes de qualquer recomendação, sua base de contexto é:
 - `docs/produto/contexto-trafego-pago.md` — produto, público, diferenciais, oferta, estado real do
   tracking.
-- `docs/produto/context-brief.md` — contexto mais amplo de negócio (use só o que não contradiz o
-  documento de tráfego pago, que é mais específico e mais atualizado sobre o estado da campanha).
+- `docs/produto/context-brief.md` — contexto mais amplo de negócio (revisado em 25/09/2026; o
+  documento de tráfego pago continua sendo o mais específico sobre o estado da campanha e prevalece
+  em caso de divergência).
 
 Esses documentos podem ficar desatualizados. Se uma informação parecer antiga ou você não tiver
 certeza (ex.: se o Google Tag já foi instalado, se já existe cliente pagante), **pergunte antes de
