@@ -1,6 +1,8 @@
 # Prints do sistema — conta de demonstração
 
-*Capturados em 24/09/2026 (TASK-295) no ambiente local, com o código de produção (`main`).*
+*Capturados em 24/09/2026 (TASK-295) e recapturados em 25/09/2026 no ambiente local com o código da
+TASK-294 (logo oficial, nomes legíveis, índice único): ainda em revisão, entra em produção quando essa
+PR for mergeada.*
 
 ## Conta demo (dados 100% fictícios)
 
@@ -47,12 +49,10 @@
 
 - **O QR code do cartaz (`05a-chamados-cartaz-a4.png`) aponta para o ambiente local** e o rodapé mostra
   `localhost`. Use só como ilustração pequena — **nunca como QR escaneável** em material impresso.
-- Aparecem **nomes técnicos crus** nas telas ("CAIXA_DAGUA", "REGULATORY", "OPERATIONAL") — é o sistema
-  hoje (TASK-294). Em close-up, prefira recortes onde isso não domina.
-- O **logo antigo** aparece no cartaz A4 e nas telas do morador/fornecedor, e um **terceiro logo**
-  (escudo) na `/para-fornecedores` (TASK-294). Não usar esses prints como referência de marca.
-- O dashboard mostra **75%** (índice de conformidade) e o PDF mostra **88%** ("taxa de conformidade",
-  fórmula mais simples). Não coloque os dois números lado a lado num mesmo slide.
+- Dashboard e PDF mostram o **mesmo índice de conformidade (75%)**. O PDF cobre de 01/01/2026 a 25/09/2026
+  (preset "Este ano").
+- Logo e nomes ("Caixa d'água", "Regulatório") já estão como vão ficar em produção depois da TASK-294.
+- O mascote do SAMU tem "SANU" escrito no crachá (erro da arte, ainda sem correção). Não use o mascote em close.
 - O canto inferior direito mostra o botão do assistente SAMU (normal do sistema).
 
 ## Pendentes — capturar em staging ou no celular

@@ -36,5 +36,8 @@ no banco e cuidados de uso no `README.md` da pasta). Decisão do Douglas: local 
       WhatsApp (celular) e cartaz A4 com QR de produção — roteiro no README da pasta.
 - [ ] Prints enviados ao projeto Cowork de Materiais (Douglas)
 
+Recaptura em 25/09/2026 com o código da TASK-294 (logo oficial, nomes legíveis, índice único 75% no
+dashboard e no PDF, "Este ano" = 01/01–hoje). Os cuidados do README foram atualizados.
+
 ## Status
 🟡 Em andamento — parte local concluída; captura em staging pendente.

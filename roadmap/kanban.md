@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 25/09/2026 — **🟡 [TASK-294](tasks/TASK-294.md) implementada, PR aberta**
+> ([web#101](https://github.com/douglasjava/easy-maintenance-web/pull/101) → `staging`): logo oficial em
+> todas as telas e PDFs, nomes legíveis ("Caixa d'água", "Regulatório"), prestação de contas com o índice
+> do dashboard, "Este ano" = ano corrente e hero da landing com print real. Pendente: mascote "SANU"
+> (designer). Prints da [TASK-295](tasks/TASK-295.md) recapturados. Novo achado:
+> [TASK-296](tasks/TASK-296.md) (chave duplicada na fila de ações, baixo).
+
 > Atualizado em: 24/09/2026 — **🚀 Promoção `staging` → `main` aberta** ([api#121](https://github.com/douglasjava/easy-maintenance-api/pull/121) ·
 > [web#100](https://github.com/douglasjava/easy-maintenance-web/pull/100)) com TASK-280/285/288/289/290 — e
 > TASK-245/291 entram automaticamente quando mergeadas em `staging`:

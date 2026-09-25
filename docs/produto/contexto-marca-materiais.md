@@ -107,7 +107,9 @@ representar status (em dia / vencendo / vencido), igual ao sistema.
 - **`dashboard_preview.png/.webp`** (a imagem de "dashboard" que aparece no topo da landing) — **não é
   print do produto**, é uma ilustração: mostra funcionalidades que o sistema não tem ("Ordens de
   Serviço/OS", "PMOC", "AVCB", "NR-12 Máquinas"), valor em dólar ("$23.450") e erros de digitação
-  ("Actius", "Manutanção"). Usar em material de venda = prometer o que o produto não entrega.
+  ("Actius", "Manutanção"). Usar em material de venda = prometer o que o produto não entrega. Está
+  sendo retirada do site (TASK-294), substituída pelo print real do dashboard; cópias antigas podem
+  continuar circulando e seguem proibidas.
 - Qualquer tela "fake" gerada por IA ou mockup inventado de funcionalidade que não existe.
 - O logo antigo (seção 1).
 
@@ -116,9 +118,11 @@ representar status (em dia / vencendo / vencido), igual ao sistema.
 ## 6. Prints do sistema
 
 Existe um banco de **prints reais** de uma conta de demonstração com dados fictícios (Condomínio
-Residencial Jardim das Acácias, BH), capturados em 24/09/2026: pasta `docs/produto/prints/`. O
-`README.md` dessa pasta lista cada arquivo, o uso sugerido e os **cuidados** (QR code do cartaz aponta
-para ambiente local, nomes técnicos crus em algumas telas, logo antigo em algumas telas, 75% × 88%).
+Residencial Jardim das Acácias, BH), capturados em 24/09/2026 e **recapturados em 25/09/2026** já com
+o logo oficial em todas as telas e PDFs, nomes legíveis ("Caixa d'água", "Regulatório") e o mesmo
+índice de conformidade (75%) no dashboard e no PDF (TASK-294): pasta `docs/produto/prints/`. O
+`README.md` dessa pasta lista cada arquivo, o uso sugerido e os **cuidados** (o QR code do cartaz
+aponta para o ambiente local).
 
 Já disponíveis: dashboard/índice de conformidade (completo e primeira dobra), histórico e detalhe de
 manutenção com anexo, PDF de prestação de contas, chamados (cartaz A4, quadro do gestor, fluxo do

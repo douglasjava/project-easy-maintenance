@@ -33,12 +33,31 @@ o logo oficial é o conjunto SVG (`public/assets/brand/logos/`).
    corrente — renomear para "Últimos 12 meses" ou ajustar o período.
 
 ## Critérios de Aceite
-- [ ] Landing sem a ilustração; hero com print real do produto
-- [ ] Nenhuma tela ou PDF usa o logo antigo
+- [x] Landing sem a ilustração; hero com print real do produto
+- [x] Nenhuma tela ou PDF usa o logo antigo
 - [ ] Mascote com "SAMU" correto
-- [ ] Um logo só (o oficial) em todas as telas e PDFs
-- [ ] Nomes de tipo/categoria legíveis nas telas e PDFs
-- [ ] Um único conceito de "conformidade" (ou dois com nomes diferentes e claros)
+- [x] Um logo só (o oficial) em todas as telas e PDFs
+- [x] Nomes de tipo/categoria legíveis nas telas e PDFs
+- [x] Um único conceito de "conformidade" (ou dois com nomes diferentes e claros)
+
+## Execução (25/09/2026)
+Branch `feature/TASK-294-marca-e-nomes-legiveis` · PR [web#101](https://github.com/douglasjava/easy-maintenance-web/pull/101) → `staging`.
+
+- **Logo** (135dfd0): versões do SVG oficial com cor fixa (`logo-*-on-light/on-dark.svg`), porque o SVG
+  original seguia o tema do SO e sumia em fundo claro. `BrandLogo` ganhou `tone`. Telas públicas,
+  topbar, `Logo.tsx` (o escudo), cartaz A4 e PDF de prestação de contas passam a usar o logo oficial.
+  Removido o PNG antigo.
+- **Nomes legíveis** (44d387e): `formatItemType`/`formatItemCategory` (`src/lib/itemLabels.ts`) em
+  itens, manutenções, IA onboarding, calendário, fila de ações, relatórios e prestação de contas.
+- **Conformidade**: decisão do Douglas, o PDF usa o índice do dashboard (`/dashboard/summary`). Rótulo
+  "Índice de conformidade". Se a chamada falhar, mostra "—".
+- **"Este ano"** = 01/01 até hoje.
+- **Landing** (ebee78c): hero e imagens OG/Twitter (layout, landing, 5 posts) com print real do
+  dashboard da conta demo. `dashboard_preview.*` removidos.
+- Validação: tsc limpo, `npm test` 209/212 (as 3 falhas de `middleware.test.ts` já existiam), build ok,
+  +24 testes novos. Conferência visual no navegador. Prints da pasta `docs/produto/prints/` recapturados.
+- **Fora do escopo**: mascote "SANU", que precisa de designer (critério 3 continua aberto).
+- Achado paralelo registrado: [TASK-296](TASK-296.md) (chave React duplicada na fila de ações).
 
 ## Status
-Backlog
+🟡 Em validação — PR web#101 aberta (critério do mascote pendente de designer)
