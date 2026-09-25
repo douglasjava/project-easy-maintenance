@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Manual de Uso — Easy Maintenance</title>
 <style>
   :root {
@@ -235,6 +237,7 @@
     <div class="layout">
       <aside class="index">
         <a href="#login">Login</a>
+        <a href="#criar-conta">Criar conta</a>
         <a href="#dashboard">Dashboard</a>
         <a href="#ia-onboarding">Pré-cadastro com IA</a>
         <a href="#ia-samu">Assistente SAMU</a>
@@ -245,6 +248,11 @@
         <a href="#manutencoes">Consultar manutenções</a>
         <a href="#relatorios">Relatórios</a>
         <a href="#notificacoes">Notificações</a>
+        <a href="#chamados">Chamados de moradores</a>
+        <a href="#fornecedores">Fornecedores</a>
+        <a href="#normas">Normas e obrigações</a>
+        <a href="#perfil">Perfil e segurança</a>
+        <a href="#para-fornecedores">Para fornecedores</a>
       </aside>
 
       <div class="content">
@@ -261,20 +269,33 @@
           <div class="note">Esqueceu a senha? Use o link <span class="ui">Esqueci minha senha</span> na própria tela de login.</div>
         </div>
 
-        <div class="card" id="dashboard">
-          <div class="card-head"><h2>2. Visão geral (Dashboard)</h2><span class="route">/</span></div>
-          <p class="desc">Primeira tela depois do login — panorama de prazos e pendências.</p>
+        <div class="card" id="criar-conta">
+          <div class="card-head"><h2>2. Criando sua conta (primeiro acesso)</h2><span class="route">/onboarding</span></div>
+          <p class="desc">No primeiro acesso, o sistema leva para um cadastro em 2 passos. Ao final, a conta entra no período de teste gratuito do plano Business, sem cartão.</p>
           <ol class="steps">
-            <li><span class="txt">No topo, 4 indicadores clicáveis: <span class="ui">Itens cadastrados</span>, <span class="ui">Atrasados</span>, <span class="ui">Vencendo em breve</span> e <span class="ui">Realizados este mês</span> — cada um leva direto pra lista já filtrada.</span></li>
-            <li><span class="txt">O card <span class="ui">Atenção Agora</span> lista os itens mais críticos primeiro, com selo de risco colorido.</span></li>
-            <li><span class="txt">O card <span class="ui">Distribuição</span> mostra a proporção por status, por categoria (Regulatório/Operacional) e os tipos de item mais comuns.</span></li>
-            <li><span class="txt">Em <span class="ui">Acesso rápido</span>, os atalhos diretos para Itens e Manutenções.</span></li>
+            <li><span class="txt">Passo <span class="ui">Seus dados</span> — dados de faturamento: nome, e-mail de cobrança, CPF, telefone, forma de pagamento (<span class="ui">PIX</span> ou <span class="ui">Cartão de crédito</span>) e endereço (o CEP preenche rua, bairro e cidade sozinho). Clique em <span class="ui">Próximo →</span>.</span></li>
+            <li><span class="txt">Passo <span class="ui">Sua empresa</span> — dados da organização: nome, tipo (condomínio, hospital, escola etc.), <span class="ui">CNPJ / CPF (opcional)</span> e endereço. Clique em <span class="ui">Criar minha conta →</span>.</span></li>
+            <li><span class="txt">Se algum campo estiver errado, a tela rola até ele e mostra o aviso <span class="ui">Revise os campos destacados.</span></span></li>
           </ol>
+          <div class="note">Parou no meio? Ao entrar de novo, o cadastro abre direto no passo que faltava — os dados de faturamento já salvos não precisam ser digitados outra vez. Travou em algum passo? Use <span class="ui">Precisa de ajuda? Fale com a gente no WhatsApp</span>, logo abaixo dos botões.</div>
+        </div>
+
+        <div class="card" id="dashboard">
+          <div class="card-head"><h2>3. Visão geral — Índice de conformidade</h2><span class="route">/</span></div>
+          <p class="desc">Primeira tela depois do login — mostra, numa pontuação só, o quanto a edificação está em dia, e o que fazer a seguir.</p>
+          <ol class="steps">
+            <li><span class="txt">No topo, o <span class="ui">Índice de conformidade</span> com a divisão entre itens <span class="badge b-ok">Em dia</span> <span class="badge b-danger">Vencidos</span> e <span class="ui">Sem evidência</span>, e indicadores como <span class="ui">Vencendo em 30 dias</span> e <span class="ui">Custo do mês</span>.</span></li>
+            <li><span class="txt">A <span class="ui">Fila de ações</span> lista o que precisa de atenção, do mais urgente pro menos. Em cada pendência: <span class="ui">Concluir</span> (abre o registro da manutenção já com o item escolhido), <span class="ui">Anexar evidência</span> (abre a ficha do item) ou <span class="ui">Adiar</span> (nova data de vencimento + motivo obrigatório).</span></li>
+            <li><span class="txt">Gráficos de acompanhamento: <span class="ui">Próximos 90 dias</span> (crítico, atenção, agendado), <span class="ui">Planejado × realizado</span> e <span class="ui">Custo do mês por categoria</span>.</span></li>
+            <li><span class="txt">Quem gerencia várias unidades usa <span class="ui">Filtrar por unidade</span> e vê o gráfico <span class="ui">Conformidade por unidade</span>, comparando todas.</span></li>
+            <li><span class="txt">Atalho <span class="ui">+ Registrar manutenção</span> sempre visível no topo.</span></li>
+          </ol>
+          <div class="note">Conta nova? No lugar do índice aparece o painel <span class="ui">Primeiros passos</span> (empresa cadastrada → cadastrar itens → atingir 5 itens → registrar a primeira manutenção) e o atalho <span class="ui">Gerar plano automático</span>, que usa a IA para sugerir os itens obrigatórios do tipo do seu prédio.</div>
         </div>
 
         <div class="card" id="ia-onboarding">
-          <div class="card-head"><h2>3. Pré-cadastro assistido por IA <span class="badge-ia">✨ Diferencial</span></h2><span class="route">/ai-onboarding</span></div>
-          <p class="desc">Em vez de cadastrar item por item, a IA sugere o plano de manutenção inteiro a partir do tipo do seu espaço. Disponível para planos com IA habilitada.</p>
+          <div class="card-head"><h2>4. Pré-cadastro assistido por IA <span class="badge-ia">✨ Diferencial</span></h2><span class="route">/ai-onboarding</span></div>
+          <p class="desc">Em vez de cadastrar item por item, a IA sugere o plano de manutenção inteiro a partir do tipo do seu espaço. Disponível para planos com IA habilitada (Business e Enterprise).</p>
           <ol class="steps">
             <li><span class="txt">Escolha o <span class="ui">Tipo de Empresa</span>: Condomínio, Hospital, Escola, Indústria, Escritório ou Outros.</span></li>
             <li><span class="txt">Opcional: descreva a estrutura em <span class="ui">Descrição da estrutura (opcional)</span> — ex: "Condomínio com 2 torres, 3 elevadores, piscina e gerador". Quanto mais detalhe, melhor a sugestão.</span></li>
@@ -287,8 +308,8 @@
         </div>
 
         <div class="card" id="ia-samu">
-          <div class="card-head"><h2>4. Assistente SAMU <span class="badge-ia">✨ Diferencial</span></h2></div>
-          <p class="desc">Chat flutuante disponível nas principais telas — responde em linguagem natural usando os dados reais da sua organização, não respostas genéricas.</p>
+          <div class="card-head"><h2>5. Assistente SAMU <span class="badge-ia">✨ Diferencial</span></h2></div>
+          <p class="desc">Chat flutuante disponível nas principais telas (planos Business e Enterprise) — responde em linguagem natural usando os dados reais da sua organização, não respostas genéricas.</p>
           <ol class="steps">
             <li><span class="txt">Clique no ícone de chat no canto inferior direito da tela.</span></li>
             <li><span class="txt">Pergunte livremente, ou use uma sugestão pronta: <span class="ui">O que vence nos próximos 30 dias?</span>, <span class="ui">O que está atrasado e é mais crítico?</span>, <span class="ui">Me faça um plano semanal de manutenções</span>, <span class="ui">Escreva uma mensagem para solicitar orçamento</span>.</span></li>
@@ -298,7 +319,7 @@
         </div>
 
         <div class="card" id="novo-item">
-          <div class="card-head"><h2>5. Cadastrando um item</h2><span class="route">/items/new</span></div>
+          <div class="card-head"><h2>6. Cadastrando um item</h2><span class="route">/items/new</span></div>
           <p class="desc">Um "item" é qualquer equipamento ou rotina que precisa de manutenção — extintor, elevador, caixa d'água, SPDA etc.</p>
           <ol class="steps">
             <li><span class="txt">Na lista de Itens, clique em <span class="ui">+ Novo Item</span>.</span></li>
@@ -312,7 +333,7 @@
         </div>
 
         <div class="card" id="itens">
-          <div class="card-head"><h2>6. Consultando itens</h2><span class="route">/items</span></div>
+          <div class="card-head"><h2>7. Consultando itens</h2><span class="route">/items</span></div>
           <p class="desc">Lista de tudo que está cadastrado, com o status de vencimento de cada um.</p>
           <ol class="steps">
             <li><span class="txt">Filtre por <span class="ui">Status</span>, <span class="ui">Categoria</span> ou digite o <span class="ui">Nome do item</span>.</span></li>
@@ -322,7 +343,7 @@
         </div>
 
         <div class="card" id="detalhe-item">
-          <div class="card-head"><h2>7. Detalhe do item</h2><span class="route">/items/[id]</span></div>
+          <div class="card-head"><h2>8. Detalhe do item</h2><span class="route">/items/[id]</span></div>
           <p class="desc">Ficha do item: status atual e periodicidade — não é aqui que fica o histórico de manutenções (isso é na aba Manutenções).</p>
           <ol class="steps">
             <li><span class="txt">Mostra Tipo, Status, Categoria, Próximo vencimento, Última manutenção, Localização e — se Regulatório — Norma e Periodicidade.</span></li>
@@ -331,46 +352,110 @@
         </div>
 
         <div class="card" id="registrar-manutencao">
-          <div class="card-head"><h2>8. Registrando uma manutenção</h2><span class="route">/maintenances/new</span></div>
+          <div class="card-head"><h2>9. Registrando uma manutenção</h2><span class="route">/maintenances/new</span></div>
           <p class="desc">Formulário em 2 passos: dados da execução, depois anexos.</p>
           <ol class="steps">
-            <li><span class="txt">Selecione o <span class="ui">Item</span> (ou chegue já com ele selecionado, clicando em <span class="ui">Registrar Manutenção</span> na ficha do item).</span></li>
+            <li><span class="txt">Selecione o <span class="ui">Item</span> (ou chegue já com ele selecionado, clicando em <span class="ui">Registrar Manutenção</span> na ficha do item ou em <span class="ui">Concluir</span> na fila de ações do dashboard).</span></li>
             <li><span class="txt">Preencha <span class="ui">Data da manutenção</span> e <span class="ui">Tipo de manutenção</span> (Preventiva, Corretiva, Inspeção, Teste ou Emergencial) — os dois obrigatórios.</span></li>
             <li><span class="txt">Opcional: <span class="ui">Responsável</span>, <span class="ui">Custo R$</span> e <span class="ui">Próxima manutenção</span>.</span></li>
             <li><span class="txt">Clique em <span class="ui">Próximo →</span> — a manutenção já é salva aqui.</span></li>
             <li><span class="txt">No passo de anexos, escolha o arquivo e o <span class="ui">Tipo do anexo</span> (Foto, Relatório, Certificado, ART, Nota Fiscal ou Outro) — até 2 documentos.</span></li>
             <li><span class="txt">Clique em <span class="ui">Finalizar registro</span>. Sem documento? Use <span class="ui">Ignorar e sair</span>.</span></li>
           </ol>
-          <div class="note">O botão <span class="ui">🔍 Ver prestadores</span> no passo 1 busca fornecedores próximos por geolocalização, com aviso de que a plataforma não se responsabiliza pela qualidade do serviço prestado.</div>
+          <div class="note">O botão <span class="ui">🔍 Ver prestadores</span> no passo 1 busca profissionais próximos ao endereço da empresa, com aviso de que a plataforma não se responsabiliza pela qualidade do serviço prestado. Para os fornecedores que a sua organização já usa, veja a seção <a href="#fornecedores">Fornecedores</a>.</div>
         </div>
 
         <div class="card" id="manutencoes">
-          <div class="card-head"><h2>9. Consultando manutenções</h2><span class="route">/maintenances</span></div>
+          <div class="card-head"><h2>10. Consultando manutenções</h2><span class="route">/maintenances</span></div>
           <p class="desc">Aqui fica o histórico completo — e os anexos enviados em cada registro.</p>
           <ol class="steps">
             <li><span class="txt">Filtre por <span class="ui">Item</span>, <span class="ui">Data</span> ou <span class="ui">Responsável</span>.</span></li>
             <li><span class="txt">Clique em <span class="ui">Ver detalhes</span> pra abrir o registro completo, incluindo a seção <span class="ui">Anexos</span> com botão <span class="ui">⬇ Download</span>.</span></li>
+            <li><span class="txt">Registrou errado? No detalhe, use <span class="ui">Cancelar manutenção</span>, informe o <span class="ui">Motivo do cancelamento</span> (obrigatório) e confirme. O registro não é apagado: fica no histórico marcado como cancelado, com o motivo, quem cancelou e quando — depois, registre a manutenção correta.</span></li>
             <li><span class="txt">Botão <span class="ui">⬇ Exportar CSV</span> no topo, se o plano incluir relatórios.</span></li>
           </ol>
+          <div class="note">O cancelamento não pode ser desfeito, e só aparece para quem tem permissão para cancelar.</div>
         </div>
 
         <div class="card" id="relatorios">
-          <div class="card-head"><h2>10. Relatórios</h2><span class="route">/reports</span></div>
-          <p class="desc">Visão consolidada — útil pra assembleia, auditoria ou fiscalização.</p>
+          <div class="card-head"><h2>11. Relatórios</h2><span class="route">/reports</span></div>
+          <p class="desc">Visão consolidada de todas as suas empresas — útil pra assembleia, auditoria ou fiscalização. Disponível nos planos que incluem relatórios.</p>
           <ol class="steps">
-            <li><span class="txt">Aba <span class="ui">Visão Geral</span>: totais de itens, atrasados, vencendo e manutenções do mês, por empresa.</span></li>
-            <li><span class="txt">Aba <span class="ui">Manutenções</span>: filtre por período e tipo, depois clique em <span class="ui">Filtrar</span>.</span></li>
-            <li><span class="txt">No card <span class="ui">Manutenções Cross-Org</span>, clique em <span class="ui">Exportar CSV</span> (limite de 5.000 registros por exportação).</span></li>
+            <li><span class="txt">Aba <span class="ui">Visão Geral</span>: totais de itens, em atraso, que vencem em breve e manutenções do mês, com o detalhe por empresa.</span></li>
+            <li><span class="txt">Aba <span class="ui">Manutenções</span>: filtre por período, tipo e tipo de item, clique em <span class="ui">Filtrar</span> e use <span class="ui">Exportar Excel (máx. 5.000 registros)</span> para a planilha analítica.</span></li>
+            <li><span class="txt">Aba <span class="ui">Prestação de Contas</span>: escolha a <span class="ui">Organização</span> e o período (<span class="ui">Último mês</span>, <span class="ui">Trimestre</span>, <span class="ui">Este ano</span> ou datas próprias) e clique em <span class="ui">Baixar PDF</span>.</span></li>
           </ol>
+          <div class="note">O PDF de prestação de contas traz o resumo do período (manutenções realizadas, custo total, taxa de conformidade, itens em dia, próximos do vencimento e vencidos), as manutenções realizadas, as canceladas com motivo e os itens pendentes com dias em atraso — pronto para apresentar em assembleia.</div>
         </div>
 
         <div class="card" id="notificacoes">
-          <div class="card-head"><h2>11. Notificações</h2><span class="route">/notifications</span></div>
-          <p class="desc">Alertas que o sistema já gera sozinho — vencimento de item, de manutenção e de assinatura.</p>
+          <div class="card-head"><h2>12. Notificações</h2><span class="route">/notifications</span></div>
+          <p class="desc">Alertas que o sistema já gera sozinho — vencimento de item, de manutenção e de assinatura. Chegam dentro do sistema, por e-mail e, se você ativar, pelo WhatsApp.</p>
           <ol class="steps">
             <li><span class="txt">O contador no título mostra quantas notificações estão sem leitura.</span></li>
             <li><span class="txt">Clique numa notificação pra marcar como lida, ou use <span class="ui">Marcar todas como lidas</span>.</span></li>
+            <li><span class="txt">Para receber no WhatsApp: em <a href="#perfil">Perfil</a>, cadastre o <span class="ui">Telefone</span> e ative <span class="ui">Notificações por WhatsApp</span>.</span></li>
           </ol>
+          <div class="note">Os avisos de vencimento já sugerem fornecedores próximos que podem resolver o serviço.</div>
+        </div>
+
+        <div class="card" id="chamados">
+          <div class="card-head"><h2>13. Chamados de moradores</h2><span class="route">/resident-tickets</span></div>
+          <p class="desc">Canal para o morador reportar um problema (lâmpada queimada, vazamento, portão) sem grupo de WhatsApp e sem precisar de login. O gestor organiza tudo num quadro até a conclusão.</p>
+          <ol class="steps">
+            <li><span class="txt"><strong>Gerar o QR code:</strong> no menu do seu nome (canto superior), abra <span class="ui">Minhas Empresas</span> → <span class="ui">Acessar</span> na organização → card <span class="ui">QR Code — Chamados de Moradores</span> → <span class="ui">Baixar QR code</span>. Imprima e cole na entrada do prédio.</span></li>
+            <li><span class="txt"><strong>Morador abre o chamado:</strong> escaneia o QR code, informa o CPF e clica em <span class="ui">Entrar</span>. Em <span class="ui">Meus chamados</span>, clica em <span class="ui">Abrir novo chamado</span>, preenche <span class="ui">Seu nome</span>, <span class="ui">Telefone</span>, <span class="ui">O que está acontecendo?</span> e, se quiser, uma <span class="ui">Foto (opcional)</span>, e clica em <span class="ui">Enviar chamado</span>.</span></li>
+            <li><span class="txt"><strong>Gestor é avisado:</strong> os administradores da organização recebem e-mail a cada chamado novo.</span></li>
+            <li><span class="txt"><strong>Gestor acompanha:</strong> no menu <span class="ui">Chamados</span>, os chamados ficam nas colunas <span class="ui">Solicitado</span>, <span class="ui">Em andamento</span> e <span class="ui">Concluído</span> — arraste o card de uma coluna para outra para atualizar.</span></li>
+            <li><span class="txt"><strong>Morador acompanha:</strong> pelo mesmo QR code e CPF, vê o status de cada chamado que abriu.</span></li>
+          </ol>
+          <div class="note">Dica: imprima o QR code em A4 colorido e, se possível, plastifique antes de colar — dura mais tempo exposto e continua legível.</div>
+        </div>
+
+        <div class="card" id="fornecedores">
+          <div class="card-head"><h2>14. Fornecedores</h2><span class="route">/fornecedores</span></div>
+          <p class="desc">Os prestadores que a sua organização já usa, e os fornecedores da sua região cadastrados por outras organizações — com pontuação baseada em uso real.</p>
+          <ol class="steps">
+            <li><span class="txt">A lista mostra os fornecedores da região da sua organização. Filtre por <span class="ui">Categoria</span> (ou <span class="ui">✕ Limpar</span>).</span></li>
+            <li><span class="txt">O selo de cada fornecedor mostra quantas organizações já o cadastraram: <span class="ui">Novo</span>, <span class="ui">Confiável</span> (2 a 4) ou <span class="ui">Muito usado</span> (5 ou mais).</span></li>
+            <li><span class="txt">Para cadastrar um prestador que você já usa: <span class="ui">Novo Fornecedor</span> → <span class="ui">CPF ou CNPJ</span>, <span class="ui">Nome / razão social</span>, <span class="ui">Telefone</span> e <span class="ui">Categorias (opcional)</span> → <span class="ui">Cadastrar</span>. Se o fornecedor já existir (mesmo documento), ele só é vinculado à sua organização e ganha pontuação.</span></li>
+            <li><span class="txt">Para pedir orçamento: <span class="ui">Solicitar Orçamento</span> → descreva em <span class="ui">O que você precisa?</span> → <span class="ui">Enviar e abrir WhatsApp</span>. A conversa abre no WhatsApp do fornecedor com a mensagem pronta.</span></li>
+          </ol>
+          <div class="note">Ao solicitar orçamento, seu nome, e-mail e WhatsApp são compartilhados com o fornecedor pra ele retornar o contato — o aviso aparece no próprio formulário.</div>
+        </div>
+
+        <div class="card" id="normas">
+          <div class="card-head"><h2>15. Normas e obrigações</h2><span class="route">/norms</span></div>
+          <p class="desc">Guia das normas regulamentadoras (NR) e técnicas (NBR) que regem a manutenção predial, hospitalar e de escritórios — 22 normas revisadas.</p>
+          <ol class="steps">
+            <li><span class="txt">No menu, abra <span class="ui">Normas e Obrigações</span>.</span></li>
+            <li><span class="txt">Cada norma explica <span class="ui">O que é?</span>, <span class="ui">Por que é importante?</span> e traz uma <span class="ui">Dica de Gestão</span>.</span></li>
+          </ol>
+          <div class="note">As mesmas normas aparecem no cadastro de item Regulatório — é delas que vem a periodicidade de cada manutenção obrigatória.</div>
+        </div>
+
+        <div class="card" id="perfil">
+          <div class="card-head"><h2>16. Perfil e segurança</h2><span class="route">/profile</span></div>
+          <p class="desc">Seus dados de contato, as notificações por WhatsApp e a verificação em duas etapas. Acesso pelo menu do seu nome → <span class="ui">Minha conta</span>.</p>
+          <ol class="steps">
+            <li><span class="txt"><strong>WhatsApp:</strong> preencha o <span class="ui">Telefone</span>, ative <span class="ui">Notificações por WhatsApp</span> e clique em <span class="ui">Salvar Alterações</span>. Sem telefone, o sistema não deixa ativar.</span></li>
+            <li><span class="txt"><strong>Verificação em duas etapas (2FA):</strong> em <span class="ui">Autenticação em Dois Fatores (2FA)</span>, clique em <span class="ui">Habilitar 2FA</span>, escaneie o QR Code no app autenticador (Google Authenticator, Authy etc.) e confirme com o código de 6 dígitos.</span></li>
+            <li><span class="txt">Guarde os códigos de backup exibidos — eles aparecem uma única vez e servem para entrar se você perder acesso ao app.</span></li>
+          </ol>
+          <div class="note">A organização pode exigir 2FA de todos os usuários. Para desativar o seu, use <span class="ui">Desativar 2FA</span> e confirme com um código atual do app (ou um código de backup).</div>
+        </div>
+
+        <div class="card" id="para-fornecedores">
+          <div class="card-head"><h2>17. Para fornecedores — participar do marketplace</h2><span class="route">/para-fornecedores</span></div>
+          <p class="desc">Para prestadores de manutenção que querem aparecer para as organizações da sua cidade. R$ 15,99/mês por Pix Automático, zero comissão. Não precisa de login: tudo é feito por um link de gerenciamento.</p>
+          <ol class="steps">
+            <li><span class="txt">Na página <span class="route">/para-fornecedores</span> (preço, como funciona e regras), clique em <span class="ui">Quero me cadastrar</span>.</span></li>
+            <li><span class="txt">Em <span class="route">/fornecedores/cadastro</span>, preencha CPF ou CNPJ, nome, e-mail, telefone (WhatsApp), cidade, UF e categorias de serviço, e envie.</span></li>
+            <li><span class="txt">Escaneie o QR Code (ou copie o código Pix) no app do banco para autorizar o débito automático mensal — o primeiro mês é pago nessa autorização. O perfil fica visível assim que a autorização é confirmada.</span></li>
+            <li><span class="txt">Guarde o <strong>link de gerenciamento</strong> enviado por e-mail. Nele, a aba <span class="ui">Meus dados</span> permite atualizar telefone e categorias.</span></li>
+            <li><span class="txt">A aba <span class="ui">Pedidos</span> mostra os pedidos de orçamento recebidos, com organização, bairro/cidade, o pedido e o contato de quem pediu (botões <span class="ui">WhatsApp</span> e <span class="ui">E-mail</span>). Use <span class="ui">Mover para…</span> para organizar em <span class="ui">Novo</span>, <span class="ui">Em contato</span>, <span class="ui">Orçamento enviado</span>, <span class="ui">Fechado</span> ou <span class="ui">Perdido</span>.</span></li>
+          </ol>
+          <div class="note">Cancelamento: a qualquer momento, sem multa, revogando a autorização do Pix Automático no app do banco — o perfil sai do marketplace. Se o débito mensal falhar, há 3 dias de tolerância após o vencimento; depois o perfil sai do marketplace e volta sozinho quando o pagamento for confirmado.</div>
         </div>
 
       </div>
@@ -382,7 +467,7 @@
 
     <div class="demo-meta" style="display:flex; gap:24px; flex-wrap:wrap; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 18px; margin-bottom:20px; font-size:13px; color:var(--text-muted);">
       <div><strong style="color:var(--text)">Formato</strong> — screen-recording com narração em voice-over</div>
-      <div><strong style="color:var(--text)">Duração alvo</strong> — 2min30s a 3min (+20s se incluir o bloco bônus de IA)</div>
+      <div><strong style="color:var(--text)">Duração alvo</strong> — 2min30s a 3min (+20s por bloco bônus: IA e/ou chamados de moradores)</div>
       <div><strong style="color:var(--text)">Público</strong> — síndico ou administrador de condomínio</div>
     </div>
 
@@ -407,9 +492,9 @@
     <div class="block-card">
       <div class="block-top"><span class="title">Bloco 3 — Dashboard</span><span class="block-time">0:35 – 0:55</span></div>
       <div class="block-body">
-        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/</span> — passeio de cursor pelos cards <span class="ui">Itens cadastrados</span>, <span class="ui">Atrasados</span>, <span class="ui">Vencendo em breve</span> e pelo card <span class="ui">Atenção Agora</span>. Sem clicar ainda.</span></div>
-        <div class="narracao">"Logo na entrada, você vê tudo que está por vencer. Nada escondido em aba de planilha. Esse painel te dá o controle do condomínio inteiro — equipamentos, prazos e pendências — em tempo real."</div>
-        <div class="dica">💡 Dica de edição: zoom suave nos cards de alerta para destacar os números.</div>
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/</span> — passeio de cursor pelo <span class="ui">Índice de conformidade</span> (Em dia / Vencidos / Sem evidência), pela <span class="ui">Fila de ações</span> e pelo gráfico <span class="ui">Próximos 90 dias</span>. Sem clicar ainda.</span></div>
+        <div class="narracao">"Logo na entrada, uma nota só te diz o quanto o seu condomínio está em dia. Embaixo, a fila do que fazer agora — do mais urgente pro menos — e tudo que vence nos próximos 90 dias. Nada escondido em aba de planilha."</div>
+        <div class="dica">💡 Dica de edição: zoom suave no índice de conformidade e depois na fila de ações. Use uma conta de demonstração com histórico — em conta nova aparece o painel "Primeiros passos" no lugar do índice.</div>
       </div>
     </div>
 
@@ -446,15 +531,28 @@
       <div class="block-top"><span class="title">Bloco 6 — Itens por status e alertas</span><span class="block-time">1:55 – 2:15</span></div>
       <div class="block-body">
         <div class="block-row"><span class="label">Tela:</span><span>Dashboard → clicar no KPI <span class="ui">Atrasados</span> → <span class="route">/items</span> filtrado → trocar filtro <span class="ui">Status</span> pra "Vencendo" → mostrar badges coloridos na lista.</span></div>
-        <div class="narracao">"A lista te mostra tudo que está por vencer. Em verde, em dia. Em amarelo, atenção. Em vermelho, atrasado. E quando um prazo se aproxima, o sistema manda um e-mail automático pra você — sem depender de anotação em caderno ou lembrete no celular."</div>
+        <div class="narracao">"A lista te mostra tudo que está por vencer. Em verde, em dia. Em amarelo, atenção. Em vermelho, atrasado. E quando um prazo se aproxima, o aviso chega no seu WhatsApp — já sugerindo fornecedores da região que podem resolver. Sem depender de anotação em caderno ou lembrete no celular."</div>
+        <div class="dica">💡 Se tiver um print de uma mensagem de alerta recebida no WhatsApp (conta de demonstração), insira 2 segundos dele aqui — é o momento mais "uau" pra síndico.</div>
       </div>
     </div>
 
     <div class="block-card">
       <div class="block-top"><span class="title">Bloco 7 — Relatório de auditoria</span><span class="block-time">2:15 – 2:38</span></div>
       <div class="block-body">
-        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/reports</span> → aba <span class="ui">Manutenções</span> → selecionar período → <span class="ui">Filtrar</span> → clicar <span class="ui">Exportar CSV</span> no card <span class="ui">Manutenções Cross-Org</span>.</span></div>
-        <div class="narracao">"Na hora de prestar contas — para a assembleia, para os moradores, ou para uma fiscalização — você gera o relatório aqui. Um documento com todas as manutenções realizadas, datas, responsáveis, custos e evidências. Tudo que a NBR 5674 exige, em segundos."</div>
+        <div class="block-row"><span class="label">Tela:</span><span><span class="route">/reports</span> → aba <span class="ui">Prestação de Contas</span> → escolher a organização e <span class="ui">Último mês</span> → <span class="ui">Baixar PDF</span> → abrir o PDF gerado e rolar pelo resumo (taxa de conformidade, custo total, manutenções realizadas).</span></div>
+        <div class="narracao">"Na hora de prestar contas — para a assembleia, para os moradores, ou para uma fiscalização — você baixa o relatório aqui, em PDF. Taxa de conformidade, custo do período, todas as manutenções realizadas com data e responsável, e o que ainda está pendente. Tudo que a NBR 5674 exige, em segundos."</div>
+      </div>
+    </div>
+
+    <div class="block-card bonus">
+      <div class="block-top">
+        <div class="title-group"><span class="title">Bloco Bônus 2 — Chamados de moradores</span><span class="badge-ia">✨ Diferencial, opcional</span></div>
+        <span class="block-time">+20s</span>
+      </div>
+      <div class="block-body">
+        <div class="block-row"><span class="label">Tela:</span><span>Mostrar o PDF do QR code impresso (card <span class="ui">QR Code — Chamados de Moradores</span> na página da organização) → no celular, abrir <span class="route">/chamados/[código]</span>, informar CPF, <span class="ui">Abrir novo chamado</span> → <span class="ui">Enviar chamado</span> → no computador, menu <span class="ui">Chamados</span>, arrastar o card de <span class="ui">Solicitado</span> para <span class="ui">Em andamento</span>.</span></div>
+        <div class="narracao">"E o morador? Ele escaneia o QR code na entrada do prédio, descreve o problema — com foto, se quiser — e pronto. Sem grupo de WhatsApp, sem cadastro. Você recebe o chamado aqui e acompanha até resolver, e o morador vê o andamento pelo mesmo QR code."</div>
+        <div class="dica">💡 Grave a parte do celular com a tela do telefone espelhada; o contraste "morador no celular → gestor no computador" em 20 segundos vende a funcionalidade sozinho.</div>
       </div>
     </div>
 
@@ -472,12 +570,13 @@
       <tr><th>Bloco</th><th>Conteúdo</th><th>Duração</th></tr>
       <tr><td>1</td><td>Gancho — a dor</td><td>0:18</td></tr>
       <tr><td>2</td><td>Apresentação do sistema</td><td>0:17</td></tr>
-      <tr><td>3</td><td>Dashboard</td><td>0:20</td></tr>
+      <tr><td>3</td><td>Dashboard — índice de conformidade</td><td>0:20</td></tr>
       <tr><td>4</td><td>Ficha do ativo</td><td>0:25</td></tr>
       <tr class="bonus-row"><td>—</td><td>Bônus — Pré-cadastro com IA (opcional)</td><td>+0:20</td></tr>
       <tr><td>5</td><td>Registrar manutenção + foto</td><td>0:35</td></tr>
-      <tr><td>6</td><td>Itens por status e alertas</td><td>0:20</td></tr>
-      <tr><td>7</td><td>Relatório de auditoria</td><td>0:23</td></tr>
+      <tr><td>6</td><td>Itens por status e alertas no WhatsApp</td><td>0:20</td></tr>
+      <tr><td>7</td><td>Relatório de prestação de contas (PDF)</td><td>0:23</td></tr>
+      <tr class="bonus-row"><td>—</td><td>Bônus 2 — Chamados de moradores (opcional)</td><td>+0:20</td></tr>
       <tr><td>8</td><td>Fechamento + CTA</td><td>0:22</td></tr>
       <tr><td colspan="2">Total (sem bônus)</td><td>~3:00</td></tr>
     </table>
@@ -502,7 +601,7 @@
 
   </section>
 
-  <footer class="credit">Manual gerado a partir do fluxo real do sistema — atualize sempre que a UI mudar.</footer>
+  <footer class="credit">Manual gerado a partir do fluxo real do sistema — revisado em 25/09/2026. Atualize sempre que a UI mudar.</footer>
 
 </div>
 
