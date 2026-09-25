@@ -60,4 +60,4 @@ Branch `feature/TASK-294-marca-e-nomes-legiveis` · PR [web#101](https://github.
 - Achado paralelo registrado: [TASK-296](TASK-296.md) (chave React duplicada na fila de ações).
 
 ## Status
-🟡 Em validação — PR web#101 aberta (critério do mascote pendente de designer)
+🟡 Em validação — web#101 mergeada em `staging`; promoção para `main` em web#102 (critério do mascote pendente de designer)
