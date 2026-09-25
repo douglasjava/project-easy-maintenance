@@ -113,21 +113,22 @@ representar status (em dia / vencendo / vencido), igual ao sistema.
 
 ---
 
-## 6. Prints do sistema (a providenciar)
+## 6. Prints do sistema
 
-Ainda **não existe um banco de prints reais atualizados**. Eles precisam ser capturados de uma conta
-de demonstração (dados fictícios, nada de cliente real) — isso é feito fora deste projeto (Douglas ou
-sessão de desenvolvimento). Até lá, o material marca o lugar do print com um placeholder claro
-(ex.: caixa cinza com "[PRINT: Índice de conformidade]"), nunca com imagem inventada.
+Existe um banco de **prints reais** de uma conta de demonstração com dados fictícios (Condomínio
+Residencial Jardim das Acácias, BH), capturados em 24/09/2026: pasta `docs/produto/prints/`. O
+`README.md` dessa pasta lista cada arquivo, o uso sugerido e os **cuidados** (QR code do cartaz aponta
+para ambiente local, nomes técnicos crus em algumas telas, logo antigo em algumas telas, 75% × 88%).
 
-Telas prioritárias para vender (nomes de acordo com o `manual-uso-sistema.html`):
-1. **Dashboard — Índice de conformidade** (com fila de ações e "Próximos 90 dias")
-2. **Registro de manutenção com foto anexada** (evidência)
-3. **PDF de prestação de contas** (primeira página)
-4. **Alerta de vencimento recebido no WhatsApp** (print do celular)
-5. **Chamados de moradores** — QR code impresso + quadro do gestor
-6. **Fornecedores** — lista com selos de pontuação e "Solicitar Orçamento"
-7. **Pré-cadastro com IA** — lista sugerida com o selo "✨ Gerado por IA"
+Já disponíveis: dashboard/índice de conformidade (completo e primeira dobra), histórico e detalhe de
+manutenção com anexo, PDF de prestação de contas, chamados (cartaz A4, quadro do gestor, fluxo do
+morador no celular), fornecedores (selos e solicitar orçamento), página e kanban do fornecedor.
+
+**Ainda faltam** (placeholder no material até chegarem): upload de foto no registro de manutenção,
+pré-cadastro com IA, alerta recebido no WhatsApp e cartaz A4 com QR de produção.
+
+Se um print pedido não estiver na pasta, use placeholder explícito ("[PRINT: ...]") — nunca imagem
+inventada.
 
 ---
 

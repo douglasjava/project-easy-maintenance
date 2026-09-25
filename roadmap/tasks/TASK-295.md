@@ -24,5 +24,17 @@ Hoje não existe nenhum print real atualizado do sistema.
 - [ ] As 7 telas prioritárias capturadas
 - [ ] Prints enviados ao projeto Cowork de Materiais
 
+## Execução (24/09/2026)
+Conta demo "Condomínio Residencial Jardim das Acácias" (BH) criada no ambiente **local** pelo fluxo real
+de onboarding, com dados fictícios; 18 arquivos em `docs/produto/prints/` (índice, o que foi preparado
+no banco e cuidados de uso no `README.md` da pasta). Decisão do Douglas: local agora, staging depois.
+
+- [x] Nenhum dado de cliente real nos prints
+- [~] Telas prioritárias: 4 de 7 capturadas (índice de conformidade, PDF de prestação de contas,
+      chamados, fornecedores) + extras (detalhe com anexo, kanban e página do fornecedor, fluxo do
+      morador no celular). Faltam: upload de foto (S3), pré-cadastro com IA (OpenAI), alerta no
+      WhatsApp (celular) e cartaz A4 com QR de produção — roteiro no README da pasta.
+- [ ] Prints enviados ao projeto Cowork de Materiais (Douglas)
+
 ## Status
-Backlog
+🟡 Em andamento — parte local concluída; captura em staging pendente.
