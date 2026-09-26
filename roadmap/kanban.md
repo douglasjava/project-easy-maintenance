@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 25/09/2026 — **🔎 Concorrente Manu Help registrado** (`contexto-comercial.md` +
+> matriz do `context-brief.md`): preço público 1,5 a 3 vezes acima do nosso, foco em gestão do condomínio.
+> Tasks abertas a partir da comparação:
+> - [TASK-297](tasks/TASK-297.md) — limites do plano (🟠): usuários ilimitados (hoje por empresa, já
+>   suporta `0` = ilimitado), teto de itens da **conta** (Business 500 somando todos os condomínios) e tela
+>   de faturamento que mostra usuários como pool da conta, diferente da validação. Aguarda decisão.
+> - [TASK-298](tasks/TASK-298.md) — IA de onboarding lê o manual do síndico em PDF (🟡, precisa de spec).
+
 > Atualizado em: 25/09/2026 — **🚀 [TASK-294](tasks/TASK-294.md) mergeada em `staging`; promoção para `main` aberta** ([web#102](https://github.com/douglasjava/easy-maintenance-web/pull/102))
 > — antes em [web#101](https://github.com/douglasjava/easy-maintenance-web/pull/101): logo oficial em
 > todas as telas e PDFs, nomes legíveis ("Caixa d'água", "Regulatório"), prestação de contas com o índice

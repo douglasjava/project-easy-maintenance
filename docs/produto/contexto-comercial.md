@@ -36,7 +36,7 @@ Easy Maintenance é um SaaS brasileiro de gestão de manutenção preventiva que
 ## Modelo de negócio
 
 **Planos mensais**:
-| Plano | Preço/mês | Empresas | Usuários | Itens | Suporte |
+| Plano | Preço/mês | Empresas | Usuários (por empresa) | Itens (total da conta) | Suporte |
 |---|---|---|---|---|---|
 | Starter | R$149 | até 3 | até 3 | até 100 | Comunidade |
 | Business | R$299 | até 20 | até 10 | até 500 | E-mail prioritário |
@@ -69,6 +69,37 @@ pra tratar como concorrente distante:
   x corretiva, checklist de manutenção predial). O Easy Maintenance também tem blog desde agosto/2026
   (`/blog`, 5 posts sobre NBR 5674, checklist anual, preventiva x corretiva, CMMS, planilha) — a
   vantagem deles aqui é de volume/tempo de publicação, não de existência.
+
+**Concorrente com preço público (achado 25/09/2026): [Manu Help](https://manu.help/pricing)**
+Mesmo ICP (síndico, síndico profissional, administradora, empresas), mas posicionado como **gestão do
+condomínio**, não só manutenção. Preços públicos, sem plano anual divulgado:
+| Perfil | Planos (R$/mês) |
+|---|---|
+| Condomínio (1 condomínio) | FREE (1 usuário, **máx. 30 dias**) · Essencial 239,90 · Premium 499,90 |
+| Síndico profissional/engenheiro | Digital 580 (10 cond.) · Essencial 899,90 (20) · Premium 1.299,80 (ilimitado) |
+| Administradora | ADM Digital 789,90 (20 cond.) · ADM Essencial 1.119,90 (50) · Premium "fale conosco" |
+| Empresas | Empresarial Digital 399,90 (1 unidade, 5 usuários) · Essencial 899,90 (5 unid.) · Premium "fale conosco" |
+
+- **O que divulgam e nós não temos**: usuários ilimitados nos planos pagos (principal argumento deles),
+  IA que lê o *manual do síndico* e monta ativos + cronograma, app nativo iOS/Android, encomendas,
+  estoque, colaboradores, blocos/unidades, "acesso ao condomínio digital", sensor IoT de nível da caixa
+  d'água, marca própria + placas de QR code personalizadas (Premium), cotações com análise de propostas
+  por IA, implantação e treinamento "sem custo". Declaram 3.000+ condomínios (não verificado).
+- **O que temos e eles não divulgam**: conformidade normativa explícita (22 normas; o site não cita
+  NBR 5674), índice de conformidade, evidência/laudo/ART por manutenção + trilha de auditoria, PDF de
+  prestação de contas, marketplace de fornecedores com selo por uso real, 2FA, plano anual.
+- **Empate**: chamados de moradores ("Solicitações de Moradores"), alertas no WhatsApp (cotas
+  30–200/mês, parecidas com as nossas), relatórios/dashboards.
+- **Preço**: somos de 1,5 a 3 vezes mais baratos. Com 20 condomínios: R$ 299 (Business) contra R$ 899,90, ou
+  seja, R$ 15 contra R$ 45 por condomínio. Preço não é a nossa barreira contra eles.
+- **Como argumentar** (sem citar o nome em material de cliente): eles vendem gestão do condomínio; nós
+  vendemos manutenção **com comprovação** ("a ABNT exige, você comprova"). Sobre "usuários ilimitados":
+  nosso limite de usuários é **por empresa** (Business: 10 em cada condomínio), o que atende a maioria
+  dos casos. ⚠️ Já o limite de **itens é da conta inteira** (Business: 500 somando todos os
+  condomínios, ~25 por condomínio para quem tem 20). Um síndico profissional grande pode bater nesse
+  teto, e é um ponto fraco numa comparação (TASK-297).
+- Tasks abertas a partir desta análise: TASK-297 (usuários ilimitados/limites por condomínio claros)
+  e TASK-298 (IA lê o manual do síndico).
 
 Os 6 argumentos mais fortes:
 1. **"A ABNT exige, você comprova"** — cada manutenção gera evidência documental automática.

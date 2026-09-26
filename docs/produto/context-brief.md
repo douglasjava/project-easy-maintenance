@@ -157,23 +157,27 @@ O produto é desenhado especificamente para o mercado brasileiro. O conteúdo no
 > **"Compliance ABNT acessível"** — o único ponto do mercado onde conformidade normativa encontra preço para PMEs.
 
 ### Matriz competitiva
-| Critério                    | Easy Maintenance | Engeman/TOTVS | Fracttal          | ManFácil   | Condo Guardian / Easy Alert |
-|-----------------------------|------------------|---------------|-------------------|------------|-----------------------------|
-| Conformidade ABNT explícita | ✅ Sim            | ✅ Sim         | Parcial           | ❌ Não      | ✅ Sim                       |
-| Interface simples           | ✅ Sim            | ❌ Complexa    | ✅ Sim             | ✅ Sim      | Não divulgado               |
-| Preço público acessível     | ✅ R$149–899      | ❌ R$2k–10k    | ❌ USD/usuário     | ✅ R$99–299 | ❌ Sob demonstração          |
-| Trial self-service          | ✅ 14 dias        | ❌ Não         | ❌ Não             | ✅ Sim      | ❌ Não                       |
-| IA integrada                | ✅ Sim            | ❌ Não         | Parcial           | ❌ Não      | Não divulgado               |
-| Alertas por WhatsApp        | ✅ Sim            | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            |
-| Chamados de moradores       | ✅ QR code        | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            |
-| Marketplace de fornecedores | ✅ Sim            | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            |
-| Evidências fotográficas     | ✅ Sim            | Parcial       | ✅ Sim             | ❌ Não      | Não divulgado               |
-| Multi-empresa               | ✅ Sim            | ✅ Sim         | ✅ Sim             | ❌ Não      | Não divulgado               |
+| Critério                    | Easy Maintenance | Engeman/TOTVS | Fracttal          | ManFácil   | Condo Guardian / Easy Alert | Manu Help |
+|-----------------------------|------------------|---------------|-------------------|------------|-----------------------------|-----------|
+| Conformidade ABNT explícita | ✅ Sim            | ✅ Sim         | Parcial           | ❌ Não      | ✅ Sim                       | Não divulgado |
+| Interface simples           | ✅ Sim            | ❌ Complexa    | ✅ Sim             | ✅ Sim      | Não divulgado               | Não avaliado |
+| Preço público acessível     | ✅ R$149–899      | ❌ R$2k–10k    | ❌ USD/usuário     | ✅ R$99–299 | ❌ Sob demonstração          | ✅ R$239,90–1.299,80 |
+| Trial self-service          | ✅ 14 dias        | ❌ Não         | ❌ Não             | ✅ Sim      | ❌ Não                       | ✅ Plano FREE 30 dias (1 usuário) |
+| IA integrada                | ✅ Sim            | ❌ Não         | Parcial           | ❌ Não      | Não divulgado               | ✅ Sim (lê manual do síndico) |
+| Alertas por WhatsApp        | ✅ Sim            | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            | ✅ Sim |
+| Chamados de moradores       | ✅ QR code        | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            | ✅ Sim |
+| Marketplace de fornecedores | ✅ Sim            | Não pesquisado | Não pesquisado    | Não pesquisado | Não divulgado            | ✅ Divulgado (sem detalhe) |
+| Evidências fotográficas     | ✅ Sim            | Parcial       | ✅ Sim             | ❌ Não      | Não divulgado               | Não divulgado |
+| Multi-empresa               | ✅ Sim            | ✅ Sim         | ✅ Sim             | ❌ Não      | Não divulgado               | ✅ Sim |
 
 > Condo Guardian e Easy Alert são os concorrentes de posicionamento mais próximo (mesmo ICP, mesmo
 > ângulo NBR 5674) — ambos escondem o preço atrás de demonstração e não têm trial self-service.
 > "Não divulgado" = não encontramos a informação no site público; "Não pesquisado" = critério novo
 > (set/2026) ainda sem levantamento. Em nenhum dos dois casos afirmar que o concorrente não tem.
+>
+> **Manu Help** (levantado em 25/09/2026, só pelo site público; não testamos o produto): mesmo ICP, mas
+> vende gestão do condomínio (encomendas, estoque, acesso, IoT, app nativo, usuários ilimitados), com
+> preço público 1,5 a 3 vezes acima do nosso. Detalhe de planos e argumentação em `contexto-comercial.md`.
 
 ### Os 6 argumentos de venda mais fortes
 1. **"A ABNT exige, você comprova"** — cada manutenção gera evidência documental automática
