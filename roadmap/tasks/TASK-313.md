@@ -31,4 +31,4 @@ Também registrado: a Meta entrega como `type=unsupported` mensagens de texto en
 - [ ] Áudio de voz do WhatsApp transcrito em produção (confirmar após deploy)
 
 ## Status
-🟡 Em validação — PR [api#125](https://github.com/douglasjava/easy-maintenance-api/pull/125) → `staging`
+🟡 Em validação — [api#125](https://github.com/douglasjava/easy-maintenance-api/pull/125) mergeada em `staging`; promoção para `main` em [api#126](https://github.com/douglasjava/easy-maintenance-api/pull/126)
