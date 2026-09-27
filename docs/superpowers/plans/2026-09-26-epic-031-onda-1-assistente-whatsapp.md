@@ -6282,7 +6282,7 @@ Push e PR para `staging`:
 - [ ] **Step 5: Roteiro do piloto em produção (para o Douglas, depois do merge em `main`)**
 
 1. Mande qualquer mensagem para o número da empresa e confira no log de produção `Mensagem inbound recebida` (decisão 14 do épico: o caminho Meta → API já recebe).
-2. Variáveis no servidor de produção: `ASSISTANT_ENABLED=true`, `ASSISTANT_PILOT_USER_IDS=<seu user id>`, `ASSISTANT_BUSINESS_PHONE_E164=+5531999826634`. **Não** defina `ASSISTANT_REPLY_DRY_RUN` nem `ASSISTANT_REPLY_TO_UNKNOWN`.
+2. Variáveis no servidor de produção: `ASSISTANT_ENABLED=true`, `ASSISTANT_PILOT_USER_IDS=<seu user id>`, `ASSISTANT_BUSINESS_PHONE_E164=+553172139145`. **Não** defina `ASSISTANT_REPLY_DRY_RUN` nem `ASSISTANT_REPLY_TO_UNKNOWN`.
 3. Reinicie a API. Minha Conta → Assistente no WhatsApp → aceitar → Ativar → **Abrir o WhatsApp com a mensagem pronta** → enviar.
 4. Esperado: "Pronto, Douglas! ✅" em poucos segundos. Depois teste `menu`, um áudio curto, uma pergunta fora do escopo, `PARAR`.
 5. Para desligar sem deploy: `ASSISTANT_ENABLED=false` e reinício. O webhook volta a só registrar no log.
