@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/09/2026 — **🟡 [TASK-305](tasks/TASK-305.md) implementada, PR aberta** ([api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127)):
+> o assistente no WhatsApp passa a responder vencimentos, vencidos, histórico de item e índice de conformidade com dados reais
+> (EPIC-031, Onda 2). Próxima: [TASK-306](tasks/TASK-306.md) (registro de manutenção com confirmação).
+
 > Atualizado em: 27/09/2026 — **✅ [EPIC-031](epics/EPIC-031.md) Onda 1 concluída e validada em produção** (TASK-299 a 304 +
 > TASK-313): ativação por código, menu, texto livre classificado pela OpenAI, áudio transcrito (~8 s ponta a ponta), PARAR.
 > Custo observado: ~650 créditos de IA por áudio (300 transcrição + ~350 classificação); menu/botões sem custo.

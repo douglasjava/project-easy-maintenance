@@ -26,12 +26,19 @@ conformidade; até 10 linhas por resposta + link "ver todos"; nomes legíveis (p
 `formatItemType` para o backend); comparação entre condomínios → link para Relatórios.
 
 **Critérios de aceite**
-- [ ] Respostas batem com o que o dashboard e as listas mostram para a mesma organização.
-- [ ] Organização sem itens: resposta útil (como começar), não lista vazia.
-- [ ] Nenhuma consulta atravessa organizações.
+- [x] Respostas batem com o que o dashboard e as listas mostram para a mesma organização (vencido = vencimento < hoje, como o dashboard; índice do próprio DashboardSummaryService; conferido na conta demo).
+- [x] Organização sem itens: resposta útil (como começar), não lista vazia.
+- [x] Nenhuma consulta atravessa organizações (runAs com a organização da conversa + validação dos serviços; id forjado → "não encontrei").
 
 **Prompt**: `execute a TASK-305 (EPIC-031): consultas só leitura pelo assistente, reaproveitando
 os serviços de dashboard, itens e manutenções.`
 
+## Execução (27/09/2026)
+Branch `feature/TASK-305-assistente-consultas` · PR [api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127) → `staging`.
+`AssistantQueryService` (vencimentos 7/30 dias, vencidos com "há N dias", histórico das últimas 5 com escolha por lista `hist:<id>`,
+índice de conformidade + link de Relatórios para quem tem vários condomínios), `ItemTypeLabels` (port do `formatItemType` do web) e
+roteamento no `IntentStep` (botões do menu sem IA). `mvn test` 1246/1246; ponta a ponta local com a conta demo.
+Links "ver todos" apontam para as telas sem filtro — filtros pela URL são a TASK-307.
+
 ## Status
-Backlog
+🟡 Em validação — PR aberta
