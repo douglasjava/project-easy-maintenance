@@ -42,4 +42,4 @@ Mesma branch da fundação — atalhos sem IA (menu, números, botões, saudaç�
 Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123).
 
 ## Status
-🟡 Em validação — PR aberta
+🟡 Em validação — mergeada em `staging`; promoção para `main` em api#124 / web#105

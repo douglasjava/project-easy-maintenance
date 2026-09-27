@@ -1,6 +1,6 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 27/09/2026 — **🟡 [EPIC-031](epics/EPIC-031.md) Onda 1 implementada, PRs abertas para `staging`**:
+> Atualizado em: 27/09/2026 — **🚀 [EPIC-031](epics/EPIC-031.md) Onda 1 mergeada em `staging`; promoção para `main` aberta** ([api#124](https://github.com/douglasjava/easy-maintenance-api/pull/124) · [web#105](https://github.com/douglasjava/easy-maintenance-web/pull/105)). Antes:
 > fundação do assistente no WhatsApp (TASK-299/300/301/302/303) — [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123)
 > + card no Perfil [web#104](https://github.com/douglasjava/easy-maintenance-web/pull/104); identificação/local no item
 > (TASK-304) — [api#122](https://github.com/douglasjava/easy-maintenance-api/pull/122) + [web#103](https://github.com/douglasjava/easy-maintenance-web/pull/103).
