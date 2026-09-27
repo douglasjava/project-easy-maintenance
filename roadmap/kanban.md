@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/09/2026 — **🟡 [EPIC-031](epics/EPIC-031.md) Onda 1 implementada, PRs abertas para `staging`**:
+> fundação do assistente no WhatsApp (TASK-299/300/301/302/303) — [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123)
+> + card no Perfil [web#104](https://github.com/douglasjava/easy-maintenance-web/pull/104); identificação/local no item
+> (TASK-304) — [api#122](https://github.com/douglasjava/easy-maintenance-api/pull/122) + [web#103](https://github.com/douglasjava/easy-maintenance-web/pull/103).
+> Desligado por padrão; piloto em produção com o usuário do Douglas depois do merge em `main`. API 1.216 testes verdes;
+> revisão final independente: 0 críticos, 6 importantes corrigidos, 12 menores registrados.
+
 > Atualizado em: 26/09/2026 — **📝 [EPIC-031](epics/EPIC-031.md) — Assistente no WhatsApp** (canal de entrada
 > como segunda interface; ideia dos possíveis sócios). Desenho aprovado; 14 tasks no Backlog em 3 ondas:
 > Onda 1 (fundação: fila, cliente ampliado, vínculo por código ATIVAR, contexto "em nome do usuário",

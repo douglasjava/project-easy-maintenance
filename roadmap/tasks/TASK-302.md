@@ -40,5 +40,9 @@ Base: `staging` · branch `feature/TASK-302-<descricao-curta>`.
 **Prompt**: `execute a TASK-302 (EPIC-031): contexto de execução em nome do usuário e porta de
 domínio com as mesmas travas do web (tenant, FULL_ACCESS, papel). Trate como revisão de segurança.`
 
+## Execução (27/09/2026)
+Mesma branch da fundação — V120 (`assistant_conversations`), `AssistantUserContext.runAs` (limpa contexto em finally), `AssistantAccessGuard` (vínculo, FULL_ACCESS para gravar, READER só lê, assinatura ausente = sem acesso), escolha de organização por lista ou nome digitado (id forjado ignorado) e teste de fronteira do módulo. O teste 'todo handler que grava passa pelo guard' entra com o primeiro handler de gravação (TASK-306).
+Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123).
+
 ## Status
-Backlog
+🟡 Em validação — PR aberta

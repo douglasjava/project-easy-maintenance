@@ -37,5 +37,9 @@ Base: `staging` · branch `feature/TASK-303-<descricao-curta>`.
 **Prompt**: `execute a TASK-303 (EPIC-031): classificador de intenção com lista fechada e saída
 estruturada, atalhos sem IA e transcrição de áudio.`
 
+## Execução (27/09/2026)
+Mesma branch da fundação — atalhos sem IA (menu, números, botões, saudações), classificador só com o provedor OpenAI e lista fechada (saída malformada = FORA_DO_ESCOPO, texto da IA nunca chega ao usuário), transcrição Whisper (1º áudio da rajada, até 1 MB, descartado após uso), crédito de IA do pagador da organização (áudio custa 300).
+Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123).
+
 ## Status
-Backlog
+🟡 Em validação — PR aberta

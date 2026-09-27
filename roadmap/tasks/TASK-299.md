@@ -45,5 +45,9 @@ Base: `staging` · branch `feature/TASK-299-<descricao-curta>`.
 tabela, worker dedicado, controle de fluxo e liga/desliga por usuário. Leia o EPIC-031 §Arquitetura
 e §Controle de fluxo antes de começar.`
 
+## Execução (27/09/2026)
+Branch `feature/TASK-299-assistente-fundacao` (api) — fila `assistant_inbound_messages` (V118), ingestor com proteção contra reentrega, poller com ShedLock + agrupamento de 3 s + um pedido por vez por remetente, limite por remetente (Bucket4j), pipeline de etapas (`AssistantStep`), porta de resposta com modo dry-run, endpoint de simulação (`POST /dev/simulate/whatsapp-inbound`, exige login). Eco provisório substituído pela própria ativação como primeiro teste em produção.
+Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123).
+
 ## Status
-Backlog
+🟡 Em validação — PR aberta

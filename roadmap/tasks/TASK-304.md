@@ -35,5 +35,9 @@ Base: `staging` · branch `feature/TASK-304-<descricao-curta>`.
 **Prompt**: `execute a TASK-304 (EPIC-031): campo opcional de identificação/local no item e coluna
 source em item e manutenção.`
 
+## Execução (27/09/2026)
+Branches `feature/TASK-304-item-local-e-origem` (api e web) — V117 (`location_label`, `source`), campo 'Identificação / local' no formulário, rótulo 'Caixa d'água · Bloco B' na lista e no detalhe, selo 'Registrado via WhatsApp' no modal da manutenção.
+Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#122](https://github.com/douglasjava/easy-maintenance-api/pull/122) + [web#103](https://github.com/douglasjava/easy-maintenance-web/pull/103).
+
 ## Status
-Backlog
+🟡 Em validação — PR aberta

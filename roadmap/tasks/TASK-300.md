@@ -36,5 +36,9 @@ Base: `staging` · branch `feature/TASK-300-<descricao-curta>`.
 **Prompt**: `execute a TASK-300 (EPIC-031): ampliar WhatsAppClient para texto, botões, lista,
 documento, lida/digitando e download de mídia, sem consumir cota dentro da janela de 24h.`
 
+## Execução (27/09/2026)
+Mesma branch da fundação — `WhatsAppClient` com texto, botões, lista, lida+digitando e download de mídia (buffer de 16 MB, limite por tamanho). Envio de documento (PDF/XLSX) movido para a TASK-309, onde é usado pela primeira vez.
+Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123).
+
 ## Status
-Backlog
+🟡 Em validação — PR aberta
