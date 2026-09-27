@@ -1,6 +1,6 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 27/09/2026 — **🟡 [TASK-306](tasks/TASK-306.md) implementada, PR aberta** ([api#130](https://github.com/douglasjava/easy-maintenance-api/pull/130)):
+> Atualizado em: 27/09/2026 — **🚀 [TASK-306](tasks/TASK-306.md) mergeada em `staging`; promoção para `main` aberta** ([api#131](https://github.com/douglasjava/easy-maintenance-api/pull/131), inclui o ajuste #129 da TASK-305). Antes: PR [api#130](https://github.com/douglasjava/easy-maintenance-api/pull/130):
 > registro de manutenção pelo WhatsApp com resumo, botões Confirmar/Corrigir/Cancelar, foto/PDF anexados após confirmar,
 > origem `WHATSAPP` auditada (EPIC-031, Onda 2). Validar no piloto após o deploy.
 
