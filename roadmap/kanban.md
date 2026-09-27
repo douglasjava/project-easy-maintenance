@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/09/2026 — **✅ Piloto do assistente no WhatsApp ativo em produção** (número do Douglas vinculado,
+> "Pronto, Douglas! ✅"). Configuração da Meta feita (webhook, app publicado, WABA inscrita, campo `messages`).
+> Ajustes do piloto em [TASK-313](tasks/TASK-313.md) — [api#125](https://github.com/douglasjava/easy-maintenance-api/pull/125):
+> transcrição de áudio (`response_format` obrigatório no Spring AI M5) e log de status em DEBUG.
+
 > Atualizado em: 27/09/2026 — **🚀 [EPIC-031](epics/EPIC-031.md) Onda 1 mergeada em `staging`; promoção para `main` aberta** ([api#124](https://github.com/douglasjava/easy-maintenance-api/pull/124) · [web#105](https://github.com/douglasjava/easy-maintenance-web/pull/105)). Antes:
 > fundação do assistente no WhatsApp (TASK-299/300/301/302/303) — [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123)
 > + card no Perfil [web#104](https://github.com/douglasjava/easy-maintenance-web/pull/104); identificação/local no item
