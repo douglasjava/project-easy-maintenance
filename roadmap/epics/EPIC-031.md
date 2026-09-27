@@ -1,8 +1,8 @@
 # EPIC-031 — Assistente no WhatsApp (canal de entrada como segunda interface)
 
 ## Status
-📝 Desenho aprovado em conversa (26/09/2026). Tasks ainda **não** criadas em `roadmap/tasks/`:
-aguarda revisão deste documento pelo Douglas. Origem: sugestão dos possíveis novos sócios,
+🟢 Desenho aprovado (26/09/2026). 14 tasks criadas no Backlog (TASK-299 a TASK-312); próximo passo:
+plano de implementação da TASK-299. Origem: sugestão dos possíveis novos sócios,
 pré-brainstorm no Cowork, desenho refinado nesta sessão com leitura do código.
 
 ## Objetivo
@@ -182,20 +182,20 @@ Nunca silêncio.
 
 | ID | Título | Camada | Onda | Depende de |
 |---|---|---|---|---|
-| TASK-299 | Módulo `assistant`: fila de mensagens, worker, controle de fluxo, liga/desliga e piloto | Backend | 1 | — |
-| TASK-300 | `WhatsAppClient` ampliado (texto, botões, lista, documento, lida/digitando, mídia) + cota | Backend | 1 | — |
-| TASK-301 | Vínculo do número (código ATIVAR) + consentimento + Perfil | Full-stack | 1 | TASK-299, TASK-300 |
-| TASK-302 | Contexto "em nome do usuário" + porta de domínio com travas + escolha de organização | Backend | 1 | TASK-301 |
-| TASK-303 | Classificador de intenção (lista fechada) + transcrição de áudio + crédito de IA | Backend | 1 | TASK-299 |
-| TASK-304 | Campo "Identificação/local" no item + coluna `source` em item e manutenção | Full-stack | 1 | — |
-| TASK-305 | Consultas só leitura | Backend | 2 | TASK-302, TASK-303 |
-| TASK-306 | Registro rápido de manutenção com confirmação, foto e item novo | Full-stack | 2 | TASK-302, TASK-303, TASK-304 |
-| TASK-307 | Links diretos: organização e filtros pela URL nas telas do web | Frontend | 2 | — |
-| TASK-308 | Onboarding conversacional (novo condomínio para conta existente) | Backend | 3 | TASK-302 |
-| TASK-309 | Relatórios fase 1: Excel como documento + prestação de contas por link | Backend | 3 | TASK-305, TASK-307 |
-| TASK-310 | PDF da prestação de contas gerado no servidor (Next.js) + envio | Full-stack | 3 | TASK-309 |
-| TASK-311 | Retenção (90 dias) + métricas do assistente | Backend | 3 | TASK-299 |
-| TASK-312 | QA manual + automação (fluxos e segurança) | QA | 3 | TASK-305, TASK-306 |
+| [TASK-299](../tasks/TASK-299.md) | Módulo `assistant`: fila de mensagens, worker, controle de fluxo, liga/desliga e piloto | Backend | 1 | — |
+| [TASK-300](../tasks/TASK-300.md) | `WhatsAppClient` ampliado (texto, botões, lista, documento, lida/digitando, mídia) + cota | Backend | 1 | — |
+| [TASK-301](../tasks/TASK-301.md) | Vínculo do número (código ATIVAR) + consentimento + Perfil | Full-stack | 1 | TASK-299, TASK-300 |
+| [TASK-302](../tasks/TASK-302.md) | Contexto "em nome do usuário" + porta de domínio com travas + escolha de organização | Backend | 1 | TASK-301 |
+| [TASK-303](../tasks/TASK-303.md) | Classificador de intenção (lista fechada) + transcrição de áudio + crédito de IA | Backend | 1 | TASK-299 |
+| [TASK-304](../tasks/TASK-304.md) | Campo "Identificação/local" no item + coluna `source` em item e manutenção | Full-stack | 1 | — |
+| [TASK-305](../tasks/TASK-305.md) | Consultas só leitura | Backend | 2 | TASK-302, TASK-303 |
+| [TASK-306](../tasks/TASK-306.md) | Registro rápido de manutenção com confirmação, foto e item novo | Full-stack | 2 | TASK-302, TASK-303, TASK-304 |
+| [TASK-307](../tasks/TASK-307.md) | Links diretos: organização e filtros pela URL nas telas do web | Frontend | 2 | — |
+| [TASK-308](../tasks/TASK-308.md) | Onboarding conversacional (novo condomínio para conta existente) | Backend | 3 | TASK-302 |
+| [TASK-309](../tasks/TASK-309.md) | Relatórios fase 1: Excel como documento + prestação de contas por link | Backend | 3 | TASK-305, TASK-307 |
+| [TASK-310](../tasks/TASK-310.md) | PDF da prestação de contas gerado no servidor (Next.js) + envio | Full-stack | 3 | TASK-309 |
+| [TASK-311](../tasks/TASK-311.md) | Retenção (90 dias) + métricas do assistente | Backend | 3 | TASK-299 |
+| [TASK-312](../tasks/TASK-312.md) | QA manual + automação (fluxos e segurança) | QA | 3 | TASK-305, TASK-306 |
 
 Base de todas as branches: `staging`. Nome: `feature/TASK-XXX-descricao-curta`.
 
@@ -413,7 +413,7 @@ custo de IA estimado.
 
 **Prompt**: `execute a TASK-311 (EPIC-031): retenção de 90 dias e métricas do assistente.`
 
-### TASK-312 — QA
+### TASK-312 — QA manual + automação do assistente (fluxos e segurança)
 **Escopo**: plano de QA manual (em produção, com o usuário controlado do piloto) + testes
 automatizados.
 - Fluxos: ativação, consultas, registro com foto, correção, expiração, onboarding, relatórios.

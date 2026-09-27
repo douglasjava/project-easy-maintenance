@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 26/09/2026 — **📝 [EPIC-031](epics/EPIC-031.md) — Assistente no WhatsApp** (canal de entrada
+> como segunda interface; ideia dos possíveis sócios). Desenho aprovado; 14 tasks no Backlog em 3 ondas:
+> Onda 1 (fundação: fila, cliente ampliado, vínculo por código ATIVAR, contexto "em nome do usuário",
+> classificador + transcrição, identificação/local no item) → TASK-299 a TASK-304; Onda 2 (consultas,
+> registro com confirmação, links diretos) → TASK-305 a TASK-307; Onda 3 (onboarding, relatórios, PDF no
+> servidor, retenção/métricas, QA) → TASK-308 a TASK-312. Piloto em produção com usuário controlado do
+> Douglas (desligado por padrão). TASK-297/298 mantidas no Backlog.
+
 > Atualizado em: 25/09/2026 — **🔎 Concorrente Manu Help registrado** (`contexto-comercial.md` +
 > matriz do `context-brief.md`): preço público 1,5 a 3 vezes acima do nosso, foco em gestão do condomínio.
 > Tasks abertas a partir da comparação:
@@ -1913,6 +1921,22 @@ _Vazio_
 | [TASK-098](tasks/TASK-098.md) | Backend: guard ADMIN + invitation email + DELETE em UsersOrganizationsController | 🔴 Crítico | EPIC-013 | 3 |
 | ~~[TASK-099](tasks/TASK-099.md)~~ | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)~~       | 🟠 Alto    | EPIC-013 | 3    |
 | ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | EPIC-013 | 3    |
+| [TASK-297](tasks/TASK-297.md) | Limites do plano: usuários ilimitados, teto de itens da conta e exibição coerente (aguarda decisão) | 🟠 Alto | — | — |
+| [TASK-298](tasks/TASK-298.md) | IA de onboarding lê o manual do síndico (PDF) — precisa de spec | 🟡 Médio | — | — |
+| [TASK-299](tasks/TASK-299.md) | Módulo `assistant`: fila, worker, controle de fluxo, liga/desliga e piloto | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-300](tasks/TASK-300.md) | `WhatsAppClient` ampliado + cota | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-301](tasks/TASK-301.md) | Vínculo do número + consentimento + Perfil | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-302](tasks/TASK-302.md) | Contexto "em nome do usuário" + porta de domínio + escolha de organização | 🔴 Crítico | EPIC-031 | Onda 1 |
+| [TASK-303](tasks/TASK-303.md) | Classificador + transcrição + crédito de IA | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-304](tasks/TASK-304.md) | "Identificação/local" no item + `source` | 🟡 Médio | EPIC-031 | Onda 1 |
+| [TASK-305](tasks/TASK-305.md) | Consultas só leitura | 🟠 Alto | EPIC-031 | Onda 2 |
+| [TASK-306](tasks/TASK-306.md) | Registro rápido com confirmação | 🟠 Alto | EPIC-031 | Onda 2 |
+| [TASK-307](tasks/TASK-307.md) | Links diretos no web | 🟡 Médio | EPIC-031 | Onda 2 |
+| [TASK-308](tasks/TASK-308.md) | Onboarding conversacional | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-309](tasks/TASK-309.md) | Relatórios fase 1 | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-310](tasks/TASK-310.md) | PDF da prestação de contas no servidor | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
