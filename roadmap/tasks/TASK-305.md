@@ -40,5 +40,10 @@ Branch `feature/TASK-305-assistente-consultas` · PR [api#127](https://github.co
 roteamento no `IntentStep` (botões do menu sem IA). `mvn test` 1246/1246; ponta a ponta local com a conta demo.
 Links "ver todos" apontam para as telas sem filtro — filtros pela URL são a TASK-307.
 
+## Ajuste do piloto (27/09/2026)
+Teste em produção: período sempre 7 dias ("esse mês", "8 meses") e "histórico do elevador" sem elevador na organização
+sem mostrar alternativas. Corrigido em [api#129](https://github.com/douglasjava/easy-maintenance-api/pull/129): período lido
+também do texto (N dias/semanas/meses/anos, mês=30, ano=365, teto 365) e histórico não encontrado lista os itens da organização.
+
 ## Status
 🟡 Em validação — [api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127) mergeada em `staging`; promoção para `main` em [api#128](https://github.com/douglasjava/easy-maintenance-api/pull/128)
