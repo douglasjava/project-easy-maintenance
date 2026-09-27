@@ -41,4 +41,4 @@ roteamento no `IntentStep` (botões do menu sem IA). `mvn test` 1246/1246; ponta
 Links "ver todos" apontam para as telas sem filtro — filtros pela URL são a TASK-307.
 
 ## Status
-🟡 Em validação — PR aberta
+🟡 Em validação — [api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127) mergeada em `staging`; promoção para `main` em [api#128](https://github.com/douglasjava/easy-maintenance-api/pull/128)
