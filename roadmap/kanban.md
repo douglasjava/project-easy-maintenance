@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 27/09/2026 — **✅ [EPIC-031](epics/EPIC-031.md) Onda 1 concluída e validada em produção** (TASK-299 a 304 +
+> TASK-313): ativação por código, menu, texto livre classificado pela OpenAI, áudio transcrito (~8 s ponta a ponta), PARAR.
+> Custo observado: ~650 créditos de IA por áudio (300 transcrição + ~350 classificação); menu/botões sem custo.
+> Próximo passo do épico: Onda 2 — [TASK-305](tasks/TASK-305.md) consultas e [TASK-306](tasks/TASK-306.md) registro de manutenção.
+
 > Atualizado em: 27/09/2026 — **✅ Piloto do assistente no WhatsApp ativo em produção** (número do Douglas vinculado,
 > "Pronto, Douglas! ✅"). Configuração da Meta feita (webhook, app publicado, WABA inscrita, campo `messages`).
 > Ajustes do piloto em [TASK-313](tasks/TASK-313.md) — [api#125](https://github.com/douglasjava/easy-maintenance-api/pull/125):

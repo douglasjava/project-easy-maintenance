@@ -1,7 +1,7 @@
 # EPIC-031 — Assistente no WhatsApp (canal de entrada como segunda interface)
 
 ## Status
-🟡 Onda 1 implementada (27/09/2026) — TASK-299 a TASK-304 em validação; PRs para `staging`: [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123), [api#122](https://github.com/douglasjava/easy-maintenance-api/pull/122), [web#104](https://github.com/douglasjava/easy-maintenance-web/pull/104), [web#103](https://github.com/douglasjava/easy-maintenance-web/pull/103). Ondas 2 e 3 no Backlog. Origem: sugestão dos possíveis novos sócios,
+✅ Onda 1 em produção (27/09/2026) e validada no piloto (ativação, menu, texto livre, áudio, PARAR). Ajustes do piloto na TASK-313. Ondas 2 e 3 no Backlog — próxima: TASK-305 (consultas) e TASK-306 (registro).
 pré-brainstorm no Cowork, desenho refinado nesta sessão com leitura do código.
 
 ## Objetivo

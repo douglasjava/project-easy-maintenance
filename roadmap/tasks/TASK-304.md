@@ -40,4 +40,4 @@ Branches `feature/TASK-304-item-local-e-origem` (api e web) — V117 (`location_
 Plano: `docs/superpowers/plans/2026-09-26-epic-031-onda-1-assistente-whatsapp.md` · testes: API 1.209 verdes; web 214 verdes (3 falhas pré-existentes em `middleware.test.ts`) · validação local ponta a ponta com a conta demo. Revisão final independente feita (6 pontos importantes corrigidos com teste). PR para `staging`: [api#122](https://github.com/douglasjava/easy-maintenance-api/pull/122) + [web#103](https://github.com/douglasjava/easy-maintenance-web/pull/103).
 
 ## Status
-🟡 Em validação — mergeada em `staging`; promoção para `main` em api#124 / web#105
+✅ Concluída — em produção desde 27/09/2026 (api#124 / web#105); validada no piloto com o número do Douglas.

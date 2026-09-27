@@ -28,7 +28,7 @@ Também registrado: a Meta entrega como `type=unsupported` mensagens de texto en
 ## Critérios de Aceite
 - [x] Status de mensagens do assistente não geram WARN (DEBUG)
 - [x] Causa da falha de transcrição identificada e corrigida (`AssistantConfigTest` RED→GREEN)
-- [ ] Áudio de voz do WhatsApp transcrito em produção (confirmar após deploy)
+- [x] Áudio de voz do WhatsApp transcrito em produção (27/09/2026 18:12 — download, transcrição e resposta em ~8 s)
 
 ## Status
-🟡 Em validação — [api#125](https://github.com/douglasjava/easy-maintenance-api/pull/125) mergeada em `staging`; promoção para `main` em [api#126](https://github.com/douglasjava/easy-maintenance-api/pull/126)
+✅ Concluída — em produção (api#126)
