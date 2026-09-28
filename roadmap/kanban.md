@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/09/2026 — **🚀 TASK-292/317/318/319/320 mergeadas em `staging`; promoção para `main` aberta**
+> ([api#141](https://github.com/douglasjava/easy-maintenance-api/pull/141) + [web#107](https://github.com/douglasjava/easy-maintenance-web/pull/107)).
+> Staging com tudo junto: API 1357/1357, E2E 39/40 (a falha é um teste de PIX desatualizado). Depois do deploy: volta ao EPIC-031 (TASK-307).
+
 > Atualizado em: 28/09/2026 — **🟡 TASK-318/319/320 com PRs abertas para staging**: [TASK-318](tasks/TASK-318.md)
 > ([api#138](https://github.com/douglasjava/easy-maintenance-api/pull/138)), [TASK-319](tasks/TASK-319.md)
 > ([api#139](https://github.com/douglasjava/easy-maintenance-api/pull/139) + [web#106](https://github.com/douglasjava/easy-maintenance-web/pull/106),
