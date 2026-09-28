@@ -1971,6 +1971,7 @@ _Vazio_
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | [TASK-315](tasks/TASK-315.md) | Item operacional novo pelo catálogo padronizado + periodicidade por botão | 🟠 Alto | EPIC-031 | Onda 2 |
+| [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |

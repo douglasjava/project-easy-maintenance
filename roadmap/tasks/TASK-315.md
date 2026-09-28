@@ -53,10 +53,10 @@ Douglas quer que o bot também cadastre o item operacional, com **um padrão mí
 `/items/new` (web) faz `POST /item-types` com o texto digitado. **Qualquer usuário grava no catálogo global**, que é
 compartilhado entre todas as organizações e não guarda autor. Um "BANANINHA" digitado no web já entra no catálogo e
 aparece para os outros clientes.
-- Nesta task: coluna `curated` (migration; `true` para os tipos das seeds V7/V8/V101). **O bot só usa tipos curados.**
-- Fora desta task (decidir): moderar ou restringir o `POST /item-types` e limpar os tipos criados por usuários.
-  Levantamento em produção:
-  `SELECT id, name, created_at FROM item_types WHERE created_at > (SELECT MIN(created_at) + INTERVAL 1 DAY FROM item_types) ORDER BY created_at;`
+- Nesta task: o bot só oferece tipos **curados** = seeds (id ≤ 186, V7/V8) ou com `norm_id`. Os tipos criados pelo web ou pela
+  IA Onboarding (ids 187–231 em 28/09) ficam de fora até serem curados. Flag `curated` via migration (ou `origin = SEED`, se a
+  TASK-316 vier antes).
+- A separação global × tipos da organização e a curadoria ficam na [TASK-316](TASK-316.md).
 
 ## Critérios de aceite
 - [ ] "limpeza de piscina…" propõe um tipo do catálogo (ou pede escolha entre até 3) e depois pergunta a periodicidade.
