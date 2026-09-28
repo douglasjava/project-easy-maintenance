@@ -59,17 +59,28 @@ aparece para os outros clientes.
 - A separação global × tipos da organização e a curadoria ficam na [TASK-316](TASK-316.md).
 
 ## Critérios de aceite
-- [ ] "limpeza de piscina…" propõe um tipo do catálogo (ou pede escolha entre até 3) e depois pergunta a periodicidade.
-- [ ] Texto sem correspondência no catálogo ("bananinha") nunca cria item: a resposta continua sendo o link de cadastro.
-- [ ] O item criado usa o `normalized_name` do catálogo, categoria OPERATIONAL e a periodicidade escolhida.
-- [ ] Item regulatório continua com prioridade (se casar com norma, segue o fluxo da TASK-314).
-- [ ] Limite de itens do plano, perfil só leitura e somente leitura da assinatura continuam barrando.
-- [ ] Escolha de tipo e de periodicidade não consome crédito de IA.
-- [ ] Nenhuma consulta a `item_types`/`norms` por mensagem com o snapshot já carregado (teste com contagem de chamadas ao repositório).
-- [ ] Só tipos `curated = true` são oferecidos pelo bot.
+- [x] "limpeza de piscina…" propõe um tipo do catálogo (ou pede escolha entre até 3) e depois pergunta a periodicidade.
+- [x] Texto sem correspondência no catálogo ("bananinha") nunca cria item: a resposta continua sendo o link de cadastro.
+- [x] O item criado usa o `normalized_name` do catálogo, categoria OPERATIONAL e a periodicidade escolhida.
+- [x] Item regulatório continua com prioridade (se casar com norma, segue o fluxo da TASK-314).
+- [x] Limite de itens do plano, perfil só leitura e somente leitura da assinatura continuam barrando.
+- [x] Escolha de tipo e de periodicidade não consome crédito de IA.
+- [x] Nenhuma consulta a `item_types`/`norms` por mensagem com o snapshot já carregado (teste com contagem de chamadas ao repositório).
+- [x] Só tipos `curated = true` são oferecidos pelo bot.
 
 **Prompt**: `execute a TASK-315 (EPIC-031): item operacional novo pelo WhatsApp só com nome do catálogo item_types e
 periodicidade escolhida por botão.`
 
+## Notas de execução (28/09/2026)
+- Branch `feature/TASK-315-assistente-item-operacional-catalogo` · PR [api#134](https://github.com/douglasjava/easy-maintenance-api/pull/134) → staging.
+- `AssistantCatalog` (Caffeine, 10 min) + `CatalogMatcher`/`CatalogTokens`: comparação em memória, sem IA. Palavras de objeto
+  são obrigatórias; palavras de ação só desempatam. O nome de quem fez é tirado do texto antes da comparação.
+- V121 `item_types.curated`: seeds (primeiro dia do catálogo) + tipos vinculados a norma. Validada no H2 (o arquivo roda no
+  teste) e no MySQL 8 local, numa cópia descartável (218/222 curados).
+- **Decisão:** a IA como alternativa (escolha em lista fechada de ids) **não** entrou. A comparação determinística cobriu os
+  casos do piloto sem gastar crédito. Reavaliar se o piloto mostrar muitos "Nenhum desses".
+- **Decisão:** periodicidade só em meses (1–24), gravada como `MESES` (sem dias, sem `ANUAL`).
+- Suíte: 1305/1305.
+
 ## Status
-Backlog
+In Validation

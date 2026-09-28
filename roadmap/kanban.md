@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/09/2026 — **🟡 [TASK-315](tasks/TASK-315.md) PR aberta** ([api#134](https://github.com/douglasjava/easy-maintenance-api/pull/134)):
+> o bot cadastra item operacional novo com nome do catálogo curado (V121 `item_types.curated`) e periodicidade por botão;
+> catálogo em memória (Caffeine, 10 min), sem consulta ao banco por mensagem.
+
 > Atualizado em: 28/09/2026 — **✅ [TASK-306](tasks/TASK-306.md) + [TASK-314](tasks/TASK-314.md) validadas em produção**: registro pelo
 > WhatsApp com item novo do catálogo regulatório (Casa Marques, "Limpeza caixa d'água") + foto no S3; áudio > 2 min recusado
 > sem gastar crédito. Por decisão da TASK-306, item operacional (ex.: piscina) não é criado pelo bot porque precisa de periodicidade.
