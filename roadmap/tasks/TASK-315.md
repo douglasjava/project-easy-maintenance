@@ -39,6 +39,25 @@ Douglas quer que o bot também cadastre o item operacional, com **um padrão mí
 - Gravação: `MaintenanceItemService.create` com `customPeriodUnit`/`customPeriodQty` + manutenção, na mesma transação
   da TASK-306 (`source = WHATSAPP`, auditoria com o wamid). O limite de itens do plano continua valendo.
 
+## Estratégia de consulta (sem gargalo no banco) — definida em 28/09/2026
+- **Snapshot do catálogo em memória** (Caffeine, que já está no projeto): tipos ATIVOS + nome legível normalizado + palavras
+  pré-calculadas + mapa norma→rótulo. É 1 carga (~200 linhas de `item_types` + ~35 de `norms`) a cada 10 min por instância,
+  e a entrada é invalidada no `POST /item-types`. A comparação roda em memória (~200 × poucas palavras = microssegundos).
+  Em regime normal, **nenhuma consulta ao banco por mensagem**.
+- O fluxo de catálogo regulatório da TASK-314 (`listAll(null)` + `findAllByIdsAsMap` a cada registro sem item) passa a
+  usar o mesmo snapshot.
+- Nada de `LIKE '%…%'`/full-text no MySQL. Os itens da organização continuam vindo do `findAll` paginado (ITEMS_SCAN) que já existe.
+- O volume já é limitado: o caminho só roda quando o item não é encontrado, e há limite de 20 mensagens/10 min por usuário.
+
+## Achado: catálogo global aberto a qualquer usuário
+`/items/new` (web) faz `POST /item-types` com o texto digitado. **Qualquer usuário grava no catálogo global**, que é
+compartilhado entre todas as organizações e não guarda autor. Um "BANANINHA" digitado no web já entra no catálogo e
+aparece para os outros clientes.
+- Nesta task: coluna `curated` (migration; `true` para os tipos das seeds V7/V8/V101). **O bot só usa tipos curados.**
+- Fora desta task (decidir): moderar ou restringir o `POST /item-types` e limpar os tipos criados por usuários.
+  Levantamento em produção:
+  `SELECT id, name, created_at FROM item_types WHERE created_at > (SELECT MIN(created_at) + INTERVAL 1 DAY FROM item_types) ORDER BY created_at;`
+
 ## Critérios de aceite
 - [ ] "limpeza de piscina…" propõe um tipo do catálogo (ou pede escolha entre até 3) e depois pergunta a periodicidade.
 - [ ] Texto sem correspondência no catálogo ("bananinha") nunca cria item: a resposta continua sendo o link de cadastro.
@@ -46,6 +65,8 @@ Douglas quer que o bot também cadastre o item operacional, com **um padrão mí
 - [ ] Item regulatório continua com prioridade (se casar com norma, segue o fluxo da TASK-314).
 - [ ] Limite de itens do plano, perfil só leitura e somente leitura da assinatura continuam barrando.
 - [ ] Escolha de tipo e de periodicidade não consome crédito de IA.
+- [ ] Nenhuma consulta a `item_types`/`norms` por mensagem com o snapshot já carregado (teste com contagem de chamadas ao repositório).
+- [ ] Só tipos `curated = true` são oferecidos pelo bot.
 
 **Prompt**: `execute a TASK-315 (EPIC-031): item operacional novo pelo WhatsApp só com nome do catálogo item_types e
 periodicidade escolhida por botão.`
