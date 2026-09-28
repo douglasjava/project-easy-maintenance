@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/09/2026 — **🟡 TASK-318/319/320 com PRs abertas para staging**: [TASK-318](tasks/TASK-318.md)
+> ([api#138](https://github.com/douglasjava/easy-maintenance-api/pull/138)), [TASK-319](tasks/TASK-319.md)
+> ([api#139](https://github.com/douglasjava/easy-maintenance-api/pull/139) + [web#106](https://github.com/douglasjava/easy-maintenance-web/pull/106),
+> inclui documento opcional em Nova Empresa), [TASK-320](tasks/TASK-320.md) ([api#140](https://github.com/douglasjava/easy-maintenance-api/pull/140)).
+> TASK-317 mergeada em staging. Depois das três: promoção para main e volta ao EPIC-031.
+
 > Atualizado em: 28/09/2026 — Achados do regressivo da TASK-317 viraram tasks: [TASK-318](tasks/TASK-318.md) (🔴 webhook de
 > pagamentos — pré-requisito: token do painel Asaas igual ao de produção), [TASK-319](tasks/TASK-319.md) (Nova Empresa 422) e
 > [TASK-320](tasks/TASK-320.md) (`@RequireTenant` sem efeito).

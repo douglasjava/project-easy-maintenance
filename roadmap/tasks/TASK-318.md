@@ -25,5 +25,9 @@ Em 28/09/2026 o Douglas configurou em produção a variável do token de webhook
 - [ ] Os testes E2E de webhook (`billing/webhook-token.spec.ts`) voltam a passar.
 - [ ] Depois do deploy, os webhooks reais do Asaas continuam retornando 200 (conferir nos logs).
 
+## Execução (28/09/2026)
+PR [api#138](https://github.com/douglasjava/easy-maintenance-api/pull/138) — detalhes na PR/issue privadas. Antes de promover
+para main: confirmar que o token do painel do Asaas é igual ao de produção.
+
 ## Status
-Backlog — prioridade máxima depois da TASK-317
+In Validation

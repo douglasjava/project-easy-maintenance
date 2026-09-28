@@ -31,5 +31,9 @@ caminhos liberados. Numa rota desses caminhos, a anotação não garante nada �
 - [ ] Bypass do `TenantFilter` por prefixo exato, com teste.
 - [ ] Regressivo E2E (`tests/auth/*`) sem regressão.
 
+## Execução (28/09/2026)
+Opção 1 (implementar): PR [api#140](https://github.com/douglasjava/easy-maintenance-api/pull/140). Interceptor faz `@RequireTenant`
+valer (falha fechada) e os caminhos liberados do filtro passam a ser comparados pelo começo da URL. Regressivo E2E e telas sem regressão.
+
 ## Status
-Backlog
+In Validation

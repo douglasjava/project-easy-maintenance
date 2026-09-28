@@ -29,5 +29,12 @@ Arquivo: `easy-maintenance-web/src/app/organizations/new/page.tsx` (linhas 27, 8
 - [ ] Erro de validação da API aparece para o usuário.
 - [ ] Mobile ok.
 
+## Execução (28/09/2026)
+Incluído o bug de PRD relatado pelo Douglas: sem CNPJ/CPF dava 422 (mesmo ajuste da TASK-289 no onboarding).
+- API [api#139](https://github.com/douglasjava/easy-maintenance-api/pull/139): documento opcional (em branco = não informado; se vier, valida).
+- Web [web#106](https://github.com/douglasjava/easy-maintenance-web/pull/106): "Selecione..." no tipo, "CNPJ / CPF (opcional)" com máscara,
+  validação antes de enviar e erros da API na tela.
+- Validado na tela: sem tipo → pede o tipo; documento inválido → mensagem; sem documento → empresa criada e vinculada; mobile ok.
+
 ## Status
-Backlog
+In Validation
