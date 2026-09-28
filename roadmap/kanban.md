@@ -1,6 +1,6 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 28/09/2026 — **🟡 [TASK-314](tasks/TASK-314.md) PR aberta** ([api#132](https://github.com/douglasjava/easy-maintenance-api/pull/132)):
+> Atualizado em: 28/09/2026 — **🚀 [TASK-314](tasks/TASK-314.md) mergeada em `staging`; promoção para `main` aberta** ([api#133](https://github.com/douglasjava/easy-maintenance-api/pull/133)). Antes: PR [api#132](https://github.com/douglasjava/easy-maintenance-api/pull/132):
 > ajustes do piloto da TASK-306. Item novo agora é reconhecido pelo nome da norma ("caixa d'água"); organização sem itens
 > tem mensagem própria; áudio com mais de 2 min é recusado antes da IA (duração lida do arquivo Ogg/Opus, sem gastar crédito).
 
