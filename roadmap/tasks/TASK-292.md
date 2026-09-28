@@ -32,5 +32,9 @@ os clientes.
 2. Se confirmado: remover a rota (não tem consumidor) ou restringir a admin; teste de autorização.
 3. Avaliar se houve acesso indevido (logs de acesso à rota em PRD).
 
+## Resolução (28/09/2026)
+Confirmado e corrigido junto com a [TASK-317](TASK-317.md) — PR [api#136](https://github.com/douglasjava/easy-maintenance-api/pull/136)
+(a rota foi removida; a listagem existe só no painel admin).
+
 ## Status
-Backlog — prioridade alta, investigar antes da próxima release
+In Validation

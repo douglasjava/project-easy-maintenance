@@ -1,5 +1,13 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/09/2026 — **🔴 [TASK-292](tasks/TASK-292.md) + [TASK-317](tasks/TASK-317.md) PR aberta** ([api#136](https://github.com/douglasjava/easy-maintenance-api/pull/136)):
+> correção de segurança na autorização das rotas do usuário, com regressivo local antes × depois (fluxos do app e do
+> admin inalterados). Validar em staging antes de promover.
+
+> Atualizado em: 28/09/2026 — **✅ [TASK-315](tasks/TASK-315.md) validada em produção**: o bot cadastra item operacional
+> novo pelo catálogo curado (piscina → Operacional, periodicidade escolhida); regulatório (extintor) segue pela norma;
+> texto fora do catálogo não cria nada. EPIC-031 Onda 2: falta a [TASK-307](tasks/TASK-307.md) (links diretos no web).
+
 > Atualizado em: 28/09/2026 — **🚀 [TASK-315](tasks/TASK-315.md) mergeada em `staging`; promoção para `main` aberta** ([api#135](https://github.com/douglasjava/easy-maintenance-api/pull/135)). Antes: PR [api#134](https://github.com/douglasjava/easy-maintenance-api/pull/134):
 > o bot cadastra item operacional novo com nome do catálogo curado (V121 `item_types.curated`) e periodicidade por botão;
 > catálogo em memória (Caffeine, 10 min), sem consulta ao banco por mensagem.

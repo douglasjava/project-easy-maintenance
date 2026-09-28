@@ -83,4 +83,5 @@ periodicidade escolhida por botão.`
 - Suíte: 1305/1305.
 
 ## Status
-In Validation
+Done — validada no piloto em produção em 28/09/2026: piscina (lista de tipos + periodicidade → item Operacional no web),
+extintores (regulatório, vencimento anual pela norma) e "bananinha" (nada criado).
