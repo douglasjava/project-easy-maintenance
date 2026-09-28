@@ -1,0 +1,29 @@
+# TASK-318 — Segurança: reforçar a validação do webhook de pagamentos
+
+## Tipo
+BUGFIX (Backend / Segurança / Billing)
+
+## Prioridade
+🔴 Alto
+
+## QA obrigatório
+Sim — os webhooks reais do Asaas precisam continuar sendo processados depois da mudança.
+
+## Contexto
+Achado no regressivo da [TASK-317](TASK-317.md) (28/09/2026). Os detalhes técnicos ficam na issue privada
+[api#137](https://github.com/douglasjava/easy-maintenance-api/issues/137).
+
+Em 28/09/2026 o Douglas configurou em produção a variável do token de webhook (antes ela não existia).
+
+## Pré-requisito (antes do deploy)
+- O token de autenticação configurado no painel do Asaas (Integrações → Webhooks) precisa ser **igual** ao configurado
+  em produção. Se forem diferentes, os pagamentos param de ser processados.
+
+## Critérios de aceite
+- [ ] Requisições de webhook sem o token correto são rejeitadas.
+- [ ] A aplicação não sobe em produção sem o token configurado.
+- [ ] Os testes E2E de webhook (`billing/webhook-token.spec.ts`) voltam a passar.
+- [ ] Depois do deploy, os webhooks reais do Asaas continuam retornando 200 (conferir nos logs).
+
+## Status
+Backlog — prioridade máxima depois da TASK-317

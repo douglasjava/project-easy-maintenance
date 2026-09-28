@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/09/2026 — Achados do regressivo da TASK-317 viraram tasks: [TASK-318](tasks/TASK-318.md) (🔴 webhook de
+> pagamentos — pré-requisito: token do painel Asaas igual ao de produção), [TASK-319](tasks/TASK-319.md) (Nova Empresa 422) e
+> [TASK-320](tasks/TASK-320.md) (`@RequireTenant` sem efeito).
+
 > Atualizado em: 28/09/2026 — **🔴 [TASK-292](tasks/TASK-292.md) + [TASK-317](tasks/TASK-317.md) PR aberta** ([api#136](https://github.com/douglasjava/easy-maintenance-api/pull/136)):
 > correção de segurança na autorização das rotas do usuário, com regressivo local antes × depois (fluxos do app e do
 > admin inalterados). Validar em staging antes de promover.
@@ -1984,6 +1988,9 @@ _Vazio_
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | [TASK-315](tasks/TASK-315.md) | Item operacional novo pelo catálogo padronizado + periodicidade por botão | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
+| [TASK-318](tasks/TASK-318.md) | Segurança: reforçar a validação do webhook de pagamentos | 🔴 Alto | Segurança / Billing | — |
+| [TASK-319](tasks/TASK-319.md) | Nova Empresa: tipo aparece selecionado mas vai vazio (422) | 🟠 Alto | Frontend | — |
+| [TASK-320](tasks/TASK-320.md) | `@RequireTenant` não faz nada: implementar ou remover | 🟡 Médio | Segurança / qualidade | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
