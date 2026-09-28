@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/09/2026 — **✅ [TASK-306](tasks/TASK-306.md) + [TASK-314](tasks/TASK-314.md) validadas em produção**: registro pelo
+> WhatsApp com item novo do catálogo regulatório (Casa Marques, "Limpeza caixa d'água") + foto no S3; áudio > 2 min recusado
+> sem gastar crédito. Por decisão da TASK-306, item operacional (ex.: piscina) não é criado pelo bot porque precisa de periodicidade.
+
 > Atualizado em: 28/09/2026 — **🚀 [TASK-314](tasks/TASK-314.md) mergeada em `staging`; promoção para `main` aberta** ([api#133](https://github.com/douglasjava/easy-maintenance-api/pull/133)). Antes: PR [api#132](https://github.com/douglasjava/easy-maintenance-api/pull/132):
 > ajustes do piloto da TASK-306. Item novo agora é reconhecido pelo nome da norma ("caixa d'água"); organização sem itens
 > tem mensagem própria; áudio com mais de 2 min é recusado antes da IA (duração lida do arquivo Ogg/Opus, sem gastar crédito).

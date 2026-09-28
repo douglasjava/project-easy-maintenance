@@ -35,11 +35,11 @@ Piloto do dia 28/09/2026, numa organização nova (Casa Marques, sem itens):
 - [x] "caixa d'água" em organização vazia propõe item novo (teste que reproduz a mensagem do piloto).
 - [x] Organização sem itens não recebe mais "escolha da lista" vazia.
 - [x] Áudio > 2 min recusado sem transcrição e sem crédito.
-- [~] Confirmar no piloto com uma nota de voz real (o teste usa um Ogg sintético).
+- [x] Confirmar no piloto com uma nota de voz real (o teste usa um Ogg sintético).
 
 ## Notas de execução (28/09/2026)
 - Branch `bugfix/TASK-314-assistente-audio-longo-item-catalogo` · PR [api#132](https://github.com/douglasjava/easy-maintenance-api/pull/132) → staging.
 - Suíte: 1287/1287.
 
 ## Status
-In Validation
+Done — validada no piloto em produção em 28/09/2026 (item novo pelo catálogo + foto anexada, áudio > 2 min recusado sem crédito).
