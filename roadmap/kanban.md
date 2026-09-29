@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/09/2026 — **🟡 [TASK-308](tasks/TASK-308.md) PR aberta** ([api#143](https://github.com/douglasjava/easy-maintenance-api/pull/143)):
+> EPIC-031 Onda 3 começou — nova empresa pelo WhatsApp (nome → tipo → CEP → 8 perguntas por equipamento → Confirmar), com os
+> mesmos itens que o IA Onboarding do web criaria. TASK-307 mergeada em staging.
+
 > Atualizado em: 29/09/2026 — **🟡 [TASK-307](tasks/TASK-307.md) PRs abertas** ([web#108](https://github.com/douglasjava/easy-maintenance-web/pull/108)
 > + [api#142](https://github.com/douglasjava/easy-maintenance-api/pull/142)): links do assistente abrem a tela certa, na empresa
 > certa e filtrada; sem sessão → login → volta ao link. Com ela, a **Onda 2 do EPIC-031 fica completa**.
