@@ -27,13 +27,13 @@ caminhos liberados. Numa rota desses caminhos, a anotação não garante nada �
 - Teste que falhe se uma rota nova sob um bypass não tiver autorização explícita.
 
 ## Critérios de aceite
-- [ ] `@RequireTenant` tem efeito comprovado por teste, ou foi removida.
-- [ ] Bypass do `TenantFilter` por prefixo exato, com teste.
-- [ ] Regressivo E2E (`tests/auth/*`) sem regressão.
+- [x] `@RequireTenant` tem efeito comprovado por teste, ou foi removida.
+- [x] Bypass do `TenantFilter` por prefixo exato, com teste.
+- [x] Regressivo E2E (`tests/auth/*`) sem regressão.
 
 ## Execução (28/09/2026)
 Opção 1 (implementar): PR [api#140](https://github.com/douglasjava/easy-maintenance-api/pull/140). Interceptor faz `@RequireTenant`
 valer (falha fechada) e os caminhos liberados do filtro passam a ser comparados pelo começo da URL. Regressivo E2E e telas sem regressão.
 
 ## Status
-In Validation
+Done — em produção desde 28/09/2026 (api#141 + web#107); validado por Douglas em 29/09/2026 (webhooks do Asaas respondendo 200).

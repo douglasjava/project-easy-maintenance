@@ -26,4 +26,4 @@ logado era o dono do recurso pedido. Os detalhes técnicos ficam no repositório
 - Os testes E2E novos vão para o repositório só depois do deploy em produção.
 
 ## Status
-In Validation
+Done — em produção desde 28/09/2026 (api#141 + web#107); validado por Douglas em 29/09/2026 (webhooks do Asaas respondendo 200).

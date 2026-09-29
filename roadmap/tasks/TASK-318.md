@@ -20,14 +20,14 @@ Em 28/09/2026 o Douglas configurou em produção a variável do token de webhook
   em produção. Se forem diferentes, os pagamentos param de ser processados.
 
 ## Critérios de aceite
-- [ ] Requisições de webhook sem o token correto são rejeitadas.
-- [ ] A aplicação não sobe em produção sem o token configurado.
-- [ ] Os testes E2E de webhook (`billing/webhook-token.spec.ts`) voltam a passar.
-- [ ] Depois do deploy, os webhooks reais do Asaas continuam retornando 200 (conferir nos logs).
+- [x] Requisições de webhook sem o token correto são rejeitadas.
+- [x] A aplicação não sobe em produção sem o token configurado.
+- [x] Os testes E2E de webhook (`billing/webhook-token.spec.ts`) voltam a passar.
+- [x] Depois do deploy, os webhooks reais do Asaas continuam retornando 200 (conferir nos logs).
 
 ## Execução (28/09/2026)
 PR [api#138](https://github.com/douglasjava/easy-maintenance-api/pull/138) — detalhes na PR/issue privadas. Antes de promover
 para main: confirmar que o token do painel do Asaas é igual ao de produção.
 
 ## Status
-In Validation
+Done — em produção desde 28/09/2026 (api#141 + web#107); validado por Douglas em 29/09/2026 (webhooks do Asaas respondendo 200).

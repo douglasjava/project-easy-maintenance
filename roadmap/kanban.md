@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/09/2026 — **✅ TASK-292/317/318/319/320 em produção e validadas** (segurança das rotas do usuário,
+> webhook de pagamentos, Nova Empresa, `@RequireTenant`). Testes E2E de autorização publicados em `easy-maintenance-e2e`.
+> Próxima: [TASK-307](tasks/TASK-307.md) (EPIC-031, fecha a Onda 2).
+
 > Atualizado em: 28/09/2026 — **🚀 TASK-292/317/318/319/320 mergeadas em `staging`; promoção para `main` aberta**
 > ([api#141](https://github.com/douglasjava/easy-maintenance-api/pull/141) + [web#107](https://github.com/douglasjava/easy-maintenance-web/pull/107)).
 > Staging com tudo junto: API 1357/1357, E2E 39/40 (a falha é um teste de PIX desatualizado). Depois do deploy: volta ao EPIC-031 (TASK-307).

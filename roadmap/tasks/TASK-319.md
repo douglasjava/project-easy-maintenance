@@ -25,9 +25,9 @@ Arquivo: `easy-maintenance-web/src/app/organizations/new/page.tsx` (linhas 27, 8
 - Conferir se os outros formulários com `<select>` de tipo (onboarding, admin) têm o mesmo padrão.
 
 ## Critérios de aceite
-- [ ] Criar empresa sem mexer no tipo funciona (ou a tela pede o tipo antes de enviar).
-- [ ] Erro de validação da API aparece para o usuário.
-- [ ] Mobile ok.
+- [x] Criar empresa sem mexer no tipo funciona (ou a tela pede o tipo antes de enviar).
+- [x] Erro de validação da API aparece para o usuário.
+- [x] Mobile ok.
 
 ## Execução (28/09/2026)
 Incluído o bug de PRD relatado pelo Douglas: sem CNPJ/CPF dava 422 (mesmo ajuste da TASK-289 no onboarding).
@@ -37,4 +37,4 @@ Incluído o bug de PRD relatado pelo Douglas: sem CNPJ/CPF dava 422 (mesmo ajust
 - Validado na tela: sem tipo → pede o tipo; documento inválido → mensagem; sem documento → empresa criada e vinculada; mobile ok.
 
 ## Status
-In Validation
+Done — em produção desde 28/09/2026 (api#141 + web#107); validado por Douglas em 29/09/2026 (webhooks do Asaas respondendo 200).

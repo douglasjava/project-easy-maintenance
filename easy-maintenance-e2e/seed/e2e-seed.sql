@@ -38,7 +38,7 @@ VALUES
         'SP',
         '01000-000',
         'BR',
-        'COMMERCIAL',
+        'CONDOMINIUM',
         NOW(),
         NOW()
     ),
@@ -53,7 +53,7 @@ VALUES
         'SP',
         '01000-000',
         'BR',
-        'COMMERCIAL',
+        'CONDOMINIUM',
         NOW(),
         NOW()
     )
@@ -106,6 +106,21 @@ FROM billing_accounts ba
 JOIN users u ON ba.user_id = u.id
 WHERE u.email IN ('tenant-a-admin@e2e.test', 'tenant-b-admin@e2e.test')
   AND NOT EXISTS (SELECT 1 FROM billing_subscriptions bs WHERE bs.billing_account_id = ba.id);
+
+-- -------------------------------------------------------
+-- 5b. Item USER (plano da conta — EPIC-014): sem ele a conta fica "inativa" para operações de escrita
+--     de conta (ex.: criar organização). BUSINESS permite várias organizações (TASK-317, regressão).
+-- -------------------------------------------------------
+INSERT INTO billing_subscription_items (billing_subscription_id, source_type, source_id, plan_code, value_cents, cancel_at_period_end, created_at, updated_at)
+SELECT bs.id, 'USER', CAST(u.id AS CHAR), 'BUSINESS', 0, FALSE, NOW(), NOW()
+FROM billing_subscriptions bs
+JOIN billing_accounts ba ON bs.billing_account_id = ba.id
+JOIN users u ON ba.user_id = u.id
+WHERE u.email IN ('tenant-a-admin@e2e.test', 'tenant-b-admin@e2e.test')
+  AND NOT EXISTS (
+      SELECT 1 FROM billing_subscription_items bsi
+      WHERE bsi.source_type = 'USER' AND CAST(bsi.source_id AS UNSIGNED) = u.id
+  );
 
 -- -------------------------------------------------------
 -- 6. Subscription items: Org-A subscribed to STARTER via User-A
@@ -191,11 +206,11 @@ WHERE u.email = 'tenant-a-admin@e2e.test'
 -- -------------------------------------------------------
 INSERT INTO organizations (code, name, city, doc, street, number, neighborhood, state, zip_code, country, company_type, created_at, updated_at)
 VALUES
-    ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'E2E Org Onboarding', 'São Paulo', '00000000000193', 'Rua Teste', '789', 'Centro', 'SP', '01000-000', 'BR', 'COMMERCIAL', NOW(), NOW()),
-    ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'E2E Org Operating', 'São Paulo', '00000000000194', 'Rua Teste', '101', 'Centro', 'SP', '01000-000', 'BR', 'COMMERCIAL', NOW(), NOW()),
-    ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'E2E Org Portfolio 1', 'São Paulo', '00000000000195', 'Rua Teste', '102', 'Centro', 'SP', '01000-000', 'BR', 'COMMERCIAL', NOW(), NOW()),
-    ('ffffffff-ffff-ffff-ffff-ffffffffffff', 'E2E Org Portfolio 2', 'São Paulo', '00000000000196', 'Rua Teste', '103', 'Centro', 'SP', '01000-000', 'BR', 'COMMERCIAL', NOW(), NOW()),
-    ('11111111-1111-1111-1111-111111111111', 'E2E Org Portfolio 3', 'São Paulo', '00000000000197', 'Rua Teste', '104', 'Centro', 'SP', '01000-000', 'BR', 'COMMERCIAL', NOW(), NOW())
+    ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'E2E Org Onboarding', 'São Paulo', '00000000000193', 'Rua Teste', '789', 'Centro', 'SP', '01000-000', 'BR', 'CONDOMINIUM', NOW(), NOW()),
+    ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'E2E Org Operating', 'São Paulo', '00000000000194', 'Rua Teste', '101', 'Centro', 'SP', '01000-000', 'BR', 'CONDOMINIUM', NOW(), NOW()),
+    ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'E2E Org Portfolio 1', 'São Paulo', '00000000000195', 'Rua Teste', '102', 'Centro', 'SP', '01000-000', 'BR', 'CONDOMINIUM', NOW(), NOW()),
+    ('ffffffff-ffff-ffff-ffff-ffffffffffff', 'E2E Org Portfolio 2', 'São Paulo', '00000000000196', 'Rua Teste', '103', 'Centro', 'SP', '01000-000', 'BR', 'CONDOMINIUM', NOW(), NOW()),
+    ('11111111-1111-1111-1111-111111111111', 'E2E Org Portfolio 3', 'São Paulo', '00000000000197', 'Rua Teste', '104', 'Centro', 'SP', '01000-000', 'BR', 'CONDOMINIUM', NOW(), NOW())
 ON DUPLICATE KEY UPDATE
     name = VALUES(name),
     city = VALUES(city),

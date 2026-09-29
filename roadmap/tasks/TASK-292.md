@@ -37,4 +37,4 @@ Confirmado e corrigido junto com a [TASK-317](TASK-317.md) — PR [api#136](http
 (a rota foi removida; a listagem existe só no painel admin).
 
 ## Status
-In Validation
+Done — em produção desde 28/09/2026 (api#141 + web#107); validado por Douglas em 29/09/2026 (webhooks do Asaas respondendo 200).
