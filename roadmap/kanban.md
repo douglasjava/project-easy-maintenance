@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/09/2026 — **🟡 [TASK-307](tasks/TASK-307.md) PRs abertas** ([web#108](https://github.com/douglasjava/easy-maintenance-web/pull/108)
+> + [api#142](https://github.com/douglasjava/easy-maintenance-api/pull/142)): links do assistente abrem a tela certa, na empresa
+> certa e filtrada; sem sessão → login → volta ao link. Com ela, a **Onda 2 do EPIC-031 fica completa**.
+
 > Atualizado em: 29/09/2026 — **✅ TASK-292/317/318/319/320 em produção e validadas** (segurança das rotas do usuário,
 > webhook de pagamentos, Nova Empresa, `@RequireTenant`). Testes E2E de autorização publicados em `easy-maintenance-e2e`.
 > Próxima: [TASK-307](tasks/TASK-307.md) (EPIC-031, fecha a Onda 2).
