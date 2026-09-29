@@ -1,5 +1,8 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/09/2026 — **🚀 TASK-307 + TASK-308 mergeadas em `staging`; promoção para `main` aberta**
+> ([api#144](https://github.com/douglasjava/easy-maintenance-api/pull/144) + [web#109](https://github.com/douglasjava/easy-maintenance-web/pull/109)).
+
 > Atualizado em: 29/09/2026 — **🟡 [TASK-308](tasks/TASK-308.md) PR aberta** ([api#143](https://github.com/douglasjava/easy-maintenance-api/pull/143)):
 > EPIC-031 Onda 3 começou — nova empresa pelo WhatsApp (nome → tipo → CEP → 8 perguntas por equipamento → Confirmar), com os
 > mesmos itens que o IA Onboarding do web criaria. TASK-307 mergeada em staging.
