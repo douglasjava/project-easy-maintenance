@@ -36,8 +36,10 @@ simplesmente parava de ser cobrado nos meses seguintes.
 
 ## Execução (02/10/2026)
 PR [api#146](https://github.com/douglasjava/easy-maintenance-api/pull/146) e [web#110](https://github.com/douglasjava/easy-maintenance-web/pull/110)
-— detalhes técnicos completos na issue/PR privadas. `mvn test` 71/71 nos serviços afetados; typecheck/lint do
-frontend OK. Pendente: remediação manual da assinatura já afetada em PRD, depois do deploy.
+mergeadas em `staging` — detalhes técnicos completos na issue privada. `mvn test` 71/71 nos serviços afetados;
+typecheck/lint do frontend OK. Promoção para `main` aberta: [api#147](https://github.com/douglasjava/easy-maintenance-api/pull/147),
+[web#111](https://github.com/douglasjava/easy-maintenance-web/pull/111). Pendente: remediação manual da assinatura
+já afetada em PRD, depois do deploy em main.
 
 ## Status
-Em validação — PRs abertas para `staging`, aguardando review/merge.
+Promoção para main aberta — aguardando merge (api#147, web#111).
