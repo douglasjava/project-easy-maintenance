@@ -32,6 +32,8 @@ simplesmente parava de ser cobrado nos meses seguintes.
 - [x] Reconciliação automática passa a sinalizar/corrigir esse estado de divergência, com teste cobrindo o cenário.
 - [x] Autoatendimento (reabrir checkout) funciona para uma assinatura em estado "quebrado".
 - [x] Botão no painel de billing (frontend) com estados de loading/erro/sucesso.
+- [x] Validado ponta a ponta em PRD: tela e portal Asaas corretos (sem `endDate`, próximo ciclo certo), confirmado
+      por Douglas em 02/10/2026.
 - [ ] Regressivo E2E de billing sem regressão (não executado nesta rodada).
 
 ## Execução (02/10/2026)
@@ -62,4 +64,6 @@ A invoice específica já afetada precisou de correção manual pontual, já que
 mecanismo automático pra esse estado.
 
 ## Status
-api#150/151 mergeadas e promovidas. api#152 mergeada em staging; promoção pra main aberta (api#153).
+Done — todas as PRs mergeadas e promovidas para main (api#146-153, web#110/111). Validado em produção por Douglas em
+02/10/2026: painel e portal Asaas consistentes (sem `endDate`, próxima cobrança correta) após rodar a correção
+pontual da invoice 13. Pendente apenas o regressivo E2E de billing (não bloqueante, já validado manualmente em PRD).
