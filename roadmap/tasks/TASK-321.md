@@ -46,7 +46,14 @@ ativação) sem checar se já tinha passado, e a Asaas rejeita checkout com venc
 hoje" que `CardTransitionService`/`PixRenewalService` já usavam. Promoção pra main aberta:
 [api#149](https://github.com/douglasjava/easy-maintenance-api/pull/149).
 
-`mvn test` 72/72 nos serviços afetados. Pendente: merge do api#149 e remediação manual da assinatura já afetada em PRD.
+`mvn test` 72/72 nos serviços afetados.
+
+**Follow-up 2 (mesmo dia):** card update pago e confirmado na Asaas, mas o painel continuou mostrando "Pagamento
+pendente" — `PAYMENT_CONFIRMED` (evento de confirmação de cobrança CARD, equivalente ao `PAYMENT_RECEIVED` de
+PIX/boleto) nunca teve handler registrado. Corrigido em [api#150](https://github.com/douglasjava/easy-maintenance-api/pull/150)
+(novo handler + fix na reconciliação noturna, que corrigia o `Payment` mas não a `Invoice`). `mvn test` 96/96.
 
 ## Status
-Promoção para main aberta — aguardando merge (api#149).
+3 PRs de fix mergeadas/promovidas (api#146/147, web#110/111; api#148/149); api#150 aberta contra staging. Pendente:
+merge do api#150 — a partir daí a reconciliação noturna corrige sozinha o payment/invoice que ficaram presos em
+PENDING durante a remediação.
