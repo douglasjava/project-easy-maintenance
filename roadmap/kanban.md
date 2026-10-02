@@ -1881,7 +1881,7 @@
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-321](tasks/TASK-321.md)  | Checkout CARD nascia com `endDate` = 1º vencimento (bug de payload Asaas) — Asaas encerrava a recorrência sozinha sem aviso; achado em PRD (subscriptionId=2, douglasmarquesdias@gmail.com). Corrigido nos 3 pontos (`PaymentMethodTransitionService`, `BillingRecoveryService`, `TrialExpirationService`) + rede de segurança na reconciliação + botão de autoatendimento "Atualizar cartão" no painel. `mvn test` 71/71 nos serviços afetados, typecheck/lint do frontend OK. Falta: push das branches, PR, e remediação manual da assinatura já afetada | 🔴 Crítico | — | GRAVE |
+| [TASK-321](tasks/TASK-321.md)  | Bug de payload fazia assinatura CARD encerrar sozinha na Asaas logo após o 1º ciclo, sem aviso — achado em PRD. Detalhes técnicos na issue/PR privadas. Corrigido nos 3 pontos afetados + rede de segurança na reconciliação + botão de autoatendimento no painel. `mvn test` 71/71 nos serviços afetados, typecheck/lint do frontend OK. Falta: remediação manual da assinatura já afetada em PRD | 🔴 Crítico | — | GRAVE |
 
 ## 🐛 Bugs — Em Validação
 
