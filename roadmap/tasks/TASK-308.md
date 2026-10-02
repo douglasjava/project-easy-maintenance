@@ -44,4 +44,4 @@ catalog-preview e apply do onboarding web.`
 - Validado localmente (simulador da Meta, dry-run): 21 itens criados = exatamente o catálogo do web menos os 5 desmarcados.
 
 ## Status
-In Validation
+Done — mergeada em `main` (api#143/#144) e validada em produção por Douglas em 02/10/2026.

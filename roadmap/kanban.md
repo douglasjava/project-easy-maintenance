@@ -1,5 +1,9 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/10/2026 — **✅ [TASK-308](tasks/TASK-308.md) validada em produção por Douglas** (onboarding
+> conversacional — nova empresa pelo WhatsApp). Onda 3 do EPIC-031 segue com [TASK-309](tasks/TASK-309.md)
+> (relatórios fase 1).
+
 > Atualizado em: 29/09/2026 — **🚀 TASK-307 + TASK-308 mergeadas em `staging`; promoção para `main` aberta**
 > ([api#144](https://github.com/douglasjava/easy-maintenance-api/pull/144) + [web#109](https://github.com/douglasjava/easy-maintenance-web/pull/109)).
 
@@ -2007,7 +2011,7 @@ _Vazio_
 | [TASK-305](tasks/TASK-305.md) | Consultas só leitura | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-306](tasks/TASK-306.md) | Registro rápido com confirmação | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-307](tasks/TASK-307.md) | Links diretos no web | 🟡 Médio | EPIC-031 | Onda 2 |
-| [TASK-308](tasks/TASK-308.md) | Onboarding conversacional | 🟡 Médio | EPIC-031 | Onda 3 |
+| ~~[TASK-308](tasks/TASK-308.md)~~ | ~~Onboarding conversacional~~ | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-309](tasks/TASK-309.md) | Relatórios fase 1 | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-310](tasks/TASK-310.md) | PDF da prestação de contas no servidor | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
