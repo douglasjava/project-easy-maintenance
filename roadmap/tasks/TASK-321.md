@@ -54,6 +54,6 @@ PIX/boleto) nunca teve handler registrado. Corrigido em [api#150](https://github
 (novo handler + fix na reconciliação noturna, que corrigia o `Payment` mas não a `Invoice`). `mvn test` 96/96.
 
 ## Status
-3 PRs de fix mergeadas/promovidas (api#146/147, web#110/111; api#148/149); api#150 aberta contra staging. Pendente:
-merge do api#150 — a partir daí a reconciliação noturna corrige sozinha o payment/invoice que ficaram presos em
-PENDING durante a remediação.
+api#150 mergeada em staging; promoção pra main aberta ([api#151](https://github.com/douglasjava/easy-maintenance-api/pull/151)).
+Depois desse merge, a reconciliação noturna corrige sozinha o payment/invoice que ficaram presos em PENDING durante
+a remediação — sem necessidade de UPDATE manual no banco.
