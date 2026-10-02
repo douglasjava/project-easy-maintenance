@@ -53,7 +53,13 @@ pendente" — `PAYMENT_CONFIRMED` (evento de confirmação de cobrança CARD, eq
 PIX/boleto) nunca teve handler registrado. Corrigido em [api#150](https://github.com/douglasjava/easy-maintenance-api/pull/150)
 (novo handler + fix na reconciliação noturna, que corrigia o `Payment` mas não a `Invoice`). `mvn test` 96/96.
 
+**Follow-up 3 (mesmo dia):** investigando o pagamento preso, o payment em si já estava `PAID` (o `PAYMENT_CREATED`
+chegou com status já confirmado) — quem ficou presa foi só a invoice, porque esse handler nunca sincronizava a
+invoice nesse caminho (diferente de outros handlers que já faziam isso). Esse caso não é coberto pela reconciliação
+(só olha payments `PENDING`). Corrigido em [api#152](https://github.com/douglasjava/easy-maintenance-api/pull/152)
+(mergeada em staging, promoção pra main aberta: [api#153](https://github.com/douglasjava/easy-maintenance-api/pull/153)).
+A invoice específica já afetada precisou de correção manual pontual, já que o evento só chega uma vez e não há
+mecanismo automático pra esse estado.
+
 ## Status
-api#150 mergeada em staging; promoção pra main aberta ([api#151](https://github.com/douglasjava/easy-maintenance-api/pull/151)).
-Depois desse merge, a reconciliação noturna corrige sozinha o payment/invoice que ficaram presos em PENDING durante
-a remediação — sem necessidade de UPDATE manual no banco.
+api#150/151 mergeadas e promovidas. api#152 mergeada em staging; promoção pra main aberta (api#153).
