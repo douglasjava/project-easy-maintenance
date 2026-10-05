@@ -1,13 +1,17 @@
 # EPIC-032 — Controle Financeiro Simples por Organização
 
 ## Status
-Implementado (05/10/2026) — 8 tasks na branch `feature/EPIC-032-financial-entries` (api/web/e2e),
-seguindo o plano em `docs/superpowers/plans/2026-10-04-financial-entries-plan.md`. Backend: 20/20
-testes passando (`FinancialEntryPersistenceTest` + `FinancialEntryServiceTest`), suíte completa da
-API sem regressão (1425/1425). Frontend: `tsc`/`eslint` limpos. E2E escrito e reconhecido pelo
-Playwright, mas **não executado contra API/banco reais** nesta sessão — sem API/frontend local de
-pé (mesma limitação já documentada em outros specs deste repositório). Rodar `npm run setup:db` +
-subir a API antes de promover pra `staging`.
+Implementado (05/10/2026) — 8 tasks, seguindo o plano em
+`docs/superpowers/plans/2026-10-04-financial-entries-plan.md`. Backend numa branch dedicada
+(`feature/EPIC-032-financial-entries`, repos api/web): 20/20 testes passando
+(`FinancialEntryPersistenceTest` + `FinancialEntryServiceTest`), suíte completa da API sem
+regressão (1425/1425). Frontend: `tsc`/`eslint` limpos. E2E (teste de UI real,
+`tests/frontend/finance-entries.spec.ts`) direto no `main` do repositório raiz — esse repo não usa
+branch de feature/PR, commits de roadmap e e2e vão direto pra `main` (confirmado: nenhum PR nunca
+foi aberto nele). Escrito e reconhecido pelo Playwright, mas **não executado contra API/banco
+reais** nesta sessão — sem API/frontend local de pé (mesma limitação já documentada em outros specs
+deste repositório). Rodar `npm run setup:db` + subir a API e o frontend antes de considerar
+validado de verdade.
 
 ## Objetivo
 Dar ao síndico um lugar pra lançar receitas e despesas da edificação que **não** são de

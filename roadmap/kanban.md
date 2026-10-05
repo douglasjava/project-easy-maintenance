@@ -2,8 +2,9 @@
 
 > Atualizado em: 05/10/2026 — **🟡 [EPIC-032](epics/EPIC-032.md) implementado** (controle financeiro
 > simples por organização — feedback de clientes sobre ausência de agenda/despesas). TASK-322 a 327 e
-> 329 Done; TASK-328 (e2e) escrito e reconhecido pelo Playwright, mas não executado contra API/banco
-> reais nesta sessão — falta `npm run setup:db` + API local de pé antes de promover pra `staging`.
+> 329 Done; TASK-328 (e2e de UI real, `tests/frontend/finance-entries.spec.ts`) escrito e reconhecido
+> pelo Playwright, mas não executado contra API/banco reais nesta sessão — falta `npm run setup:db` +
+> API/frontend locais de pé antes de considerar validado.
 
 > Atualizado em: 02/10/2026 — **✅ [TASK-308](tasks/TASK-308.md) validada em produção por Douglas** (onboarding
 > conversacional — nova empresa pelo WhatsApp). Onda 3 do EPIC-031 segue com [TASK-309](tasks/TASK-309.md)
