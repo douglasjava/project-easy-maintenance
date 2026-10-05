@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 05/10/2026 — **🟡 [EPIC-032](epics/EPIC-032.md) implementado** (controle financeiro
+> simples por organização — feedback de clientes sobre ausência de agenda/despesas). TASK-322 a 327 e
+> 329 Done; TASK-328 (e2e) escrito e reconhecido pelo Playwright, mas não executado contra API/banco
+> reais nesta sessão — falta `npm run setup:db` + API local de pé antes de promover pra `staging`.
+
 > Atualizado em: 02/10/2026 — **✅ [TASK-308](tasks/TASK-308.md) validada em produção por Douglas** (onboarding
 > conversacional — nova empresa pelo WhatsApp). Onda 3 do EPIC-031 segue com [TASK-309](tasks/TASK-309.md)
 > (relatórios fase 1).
@@ -2021,6 +2026,14 @@ _Vazio_
 | [TASK-318](tasks/TASK-318.md) | Segurança: reforçar a validação do webhook de pagamentos | 🔴 Alto | Segurança / Billing | — |
 | [TASK-319](tasks/TASK-319.md) | Nova Empresa: tipo aparece selecionado mas vai vazio (422) | 🟠 Alto | Frontend | — |
 | [TASK-320](tasks/TASK-320.md) | `@RequireTenant` não faz nada: implementar ou remover | 🟡 Médio | Segurança / qualidade | — |
+| [TASK-322](tasks/TASK-322.md) | Backend: FinancialEntry — domain, migration V122, repository | 🟠 Alto | EPIC-032 | — |
+| [TASK-323](tasks/TASK-323.md) | Backend: FinancialEntryService (criar/cancelar/listar/resumir) | 🟠 Alto | EPIC-032 | — |
+| [TASK-324](tasks/TASK-324.md) | Backend: endpoints REST /finance | 🟠 Alto | EPIC-032 | — |
+| [TASK-325](tasks/TASK-325.md) | Frontend: tela /financeiro | 🟠 Alto | EPIC-032 | — |
+| [TASK-326](tasks/TASK-326.md) | Frontend: integração com Prestação de Contas | 🟠 Alto | EPIC-032 | — |
+| [TASK-327](tasks/TASK-327.md) | Frontend: item "Financeiro" no menu | 🟡 Médio | EPIC-032 | — |
+| [TASK-328](tasks/TASK-328.md) | QA: E2E fluxo completo do módulo financeiro (em validação — falta rodar contra ambiente real) | 🟠 Alto | EPIC-032 | — |
+| [TASK-329](tasks/TASK-329.md) | Roadmap: documentação do épico | 🔵 Baixo | EPIC-032 | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
