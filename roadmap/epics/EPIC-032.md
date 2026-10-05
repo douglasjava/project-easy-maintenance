@@ -2,10 +2,12 @@
 
 ## Status
 Implementado (05/10/2026) — 8 tasks, seguindo o plano em
-`docs/superpowers/plans/2026-10-04-financial-entries-plan.md`. Backend numa branch dedicada
-(`feature/EPIC-032-financial-entries`, repos api/web): 20/20 testes passando
-(`FinancialEntryPersistenceTest` + `FinancialEntryServiceTest`), suíte completa da API sem
-regressão (1425/1425). Frontend: `tsc`/`eslint` limpos. E2E (teste de UI real,
+`docs/superpowers/plans/2026-10-04-financial-entries-plan.md`, mais revisão final (revisor fresco)
+com 4 correções reais aplicadas (vazamento de existência cross-tenant no cancelamento, bug de
+parsing de valor monetário, e2e com aba errada/frágil, filtro de tipo faltante na UI — detalhes na
+issue/PR privadas). PRs abertas contra `staging`: [api#154](https://github.com/douglasjava/easy-maintenance-api/pull/154),
+[web#112](https://github.com/douglasjava/easy-maintenance-web/pull/112). `mvn test` 1426/1426 sem
+regressão; `npx jest` 238/241 (3 falhas pré-existentes não relacionadas). E2E (teste de UI real,
 `tests/frontend/finance-entries.spec.ts`) direto no `main` do repositório raiz — esse repo não usa
 branch de feature/PR, commits de roadmap e e2e vão direto pra `main` (confirmado: nenhum PR nunca
 foi aberto nele). Escrito e reconhecido pelo Playwright, mas **não executado contra API/banco
