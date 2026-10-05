@@ -59,5 +59,13 @@ a capacidade nova, pra ela nascer já no formato certo e não aumentar a dívida
   manutenção).
 - [ ] Suíte completa do pacote `assistant` verde antes e depois do refactor.
 
+## Execução (05/10/2026)
+Implementado inline (7 tasks do plano + fix pass da revisão final), TDD em cada passo. Revisão
+final fresh-context (opus) sobre a branch inteira: 0 Critical, 4 Important (todos corrigidos —
+auditoria sem org/actor, "Corrigir" sem saída, rascunhos órfãos no deploy via migration V123,
+falso positivo no parser de receita/despesa + exemplo não parseável + ambiguidade no prompt da
+IA), 4 Minor (adiados, sem risco de dados). PR [api#156](https://github.com/douglasjava/easy-maintenance-api/pull/156) aberta contra `staging`.
+
 ## Status
-Plano aprovado (05/10/2026) — pronto para execução.
+Em validação — PR aberta contra staging, aguardando teste manual (fluxo completo pelo WhatsApp +
+regressão dos fluxos existentes de registro de manutenção/empresa nova).
