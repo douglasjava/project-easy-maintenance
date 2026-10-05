@@ -67,5 +67,4 @@ falso positivo no parser de receita/despesa + exemplo não parseável + ambiguid
 IA), 4 Minor (adiados, sem risco de dados). PR [api#156](https://github.com/douglasjava/easy-maintenance-api/pull/156) aberta contra `staging`.
 
 ## Status
-Em validação — PR aberta contra staging, aguardando teste manual (fluxo completo pelo WhatsApp +
-regressão dos fluxos existentes de registro de manutenção/empresa nova).
+Em main desde 05/10/2026 ([api#157](https://github.com/douglasjava/easy-maintenance-api/pull/157)) — aguardando validação manual em produção (fluxo completo pelo WhatsApp + regressão dos fluxos existentes de registro de manutenção/empresa nova).
