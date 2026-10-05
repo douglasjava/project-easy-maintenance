@@ -67,6 +67,7 @@ de plano de billing.
 | [TASK-327](../tasks/TASK-327.md) | Frontend: item "Financeiro" no menu | FRONTEND | 🟡 Médio |
 | [TASK-328](../tasks/TASK-328.md) | QA: E2E fluxo completo do módulo financeiro | QA | 🟠 Alto |
 | [TASK-329](../tasks/TASK-329.md) | Roadmap: documentação do épico | INFRA / CONFIG | 🔵 Baixo |
+| [TASK-QA-MAN-025](../QA/tasks/TASK-QA-MAN-025.md) | QA Manual: validação em staging antes de promover pra main | QA | 🔴 Alto |
 
 Ordem: TASK-322 → 323 → 324 (backend, sequencial — cada um consome o anterior). TASK-325 depende
 de TASK-324 (endpoints prontos). TASK-326/327 podem andar em paralelo com TASK-325. TASK-328

@@ -1,5 +1,8 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 05/10/2026 — **🧪 [TASK-QA-MAN-025](QA/tasks/TASK-QA-MAN-025.md) criada**: plano de
+> QA manual pra validar o EPIC-032 em `staging` antes de promover pra `main` (api#154, web#112).
+
 > Atualizado em: 05/10/2026 — **🟡 [EPIC-032](epics/EPIC-032.md) PRs abertas** (controle financeiro
 > simples por organização — feedback de clientes sobre ausência de agenda/despesas):
 > [api#154](https://github.com/douglasjava/easy-maintenance-api/pull/154),
