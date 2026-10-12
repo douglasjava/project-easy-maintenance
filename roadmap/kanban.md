@@ -2042,6 +2042,8 @@ _Vazio_
 | [TASK-328](tasks/TASK-328.md) | QA: E2E fluxo completo do módulo financeiro (em validação — falta rodar contra ambiente real) | 🟠 Alto | EPIC-032 | — |
 | [TASK-329](tasks/TASK-329.md) | Roadmap: documentação do épico | 🔵 Baixo | EPIC-032 | — |
 | [TASK-330](tasks/TASK-330.md) | Assistente WhatsApp: registrar receita/despesa + refactor do pipeline de rascunhos pendentes (em main — api#157) | 🟢 Melhoria | EPIC-031 | — |
+| [TASK-331](tasks/TASK-331.md) | Onboarding: campo de celular + opt-in explícito (espelhar padrão já usado em Perfil) | 🟠 Alto | EPIC-031 | — |
+| [TASK-332](tasks/TASK-332.md) | Assistente WhatsApp: disparo automático da msg de apresentação do bot para todo novo cadastro com opt-in — depende de TASK-331; requer template novo pré-aprovado na Meta (mensagem iniciada pela empresa, fora da janela de 24h) | 🟠 Alto | EPIC-031 | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
