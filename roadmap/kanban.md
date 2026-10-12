@@ -2042,7 +2042,6 @@ _Vazio_
 | [TASK-328](tasks/TASK-328.md) | QA: E2E fluxo completo do módulo financeiro (em validação — falta rodar contra ambiente real) | 🟠 Alto | EPIC-032 | — |
 | [TASK-329](tasks/TASK-329.md) | Roadmap: documentação do épico | 🔵 Baixo | EPIC-032 | — |
 | [TASK-330](tasks/TASK-330.md) | Assistente WhatsApp: registrar receita/despesa + refactor do pipeline de rascunhos pendentes (em main — api#157) | 🟢 Melhoria | EPIC-031 | — |
-| [TASK-331](tasks/TASK-331.md) | Onboarding: campo de celular + opt-in explícito (espelhar padrão já usado em Perfil) | 🟠 Alto | EPIC-031 | — |
 | [TASK-332](tasks/TASK-332.md) | Assistente WhatsApp: disparo automático da msg de apresentação do bot para todo novo cadastro com opt-in — depende de TASK-331; requer template novo pré-aprovado na Meta (mensagem iniciada pela empresa, fora da janela de 24h) | 🟠 Alto | EPIC-031 | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
@@ -2244,6 +2243,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-331](tasks/TASK-331.md) | Onboarding: campo de celular + opt-in explícito (espelhar padrão já usado em Perfil) — implementado em branch local `feature/TASK-331-onboarding-phone-optin` (api + web, a partir de `staging`), testes automatizados verdes (`mvn test` 19/19 onboarding + 125/125 org_users, `tsc --noEmit` limpo); **PR ainda não aberta** | 🟠 Alto | EPIC-031 |
 | [TASK-175](tasks/TASK-175.md) | Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing — **PR aberta contra `staging`, ainda não mergeada** ([web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90)) — validado no browser real, `npm run build` limpo (23/09) | 🟠 Alto | EPIC-024 |
 | [TASK-176](tasks/TASK-176.md) | Backend: webhook do Cal.com cria lead via `LeadService` — **PR aberta contra `staging`, ainda não mergeada** ([api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114)) — `mvn test` 1075/1075 (23/09) | 🟠 Alto | EPIC-024 |
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
