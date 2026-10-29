@@ -36,5 +36,12 @@ Task 5 do plano docs/superpowers/plans/2026-10-29-organization-settings-module.m
 - [ ] QA manual: logado como ADMIN/SYNDIC, aba de SLA carrega os defaults, edição salva e
       persiste depois de recarregar a página.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-web), a partir de
+`staging`. `npx tsc --noEmit`/`npm run build` limpos, `/configuracoes` presente nas rotas. Sem
+teste automatizado de UI (não há runner de teste de componente neste módulo). PR aberta:
+[web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120) (mesma PR cobre
+TASK-377 a TASK-379).
+
 ## Status
-Backlog
+Em Validação — PR aberta, QA manual contra backend real ainda pendente (Douglas).

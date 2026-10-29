@@ -31,5 +31,14 @@ Task 7 do plano docs/superpowers/plans/2026-10-29-organization-settings-module.m
 - [ ] QA manual: TECH/READER não veem "Configurações" no menu; ADMIN/SYNDIC veem e navegam
       corretamente para `/configuracoes`.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-web), a partir de
+`staging`. Entrada "Configurações" adicionada ao dropdown do `UserTopBar`, ao lado de
+"Financeiro" — **desvio de spec**: a spec original pedia a entrada na Sidebar lateral; ficou no
+dropdown do usuário por ser onde itens equivalentes (Financeiro, Faturamento, Relatórios) já
+vivem hoje. Sinalizado na PR para confirmação do Douglas, não assumido como resolvido. `npx tsc
+--noEmit` limpo. PR aberta: [web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120)
+(mesma PR cobre TASK-377 a TASK-379).
+
 ## Status
-Backlog
+Em Validação — PR aberta, QA manual (ADMIN/SYNDIC vê o item, TECH/READER não) ainda pendente.

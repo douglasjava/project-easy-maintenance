@@ -1,5 +1,30 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/10/2026 — **🟡 [EPIC-038](epics/EPIC-038.md) implementado, PRs abertas**
+> (TASK-373 a TASK-379), numa branch por repo (`feature/EPIC-038-organization-settings`, api + web,
+> a partir de `staging`), via subagent-driven-development — cada task implementada e revisada por
+> um agente fresco, mais revisão final de branch em cada repo. A revisão final da API encontrou
+> **um achado crítico de segurança real**: o `TenantFilter` tinha `/organizations/` como prefixo
+> liberado de validação de tenant (pensado pra endpoints de gestão de organização, ex. criar
+> org), e os dois endpoints novos (`/organizations/settings`, `/organizations/common-areas`)
+> caíam nesse mesmo prefixo — em produção, toda chamada sempre devolveria 403, mesmo com
+> `X-Org-Id` válido, porque o `TenantContext` nunca era populado. Nenhuma das 4 revisões de task
+> individuais pegou isso porque todo teste injeta o tenant direto, sem passar pela cadeia real de
+> filtros — só apareceu na revisão de branch inteira. Corrigido com uma exceção específica no
+> filtro, **opção de correção confirmada com Douglas antes de implementar** (editar
+> `TenantFilter.java` afeta toda rota sob `/organizations/`, não só as desta feature). Mais 3
+> gaps reais corrigidos: `active` não validado em área comum (podia gerar 409/500 em vez de 400),
+> `name`/`businessHours` sem validação de formato, e no frontend um bug onde o campo de taxa não
+> conseguia voltar a "sem taxa" ao apagar com Backspace (só funcionava com selecionar-tudo +
+> Delete) e a estilização de erro do formulário nunca aparecia (botão desabilitado impedia o
+> próprio código que a ativaria). `mvn test` 1538/1538; `tsc`/`build` limpos no frontend. PRs:
+> [api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) e
+> [web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120). **Desvio de spec
+> sinalizado, não resolvido sozinho**: entrada de menu "Configurações" ficou no dropdown do
+> `UserTopBar` (ao lado de Financeiro/Relatórios) em vez da Sidebar lateral como a spec literal
+> pedia — decisão tomada durante a implementação, precisa confirmação do Douglas. QA manual
+> contra ambiente real ainda pendente antes do merge em `staging`.
+
 > Atualizado em: 29/10/2026 — **📝 [EPIC-038](epics/EPIC-038.md) criado**: Módulo de Configurações
 > da Organização — brainstorm com Douglas (sessão interrompida por queda de energia e retomada a
 > partir do que ele tinha colado de modelagem inicial). Dois mecanismos: `organization_settings`
@@ -2158,13 +2183,6 @@ _Vazio_
 | [TASK-359](tasks/TASK-359.md) | QA: conselho e aprovação ponta a ponta | 🟠 Alto | EPIC-036 | Fase 4 |
 | [TASK-365](tasks/TASK-365.md) | QA: validar fluxo completo contra sandbox Asaas + checklist de rollout (CNPJ/certificado A1) | 🟠 Alto | EPIC-037 | — |
 | [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
-| [TASK-373](tasks/TASK-373.md) | Backend: `OrganizationSetting` — entidade, migration V128 e repositório | 🟠 Alto | EPIC-038 | — |
-| [TASK-374](tasks/TASK-374.md) | Backend: `CommonArea` — entidade, migration V129 e repositório | 🟠 Alto | EPIC-038 | — |
-| [TASK-375](tasks/TASK-375.md) | Backend: configuração de SLA de chamados — DTOs, serviço e API | 🟠 Alto | EPIC-038 | — |
-| [TASK-376](tasks/TASK-376.md) | Backend: áreas comuns — DTOs, serviço CRUD e API | 🟠 Alto | EPIC-038 | — |
-| [TASK-377](tasks/TASK-377.md) | Frontend: página `/configuracoes` + aba de SLA de Chamados | 🟠 Alto | EPIC-038 | — |
-| [TASK-378](tasks/TASK-378.md) | Frontend: aba de Áreas Comuns (listar, criar, editar) | 🟠 Alto | EPIC-038 | — |
-| [TASK-379](tasks/TASK-379.md) | Frontend: entrada "Configurações" no menu do usuário | 🟡 Médio | EPIC-038 | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
@@ -2365,6 +2383,13 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| [TASK-373](tasks/TASK-373.md) | Backend: `OrganizationSetting` — entidade, migration V128 e repositório — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-374](tasks/TASK-374.md) | Backend: `CommonArea` — entidade, migration V129 e repositório — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-375](tasks/TASK-375.md) | Backend: configuração de SLA de chamados — DTOs, serviço e API — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-376](tasks/TASK-376.md) | Backend: áreas comuns — DTOs, serviço CRUD e API (+ fix do bypass do TenantFilter) — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-377](tasks/TASK-377.md) | Frontend: página `/configuracoes` + aba de SLA de Chamados — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
+| [TASK-378](tasks/TASK-378.md) | Frontend: aba de Áreas Comuns (listar, criar, editar) — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
+| [TASK-379](tasks/TASK-379.md) | Frontend: entrada "Configurações" no menu do usuário — implementado em `feature/EPIC-038-organization-settings`, `tsc` limpo | 🟡 Médio | EPIC-038 |
 | [TASK-360](tasks/TASK-360.md) | Backend: `FiscalInvoice` — entidade, enum, migration V125 e repositório — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
 | [TASK-361](tasks/TASK-361.md) | Backend: configuração de NF na Asaas — DTOs, `AsaasClient`, `FiscalInvoiceConfigurationService` (+ flag fail-closed `asaas.fiscal-invoice.enabled`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
 | [TASK-362](tasks/TASK-362.md) | Backend: acionar configuração de NF na ativação da assinatura — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |

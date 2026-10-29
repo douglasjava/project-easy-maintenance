@@ -38,5 +38,17 @@ seguindo a Task 4 do plano docs/superpowers/plans/2026-10-29-organization-settin
       `NotFoundException`, listagem inclui área desativada (`active=false`).
 - [ ] `mvn test` sem regressão.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-api), a partir de
+`staging`. `CommonAreaServiceTest` (12 testes) verde. Revisão final de branch achou 2 gaps reais
+corrigidos no mesmo PR: `active` não validado em `update` (podia gerar 409/500 em vez de 400) e
+`name` sem limite de tamanho; e **um achado crítico de segurança**: o `TenantFilter` isentava os
+endpoints de `/organizations/settings` e `/organizations/common-areas` da validação de tenant por
+caírem no prefixo geral `/organizations/` (pensado para endpoints de gestão de organização) —
+corrigido com exceção específica no filtro, decisão de abordagem confirmada com Douglas antes de
+implementar. `mvn test` 1538/1538 sem regressão. PR aberta:
+[api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) (mesma PR cobre
+TASK-373 a TASK-376).
+
 ## Status
-Backlog
+Em Validação — PR aberta, aguardando QA manual de Douglas.

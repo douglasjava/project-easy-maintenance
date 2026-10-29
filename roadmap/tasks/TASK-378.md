@@ -34,5 +34,14 @@ docs/superpowers/plans/2026-10-29-organization-settings-module.md.`
 - [ ] QA manual: criar área com taxa e regras, confirmar na lista, editar (incluindo desativar),
       confirmar que persiste após recarregar.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-web), a partir de
+`staging`. Revisão final de branch achou um bug real na edição de taxa (campo não conseguia
+voltar a "sem taxa" ao apagar com Backspace caractere a caractere — ficava travado em "0,00") e a
+estilização de erro do formulário nunca aparecia (botão desabilitado impedia o próprio código que
+ativaria o aviso) — ambos corrigidos no mesmo PR. `npx tsc --noEmit`/`npm run build` limpos. PR
+aberta: [web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120) (mesma PR cobre
+TASK-377 a TASK-379).
+
 ## Status
-Backlog
+Em Validação — PR aberta, QA manual contra backend real ainda pendente (Douglas).

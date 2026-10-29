@@ -35,5 +35,11 @@ seguindo a Task 2 do plano docs/superpowers/plans/2026-10-29-organization-settin
       área que existe mas pertence a outra organização.
 - [ ] `mvn test` sem regressão.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-api), a partir de
+`staging`. `CommonAreaPersistenceTest` (2 testes, H2 real) verde. PR aberta:
+[api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) (mesma PR cobre
+TASK-373 a TASK-376).
+
 ## Status
-Backlog
+Em Validação — PR aberta, aguardando QA manual de Douglas.

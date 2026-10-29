@@ -35,5 +35,11 @@ repository, seguindo a Task 1 do plano docs/superpowers/plans/2026-10-29-organiz
       único e que `findByOrganizationIdAndCategory` não retorna linha de outra organização.
 - [ ] `mvn test` sem regressão.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-api), a partir de
+`staging`. `OrganizationSettingPersistenceTest` (2 testes, H2 real) verde. PR aberta:
+[api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) (mesma PR cobre
+TASK-373 a TASK-376).
+
 ## Status
-Backlog
+Em Validação — PR aberta, aguardando QA manual de Douglas.

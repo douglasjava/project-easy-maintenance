@@ -37,5 +37,14 @@ seguindo a Task 3 do plano docs/superpowers/plans/2026-10-29-organization-settin
       categoria desconhecida em `GET` e em `PUT` (`RuleException`), salva e retorna o payload.
 - [ ] `mvn test` sem regressão.
 
+## Execução
+Implementado em `feature/EPIC-038-organization-settings` (easy-maintenance-api), a partir de
+`staging`. `OrganizationSettingsServiceTest` (12 testes) verde. Revisão final de branch encontrou
+validação faltante em `businessHours` (formato/ordem) e cobertura de teste incompleta
+(`prioritySla` malformado, upsert de linha existente) — corrigido no mesmo PR. `mvn test`
+1538/1538 sem regressão. PR aberta:
+[api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) (mesma PR cobre
+TASK-373 a TASK-376).
+
 ## Status
-Backlog
+Em Validação — PR aberta, aguardando QA manual de Douglas.

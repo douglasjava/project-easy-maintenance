@@ -1,7 +1,13 @@
 # EPIC-038 — Módulo de Configurações da Organização (SLA de Chamados + Áreas Comuns)
 
 ## Status
-📝 Backlog — spec e plano aprovados por Douglas (brainstorm 29/10/2026). Criado em 29/10/2026.
+🟡 Em Validação — todas as 7 tasks implementadas em 29/10/2026. PRs abertas:
+[api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) (TASK-373 a TASK-376,
+`mvn test` 1538/1538) e [web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120)
+(TASK-377 a TASK-379, `tsc`/`build` limpos). Revisão final de branch encontrou e corrigiu um
+achado crítico de segurança (bypass do `TenantFilter` nos endpoints novos) e 5 outros gaps reais
+(ver tasks individuais) — nenhum bloqueador restante, QA manual de Douglas pendente antes do
+merge em `staging`.
 
 Spec: `docs/superpowers/specs/2026-10-29-organization-settings-module-design.md`.
 Plano: `docs/superpowers/plans/2026-10-29-organization-settings-module.md`.
