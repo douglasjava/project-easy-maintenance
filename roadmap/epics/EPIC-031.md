@@ -195,6 +195,7 @@ Nunca silêncio.
 | [TASK-310](../tasks/TASK-310.md) | PDF da prestação de contas gerado no servidor (Next.js) + envio | Full-stack | 3 | TASK-309 |
 | [TASK-311](../tasks/TASK-311.md) | Retenção (90 dias) + métricas do assistente | Backend | 3 | TASK-299 |
 | [TASK-312](../tasks/TASK-312.md) | QA manual + automação (fluxos e segurança) | QA | 3 | TASK-305, TASK-306 |
+| [TASK-330](../tasks/TASK-330.md) | Registro de receita/despesa (EPIC-032) pelo WhatsApp + refactor do pipeline de rascunhos pendentes | Backend | 2 (nova) | TASK-306 |
 
 Base de todas as branches: `staging`. Nome: `feature/TASK-XXX-descricao-curta`.
 

@@ -1,5 +1,116 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/10/2026 — **🟡 [EPIC-038](epics/EPIC-038.md) implementado, PRs abertas**
+> (TASK-373 a TASK-379), numa branch por repo (`feature/EPIC-038-organization-settings`, api + web,
+> a partir de `staging`), via subagent-driven-development — cada task implementada e revisada por
+> um agente fresco, mais revisão final de branch em cada repo. A revisão final da API encontrou
+> **um achado crítico de segurança real**: o `TenantFilter` tinha `/organizations/` como prefixo
+> liberado de validação de tenant (pensado pra endpoints de gestão de organização, ex. criar
+> org), e os dois endpoints novos (`/organizations/settings`, `/organizations/common-areas`)
+> caíam nesse mesmo prefixo — em produção, toda chamada sempre devolveria 403, mesmo com
+> `X-Org-Id` válido, porque o `TenantContext` nunca era populado. Nenhuma das 4 revisões de task
+> individuais pegou isso porque todo teste injeta o tenant direto, sem passar pela cadeia real de
+> filtros — só apareceu na revisão de branch inteira. Corrigido com uma exceção específica no
+> filtro, **opção de correção confirmada com Douglas antes de implementar** (editar
+> `TenantFilter.java` afeta toda rota sob `/organizations/`, não só as desta feature). Mais 3
+> gaps reais corrigidos: `active` não validado em área comum (podia gerar 409/500 em vez de 400),
+> `name`/`businessHours` sem validação de formato, e no frontend um bug onde o campo de taxa não
+> conseguia voltar a "sem taxa" ao apagar com Backspace (só funcionava com selecionar-tudo +
+> Delete) e a estilização de erro do formulário nunca aparecia (botão desabilitado impedia o
+> próprio código que a ativaria). `mvn test` 1538/1538; `tsc`/`build` limpos no frontend. PRs:
+> [api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) e
+> [web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120). **Desvio de spec
+> sinalizado, não resolvido sozinho**: entrada de menu "Configurações" ficou no dropdown do
+> `UserTopBar` (ao lado de Financeiro/Relatórios) em vez da Sidebar lateral como a spec literal
+> pedia — decisão tomada durante a implementação, precisa confirmação do Douglas. QA manual
+> contra ambiente real ainda pendente antes do merge em `staging`.
+
+> Atualizado em: 29/10/2026 — **📝 [EPIC-038](epics/EPIC-038.md) criado**: Módulo de Configurações
+> da Organização — brainstorm com Douglas (sessão interrompida por queda de energia e retomada a
+> partir do que ele tinha colado de modelagem inicial). Dois mecanismos: `organization_settings`
+> (genérico, categoria→JSON, só `TICKETS_SLA` por ora, pensado pra novas categorias entrarem sem
+> migration) e `common_area` (cadastro de áreas comuns com `fee_cents` próprio e `rules` em JSON).
+> Permissão ADMIN **ou** SYNDIC (não só ADMIN — ajustado durante o brainstorm pro síndico de fato
+> poder usar). Escopo explicitamente só o módulo de configuração: sem SLA sendo consumido por
+> `ResidentTicket`, sem fluxo de reserva de área comum, sem cobrança automática da taxa — tudo
+> fica pra quando os módulos consumidores existirem. Builder-check (agente fresco) corrigiu 2
+> gaps no desenho do frontend antes de virar task (componente de abas certo a usar, nome do enum
+> de categoria). 7 tasks no Backlog (TASK-373 a TASK-379). Spec em
+> `docs/superpowers/specs/2026-10-29-organization-settings-module-design.md`, plano em
+> `docs/superpowers/plans/2026-10-29-organization-settings-module.md`.
+
+> Atualizado em: 28/10/2026 — **🟡 Extensão do [EPIC-027](epics/EPIC-027.md) implementada**
+> (TASK-367/368/369/370/371), numa única branch `feature/EPIC-027-categoria-protocolo-notificacao`
+> (api + web), a pedido de Douglas pra facilitar o merge em `staging`. Categoria (Sugestão/
+> Reclamação/Manutenção), protocolo sequencial por organização, opt-in de WhatsApp com confirmação
+> por código, e notificação ao morador (criação + resolução) via WhatsApp — reaproveita o número do
+> EPIC-031, mas como envio outbound simples (não o assistente conversacional). Migrations V126/V127
+> validadas contra MySQL 8 real (containers Docker efêmeros). `mvn test` 1505/1505;
+> `tsc --noEmit`/`npm run build` limpos no frontend. **TASK-372 (templates WhatsApp na Meta)
+> continua em Backlog** — precisa de acesso ao Meta Business Manager, ação do Douglas, fora do
+> escopo de código. Pendente: QA manual em navegador real (fluxo de ponta a ponta, incluindo
+> drag-and-drop do kanban, não verificado nesta rodada).
+
+> Atualizado em: 29/10/2026 — **✅ QA manual da extensão do EPIC-027 concluído** (TASK-369/370/371)
+> contra API/frontend/banco locais reais, na branch `feature/EPIC-027-categoria-protocolo-notificacao`.
+> Fluxo público validado nas 3 categorias (protocolo sequencial e badge corretos), opt-in de
+> WhatsApp com confirmação por código validado de ponta a ponta (código correto confirma, código
+> errado rejeita com mensagem clara, "Pular" nunca bloqueia o chamado), kanban interno validado
+> (categoria/protocolo nos cards, drag-and-drop SOLICITADO → EM ANDAMENTO → CONCLUÍDO sem
+> regressão). **Único item não verificado**: viewport mobile — a emulação de viewport via
+> automação de navegador não funcionou nesta sessão (limitação da ferramenta, não da aplicação);
+> recomenda-se checagem manual rápida num celular real antes de promover. TASK-372 (templates
+> WhatsApp na Meta) segue bloqueando o envio real de WhatsApp em produção, sem impacto no restante
+> do fluxo.
+
+> Atualizado em: 28/10/2026 — **📝 [EPIC-027](epics/EPIC-027.md) ganha extensão**: conversa de
+> Douglas com a síndica Aliria Emanuela trouxe categoria no chamado de morador (enum fixo
+> Sugestão/Reclamação/Manutenção — amplia o chamado de "só manutenção" pra canal geral com o
+> síndico), número de protocolo sequencial por organização, e notificação ao morador por WhatsApp
+> (criação + resolução), reaproveitando a infra do EPIC-031. 6 tasks novas no Backlog
+> (TASK-367 a TASK-372) — TASK-367 (categoria+protocolo, com backfill dos chamados já existentes),
+> TASK-368 (notificação WhatsApp + guarda no webhook do EPIC-031 pra ignorar resposta de número não
+> cadastrado), TASK-369/370 (frontend público/kanban interno), TASK-371 (opt-in com confirmação por
+> código — decisão de segurança: evita que qualquer um marque o opt-in com telefone de terceiro),
+> TASK-372 (INFRA/CONFIG, separada a pedido do Douglas: submissão/aprovação na Meta dos 2 templates
+> WhatsApp necessários — confirmação de código e protocolo criado/concluído — começa em paralelo
+> com TASK-367 por ter prazo de aprovação externo incerto). Builder-check (revisão de um agente
+> fresco) encontrou 2 gaps reais corrigidos no desenho antes de virar task: compartilhamento do
+> número de WhatsApp com o bot do EPIC-031 (resposta de número desconhecido é ignorada) e falta de
+> verificação do telefone informado (resolvido com confirmação por código). Correção de rota:
+> a tela pública já é `/chamados/[orgCode]` (renomeada de `/c/[orgCode]` durante o QA da v1), ajuste
+> feito nos documentos novos. Spec completa em
+> `docs/superpowers/specs/2026-10-28-resident-tickets-category-protocol-notification-design.md`.
+
+> Atualizado em: 19/10/2026 — **📝 [EPIC-037](epics/EPIC-037.md) criado**: Emissão de NFS-e para
+> assinaturas de organização via Asaas nativo (R$0,49/nota, sem mensalidade — Focus NFe/eNotas/NFE.io
+> avaliados e descartados). 6 tasks no Backlog (TASK-360 a TASK-365): entidade `FiscalInvoice` +
+> migration V124, configuração de NF na Asaas, gatilho na ativação da assinatura, webhook dedicado
+> (`INVOICE_AUTHORIZED`/`INVOICE_ERROR`), job de reconciliação diária e QA contra sandbox. Spec em
+> `docs/superpowers/specs/2026-10-13-fiscal-invoice-nfse-design.md`, plano em
+> `docs/superpowers/plans/2026-10-13-fiscal-invoice-nfse.md`. **Ativação em produção bloqueada**:
+> depende de CNPJ novo + certificado Digital A1 (em andamento, Douglas) — todo o épico é
+> implementado/testado contra sandbox.
+
+> Atualizado em: 26/10/2026 — **TASK-360/361/362/363/364 implementadas** em
+> `feature/EPIC-037-fiscal-invoice-nfse` (easy-maintenance-api), a partir de `staging`, numa única
+> branch para Douglas testar antes de abrir PR. Suíte completa do repo (1475 testes) verde. Flag
+> extra de segurança `asaas.fiscal-invoice.enabled` (fail-closed, default `false`, só `true` em
+> local/e2e/hml) adicionado além do plano original — sem ele, o deploy em produção chamaria a
+> Asaas real em toda ativação de assinatura, violando o bloqueio do CNPJ/certificado A1. Migration
+> saiu como V125 (V124 já estava em uso). TASK-365 (QA sandbox real + checklist de rollout)
+> continua em Backlog — depende das credenciais de sandbox do Douglas.
+
+> Atualizado em: 15/10/2026 — **📝 Novos épicos a partir da avaliação de produto de um dos sócios**
+> (reposicionamento de "lembrete" para **prova de manutenção**, North Star = críticas concluídas com
+> evidência no prazo). 27 tasks no Backlog (TASK-333 a TASK-359):
+> - [EPIC-033](epics/EPIC-033.md) — Prova de manutenção: Fase 0 (ajustes rápidos: painel desde o 1º item,
+>   jargão, preço invertido, piloto de 30 dias, fornecedor patrocinado, medir WhatsApp) e Fase 1
+>   (evidência obrigatória em crítico, baixa pelo alerta, relatório mensal, eventos da North Star).
+> - [EPIC-034](epics/EPIC-034.md) — Leitura de foto/etiqueta pela IA no WhatsApp + fornecedor e contrato por item.
+> - [EPIC-035](epics/EPIC-035.md) — Prestador envia a evidência por link (após piloto).
+> - [EPIC-036](epics/EPIC-036.md) — Conselho e aprovação de orçamentos (só com demanda comprovada).
+
 > Atualizado em: 05/10/2026 — **🧪 [TASK-QA-MAN-025](QA/tasks/TASK-QA-MAN-025.md) criada**: plano de
 > QA manual pra validar o EPIC-032 em `staging` antes de promover pra `main` (api#154, web#112).
 
@@ -2030,17 +2141,48 @@ _Vazio_
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | [TASK-315](tasks/TASK-315.md) | Item operacional novo pelo catálogo padronizado + periodicidade por botão | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
-| [TASK-318](tasks/TASK-318.md) | Segurança: reforçar a validação do webhook de pagamentos | 🔴 Alto | Segurança / Billing | — |
-| [TASK-319](tasks/TASK-319.md) | Nova Empresa: tipo aparece selecionado mas vai vazio (422) | 🟠 Alto | Frontend | — |
-| [TASK-320](tasks/TASK-320.md) | `@RequireTenant` não faz nada: implementar ou remover | 🟡 Médio | Segurança / qualidade | — |
-| [TASK-322](tasks/TASK-322.md) | Backend: FinancialEntry — domain, migration V122, repository | 🟠 Alto | EPIC-032 | — |
-| [TASK-323](tasks/TASK-323.md) | Backend: FinancialEntryService (criar/cancelar/listar/resumir) | 🟠 Alto | EPIC-032 | — |
-| [TASK-324](tasks/TASK-324.md) | Backend: endpoints REST /finance | 🟠 Alto | EPIC-032 | — |
-| [TASK-325](tasks/TASK-325.md) | Frontend: tela /financeiro | 🟠 Alto | EPIC-032 | — |
-| [TASK-326](tasks/TASK-326.md) | Frontend: integração com Prestação de Contas | 🟠 Alto | EPIC-032 | — |
-| [TASK-327](tasks/TASK-327.md) | Frontend: item "Financeiro" no menu | 🟡 Médio | EPIC-032 | — |
-| [TASK-328](tasks/TASK-328.md) | QA: E2E fluxo completo do módulo financeiro (em validação — falta rodar contra ambiente real) | 🟠 Alto | EPIC-032 | — |
-| [TASK-329](tasks/TASK-329.md) | Roadmap: documentação do épico | 🔵 Baixo | EPIC-032 | — |
+| ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
+| ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |
+| ~~[TASK-320](tasks/TASK-320.md)~~ | ~~`@RequireTenant` não faz nada: implementar ou remover~~ | 🟡 Médio | Segurança / qualidade | — |
+| ~~[TASK-322](tasks/TASK-322.md)~~ | ~~Backend: FinancialEntry — domain, migration V122, repository~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-323](tasks/TASK-323.md)~~ | ~~Backend: FinancialEntryService (criar/cancelar/listar/resumir)~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-324](tasks/TASK-324.md)~~ | ~~Backend: endpoints REST /finance~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-325](tasks/TASK-325.md)~~ | ~~Frontend: tela /financeiro~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-326](tasks/TASK-326.md)~~ | ~~Frontend: integração com Prestação de Contas~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-327](tasks/TASK-327.md)~~ | ~~Frontend: item "Financeiro" no menu~~ | 🟡 Médio | EPIC-032 | — |
+| ~~[TASK-328](tasks/TASK-328.md)~~ | ~~QA: E2E fluxo completo do módulo financeiro~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-329](tasks/TASK-329.md)~~ | ~~Roadmap: documentação do épico~~ | 🔵 Baixo | EPIC-032 | — |
+| ~~[TASK-330](tasks/TASK-330.md)~~ | ~~Assistente WhatsApp: registrar receita/despesa + refactor do pipeline de rascunhos pendentes~~ — mergeada em `main` (api#157), confirmado pronta por Douglas (21/10/2026) | 🟢 Melhoria | EPIC-031 | — |
+| ~~[TASK-332](tasks/TASK-332.md)~~ | ~~Assistente WhatsApp: disparo automático da msg de apresentação do bot para todo novo cadastro com opt-in — template `assistente_boas_vindas_v1` aprovado na Meta; bug de produção (botão vazio rejeitado pela Graph API) corrigido e mergeado em `main` via [api#163](https://github.com/douglasjava/easy-maintenance-api/pull/163)/[#164](https://github.com/douglasjava/easy-maintenance-api/pull/164) — publicado e testado funcionando em produção (21/10/2026)~~ | 🟠 Alto | EPIC-031 | — |
+| [TASK-333](tasks/TASK-333.md) | Painel de conformidade liberado desde o 1º item | 🟠 Alto | EPIC-033 | Fase 0 |
+| [TASK-334](tasks/TASK-334.md) | Remover jargão de sistema da interface | 🟡 Médio | EPIC-033 | Fase 0 |
+| [TASK-335](tasks/TASK-335.md) | Corrigir preço por condomínio invertido entre planos | 🟠 Alto | EPIC-033 | Fase 0 |
+| [TASK-336](tasks/TASK-336.md) | Piloto acompanhado de 30 dias (extensão de trial pelo admin) | 🟡 Médio | EPIC-033 | Fase 0 |
+| [TASK-337](tasks/TASK-337.md) | Fornecedor patrocinado sinalizado na notificação | 🟡 Médio | EPIC-033 | Fase 0 |
+| [TASK-338](tasks/TASK-338.md) | Medir mensagens de WhatsApp por organização e por plano | 🟠 Alto | EPIC-033 | Fase 0 |
+| [TASK-339](tasks/TASK-339.md) | Evidência obrigatória para itens críticos + registro em etapa única | 🔴 Crítico | EPIC-033 | Fase 1 |
+| [TASK-340](tasks/TASK-340.md) | Baixa pelo alerta no WhatsApp: "Já foi feita" → foto → confirmar | 🟠 Alto | EPIC-033 | Fase 1 |
+| [TASK-341](tasks/TASK-341.md) | Status "concluída sem evidência" e % de críticas com evidência | 🟡 Médio | EPIC-033 | Fase 1 |
+| [TASK-342](tasks/TASK-342.md) | Relatório mensal de prova enviado automaticamente | 🟠 Alto | EPIC-033 | Fase 1 |
+| [TASK-343](tasks/TASK-343.md) | Eventos de produto para a North Star e o funil de ativação | 🟠 Alto | EPIC-033 | Fase 1 |
+| [TASK-344](tasks/TASK-344.md) | Spec + conjunto de avaliação para leitura de documentos | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-345](tasks/TASK-345.md) | Backend: leitura estruturada de imagem com confiança e validação | 🔴 Crítico | EPIC-034 | Fase 2 |
+| [TASK-346](tasks/TASK-346.md) | Vínculo item ↔ fornecedor + tipo de contrato | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-347](tasks/TASK-347.md) | Assistente: foto → rascunho → Confirmar/Corrigir → item + evidência | 🔴 Crítico | EPIC-034 | Fase 2 |
+| [TASK-348](tasks/TASK-348.md) | Indicação de fornecedor respeita contrato + lista de bloqueio | 🟡 Médio | EPIC-034 | Fase 2 |
+| [TASK-349](tasks/TASK-349.md) | Onboarding guiado: assistente pede fotos na ordem certa | 🟡 Médio | EPIC-034 | Fase 2 |
+| [TASK-350](tasks/TASK-350.md) | QA: leitura de documentos ponta a ponta | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-351](tasks/TASK-351.md) | Leitura de demonstrativo de despesas (classificar lançamentos) | 🔵 Baixo | EPIC-034 | Fase 2+ |
+| [TASK-352](tasks/TASK-352.md) | Link público com token para o fornecedor enviar a evidência | 🟠 Alto | EPIC-035 | Fase 3 |
+| [TASK-353](tasks/TASK-353.md) | Comprovante de execução para o fornecedor | 🟡 Médio | EPIC-035 | Fase 3 |
+| [TASK-354](tasks/TASK-354.md) | Pedido de evidência ao fornecedor (WhatsApp/e-mail) | 🟡 Médio | EPIC-035 | Fase 3 |
+| [TASK-355](tasks/TASK-355.md) | Spec de segurança: identidade por telefone com escopo restrito | 🔴 Crítico | EPIC-036 | Fase 4 |
+| [TASK-356](tasks/TASK-356.md) | Cadastro de conselheiros com mandato | 🟡 Médio | EPIC-036 | Fase 4 |
+| [TASK-357](tasks/TASK-357.md) | Pedido de aprovação com até 3 orçamentos + regras por condomínio | 🟡 Médio | EPIC-036 | Fase 4 |
+| [TASK-358](tasks/TASK-358.md) | Voto do conselheiro (WhatsApp ou link) com auditoria | 🟡 Médio | EPIC-036 | Fase 4 |
+| [TASK-359](tasks/TASK-359.md) | QA: conselho e aprovação ponta a ponta | 🟠 Alto | EPIC-036 | Fase 4 |
+| [TASK-365](tasks/TASK-365.md) | QA: validar fluxo completo contra sandbox Asaas + checklist de rollout (CNPJ/certificado A1) | 🟠 Alto | EPIC-037 | — |
+| [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
@@ -2241,8 +2383,21 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-175](tasks/TASK-175.md) | Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing — **PR aberta contra `staging`, ainda não mergeada** ([web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90)) — validado no browser real, `npm run build` limpo (23/09) | 🟠 Alto | EPIC-024 |
-| [TASK-176](tasks/TASK-176.md) | Backend: webhook do Cal.com cria lead via `LeadService` — **PR aberta contra `staging`, ainda não mergeada** ([api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114)) — `mvn test` 1075/1075 (23/09) | 🟠 Alto | EPIC-024 |
+| [TASK-373](tasks/TASK-373.md) | Backend: `OrganizationSetting` — entidade, migration V128 e repositório — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-374](tasks/TASK-374.md) | Backend: `CommonArea` — entidade, migration V129 e repositório — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-375](tasks/TASK-375.md) | Backend: configuração de SLA de chamados — DTOs, serviço e API — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-376](tasks/TASK-376.md) | Backend: áreas comuns — DTOs, serviço CRUD e API (+ fix do bypass do TenantFilter) — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
+| [TASK-377](tasks/TASK-377.md) | Frontend: página `/configuracoes` + aba de SLA de Chamados — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
+| [TASK-378](tasks/TASK-378.md) | Frontend: aba de Áreas Comuns (listar, criar, editar) — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
+| [TASK-379](tasks/TASK-379.md) | Frontend: entrada "Configurações" no menu do usuário — implementado em `feature/EPIC-038-organization-settings`, `tsc` limpo | 🟡 Médio | EPIC-038 |
+| [TASK-360](tasks/TASK-360.md) | Backend: `FiscalInvoice` — entidade, enum, migration V125 e repositório — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-361](tasks/TASK-361.md) | Backend: configuração de NF na Asaas — DTOs, `AsaasClient`, `FiscalInvoiceConfigurationService` (+ flag fail-closed `asaas.fiscal-invoice.enabled`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-362](tasks/TASK-362.md) | Backend: acionar configuração de NF na ativação da assinatura — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-363](tasks/TASK-363.md) | Backend: webhook de nota fiscal — endpoint e processamento (`INVOICE_AUTHORIZED`/`INVOICE_ERROR`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-364](tasks/TASK-364.md) | Backend: job de reconciliação fiscal — implementado em `feature/EPIC-037-fiscal-invoice-nfse`; suíte completa do repo (1475 testes) verde após essa task | 🟡 Médio | EPIC-037 |
+| ~~[TASK-331](tasks/TASK-331.md)~~ | ~~Onboarding: campo de celular + opt-in explícito (espelhar padrão já usado em Perfil) — PRs mergeadas contra `staging` ([api#158](https://github.com/douglasjava/easy-maintenance-api/pull/158) / [web#116](https://github.com/douglasjava/easy-maintenance-web/pull/116) / [web#117](https://github.com/douglasjava/easy-maintenance-web/pull/117) ajuste de UX) — validado por Douglas 19/10/2026~~ | 🟠 Alto | EPIC-031 |
+| ~~[TASK-175](tasks/TASK-175.md)~~ | ~~Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing~~ — mergeada e em produção há algum tempo, confirmado por Douglas (21/10/2026) | 🟠 Alto | EPIC-024 |
+| ~~[TASK-176](tasks/TASK-176.md)~~ | ~~Backend: webhook do Cal.com cria lead via `LeadService`~~ — mergeada e em produção há algum tempo, confirmado por Douglas (21/10/2026) | 🟠 Alto | EPIC-024 |
 | [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
 | [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
 | [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
