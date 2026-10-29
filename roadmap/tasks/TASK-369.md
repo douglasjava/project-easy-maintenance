@@ -35,11 +35,18 @@ Emanuela (28/10/2026). Detalhe completo em
 
 ## Critérios de Aceite
 
-- [ ] Não é possível enviar o formulário sem escolher uma categoria
-- [ ] Protocolo retornado pela API aparece na tela de confirmação
-- [ ] Protocolo e categoria aparecem em cada item da listagem "Meus chamados"
-- [ ] Funciona em viewport mobile (público final acessa majoritariamente via QR code no celular)
-- [ ] `npm run build`/`tsc --noEmit` sem regressão
+- [x] Não é possível enviar o formulário sem escolher uma categoria (`<select required>` +
+      `disabled={... || !category}` no botão)
+- [x] Protocolo retornado pela API aparece na confirmação — toast com "Protocolo nº X" ao abrir
+- [x] Protocolo e categoria aparecem em cada item da listagem "Meus chamados" (badge de categoria +
+      linha "Protocolo nº X")
+- [ ] Funciona em viewport mobile — não verificado em navegador real nesta rodada (ver nota)
+- [x] `npm run build`/`tsc --noEmit` sem regressão
+
+**Nota**: verificação visual/responsiva em navegador real não foi feita nesta implementação —
+precisa da API local rodando (backend desta mesma extensão) pra testar o fluxo de ponta a ponta.
+Recomenda-se QA manual antes de promover, mesmo padrão já usado no resto do EPIC-027
+(TASK-QA-MAN-018).
 
 ## Dependências
 TASK-367 (contrato de API com `category`/`protocolNumber`). Independente de TASK-370/371.
@@ -51,4 +58,5 @@ Baixo — extensão de tela já existente, sem mudança estrutural de rota.
 Pequeno
 
 ## Status
-📋 Backlog
+🟡 Implementada, aguardando QA manual e PR — branch
+`feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-web`).

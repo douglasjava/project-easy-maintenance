@@ -57,16 +57,28 @@ completo em
 
 ## Critérios de Aceite
 
-- [ ] Chamado criado com opt-in `CONFIRMADO` e flag ligada dispara WhatsApp real ao morador
-- [ ] Chamado criado sem opt-in `CONFIRMADO` (ou flag desligada) não dispara nada
-- [ ] Transição pra `CONCLUIDO` com opt-in `CONFIRMADO` dispara WhatsApp de resolução
-- [ ] Clique duplo / reprocessamento da mesma transição não duplica o envio
-- [ ] Reabertura (`EM_ANDAMENTO`) seguida de nova conclusão dispara novo envio de resolução
-- [ ] Resposta de um número que não corresponde a nenhum `User` cadastrado é ignorada pelo fluxo do
-      EPIC-031 (não gera resposta automática confusa pro morador)
-- [ ] Falha de envio (ex. API do WhatsApp fora) não impede a criação do chamado nem a mudança de
-      status
-- [ ] `mvn test` sem regressão
+- [x] Chamado criado com opt-in `CONFIRMADO` e flag ligada dispara WhatsApp real ao morador —
+      disparado em `ResidentTicketWhatsAppOptInService.confirm()` (ver nota de implementação
+      abaixo, não em `create()`)
+- [x] Chamado criado sem opt-in `CONFIRMADO` (ou flag desligada) não dispara nada
+- [x] Transição pra `CONCLUIDO` com opt-in `CONFIRMADO` dispara WhatsApp de resolução
+- [x] Clique duplo / reprocessamento da mesma transição não duplica o envio — guarda de transição
+      (`previousStatus != CONCLUIDO`) em `ResidentTicketAdminService.updateStatus()`, sem tabela de
+      dispatch dedicada
+- [x] Reabertura (`EM_ANDAMENTO`) seguida de nova conclusão dispara novo envio de resolução
+- [x] Resposta de um número que não corresponde a nenhum `User` cadastrado é ignorada pelo fluxo do
+      EPIC-031 — **já existia** (`IdentityStep.handleUnknown` via
+      `AssistantIdentityService.resolve`, cobertos por `IdentityStepTest.unknownNumber_*`), nenhum
+      código novo precisou ser escrito
+- [x] Falha de envio (ex. API do WhatsApp fora) não impede a criação do chamado nem a mudança de
+      status — best-effort, `catch` genérico em `ResidentTicketWhatsAppNotificationService.send()`
+- [x] `mvn test` sem regressão — 1505/1505
+
+**Nota de implementação**: o desenho original previa notificar na criação do chamado em si, mas
+isso é logicamente impossível — o opt-in só fica `CONFIRMADO` depois da TASK-371 (confirmação por
+código), nunca no instante da criação. `notifyCreated()` passou a ser disparado dentro de
+`ResidentTicketWhatsAppOptInService.confirm()`, imediatamente após o opt-in ser confirmado — é o
+primeiro momento em que existe um destinatário válido pra notificar.
 
 ## Dependências
 TASK-367 (categoria/protocolo no payload das mensagens) e TASK-371 (só notifica quem já tem opt-in
@@ -83,4 +95,6 @@ testar esse cenário de verdade, não só isoladamente.
 Médio
 
 ## Status
-📋 Backlog
+🟡 Implementada, aguardando PR/validação final — mesma branch da TASK-367/371
+(`feature/EPIC-027-categoria-protocolo-notificacao`, `easy-maintenance-api`). Envio real em
+produção depende da TASK-372 (templates aprovados pela Meta) ainda não submetida.

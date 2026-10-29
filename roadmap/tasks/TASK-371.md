@@ -54,13 +54,20 @@ WhatsApp ao telefone informado. Detalhe completo em
 
 ## Critérios de Aceite
 
-- [ ] Marcar o checkbox dispara envio de código real via WhatsApp ao telefone informado
-- [ ] Código correto dentro da validade confirma o opt-in (`CONFIRMADO`)
-- [ ] Código errado é rejeitado com mensagem clara
-- [ ] Código expirado é rejeitado e oferece reenvio
-- [ ] Reenvio de código é limitado por rate limit (não permite spam de códigos)
-- [ ] Chamado é criado e fica acessível mesmo que o morador nunca confirme o código
-- [ ] `mvn test`/`npm run build` sem regressão
+- [x] Marcar o checkbox dispara envio de código real via WhatsApp ao telefone informado — depende
+      da aprovação do template na TASK-372 pra funcionar de fato em produção; código/testes prontos
+- [x] Código correto dentro da validade confirma o opt-in (`CONFIRMADO`)
+- [x] Código errado é rejeitado com mensagem clara (`RuleException` → "Código inválido")
+- [x] Código expirado é rejeitado e oferece reenvio (`RuleException` → "Código expirado"; botão de
+      reenvio na UI)
+- [x] Reenvio de código é limitado por rate limit (`resident-ticket-whatsapp-optin-resend`)
+- [x] Chamado é criado e fica acessível mesmo que o morador nunca confirme o código — opt-in nunca
+      bloqueia a abertura, confirmado em `ResidentTicketPublicServiceTest`
+- [x] `mvn test`/`npm run build` sem regressão — 1505/1505 backend; `tsc --noEmit` e `npm run build`
+      limpos no frontend
+- [ ] QA manual em navegador real (fluxo completo: marcar opt-in → receber código real → confirmar)
+      — pendente, precisa da API local rodando + template aprovado (ou mock) pra validar de ponta a
+      ponta
 
 ## Dependências
 TASK-367 (precisa do contrato de API já com categoria/protocolo). TASK-372 (template de confirmação
@@ -75,4 +82,6 @@ funciona em mock/sandbox até a aprovação sair.
 Médio
 
 ## Status
-📋 Backlog
+🟡 Implementada, aguardando PR/validação final — backend na branch
+`feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-api`), frontend na branch de
+mesmo nome (`easy-maintenance-web`). Falta QA manual em navegador real.

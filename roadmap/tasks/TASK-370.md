@@ -32,11 +32,13 @@ Emanuela (28/10/2026). Detalhe completo em
 
 ## Critérios de Aceite
 
-- [ ] Cada card do kanban mostra a categoria do chamado com indicação visual clara (cor/ícone por
-      tipo)
-- [ ] Cada card mostra o número de protocolo
-- [ ] Drag-and-drop entre colunas continua funcionando sem regressão
-- [ ] `npm run build`/`tsc --noEmit` sem regressão
+- [x] Cada card do kanban mostra a categoria do chamado com indicação visual clara (badge colorido
+      por tipo)
+- [x] Cada card mostra o número de protocolo
+- [ ] Drag-and-drop entre colunas continua funcionando sem regressão — só verificado por não ter
+      tocado na lógica de `dnd-kit` (`DraggableTicketCard`/`BoardColumn` inalterados); não testado
+      em navegador real nesta rodada
+- [x] `npm run build`/`tsc --noEmit` sem regressão
 
 ## Dependências
 TASK-367 (contrato de API com `category`/`protocolNumber`). Independente de TASK-369/371.
@@ -48,4 +50,5 @@ Baixo — extensão visual de componente já existente.
 Pequeno
 
 ## Status
-📋 Backlog
+🟡 Implementada, aguardando QA manual e PR — branch
+`feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-web`).

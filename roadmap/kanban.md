@@ -1,5 +1,17 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 28/10/2026 — **🟡 Extensão do [EPIC-027](epics/EPIC-027.md) implementada**
+> (TASK-367/368/369/370/371), numa única branch `feature/EPIC-027-categoria-protocolo-notificacao`
+> (api + web), a pedido de Douglas pra facilitar o merge em `staging`. Categoria (Sugestão/
+> Reclamação/Manutenção), protocolo sequencial por organização, opt-in de WhatsApp com confirmação
+> por código, e notificação ao morador (criação + resolução) via WhatsApp — reaproveita o número do
+> EPIC-031, mas como envio outbound simples (não o assistente conversacional). Migrations V126/V127
+> validadas contra MySQL 8 real (containers Docker efêmeros). `mvn test` 1505/1505;
+> `tsc --noEmit`/`npm run build` limpos no frontend. **TASK-372 (templates WhatsApp na Meta)
+> continua em Backlog** — precisa de acesso ao Meta Business Manager, ação do Douglas, fora do
+> escopo de código. Pendente: QA manual em navegador real (fluxo de ponta a ponta, incluindo
+> drag-and-drop do kanban, não verificado nesta rodada).
+
 > Atualizado em: 28/10/2026 — **📝 [EPIC-027](epics/EPIC-027.md) ganha extensão**: conversa de
 > Douglas com a síndica Aliria Emanuela trouxe categoria no chamado de morador (enum fixo
 > Sugestão/Reclamação/Manutenção — amplia o chamado de "só manutenção" pra canal geral com o

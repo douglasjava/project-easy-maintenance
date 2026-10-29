@@ -14,12 +14,16 @@ bloqueava os endpoints públicos com "Missing X-Org-Id header" mesmo com `Securi
 a rota — corrigido. Spec em `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Ideia
 original registrada em 07/09/2026 (macro, sem desenho).
 
-🟡 **Extensão (28/10/2026, 📋 Backlog, 5 tasks novas)**: conversa de Douglas com a síndica Aliria
-Emanuela trouxe categoria (enum fixo Sugestão/Reclamação/Manutenção), número de protocolo
-sequencial por organização, e notificação ao morador via WhatsApp (criação + resolução) — reaproveita
-a infra do EPIC-031, com opt-in que exige confirmação por código (decisão de segurança, evita
-notificar telefone de terceiro). TASK-367 a TASK-371. Spec em
-`docs/superpowers/specs/2026-10-28-resident-tickets-category-protocol-notification-design.md`.
+🟡 **Extensão (28/10/2026, implementada, aguardando PR/QA manual)**: conversa de Douglas com a
+síndica Aliria Emanuela trouxe categoria (enum fixo Sugestão/Reclamação/Manutenção), número de
+protocolo sequencial por organização, e notificação ao morador via WhatsApp (criação + resolução) —
+reaproveita a infra do EPIC-031, com opt-in que exige confirmação por código (decisão de segurança,
+evita notificar telefone de terceiro). TASK-367/368/369/370/371 implementadas numa única branch
+(`feature/EPIC-027-categoria-protocolo-notificacao`, api + web) — `mvn test` 1505/1505,
+`tsc --noEmit`/`npm run build` limpos no frontend. **TASK-372 continua em Backlog**: submissão dos 2
+templates WhatsApp à Meta exige acesso ao Meta Business Manager, ação do Douglas, não automatizável.
+Falta QA manual em navegador real (fluxo completo não validado de ponta a ponta nesta rodada). Spec
+em `docs/superpowers/specs/2026-10-28-resident-tickets-category-protocol-notification-design.md`.
 
 ## Objetivo
 Dar aos moradores das edificações atendidas uma forma de abrir e acompanhar chamados/solicitações
