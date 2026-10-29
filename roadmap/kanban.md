@@ -1,5 +1,19 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 29/10/2026 — **📝 [EPIC-038](epics/EPIC-038.md) criado**: Módulo de Configurações
+> da Organização — brainstorm com Douglas (sessão interrompida por queda de energia e retomada a
+> partir do que ele tinha colado de modelagem inicial). Dois mecanismos: `organization_settings`
+> (genérico, categoria→JSON, só `TICKETS_SLA` por ora, pensado pra novas categorias entrarem sem
+> migration) e `common_area` (cadastro de áreas comuns com `fee_cents` próprio e `rules` em JSON).
+> Permissão ADMIN **ou** SYNDIC (não só ADMIN — ajustado durante o brainstorm pro síndico de fato
+> poder usar). Escopo explicitamente só o módulo de configuração: sem SLA sendo consumido por
+> `ResidentTicket`, sem fluxo de reserva de área comum, sem cobrança automática da taxa — tudo
+> fica pra quando os módulos consumidores existirem. Builder-check (agente fresco) corrigiu 2
+> gaps no desenho do frontend antes de virar task (componente de abas certo a usar, nome do enum
+> de categoria). 7 tasks no Backlog (TASK-373 a TASK-379). Spec em
+> `docs/superpowers/specs/2026-10-29-organization-settings-module-design.md`, plano em
+> `docs/superpowers/plans/2026-10-29-organization-settings-module.md`.
+
 > Atualizado em: 28/10/2026 — **🟡 Extensão do [EPIC-027](epics/EPIC-027.md) implementada**
 > (TASK-367/368/369/370/371), numa única branch `feature/EPIC-027-categoria-protocolo-notificacao`
 > (api + web), a pedido de Douglas pra facilitar o merge em `staging`. Categoria (Sugestão/
@@ -11,6 +25,18 @@
 > continua em Backlog** — precisa de acesso ao Meta Business Manager, ação do Douglas, fora do
 > escopo de código. Pendente: QA manual em navegador real (fluxo de ponta a ponta, incluindo
 > drag-and-drop do kanban, não verificado nesta rodada).
+
+> Atualizado em: 29/10/2026 — **✅ QA manual da extensão do EPIC-027 concluído** (TASK-369/370/371)
+> contra API/frontend/banco locais reais, na branch `feature/EPIC-027-categoria-protocolo-notificacao`.
+> Fluxo público validado nas 3 categorias (protocolo sequencial e badge corretos), opt-in de
+> WhatsApp com confirmação por código validado de ponta a ponta (código correto confirma, código
+> errado rejeita com mensagem clara, "Pular" nunca bloqueia o chamado), kanban interno validado
+> (categoria/protocolo nos cards, drag-and-drop SOLICITADO → EM ANDAMENTO → CONCLUÍDO sem
+> regressão). **Único item não verificado**: viewport mobile — a emulação de viewport via
+> automação de navegador não funcionou nesta sessão (limitação da ferramenta, não da aplicação);
+> recomenda-se checagem manual rápida num celular real antes de promover. TASK-372 (templates
+> WhatsApp na Meta) segue bloqueando o envio real de WhatsApp em produção, sem impacto no restante
+> do fluxo.
 
 > Atualizado em: 28/10/2026 — **📝 [EPIC-027](epics/EPIC-027.md) ganha extensão**: conversa de
 > Douglas com a síndica Aliria Emanuela trouxe categoria no chamado de morador (enum fixo
@@ -2132,6 +2158,13 @@ _Vazio_
 | [TASK-359](tasks/TASK-359.md) | QA: conselho e aprovação ponta a ponta | 🟠 Alto | EPIC-036 | Fase 4 |
 | [TASK-365](tasks/TASK-365.md) | QA: validar fluxo completo contra sandbox Asaas + checklist de rollout (CNPJ/certificado A1) | 🟠 Alto | EPIC-037 | — |
 | [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
+| [TASK-373](tasks/TASK-373.md) | Backend: `OrganizationSetting` — entidade, migration V128 e repositório | 🟠 Alto | EPIC-038 | — |
+| [TASK-374](tasks/TASK-374.md) | Backend: `CommonArea` — entidade, migration V129 e repositório | 🟠 Alto | EPIC-038 | — |
+| [TASK-375](tasks/TASK-375.md) | Backend: configuração de SLA de chamados — DTOs, serviço e API | 🟠 Alto | EPIC-038 | — |
+| [TASK-376](tasks/TASK-376.md) | Backend: áreas comuns — DTOs, serviço CRUD e API | 🟠 Alto | EPIC-038 | — |
+| [TASK-377](tasks/TASK-377.md) | Frontend: página `/configuracoes` + aba de SLA de Chamados | 🟠 Alto | EPIC-038 | — |
+| [TASK-378](tasks/TASK-378.md) | Frontend: aba de Áreas Comuns (listar, criar, editar) | 🟠 Alto | EPIC-038 | — |
+| [TASK-379](tasks/TASK-379.md) | Frontend: entrada "Configurações" no menu do usuário | 🟡 Médio | EPIC-038 | — |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
