@@ -1,5 +1,31 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 01/11/2026 — **🟢 [EPIC-039](epics/EPIC-039.md) QA manual concluído, pronto pra
+> `main`**: PRs mergeadas em `staging` (api#171, web#120); bug crítico
+> [TASK-393](tasks/TASK-393.md) encontrado ao preparar o QA (`/organizations/condo-people` e
+> `/organizations/units` caíam no bypass genérico `/organizations/` do `TenantFilter`, mesma
+> classe de bug já corrigida no EPIC-038 — 403 mesmo com `X-Org-Id` correto) foi corrigido e
+> mergeado direto em `staging` (sem PR intermediária, a pedido do Douglas), com 8 cenários novos
+> de regressão em `TenantFilterBypassTest` e 3 testes de permissão faltantes em
+> `CondoPersonServiceTest`. Suíte completa: 1613/1613, 0 falhas. Plano de testes
+> ([FLOW-012](QA/Flow/FLOW-012.md), [MTD-009](QA/MTD/MTD-009.md),
+> [TASK-QA-MAN-027](QA/tasks/TASK-QA-MAN-027.md)) executado de ponta a ponta contra API local
+> (curl) e web local (navegador) com os dados `QA-027-*`: todos os 8 cenários + negativo
+> aprovados. Único achado: gap de UX menor (TECH acessando `/pessoas` direto por URL vê página em
+> branco sem mensagem de erro — não bloqueante, segurança intacta).
+
+> Atualizado em: 31/10/2026 — **📝 [EPIC-039](epics/EPIC-039.md) e [EPIC-040](epics/EPIC-040.md)
+> criados**: Pessoas e Papéis (registro de governança do condomínio — síndico/conselho/moradores/
+> fornecedores/unidades, entidades `CondoPerson`/`Unit`) e, em seguida, a Esteira de Aprovação de
+> Identidade do Morador via QR Code/WhatsApp (dá o papel `MORADOR` a um número só depois do síndico
+> confirmar, antes de liberar o chat do assistente do EPIC-031 ou processar a solicitação pedida).
+> Brainstorm com Douglas sobre o protótipo do sócio Tiago (tela `/pessoas`); as 6 perguntas em
+> aberto da spec de Pessoas e Papéis foram decididas direto por Douglas, sem validação externa do
+> Tiago. 13 tasks novas no Backlog: TASK-380 a TASK-386 (EPIC-039) e TASK-387 a TASK-392
+> (EPIC-040, **depende do EPIC-039 estar implementado** — precisa de `CondoPerson`/`Unit`
+> existirem). Specs em `docs/superpowers/specs/2026-10-29-pessoas-papeis-governanca-design.md` e
+> `docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
+
 > Atualizado em: 29/10/2026 — **🟡 [EPIC-038](epics/EPIC-038.md) implementado, PRs abertas**
 > (TASK-373 a TASK-379), numa branch por repo (`feature/EPIC-038-organization-settings`, api + web,
 > a partir de `staging`), via subagent-driven-development — cada task implementada e revisada por
@@ -2182,6 +2208,12 @@ _Vazio_
 | [TASK-358](tasks/TASK-358.md) | Voto do conselheiro (WhatsApp ou link) com auditoria | 🟡 Médio | EPIC-036 | Fase 4 |
 | [TASK-359](tasks/TASK-359.md) | QA: conselho e aprovação ponta a ponta | 🟠 Alto | EPIC-036 | Fase 4 |
 | [TASK-365](tasks/TASK-365.md) | QA: validar fluxo completo contra sandbox Asaas + checklist de rollout (CNPJ/certificado A1) | 🟠 Alto | EPIC-037 | — |
+| [TASK-387](tasks/TASK-387.md) | Backend: `ResidentIdentityPending` — entidade, migration e repositório | 🟠 Alto | EPIC-040 | — |
+| [TASK-388](tasks/TASK-388.md) | Backend: intake do QR Code — apto/bloco + desvio para pendência | 🟠 Alto | EPIC-040 | — |
+| [TASK-389](tasks/TASK-389.md) | Backend: notificação ao síndico — e-mail de fallback + WhatsApp fan-out | 🟠 Alto | EPIC-040 | — |
+| [TASK-390](tasks/TASK-390.md) | Backend: aprovação/reprovação — lock, `CondoPerson`+`Unit`, reprocessamento | 🟠 Alto | EPIC-040 | — |
+| [TASK-391](tasks/TASK-391.md) | Frontend: aba "Pendentes" em `/pessoas` | 🟠 Alto | EPIC-040 | — |
+| [TASK-392](tasks/TASK-392.md) | Infra/Config: template WhatsApp de aprovação (botões) — submissão Meta | 🔴 Crítico | EPIC-040 | — |
 | [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
@@ -2390,6 +2422,14 @@ _Vazio_
 | [TASK-377](tasks/TASK-377.md) | Frontend: página `/configuracoes` + aba de SLA de Chamados — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
 | [TASK-378](tasks/TASK-378.md) | Frontend: aba de Áreas Comuns (listar, criar, editar) — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
 | [TASK-379](tasks/TASK-379.md) | Frontend: entrada "Configurações" no menu do usuário — implementado em `feature/EPIC-038-organization-settings`, `tsc` limpo | 🟡 Médio | EPIC-038 |
+| [TASK-380](tasks/TASK-380.md) | Backend: `Unit` — entidade, migration V131 e repositório — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
+| [TASK-381](tasks/TASK-381.md) | Backend: `CondoPerson` — entidade, migration V132, enum `CondoRole` e repositório — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
+| [TASK-382](tasks/TASK-382.md) | Backend: `Unit` — DTOs, serviço CRUD e API — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
+| [TASK-383](tasks/TASK-383.md) | Backend: `CondoPerson` — DTOs, serviço CRUD e API (+ endpoint de opções de fornecedor não previsto na task original, necessário pro combo do frontend) — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
+| [TASK-384](tasks/TASK-384.md) | Frontend: tela `/pessoas` — abas Gestão/Conselho/Moradores/Fornecedores + formulário "Adicionar pessoa" — implementado em `feature/EPIC-039-pessoas-papeis` (web), `tsc`/`build` limpos | 🟠 Alto | EPIC-039 |
+| [TASK-385](tasks/TASK-385.md) | Frontend: aba Unidades (listar, criar, editar) — implementado em `feature/EPIC-039-pessoas-papeis` (web), `tsc`/`build` limpos | 🟠 Alto | EPIC-039 |
+| [TASK-386](tasks/TASK-386.md) | Frontend: entrada "Pessoas e Papéis" no menu do usuário — implementado em `feature/EPIC-039-pessoas-papeis` (web), `tsc` limpo | 🟡 Médio | EPIC-039 |
+| [TASK-393](tasks/TASK-393.md) | Bugfix: `TenantFilter` não validava X-Org-Id em condo-people/units — corrigido e mergeado direto em `staging`, 1613/1613 testes verdes | 🔴 Crítico | EPIC-039 |
 | [TASK-360](tasks/TASK-360.md) | Backend: `FiscalInvoice` — entidade, enum, migration V125 e repositório — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
 | [TASK-361](tasks/TASK-361.md) | Backend: configuração de NF na Asaas — DTOs, `AsaasClient`, `FiscalInvoiceConfigurationService` (+ flag fail-closed `asaas.fiscal-invoice.enabled`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
 | [TASK-362](tasks/TASK-362.md) | Backend: acionar configuração de NF na ativação da assinatura — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |

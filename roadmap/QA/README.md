@@ -40,6 +40,7 @@ QA/
 | [FLOW-009](Flow/FLOW-009.md) | Soft Delete e Histórico Regulatório | MEDIUM |
 | [FLOW-010](Flow/FLOW-010.md) | Performance Frontend e Cache | MEDIUM |
 | [FLOW-011](Flow/FLOW-011.md) | Funcionalidades SaaS | MEDIUM |
+| [FLOW-012](Flow/FLOW-012.md) | Pessoas e Papéis (Governança do Condomínio) | HIGH |
 
 ---
 
@@ -55,6 +56,7 @@ QA/
 | [MTD-006](MTD/MTD-006.md) | Security headers e rate limiting | FLOW-007 |
 | [MTD-007](MTD/MTD-007.md) | Soft delete e integridade de dados | FLOW-009 |
 | [MTD-008](MTD/MTD-008.md) | Performance frontend e cache React Query | FLOW-010 |
+| [MTD-009](MTD/MTD-009.md) | Cadastro de Pessoas e Unidades (`CondoPerson`/`Unit`) | FLOW-012 |
 
 ---
 
@@ -71,6 +73,8 @@ QA/
 | [TASK-QA-MAN-005](tasks/TASK-QA-MAN-005.md) | Validação de security headers e rate limiting em produção | 🟠 Alto |
 | [TASK-QA-MAN-006](tasks/TASK-QA-MAN-006.md) | Validação do banner de trial e indicador de uso de plano | 🟠 Alto |
 | [TASK-QA-MAN-007](tasks/TASK-QA-MAN-007.md) | Validação de soft delete e integridade de histórico | 🟡 Médio |
+| [TASK-QA-MAN-026](tasks/TASK-QA-MAN-026.md) | Emissão de NFS-e via Asaas nativo (EPIC-037) — flag de segurança, configuração na ativação, webhook, reconciliação | 🔴 Alto |
+| [TASK-QA-MAN-027](tasks/TASK-QA-MAN-027.md) | Pessoas e Papéis (EPIC-039) — cadastro por papel, matriz role/role_detail, isolamento multi-tenant, permissão | 🟠 Alto |
 
 ### Automatizadas
 
@@ -82,6 +86,7 @@ QA/
 | [TASK-QA-AUTO-004](tasks/TASK-QA-AUTO-004.md) | Testes de integração — webhook Asaas idempotência e token | Integração | 🟠 Alto |
 | [TASK-QA-AUTO-005](tasks/TASK-QA-AUTO-005.md) | Testes de integração — soft delete e filtro automático | Integração | 🟡 Médio |
 | [TASK-QA-AUTO-006](tasks/TASK-QA-AUTO-006.md) | Testes E2E — performance React Query sem requisições redundantes | E2E | 🟡 Médio |
+| [TASK-QA-AUTO-009](tasks/TASK-QA-AUTO-009.md) | Testes de integração — matriz role/role_detail e isolamento multi-tenant de Unit/CondoPerson (EPIC-039) | Integração | 🟠 Alto |
 
 ---
 
