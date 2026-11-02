@@ -55,8 +55,10 @@ EPIC-039 caem sob esse prefixo e por isso nunca passavam pela validação/popula
 
 ## Branch
 `bugfix/TASK-393-tenant-filter-pessoas-papeis` (`easy-maintenance-api`, a partir de `staging`) —
-mergeado direto em `staging` (commits `a207c74`, `ff6c4f3`, `cd89522`), a pedido do Douglas, sem PR
-intermediária.
+mergeado direto em `staging` em 01/11/2026 (commits `a207c74`, `ff6c4f3`, `cd89522`), a pedido do
+Douglas, sem PR intermediária. Formalizado via
+[PR #172](https://github.com/douglasjava/easy-maintenance-api/pull/172) em 02/11/2026 (diff vazio,
+conteúdo já idêntico ao de `staging`), mergeada e branch deletada.
 
 ## Riscos
 Nenhum — fix aditivo (lista de exceções), sem alterar comportamento de nenhuma outra rota. Suíte
