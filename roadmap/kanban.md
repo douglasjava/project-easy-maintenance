@@ -1,14 +1,19 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 02/11/2026 — **🟡 [EPIC-040](epics/EPIC-040.md) em andamento**: TASK-387
-> (`ResidentIdentityPending` — entidade, migration V133, repositório), TASK-388 (intake do QR Code
-> desvia pra pendência quando o telefone não é morador reconhecido) e TASK-389 (notificação ao
-> síndico — e-mail obrigatório + WhatsApp fan-out, desligado por flag até a Meta aprovar o template
-> da TASK-392) implementadas em `feature/EPIC-040-resident-identity-approval` (api + web). TASK-388
-> teve que incluir um ajuste mínimo no frontend público (fora do escopo original BACKEND) — campo
-> apto/bloco + aviso de pendência — pra não quebrar a tela de abertura de chamado em produção ao
-> mudar o contrato de resposta do endpoint. Suíte completa: 1632/1632, 0 falhas; `tsc`/`build` do
-> web limpos. Restam TASK-390 a TASK-392.
+> Atualizado em: 02/11/2026 — **🟡 [EPIC-040](epics/EPIC-040.md) quase completo**: TASK-387 a
+> TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web) — entidade da
+> pendência, intake do QR Code desviando pra pendência, notificação ao síndico (e-mail + WhatsApp
+> fan-out), aprovação/reprovação com lock real de idempotência + reprocessamento do chamado retido,
+> e aba "Pendentes" em `/pessoas`. Uma divergência real foi encontrada e corrigida: o WhatsApp da
+> TASK-389 mandava `{{1}}`=nome da organização em vez do nome do aprovador, e só 4 das 5 variáveis
+> do template — corrigido antes de documentar o template pra TASK-392, evitando resubmissão por
+> divergência. **[TASK-392](tasks/TASK-392.md) (submissão do template à Meta) é a única que não dá
+> pra terminar por agente** — exige o Douglas no Meta Business Manager; conteúdo do template já
+> documentado, código já alinhado. Também falta, fora do escopo atual do épico, o webhook que recebe
+> o clique Aprovar/Reprovar (os serviços já estão prontos pra isso). TASK-388 teve que incluir um
+> ajuste mínimo no frontend público (fora do escopo original BACKEND) — campo apto/bloco + aviso de
+> pendência — pra não quebrar a tela de abertura de chamado em produção. Suíte completa: 1648/1648,
+> 0 falhas; `tsc`/`build` do web limpos.
 
 > Atualizado em: 01/11/2026 — **🟢 [EPIC-039](epics/EPIC-039.md) QA manual concluído, pronto pra
 > `main`**: PRs mergeadas em `staging` (api#171, web#120); bug crítico

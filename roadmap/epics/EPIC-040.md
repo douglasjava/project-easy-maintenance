@@ -1,15 +1,23 @@
 # EPIC-040 — Esteira de Aprovação de Identidade do Morador (QR Code / WhatsApp)
 
 ## Status
-🟡 Em andamento (02/11/2026) — EPIC-039 implementado e validado, dependência liberada.
-[TASK-387](../tasks/TASK-387.md) (`ResidentIdentityPending` — entidade, migration V133,
-repositório), [TASK-388](../tasks/TASK-388.md) (intake do QR Code desvia pra pendência quando o
-telefone não é morador reconhecido) e [TASK-389](../tasks/TASK-389.md) (notificação ao síndico —
-e-mail + WhatsApp fan-out) implementadas em `feature/EPIC-040-resident-identity-approval` (api e
-web). TASK-388 exigiu ajuste no frontend público além do escopo original de backend — ver nota na
-task — pra não quebrar a tela de abertura de chamado já em produção. WhatsApp da TASK-389 fica
-desligado por flag até o template ser aprovado pela Meta (TASK-392). Suíte completa: 1632/1632
-testes verdes; `tsc`/`build` do web limpos. Restam TASK-390 a TASK-392 no Backlog. Spec em
+🟡 Quase completo (02/11/2026) — EPIC-039 implementado e validado, dependência liberada.
+TASK-387 a TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web):
+entidade da pendência (TASK-387), intake do QR Code desviando pra pendência (TASK-388),
+notificação ao síndico por e-mail + WhatsApp fan-out (TASK-389), aprovação/reprovação com lock de
+idempotência real + reprocessamento do chamado retido (TASK-390), aba "Pendentes" em `/pessoas`
+(TASK-391). TASK-388 exigiu ajuste no frontend público além do escopo original de backend — ver
+nota na task — pra não quebrar a tela de abertura de chamado já em produção. Suíte completa:
+1648/1648 testes verdes; `tsc`/`build` do web limpos.
+
+**[TASK-392](../tasks/TASK-392.md) (submissão do template à Meta) é a única que não pode ser
+concluída por um agente** — exige o Douglas submeter o template no Meta Business Manager; o
+conteúdo exato já está documentado e o código (TASK-389) já foi corrigido pra bater com as
+variáveis do template (uma divergência real foi encontrada e corrigida ao especificar o template).
+Até lá, WhatsApp da esteira fica desligado por flag (e-mail continua cobrindo 100% das
+organizações). Também não existe, no épico, uma task que implemente o webhook que recebe o clique
+do botão Aprovar/Reprovar — os serviços já estão prontos pra isso (ver nota na TASK-392), mas falta
+escrevê-lo quando o template for aprovado. Spec em
 `docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
 
 ## Objetivo
