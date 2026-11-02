@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/11/2026 — **🟡 [EPIC-040](epics/EPIC-040.md) iniciado**: dependência do
+> EPIC-039 liberada, [TASK-387](tasks/TASK-387.md) (`ResidentIdentityPending` — entidade, migration
+> V133, repositório) implementada em `feature/EPIC-040-resident-identity-approval` (api), padrão
+> `active_dedup_key` reaproveitado do V85 pra contornar a falta de índice único parcial no MySQL.
+> Suíte completa: 1619/1619, 0 falhas. Branch homônima criada em `easy-maintenance-web`. Restam
+> TASK-388 a TASK-392.
+
 > Atualizado em: 01/11/2026 — **🟢 [EPIC-039](epics/EPIC-039.md) QA manual concluído, pronto pra
 > `main`**: PRs mergeadas em `staging` (api#171, web#120); bug crítico
 > [TASK-393](tasks/TASK-393.md) encontrado ao preparar o QA (`/organizations/condo-people` e
