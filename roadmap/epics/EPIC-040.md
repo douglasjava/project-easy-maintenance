@@ -3,9 +3,11 @@
 ## Status
 🟡 Em andamento (02/11/2026) — EPIC-039 implementado e validado, dependência liberada.
 [TASK-387](../tasks/TASK-387.md) (`ResidentIdentityPending` — entidade, migration V133,
-repositório) implementada em `feature/EPIC-040-resident-identity-approval` (api), 1619/1619 testes
-verdes. Branch homônima criada em `easy-maintenance-web` (ainda sem commits, aguarda TASK-391).
-Restam TASK-388 a TASK-392 no Backlog. Spec em
+repositório) e [TASK-388](../tasks/TASK-388.md) (intake do QR Code desvia pra pendência quando o
+telefone não é morador reconhecido) implementadas em `feature/EPIC-040-resident-identity-approval`
+(api e web). TASK-388 exigiu ajuste no frontend público além do escopo original de backend — ver
+nota na task — pra não quebrar a tela de abertura de chamado já em produção. Suíte completa:
+1624/1624 testes verdes; `tsc`/`build` do web limpos. Restam TASK-389 a TASK-392 no Backlog. Spec em
 `docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
 
 ## Objetivo
