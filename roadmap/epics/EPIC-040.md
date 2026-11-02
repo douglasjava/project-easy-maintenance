@@ -3,11 +3,13 @@
 ## Status
 🟡 Em andamento (02/11/2026) — EPIC-039 implementado e validado, dependência liberada.
 [TASK-387](../tasks/TASK-387.md) (`ResidentIdentityPending` — entidade, migration V133,
-repositório) e [TASK-388](../tasks/TASK-388.md) (intake do QR Code desvia pra pendência quando o
-telefone não é morador reconhecido) implementadas em `feature/EPIC-040-resident-identity-approval`
-(api e web). TASK-388 exigiu ajuste no frontend público além do escopo original de backend — ver
-nota na task — pra não quebrar a tela de abertura de chamado já em produção. Suíte completa:
-1624/1624 testes verdes; `tsc`/`build` do web limpos. Restam TASK-389 a TASK-392 no Backlog. Spec em
+repositório), [TASK-388](../tasks/TASK-388.md) (intake do QR Code desvia pra pendência quando o
+telefone não é morador reconhecido) e [TASK-389](../tasks/TASK-389.md) (notificação ao síndico —
+e-mail + WhatsApp fan-out) implementadas em `feature/EPIC-040-resident-identity-approval` (api e
+web). TASK-388 exigiu ajuste no frontend público além do escopo original de backend — ver nota na
+task — pra não quebrar a tela de abertura de chamado já em produção. WhatsApp da TASK-389 fica
+desligado por flag até o template ser aprovado pela Meta (TASK-392). Suíte completa: 1632/1632
+testes verdes; `tsc`/`build` do web limpos. Restam TASK-390 a TASK-392 no Backlog. Spec em
 `docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
 
 ## Objetivo

@@ -1,13 +1,14 @@
 # Kanban — Easy Maintenance
 
 > Atualizado em: 02/11/2026 — **🟡 [EPIC-040](epics/EPIC-040.md) em andamento**: TASK-387
-> (`ResidentIdentityPending` — entidade, migration V133, repositório) e TASK-388 (intake do QR Code
-> desvia pra pendência quando o telefone não é morador reconhecido) implementadas em
-> `feature/EPIC-040-resident-identity-approval` (api + web). TASK-388 teve que incluir um ajuste
-> mínimo no frontend público (fora do escopo original BACKEND) — campo apto/bloco + aviso de
-> pendência — pra não quebrar a tela de abertura de chamado em produção ao mudar o contrato de
-> resposta do endpoint. Suíte completa: 1624/1624, 0 falhas; `tsc`/`build` do web limpos. Restam
-> TASK-389 a TASK-392.
+> (`ResidentIdentityPending` — entidade, migration V133, repositório), TASK-388 (intake do QR Code
+> desvia pra pendência quando o telefone não é morador reconhecido) e TASK-389 (notificação ao
+> síndico — e-mail obrigatório + WhatsApp fan-out, desligado por flag até a Meta aprovar o template
+> da TASK-392) implementadas em `feature/EPIC-040-resident-identity-approval` (api + web). TASK-388
+> teve que incluir um ajuste mínimo no frontend público (fora do escopo original BACKEND) — campo
+> apto/bloco + aviso de pendência — pra não quebrar a tela de abertura de chamado em produção ao
+> mudar o contrato de resposta do endpoint. Suíte completa: 1632/1632, 0 falhas; `tsc`/`build` do
+> web limpos. Restam TASK-390 a TASK-392.
 
 > Atualizado em: 01/11/2026 — **🟢 [EPIC-039](epics/EPIC-039.md) QA manual concluído, pronto pra
 > `main`**: PRs mergeadas em `staging` (api#171, web#120); bug crítico
