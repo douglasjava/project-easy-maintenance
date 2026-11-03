@@ -1,5 +1,15 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 02/11/2026 — **🐛 [EPIC-040](epics/EPIC-040.md) — bug crítico achado só em teste
+> de integração real**: `POST .../resident-identity-pendings/{id}/approve` retornava `500` sempre,
+> mesmo com os 1648 testes unitários verdes — `approveForCurrentOrganization()` chamava `approve()`
+> via auto-invocação (`this.`), então o proxy `@Transactional` do Spring nunca era aplicado e o
+> lock pessimista falhava por falta de transação. Achado rodando a API local de verdade contra
+> MySQL + MailHog (a pedido do Douglas), não contra mocks. Corrigido (commit `fb53c30`) e
+> revalidado ponta a ponta: intake → pendência → aprovação cria `Unit`+`CondoPerson`+
+> `ResidentTicket` de verdade → idempotência → reprovação → telefone já aprovado pula a esteira →
+> e-mails reais no MailHog (ADMIN + SYNDIC). Ver nota completa na TASK-390.
+
 > Atualizado em: 02/11/2026 — **🟡 [EPIC-040](epics/EPIC-040.md) quase completo**: TASK-387 a
 > TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web) — entidade da
 > pendência, intake do QR Code desviando pra pendência, notificação ao síndico (e-mail + WhatsApp
@@ -2093,6 +2103,7 @@ _Vazio_
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
 | [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
+| [TASK-394](tasks/TASK-394.md)  | Pagamentos do 2º+ ciclo de assinatura CARD nativa Asaas (gerados 100% pela recorrência da Asaas, sem checkout/Payment local pré-existente) não têm `Payment`/`Invoice` pra casar — webhook descartado silenciosamente (só WARN); 3ª remediação manual na mesma conta (subscriptionId 2), após TASK-217 e TASK-321 | 🔴 Crítico | — | GRAVE |
 
 ---
 

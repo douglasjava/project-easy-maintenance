@@ -72,11 +72,28 @@ explicitamente a chamada repetida/concorrente nesta task, não deixar só pra QA
 Grande
 
 ## Status
-🟢 Implementado (02/11/2026) — branch `feature/EPIC-040-resident-identity-approval`
-(`easy-maintenance-api`), commit `847f001`. Lock via `SELECT ... FOR UPDATE`
-(`findByIdAndOrganizationIdForUpdate`, mesmo padrão de `OrganizationRepository.findByIdForUpdate`/
-TASK-367). Webhook de resposta do WhatsApp (botão Aprovar/Reprovar) **não foi implementado nesta
-entrega** — não existe task própria pra isso no EPIC, e WhatsApp continua desligado por flag até a
-TASK-392; os métodos de domínio já recebem `Organization`/id explícito (não dependem de
-`TenantContext`) justamente pra esse webhook poder reusar a mesma lógica quando for implementado.
-12 testes novos, suíte completa 1647/1647. Desbloqueia TASK-391.
+🟢 Implementado e validado contra ambiente real (02/11/2026) — branch
+`feature/EPIC-040-resident-identity-approval` (`easy-maintenance-api`), commits `847f001` e
+`fb53c30`. Lock via `SELECT ... FOR UPDATE` (`findByIdAndOrganizationIdForUpdate`, mesmo padrão de
+`OrganizationRepository.findByIdForUpdate`/TASK-367). Webhook de resposta do WhatsApp (botão
+Aprovar/Reprovar) **não foi implementado nesta entrega** — não existe task própria pra isso no
+EPIC, e WhatsApp continua desligado por flag até a TASK-392; os métodos de domínio já recebem
+`Organization`/id explícito (não dependem de `TenantContext`) justamente pra esse webhook poder
+reusar a mesma lógica quando for implementado.
+
+**Bug crítico encontrado e corrigido via teste de integração real** (API local + MySQL + MailHog,
+não mocado, a pedido do Douglas em 02/11/2026): `POST .../approve` retornava `500` sempre —
+`approveForCurrentOrganization()`/`rejectForCurrentOrganization()` chamavam `approve()`/`reject()`
+via auto-invocação (`this.`), então o proxy de `@Transactional` do Spring nunca interceptava essa
+chamada e o lock pessimista (`findByIdAndOrganizationIdForUpdate`) falhava por falta de transação
+ativa. Os 12 testes unitários (Mockito puro, sem contexto Spring) passavam antes e continuam
+passando depois — prova de que esse tipo de bug é estruturalmente invisível a teste unitário,
+precisa de proxy/transação de verdade pra aparecer. Corrigido com `@Transactional` nos métodos
+`*ForCurrentOrganization` (o ponto de entrada real via proxy).
+
+Fluxo completo validado manualmente ponta a ponta: intake com telefone novo → pendência criada sem
+chamado; reenvio do mesmo telefone → atualiza sem duplicar nem renotificar; aprovar criando unidade
+nova → `Unit`+`CondoPerson`(MORADOR)+`ResidentTicket` criados de verdade; aprovar de novo a mesma
+pendência → no-op real; reprovar → nada criado; telefone já aprovado → vai direto pro fluxo normal,
+sem passar pela esteira de novo; e-mails reais confirmados via MailHog (ADMIN + SYNDIC). Suíte
+completa: 1648/1648. Desbloqueia TASK-391.

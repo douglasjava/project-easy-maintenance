@@ -17,7 +17,14 @@ variáveis do template (uma divergência real foi encontrada e corrigida ao espe
 Até lá, WhatsApp da esteira fica desligado por flag (e-mail continua cobrindo 100% das
 organizações). Também não existe, no épico, uma task que implemente o webhook que recebe o clique
 do botão Aprovar/Reprovar — os serviços já estão prontos pra isso (ver nota na TASK-392), mas falta
-escrevê-lo quando o template for aprovado. Spec em
+escrevê-lo quando o template for aprovado.
+
+**Teste de integração real feito em 02/11/2026** (API local + MySQL + MailHog, não mocado, a
+pedido do Douglas): encontrou e corrigiu um bug crítico que os 1648 testes unitários não detectavam
+— `POST .../approve` retornava `500` por falta de `@Transactional` efetivo (auto-invocação, ver
+nota na TASK-390). Fluxo completo validado ponta a ponta com dados reais (intake → pendência →
+aprovação → `Unit`+`CondoPerson`+`ResidentTicket` criados → e-mails reais no MailHog → idempotência
+→ reprovação → telefone já aprovado pula a esteira). Spec em
 `docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
 
 ## Objetivo
