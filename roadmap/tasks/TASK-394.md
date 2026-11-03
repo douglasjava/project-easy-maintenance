@@ -187,6 +187,8 @@ de haver uma base maior de clientes.
 Médio
 
 ## Status
-🟣 Em Validação — implementado em `bugfix/TASK-394-card-recurring-webhook-provision`
-(easy-maintenance-api), `mvn clean test` 1669/1669 sem regressão. Falta QA manual na primeira
-cobrança recorrente real pós-deploy (próxima prevista: 02/12/2026) antes de abrir o PR.
+🟣 Em Validação — implementado e mergeado em `staging` (easy-maintenance-api PR
+[#176](https://github.com/douglasjava/easy-maintenance-api/pull/176), squash-merge de
+`bugfix/TASK-394-card-recurring-webhook-provision`), `mvn clean test` 1669/1669 sem regressão.
+Falta QA manual na primeira cobrança recorrente real pós-deploy em produção (próxima prevista:
+02/12/2026) antes de fechar a task.
