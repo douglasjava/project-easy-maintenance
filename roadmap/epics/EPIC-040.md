@@ -1,7 +1,8 @@
 # EPIC-040 — Esteira de Aprovação de Identidade do Morador (QR Code / WhatsApp)
 
 ## Status
-🟡 Quase completo (02/11/2026) — EPIC-039 implementado e validado, dependência liberada.
+🟢 Completo (03/11/2026) — TASK-387 a TASK-392 todas concluídas; falta só ligar a env var em
+produção e, fora do escopo original do épico, o webhook de resposta do botão (ver nota abaixo).
 TASK-387 a TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web):
 entidade da pendência (TASK-387), intake do QR Code desviando pra pendência (TASK-388),
 notificação ao síndico por e-mail + WhatsApp fan-out (TASK-389), aprovação/reprovação com lock de
@@ -10,14 +11,16 @@ idempotência real + reprocessamento do chamado retido (TASK-390), aba "Pendente
 nota na task — pra não quebrar a tela de abertura de chamado já em produção. Suíte completa:
 1648/1648 testes verdes; `tsc`/`build` do web limpos.
 
-**[TASK-392](../tasks/TASK-392.md) (submissão do template à Meta) é a única que não pode ser
-concluída por um agente** — exige o Douglas submeter o template no Meta Business Manager; o
-conteúdo exato já está documentado e o código (TASK-389) já foi corrigido pra bater com as
-variáveis do template (uma divergência real foi encontrada e corrigida ao especificar o template).
-Até lá, WhatsApp da esteira fica desligado por flag (e-mail continua cobrindo 100% das
-organizações). Também não existe, no épico, uma task que implemente o webhook que recebe o clique
-do botão Aprovar/Reprovar — os serviços já estão prontos pra isso (ver nota na TASK-392), mas falta
-escrevê-lo quando o template for aprovado.
+**[TASK-392](../tasks/TASK-392.md) (submissão do template à Meta) concluída em 03/11/2026** —
+template `aprovacao_identidade_morador_v1` aprovado pela Meta e confirmado produtivo pelo Douglas.
+Flag de envio (`notification.whatsapp.resident-identity-pending-enabled`) agora é controlável via
+env var `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` (antes só existia hardcoded `false`, sem
+property por ambiente) — falta só o Douglas ligar essa env var no ambiente de produção (ação de
+infra, fora do alcance de um agente). Até lá, WhatsApp da esteira continua desligado por flag
+(e-mail continua cobrindo 100% das organizações). Também não existe, no épico, uma task que
+implemente o webhook que recebe o clique do botão Aprovar/Reprovar — os serviços já estão prontos
+pra isso (ver nota na TASK-392); agora que o template está aprovado isso é testável de verdade,
+fica como próxima task a abrir.
 
 **Teste de integração real feito em 02/11/2026** (API local + MySQL + MailHog, não mocado, a
 pedido do Douglas): encontrou e corrigiu um bug crítico que os 1648 testes unitários não detectavam

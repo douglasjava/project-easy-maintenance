@@ -70,14 +70,16 @@ mapeamento antes de considerar a TASK-392 "pronta para submissão real", mesmo q
 ao Meta Business Manager não dependa disso.
 
 ## Critérios de Aceite
-- [ ] Template submetido à Meta — **ação do Douglas, não automatizável**
-- [ ] Template aprovado pela Meta — **ação do Douglas, não automatizável**
+- [x] Template submetido à Meta — **ação do Douglas**
+- [x] Template aprovado pela Meta — **ação do Douglas, confirmado produtivo em 03/11/2026**
 - [x] Nome do template e variáveis conferem com o que `ResidentIdentityNotificationService`
       (TASK-389) espera — divergência encontrada e corrigida em 02/11/2026 (o código mandava 4
       parâmetros com `{{1}}`=nome da organização; corrigido pra 5 parâmetros com `{{1}}`=nome do
       aprovador, alinhado com o corpo do template abaixo, ver commit `9235965`)
 - [ ] Teste real em produção: botão Aprovar/Reprovar chega corretamente ao webhook do assistente —
-      depende da aprovação da Meta E de implementar o webhook em si (ver nota de escopo no Status)
+      **continua bloqueado**: o webhook que consome o clique do botão não existe (ver "Gap
+      adicional" no Status abaixo). Template aprovado só desbloqueia o envio da mensagem ao
+      aprovador; a resposta ainda não tem o que a processe.
 
 ## Dependências
 Nenhuma técnica — pode começar em paralelo com TASK-387 (quanto antes submeter, melhor, mesmo
@@ -92,17 +94,20 @@ TASK-372/EPIC-023.
 Pequeno (esforço de código é zero — é ação de configuração externa do Douglas)
 
 ## Status
-🟡 Parcial (02/11/2026) — código alinhado com o template desta task (ver critério de aceite
-acima), pronto pra submissão. **A submissão em si e a aprovação pela Meta continuam bloqueadas —
-exigem acesso do Douglas ao Meta Business Manager**, fora do alcance de qualquer agente de código.
-Conteúdo exato do template (nome, categoria, corpo, variáveis, botões) está pronto pra copiar na
-seção acima.
+🟢 Template submetido, aprovado e produtivo (03/11/2026, confirmado pelo Douglas) — ação externa
+dele no Meta Business Manager concluída. Código já estava alinhado com nome/variáveis do template
+(ver critério de aceite acima). Flag `notification.whatsapp.resident-identity-pending-enabled`
+estava hardcoded `false` no `@Value`, sem property pra configurar por ambiente (gap diferente do
+padrão já usado em `resident-ticket-enabled`/TASK-372) — corrigido no mesmo dia: agora é
+controlável via env var `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` em `application.properties`
+(commit `a6b9dc1`, PR #174 mergeada em `staging`). **Falta setar essa env var como `true` no
+ambiente de produção** — ação de infra do Douglas, fora do alcance de um agente de código (mesma
+natureza da ação no Meta Business Manager).
 
-**Gap adicional encontrado nesta entrega**: o EPIC-040 não tem nenhuma task própria pra consumir a
-resposta do botão Aprovar/Reprovar no webhook do assistente (EPIC-031) — `ResidentIdentity
-ApprovalService.approve()/reject()` já estão prontos pra isso (recebem `Organization`/id explícito,
-não dependem de sessão HTTP), mas o handler que lê o clique do botão e correlaciona com o
-`pending.id` certo via `context.id` da mensagem original (ver "Ponto de atenção" abaixo) ainda
-precisa ser escrito — não é automatizável nem implementável antes da aprovação do template (sem
-template aprovado não há como testar o clique de verdade). Fica como próxima task quando a Meta
-aprovar.
+**Gap que continua aberto, fora do escopo desta task**: o EPIC-040 não tem nenhuma task própria pra
+consumir a resposta do botão Aprovar/Reprovar no webhook do assistente (EPIC-031) —
+`ResidentIdentityApprovalService.approve()/reject()` já estão prontos pra isso (recebem
+`Organization`/id explícito, não dependem de sessão HTTP), mas o handler que lê o clique do botão e
+correlaciona com o `pending.id` certo via `context.id` da mensagem original (ver "Ponto de atenção"
+abaixo) ainda precisa ser escrito. Agora que o template está aprovado, esse webhook é testável de
+verdade — fica como próxima task a abrir.

@@ -1,5 +1,16 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo** — TASK-392 (submissão
+> do template `aprovacao_identidade_morador_v1` à Meta) concluída: aprovado e confirmado produtivo
+> pelo Douglas. A flag `notification.whatsapp.resident-identity-pending-enabled` só existia como
+> default hardcoded `false`, sem property pra configurar por ambiente (diferente do padrão já
+> usado em `resident-ticket-enabled`/TASK-372) — corrigido para ser controlável via env var
+> `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` (PR #174, mergeada em `staging`). **Falta ligar essa
+> env var em produção** (ação de infra do Douglas). Gap que continua aberto, fora do escopo
+> original do épico: não existe webhook que consome o clique dos botões Aprovar/Reprovar — os
+> serviços de domínio já estão prontos pra isso, mas o handler em si ainda precisa ser escrito;
+> agora que o template está aprovado, isso é testável de verdade e fica como próxima task.
+
 > Atualizado em: 02/11/2026 — **🐛 [EPIC-040](epics/EPIC-040.md) — bug crítico achado só em teste
 > de integração real**: `POST .../resident-identity-pendings/{id}/approve` retornava `500` sempre,
 > mesmo com os 1648 testes unitários verdes — `approveForCurrentOrganization()` chamava `approve()`
