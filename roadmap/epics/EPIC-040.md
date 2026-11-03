@@ -1,8 +1,10 @@
 # EPIC-040 — Esteira de Aprovação de Identidade do Morador (QR Code / WhatsApp)
 
 ## Status
-🟢 Completo (03/11/2026) — TASK-387 a TASK-392 todas concluídas; falta só ligar a env var em
-produção e, fora do escopo original do épico, o webhook de resposta do botão (ver nota abaixo).
+🟢 Completo (03/11/2026) — TASK-387 a TASK-392 e TASK-395 (webhook de resposta do botão,
+aberta a posteriori — não fazia parte do escopo original de 6 tasks, ver nota abaixo) todas
+implementadas. Falta só ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` em produção e o
+QA manual com clique real de botão.
 TASK-387 a TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web):
 entidade da pendência (TASK-387), intake do QR Code desviando pra pendência (TASK-388),
 notificação ao síndico por e-mail + WhatsApp fan-out (TASK-389), aprovação/reprovação com lock de
@@ -17,10 +19,16 @@ Flag de envio (`notification.whatsapp.resident-identity-pending-enabled`) agora 
 env var `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` (antes só existia hardcoded `false`, sem
 property por ambiente) — falta só o Douglas ligar essa env var no ambiente de produção (ação de
 infra, fora do alcance de um agente). Até lá, WhatsApp da esteira continua desligado por flag
-(e-mail continua cobrindo 100% das organizações). Também não existe, no épico, uma task que
-implemente o webhook que recebe o clique do botão Aprovar/Reprovar — os serviços já estão prontos
-pra isso (ver nota na TASK-392); agora que o template está aprovado isso é testável de verdade,
-fica como próxima task a abrir.
+(e-mail continua cobrindo 100% das organizações).
+
+**[TASK-395](../tasks/TASK-395.md) implementada em 03/11/2026** — o webhook que consome o clique
+Aprovar/Reprovar (gap identificado na TASK-392) foi escrito: correlaciona o `wamid` da mensagem
+enviada com a pendência via `context.id` da Meta (tabela própria
+`resident_identity_approval_dispatches`, não reaproveita `BusinessWhatsAppDispatch`), resolve a
+`Unit` automaticamente pelo `unitHint` (WhatsApp só tem os dois botões, sem UI pra escolher), e
+reusa `ResidentIdentityApprovalService.approve()`/`reject()` sem nenhuma mudança neles
+(idempotência já garantida). Intercepta antes do pipeline do assistente de IA, independente do
+piloto `assistant.enabled`.
 
 **Teste de integração real feito em 02/11/2026** (API local + MySQL + MailHog, não mocado, a
 pedido do Douglas): encontrou e corrigiu um bug crítico que os 1648 testes unitários não detectavam
@@ -87,29 +95,39 @@ identidade já existe pronto pra quando essa feature nascer.
 | [TASK-390](../tasks/TASK-390.md) | Backend: aprovação/reprovação — lock idempotente, criação/vínculo de `CondoPerson`+`Unit`, reprocessamento do pedido retido | BACKEND | 🟠 Alto |
 | [TASK-391](../tasks/TASK-391.md) | Frontend: aba "Pendentes" em `/pessoas` — listar, aprovar (vincular/criar unidade), reprovar | FRONTEND | 🟠 Alto |
 | [TASK-392](../tasks/TASK-392.md) | Infra/Config: template WhatsApp de aprovação (botões Aprovar/Reprovar) — submissão Meta | INFRA/CONFIG | 🔴 Crítico |
+| [TASK-395](../tasks/TASK-395.md) | Backend: webhook consome clique Aprovar/Reprovar (correlação via `context.id`, resolução automática de `Unit` pelo `unitHint`) | BACKEND | 🟠 Alto |
 
 Ordem: TASK-387 não depende de nada técnico, mas depende do EPIC-039 estar implementado (precisa de
 `CondoPerson`/`Unit`). TASK-388 depende da 387. TASK-389 e TASK-392 podem começar em paralelo desde
 já (TASK-392 não depende de código, só de configuração externa — quanto antes submeter, melhor,
 mesmo raciocínio do TASK-372). TASK-390 depende da 387/388/389. TASK-391 depende da 390 (precisa dos
 endpoints de aprovação). O envio real de WhatsApp em produção só funciona depois da aprovação da
-Meta (TASK-392), mas TASK-389/390 podem ser codificadas/testadas contra mock antes disso.
+Meta (TASK-392), mas TASK-389/390 podem ser codificadas/testadas contra mock antes disso. TASK-395
+(aberta a posteriori, 03/11/2026 — não fazia parte do escopo original, ver nota no Status) depende
+da 389/390/392.
 
 ---
 
 ## Critério de Conclusão do Épico
 
-- [ ] Primeira solicitação de um telefone novo não processa o pedido — fica retida como pendência
-- [ ] Síndico linkado ao assistente recebe WhatsApp com botões Aprovar/Reprovar; todo ADMIN recebe
-      e-mail de fallback independente de link com o assistente
-- [ ] Aprovação cria `CondoPerson` (papel `MORADOR`) vinculado à `Unit` (existente ou nova) e
-      processa o pedido retido (chamado real, kanban, notificação a ADMINs)
-- [ ] Reprovação não cria `CondoPerson`, não processa o pedido, não avisa o morador — só loga/métrica
-- [ ] Segunda solicitação do mesmo telefone, já aprovado, pula a esteira e vai direto pro fluxo
+- [x] Primeira solicitação de um telefone novo não processa o pedido — fica retida como pendência
+      (validado em teste de integração real, 02/11/2026, ver TASK-390)
+- [x] Síndico linkado ao assistente recebe WhatsApp com botões Aprovar/Reprovar; todo ADMIN recebe
+      e-mail de fallback independente de link com o assistente (template aprovado/produtivo,
+      TASK-392)
+- [x] Aprovação cria `CondoPerson` (papel `MORADOR`) vinculado à `Unit` (existente ou nova) e
+      processa o pedido retido (chamado real, kanban, notificação a ADMINs) — tanto pela tela
+      quanto pelo clique do botão (TASK-395)
+- [x] Reprovação não cria `CondoPerson`, não processa o pedido, não avisa o morador — só loga/métrica
+- [x] Segunda solicitação do mesmo telefone, já aprovado, pula a esteira e vai direto pro fluxo
       operacional normal
-- [ ] Reenvio enquanto a primeira pendência ainda está aberta atualiza o registro, não duplica
-- [ ] Ação simultânea nos dois canais (WhatsApp + tela) nunca processa/descarta o pedido duas vezes
-- [ ] `mvn test`/`npm run build`/`tsc --noEmit` sem regressão
+- [x] Reenvio enquanto a primeira pendência ainda está aberta atualiza o registro, não duplica
+- [x] Ação simultânea nos dois canais (WhatsApp + tela) nunca processa/descarta o pedido duas vezes
+      — lock pessimista + status `PROCESSADO` (TASK-390), exercitado pelos dois pontos de entrada
+- [x] `mvn test`/`npm run build`/`tsc --noEmit` sem regressão
+
+Pendente (fora do alcance de um agente): QA manual em produção com clique real de botão, e ligar
+`WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` no ambiente de produção.
 
 ## Fora de Escopo
 - Reserva de área comum em si (feature não existe ainda, EPIC-038 deixou pra depois).

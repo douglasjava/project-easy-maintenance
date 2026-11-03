@@ -1,5 +1,20 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo (todas as tasks,
+> incluindo uma aberta a posteriori)** — [TASK-395](tasks/TASK-395.md), não prevista no escopo
+> original de 6 tasks, foi aberta e implementada nesta sessão: o webhook do assistente agora
+> consome o clique em Aprovar/Reprovar do template aprovado (TASK-392). Correlaciona o `wamid` da
+> mensagem enviada com a pendência via `context.id` da Meta (tabela própria
+> `resident_identity_approval_dispatches` — deliberadamente não reaproveita `BusinessWhatsAppDispatch`,
+> modelada em torno de lembretes de vencimento). Como o WhatsApp só tem os dois botões, sem UI pra
+> escolher unidade, a `Unit` é resolvida automaticamente pelo `unitHint` da intake (vincula se já
+> existir, cria nova se não). Reaproveita `ResidentIdentityApprovalService.approve()`/`reject()`
+> sem nenhuma mudança neles — a idempotência (reentrega de evento, clique duplicado) já estava
+> garantida pelo lock/status `PROCESSADO` da TASK-390. Intercepta antes do pipeline do assistente
+> de IA, sem depender do piloto `assistant.enabled`. PR #175 mergeada em `staging`, 40
+> testes novos/alterados, suíte completa sem regressão. Falta só QA manual em produção (clique
+> real) — fora do alcance de um agente.
+
 > Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo** — TASK-392 (submissão
 > do template `aprovacao_identidade_morador_v1` à Meta) concluída: aprovado e confirmado produtivo
 > pelo Douglas. A flag `notification.whatsapp.resident-identity-pending-enabled` só existia como
