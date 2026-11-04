@@ -14,8 +14,14 @@ vivo via API/banco/UI (login, cascata dono→filhos, órfão corrigido, motivo o
 assinatura, regressão em conta saudável). Cenário de 2FA coberto só pelo automatizado. Encontrado e
 corrigido um bug real: botões "Prorrogar trial"/"Cortar acesso" só apareciam com status `ACTIVE`,
 escondendo os casos principais (`TRIAL`/cortado) — ver detalhe em [TASK-398](../tasks/TASK-398.md).
-Achado secundário não-bloqueante: tabela de assinaturas não atualiza visualmente após filtro/ação
-(dado real sempre correto no banco) — pré-existente à entrega, avaliar task própria.
+Achado secundário não-bloqueante da tabela plana original (não atualizava visualmente após filtro/
+ação) ficou **resolvido por construção**: Douglas pediu uma UX melhor dado que só ele paga e o resto
+é "filho" — substituída pela tela **"Contas"** (commits api `0713232`, web `3396db1`), uma linha
+expansível por pagador com organização(ões) e equipe dentro, mostrando "acesso herdado" em vez de
+corte próprio dos filhos. Consome `GET /overview` (estendido com `teamMembers`); dialogs do
+TASK-398 reaproveitados sem alteração. Durante a implementação, um bug de ordem de hooks (useMemo
+após early-return condicional) chegou a quebrar a página em dev — corrigido e revalidado ao vivo
+antes do commit. `mvn test`: 1699 testes; `tsc`/`build` limpos.
 
 ## Objetivo
 Dar ao Douglas, como admin do SaaS (não ao `ADMIN` de uma organização cliente), o poder de agir
