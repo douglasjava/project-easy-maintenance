@@ -1,5 +1,31 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 03/11/2026 — **🟡 [EPIC-041](epics/EPIC-041.md) implementado, aguardando
+> homologação** — as 4 tasks (TASK-396 a TASK-399) foram feitas juntas, cada repo numa única
+> branch `feature/EPIC-041-admin-access-control` (api commit `67d5e3b`, web commit `19b43af`), a
+> pedido do Douglas, pra homologar o fluxo inteiro de uma vez antes do merge em `staging`. Resumo:
+> endpoint admin de prorrogar/cortar acesso da assinatura do usuário (reaproveita
+> `SubscriptionStatus`, sem campo novo); login agora checa `AccessMode` e bloqueia quando
+> `NO_ACCESS` — cobrindo também "filhos" (membro de equipe sem billing próprio, resolvido pela
+> organização dele, pra não ficar órfão quando o dono é bloqueado); assistente de IA e 5 serviços
+> de notificação operacional passam a checar `AccessMode` antes de agir (billing fica fora,
+> incondicional). `mvn test`: 1693 testes sem regressão; `tsc`/`build` do web limpos. Nenhuma PR
+> aberta ainda — falta abrir e homologar em staging.
+
+> Atualizado em: 03/11/2026 — **🔵 [EPIC-041](epics/EPIC-041.md) criado** — controle administrativo
+> de acesso (prorrogar/cortar) pra usuários do piloto, motivado pelo Douglas ter cadastrado vários
+> leads e querer reter só o próprio acesso funcional, sem mudar a regra geral de 15 dias de trial.
+> Spec aprovada em `docs/superpowers/specs/2026-11-03-admin-access-control-design.md` depois de
+> brainstorm + builder check — achado importante: `BillingSubscriptionItem` tipo `USER` só existe
+> pra dono de conta, então um membro de equipe ("filho") sem billing próprio ficaria órfão (login
+> continuaria funcionando mesmo com a organização bloqueada) se a checagem de login só olhasse o
+> item do próprio usuário — corrigido com `resolveLoginAccessMode` caindo pra olhar as organizações
+> do usuário quando ele não tem item próprio. 4 tasks criadas: TASK-396 (conserta rota morta de
+> edição de assinatura + endpoint de prorrogar/cortar, com auditoria), TASK-397 (🔴 crítico — fecha
+> o gap de login, dono e filhos), TASK-398 (UI dos dois botões novos), TASK-399 (assistente de IA e
+> 5 serviços de notificação passam a checar `AccessMode` antes de disparar, exceto e-mails do
+> próprio billing). Nenhuma task iniciada ainda.
+
 > Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo (todas as tasks,
 > incluindo uma aberta a posteriori)** — [TASK-395](tasks/TASK-395.md), não prevista no escopo
 > original de 6 tasks, foi aberta e implementada nesta sessão: o webhook do assistente agora
