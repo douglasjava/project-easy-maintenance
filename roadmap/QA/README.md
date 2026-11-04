@@ -41,6 +41,7 @@ QA/
 | [FLOW-010](Flow/FLOW-010.md) | Performance Frontend e Cache | MEDIUM |
 | [FLOW-011](Flow/FLOW-011.md) | Funcionalidades SaaS | MEDIUM |
 | [FLOW-012](Flow/FLOW-012.md) | Pessoas e Papéis (Governança do Condomínio) | HIGH |
+| [FLOW-013](Flow/FLOW-013.md) | Controle Administrativo de Acesso + Gate de Plano Ativo | CRITICAL |
 
 ---
 
@@ -57,6 +58,7 @@ QA/
 | [MTD-007](MTD/MTD-007.md) | Soft delete e integridade de dados | FLOW-009 |
 | [MTD-008](MTD/MTD-008.md) | Performance frontend e cache React Query | FLOW-010 |
 | [MTD-009](MTD/MTD-009.md) | Cadastro de Pessoas e Unidades (`CondoPerson`/`Unit`) | FLOW-012 |
+| [MTD-010](MTD/MTD-010.md) | Controle Administrativo de Acesso (Prorrogar/Cortar) + Gate de Plano Ativo | FLOW-013 |
 
 ---
 
@@ -75,6 +77,7 @@ QA/
 | [TASK-QA-MAN-007](tasks/TASK-QA-MAN-007.md) | Validação de soft delete e integridade de histórico | 🟡 Médio |
 | [TASK-QA-MAN-026](tasks/TASK-QA-MAN-026.md) | Emissão de NFS-e via Asaas nativo (EPIC-037) — flag de segurança, configuração na ativação, webhook, reconciliação | 🔴 Alto |
 | [TASK-QA-MAN-027](tasks/TASK-QA-MAN-027.md) | Pessoas e Papéis (EPIC-039) — cadastro por papel, matriz role/role_detail, isolamento multi-tenant, permissão | 🟠 Alto |
+| [TASK-QA-MAN-028](tasks/TASK-QA-MAN-028.md) | Controle Administrativo de Acesso (EPIC-041) — prorrogar/cortar, login dono/filhos, assistente, notificações | 🔴 Crítico |
 
 ### Automatizadas
 
@@ -87,6 +90,7 @@ QA/
 | [TASK-QA-AUTO-005](tasks/TASK-QA-AUTO-005.md) | Testes de integração — soft delete e filtro automático | Integração | 🟡 Médio |
 | [TASK-QA-AUTO-006](tasks/TASK-QA-AUTO-006.md) | Testes E2E — performance React Query sem requisições redundantes | E2E | 🟡 Médio |
 | [TASK-QA-AUTO-009](tasks/TASK-QA-AUTO-009.md) | Testes de integração — matriz role/role_detail e isolamento multi-tenant de Unit/CondoPerson (EPIC-039) | Integração | 🟠 Alto |
+| [TASK-QA-AUTO-010](tasks/TASK-QA-AUTO-010.md) | Teste de integração — verifyTwoFactor() nega login com AccessMode.NO_ACCESS (EPIC-041) | Integração | 🟡 Médio |
 
 ---
 
