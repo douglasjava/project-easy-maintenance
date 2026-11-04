@@ -90,7 +90,7 @@ QA/
 | [TASK-QA-AUTO-005](tasks/TASK-QA-AUTO-005.md) | Testes de integração — soft delete e filtro automático | Integração | 🟡 Médio |
 | [TASK-QA-AUTO-006](tasks/TASK-QA-AUTO-006.md) | Testes E2E — performance React Query sem requisições redundantes | E2E | 🟡 Médio |
 | [TASK-QA-AUTO-009](tasks/TASK-QA-AUTO-009.md) | Testes de integração — matriz role/role_detail e isolamento multi-tenant de Unit/CondoPerson (EPIC-039) | Integração | 🟠 Alto |
-| [TASK-QA-AUTO-010](tasks/TASK-QA-AUTO-010.md) | Teste de integração — verifyTwoFactor() nega login com AccessMode.NO_ACCESS (EPIC-041) | Integração | 🟡 Médio |
+| [TASK-QA-AUTO-010](tasks/TASK-QA-AUTO-010.md) | Teste de integração — verifyTwoFactor() nega login com AccessMode.NO_ACCESS (EPIC-041) | Integração | 🟢 Implementado |
 
 ---
 

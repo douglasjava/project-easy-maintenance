@@ -40,4 +40,10 @@ EPIC-041 (origem: TASK-397)
   acesso suspenso (prova que a ordem de checagem não mudou).
 
 ## Status
-Backlog
+🟢 Implementado (04/11/2026) — branch `feature/EPIC-041-admin-access-control`
+(`easy-maintenance-api`, commit `68b7678`). `UsersServiceTwoFactorAccessTest` novo, cobrindo:
+- todo `AccessMode` exceto `NO_ACCESS` completa o 2FA normalmente (`@ParameterizedTest`/`@EnumSource`)
+- `NO_ACCESS` rejeita mesmo com código 2FA correto (`ForbiddenException`, mensagem distinta)
+- código 2FA incorreto nunca avalia `AccessMode` (mantém `ErrorResponseException` genérico)
+
+Suíte completa: 1697 testes (1693 + 4 novos), 0 falhas. Branch ainda não mergeada em `staging`.

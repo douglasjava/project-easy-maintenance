@@ -54,23 +54,23 @@ A partir daí, três caminhos reagem ao `AccessMode` resultante:
 
 ## Cenários Críticos
 
-| Cenário | Tipo | Cobertura Atual |
-|---------|------|-----------------|
-| Prorrogar trial reflete em `/me/access-context` imediatamente | Happy path | Manual (MTD-010) |
-| Cortar acesso nível "somente leitura" — usuário loga mas não escreve | Regra de negócio | Manual (MTD-010) |
-| Cortar acesso nível "bloqueio total" — usuário não loga a partir da próxima tentativa | Regra de negócio / Segurança | Manual (MTD-010) |
-| Motivo vazio rejeitado (front e back) | Validação | Manual (MTD-010) |
-| Endpoint admin em usuário sem nenhuma assinatura → 404 (não cria do zero) | Regra de negócio | Manual (MTD-010) |
-| Dono bloqueado cascateia para toda a organização (mesma `BillingSubscription`) | Regra de negócio | Manual (MTD-010) |
-| Membro de equipe de organização bloqueada, sem outra organização → não loga | Órfão / Segurança | Automatizada (`UsersServiceLoginAccessTest`, `SubscriptionAccessServiceLoginAccessTest`) + Manual (MTD-010) |
-| Membro de equipe com pelo menos uma organização saudável → continua logando | Regra de negócio | Automatizada + Manual (MTD-010) |
-| Login para cada valor de `SubscriptionStatus` — só `BLOCKED`/`NO_ACCESS` impede | Regressão | Automatizada (`UsersServiceLoginAccessTest`, `@EnumSource`) |
-| Senha incorreta nunca chega a checar `AccessMode` (mensagem genérica preservada) | Segurança | Automatizada |
-| 2FA (`verifyTwoFactor`) tem a mesma proteção de login | Segurança | Manual (MTD-010) — sem teste automatizado dedicado, ver Gaps |
-| Assistente nega leitura (não só escrita) para organização fora de `FULL_ACCESS` | Regra de negócio | Automatizada (`AssistantAccessGuardTest`) |
-| Cada um dos 5 serviços de notificação pula envio fora de `FULL_ACCESS`, sem lançar erro | Regra de negócio | Automatizada (teste dedicado por serviço) |
-| Notificação/e-mail de billing continua disparando incondicionalmente | Regressão | Automatizada (teste de regressão explícito por serviço) |
-| Organização em `FULL_ACCESS` — nenhuma regressão de envio/login/assistente | Regressão | Automatizada + Manual (MTD-010) |
+| Cenário                                                                                 | Tipo                         | Cobertura Atual                                                                                             |
+|-----------------------------------------------------------------------------------------|------------------------------|-------------------------------------------------------------------------------------------------------------|
+| Prorrogar trial reflete em `/me/access-context` imediatamente                           | Happy path                   | Manual (MTD-010)                                                                                            |
+| Cortar acesso nível "somente leitura" — usuário loga mas não escreve                    | Regra de negócio             | Manual (MTD-010)                                                                                            |
+| Cortar acesso nível "bloqueio total" — usuário não loga a partir da próxima tentativa   | Regra de negócio / Segurança | Manual (MTD-010)                                                                                            |
+| Motivo vazio rejeitado (front e back)                                                   | Validação                    | Manual (MTD-010)                                                                                            |
+| Endpoint admin em usuário sem nenhuma assinatura → 404 (não cria do zero)               | Regra de negócio             | Manual (MTD-010)                                                                                            |
+| Dono bloqueado cascateia para toda a organização (mesma `BillingSubscription`)          | Regra de negócio             | Manual (MTD-010)                                                                                            |
+| Membro de equipe de organização bloqueada, sem outra organização → não loga             | Órfão / Segurança            | Automatizada (`UsersServiceLoginAccessTest`, `SubscriptionAccessServiceLoginAccessTest`) + Manual (MTD-010) |
+| Membro de equipe com pelo menos uma organização saudável → continua logando             | Regra de negócio             | Automatizada + Manual (MTD-010)                                                                             |
+| Login para cada valor de `SubscriptionStatus` — só `BLOCKED`/`NO_ACCESS` impede         | Regressão                    | Automatizada (`UsersServiceLoginAccessTest`, `@EnumSource`)                                                 |
+| Senha incorreta nunca chega a checar `AccessMode` (mensagem genérica preservada)        | Segurança                    | Automatizada                                                                                                |
+| 2FA (`verifyTwoFactor`) tem a mesma proteção de login                                   | Segurança                    | Automatizada (`UsersServiceTwoFactorAccessTest`, TASK-QA-AUTO-010) + Manual (MTD-010)                        |
+| Assistente nega leitura (não só escrita) para organização fora de `FULL_ACCESS`         | Regra de negócio             | Automatizada (`AssistantAccessGuardTest`)                                                                   |
+| Cada um dos 5 serviços de notificação pula envio fora de `FULL_ACCESS`, sem lançar erro | Regra de negócio             | Automatizada (teste dedicado por serviço)                                                                   |
+| Notificação/e-mail de billing continua disparando incondicionalmente                    | Regressão                    | Automatizada (teste de regressão explícito por serviço)                                                     |
+| Organização em `FULL_ACCESS` — nenhuma regressão de envio/login/assistente              | Regressão                    | Automatizada + Manual (MTD-010)                                                                             |
 
 ## Validação Recomendada
 - **Manual:** [MTD-010](../MTD/MTD-010.md)
@@ -78,10 +78,8 @@ A partir daí, três caminhos reagem ao `AccessMode` resultante:
   não há task de automação em backlog separada, mas o gap de 2FA abaixo pode justificar uma.
 
 ## Gaps
-- Nenhum teste automatizado dedicado cobre `verifyTwoFactor()` rejeitando `NO_ACCESS` isoladamente
-  do fluxo de `authenticate()` — a lógica é a mesma (reaproveita `resolveLoginAccessMode`), mas o
-  caminho de 2FA em si não tem teste próprio; validar manualmente no MTD-010 até decidir se vale um
-  `TASK-QA-AUTO` dedicado.
+- ~~Nenhum teste automatizado dedicado cobre `verifyTwoFactor()` rejeitando `NO_ACCESS`~~ — fechado
+  em 04/11/2026 por `UsersServiceTwoFactorAccessTest` (TASK-QA-AUTO-010).
 - Sem teste de regressão explícito para o caso de um webhook/job automático da Asaas sobrescrever
   um status manual (`BLOCKED`/`CANCELED`) definido por este fluxo — risco aceito pela spec
   (Douglas confere/refaz manualmente), mas não há alarme automático se isso acontecer.
