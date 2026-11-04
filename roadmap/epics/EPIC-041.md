@@ -1,12 +1,21 @@
 # EPIC-041 — Controle Administrativo de Acesso do Usuário (Prorrogar/Cortar) + Gate de Notificações por Plano
 
 ## Status
-🟡 Implementado, aguardando homologação (03/11/2026) — spec aprovada em
-`docs/superpowers/specs/2026-11-03-admin-access-control-design.md`. As 4 tasks (TASK-396 a
-TASK-399) foram implementadas juntas, cada repo numa única branch
-`feature/EPIC-041-admin-access-control` (api commit `67d5e3b`, web commit `19b43af`), pra
-homologar o fluxo inteiro de uma vez em `staging` antes do merge. `mvn test`: 1693 testes sem
-regressão; `tsc --noEmit`/`npm run build` do web limpos. Nenhuma PR aberta ainda.
+🟡 QA manual executado, 1 bug encontrado e corrigido, aguardando homologação final e merge
+(04/11/2026) — spec em `docs/superpowers/specs/2026-11-03-admin-access-control-design.md`.
+API PR [#178](https://github.com/douglasjava/easy-maintenance-api/pull/178) (commit `68b7678`),
+Web PR [#127](https://github.com/douglasjava/easy-maintenance-web/pull/127) (commit `c99d18e`),
+ambas em `feature/EPIC-041-admin-access-control`. `mvn test`: 1697 testes sem regressão (1693 +
+4 do TASK-QA-AUTO-010, 2FA); `tsc --noEmit`/`npm run build` do web limpos.
+
+QA manual (TASK-QA-MAN-028/MTD-010) executado 04/11/2026 contra ambiente local real (API+web+MySQL
+rodando, usuários sintéticos isolados, nenhum usuário real tocado): 7 dos 8 cenários confirmados ao
+vivo via API/banco/UI (login, cascata dono→filhos, órfão corrigido, motivo obrigatório, 404 sem
+assinatura, regressão em conta saudável). Cenário de 2FA coberto só pelo automatizado. Encontrado e
+corrigido um bug real: botões "Prorrogar trial"/"Cortar acesso" só apareciam com status `ACTIVE`,
+escondendo os casos principais (`TRIAL`/cortado) — ver detalhe em [TASK-398](../tasks/TASK-398.md).
+Achado secundário não-bloqueante: tabela de assinaturas não atualiza visualmente após filtro/ação
+(dado real sempre correto no banco) — pré-existente à entrega, avaliar task própria.
 
 ## Objetivo
 Dar ao Douglas, como admin do SaaS (não ao `ADMIN` de uma organização cliente), o poder de agir

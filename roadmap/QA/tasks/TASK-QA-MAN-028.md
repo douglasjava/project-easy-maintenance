@@ -55,4 +55,24 @@ escopo deste teste.
 - [ ] Cenário 8 — 2FA nega login mesmo com código correto, quando acesso está bloqueado
 
 ## Status
-Backlog — aguardando execução antes do merge de staging
+🟡 Executado via API+UI contra ambiente local (04/11/2026) — 7 dos 8 cenários confirmados ao vivo
+(API/banco/UI real, usuários sintéticos isolados, nenhum usuário real tocado); Cenário 8 (2FA) não
+executado ao vivo, coberto apenas pelo teste automatizado dedicado (TASK-QA-AUTO-010). Durante a
+execução foi encontrado e corrigido um bug real do TASK-398 (botões ocultos fora de status ACTIVE —
+ver detalhe no MTD-010), commit `c99d18e`. Resultado completo e evidências em
+[MTD-010 § Resultado da Execução](../MTD/MTD-010.md#resultado-da-execução-04112026).
+
+- [x] Cenário 1 — prorrogar trial reflete em `/me/access-context` imediatamente
+- [x] Cenário 2 — cortar "somente leitura": login ok, escrita bloqueada
+- [x] Cenário 3 — cortar "bloqueio total": login negado na próxima tentativa, mensagem distinta de
+      senha incorreta
+- [x] Cenário 4 — motivo vazio bloqueado no front e rejeitado no back
+- [x] Cenário 5 — endpoints admin em usuário sem assinatura retornam 404
+- [x] Cenário 6 — cascata dono→organização confirmada; "filho" sem outra organização não loga;
+      "filho" com organização saudável continua logando (assistente/notificações não testados ao
+      vivo, só via suíte automatizada)
+- [x] Cenário 7 — organização saudável sem nenhuma regressão de login/escrita
+- [ ] Cenário 8 — 2FA não executado ao vivo; coberto por `UsersServiceTwoFactorAccessTest`
+
+Recomendação antes do merge: revisar o achado secundário de UI (filtro/refresh da tabela de
+assinaturas não atualiza visualmente, descrito no MTD-010) e decidir se vira task própria.

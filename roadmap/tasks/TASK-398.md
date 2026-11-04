@@ -57,3 +57,10 @@ Pequeno
 (`easy-maintenance-web`, commit `19b43af`). Botões adicionados em
 `/private/admin/billing/subscriptions`, ao lado de Upgrade/Downgrade/Cancelar. `tsc --noEmit` e
 `npm run build` sem erro. Branch ainda não mergeada em `staging`.
+
+**Correção pós-implementação (04/11/2026, commit `c99d18e`)**: QA manual (TASK-QA-MAN-028/MTD-010)
+achou que os botões só apareciam com `status === "ACTIVE"` — escondendo exatamente os casos
+principais do épico (usuário em `TRIAL`, ou já cortado, que é quando faz sentido agir). Corrigido:
+Upgrade/Downgrade/Cancelar continuam só em `ACTIVE`, Prorrogar trial/Cortar acesso aparecem pra
+qualquer status. Revalidado via UI real (botões aparecem em `TRIAL`/`BLOCKED`; fluxo clique → POST →
+banco confirmado). `tsc`/`build` limpos.
