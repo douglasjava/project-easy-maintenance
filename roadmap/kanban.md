@@ -1,5 +1,18 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 04/11/2026 — **🟢 [EPIC-041](epics/EPIC-041.md) concluído, já em `main`** —
+> QA manual [MTD-010](QA/MTD/MTD-010.md) executado ao vivo contra ambiente local (usuários
+> sintéticos, nenhum usuário real tocado): 7/8 cenários confirmados (Cenário 8 — 2FA com acesso
+> bloqueado — coberto só pelo teste automatizado [TASK-QA-AUTO-010](QA/tasks/TASK-QA-AUTO-010.md),
+> que passa 100%; não executado ao vivo por exigir fluxo TOTP completo). Durante a execução, achado
+> e corrigido um bug real do TASK-398: botões "Prorrogar trial"/"Cortar acesso" só apareciam com
+> status `ACTIVE`, escondendo justamente os casos centrais do épico (usuário em `TRIAL` ou já
+> `BLOCKED`) — fix em `easy-maintenance-web` commit `c99d18e`, mesma branch. PRs api#178/web#127
+> mergeadas em `staging`, depois promovidas pra `main` via api#179/web#128 (04/11/2026, confirmado
+> por `gh pr view`). Achado secundário fora de escopo (não bloqueador): tabela de
+> `/private/admin/billing/subscriptions` não re-renderiza sempre após filtro/mutação, embora os
+> dados no banco/API estejam corretos — candidato a task de UI separada se incomodar no uso real.
+
 > Atualizado em: 03/11/2026 — **🟡 [EPIC-041](epics/EPIC-041.md) implementado, aguardando
 > homologação** — as 4 tasks (TASK-396 a TASK-399) foram feitas juntas, cada repo numa única
 > branch `feature/EPIC-041-admin-access-control` (api commit `67d5e3b`, web commit `19b43af`), a
@@ -40,6 +53,10 @@
 > de IA, sem depender do piloto `assistant.enabled`. PR #175 mergeada em `staging`, 40
 > testes novos/alterados, suíte completa sem regressão. Falta só QA manual em produção (clique
 > real) — fora do alcance de um agente.
+>
+> **Atualização 04/11/2026**: confirmado via `gh pr view` que o EPIC-039/040 completo (incluindo
+> TASK-395 e TASK-394) já foi promovido de `staging` pra `main` via api#177/web#126 (mergeadas
+> 04/11/2026) — não fica mais só em staging como registrado acima.
 
 > Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo** — TASK-392 (submissão
 > do template `aprovacao_identidade_morador_v1` à Meta) concluída: aprovado e confirmado produtivo
@@ -2115,29 +2132,6 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-245](tasks/TASK-245.md)                  | `POST /me/onboarding/user` duplicava item USER da assinatura (cobrança em dobro) — quebrava `POST /organizations` (500) — achado por Douglas testando `/organizations/new` durante QA do EPIC-028, corrigido, `mvn test` 939/939, dado local reparado — aguardando confirmação antes de abrir PR | 🔴 Crítico | — | GRAVE |
-| [TASK-244](tasks/TASK-244.md)                  | `TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job — corrigido (`98a4716`), `mvn test` 938/938, [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) aprovada por Douglas, PR `staging` aberta ([api#86](https://github.com/douglasjava/easy-maintenance-api/pull/86)) | 🔴 Crítico | — | GRAVE |
-| [TASK-236](tasks/TASK-236.md)                  | E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period — mergeada em `staging` ([api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83)), PR `staging→main` aberta ([api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84)) | 🔴 Alto | — | ALTA |
-| [TASK-230](tasks/TASK-230.md)                  | `V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais, bloqueava todo deploy — mergeada em staging e main, confirmada pelo Douglas [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) | 🔴 Crítico | EPIC-025 | ALTA       |
-| [TASK-151](tasks/TASK-151.md)                  | Política de Privacidade inacessível para visitantes não logados (Shell.tsx isAuth)                                              | 🔴 Crítico | EPIC-003 | ALTA       |
-| [TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md) | IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false` — Sidebar + QuickActions corrigidos | 🟠 Alto    | EPIC-006 | MÉDIA      |
-| TASK-QA-BUG-016                                | E-mail de alerta exibe ID do item em vez do nome — referenceId usado em vez de referenceLabel                                   | 🟠 Alto    | EPIC-006 | MÉDIA      |
-| TASK-QA-BUG-015                                | /reports: data exibida com -1 dia (timezone) e CSV com coluna monetária quebrada (issue #55)                                    | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-014                                | Dashboard: overdueCount=0, daysLate=0, breakdowns sem OVERDUE — status stale em KPIs/attention/breakdowns (issue #54)            | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-013                                | Status dos itens desatualizado — NEAR_DUE exibido para itens vencidos, filtro ?status=OVERDUE quebrado (issue #53)               | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-012                                | items 21/24 sem orgCode em /me/reports/maintenances — TenantFilterAspect filtrava findAllById cross-org                          | 🔴 Crítico | EPIC-011 | ALTA       |
-| TASK-079                                       | Exibir periodicidade da norma nos detalhes do item Regulatório (issue #50)                                                        | 🔵 Baixo   | EPIC-006 | —          |
-| TASK-QA-BUG-011                                | Filtro "Realizados este mês" retorna manutenções fora do mês — backend só tinha data exata (issue #49)                            | 🟡 Médio   | EPIC-006 | BAIXA      |
-| TASK-QA-BUG-010                                | Campo norma não pré-preenchido ao editar item Regulatório — useEffect acessava `item.norm?.id` em vez de `item.normId` (issue #52) | 🟡 Médio   | EPIC-006 | BAIXA      |
-| TASK-078                                       | Ao remover org do usuário via admin, agendar cancelamento do billing_subscription_items + warning no frontend                    | 🟠 Alto    | EPIC-007 | ALTA       |
-| TASK-QA-BUG-009                                | Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada (issue #46)                               | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-008                                | Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode (issue #45)                              | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-007                                | Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada (issue #37)                             | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-005                                | Erro ao cadastrar dados de faturamento — PUT .../billing/users/22/account retorna 422 (planCode/paymentMethod/name não enviados) | 🟠 Alto    | EPIC-006 | ALTA       |
-| [TASK-394](tasks/TASK-394.md)                  | Pagamentos do 2º+ ciclo de assinatura CARD nativa Asaas não tinham `Payment`/`Invoice` pra casar (webhook descartado em silêncio) — corrigido com `resolveOrProvisionPayment` (provisiona a partir de `paymentObj.subscription()`), `shouldAdvanceCycle` sem exclusão de CARD, `UNIQUE` real em `payments(provider, external_payment_id)` (V135) e reconciliação estendida; `mvn clean test` 1669/1669; PR #176 mergeado em `staging` — aguardando QA manual na 1ª cobrança recorrente real pós-deploy antes de fechar | 🔴 Crítico | — | GRAVE |
-| [TASK-055](tasks/TASK-055.md)                  | Sessão do usuário sem organização é apagada após login                                                                           | 🔴 Crítico | EPIC-006 | GRAVE      |
-| [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão                                                                | 🟠 Alto    | EPIC-006 | GRAVE      |
-
 ## 🐛 Bugs — Concluídos
 
 | ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
@@ -2150,6 +2144,28 @@ _Vazio_
 | [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo                                         | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-056](tasks/TASK-056.md)                  | Recriar rota GET /organizations/{code}/subscription                                                             | 🔴 Crítico | EPIC-006 | ALTA       |
 | [TASK-052](tasks/TASK-052.md)                  | E-mail de convite de admin não entra na fila de retry                                                           | 🟠 Alto    | EPIC-002 | ALTA       |
+| ~~[TASK-394](tasks/TASK-394.md)~~              | ~~Pagamentos do 2º+ ciclo de assinatura CARD nativa Asaas sem `Payment`/`Invoice` pra casar (webhook descartado em silêncio)~~ — verificado em 05/11/2026: `resolveOrProvisionPayment` presente no código, fix commit `6426750` confirmado ancestral de `main` (promovido via api#179, 04/11/2026); `mvn clean test` 1669/1669 | 🔴 Crítico | — | GRAVE |
+| ~~[TASK-245](tasks/TASK-245.md)~~              | ~~`POST /me/onboarding/user` duplicava item USER da assinatura (cobrança em dobro)~~ — verificado em 05/11/2026: fix commit `1477e13` confirmado ancestral de `main` (via api#119) | 🔴 Crítico | — | GRAVE |
+| ~~[TASK-244](tasks/TASK-244.md)~~              | ~~`TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job~~ — verificado em 05/11/2026: fix commit `98a4716` confirmado ancestral de `main` (via api#86) | 🔴 Crítico | — | GRAVE |
+| ~~[TASK-236](tasks/TASK-236.md)~~              | ~~E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period~~ — confirmado mergeado em `main` via [api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84) | 🔴 Alto | — | ALTA |
+| ~~[TASK-230](tasks/TASK-230.md)~~              | ~~`V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais~~ — verificado em 05/11/2026: `ALTER TABLE norms MODIFY COLUMN notes VARCHAR(2000)` presente em `V106`, commit `17ef148` confirmado ancestral de `main` | 🔴 Crítico | EPIC-025 | ALTA |
+| ~~[TASK-151](tasks/TASK-151.md)~~              | ~~Política de Privacidade inacessível para visitantes não logados~~ — verificado em 05/11/2026: `/privacidade` presente em `publicPaths.ts` (whitelist pública) e link no rodapé da landing | 🔴 Crítico | EPIC-003 | ALTA |
+| ~~[TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md)~~ | ~~IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false`~~ — verificado em 05/11/2026: `Sidebar.tsx` guarda os dois pontos com `features?.aiEnabled`; `QuickActions.tsx` não existe mais (substituído pelo novo dashboard do EPIC-030, que elimina o card antigo) | 🟠 Alto | EPIC-006 | MÉDIA |
+| ~~TASK-QA-BUG-016~~                            | ~~E-mail de alerta exibe ID do item em vez do nome~~ — verificado em 05/11/2026: `BusinessEmailNotificationService.resolveDescription` usa `event.getReferenceLabel()`, não `referenceId` | 🟠 Alto | EPIC-006 | MÉDIA |
+| ~~TASK-QA-BUG-012~~                            | ~~items sem orgCode em /me/reports/maintenances — TenantFilterAspect filtrava findAllById cross-org~~ — verificado em 05/11/2026: `ReportsService` usa `TenantContext.setSystemContext()`/`clearSystemContext()` ao redor do `findAllById` cross-org | 🔴 Crítico | EPIC-011 | ALTA |
+| ~~TASK-QA-BUG-010~~                            | ~~Campo norma não pré-preenchido ao editar item Regulatório~~ — verificado em 05/11/2026: `items/new/page.tsx` usa `item.normId?.toString()`, não `item.norm?.id` | 🟡 Médio | EPIC-006 | BAIXA |
+| ~~TASK-QA-BUG-008~~                            | ~~Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode~~ — verificado em 05/11/2026: `items/page.tsx` controla paginação por `data?.hasMore`/`nextCursor`, nunca por `totalElements` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-015~~                            | ~~/reports: data exibida com -1 dia (timezone) e CSV com coluna monetária quebrada~~ — verificado em 05/11/2026: fix de timezone (`parseDateSafe` em `formatters.ts`, commit `049eb04`) + fix de CSV (`MaintenanceExportService.formatCost` com `NumberFormat` pt-BR entre aspas, commit `5f199ee`), ambos ancestrais de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-014~~                            | ~~Dashboard: overdueCount=0, daysLate=0, breakdowns sem OVERDUE — status stale em KPIs/attention/breakdowns~~ — verificado em 05/11/2026: `DashboardService`/`MaintenanceItemRepository` recalculam overdue/nearDue por `nextDueAt` (date-based), não mais pelo campo `status` stale; commit `88472a4` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-013~~                            | ~~Status dos itens desatualizado — NEAR_DUE exibido para itens vencidos, filtro ?status=OVERDUE quebrado~~ — verificado em 05/11/2026: `IMaintenanceItemMapper` usa `StatusCalculator.calculate(nextDueAt)` em tempo real; `MaintenanceItemSpecs` filtra por predicado de data, não pelo campo persistido; 3 testes novos; commit `485c3e3` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-079~~                                   | ~~Exibir periodicidade da norma nos detalhes do item Regulatório~~ — verificado em 05/11/2026: `items/[id]/page.tsx` exibe `customPeriodQty`/`customPeriodUnit` com fallback "Conforme norma", commit `f168b32` ancestral de `main` | 🔵 Baixo | EPIC-006 | — |
+| ~~TASK-QA-BUG-011~~                            | ~~Filtro "Realizados este mês" retorna manutenções fora do mês — backend só tinha data exata~~ — verificado em 05/11/2026: `MaintenanceFilter`/`MaintenanceSpecs` ganharam `performedAtFrom`/`performedAtTo` (range), commit `867632a` ancestral de `main` | 🟡 Médio | EPIC-006 | BAIXA |
+| ~~TASK-QA-BUG-009~~                            | ~~Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada~~ — verificado em 05/11/2026: guard `org.subscription ? ... : "Sem assinatura"` em `users/[id]/page.tsx`, campo marcado opcional no service, commit `fd9015e` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-007~~                            | ~~Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada~~ — verificado em 05/11/2026: `ServiceBase.resolvePeriod` retorna `null` em vez de lançar exceção quando a norma não tem periodicidade; `StatusCalculator`/services tratam período nulo; commit `fc5ab2a` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-005~~                            | ~~Erro ao cadastrar dados de faturamento — PUT .../billing/users/{id}/account retorna 422 (planCode/paymentMethod/name não enviados)~~ — verificado em 05/11/2026: formulário em `users/[id]/page.tsx` ganhou `name`/`paymentMethod`/`planCode`, commit `22fa7b4` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-078~~                                   | ~~Ao remover org do usuário via admin, agendar cancelamento do billing + warning no frontend~~ — verificado em 05/11/2026: `AdminService.removeOrganizationFromUser` chama `billingSubscriptionService.scheduleItemCancellation`; `ConfirmModal` em `/private/users/[id]` exibe aviso de cobrança cancelada ao fim do período | 🟠 Alto | EPIC-007 | ALTA |
+| ~~[TASK-055](tasks/TASK-055.md)~~              | ~~Sessão do usuário sem organização é apagada após login~~ — verificado em 05/11/2026: `TenantFilter.BYPASS_EXACT` inclui `GET .../me/access-context` | 🔴 Crítico | EPIC-006 | GRAVE |
+| ~~[TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md)~~ | ~~Onboarding sem redirect e sem dados da organização após conclusão~~ — verificado em 05/11/2026: `UsersService.issueRefreshedToken` + `OnboardingController` emitindo cookie renovado, presentes no código atual | 🟠 Alto | EPIC-006 | GRAVE |
 
 ## 🐛 Bugs — Backlog
 
@@ -2185,7 +2201,7 @@ _Vazio_
 | ~~TASK-018~~         | ~~Soft delete nas entidades críticas~~                                  | 🟡 Médio   | EPIC-004 | 2    |
 | ~~TASK-019~~         | ~~Índices ausentes no banco de dados~~                                  | 🟡 Médio   | EPIC-004 | 2    |
 | ~~TASK-020~~         | ~~Schema formal para features JSON em billing_plans~~                   | 🟡 Médio   | EPIC-004 | 2    |
-| TASK-021             | Alertas no Prometheus/Grafana                                           | 🟡 Médio   | EPIC-005 | 2    |
+| ~~TASK-021~~             | ~~Alertas no Prometheus/Grafana~~ — confirmado em `main` via commit `03f59fd` (api) | 🟡 Médio   | EPIC-005 | 2    |
 | ~~TASK-022~~         | ~~Sentry em backend e frontend~~                                        | 🟡 Médio   | EPIC-005 | 2    |
 | ~~TASK-023~~         | ~~Indicador de uso vs limite de plano no frontend~~                     | 🟡 Médio   | EPIC-006 | 2    |
 | ~~TASK-024~~         | ~~Exportação de relatórios PDF/Excel~~                                  | 🟡 Médio   | EPIC-006 | 2    |
@@ -2222,8 +2238,8 @@ _Vazio_
 | ~~TASK-069~~         | ~~Criar busca para usuários~~                                           | 🟡 Médio   | EPIC-006 | 3    |
 | ~~TASK-070~~         | ~~Padronizar a cor da seção de usuários~~                               | 🔵 Baixo   | EPIC-006 | 3    |
 | ~~TASK-071~~         | ~~Padronizar as nomenclaturas de empresas (Organizações → Empresas)~~   | 🔵 Baixo   | EPIC-006 | 3    |
-| TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
-| TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
+| ~~TASK-081~~             | ~~Backend: GET /me/reports/overview — KPIs consolidados + por org~~ — confirmado em `main` via commit `7cae193` (api) | 🟠 Alto    | EPIC-011 | 3    |
+| ~~TASK-082~~             | ~~Backend: GET /me/reports/maintenances — listagem paginada cross-org~~ — confirmado em `main` via commit `572ad3b` (api) | 🟠 Alto    | EPIC-011 | 3    |
 | [TASK-098](tasks/TASK-098.md) | Backend: guard ADMIN + invitation email + DELETE em UsersOrganizationsController | 🔴 Crítico | EPIC-013 | 3 |
 | ~~[TASK-099](tasks/TASK-099.md)~~ | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)~~       | 🟠 Alto    | EPIC-013 | 3    |
 | ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | EPIC-013 | 3    |
@@ -2493,21 +2509,21 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
-| [TASK-373](tasks/TASK-373.md) | Backend: `OrganizationSetting` — entidade, migration V128 e repositório — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
-| [TASK-374](tasks/TASK-374.md) | Backend: `CommonArea` — entidade, migration V129 e repositório — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
-| [TASK-375](tasks/TASK-375.md) | Backend: configuração de SLA de chamados — DTOs, serviço e API — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
-| [TASK-376](tasks/TASK-376.md) | Backend: áreas comuns — DTOs, serviço CRUD e API (+ fix do bypass do TenantFilter) — implementado em `feature/EPIC-038-organization-settings`, testes verdes | 🟠 Alto | EPIC-038 |
-| [TASK-377](tasks/TASK-377.md) | Frontend: página `/configuracoes` + aba de SLA de Chamados — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
-| [TASK-378](tasks/TASK-378.md) | Frontend: aba de Áreas Comuns (listar, criar, editar) — implementado em `feature/EPIC-038-organization-settings`, `tsc`/`build` limpos | 🟠 Alto | EPIC-038 |
-| [TASK-379](tasks/TASK-379.md) | Frontend: entrada "Configurações" no menu do usuário — implementado em `feature/EPIC-038-organization-settings`, `tsc` limpo | 🟡 Médio | EPIC-038 |
-| [TASK-380](tasks/TASK-380.md) | Backend: `Unit` — entidade, migration V131 e repositório — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
-| [TASK-381](tasks/TASK-381.md) | Backend: `CondoPerson` — entidade, migration V132, enum `CondoRole` e repositório — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
-| [TASK-382](tasks/TASK-382.md) | Backend: `Unit` — DTOs, serviço CRUD e API — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
-| [TASK-383](tasks/TASK-383.md) | Backend: `CondoPerson` — DTOs, serviço CRUD e API (+ endpoint de opções de fornecedor não previsto na task original, necessário pro combo do frontend) — implementado em `feature/EPIC-039-pessoas-papeis` (api), testes verdes | 🟠 Alto | EPIC-039 |
-| [TASK-384](tasks/TASK-384.md) | Frontend: tela `/pessoas` — abas Gestão/Conselho/Moradores/Fornecedores + formulário "Adicionar pessoa" — implementado em `feature/EPIC-039-pessoas-papeis` (web), `tsc`/`build` limpos | 🟠 Alto | EPIC-039 |
-| [TASK-385](tasks/TASK-385.md) | Frontend: aba Unidades (listar, criar, editar) — implementado em `feature/EPIC-039-pessoas-papeis` (web), `tsc`/`build` limpos | 🟠 Alto | EPIC-039 |
-| [TASK-386](tasks/TASK-386.md) | Frontend: entrada "Pessoas e Papéis" no menu do usuário — implementado em `feature/EPIC-039-pessoas-papeis` (web), `tsc` limpo | 🟡 Médio | EPIC-039 |
-| [TASK-393](tasks/TASK-393.md) | Bugfix: `TenantFilter` não validava X-Org-Id em condo-people/units — corrigido e mergeado direto em `staging`, 1613/1613 testes verdes | 🔴 Crítico | EPIC-039 |
+| ~~[TASK-373](tasks/TASK-373.md)~~ | ~~Backend: `OrganizationSetting` — entidade, migration V128 e repositório~~ — mergeada em `main` via api#167→api#168 (confirmado `gh pr view`, 29/10/2026) | 🟠 Alto | EPIC-038 |
+| ~~[TASK-374](tasks/TASK-374.md)~~ | ~~Backend: `CommonArea` — entidade, migration V129 e repositório~~ — mergeada em `main` via api#167→api#168 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-375](tasks/TASK-375.md)~~ | ~~Backend: configuração de SLA de chamados — DTOs, serviço e API~~ — mergeada em `main` via api#167→api#168 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-376](tasks/TASK-376.md)~~ | ~~Backend: áreas comuns — DTOs, serviço CRUD e API (+ fix do bypass do TenantFilter)~~ — mergeada em `main` via api#167→api#168 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-377](tasks/TASK-377.md)~~ | ~~Frontend: página `/configuracoes` + aba de SLA de Chamados~~ — mergeada em `main` via web#120→web#121 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-378](tasks/TASK-378.md)~~ | ~~Frontend: aba de Áreas Comuns (listar, criar, editar)~~ — mergeada em `main` via web#120→web#121 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-379](tasks/TASK-379.md)~~ | ~~Frontend: entrada "Configurações" no menu do usuário~~ — mergeada em `main` via web#120→web#121 | 🟡 Médio | EPIC-038 |
+| ~~[TASK-380](tasks/TASK-380.md)~~ | ~~Backend: `Unit` — entidade, migration V131 e repositório~~ — mergeada em `main` via api#171→api#177 (confirmado `gh pr view`, 04/11/2026) | 🟠 Alto | EPIC-039 |
+| ~~[TASK-381](tasks/TASK-381.md)~~ | ~~Backend: `CondoPerson` — entidade, migration V132, enum `CondoRole` e repositório~~ — mergeada em `main` via api#171→api#177 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-382](tasks/TASK-382.md)~~ | ~~Backend: `Unit` — DTOs, serviço CRUD e API~~ — mergeada em `main` via api#171→api#177 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-383](tasks/TASK-383.md)~~ | ~~Backend: `CondoPerson` — DTOs, serviço CRUD e API (+ endpoint de opções de fornecedor não previsto na task original)~~ — mergeada em `main` via api#171→api#177 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-384](tasks/TASK-384.md)~~ | ~~Frontend: tela `/pessoas` — abas Gestão/Conselho/Moradores/Fornecedores + formulário "Adicionar pessoa"~~ — mergeada em `main` via web#124→web#126 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-385](tasks/TASK-385.md)~~ | ~~Frontend: aba Unidades (listar, criar, editar)~~ — mergeada em `main` via web#124→web#126 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-386](tasks/TASK-386.md)~~ | ~~Frontend: entrada "Pessoas e Papéis" no menu do usuário~~ — mergeada em `main` via web#124→web#126 | 🟡 Médio | EPIC-039 |
+| ~~[TASK-393](tasks/TASK-393.md)~~ | ~~Bugfix: `TenantFilter` não validava X-Org-Id em condo-people/units~~ — mergeada em `main` via api#172→api#177 | 🔴 Crítico | EPIC-039 |
 | [TASK-360](tasks/TASK-360.md) | Backend: `FiscalInvoice` — entidade, enum, migration V125 e repositório — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
 | [TASK-361](tasks/TASK-361.md) | Backend: configuração de NF na Asaas — DTOs, `AsaasClient`, `FiscalInvoiceConfigurationService` (+ flag fail-closed `asaas.fiscal-invoice.enabled`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
 | [TASK-362](tasks/TASK-362.md) | Backend: acionar configuração de NF na ativação da assinatura — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
@@ -2572,34 +2588,34 @@ _Vazio_
 | TASK-QA-AUTO-003              | Testes de integração: rate limiting nos endpoints de autenticação (@WebMvcTest) | 🟠 Alto    | EPIC-001 |
 | TASK-E2E-001                  | Setup do projeto Playwright E2E (`easy-maintenance-e2e`)                        | 🟠 Alto    | EPIC-008 |
 | TASK-E2E-003                  | Testes E2E: Webhook Asaas — token e idempotência                                | 🟠 Alto    | EPIC-001 |
-| TASK-082                      | Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros | 🟠 Alto    | EPIC-011 |
-| TASK-081                      | Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org       | 🟠 Alto    | EPIC-011 |
-| TASK-086                      | Frontend: Seção de Relatórios — filtros, tabela paginada e export CSV (GET /me/reports/maintenances)    | 🟡 Médio   | EPIC-011 |
-| TASK-085                      | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa (GET /me/reports/overview)     | 🟠 Alto    | EPIC-011 |
-| TASK-084                      | Frontend: estrutura da página /reports + entrada no sidenav e menu do usuário                           | 🟠 Alto    | EPIC-011 |
-| TASK-083                      | Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org (4 testes, 374 passando)       | 🟡 Médio   | EPIC-011 |
-| TASK-080                      | Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate | 🟠 Alto    | EPIC-007 |
-| TASK-072                      | Exibir link de comprovante nas faturas pagas da tela /billing                    | 🟡 Médio   | EPIC-006 |
-| TASK-069                      | Criar busca para usuários — filtros nome/e-mail na tela /private/users           | 🟡 Médio   | EPIC-006 |
-| [TASK-099](tasks/TASK-099.md) | Frontend: "Usuários" no UserTopBar dropdown (ADMIN only) — `userRole` salvo no login, lido no TopBar | 🟠 Alto    | EPIC-013 |
-| [TASK-100](tasks/TASK-100.md) | Frontend: `/users` — listagem com UsageMeter, badges role/status, org badges, delete local, guard ADMIN | 🟠 Alto    | EPIC-013 |
-| [TASK-101](tasks/TASK-101.md) | Frontend: `/users/new` reescrito — POST /me/team/users, multi-org checkboxes, roles select, guard ADMIN | 🔴 Crítico | EPIC-013 |
-| [TASK-102](tasks/TASK-102.md) | Frontend: `/users/[id]/edit` — PATCH com diff de orgs, pré-populate, guard ADMIN, self-edit protection | 🟠 Alto    | EPIC-013 |
-| [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
-| [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
-| TASK-038                      | LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade) | 🔵 Baixo   | EPIC-003 |
+| ~~TASK-082~~                      | ~~Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros~~ — confirmado em `main` via commit `572ad3b` (api) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-081~~                      | ~~Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org~~ — confirmado em `main` via commit `7cae193` (api) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-086~~                      | ~~Frontend: Seção de Relatórios — filtros, tabela paginada e export CSV (GET /me/reports/maintenances)~~ — confirmado em `main` via commit `bf44e90` (web) | 🟡 Médio   | EPIC-011 |
+| ~~TASK-085~~                      | ~~Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa (GET /me/reports/overview)~~ — confirmado em `main` via commit `ddfa9bd` (web) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-084~~                      | ~~Frontend: estrutura da página /reports + entrada no sidenav e menu do usuário~~ — confirmado em `main` via commit `2c41454` (web) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-083~~                      | ~~Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org (4 testes, 374 passando)~~ — confirmado em `main` via commit `27b0153` (api) | 🟡 Médio   | EPIC-011 |
+| ~~TASK-080~~                      | ~~Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate~~ — confirmado em `main` via commit `3bc5bd4` (web) | 🟠 Alto    | EPIC-007 |
+| ~~TASK-072~~                      | ~~Exibir link de comprovante nas faturas pagas da tela /billing~~ — confirmado em `main` via commit `16faeaf` (api) / `2f82258` (web) | 🟡 Médio   | EPIC-006 |
+| ~~TASK-069~~                      | ~~Criar busca para usuários — filtros nome/e-mail na tela /private/users~~ — confirmado em `main` via commit `22fa7b4` (web) | 🟡 Médio   | EPIC-006 |
+| ~~[TASK-099](tasks/TASK-099.md)~~ | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only) — `userRole` salvo no login, lido no TopBar~~ — confirmado em `main` via commit `9b7eac0` | 🟠 Alto    | EPIC-013 |
+| ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem com UsageMeter, badges role/status, org badges, delete local, guard ADMIN~~ — confirmado em `main` via commit `9b7eac0` | 🟠 Alto    | EPIC-013 |
+| ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: `/users/new` reescrito — POST /me/team/users, multi-org checkboxes, roles select, guard ADMIN~~ — confirmado em `main` via commit `9b7eac0` | 🔴 Crítico | EPIC-013 |
+| ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — PATCH com diff de orgs, pré-populate, guard ADMIN, self-edit protection~~ — confirmado em `main` via commit `9b7eac0` | 🟠 Alto    | EPIC-013 |
+| ~~[TASK-087](tasks/TASK-087.md)~~ | ~~Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)~~ — confirmado em `main` via commit `2a26800` (api) | 🟠 Alto    | EPIC-010 |
+| ~~[TASK-021](tasks/TASK-021.md)~~ | ~~Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard~~ — confirmado em `main` via commit `03f59fd` (api) | 🟡 Médio   | EPIC-005 |
+| ~~TASK-038~~                      | ~~LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade)~~ — confirmado em `main` via commit `3142303` (api) + integração em `profile/page.tsx` (web) | 🔵 Baixo   | EPIC-003 |
 | issue #56                     | IA Onboarding adicionado ao menu lateral (Ações) + emojis removidos de Relatórios e Ajuda            | 🔵 Baixo   | EPIC-006 |
-| TASK-089                      | Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)        | 🔴 Crítico | EPIC-012 |
-| TASK-090                      | Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService  | 🔴 Crítico | EPIC-012 |
-| TASK-091                      | Backend: AffiliateController, CommissionAdminController, lead/org integration, auto-match referralCode  | 🔴 Crítico | EPIC-012 |
-| TASK-092                      | Backend: trigger comissão no PaymentReceivedHandler (cycleNumber==1 → CommissionService)               | 🔴 Cr��tico | EPIC-012 |
-| TASK-093                      | Frontend: cookie em_ref na landing page (?ref=CODE) + affiliateCode no submit do lead                  | 🟠 Alto    | EPIC-012 |
-| TASK-094                      | Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável   | 🟠 Alto    | EPIC-012 |
-| TASK-095                      | Frontend: /indicador/[code] — painel do afiliado com KPIs, tabela de leads mascarados e badge de status | 🟠 Alto    | EPIC-012 |
-| TASK-096                      | Frontend: /private/admin/affiliates — painel admin comissões com filtro, "Marcar pago" e total a pagar  | 🟠 Alto    | EPIC-012 |
-| [TASK-124](tasks/TASK-124.md) | Full-Stack: visão em calendário dos itens — toggle Lista/Calendário dentro de /items, componentes isolados (não verificado visualmente) | 🟡 Médio | EPIC-006 |
-| [TASK-125](tasks/TASK-125.md) | Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634 | 🟠 Alto | EPIC-006 |
-| [TASK-126](tasks/TASK-126.md) | Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile (não verificado visualmente em mobile) | 🟠 Alto | EPIC-006 |
+| ~~TASK-089~~                      | ~~Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)~~ — confirmado em `main` via commit `d8aee0c` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-090~~                      | ~~Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService~~ — confirmado em `main` via commit `fa6da0c` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-091~~                      | ~~Backend: AffiliateController, CommissionAdminController, lead/org integration, auto-match referralCode~~ — confirmado em `main` via commit `81edf77` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-092~~                      | ~~Backend: trigger comissão no PaymentReceivedHandler (cycleNumber==1 → CommissionService)~~ — confirmado em `main` via commit `b2b1850` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-093~~                      | ~~Frontend: cookie em_ref na landing page (?ref=CODE) + affiliateCode no submit do lead~~ — confirmado em `main` via commit `9c628a3` (web) | 🟠 Alto    | EPIC-012 |
+| ~~TASK-094~~                      | ~~Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável~~ — confirmado em `main` via commit `cb0c357` (web) | 🟠 Alto    | EPIC-012 |
+| ~~TASK-095~~                      | ~~Frontend: /indicador/[code] — painel do afiliado com KPIs, tabela de leads mascarados e badge de status~~ — confirmado em `main` via commit `5f8abca` (web) | 🟠 Alto    | EPIC-012 |
+| ~~TASK-096~~                      | ~~Frontend: /private/admin/affiliates — painel admin comissões com filtro, "Marcar pago" e total a pagar~~ — confirmado em `main` via commit `be6c065` (web) | 🟠 Alto    | EPIC-012 |
+| ~~[TASK-124](tasks/TASK-124.md)~~ | ~~Full-Stack: visão em calendário dos itens — toggle Lista/Calendário dentro de /items, componentes isolados~~ — validada por Douglas em teste manual real, confirmado em `main` via commit `7eac227` (web) | 🟡 Médio | EPIC-006 |
+| ~~[TASK-125](tasks/TASK-125.md)~~ | ~~Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634~~ — confirmado em `main` via commit `b8fe82f` (web) | 🟠 Alto | EPIC-006 |
+| ~~[TASK-126](tasks/TASK-126.md)~~ | ~~Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile~~ — confirmado em `main` via commit `49fada8` (web) | 🟠 Alto | EPIC-006 |
 ---
 
 ## Concluído
@@ -2734,12 +2750,12 @@ _Vazio_
 
 | ID       | Título                                                                          | Prioridade | Fase | Tipo       |
 |----------|---------------------------------------------------------------------------------|------------|------|------------|
-| TASK-081 | Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org       | 🟠 Alto    | 3    | BACKEND    |
-| TASK-082 | Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros | 🟠 Alto    | 3    | BACKEND    |
-| TASK-083 | Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org        | 🟡 Médio   | 3    | BACKEND    |
-| TASK-084 | Frontend: estrutura da página /me/reports + entrada no sidenav                  | 🟠 Alto    | 3    | FRONTEND   |
-| TASK-085 | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa        | 🟠 Alto    | 3    | FRONTEND   |
-| TASK-086 | Frontend: Seção de Relatórios — filtros, tabela paginada e exportação CSV       | 🟡 Médio   | 3    | FRONTEND   |
+| ~~TASK-081~~ | ~~Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org~~ — confirmado em `main` via commit `7cae193` (api) | 🟠 Alto    | 3    | BACKEND    |
+| ~~TASK-082~~ | ~~Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros~~ — confirmado em `main` via commit `572ad3b` (api) | 🟠 Alto    | 3    | BACKEND    |
+| ~~TASK-083~~ | ~~Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org~~ — confirmado em `main` via commit `27b0153` (api) | 🟡 Médio   | 3    | BACKEND    |
+| ~~TASK-084~~ | ~~Frontend: estrutura da página /me/reports + entrada no sidenav~~ — confirmado em `main` via commit `2c41454` (web) | 🟠 Alto    | 3    | FRONTEND   |
+| ~~TASK-085~~ | ~~Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa~~ — confirmado em `main` via commit `ddfa9bd` (web) | 🟠 Alto    | 3    | FRONTEND   |
+| ~~TASK-086~~ | ~~Frontend: Seção de Relatórios — filtros, tabela paginada e exportação CSV~~ — confirmado em `main` via commit `bf44e90` (web) | 🟡 Médio   | 3    | FRONTEND   |
 
 ---
 
