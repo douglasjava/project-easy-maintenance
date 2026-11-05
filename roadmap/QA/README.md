@@ -25,6 +25,13 @@ QA/
 
 ---
 
+## Jornada Completa em PRD
+
+[JORNADA-PRD-001](JORNADA-PRD-001.md) — jornada de ponta a ponta (onboarding → pessoas → itens/
+manutenções → chamados/esteira de identidade → financeiro → notificações → assistente WhatsApp →
+fornecedor self-service), pensada pra rodar em produção de verdade, segmentada em 8 blocos
+independentes que podem ser executados aos poucos.
+
 ## Flows Mapeados
 
 | ID | Flow | Criticidade |
