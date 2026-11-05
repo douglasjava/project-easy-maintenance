@@ -30,7 +30,7 @@ test.describe('Financeiro — EPIC-032', () => {
     const expenseValue = uniqueCents(8000); // ~R$ 80,xx
 
     await loginViaUi(page, TENANT_D_OPERATING);
-    await page.goto('/financeiro');
+    await page.goto('/finance');
 
     await expect(page.getByRole('heading', { name: 'Financeiro' })).toBeVisible({ timeout: 15_000 });
 
@@ -63,7 +63,7 @@ test.describe('Financeiro — EPIC-032', () => {
     const value = uniqueCents(3000); // ~R$ 30,xx
 
     await loginViaUi(page, TENANT_D_OPERATING);
-    await page.goto('/financeiro');
+    await page.goto('/finance');
 
     await page.getByRole('button', { name: 'Nova receita' }).click();
     await page.locator('.modal-dialog select').selectOption('MULTA');
