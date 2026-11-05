@@ -2251,15 +2251,15 @@ _Vazio_
 | [TASK-302](tasks/TASK-302.md) | Contexto "em nome do usuário" + porta de domínio + escolha de organização | 🔴 Crítico | EPIC-031 | Onda 1 |
 | [TASK-303](tasks/TASK-303.md) | Classificador + transcrição + crédito de IA | 🟠 Alto | EPIC-031 | Onda 1 |
 | [TASK-304](tasks/TASK-304.md) | "Identificação/local" no item + `source` | 🟡 Médio | EPIC-031 | Onda 1 |
-| [TASK-305](tasks/TASK-305.md) | Consultas só leitura | 🟠 Alto | EPIC-031 | Onda 2 |
-| [TASK-306](tasks/TASK-306.md) | Registro rápido com confirmação | 🟠 Alto | EPIC-031 | Onda 2 |
-| [TASK-307](tasks/TASK-307.md) | Links diretos no web | 🟡 Médio | EPIC-031 | Onda 2 |
+| ~~[TASK-305](tasks/TASK-305.md)~~ | ~~Consultas só leitura~~ *(confirmado em `main` — PR [api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127)→[api#128](https://github.com/douglasjava/easy-maintenance-api/pull/128) MERGED; task file ficou com status "Em validação" desatualizado)* | 🟠 Alto | EPIC-031 | Onda 2 |
+| ~~[TASK-306](tasks/TASK-306.md)~~ | ~~Registro rápido com confirmação~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
+| ~~[TASK-307](tasks/TASK-307.md)~~ | ~~Links diretos no web~~ *(confirmado em `main` — PR [web#108](https://github.com/douglasjava/easy-maintenance-web/pull/108)→[web#109](https://github.com/douglasjava/easy-maintenance-web/pull/109) MERGED, [api#142](https://github.com/douglasjava/easy-maintenance-api/pull/142)→[api#144](https://github.com/douglasjava/easy-maintenance-api/pull/144) MERGED; task file ficou com status "In Validation" desatualizado)* | 🟡 Médio | EPIC-031 | Onda 2 |
 | ~~[TASK-308](tasks/TASK-308.md)~~ | ~~Onboarding conversacional~~ | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-309](tasks/TASK-309.md) | Relatórios fase 1 | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-310](tasks/TASK-310.md) | PDF da prestação de contas no servidor | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
-| [TASK-315](tasks/TASK-315.md) | Item operacional novo pelo catálogo padronizado + periodicidade por botão | 🟠 Alto | EPIC-031 | Onda 2 |
+| ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |
