@@ -1,7 +1,12 @@
 # EPIC-012 — Sistema de Indicação (Affiliate Referral)
 
 ## Status
-Em Validação — 8/8 tasks entregues
+✅ Concluída e em produção (verificado 07/09/2026). As 8 tasks (TASK-089 a TASK-096) foram
+implementadas antes da convenção atual de PR nomeada por task — sem link de PR individual
+recuperável no histórico do GitHub — mas a entidade `Affiliate`/`ReferralCommission` que este épico
+criou está confirmadamente em produção: é a base sobre a qual o [EPIC-020](EPIC-020.md) (rework de
+comissão, split entre beneficiários) foi construído, incluindo um caso real de cliente (Grupo
+Silva). Status "Em Validação" estava desatualizado.
 
 ## Objetivo
 Permitir que qualquer pessoa se cadastre como afiliado, receba um link único de rastreio, 

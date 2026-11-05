@@ -6,6 +6,7 @@ Execute a task from the Easy Maintenance project end-to-end, following the roadm
 
 - task analysis
 - planning
+- **git branch setup**
 - implementation
 - creation/adjustment of relevant tests
 - initial technical review
@@ -29,11 +30,11 @@ Before taking any action:
 
 1. Read the task file in `/roadmap/tasks`
 2. Understand:
-   - problem
-   - impact
-   - dependencies
-   - acceptance criteria
-   - task type
+    - problem
+    - impact
+    - dependencies
+    - acceptance criteria
+    - task type
 3. Read `CLAUDE.md`
 4. Check `/roadmap/kanban.md` for current status
 5. Identify impacted files and layers
@@ -68,7 +69,48 @@ If there is relevant ambiguity:
 
 ---
 
-## 🧾 Step 2: Planning
+## 🌿 Step 2: Git Branch Setup (MANDATORY)
+
+**Before any planning or implementation**, always create a dedicated branch for the task, starting from `staging` (homologação).
+
+### Branch naming convention
+
+```
+feature/TASK-XXX-short-kebab-case-description
+```
+
+- `TASK-XXX` = exact task ID from `/roadmap/tasks` (uppercase, matches kanban)
+- `short-kebab-case-description` = 3–6 words max, lowercase, hyphen-separated, derived from the task title
+- Use `bugfix/TASK-XXX-...` instead of `feature/...` when the task is classified as BUGFIX (Step 1)
+- Use `chore/TASK-XXX-...` for INFRA / CONFIG tasks that don't ship user-facing behavior
+
+Examples:
+- `feature/TASK-042-photo-evidence-upload`
+- `bugfix/TASK-051-fix-next-due-at-recalc`
+- `chore/TASK-066-pix-automatico-config`
+
+### Required commands (always executed in this order)
+
+```bash
+git fetch origin
+git checkout staging
+git pull origin staging
+git checkout -b feature/TASK-XXX-short-description
+```
+
+### Rules
+
+- ALWAYS branch from `staging`, never from `main`, `production`, or another feature branch — unless the task explicitly declares a dependency on an unmerged branch (then STOP and report before proceeding, per Step 1 ambiguity rule).
+- If a branch with the same name already exists locally or remotely:
+    - if it belongs to this same task and is unmerged, check it out and continue from there instead of recreating it
+    - if it looks stale/unrelated, STOP and report before overwriting or deleting anything
+- NEVER commit directly to `staging`, `main`, or `production`.
+- Confirm the branch was created successfully (`git branch --show-current`) before moving to Step 3 (Planning).
+- Record the branch name — it must be reported in the final output (see Response Format) and referenced in the eventual PR title/description.
+
+---
+
+## 🧾 Step 3: Planning
 
 Before editing any file, describe briefly:
 
@@ -76,17 +118,17 @@ Before editing any file, describe briefly:
 - which files will be impacted
 - chosen approach
 - main risks:
-  - regression
-  - security
-  - data inconsistency
-  - API contract break
+    - regression
+    - security
+    - data inconsistency
+    - API contract break
 - which tests should be created or updated
 
 ---
 
-## ⚙️ Step 3: Implementation
+## ⚙️ Step 4: Implementation
 
-Implement only what is necessary to fulfill the task.
+Implement only what is necessary to fulfill the task, on the branch created in Step 2.
 
 ### 🔹 Backend / Full-stack rules
 
@@ -124,7 +166,7 @@ Ensure:
 
 ---
 
-## 🔗 Step 4: Integration Validation
+## 🔗 Step 5: Integration Validation
 
 When applicable:
 
@@ -134,7 +176,7 @@ When applicable:
 
 ---
 
-## 🧪 Step 5: Mandatory Tests
+## 🧪 Step 6: Mandatory Tests
 
 Create, adjust, or complement relevant tests whenever applicable.
 
@@ -155,7 +197,7 @@ If tests cannot be created or executed:
 
 ---
 
-## 🧪 Step 6: Test Execution / Verification
+## 🧪 Step 7: Test Execution / Verification
 
 Run or validate the most relevant tests.
 
@@ -172,7 +214,7 @@ If a failure occurs:
 
 ---
 
-## 🔍 Step 7: Initial Technical Review
+## 🔍 Step 8: Initial Technical Review
 
 Perform a self-review checking:
 
@@ -186,7 +228,7 @@ Perform a self-review checking:
 
 ---
 
-## 🧪 Step 8: Acceptance Criteria Validation
+## 🧪 Step 9: Acceptance Criteria Validation
 
 Compare implementation against each acceptance criterion:
 
@@ -199,7 +241,7 @@ DO NOT consider the task complete without sufficient evidence.
 
 ---
 
-## 🧪 Step 9: QA Validation (MANDATORY)
+## 🧪 Step 10: QA Validation (MANDATORY)
 
 Validate:
 
@@ -213,7 +255,7 @@ If any fails → FIX before proceeding
 
 ---
 
-## 📦 Step 10: Kanban Update
+## 📦 Step 11: Kanban Update
 
 If implementation is consistent:
 
@@ -267,6 +309,8 @@ Never duplicate tasks across columns.
 - DO NOT assume behavior without validation
 - DO NOT skip tests when business rules are affected
 - DO NOT change contracts outside scope unnecessarily
+- DO NOT start implementing before creating the branch in Step 2
+- DO NOT commit directly to `staging`, `main`, or `production`
 
 ---
 
@@ -279,6 +323,7 @@ Stop and report clearly if:
 - there is unresolved high risk
 - there is a critical architectural issue
 - relevant tests fail and fixing is out of scope
+- the branch cannot be created cleanly from `staging` (conflicts, diverged history, naming collision with an unrelated branch)
 
 ---
 
@@ -288,6 +333,10 @@ Stop and report clearly if:
 
 ## Initial Analysis
 - ...
+
+## Git Branch
+- Base branch: staging
+- Branch created: feature/TASK-XXX-...
 
 ## Execution Plan
 - ...

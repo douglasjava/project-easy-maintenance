@@ -1,0 +1,144 @@
+# EPIC-040 — Esteira de Aprovação de Identidade do Morador (QR Code / WhatsApp)
+
+## Status
+🟢 Completo (03/11/2026) — TASK-387 a TASK-392 e TASK-395 (webhook de resposta do botão,
+aberta a posteriori — não fazia parte do escopo original de 6 tasks, ver nota abaixo) todas
+implementadas. Falta só ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` em produção e o
+QA manual com clique real de botão.
+TASK-387 a TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web):
+entidade da pendência (TASK-387), intake do QR Code desviando pra pendência (TASK-388),
+notificação ao síndico por e-mail + WhatsApp fan-out (TASK-389), aprovação/reprovação com lock de
+idempotência real + reprocessamento do chamado retido (TASK-390), aba "Pendentes" em `/pessoas`
+(TASK-391). TASK-388 exigiu ajuste no frontend público além do escopo original de backend — ver
+nota na task — pra não quebrar a tela de abertura de chamado já em produção. Suíte completa:
+1648/1648 testes verdes; `tsc`/`build` do web limpos.
+
+**[TASK-392](../tasks/TASK-392.md) (submissão do template à Meta) concluída em 03/11/2026** —
+template `aprovacao_identidade_morador_v1` aprovado pela Meta e confirmado produtivo pelo Douglas.
+Flag de envio (`notification.whatsapp.resident-identity-pending-enabled`) agora é controlável via
+env var `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` (antes só existia hardcoded `false`, sem
+property por ambiente) — falta só o Douglas ligar essa env var no ambiente de produção (ação de
+infra, fora do alcance de um agente). Até lá, WhatsApp da esteira continua desligado por flag
+(e-mail continua cobrindo 100% das organizações).
+
+**[TASK-395](../tasks/TASK-395.md) implementada em 03/11/2026** — o webhook que consome o clique
+Aprovar/Reprovar (gap identificado na TASK-392) foi escrito: correlaciona o `wamid` da mensagem
+enviada com a pendência via `context.id` da Meta (tabela própria
+`resident_identity_approval_dispatches`, não reaproveita `BusinessWhatsAppDispatch`), resolve a
+`Unit` automaticamente pelo `unitHint` (WhatsApp só tem os dois botões, sem UI pra escolher), e
+reusa `ResidentIdentityApprovalService.approve()`/`reject()` sem nenhuma mudança neles
+(idempotência já garantida). Intercepta antes do pipeline do assistente de IA, independente do
+piloto `assistant.enabled`.
+
+**Teste de integração real feito em 02/11/2026** (API local + MySQL + MailHog, não mocado, a
+pedido do Douglas): encontrou e corrigiu um bug crítico que os 1648 testes unitários não detectavam
+— `POST .../approve` retornava `500` por falta de `@Transactional` efetivo (auto-invocação, ver
+nota na TASK-390). Fluxo completo validado ponta a ponta com dados reais (intake → pendência →
+aprovação → `Unit`+`CondoPerson`+`ResidentTicket` criados → e-mails reais no MailHog → idempotência
+→ reprovação → telefone já aprovado pula a esteira). Spec em
+`docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
+
+## Objetivo
+Dar ao número de WhatsApp de quem abre uma solicitação via QR Code (EPIC-027) o papel `MORADOR`
+(`CondoPerson`) com segurança — hoje qualquer pessoa que escaneia o código (visitante, entregador,
+vizinho de outro prédio) poderia, sem este gate, ganhar acesso ao chat do assistente (EPIC-031) como
+se fosse moradora de fato.
+
+## Descrição
+
+Gate **por pessoa**, não por solicitação: só a primeira solicitação de um número novo passa pela
+esteira de aprovação de identidade. Nada é processado (chamado criado de verdade, no futuro reserva
+de área comum) enquanto a identidade está pendente — fica retida. Síndico é notificado por dois
+canais em paralelo: WhatsApp (botões Aprovar/Reprovar, fan-out para todos os síndicos linkados ao
+assistente) e e-mail de fallback aos ADMINs (mesmo canal já usado na criação de chamado); aparece
+também numa aba nova "Pendentes" em `/pessoas` (EPIC-039), sempre disponível independente de
+WhatsApp.
+
+Síndico aprova → vincula a uma `Unit` existente ou cria uma nova com o apto/bloco informado na
+intake; nasce o `CondoPerson` (papel `MORADOR`); a solicitação retida é processada como se fosse
+nova agora (chamado cai no kanban normal, notifica ADMINs); morador recebe a confirmação do que
+pediu só nesse momento. Síndico reprova → solicitação é descartada, nenhum `CondoPerson` é criado,
+nenhum aviso ao morador (silencioso — registra métrica/log). Depois da primeira aprovação, o número
+já é reconhecido e pula a esteira nas próximas solicitações.
+
+**Decisão importante**: reserva de área comum em si não existe ainda (`organization-settings-
+module-design.md`/EPIC-038 deixou isso para depois) — esta entrega só garante que o gate de
+identidade já existe pronto pra quando essa feature nascer.
+
+---
+
+## Contexto Técnico
+
+- Novo campo **apto/bloco** na intake pública do QR Code (`POST /public/resident-tickets`, módulo
+  `resident_tickets` do EPIC-027) — texto livre na captura; resolução para `Unit` existente ou nova
+  acontece só na aprovação, não na intake.
+- Notificação por WhatsApp reaproveita a infra do EPIC-031 (`AssistantLink`) — fan-out para todos os
+  síndicos linkados; exige template HSM novo com botões de resposta rápida (Aprovar/Reprovar),
+  submissão à Meta separada (mesmo padrão TASK-372/TASK-368, dependência externa sem prazo
+  garantido).
+- Lock/idempotência entre os dois canais: pendência tem status (`PENDENTE`/`PROCESSADO`); primeira
+  ação (por qualquer canal) trava o item, demais tentativas são no-op.
+- Reenvio do mesmo telefone enquanto a pendência ainda está em aberto atualiza o registro existente
+  (chave de unicidade telefone + organização + status `PENDENTE`), não cria duplicata.
+- Falha de aprovação via WhatsApp (ex. API fora) não deve travar o caminho pela tela `/pessoas` —
+  os dois canais operam sobre o mesmo dado, sem dependência um do outro.
+
+---
+
+## Tasks
+
+| ID | Título | Tipo | Prioridade |
+|---|---|---|---|
+| [TASK-387](../tasks/TASK-387.md) | Backend: `ResidentIdentityPending` — entidade, migration e repositório (unicidade telefone+org+status) | BACKEND | 🟠 Alto |
+| [TASK-388](../tasks/TASK-388.md) | Backend: intake do QR Code — campo apto/bloco + desvio para pendência quando telefone não tem `CondoPerson` | BACKEND | 🟠 Alto |
+| [TASK-389](../tasks/TASK-389.md) | Backend: notificação ao síndico — e-mail de fallback + WhatsApp fan-out com botões Aprovar/Reprovar | BACKEND | 🟠 Alto |
+| [TASK-390](../tasks/TASK-390.md) | Backend: aprovação/reprovação — lock idempotente, criação/vínculo de `CondoPerson`+`Unit`, reprocessamento do pedido retido | BACKEND | 🟠 Alto |
+| [TASK-391](../tasks/TASK-391.md) | Frontend: aba "Pendentes" em `/pessoas` — listar, aprovar (vincular/criar unidade), reprovar | FRONTEND | 🟠 Alto |
+| [TASK-392](../tasks/TASK-392.md) | Infra/Config: template WhatsApp de aprovação (botões Aprovar/Reprovar) — submissão Meta | INFRA/CONFIG | 🔴 Crítico |
+| [TASK-395](../tasks/TASK-395.md) | Backend: webhook consome clique Aprovar/Reprovar (correlação via `context.id`, resolução automática de `Unit` pelo `unitHint`) | BACKEND | 🟠 Alto |
+
+Ordem: TASK-387 não depende de nada técnico, mas depende do EPIC-039 estar implementado (precisa de
+`CondoPerson`/`Unit`). TASK-388 depende da 387. TASK-389 e TASK-392 podem começar em paralelo desde
+já (TASK-392 não depende de código, só de configuração externa — quanto antes submeter, melhor,
+mesmo raciocínio do TASK-372). TASK-390 depende da 387/388/389. TASK-391 depende da 390 (precisa dos
+endpoints de aprovação). O envio real de WhatsApp em produção só funciona depois da aprovação da
+Meta (TASK-392), mas TASK-389/390 podem ser codificadas/testadas contra mock antes disso. TASK-395
+(aberta a posteriori, 03/11/2026 — não fazia parte do escopo original, ver nota no Status) depende
+da 389/390/392.
+
+---
+
+## Critério de Conclusão do Épico
+
+- [x] Primeira solicitação de um telefone novo não processa o pedido — fica retida como pendência
+      (validado em teste de integração real, 02/11/2026, ver TASK-390)
+- [x] Síndico linkado ao assistente recebe WhatsApp com botões Aprovar/Reprovar; todo ADMIN recebe
+      e-mail de fallback independente de link com o assistente (template aprovado/produtivo,
+      TASK-392)
+- [x] Aprovação cria `CondoPerson` (papel `MORADOR`) vinculado à `Unit` (existente ou nova) e
+      processa o pedido retido (chamado real, kanban, notificação a ADMINs) — tanto pela tela
+      quanto pelo clique do botão (TASK-395)
+- [x] Reprovação não cria `CondoPerson`, não processa o pedido, não avisa o morador — só loga/métrica
+- [x] Segunda solicitação do mesmo telefone, já aprovado, pula a esteira e vai direto pro fluxo
+      operacional normal
+- [x] Reenvio enquanto a primeira pendência ainda está aberta atualiza o registro, não duplica
+- [x] Ação simultânea nos dois canais (WhatsApp + tela) nunca processa/descarta o pedido duas vezes
+      — lock pessimista + status `PROCESSADO` (TASK-390), exercitado pelos dois pontos de entrada
+- [x] `mvn test`/`npm run build`/`tsc --noEmit` sem regressão
+
+Pendente (fora do alcance de um agente): QA manual em produção com clique real de botão, e ligar
+`WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` no ambiente de produção.
+
+## Fora de Escopo
+- Reserva de área comum em si (feature não existe ainda, EPIC-038 deixou pra depois).
+- Limite de tentativas após reprovação (anti-abuso de reenvio repetido) — rate limit já existente
+  do EPIC-027 é a única defesa nesta entrega.
+- Expiração/timeout de pendência — fica aberta indefinidamente até ação manual do síndico.
+- Qualquer mudança em `Role` (perfil de login) — este fluxo só cria/atualiza `CondoPerson`.
+
+## Riscos
+Aprovação de template pela Meta (TASK-392) é dependência externa sem prazo garantido, mesmo risco já
+visto em TASK-372/EPIC-023. Enquanto a Onda 2 do assistente (TASK-305/306) não libera todos os
+síndicos, o e-mail de fallback é o único canal de aviso pra maioria das organizações — pendência sem
+expiração + sem push garantido pode deixar solicitações reais invisíveis por dias; aceito
+conscientemente por Douglas (31/10/2026) ao fechar a spec.

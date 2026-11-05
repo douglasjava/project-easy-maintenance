@@ -1,0 +1,195 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]: ⚠ AMBIENTE LOCAL — development
+  - generic [ref=f1e3]:
+    - link "Falar no WhatsApp" [ref=f1e4] [cursor=pointer]:
+      - /url: https://wa.me/5531999826634?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Vi%20a%20Easy%20Maintenance%20no%20site%20e%20quero%20entender%20como%20ela%20pode%20ajudar%20na%20gest%C3%A3o%20de%20manuten%C3%A7%C3%A3o%20do%20meu%20condom%C3%ADnio%2Fempresa.
+    - navigation [ref=f1e7]:
+      - generic [ref=f1e8]:
+        - link "Easy Maintenance" [ref=f1e9] [cursor=pointer]:
+          - /url: /landing
+        - list [ref=f1e16]:
+          - listitem [ref=f1e17]:
+            - link "Problema" [ref=f1e18] [cursor=pointer]:
+              - /url: "#problema"
+          - listitem [ref=f1e19]:
+            - link "Solução" [ref=f1e20] [cursor=pointer]:
+              - /url: "#solucao"
+          - listitem [ref=f1e21]:
+            - link "Diferenciais" [ref=f1e22] [cursor=pointer]:
+              - /url: "#diferenciais"
+          - listitem [ref=f1e23]:
+            - link "Para quem" [ref=f1e24] [cursor=pointer]:
+              - /url: "#para-quem"
+          - listitem [ref=f1e25]:
+            - link "Seja Parceiro" [ref=f1e26] [cursor=pointer]:
+              - /url: "#seja-parceiro"
+          - listitem [ref=f1e27]:
+            - link "Login Cliente" [ref=f1e28] [cursor=pointer]:
+              - /url: /login
+    - banner [ref=f1e29]:
+      - generic [ref=f1e31]:
+        - generic [ref=f1e32]:
+          - heading "Gestão de Manutenção Preventiva Inteligente" [level=1] [ref=f1e33]
+          - paragraph [ref=f1e34]: Elimine o caos das planilhas e mensagens de WhatsApp. Tenha total controle sobre seus ativos, vencimentos e conformidade legal em uma única plataforma.
+          - generic [ref=f1e35]:
+            - textbox "Seu melhor e-mail" [ref=f1e37]
+            - button "Solicitar Demonstração" [ref=f1e39] [cursor=pointer]
+        - img "Tela do dashboard Easy Maintenance com visão geral de manutenções preventivas, prazos e conformidade" [ref=f1e42]
+    - generic [ref=f1e44]:
+      - generic [ref=f1e45]:
+        - text: O risco real
+        - heading "Falta de manutenção não é só bagunça na planilha — é risco jurídico, financeiro e humano" [level=2] [ref=f1e46]
+        - generic [ref=f1e47]:
+          - paragraph [ref=f1e48]: 66% dos problemas em edificações no Brasil não vêm de defeito de construção. Vêm de falta de manutenção.
+          - paragraph [ref=f1e49]: "Fonte: IBAPE Nacional"
+      - generic [ref=f1e51]:
+        - generic [ref=f1e53]:
+          - heading "Processo" [level=4] [ref=f1e58]
+          - paragraph [ref=f1e59]: Síndicos podem responder civil e criminalmente — inclusive com o próprio patrimônio — por acidentes ligados à falta de manutenção comprovada.
+          - paragraph [ref=f1e60]: "Fonte: Código Civil, Art. 1.348"
+        - generic [ref=f1e62]:
+          - heading "Multa e interdição" [level=4] [ref=f1e67]
+          - paragraph [ref=f1e68]: A falta de laudo de segurança (AVCB) pode gerar multas de até R$ 265 mil e levar à interdição do prédio.
+          - paragraph [ref=f1e69]: "Fonte: Corpo de Bombeiros"
+        - generic [ref=f1e71]:
+          - heading "Acidente" [level=4] [ref=f1e76]
+          - paragraph [ref=f1e77]: No Brasil, uma pessoa morre em acidente de elevador a cada 10 dias — a maioria por falta de manutenção contínua.
+          - paragraph [ref=f1e78]: "Fonte: Seciesp"
+      - paragraph [ref=f1e79]: "O Easy Maintenance existe pra isso: ter a prova de que a manutenção foi feita, antes que alguém precise perguntar depois que já deu errado."
+    - generic [ref=f1e81]:
+      - heading "Por que as empresas perdem o controle?" [level=2] [ref=f1e83]
+      - generic [ref=f1e85]:
+        - generic [ref=f1e87]:
+          - heading "Planilhas espalhadas" [level=4] [ref=f1e88]
+          - paragraph [ref=f1e89]: Informações fragmentadas que dificultam a visão geral.
+        - generic [ref=f1e91]:
+          - heading "Ordens no WhatsApp" [level=4] [ref=f1e92]
+          - paragraph [ref=f1e93]: Solicitações que se perdem no histórico de conversas.
+        - generic [ref=f1e95]:
+          - heading "Troca de síndico = perda de histórico" [level=4] [ref=f1e96]
+          - paragraph [ref=f1e97]: A memória técnica da edificação desaparece na rotatividade.
+        - generic [ref=f1e99]:
+          - heading "Não sabe o que vence quando" [level=4] [ref=f1e100]
+          - paragraph [ref=f1e101]: Falta de previsibilidade sobre renovações e manutenções críticas.
+    - generic [ref=f1e103]:
+      - heading "Tudo o que você precisa em um só lugar" [level=2] [ref=f1e105]
+      - generic [ref=f1e107]:
+        - generic [ref=f1e109]:
+          - generic [ref=f1e110]: 📋
+          - heading "Central de ativos" [level=4] [ref=f1e111]
+          - paragraph [ref=f1e112]: Inventário completo de equipamentos e sistemas.
+        - generic [ref=f1e114]:
+          - generic [ref=f1e115]: 📅
+          - heading "Agenda de vencimentos" [level=4] [ref=f1e116]
+          - paragraph [ref=f1e117]: Calendário inteligente para nunca perder um prazo.
+        - generic [ref=f1e119]:
+          - generic [ref=f1e120]: 📄
+          - heading "Repositório de laudos" [level=4] [ref=f1e121]
+          - paragraph [ref=f1e122]: Documentação técnica organizada e acessível.
+        - generic [ref=f1e124]:
+          - generic [ref=f1e125]: 🔍
+          - heading "Trilha de auditoria" [level=4] [ref=f1e126]
+          - paragraph [ref=f1e127]: Histórico completo de quem fez o que e quando.
+        - generic [ref=f1e129]:
+          - generic [ref=f1e130]: 📸
+          - heading "Evidências fotográficas" [level=4] [ref=f1e131]
+          - paragraph [ref=f1e132]: Comprovação visual da execução dos serviços.
+        - generic [ref=f1e134]:
+          - generic [ref=f1e135]: 🤝
+          - heading "Gestão de fornecedores" [level=4] [ref=f1e136]
+          - paragraph [ref=f1e137]: Controle de prestadores e qualidade de entrega.
+    - generic [ref=f1e140]:
+      - generic [ref=f1e141]:
+        - text: Diferenciais
+        - heading "Por que o Easy Maintenance é diferente?" [level=2] [ref=f1e142]
+        - paragraph [ref=f1e143]: Nossa plataforma foi construída ouvindo as dores reais do mercado brasileiro.
+        - button "Ver todos os recursos" [ref=f1e144] [cursor=pointer]
+      - generic [ref=f1e147]:
+        - generic [ref=f1e149]:
+          - heading "Foco em legislação brasileira" [level=5] [ref=f1e150]
+          - paragraph [ref=f1e151]: Adequado às normas técnicas nacionais (ABNT).
+        - generic [ref=f1e153]:
+          - heading "Modelo por organização" [level=5] [ref=f1e154]
+          - paragraph [ref=f1e155]: Estrutura hierárquica clara para multiclientes ou filiais.
+        - generic [ref=f1e157]:
+          - heading "Histórico técnico" [level=5] [ref=f1e158]
+          - paragraph [ref=f1e159]: Acervo digital permanente da vida útil dos ativos.
+        - generic [ref=f1e161]:
+          - heading "Evidência vinculada" [level=5] [ref=f1e162]
+          - paragraph [ref=f1e163]: Cada manutenção possui sua prova de execução direta.
+        - generic [ref=f1e165]:
+          - heading "Visão para auditoria" [level=5] [ref=f1e166]
+          - paragraph [ref=f1e167]: Relatórios prontos para processos de certificação.
+    - generic [ref=f1e169]:
+      - heading "Feito para quem exige eficiência" [level=2] [ref=f1e171]
+      - generic [ref=f1e173]:
+        - heading "Segmentos Principais" [level=4] [ref=f1e174]
+        - generic [ref=f1e175]:
+          - generic [ref=f1e176]: Condomínios
+          - generic [ref=f1e177]: Hospitais
+          - generic [ref=f1e178]: Escolas
+          - generic [ref=f1e179]: Indústrias
+          - generic [ref=f1e180]: Escritórios
+      - generic [ref=f1e181]:
+        - heading "Quem utiliza nossa plataforma" [level=4] [ref=f1e182]
+        - generic [ref=f1e184]:
+          - generic [ref=f1e186]:
+            - heading "Administradoras" [level=5] [ref=f1e187]
+            - paragraph [ref=f1e188]: Gestão centralizada de múltiplos clientes.
+          - generic [ref=f1e190]:
+            - heading "Síndicos" [level=5] [ref=f1e191]
+            - paragraph [ref=f1e192]: Segurança e transparência na gestão predial.
+          - generic [ref=f1e194]:
+            - heading "Empresas" [level=5] [ref=f1e195]
+            - paragraph [ref=f1e196]: Manutenção de ativos operacionais críticos.
+          - generic [ref=f1e198]:
+            - heading "Gestores de facilities" [level=5] [ref=f1e199]
+            - paragraph [ref=f1e200]: Otimização de custos e produtividade.
+    - generic [ref=f1e203]:
+      - text: Seja parceiro
+      - heading "Indique clientes, ganhe comissão" [level=2] [ref=f1e204]
+      - paragraph [ref=f1e205]: Conhece um síndico, uma administradora ou um gestor de facilities que precisa organizar a manutenção preventiva? Indique o Easy Maintenance com o seu link exclusivo e ganhe 20% de comissão sobre cada cliente que assinar.
+      - link "Quero ser parceiro" [ref=f1e206] [cursor=pointer]:
+        - /url: /indicador/novo
+    - generic [ref=f1e208]:
+      - heading "Pronto para profissionalizar sua manutenção?" [level=2] [ref=f1e209]
+      - paragraph [ref=f1e210]: Junte-se a centenas de gestores que já transformaram suas operações.
+      - generic [ref=f1e211]:
+        - button "Solicitar Demonstração" [ref=f1e212] [cursor=pointer]
+        - link "Falar com Consultor" [ref=f1e213] [cursor=pointer]:
+          - /url: https://wa.me/5531999826634?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Vi%20a%20Easy%20Maintenance%20no%20site%20e%20quero%20entender%20como%20ela%20pode%20ajudar%20na%20gest%C3%A3o%20de%20manuten%C3%A7%C3%A3o%20do%20meu%20condom%C3%ADnio%2Fempresa.
+    - contentinfo [ref=f1e214]:
+      - generic [ref=f1e215]:
+        - generic [ref=f1e216]:
+          - generic [ref=f1e217]:
+            - generic [ref=f1e218]: Easy Maintenance
+            - paragraph [ref=f1e223]: A solução definitiva para gestão de ativos e manutenção preventiva no Brasil.
+          - generic [ref=f1e224]:
+            - heading "Navegação" [level=6] [ref=f1e225]
+            - list [ref=f1e226]:
+              - listitem [ref=f1e227]:
+                - link "Problema" [ref=f1e228] [cursor=pointer]:
+                  - /url: "#problema"
+              - listitem [ref=f1e229]:
+                - link "Solução" [ref=f1e230] [cursor=pointer]:
+                  - /url: "#solucao"
+              - listitem [ref=f1e231]:
+                - link "Diferenciais" [ref=f1e232] [cursor=pointer]:
+                  - /url: "#diferenciais"
+          - generic [ref=f1e233]:
+            - heading "Acesso" [level=6] [ref=f1e234]
+            - list [ref=f1e235]:
+              - listitem [ref=f1e236]:
+                - link "Login Cliente" [ref=f1e237] [cursor=pointer]:
+                  - /url: /login
+              - listitem [ref=f1e238]:
+                - link "Termos de Uso" [ref=f1e239] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=f1e240]:
+            - heading "Contato" [level=6] [ref=f1e241]
+            - paragraph [ref=f1e242]: comercial@easymaintenance.com.br
+            - 'link "WhatsApp: (31) 9 9982-6634" [ref=f1e243] [cursor=pointer]':
+              - /url: https://wa.me/5531999826634?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Vi%20a%20Easy%20Maintenance%20no%20site%20e%20quero%20entender%20como%20ela%20pode%20ajudar%20na%20gest%C3%A3o%20de%20manuten%C3%A7%C3%A3o%20do%20meu%20condom%C3%ADnio%2Fempresa.
+        - separator [ref=f1e244]
+        - generic [ref=f1e245]: © 2026 Easy Maintenance. Todos os direitos reservados.
+  - alert [ref=f1e246]

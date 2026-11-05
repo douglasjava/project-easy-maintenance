@@ -1,5 +1,17 @@
 # TASK-088 — Compliance e Governança do Catálogo de Normas (norms)
 
+## Status
+✅ **Concluída** — confirmado em 19/08/2026 durante o levantamento de normas (EPIC-025), ao conferir
+o catálogo real do banco. Passo A (curated-first em `resolveNorm()`) está no código
+(`AiBootstrapService.java`, comentário "estratégia segura: curated-first, nunca AI_BOOTSTRAP").
+Passo C (fix de `period_qty = 0`) foi aplicado pela `V71__norm_source_pending_review_and_fix_period_qty.sql`.
+Passo B saiu diferente do desenhado originalmente: em vez de manter as norms `AI_BOOTSTRAP` com
+`pendingReview = true`, a `V75__remove_ai_bootstrap_norms.sql` **removeu essas norms por completo**,
+desvinculando os itens afetados (`item_category = 'OPERATIONAL'`) — mais radical que o plano
+original, mas resolve o mesmo problema (nenhuma norm não-curada exposta como se fosse verdade de
+compliance). O `norms` table hoje só tem `source = 'CURATED'`, nenhuma linha `pending_review = 1`.
+Estava marcada como "Em Validação" no kanban — corrigido para "Concluído" nesta mesma rodada.
+
 ## Tipo
 FULL_STACK — Backend (migration + service) + Frontend (sinalização visual)
 

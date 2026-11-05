@@ -1,5 +1,2109 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 04/11/2026 — **🟢 [EPIC-041](epics/EPIC-041.md) concluído, já em `main`** —
+> QA manual [MTD-010](QA/MTD/MTD-010.md) executado ao vivo contra ambiente local (usuários
+> sintéticos, nenhum usuário real tocado): 7/8 cenários confirmados (Cenário 8 — 2FA com acesso
+> bloqueado — coberto só pelo teste automatizado [TASK-QA-AUTO-010](QA/tasks/TASK-QA-AUTO-010.md),
+> que passa 100%; não executado ao vivo por exigir fluxo TOTP completo). Durante a execução, achado
+> e corrigido um bug real do TASK-398: botões "Prorrogar trial"/"Cortar acesso" só apareciam com
+> status `ACTIVE`, escondendo justamente os casos centrais do épico (usuário em `TRIAL` ou já
+> `BLOCKED`) — fix em `easy-maintenance-web` commit `c99d18e`, mesma branch. PRs api#178/web#127
+> mergeadas em `staging`, depois promovidas pra `main` via api#179/web#128 (04/11/2026, confirmado
+> por `gh pr view`). Achado secundário fora de escopo (não bloqueador): tabela de
+> `/private/admin/billing/subscriptions` não re-renderiza sempre após filtro/mutação, embora os
+> dados no banco/API estejam corretos — candidato a task de UI separada se incomodar no uso real.
+
+> Atualizado em: 03/11/2026 — **🟡 [EPIC-041](epics/EPIC-041.md) implementado, aguardando
+> homologação** — as 4 tasks (TASK-396 a TASK-399) foram feitas juntas, cada repo numa única
+> branch `feature/EPIC-041-admin-access-control` (api commit `67d5e3b`, web commit `19b43af`), a
+> pedido do Douglas, pra homologar o fluxo inteiro de uma vez antes do merge em `staging`. Resumo:
+> endpoint admin de prorrogar/cortar acesso da assinatura do usuário (reaproveita
+> `SubscriptionStatus`, sem campo novo); login agora checa `AccessMode` e bloqueia quando
+> `NO_ACCESS` — cobrindo também "filhos" (membro de equipe sem billing próprio, resolvido pela
+> organização dele, pra não ficar órfão quando o dono é bloqueado); assistente de IA e 5 serviços
+> de notificação operacional passam a checar `AccessMode` antes de agir (billing fica fora,
+> incondicional). `mvn test`: 1693 testes sem regressão; `tsc`/`build` do web limpos. Nenhuma PR
+> aberta ainda — falta abrir e homologar em staging.
+
+> Atualizado em: 03/11/2026 — **🔵 [EPIC-041](epics/EPIC-041.md) criado** — controle administrativo
+> de acesso (prorrogar/cortar) pra usuários do piloto, motivado pelo Douglas ter cadastrado vários
+> leads e querer reter só o próprio acesso funcional, sem mudar a regra geral de 15 dias de trial.
+> Spec aprovada em `docs/superpowers/specs/2026-11-03-admin-access-control-design.md` depois de
+> brainstorm + builder check — achado importante: `BillingSubscriptionItem` tipo `USER` só existe
+> pra dono de conta, então um membro de equipe ("filho") sem billing próprio ficaria órfão (login
+> continuaria funcionando mesmo com a organização bloqueada) se a checagem de login só olhasse o
+> item do próprio usuário — corrigido com `resolveLoginAccessMode` caindo pra olhar as organizações
+> do usuário quando ele não tem item próprio. 4 tasks criadas: TASK-396 (conserta rota morta de
+> edição de assinatura + endpoint de prorrogar/cortar, com auditoria), TASK-397 (🔴 crítico — fecha
+> o gap de login, dono e filhos), TASK-398 (UI dos dois botões novos), TASK-399 (assistente de IA e
+> 5 serviços de notificação passam a checar `AccessMode` antes de disparar, exceto e-mails do
+> próprio billing). Nenhuma task iniciada ainda.
+
+> Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo (todas as tasks,
+> incluindo uma aberta a posteriori)** — [TASK-395](tasks/TASK-395.md), não prevista no escopo
+> original de 6 tasks, foi aberta e implementada nesta sessão: o webhook do assistente agora
+> consome o clique em Aprovar/Reprovar do template aprovado (TASK-392). Correlaciona o `wamid` da
+> mensagem enviada com a pendência via `context.id` da Meta (tabela própria
+> `resident_identity_approval_dispatches` — deliberadamente não reaproveita `BusinessWhatsAppDispatch`,
+> modelada em torno de lembretes de vencimento). Como o WhatsApp só tem os dois botões, sem UI pra
+> escolher unidade, a `Unit` é resolvida automaticamente pelo `unitHint` da intake (vincula se já
+> existir, cria nova se não). Reaproveita `ResidentIdentityApprovalService.approve()`/`reject()`
+> sem nenhuma mudança neles — a idempotência (reentrega de evento, clique duplicado) já estava
+> garantida pelo lock/status `PROCESSADO` da TASK-390. Intercepta antes do pipeline do assistente
+> de IA, sem depender do piloto `assistant.enabled`. PR #175 mergeada em `staging`, 40
+> testes novos/alterados, suíte completa sem regressão. Falta só QA manual em produção (clique
+> real) — fora do alcance de um agente.
+>
+> **Atualização 04/11/2026**: confirmado via `gh pr view` que o EPIC-039/040 completo (incluindo
+> TASK-395 e TASK-394) já foi promovido de `staging` pra `main` via api#177/web#126 (mergeadas
+> 04/11/2026) — não fica mais só em staging como registrado acima.
+
+> Atualizado em: 03/11/2026 — **🟢 [EPIC-040](epics/EPIC-040.md) completo** — TASK-392 (submissão
+> do template `aprovacao_identidade_morador_v1` à Meta) concluída: aprovado e confirmado produtivo
+> pelo Douglas. A flag `notification.whatsapp.resident-identity-pending-enabled` só existia como
+> default hardcoded `false`, sem property pra configurar por ambiente (diferente do padrão já
+> usado em `resident-ticket-enabled`/TASK-372) — corrigido para ser controlável via env var
+> `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` (PR #174, mergeada em `staging`). **Falta ligar essa
+> env var em produção** (ação de infra do Douglas). Gap que continua aberto, fora do escopo
+> original do épico: não existe webhook que consome o clique dos botões Aprovar/Reprovar — os
+> serviços de domínio já estão prontos pra isso, mas o handler em si ainda precisa ser escrito;
+> agora que o template está aprovado, isso é testável de verdade e fica como próxima task.
+
+> Atualizado em: 02/11/2026 — **🐛 [EPIC-040](epics/EPIC-040.md) — bug crítico achado só em teste
+> de integração real**: `POST .../resident-identity-pendings/{id}/approve` retornava `500` sempre,
+> mesmo com os 1648 testes unitários verdes — `approveForCurrentOrganization()` chamava `approve()`
+> via auto-invocação (`this.`), então o proxy `@Transactional` do Spring nunca era aplicado e o
+> lock pessimista falhava por falta de transação. Achado rodando a API local de verdade contra
+> MySQL + MailHog (a pedido do Douglas), não contra mocks. Corrigido (commit `fb53c30`) e
+> revalidado ponta a ponta: intake → pendência → aprovação cria `Unit`+`CondoPerson`+
+> `ResidentTicket` de verdade → idempotência → reprovação → telefone já aprovado pula a esteira →
+> e-mails reais no MailHog (ADMIN + SYNDIC). Ver nota completa na TASK-390.
+
+> Atualizado em: 02/11/2026 — **🟡 [EPIC-040](epics/EPIC-040.md) quase completo**: TASK-387 a
+> TASK-391 implementadas em `feature/EPIC-040-resident-identity-approval` (api + web) — entidade da
+> pendência, intake do QR Code desviando pra pendência, notificação ao síndico (e-mail + WhatsApp
+> fan-out), aprovação/reprovação com lock real de idempotência + reprocessamento do chamado retido,
+> e aba "Pendentes" em `/pessoas`. Uma divergência real foi encontrada e corrigida: o WhatsApp da
+> TASK-389 mandava `{{1}}`=nome da organização em vez do nome do aprovador, e só 4 das 5 variáveis
+> do template — corrigido antes de documentar o template pra TASK-392, evitando resubmissão por
+> divergência. **[TASK-392](tasks/TASK-392.md) (submissão do template à Meta) é a única que não dá
+> pra terminar por agente** — exige o Douglas no Meta Business Manager; conteúdo do template já
+> documentado, código já alinhado. Também falta, fora do escopo atual do épico, o webhook que recebe
+> o clique Aprovar/Reprovar (os serviços já estão prontos pra isso). TASK-388 teve que incluir um
+> ajuste mínimo no frontend público (fora do escopo original BACKEND) — campo apto/bloco + aviso de
+> pendência — pra não quebrar a tela de abertura de chamado em produção. Suíte completa: 1648/1648,
+> 0 falhas; `tsc`/`build` do web limpos.
+
+> Atualizado em: 01/11/2026 — **🟢 [EPIC-039](epics/EPIC-039.md) QA manual concluído, pronto pra
+> `main`**: PRs mergeadas em `staging` (api#171, web#120); bug crítico
+> [TASK-393](tasks/TASK-393.md) encontrado ao preparar o QA (`/organizations/condo-people` e
+> `/organizations/units` caíam no bypass genérico `/organizations/` do `TenantFilter`, mesma
+> classe de bug já corrigida no EPIC-038 — 403 mesmo com `X-Org-Id` correto) foi corrigido e
+> mergeado direto em `staging` (sem PR intermediária, a pedido do Douglas), com 8 cenários novos
+> de regressão em `TenantFilterBypassTest` e 3 testes de permissão faltantes em
+> `CondoPersonServiceTest`. Suíte completa: 1613/1613, 0 falhas. Plano de testes
+> ([FLOW-012](QA/Flow/FLOW-012.md), [MTD-009](QA/MTD/MTD-009.md),
+> [TASK-QA-MAN-027](QA/tasks/TASK-QA-MAN-027.md)) executado de ponta a ponta contra API local
+> (curl) e web local (navegador) com os dados `QA-027-*`: todos os 8 cenários + negativo
+> aprovados. Único achado: gap de UX menor (TECH acessando `/pessoas` direto por URL vê página em
+> branco sem mensagem de erro — não bloqueante, segurança intacta).
+
+> Atualizado em: 31/10/2026 — **📝 [EPIC-039](epics/EPIC-039.md) e [EPIC-040](epics/EPIC-040.md)
+> criados**: Pessoas e Papéis (registro de governança do condomínio — síndico/conselho/moradores/
+> fornecedores/unidades, entidades `CondoPerson`/`Unit`) e, em seguida, a Esteira de Aprovação de
+> Identidade do Morador via QR Code/WhatsApp (dá o papel `MORADOR` a um número só depois do síndico
+> confirmar, antes de liberar o chat do assistente do EPIC-031 ou processar a solicitação pedida).
+> Brainstorm com Douglas sobre o protótipo do sócio Tiago (tela `/pessoas`); as 6 perguntas em
+> aberto da spec de Pessoas e Papéis foram decididas direto por Douglas, sem validação externa do
+> Tiago. 13 tasks novas no Backlog: TASK-380 a TASK-386 (EPIC-039) e TASK-387 a TASK-392
+> (EPIC-040, **depende do EPIC-039 estar implementado** — precisa de `CondoPerson`/`Unit`
+> existirem). Specs em `docs/superpowers/specs/2026-10-29-pessoas-papeis-governanca-design.md` e
+> `docs/superpowers/specs/2026-10-31-resident-whatsapp-identity-approval-design.md`.
+
+> Atualizado em: 29/10/2026 — **🟡 [EPIC-038](epics/EPIC-038.md) implementado, PRs abertas**
+> (TASK-373 a TASK-379), numa branch por repo (`feature/EPIC-038-organization-settings`, api + web,
+> a partir de `staging`), via subagent-driven-development — cada task implementada e revisada por
+> um agente fresco, mais revisão final de branch em cada repo. A revisão final da API encontrou
+> **um achado crítico de segurança real**: o `TenantFilter` tinha `/organizations/` como prefixo
+> liberado de validação de tenant (pensado pra endpoints de gestão de organização, ex. criar
+> org), e os dois endpoints novos (`/organizations/settings`, `/organizations/common-areas`)
+> caíam nesse mesmo prefixo — em produção, toda chamada sempre devolveria 403, mesmo com
+> `X-Org-Id` válido, porque o `TenantContext` nunca era populado. Nenhuma das 4 revisões de task
+> individuais pegou isso porque todo teste injeta o tenant direto, sem passar pela cadeia real de
+> filtros — só apareceu na revisão de branch inteira. Corrigido com uma exceção específica no
+> filtro, **opção de correção confirmada com Douglas antes de implementar** (editar
+> `TenantFilter.java` afeta toda rota sob `/organizations/`, não só as desta feature). Mais 3
+> gaps reais corrigidos: `active` não validado em área comum (podia gerar 409/500 em vez de 400),
+> `name`/`businessHours` sem validação de formato, e no frontend um bug onde o campo de taxa não
+> conseguia voltar a "sem taxa" ao apagar com Backspace (só funcionava com selecionar-tudo +
+> Delete) e a estilização de erro do formulário nunca aparecia (botão desabilitado impedia o
+> próprio código que a ativaria). `mvn test` 1538/1538; `tsc`/`build` limpos no frontend. PRs:
+> [api#167](https://github.com/douglasjava/easy-maintenance-api/pull/167) e
+> [web#120](https://github.com/douglasjava/easy-maintenance-web/pull/120). **Desvio de spec
+> sinalizado, não resolvido sozinho**: entrada de menu "Configurações" ficou no dropdown do
+> `UserTopBar` (ao lado de Financeiro/Relatórios) em vez da Sidebar lateral como a spec literal
+> pedia — decisão tomada durante a implementação, precisa confirmação do Douglas. QA manual
+> contra ambiente real ainda pendente antes do merge em `staging`.
+
+> Atualizado em: 29/10/2026 — **📝 [EPIC-038](epics/EPIC-038.md) criado**: Módulo de Configurações
+> da Organização — brainstorm com Douglas (sessão interrompida por queda de energia e retomada a
+> partir do que ele tinha colado de modelagem inicial). Dois mecanismos: `organization_settings`
+> (genérico, categoria→JSON, só `TICKETS_SLA` por ora, pensado pra novas categorias entrarem sem
+> migration) e `common_area` (cadastro de áreas comuns com `fee_cents` próprio e `rules` em JSON).
+> Permissão ADMIN **ou** SYNDIC (não só ADMIN — ajustado durante o brainstorm pro síndico de fato
+> poder usar). Escopo explicitamente só o módulo de configuração: sem SLA sendo consumido por
+> `ResidentTicket`, sem fluxo de reserva de área comum, sem cobrança automática da taxa — tudo
+> fica pra quando os módulos consumidores existirem. Builder-check (agente fresco) corrigiu 2
+> gaps no desenho do frontend antes de virar task (componente de abas certo a usar, nome do enum
+> de categoria). 7 tasks no Backlog (TASK-373 a TASK-379). Spec em
+> `docs/superpowers/specs/2026-10-29-organization-settings-module-design.md`, plano em
+> `docs/superpowers/plans/2026-10-29-organization-settings-module.md`.
+
+> Atualizado em: 28/10/2026 — **🟡 Extensão do [EPIC-027](epics/EPIC-027.md) implementada**
+> (TASK-367/368/369/370/371), numa única branch `feature/EPIC-027-categoria-protocolo-notificacao`
+> (api + web), a pedido de Douglas pra facilitar o merge em `staging`. Categoria (Sugestão/
+> Reclamação/Manutenção), protocolo sequencial por organização, opt-in de WhatsApp com confirmação
+> por código, e notificação ao morador (criação + resolução) via WhatsApp — reaproveita o número do
+> EPIC-031, mas como envio outbound simples (não o assistente conversacional). Migrations V126/V127
+> validadas contra MySQL 8 real (containers Docker efêmeros). `mvn test` 1505/1505;
+> `tsc --noEmit`/`npm run build` limpos no frontend. **TASK-372 (templates WhatsApp na Meta)
+> continua em Backlog** — precisa de acesso ao Meta Business Manager, ação do Douglas, fora do
+> escopo de código. Pendente: QA manual em navegador real (fluxo de ponta a ponta, incluindo
+> drag-and-drop do kanban, não verificado nesta rodada).
+
+> Atualizado em: 29/10/2026 — **✅ QA manual da extensão do EPIC-027 concluído** (TASK-369/370/371)
+> contra API/frontend/banco locais reais, na branch `feature/EPIC-027-categoria-protocolo-notificacao`.
+> Fluxo público validado nas 3 categorias (protocolo sequencial e badge corretos), opt-in de
+> WhatsApp com confirmação por código validado de ponta a ponta (código correto confirma, código
+> errado rejeita com mensagem clara, "Pular" nunca bloqueia o chamado), kanban interno validado
+> (categoria/protocolo nos cards, drag-and-drop SOLICITADO → EM ANDAMENTO → CONCLUÍDO sem
+> regressão). **Único item não verificado**: viewport mobile — a emulação de viewport via
+> automação de navegador não funcionou nesta sessão (limitação da ferramenta, não da aplicação);
+> recomenda-se checagem manual rápida num celular real antes de promover. TASK-372 (templates
+> WhatsApp na Meta) segue bloqueando o envio real de WhatsApp em produção, sem impacto no restante
+> do fluxo.
+
+> Atualizado em: 28/10/2026 — **📝 [EPIC-027](epics/EPIC-027.md) ganha extensão**: conversa de
+> Douglas com a síndica Aliria Emanuela trouxe categoria no chamado de morador (enum fixo
+> Sugestão/Reclamação/Manutenção — amplia o chamado de "só manutenção" pra canal geral com o
+> síndico), número de protocolo sequencial por organização, e notificação ao morador por WhatsApp
+> (criação + resolução), reaproveitando a infra do EPIC-031. 6 tasks novas no Backlog
+> (TASK-367 a TASK-372) — TASK-367 (categoria+protocolo, com backfill dos chamados já existentes),
+> TASK-368 (notificação WhatsApp + guarda no webhook do EPIC-031 pra ignorar resposta de número não
+> cadastrado), TASK-369/370 (frontend público/kanban interno), TASK-371 (opt-in com confirmação por
+> código — decisão de segurança: evita que qualquer um marque o opt-in com telefone de terceiro),
+> TASK-372 (INFRA/CONFIG, separada a pedido do Douglas: submissão/aprovação na Meta dos 2 templates
+> WhatsApp necessários — confirmação de código e protocolo criado/concluído — começa em paralelo
+> com TASK-367 por ter prazo de aprovação externo incerto). Builder-check (revisão de um agente
+> fresco) encontrou 2 gaps reais corrigidos no desenho antes de virar task: compartilhamento do
+> número de WhatsApp com o bot do EPIC-031 (resposta de número desconhecido é ignorada) e falta de
+> verificação do telefone informado (resolvido com confirmação por código). Correção de rota:
+> a tela pública já é `/chamados/[orgCode]` (renomeada de `/c/[orgCode]` durante o QA da v1), ajuste
+> feito nos documentos novos. Spec completa em
+> `docs/superpowers/specs/2026-10-28-resident-tickets-category-protocol-notification-design.md`.
+
+> Atualizado em: 19/10/2026 — **📝 [EPIC-037](epics/EPIC-037.md) criado**: Emissão de NFS-e para
+> assinaturas de organização via Asaas nativo (R$0,49/nota, sem mensalidade — Focus NFe/eNotas/NFE.io
+> avaliados e descartados). 6 tasks no Backlog (TASK-360 a TASK-365): entidade `FiscalInvoice` +
+> migration V124, configuração de NF na Asaas, gatilho na ativação da assinatura, webhook dedicado
+> (`INVOICE_AUTHORIZED`/`INVOICE_ERROR`), job de reconciliação diária e QA contra sandbox. Spec em
+> `docs/superpowers/specs/2026-10-13-fiscal-invoice-nfse-design.md`, plano em
+> `docs/superpowers/plans/2026-10-13-fiscal-invoice-nfse.md`. **Ativação em produção bloqueada**:
+> depende de CNPJ novo + certificado Digital A1 (em andamento, Douglas) — todo o épico é
+> implementado/testado contra sandbox.
+
+> Atualizado em: 26/10/2026 — **TASK-360/361/362/363/364 implementadas** em
+> `feature/EPIC-037-fiscal-invoice-nfse` (easy-maintenance-api), a partir de `staging`, numa única
+> branch para Douglas testar antes de abrir PR. Suíte completa do repo (1475 testes) verde. Flag
+> extra de segurança `asaas.fiscal-invoice.enabled` (fail-closed, default `false`, só `true` em
+> local/e2e/hml) adicionado além do plano original — sem ele, o deploy em produção chamaria a
+> Asaas real em toda ativação de assinatura, violando o bloqueio do CNPJ/certificado A1. Migration
+> saiu como V125 (V124 já estava em uso). TASK-365 (QA sandbox real + checklist de rollout)
+> continua em Backlog — depende das credenciais de sandbox do Douglas.
+
+> Atualizado em: 15/10/2026 — **📝 Novos épicos a partir da avaliação de produto de um dos sócios**
+> (reposicionamento de "lembrete" para **prova de manutenção**, North Star = críticas concluídas com
+> evidência no prazo). 27 tasks no Backlog (TASK-333 a TASK-359):
+> - [EPIC-033](epics/EPIC-033.md) — Prova de manutenção: Fase 0 (ajustes rápidos: painel desde o 1º item,
+>   jargão, preço invertido, piloto de 30 dias, fornecedor patrocinado, medir WhatsApp) e Fase 1
+>   (evidência obrigatória em crítico, baixa pelo alerta, relatório mensal, eventos da North Star).
+> - [EPIC-034](epics/EPIC-034.md) — Leitura de foto/etiqueta pela IA no WhatsApp + fornecedor e contrato por item.
+> - [EPIC-035](epics/EPIC-035.md) — Prestador envia a evidência por link (após piloto).
+> - [EPIC-036](epics/EPIC-036.md) — Conselho e aprovação de orçamentos (só com demanda comprovada).
+
+> Atualizado em: 05/10/2026 — **🧪 [TASK-QA-MAN-025](QA/tasks/TASK-QA-MAN-025.md) criada**: plano de
+> QA manual pra validar o EPIC-032 em `staging` antes de promover pra `main` (api#154, web#112).
+
+> Atualizado em: 05/10/2026 — **🟡 [EPIC-032](epics/EPIC-032.md) PRs abertas** (controle financeiro
+> simples por organização — feedback de clientes sobre ausência de agenda/despesas):
+> [api#154](https://github.com/douglasjava/easy-maintenance-api/pull/154),
+> [web#112](https://github.com/douglasjava/easy-maintenance-web/pull/112). Revisão final (revisor
+> fresco) corrigiu vazamento de existência cross-tenant no cancelamento, bug de parsing de valor
+> monetário, e2e com aba errada, filtro de tipo faltante. TASK-328 (e2e) escrito e reconhecido pelo
+> Playwright, mas não executado contra API/banco reais nesta sessão — falta `npm run setup:db` +
+> API/frontend locais de pé antes de considerar validado.
+
+> Atualizado em: 02/10/2026 — **✅ [TASK-308](tasks/TASK-308.md) validada em produção por Douglas** (onboarding
+> conversacional — nova empresa pelo WhatsApp). Onda 3 do EPIC-031 segue com [TASK-309](tasks/TASK-309.md)
+> (relatórios fase 1).
+
+> Atualizado em: 29/09/2026 — **🚀 TASK-307 + TASK-308 mergeadas em `staging`; promoção para `main` aberta**
+> ([api#144](https://github.com/douglasjava/easy-maintenance-api/pull/144) + [web#109](https://github.com/douglasjava/easy-maintenance-web/pull/109)).
+
+> Atualizado em: 29/09/2026 — **🟡 [TASK-308](tasks/TASK-308.md) PR aberta** ([api#143](https://github.com/douglasjava/easy-maintenance-api/pull/143)):
+> EPIC-031 Onda 3 começou — nova empresa pelo WhatsApp (nome → tipo → CEP → 8 perguntas por equipamento → Confirmar), com os
+> mesmos itens que o IA Onboarding do web criaria. TASK-307 mergeada em staging.
+
+> Atualizado em: 29/09/2026 — **🟡 [TASK-307](tasks/TASK-307.md) PRs abertas** ([web#108](https://github.com/douglasjava/easy-maintenance-web/pull/108)
+> + [api#142](https://github.com/douglasjava/easy-maintenance-api/pull/142)): links do assistente abrem a tela certa, na empresa
+> certa e filtrada; sem sessão → login → volta ao link. Com ela, a **Onda 2 do EPIC-031 fica completa**.
+
+> Atualizado em: 29/09/2026 — **✅ TASK-292/317/318/319/320 em produção e validadas** (segurança das rotas do usuário,
+> webhook de pagamentos, Nova Empresa, `@RequireTenant`). Testes E2E de autorização publicados em `easy-maintenance-e2e`.
+> Próxima: [TASK-307](tasks/TASK-307.md) (EPIC-031, fecha a Onda 2).
+
+> Atualizado em: 28/09/2026 — **🚀 TASK-292/317/318/319/320 mergeadas em `staging`; promoção para `main` aberta**
+> ([api#141](https://github.com/douglasjava/easy-maintenance-api/pull/141) + [web#107](https://github.com/douglasjava/easy-maintenance-web/pull/107)).
+> Staging com tudo junto: API 1357/1357, E2E 39/40 (a falha é um teste de PIX desatualizado). Depois do deploy: volta ao EPIC-031 (TASK-307).
+
+> Atualizado em: 28/09/2026 — **🟡 TASK-318/319/320 com PRs abertas para staging**: [TASK-318](tasks/TASK-318.md)
+> ([api#138](https://github.com/douglasjava/easy-maintenance-api/pull/138)), [TASK-319](tasks/TASK-319.md)
+> ([api#139](https://github.com/douglasjava/easy-maintenance-api/pull/139) + [web#106](https://github.com/douglasjava/easy-maintenance-web/pull/106),
+> inclui documento opcional em Nova Empresa), [TASK-320](tasks/TASK-320.md) ([api#140](https://github.com/douglasjava/easy-maintenance-api/pull/140)).
+> TASK-317 mergeada em staging. Depois das três: promoção para main e volta ao EPIC-031.
+
+> Atualizado em: 28/09/2026 — Achados do regressivo da TASK-317 viraram tasks: [TASK-318](tasks/TASK-318.md) (🔴 webhook de
+> pagamentos — pré-requisito: token do painel Asaas igual ao de produção), [TASK-319](tasks/TASK-319.md) (Nova Empresa 422) e
+> [TASK-320](tasks/TASK-320.md) (`@RequireTenant` sem efeito).
+
+> Atualizado em: 28/09/2026 — **🔴 [TASK-292](tasks/TASK-292.md) + [TASK-317](tasks/TASK-317.md) PR aberta** ([api#136](https://github.com/douglasjava/easy-maintenance-api/pull/136)):
+> correção de segurança na autorização das rotas do usuário, com regressivo local antes × depois (fluxos do app e do
+> admin inalterados). Validar em staging antes de promover.
+
+> Atualizado em: 28/09/2026 — **✅ [TASK-315](tasks/TASK-315.md) validada em produção**: o bot cadastra item operacional
+> novo pelo catálogo curado (piscina → Operacional, periodicidade escolhida); regulatório (extintor) segue pela norma;
+> texto fora do catálogo não cria nada. EPIC-031 Onda 2: falta a [TASK-307](tasks/TASK-307.md) (links diretos no web).
+
+> Atualizado em: 28/09/2026 — **🚀 [TASK-315](tasks/TASK-315.md) mergeada em `staging`; promoção para `main` aberta** ([api#135](https://github.com/douglasjava/easy-maintenance-api/pull/135)). Antes: PR [api#134](https://github.com/douglasjava/easy-maintenance-api/pull/134):
+> o bot cadastra item operacional novo com nome do catálogo curado (V121 `item_types.curated`) e periodicidade por botão;
+> catálogo em memória (Caffeine, 10 min), sem consulta ao banco por mensagem.
+
+> Atualizado em: 28/09/2026 — **✅ [TASK-306](tasks/TASK-306.md) + [TASK-314](tasks/TASK-314.md) validadas em produção**: registro pelo
+> WhatsApp com item novo do catálogo regulatório (Casa Marques, "Limpeza caixa d'água") + foto no S3; áudio > 2 min recusado
+> sem gastar crédito. Por decisão da TASK-306, item operacional (ex.: piscina) não é criado pelo bot porque precisa de periodicidade.
+
+> Atualizado em: 28/09/2026 — **🚀 [TASK-314](tasks/TASK-314.md) mergeada em `staging`; promoção para `main` aberta** ([api#133](https://github.com/douglasjava/easy-maintenance-api/pull/133)). Antes: PR [api#132](https://github.com/douglasjava/easy-maintenance-api/pull/132):
+> ajustes do piloto da TASK-306. Item novo agora é reconhecido pelo nome da norma ("caixa d'água"); organização sem itens
+> tem mensagem própria; áudio com mais de 2 min é recusado antes da IA (duração lida do arquivo Ogg/Opus, sem gastar crédito).
+
+> Atualizado em: 27/09/2026 — **🚀 [TASK-306](tasks/TASK-306.md) mergeada em `staging`; promoção para `main` aberta** ([api#131](https://github.com/douglasjava/easy-maintenance-api/pull/131), inclui o ajuste #129 da TASK-305). Antes: PR [api#130](https://github.com/douglasjava/easy-maintenance-api/pull/130):
+> registro de manutenção pelo WhatsApp com resumo, botões Confirmar/Corrigir/Cancelar, foto/PDF anexados após confirmar,
+> origem `WHATSAPP` auditada (EPIC-031, Onda 2). Validar no piloto após o deploy.
+
+> Atualizado em: 27/09/2026 — **🟡 [TASK-305](tasks/TASK-305.md) implementada, PR aberta** ([api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127)):
+> o assistente no WhatsApp passa a responder vencimentos, vencidos, histórico de item e índice de conformidade com dados reais
+> (EPIC-031, Onda 2). Próxima: [TASK-306](tasks/TASK-306.md) (registro de manutenção com confirmação).
+
+> Atualizado em: 27/09/2026 — **✅ [EPIC-031](epics/EPIC-031.md) Onda 1 concluída e validada em produção** (TASK-299 a 304 +
+> TASK-313): ativação por código, menu, texto livre classificado pela OpenAI, áudio transcrito (~8 s ponta a ponta), PARAR.
+> Custo observado: ~650 créditos de IA por áudio (300 transcrição + ~350 classificação); menu/botões sem custo.
+> Próximo passo do épico: Onda 2 — [TASK-305](tasks/TASK-305.md) consultas e [TASK-306](tasks/TASK-306.md) registro de manutenção.
+
+> Atualizado em: 27/09/2026 — **✅ Piloto do assistente no WhatsApp ativo em produção** (número do Douglas vinculado,
+> "Pronto, Douglas! ✅"). Configuração da Meta feita (webhook, app publicado, WABA inscrita, campo `messages`).
+> Ajustes do piloto em [TASK-313](tasks/TASK-313.md) — [api#125](https://github.com/douglasjava/easy-maintenance-api/pull/125):
+> transcrição de áudio (`response_format` obrigatório no Spring AI M5) e log de status em DEBUG.
+
+> Atualizado em: 27/09/2026 — **🚀 [EPIC-031](epics/EPIC-031.md) Onda 1 mergeada em `staging`; promoção para `main` aberta** ([api#124](https://github.com/douglasjava/easy-maintenance-api/pull/124) · [web#105](https://github.com/douglasjava/easy-maintenance-web/pull/105)). Antes:
+> fundação do assistente no WhatsApp (TASK-299/300/301/302/303) — [api#123](https://github.com/douglasjava/easy-maintenance-api/pull/123)
+> + card no Perfil [web#104](https://github.com/douglasjava/easy-maintenance-web/pull/104); identificação/local no item
+> (TASK-304) — [api#122](https://github.com/douglasjava/easy-maintenance-api/pull/122) + [web#103](https://github.com/douglasjava/easy-maintenance-web/pull/103).
+> Desligado por padrão; piloto em produção com o usuário do Douglas depois do merge em `main`. API 1.216 testes verdes;
+> revisão final independente: 0 críticos, 6 importantes corrigidos, 12 menores registrados.
+
+> Atualizado em: 26/09/2026 — **📝 [EPIC-031](epics/EPIC-031.md) — Assistente no WhatsApp** (canal de entrada
+> como segunda interface; ideia dos possíveis sócios). Desenho aprovado; 14 tasks no Backlog em 3 ondas:
+> Onda 1 (fundação: fila, cliente ampliado, vínculo por código ATIVAR, contexto "em nome do usuário",
+> classificador + transcrição, identificação/local no item) → TASK-299 a TASK-304; Onda 2 (consultas,
+> registro com confirmação, links diretos) → TASK-305 a TASK-307; Onda 3 (onboarding, relatórios, PDF no
+> servidor, retenção/métricas, QA) → TASK-308 a TASK-312. Piloto em produção com usuário controlado do
+> Douglas (desligado por padrão). TASK-297/298 mantidas no Backlog.
+
+> Atualizado em: 25/09/2026 — **🔎 Concorrente Manu Help registrado** (`contexto-comercial.md` +
+> matriz do `context-brief.md`): preço público 1,5 a 3 vezes acima do nosso, foco em gestão do condomínio.
+> Tasks abertas a partir da comparação:
+> - [TASK-297](tasks/TASK-297.md) — limites do plano (🟠): usuários ilimitados (hoje por empresa, já
+>   suporta `0` = ilimitado), teto de itens da **conta** (Business 500 somando todos os condomínios) e tela
+>   de faturamento que mostra usuários como pool da conta, diferente da validação. Aguarda decisão.
+> - [TASK-298](tasks/TASK-298.md) — IA de onboarding lê o manual do síndico em PDF (🟡, precisa de spec).
+
+> Atualizado em: 25/09/2026 — **🚀 [TASK-294](tasks/TASK-294.md) mergeada em `staging`; promoção para `main` aberta** ([web#102](https://github.com/douglasjava/easy-maintenance-web/pull/102))
+> — antes em [web#101](https://github.com/douglasjava/easy-maintenance-web/pull/101): logo oficial em
+> todas as telas e PDFs, nomes legíveis ("Caixa d'água", "Regulatório"), prestação de contas com o índice
+> do dashboard, "Este ano" = ano corrente e hero da landing com print real. Pendente: mascote "SANU"
+> (designer). Prints da [TASK-295](tasks/TASK-295.md) recapturados. Novo achado:
+> [TASK-296](tasks/TASK-296.md) (chave duplicada na fila de ações, baixo).
+
+> Atualizado em: 24/09/2026 — **🚀 Promoção `staging` → `main` aberta** ([api#121](https://github.com/douglasjava/easy-maintenance-api/pull/121) ·
+> [web#100](https://github.com/douglasjava/easy-maintenance-web/pull/100)) com TASK-280/285/288/289/290 — e
+> TASK-245/291 entram automaticamente quando mergeadas em `staging`:
+> - [TASK-245](tasks/TASK-245.md) (**correção de 09/09 que nunca foi mergeada** — item USER duplicado em PRD):
+>   [api#119](https://github.com/douglasjava/easy-maintenance-api/pull/119)
+> - [TASK-291](tasks/TASK-291.md) — onboarding retoma do passo pendente (substitui limpar a base do cliente
+>   da TASK-289): [api#120](https://github.com/douglasjava/easy-maintenance-api/pull/120) ·
+>   [web#99](https://github.com/douglasjava/easy-maintenance-web/pull/99)
+> - 🔴 Novo achado: [TASK-292](tasks/TASK-292.md) — `GET /me/billing/accounts` parece listar contas de
+>   faturamento de todos os clientes (não confirmado em runtime; investigar antes da próxima release).
+
+> Atualizado em: 24/09/2026 — **🟡 [TASK-290](tasks/TASK-290.md) implementada, PR aberta**: contato com o
+> suporte via WhatsApp no onboarding (link inline nos dois passos com mensagem que identifica o passo,
+> reforço no banner de erro, clique rastreado) — [web#98](https://github.com/douglasjava/easy-maintenance-web/pull/98).
+> TASK-289 já mergeada em `staging`; promoção `staging` → `main` depois do merge da TASK-290.
+
+> Atualizado em: 24/09/2026 — **🔴→🟡 [TASK-289](tasks/TASK-289.md) — bug de PRD no onboarding corrigido, PRs
+> abertas**: cliente travado no passo 2 sem feedback. Causa: campo "CNPJ / CPF (opcional)" enviava
+> `doc: ""` e o `@Doc` (TASK-202/203, desde 25/08) rejeitava com 422; o erro ficava fora da tela no
+> celular, sem toast. Correção nos dois lados —
+> [api#118](https://github.com/douglasjava/easy-maintenance-api/pull/118) (normaliza `""` → `null`) e
+> [web#97](https://github.com/douglasjava/easy-maintenance-web/pull/97) (não envia vazio + erro sempre
+> visível). QA da release (TASK-QA-MAN-024) aprovado por Douglas; promoção `staging` → `main` depois
+> do merge da TASK-289.
+
+> Atualizado em: 24/09/2026 — **🧪 [TASK-QA-MAN-024](QA/tasks/TASK-QA-MAN-024.md) criada**: plano de QA manual
+> da release de fornecedores (TASK-285, TASK-280, TASK-288 — tudo em `staging`, ainda não em `main`),
+> em 4 blocos: rotas públicas/privadas (regressão do `isPublicPath`), `/para-fornecedores`, kanban de
+> pedidos (inclui teste de IDOR) e ciclo de cobrança do fornecedor no Asaas sandbox (D1–D10). Critério
+> de aprovação pra promover definido no documento. Automação sugerida:
+> [TASK-QA-AUTO-007](QA/tasks/TASK-QA-AUTO-007.md) (E2E de rotas públicas) e
+> [TASK-QA-AUTO-008](QA/tasks/TASK-QA-AUTO-008.md) (API/integração do fornecedor + ciclo de cobrança).
+
+> Atualizado em: 24/09/2026 — **🟡 [TASK-288](tasks/TASK-288.md) implementada, PRs abertas**: fornecedor
+> com débito do Pix Automático falho nunca era suspenso (nada gravava `PAST_DUE` + período avançava na
+> criação da cobrança). Agora `currentPeriodEnd` = "pago até", suspensão após vencimento + 3 dias,
+> reativação automática ao pagar, sem cobrança dupla (V116) —
+> [api#117](https://github.com/douglasjava/easy-maintenance-api/pull/117) e
+> [web#96](https://github.com/douglasjava/easy-maintenance-web/pull/96) (copy dos 3 dias volta; mergear
+> depois do api). TASK-280 já mergeada em `staging`.
+
+> Atualizado em: 24/09/2026 — **🟡 [TASK-280](tasks/TASK-280.md) implementada, PRs abertas**: kanban de
+> pedidos de orçamento do fornecedor na tela do link mágico (Novo → Em contato → Orçamento enviado →
+> Fechado / Perdido), com contato de quem pediu + aviso LGPD no modal da organização —
+> [api#116](https://github.com/douglasjava/easy-maintenance-api/pull/116) (V115 + `GET`/`PATCH`
+> escopados por fornecedor, 404 contra IDOR) e [web#95](https://github.com/douglasjava/easy-maintenance-web/pull/95).
+> [TASK-285](tasks/TASK-285.md) já mergeada em `staging`. Promoção `staging` → `main` fica pra depois
+> de tudo pronto (decisão do Douglas).
+
+> Atualizado em: 24/09/2026 — **🟡 [TASK-285](tasks/TASK-285.md) implementada, PR aberta**: página
+> pública `/para-fornecedores` (divulgação + preço + políticas + FAQ, 100% frontend) —
+> [web#94](https://github.com/douglasjava/easy-maintenance-web/pull/94) contra `staging`. Revisão
+> final achou gap de cobrança no backend: fornecedor com débito do Pix Automático falho nunca é
+> marcado `PAST_DUE` nem suspenso (continua visível e sendo cobrado) → nova
+> [TASK-288](tasks/TASK-288.md) 🟠 Alto; copy da página ajustada pra não prometer o prazo de 3 dias.
+
+> Atualizado em: 24/09/2026 — **🔵 [TASK-285](tasks/TASK-285.md) desenhada (EPIC-028)**: brainstorm
+> com Douglas da página pública `/para-fornecedores` (divulgação + preço + políticas + FAQ, 100%
+> frontend) — spec aprovado em `docs/superpowers/specs/2026-09-24-pagina-para-fornecedores-design.md`,
+> aguardando revisão do spec escrito e plano. Subprojeto B (kanban de pedidos do fornecedor,
+> [TASK-280](tasks/TASK-280.md)) vem depois. Backlog novo: [TASK-286](tasks/TASK-286.md) (visível até
+> o fim do período pago após cancelar) e [TASK-287](tasks/TASK-287.md) (UTM no cadastro de fornecedor).
+
+> Atualizado em: 23/09/2026 — **🟡 EPIC-024 implementado (TASK-175/TASK-176), PRs abertas**:
+> agendamento de demonstração via Cal.com — página pública `/agendar` com o embed + botão na
+> navbar da landing (TASK-175), webhook `BOOKING_CREATED` cria lead via `LeadService` reaproveitado
+> (TASK-176, `source="agendamento"`). `LeadService` ganhou overload `requirePhone` (o webhook do
+> Cal.com não garante telefone, diferente do form público endurecido na TASK-282). Dois achados
+> reais durante a implementação: (1) `next/script`'s `onLoad`/`onReady` não dispara pra scripts
+> inline — shim do Cal.com precisou ser injetado manualmente via `document.createElement`,
+> confirmado com teste real no browser (sem o fix, `window.Cal` nunca era invocado); (2)
+> `Shell.tsx` bloqueava `/agendar` atrás de login (mesma classe de bug da TASK-272/273/274),
+> corrigido. `mvn test` 1075/1075, `npm run build`/`tsc --noEmit` limpos, `npm test` 107/110
+> (falhas pré-existentes). PRs contra `staging`:
+> [api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114) /
+> [web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90). Falta Douglas configurar
+> conta/evento real no Cal.com (`NEXT_PUBLIC_CALCOM_LINK`, `CALCOM_WEBHOOK_SECRET`) antes de
+> revisar/mergear.
+
+> Atualizado em: 23/09/2026 — **✅ TASK-282/TASK-283/TASK-284 concluídas**: telefone obrigatório no
+> formulário público de leads, recursos/diferenciais da landing atualizados com funcionalidades já
+> shippadas, e mais dinamismo na página (benchmark `easyalert.com.br`) — mergeadas em `main` por
+> Douglas ([api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) /
+> [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)).
+
+> Atualizado em: 23/09/2026 — **🟡 [TASK-284](tasks/TASK-284.md) implementada, mesma PR da
+> TASK-282/283**: Douglas comparou a landing com `easyalert.com.br` (concorrente direto) e pediu
+> mais "vida"/dinamismo, aprovando seguir com a recomendação nas 3 decisões de design em aberto.
+> 4 frentes: `useScrollReveal`/`Reveal` (fade-in no scroll, IntersectionObserver, sem lib nova) em
+> `RiskBlock`/`PartnerBlock`/seções principais; bento grid assimétrico + mini-mockups ilustrativos
+> (`SolutionMockups.tsx`) na seção Solução; `ProblemContrast.tsx` (contraste "Hoje" x "Com Easy
+> Maintenance", puramente ilustrativo) na seção Problema; nova seção `HowItWorks.tsx`
+> (scrollytelling, `useActiveStep`, painel sticky no desktop). Sem prova social numérica/depoimento
+> novo. `npx tsc --noEmit`/`npm run build`/`npm run lint` limpos, `npm test` 107/110 (mesmas 3
+> falhas pré-existentes). Validado visualmente via dev server real. PR:
+> [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) — pendente revisão final do
+> Douglas.
+
+> Atualizado em: 23/09/2026 — **🟡 [TASK-282](tasks/TASK-282.md) e [TASK-283](tasks/TASK-283.md)
+> implementadas, PRs abertas**: telefone virou **obrigatório** (decisão do Douglas: "senão vamos
+> cair no mesmo problema") no formulário público de leads — `CreateLeadRequest.phone` +
+> `LeadService` normalizando via `PhoneNumberNormalizer`, exigido só no form principal
+> (`originType=WEBSITE_FORM`), sem afetar o ping de clique do WhatsApp. Landing também ganhou 2
+> recursos novos em `SOLUTION_ITEMS` (índice de conformidade, chamados de moradores) e descrições
+> enriquecidas (marketplace de fornecedores, notificação WhatsApp) + 1 diferencial (onboarding
+> assistido). `mvn clean test` 1062/1062, `npm run build`/`tsc --noEmit` limpos. PRs contra
+> `staging`: [api#112](https://github.com/douglasjava/easy-maintenance-api/pull/112),
+> [web#88](https://github.com/douglasjava/easy-maintenance-web/pull/88) (TASK-282+TASK-283 na mesma
+> branch/PR do repo `web`, mesmo arquivo `landing/page.tsx`). Aguardando revisão/merge do Douglas.
+
+> Atualizado em: 23/09/2026 — **✅ [TASK-281](tasks/TASK-281.md) concluída**: mergeada em `staging`
+> ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)) e `main`
+> ([api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111), commit `c0e92a2`).
+> Douglas confirmou em produção via SQL que o pagamento do userId=2 (`pay_ub6qpsk6hmvp2u4n`) agora
+> aparece corretamente na receita de agosto/2026 em `/private/admin/financials`. Todos os critérios
+> de aceite atendidos.
+
+> Atualizado em: 23/09/2026 — **🟡 [TASK-281](tasks/TASK-281.md) implementada, em validação**:
+> fix aplicado na branch `bugfix/TASK-281-financials-missing-card-revenue` (a partir de `staging`,
+> repo `api`) — `PaymentRepository` passou a somar receita por `status IN (RECEIVED, PAID,
+> CHECKOUT_PAID)` em vez de igualdade única com `RECEIVED`, corrigindo o gap que fazia pagamentos de
+> checkout de cartão (`PaymentCreatedHandler`/`CheckoutPaidHandler`) nunca aparecerem em
+> `/private/admin/financials`. Testes: `FinancialsServiceTest` atualizado + novo
+> `PaymentRepositoryPersistenceTest` (H2 real via `@DataJpaTest`, reproduz o caso do userId=2 somando
+> `RECEIVED`+`PAID`+`CHECKOUT_PAID` e confirmando que status não-settled ficam de fora). `mvn clean
+> test` **1060/1060**, sem regressão. Sem PR aberta ainda — falta Douglas confirmar o pagamento real
+> (userId=2, R$ 299,00, `pay_ub6qpsk6hmvp2u4n`) aparecendo na tela depois do deploy antes de mover
+> pra `Done`. Achado à parte durante a investigação original, não bloqueia este fix: `invoices.updated_at`
+> desse pagamento ficou ~3h depois do último webhook visto — causa não identificada ainda, sem task
+> própria aberta.
+
+> Atualizado em: 22/09/2026 — **💡 Duas ideias futuras registradas em [EPIC-028](epics/EPIC-028.md)
+> (sem brainstorm, sem tasks)**: levantadas durante o QA do Pix Automático em produção —
+> [TASK-279](tasks/TASK-279.md) (busca de fornecedor por raio geográfico real, não mais match
+> literal de `city`/`state`) e [TASK-280](tasks/TASK-280.md) (fornecedor conseguir ver os
+> orçamentos que foram solicitados a ele — `supplier_budget_requests` já grava isso desde a Fase 2,
+> só nunca foi exposto de volta).
+
+> Atualizado em: 14/09/2026 — **🟢 [TASK-276](tasks/TASK-276.md) concluída, QA manual aprovada**:
+> bug crítico em PRD reportado por Douglas — trial vencido (Rogério Dantas, subscriptionId 5) sem
+> e-mail `TRIAL_EXPIRING` nem cobrança, com 2 invoices `OPEN` duplicadas. Causa raiz dupla: (1)
+> checkout Asaas rejeitado com 400 "O campo value deve ser informado" — mesmo bug da TASK-215, nunca
+> portado para `TrialExpirationService`, item `ORGANIZATION` de valor zero quebrava o request
+> inteiro (confirmado em log real, afeta também subscriptionId 6); (2) `resolveDueDate` usava "hoje"
+> como âncora do período da invoice quando o trial já tinha vencido — como o `Payment` nunca chegava
+> a ser criado (causa 1), o guard do TASK-244 nunca bloqueava o retry, e cada execução diária gerava
+> uma invoice nova com período deslocado. Fix: filtro de item zerado no checkout (idêntico à
+> TASK-215) + período da invoice desacoplado do vencimento cobrado/exibido. `mvn test` 992/992 sem
+> regressão. Mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94))
+> e `main` ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)), invoice
+> duplicada removida em produção. QA manual: job reprocessado, 3/3 assinaturas elegíveis (5, 6 e uma
+> nova — 7) geraram checkout + e-mail com sucesso, validado por Douglas via SQL, sem duplicidade.
+> Achado à parte durante o QA (subscriptionId 7, customer Asaas sem e-mail) registrado como backlog
+> em [TASK-277](tasks/TASK-277.md), não urgente.
+
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-275](tasks/TASK-275.md) concluída**:
+> depois dos 3 bugfixes de acesso público, Douglas pediu (brainstorm formal, sem PR ainda)
+> 4 melhorias de produto + 2 correções de fluxo antes de continuar testando: categoria vira
+> taxonomia estruturada própria (13 categorias/42 serviços, N:N — um fornecedor pode ter várias),
+> telefone obrigatório no cadastro do síndico, layout com o logo real nas páginas públicas, e
+> recobrança reaproveitando a cobrança PIX pendente em vez de gerar uma nova a cada tentativa
+> (corrige o 409 que ele encontrou). Token de acesso agora é gerado já no registro — cadastro
+> público mostra o link de pagamento **e** um link permanente de acompanhamento da conta.
+> Implementado e testado (backend + frontend, sem regressão) nos dois repos. Plano de QA
+> ([TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md)) atualizado com os cenários C2/C4/C6 revisados —
+> Douglas retesta a partir daqui.
+
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-274](tasks/TASK-274.md) corrigida**:
+> terceira camada do mesmo bug do TASK-272/273 — `POST /public/suppliers/register` agora passava
+> pelo Spring Security mas voltava `400 "Missing X-Org-Id header"`. Causa: `TenantFilter` exige
+> `X-Org-Id` por padrão em toda rota, com bypass explícito por prefixo — `/public/suppliers` nunca
+> foi adicionado (só `/public/resident-tickets` estava lá). Corrigido no repo `api`, com teste de
+> regressão novo. Confirmado que não há mais nenhuma camada transversal pendente (checado
+> `ApiRequestContextFilter`, `BootstrapAdminFilter`, `RateLimitAspect` — nenhum bloqueia). C4 em
+> diante aguardando reteste do Douglas a partir desta correção.
+
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-273](tasks/TASK-273.md) corrigida**:
+> segunda camada do mesmo bug do TASK-272 — depois do frontend destravado, Douglas encontrou
+> `POST /public/suppliers/register` retornando `403 Forbidden` do backend. Causa: `SecurityConfig`
+> nunca foi atualizado com `/public/suppliers/**` na lista de rotas liberadas (só
+> `/public/resident-tickets/**` e os webhooks estavam lá) — gap real do plano original, que não
+> cobriu essa configuração ao desenhar os endpoints públicos das Tasks 5/7. Corrigido na mesma
+> branch (repo `api`). C4 em diante aguardando reteste do Douglas a partir desta correção.
+
+> Atualizado em: 13/09/2026 — **🟡 EPIC-028 Fase 2 — [TASK-272](tasks/TASK-272.md) corrigida**:
+> achado de QA do Douglas (C4 do [TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md)) —
+> `/fornecedores/cadastro` redirecionava pro `/login` em vez de renderizar como página pública.
+> Causa: `Shell.tsx` guarda toda rota fora de uma allowlist client-side atrás de login
+> (`middleware.ts` não protege nada — é só client-side); as 2 páginas públicas novas
+> (`/fornecedores/cadastro`, `/fornecedores/gerenciar/[token]`) não estavam nessa allowlist.
+> Corrigido na mesma branch `feature/EPIC-028-fase2-marketplace` (repo `web`). C1-C3 do QA já
+> aprovados por Douglas; C4 em diante aguardando reteste a partir desta correção.
+
+> Atualizado em: 11/09/2026 — **🟡 EPIC-028 Fase 2 (Marketplace de Fornecedores) — implementação
+> completa, aguardando QA do Douglas**: as 12 tasks do plano
+> (`docs/superpowers/plans/2026-09-11-supplier-marketplace-monetization.md`) concluídas e testadas
+> — 9 no repo `api` (TASK-260 a TASK-268: generalização CPF/CNPJ, entidades de cobrança isolada,
+> gating de visibilidade, "Solicitar Orçamento", auto-cadastro + cobrança PIX, ativação via
+> webhook, gestão via link mágico, job mensal de cobrança/suspensão, ativação manual admin) e 3 no
+> repo `web` (TASK-269 a TASK-271: CPF/CNPJ + Solicitar Orçamento em `/fornecedores`, página
+> pública de auto-cadastro, página pública de gestão via link mágico). Branch
+> `feature/EPIC-028-fase2-marketplace` em ambos os repos, `mvn test` e `npm run build`/`eslint`
+> limpos em cada task. Plano de teste manual consolidado:
+> [TASK-QA-MAN-022](QA/tasks/TASK-QA-MAN-022.md). Sem PR aberta ainda — Douglas vai testar tudo
+> junto (não roda nesta sessão por falta de credenciais Asaas/SMTP reais no ambiente).
+
+> Atualizado em: 11/09/2026 — **🟢 EPIC-029 — `staging` → `main` aberta**: PR
+> [api#92](https://github.com/douglasjava/easy-maintenance-api/pull/92) mergeada em `staging` pelo
+> Douglas; PR de promoção pra `main` aberta:
+> [api#93](https://github.com/douglasjava/easy-maintenance-api/pull/93). **[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)
+> aprovada** — QA manual consolidada do EPIC-030 (9 cenários) fechada por Douglas, C1-C9 confirmados.
+
+> Atualizado em: 10/09/2026 — **🟢 EPIC-029 concluído (Teste de Carga Estrutural)**: as 3 tasks
+> (TASK-233/234/235) implementadas E **realmente executadas** contra a API local rodando de
+> verdade (não só escritas) — 500 organizações/50 mil itens/150 mil manutenções sintéticas, MySQL
+> efêmero via Docker. **Achado crítico**: `NotificationOrchestratorService.dispatch()` processa
+> eventos um a um sem lote — 5.000 eventos, 17.510 queries, ~5 minutos numa única execução do job
+> de notificação. `/items` e login saudáveis (login sofre de rate-limit de IP, não de gargalo de
+> código). **Achado colateral**: [TASK-258](tasks/TASK-258.md) corrigiu um bug real
+> (`FirebaseMessaging` travava o boot local sem credencial) que bloqueava validação HTTP real desde
+> o início da sessão — inclusive de EPIC-028 e EPIC-030 anteriormente. A própria instrumentação da
+> TASK-234 tinha um bug sob concorrência (contador global de query em vez de por-thread),
+> encontrado e corrigido no processo. Relatório completo:
+> `docs/superpowers/reports/2026-09-10-load-test-findings.md`. `mvn test` 990/990.
+
+> Atualizado em: 10/09/2026 — **🟢 EPIC-030 — `staging` → `main` aberta**: PRs #90 (api) e #77 (web)
+> mergeadas em `staging` pelo Douglas depois de testar no ambiente real dele; PRs de promoção pra
+> `main` abertas: [api#91](https://github.com/douglasjava/easy-maintenance-api/pull/91),
+> [web#78](https://github.com/douglasjava/easy-maintenance-web/pull/78).
+
+> Atualizado em: 10/09/2026 — **🟢 EPIC-030 — PRs abertas pra staging**: `feature/EPIC-030-compliance-dashboard`
+> consolidada (TASK-246 a TASK-257, incluindo os 3 achados de QA manual do Douglas — TASK-255/256/257
+> — já corrigidos na mesma branch) e enviada: [api#90](https://github.com/douglasjava/easy-maintenance-api/pull/90),
+> [web#77](https://github.com/douglasjava/easy-maintenance-web/pull/77). `mvn test` 985/985,
+> `npm run build`/`eslint` limpos, `npm test` 107/110 (3 falhas pré-existentes). QA manual
+> consolidada ([TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)) segue em paralelo com o Douglas
+> testando direto no ambiente local dele.
+
+> Atualizado em: 10/09/2026 — **🟢 [TASK-256](tasks/TASK-256.md) corrigida**: fila de ações do
+> `PORTFOLIO` mistura itens de várias organizações, mas "Concluir"/"Anexar evidência" levavam pra
+> telas single-tenant que usam a organização ativa do storage como `X-Org-Id` — dava "Item não
+> pertence a essa organização" quando o item clicado era de uma organização diferente da ativa.
+> `GET /dashboard/actions` agora expõe `companyCode` por item; frontend troca a organização ativa
+> antes de navegar (mesmo mecanismo do `/select-organization`, não um jeito novo de furar o
+> tenant). `POSTPONE` não precisava de ajuste (já autoriza por item, não por `X-Org-Id`). `mvn test`
+> 985/985, sem regressão no frontend.
+
+> Atualizado em: 10/09/2026 — **🟢 EPIC-030 em teste manual real pelo Douglas**: dados sintéticos de
+> TASK-254 (3 usuários, um por estado — `tenant-c/d/e-admin@e2e.test`) inseridos no MySQL local dele
+> (dessa vez sem reverter, pra teste visual contínuo). Achado real: filtrar `PORTFOLIO` pra uma
+> unidade com poucos itens mas manutenção real mostrava `ONBOARDING` indevidamente —
+> `itemsTotal < 5` removido do critério de estado (`DashboardSummaryService`), agora só
+> `maintenancesEver == 0` decide `ONBOARDING`. Corrigido direto na branch
+> `feature/EPIC-030-compliance-dashboard` (ainda não tem PR aberta), `mvn test` 985/985. Detalhes em
+> [TASK-246](tasks/TASK-246.md).
+
+> Atualizado em: 09/09/2026 — **🟢 EPIC-030 completo em código (TASK-246 a TASK-254), pendente QA
+> manual do Douglas**. Onda 3 (TASK-254, E2E): seed sintético de 3 tenants (`ONBOARDING`/
+> `OPERATING`/`PORTFOLIO`) + primeiro spec Playwright do projeto `ui` (`tests/frontend/
+> compliance-dashboard.spec.ts`, `easy-maintenance-e2e` — repo compartilha a árvore git da raiz,
+> commit direto em `main` como o resto do roadmap). Os dados sintéticos (5 organizações, índices
+> 60%/83% desenhados) foram validados rodando a query real de `ComplianceMetricsRepository` contra
+> o MySQL de dev (reaplicando/revertendo a migration V110, mesmo padrão das outras tasks) — os
+> números batem exatamente. `npx tsc --noEmit` limpo (precisou add `"DOM"` ao `lib` do
+> `tsconfig.json`, primeiro uso de `page.evaluate` com global de browser no repo). O Playwright em
+> si não rodou nesta sessão: não há MySQL de E2E ativo na porta 3307 e a API não sobe localmente
+> aqui (mesmo bloqueio de credencial Firebase real do resto do épico). Ver TASK-254 pros detalhes
+> completos e a decisão de testar `POSTPONE` em vez de `COMPLETE` no cenário "ação muda o índice".
+> Próximo passo: escrever a QA manual consolidada do épico inteiro (padrão TASK-QA-MAN-019/020) e
+> aguardar aprovação antes de abrir as PRs de `api`/`web` pra staging.
+
+> Atualizado em: 09/09/2026 — **🟢 TASK-246 implementada (EPIC-030)**: índice de conformidade
+> (`ComplianceIndexService`, query nativa com CTE + `ROW_NUMBER()`, SQL puro sem carregar entidade
+> em memória) + `GET /dashboard/summary` (`DashboardSummaryService`, resolve organizações do
+> usuário autenticado direto, sem `X-Org-Id` — necessário pro escopo `PORTFOLIO` olhar mais de uma
+> organização na mesma chamada). Entidade `ItemDocument` nova (não existia, cobre a parte (c) da
+> fórmula). `ComplianceSnapshotJob` novo (decisão #6) grava snapshot diário por organização a
+> partir de agora — única forma de `previousComplianceIndex`/sparklines de 6 meses terem dado real
+> no futuro. Query nativa validada com H2 (6 testes cobrindo os 5 casos de borda exigidos) e
+> diretamente contra o MySQL real do docker local. `mvn test` 965/965, sem regressão. Branch
+> `feature/EPIC-030-compliance-dashboard` — falta QA manual (Douglas, ambiente real) antes de
+> abrir a PR.
+> Atualizado em: 09/09/2026 — **🟢 EPIC-030: as 7 decisões em aberto foram respondidas, TASK-246
+> pronta pra abrir branch**: fórmula do índice aceita como v1; itens obrigatórios por tipo de
+> estabelecimento resolvidos usando `AiBootstrapService` (já existe, sem seed table); "Exportar
+> PDF" fora de escopo desta v1; meta de conformidade fixa em 95% em código (sem config por tenant
+> ainda — não há UI pra isso hoje); snapshot histórico começa a ser gravado já, junto com a
+> TASK-246 (histórico nasce vazio, fica útil em algumas semanas); taxonomia de categoria de custo
+> criada (Incêndio/Proteção contra descargas/Hidráulica/Emergência/Climatização/Outros, mapeando os
+> `itemType` já usados em `SupplierCategoryKeywords`). Ainda pendente como achado técnico (não é
+> uma das 7 decisões): entidade de documento/laudo com validade não existe, fica como sub-escopo da
+> própria TASK-246 antes da fórmula completa (parte c) poder rodar.
+> Atualizado em: 09/09/2026 — **🟡 EPIC-030 registrado (Compliance Dashboard) — análise técnica,
+> ainda sem código**: Douglas trouxe um protótipo/9 tasks prontas de outra sessão do Claude Code
+> (que só tinha acesso a um artifact visual, não ao código) pra redesenhar o dashboard principal
+> (3 estados de conta — ONBOARDING/OPERATING/PORTFOLIO — + índice de conformidade proprietário).
+> Renumerado TASK-130-138 → TASK-246-254 (números já em uso). Cada task ganhou uma seção
+> "Viabilidade Técnica" com achados reais do código: já existe um módulo `dashboard` completo em
+> produção (não é greenfield); `MaintenanceAttachment`, `AuditLog` e `AiBootstrapService` (o
+> "SAMU") já existem e cobrem partes que o protótipo assumia como trabalho novo; em contrapartida,
+> **não existe nenhuma entidade de documento/laudo com validade** (parte central da fórmula do
+> índice e do painel "Laudos e documentos"), **não existe histórico/snapshot** pra
+> `previousComplianceIndex`/sparklines de 6 meses, e agregação `PORTFOLIO` cross-organização
+> precisa do padrão `TenantContext.runCrossOrg` aplicado com cuidado (mesma classe de bug já vista
+> antes no projeto). Ver [EPIC-030](epics/EPIC-030.md) pro resumo executivo e decisões em aberto
+> (7 itens, dono Douglas) antes de abrir qualquer branch.
+> Atualizado em: 09/09/2026 — **🟢 EPIC-028 aprovado no QA manual, PRs `staging` abertas**:
+> [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88) /
+> [web#75](https://github.com/douglasjava/easy-maintenance-web/pull/75). Douglas confirmou C1-C7
+> do [TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md) contra a API local rodando de verdade. Dois
+> achados durante a execução, ambos endereçados antes da PR: [TASK-245](tasks/TASK-245.md) (bug de
+> item USER duplicado, não relacionado a fornecedores — branch e PR separadas) e badge de pontuação
+> por faixa (Novo/Confiável/Muito usado) em vez de só o número.
+> Atualizado em: 09/09/2026 — **🔴 TASK-245 achado durante QA do EPIC-028 (bug não relacionado a
+> fornecedores), corrigido**: Douglas testando `/organizations/new` (TASK-QA-MAN-020) recebeu 500 —
+> `NonUniqueResultException`. Causa raiz: `POST /me/onboarding/user` não é idempotente —
+> `OnboardingService.createUser` encontrava a `BillingSubscription` já existente mas seguia direto
+> pro `addItem(USER, ...)` incondicional, duplicando o item a cada rechamada do endpoint (qualquer
+> usuário autenticado pode chamar de novo). Efeito real no usuário 6:
+> `billing_subscriptions.total_cents` dobrado (59800 em vez de 29900) e `validateOrgLimit`
+> (e outros 6+ pontos que assumem só 1 item USER por assinatura) quebrando com resultado não-único.
+> Teste reproduzindo o bug (`createUser` chamado 2x), fix (mesma guarda já usada em
+> `addOrganizationSubscription`), `mvn test` 939/939, dado do usuário 6 reparado no banco local.
+> Branch `bugfix/TASK-245-duplicate-user-billing-item` (a partir de `staging`, independente do
+> EPIC-028). Aguardando Douglas confirmar `/organizations/new` funcionando de novo antes da PR.
+> Atualizado em: 09/09/2026 — **🟡 EPIC-028 completo (TASK-241/242/243), aguardando QA manual**:
+> as 3 tasks do épico implementadas na branch única `feature/EPIC-028-supplier-registry` (api +
+> web). Backend: `mvn test` 949/949 (entidades/migration + endpoints com dedup por CNPJ/pontuação/
+> busca por região). Frontend: nova tela `/fornecedores` (formulário de cadastro com máscara/
+> validação de CNPJ real, filtro por categoria, lista responsiva com pontuação), `npm run build`
+> limpo, `npm test` sem regressão nova. Não deu pra validar num navegador real nesta sessão — a API
+> local completa não sobe sem `FIREBASE_SERVICE_ACCOUNT_JSON` real (`PushNotificationProvider`
+> exige um bean `FirebaseMessaging`, e essa credencial só existe no ambiente do Douglas). QA manual
+> formalizada em [TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md) — falta rodar o fluxo ponta a ponta
+> antes de abrir as PRs pra `staging` (nos dois repos).
+> Atualizado em: 09/09/2026 — **🔵 EPIC-028: branch consolidada por épico, decisão de Douglas**:
+> a partir de agora TASK-241/242/243 seguem todas na mesma branch
+> `feature/EPIC-028-supplier-registry` (renomeada de `feature/TASK-241-supplier-entities-migration`,
+> commit `056c35d` preservado), em vez de uma branch/PR por task. PR individual
+> [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87) fechada sem merge — reabre
+> no final cobrindo o épico completo (entidades + endpoints + tela). QA também muda de escopo: em
+> vez de uma TASK-QA-MAN por task, uma única task de QA manual valida o fluxo ponta a ponta no final
+> (cadastro de fornecedor novo, dedup por CNPJ, busca por região, tela).
+> Atualizado em: 09/09/2026 — **🟢 EPIC-028 iniciado: TASK-241 implementada, PR `staging` aberta**:
+> [api#87](https://github.com/douglasjava/easy-maintenance-api/pull/87) — primeira entidade
+> persistida do módulo `supplier` (`Supplier`, compartilhado entre organizações — exceção deliberada
+> ao isolamento multi-tenant — dedup por `cnpj` único; `SupplierOrganizationLink`, constraint única
+> em `(supplier_id, organization_id)`). Migration `V109` validada diretamente contra o MySQL real do
+> docker local (mesmo cuidado da TASK-230): aplica limpo, `cnpj` duplicado falha, vínculo duplicado
+> falha, FK inválida falha — tabelas revertidas depois pra não conflitar com o Flyway quando a app
+> rodar de verdade. `mvn clean test` 942/942, sem regressão. QA obrigatório da task (as duas
+> constraints) já confirmado com evidência nesta sessão — sem necessidade de QA manual adicional
+> (nenhum fluxo externo envolvido). Próxima: TASK-242 (endpoints `POST`/`GET /suppliers`), depende
+> desta.
+> Atualizado em: 09/09/2026 — **🟢 TASK-244 aprovado no QA manual, PR `staging` aberta**:
+> [api#86](https://github.com/douglasjava/easy-maintenance-api/pull/86). QA manual
+> ([TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md)) rodada contra Asaas sandbox local com dois trials
+> sintéticos vencidos e sem `Payment` prévio (`subscription_id` 14 e 15) — cada um gerou exatamente
+> 1 cobrança/e-mail, sem duplicidade em reexecuções nem vazamento entre assinaturas. Douglas
+> aprovou; falta só o merge em `staging`.
+> Atualizado em: 09/09/2026 — **🟡 TASK-244 implementado e commitado, aguardando QA manual**:
+> [TASK-244](tasks/TASK-244.md) — bug crítico achado durante a validação em produção da TASK-236:
+> `TrialExpirationService` gerava uma nova cobrança Asaas + link de pagamento + e-mail a cada
+> execução do job (cron diário ou `GET /run-jobs/execute-trial-expiration`), pra qualquer trial
+> vencido e não pago, sem limite — foi o que causou a segunda cobrança do Ricardo Cerqueira no
+> mesmo dia em que o fix da TASK-236 foi publicado. Corrigido replicando o padrão já validado do
+> `PixRenewalService`: período ancorado em `resolveDueDate(subscription)` em vez de
+> `LocalDate.now()`, guarda de idempotência explícita
+> (`paymentRepository.existsByBillingSubscriptionId`) e isolamento de falha por assinatura no loop.
+> Branch `bugfix/TASK-244-trial-duplicate-charge-email`, commit `98a4716`, `mvn clean test` 938/938
+> (3 testes novos cobrindo exatamente o cenário real: job rodando duas vezes pro mesmo trial).
+> QA manual formalizada em [TASK-QA-MAN-019](QA/tasks/TASK-QA-MAN-019.md) — precisa rodar contra
+> Asaas sandbox local (cobrança real) antes de abrir a PR pra `staging`.
+> Atualizado em: 09/09/2026 — **🟢 EPIC-027 aprovado no QA manual, PRs `staging` abertas**:
+> [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85) /
+> [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74). Douglas confirmou os 12
+> cenários do [TASK-QA-MAN-018](QA/tasks/TASK-QA-MAN-018.md) no próprio ambiente, incluindo os dois
+> que só davam pra validar lá — upload de foto com S3 real e drag-and-drop com mouse de verdade.
+> Chamados de moradores (abertura pública sem login, kanban interno, QR code + página A4 pra
+> imprimir) prontos pra revisão de código antes do merge.
+> Atualizado em: 09/09/2026 — **⚠️ Bug pré-existente encontrado, fora do escopo do EPIC-027**: o
+> logo SVG oficial (`public/assets/brand/logos/logo-horizontal.svg`, usado em `BrandLogo` — topbar
+> de todo o app autenticado) tem uma regra `@media (prefers-color-scheme: dark)` que deixa o texto
+> "EASY" quase invisível em dispositivo com tema escuro. O app não tem suporte a dark mode em
+> lugar nenhum (`globals.css` não trata `prefers-color-scheme`), então esse SVG já fica dessincronizado
+> do resto da página em qualquer tela hoje, pra qualquer usuário com o SO/navegador em modo escuro
+> — não é um problema novo, é pré-existente. Achado incidentalmente ao adicionar a marca nas telas
+> públicas de chamados (TASK-239) — lá usei o PNG de cor fixa em vez do SVG (ver TASK-QA-MAN-018),
+> mas o resto do app continua exposto. Sem task aberta ainda — avaliar se vale a pena tirar a regra
+> de tema escuro do SVG (o app não suporta dark mode de verdade, então a regra não serve pra nada
+> hoje) ou se é melhor esperar até dark mode virar prioridade de verdade.
+> Atualizado em: 08/09/2026 — **🟡 TASK-QA-MAN-018: 1ª rodada de QA do Douglas, 7 achados
+> corrigidos**: URL renomeada de `/c/[orgCode]` pra `/chamados/[orgCode]` (mais memorável),
+> validação de CPF (dígito verificador) na tela inicial, mensagens de erro reais da API no formulário
+> (tipo/tamanho de foto inválido), e-mail do ADMIN agora rastreado via
+> `CriticalEmailDispatchService`/`business_email_dispatches` (reenvio automático se falhar), máscara
+> de telefone no formulário, e página A4 pronta pra imprimir e colar na edificação (PDF via
+> `@react-pdf/renderer`, marca + QR grande + instruções). Tudo na mesma branch
+> `feature/EPIC-027-resident-tickets`, `mvn test` 935/935, `npm test`/`npm run build` sem regressão.
+> Aguardando Douglas retestar antes de aprovar.
+> Atualizado em: 08/09/2026 — **📋 TASK-QA-MAN-018 criado**: plano de QA manual local pro EPIC-027
+> (chamados de moradores) — 12 cenários (C1-C12), com destaque pros dois que a QA anterior não
+> conseguiu validar sem o ambiente do Douglas: upload de foto contra S3 real (C4) e drag-and-drop
+> com mouse de verdade (C9). [TASK-QA-MAN-018](QA/tasks/TASK-QA-MAN-018.md).
+> Atualizado em: 08/09/2026 — **🟢 EPIC-027 implementado e validado ponta a ponta**: 4 tasks
+> (TASK-237/238/239/240) na branch `feature/EPIC-027-resident-tickets` (api + web), testado num
+> navegador real contra a API local — abertura de chamado, consulta por CPF, kanban, drag-and-drop
+> (PATCH confirmado) e QR code. Achado real durante a QA: `TenantFilter` bloqueava os endpoints
+> públicos com "Missing X-Org-Id header" (corrigido). Pendências antes de produção: upload de foto
+> com S3 real (local usa credenciais fake) e teste em viewport mobile de verdade. `mvn test`
+> 935/935, `npm run build`/`npm test` sem regressão. Ainda não mergeado em `staging` — aguardando
+> Douglas revisar/testar.
+> Atualizado em: 08/09/2026 — **💡 EPIC-028 desenhado (idea → design completo via brainstorm), 3
+> tasks prontas para implementar**: [EPIC-028](epics/EPIC-028.md) — cadastro de fornecedores pelos
+> usuários + pontuação. Spec em `docs/superpowers/specs/2026-09-08-supplier-registry-design.md`.
+> `Supplier` vira entidade compartilhada entre organizações (exceção deliberada ao isolamento
+> multi-tenant), deduplicada por CNPJ obrigatório, pontuação = contagem de organizações vinculadas
+> (sem avaliação explícita), proximidade por cidade/estado (mesmo critério do EPIC-023). Separado
+> do fluxo de notificação nesta v1 — reaproveita o módulo `supplier` existente. Tasks: TASK-241
+> (entidades/migration), TASK-242 (endpoints cadastro+busca), TASK-243 (tela dedicada).
+> Atualizado em: 08/09/2026 — **💡 EPIC-027 desenhado (idea → design completo via brainstorm), 4
+> tasks prontas para implementar**: [EPIC-027](epics/EPIC-027.md) — chamados de moradores. Spec em
+> `docs/superpowers/specs/2026-09-08-resident-tickets-design.md`. Morador acessa via QR code (usa
+> `Organization.code` existente, sem entidade de "unidade" nova), abre chamado com telefone+CPF
+> (obrigatórios), acompanha depois só com CPF, foto opcional. Painel interno ganha kanban de 3
+> colunas com drag-and-drop (`dnd-kit`) + QR code em Configurações/Perfil. Tasks: TASK-237/238
+> (backend público/autenticado), TASK-239/240 (frontend público/kanban+QR).
+> Atualizado em: 08/09/2026 — **🟢 TASK-236: mergeada em `staging`, PR `staging → main` aberta**:
+> [api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83) mergeada;
+> [api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84) promove pra `main` junto com
+> TASK-174 (flag `notification.whatsapp.supplier-template-enabled`, que já estava à frente do `main`
+> em `staging`). Falta só mergear o #84 e aguardar o deploy.
+> Atualizado em: 08/09/2026 — **🟡 TASK-236: PR aberta contra `staging`**:
+> [api#83](https://github.com/douglasjava/easy-maintenance-api/pull/83). Douglas confirmou intenção
+> de publicar imediatamente após o QA manual completo (C1-C7) aprovado.
+> Atualizado em: 08/09/2026 — **✅ TASK-QA-MAN-017: QA manual completo aprovado (C1-C7)** — Opção C1
+> (grace period) testada com conta real do Douglas (`douglasmarquesdias+T2508@gmail.com`, restaurada
+> ao valor original ao final) via `/me/access-context` autenticado: trial vencido há 1 dia (dentro do
+> grace de 3) → `TRIAL`/`FULL_ACCESS`; vencido há 4 dias (fora do grace) → `TRIAL_EXPIRED`/`READ_ONLY`,
+> com permissões corretamente restritas (`canCreateItem: false` etc.) e mensagem certa pro usuário.
+> Combinado com a Opção B já validada (nota anterior), **TASK-236 está com QA manual completo e
+> aprovado** — falta só decidir sobre abrir a PR. Detalhe em
+> [TASK-QA-MAN-017](QA/tasks/TASK-QA-MAN-017.md) / [TASK-236](tasks/TASK-236.md).
+> Atualizado em: 08/09/2026 — **✅ TASK-QA-MAN-017: Opção B validada** — 3 cenários (PIX, Cartão,
+> fallback) rodados contra Asaas sandbox + MailHog reais, disparados pelo Douglas via
+> `/run-jobs/execute-trial-expiration`. Achado durante a execução: `billing_accounts` sem endereço
+> derrubava o checkout de Cartão (Asaas exige `address/addressNumber/postalCode/province/city` pro
+> customer em `/checkouts`, `/payments` do PIX não) — corrigido no setup SQL do plano. Também achado
+> (e documentado, não é bug): `processTrialsExpiringWithinDays` é `@Transactional` no método inteiro,
+> então a falha de um cenário do lote desfaz os outros que já tinham dado certo. Resultado final:
+> e-mail e cobrança Asaas batem exatamente nos 3 cenários (C3 PIX: 2026-09-09/2026-09-09; C4 Cartão:
+> 2026-09-10/2026-09-10; C5 fallback: `currentPeriodEnd` 2026-08-29 já passado → dueDate cai pra hoje
+> 2026-09-08, não retroativo) — bug original confirmado corrigido. Falta só C6/C7 (grace period),
+> que exigem sessão autenticada de um usuário real. Nota à parte, sem impacto: checkout do Asaas
+> sandbox mostrou expiração de ~1h mesmo com `checkout-minutes-to-expire=120` configurado — campo
+> não tocado pela TASK-236, aparenta ser comportamento do sandbox. Detalhe em
+> [TASK-QA-MAN-017](QA/tasks/TASK-QA-MAN-017.md).
+> Atualizado em: 08/09/2026 — **📋 TASK-QA-MAN-017 criado**: plano de QA manual local pra TASK-236 —
+> setup SQL sintético (`QA-TASK236-*`) pros 3 cenários da Opção B (PIX/Cartão dentro da janela do
+> job + fallback quando `currentPeriodEnd` já passou), rodando contra Asaas sandbox + MailHog; e
+> `UPDATE` parametrizado num usuário de teste já logável pros 2 cenários da Opção C1/grace period
+> (dentro e fora do grace de 3 dias). Ainda não executado. Detalhe em
+> [TASK-QA-MAN-017](QA/tasks/TASK-QA-MAN-017.md).
+> Atualizado em: 08/09/2026 — **🟡 TASK-236 implementada (branch
+> `bugfix/TASK-236-trial-expiring-wrong-due-date`, commit `333f941`, a partir de `staging`)**:
+> `TrialExpirationService` ganhou `resolveDueDate(BillingSubscription)` (mesmo padrão já usado em
+> `CardTransitionService`/`PixRenewalService`) — cobrança (PIX e checkout) e e-mail passam a usar o
+> `currentPeriodEnd` real da assinatura, não mais `invoice.getDueDate()`/`invoice.getPeriodStart()`.
+> `SubscriptionAccessService.resolveEffectiveStatus` deixou de ser `static` e ganhou grace period
+> configurável (`billing.trial.grace-days=3`, propriedade própria, independente do
+> `billing.blocking.days-after-due` do `PAST_DUE`) — trial só vira `TRIAL_EXPIRED`/`READ_ONLY` depois
+> do grace, não mais no segundo exato do vencimento. `FeatureAccessService` migrado pra usar o bean
+> injetado nas 3 chamadas que eram estáticas. Verificação real: `git stash` do código de produção
+> (mantendo os testes novos) confirmou vermelho (2+4+1 erros/falhas nas 3 classes tocadas); com o fix
+> restaurado, `mvn clean test` → **918/918, 0 falhas**. `InvoiceService.processPayerInvoice`
+> (`periodEnd.plusDays(5)`) não foi alterado — decisão consciente, é usado fora do fluxo de trial
+> também. Detalhe completo em [TASK-236](tasks/TASK-236.md). **Sem PR aberta ainda** — aguardando
+> decisão do Douglas.
+> Atualizado em: 08/09/2026 — **🔴 TASK-236 criada (bug real reportado por Douglas, cliente Ricardo
+> Cerqueira, `actioncond@gmail.com`)**: e-mail de `TRIAL_EXPIRING` mostrou "Data de vencimento:
+> 2026-10-12" enquanto a cobrança real no Asaas venceu 2026-09-08 (hoje). Causa raiz:
+> `TrialExpirationService.sendTrialExpirationEmail` usa `invoice.getDueDate()` (=
+> `periodEnd.plusDays(5)`, sem relação com a cobrança) em vez do `nextDueDate` real enviado ao Asaas.
+> Investigação foi além do texto errado: `nextDueDate` da cobrança de trial é sempre "hoje" (dia do
+> job), nunca o `currentPeriodEnd` real da assinatura; e `SubscriptionAccessService` corta acesso
+> pra `READ_ONLY` no segundo exato em que o trial vence, sem grace period — diferente da assinatura
+> **paga** inadimplente, que já tem 3 dias de graça (`SubscriptionBlockingService`,
+> `billing.blocking.days-after-due`). Decisão com Douglas: escopo fecha com Opção B (cobrança e
+> e-mail com vencimento real, amarrado ao `currentPeriodEnd`) + Opção C1 (grace period cirúrgico em
+> `SubscriptionAccessService.resolveEffectiveStatus`, reaproveitando o padrão já validado em
+> produção pra assinatura paga). Detalhe completo em [TASK-236](tasks/TASK-236.md). Implementação
+> ainda não iniciada.
+> Atualizado em: 08/09/2026 — **💡 EPIC-029 criado (desenhado via brainstorm), 3 tasks prontas para
+> implementar**: [EPIC-029](epics/EPIC-029.md) — teste de carga estrutural (achar gargalos de
+> código: N+1, índice faltando, pool mal dimensionado — sem hardware/infra). Derivado do item #6b
+> da TASK-218 (já fechada). Spec em
+> `docs/superpowers/specs/2026-09-08-load-testing-epic-design.md`. Tasks: TASK-233 (seed sintético,
+> escala média), TASK-234 (profile `loadtest` — contagem de query por request), TASK-235 (scripts
+> k6 pros 3 fluxos priorizados — login, `/items`, detecção de notificação — + relatório de
+> achados). Entregável é só diagnóstico; corrigir cada gargalo achado vira task própria depois.
+> Atualizado em: 07/09/2026 — **✅ `notification.whatsapp.supplier-template-enabled=true` ligada em
+> `staging`**: Douglas ligou a flag e subiu direto pra `staging` (EPIC-023 completo). Feature de
+> fornecedores no WhatsApp (template `v3`) ativa em `staging`. Falta o mesmo flip em **produção**
+> quando Douglas decidir promover.
+> Atualizado em: 07/09/2026 — **✅ TASK-218 fechada (guarda-chuva de intake, feedback Rogerio
+> Dantas)**: triagem dos 11 pontos concluída — 9 resolvidos/implementados, 1 fechado sem reprodução
+> (item #2 — Douglas tentou reproduzir várias vezes e não conseguiu; reabre com task nova se
+> acontecer de novo). Os 3 pontos que seguem como decisão de produto em aberto (item #5b — reabrir
+> trava Regulatório/Operacional; item #6b — investigação de performance mais ampla, aguardando
+> acesso Railway/Sentry; item #9 — enum de anexo virar texto livre) não bloqueiam o fechamento —
+> seguem soltos como pendências, sem task própria, até Douglas priorizar algum. Detalhe em
+> `TASK-218.md`.
+> Atualizado em: 07/09/2026 — **✅ Sincronização geral: tudo mergeado em `main`, zero PRs abertas**.
+> Douglas confirmou que todas as branches foram mergeadas. Verificado via `gh pr list --state open`
+> nos dois repos (`easy-maintenance-api`, `easy-maintenance-web`): **zero PRs abertas** nos dois.
+> Itens que este documento ainda descrevia como "PR aberta"/"staging→main aberta" foram conferidos
+> um a um contra o histórico real do GitHub e corrigidos — destaque pro que estava mais desatualizado:
+> **EPIC-023** (fornecedores nas notificações, TASK-172/173/174/228/229/230/231/232) via
+> [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82)/[web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73);
+> **EPIC-020** (split de comissão, TASK-207/208) via
+> [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54)/[web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59);
+> TASK-212/214/215/216 e EPIC-002 Fase 3 (TASK-201-206) também já estavam mergeados em `main` há
+> alguns dias, só a documentação não tinha acompanhado. Único item real ainda pendente de ação
+> **em produção** (não é PR, é config): ligar `notification.whatsapp.supplier-template-enabled=true`
+> pra ativar de vez o fornecedor no WhatsApp (EPIC-023).
+> Atualizado em: 07/09/2026 — **💡 EPIC-027 e EPIC-028 registradas como ideias (sem brainstorm,
+> sem tasks)**: [EPIC-027](epics/EPIC-027.md) (moradores abrem/acompanham chamados) e
+> [EPIC-028](epics/EPIC-028.md) (usuários cadastram fornecedores + pontuação/indicação entre
+> edificações próximas — Douglas marcou explicitamente como case futuro de monetização, não abrir
+> mão dessa porta no desenho). Pedido do Douglas: registrar em nível bem macro agora, sem
+> aprofundar — análise/brainstorm fica pra depois.
+> Atualizado em: 07/09/2026 — **🟢 EPIC-023 completa, PRs `staging→main` abertas**:
+> [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (TASK-172/173/174/228/229/230/232)
+> / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (TASK-229/231). Fornecedores
+> nas notificações de vencimento (item #11 do feedback Rogerio Dantas) testado ponta a ponta pelo
+> Douglas em ambiente real — WhatsApp chegando com item, empresa, data, 2 fornecedores e telefone
+> correto, template `v3` aprovado pela Meta (categoria Marketing) com opt-in próprio funcionando.
+> TASK-230 (bugfix crítico de migration) também vai junto nesta promoção. Falta só ligar
+> `notification.whatsapp.supplier-template-enabled=true` em produção pra ativar de vez.
+> Atualizado em: 07/09/2026 — **🟡 TASK-232 implementada, mesma PR da TASK-174/229**:
+> [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80). Douglas testou o `v3`
+> ponta a ponta em ambiente real (primeiro teste completo do fluxo!) e a mensagem chegou certa, mas
+> os 2 fornecedores vieram sem telefone ("não informado"). Causa: telefone só vem do Place Details
+> da API do Google (custo à parte), controlado pelo mesmo flag (`google.places.details-enabled`)
+> usado pela busca interativa — que está desligado desde sempre por custo (dispara a cada clique,
+> sem cache). Decisão: desacoplar — liga telefone só na busca de notificação (`SupplierLookupService`,
+> novo campo `notificationDetailsEnabled`, cache de 7 dias já contém o custo), interativa continua
+> sem telefone por ora. `mvn test` limpo (912 testes).
+> Atualizado em: 07/09/2026 — **🟡 TASK-231 implementada, mesma PR da TASK-229**:
+> [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). Douglas testou o opt-in de
+> WhatsApp em call de demo real e o cliente quase não achou/entendeu o toggle mesmo procurando
+> ativamente na tela de Perfil — era só uma linha dentro de um formulário grande. Seção dos dois
+> toggles (utilidade + marketing) vira um card com fundo/borda verde, cada um ganha rótulo de estado
+> explícito em texto ("Ativado"/"Desativado") ao lado do switch, legível à distância numa tela
+> compartilhada. Validado visualmente via mockup estático (sem credenciais pra abrir `/profile`
+> logado). `npm run build` limpo.
+> Atualizado em: 07/09/2026 — **🟢 TASK-230 mergeada em `staging`**:
+> [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81). Douglas confirmou que
+> rodou certinho contra o banco real depois do `DELETE` na `flyway_schema_history`. Branch da
+> TASK-174/229 já atualizada com a correção (merge de `staging`, sem conflito, `mvn test` →
+> 911/911) — segue liberada pra testes locais.
+> Atualizado em: 07/09/2026 — **🔴 TASK-230 criada e corrigida, PR aberta contra `staging`**
+> **(urgente — bloqueia qualquer deploy)**: [api#81](https://github.com/douglasjava/easy-maintenance-api/pull/81).
+> Douglas reportou `V106` (TASK-228, norma de pontos de ancoragem) falhando contra MySQL real: coluna
+> `notes` é `VARCHAR(500)`, o texto da norma tem ~700 caracteres, MySQL em modo estrito rejeita o
+> `INSERT` inteiro — exatamente o risco já sinalizado no card da TASK-228. Flyway para nessa
+> migration e bloqueia todas as seguintes (inclusive a `V107` da TASK-229, ainda não mergeada).
+> Corrigido alargando a coluna (`VARCHAR(2000)`) direto na `V106` — ela nunca aplicou com sucesso em
+> lugar nenhum, então editá-la é o remédio certo aqui, não uma migration nova. **Verificado de
+> verdade**: reproduzi o erro exato contra MySQL 8 real (Docker efêmero) e confirmei que a correção
+> resolve, rodando as 106 migrations do zero. **Ação pendente do Douglas**: rodar `DELETE FROM
+> flyway_schema_history WHERE version = '106' AND success = 0;` em qualquer banco onde já tentou e
+> falhou, antes do próximo boot/deploy.
+> Atualizado em: 07/09/2026 — **🟡 TASK-229 implementada, PRs abertas contra `staging`**:
+> [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80) (atualizada) /
+> [web#72](https://github.com/douglasjava/easy-maintenance-web/pull/72). A Meta aprovou o template
+> `vencimento_manutencao_v3` (TASK-174, fornecedores no WhatsApp), mas só como categoria
+> **Marketing** — tentativa de reformular o texto pra virar Utility não teve jeito. Douglas decidiu
+> aceitar Marketing e construir o opt-in específico em vez de deixar o fornecedor fora do zap: novo
+> campo `whatsappMarketingOptIn` (V107), independente do opt-in genérico já existente, com validação
+> em cascata (desligar utilidade desliga marketing junto). Novo toggle no perfil, aninhado sob o de
+> WhatsApp, desabilitado até esse estar ligado. `mvn test` limpo (911 testes). TASK-218 item #11
+> resolvido no código por completo — falta só mergear as duas PRs e ligar
+> `notification.whatsapp.supplier-template-enabled=true` em produção.
+> Atualizado em: 03/09/2026 — **🟡 TASK-174 implementada, PR aberta contra `staging`**:
+> [api#80](https://github.com/douglasjava/easy-maintenance-api/pull/80). Fecha a EPIC-023 do lado
+> de código — fornecedor no WhatsApp, restrito ao checkpoint de 30 dias antes de vencer, mesma
+> decisão da TASK-173. Diferente do e-mail: dois templates coexistem (`v2` padrão, `v3` novo com
+> fornecedor) em vez de migração completa — se achar menos de 2 fornecedores, cai pro `v2` normal
+> em vez de pular o envio. Extraído `NotificationSupplierResolver`, compartilhado entre e-mail e
+> WhatsApp (`BusinessEmailNotificationService` refatorado pra usar, sem regressão). Config nova
+> desligada por padrão (`notification.whatsapp.supplier-template-enabled=false`) — fica pronta e
+> inativa até Douglas submeter o template `v3` à Meta e ligar a flag. `mvn test` limpo (906
+> testes). TASK-218 item #11 agora resolvido no código — só falta a aprovação externa da Meta.
+> Atualizado em: 03/09/2026 — **🟡 TASK-173 (v2) implementada, PR aberta contra `staging`**:
+> [api#79](https://github.com/douglasjava/easy-maintenance-api/pull/79). Revisão de produto: bloco
+> de fornecedores sai do e-mail de `OVERDUE` (v1) e vai pro checkpoint `NEAR_DUE` de 30 dias antes
+> de vencer — faz mais sentido dar tempo de contratar do que sugerir fornecedor só depois de já ter
+> vencido. Exigiu reabrir o `NotificationChannelResolver` (3ª vez na sessão) pra `EMAIL` passar a
+> disparar nesse checkpoint, o que nunca acontecia antes. Só o checkpoint de 30 dias, não os 4 de
+> `NEAR_DUE`, pra não pesar na cota mensal de e-mail. `mvn test` limpo (896 testes). Falta só
+> TASK-174 (WhatsApp, depende de aprovação de template pela Meta) pra fechar a EPIC-023.
+> Atualizado em: 03/09/2026 — **🟡 TASK-172 criada e implementada, PR aberta contra `staging`**:
+> [api#78](https://github.com/douglasjava/easy-maintenance-api/pull/78). Item #11 do feedback do
+> Rogerio Dantas (TASK-218), primeira task da EPIC-023 (fornecedores nas notificações de
+> vencimento). `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) via Google
+> Places Text Search, já que o job de notificação roda sem navegador/geolocalização. Cache Caffeine
+> próprio de 7 dias (não mexe no `CacheManager` compartilhado). Whitelist `itemType→keyword`
+> extraído de `SupplierSearchService` pra local compartilhado, sem duplicar. `mvn test` limpo
+> (884 testes). Sem consumidor ainda — TASK-173 (WhatsApp) e TASK-174 (e-mail) conectam depois.
+> Atualizado em: 02/09/2026 — **🔵 TASK-218 item #7 investigado e fechado (sem construir feature)**:
+> cliente queria baixar normas na íntegra. NRs são públicas, podem ser linkadas/baixadas livremente.
+> ABNT NBR: a tese de "sem direito autoral" não é decisão vinculante do STF (é artigo de opinião de
+> um ministro), e a própria ABNT continua vendendo/licenciando o texto — risco jurídico real demais
+> pra essa fase. Cotado Target GEDWeb (~R$15k/ano) como alternativa licenciada, mas o modelo de
+> acesso é por IP/e-mail de domínio da empresa contratante (uso interno), incompatível com expor o
+> conteúdo pros clientes finais de um SaaS multi-tenant sem negociação de redistribuição à parte
+> (sem preço público). Decisão: manter modelo atual (`notes` com resumo interpretativo próprio +
+> `doc_url` linkando pra fonte oficial) — o motor do produto não depende do texto protegido, só a
+> reprodução literal do PDF da ABNT ficaria de fora. TASK-218 agora com 9/12 itens
+> resolvidos/esclarecidos.
+> Atualizado em: 02/09/2026 — **🟡 TASK-228 criada e implementada, PR aberta contra `staging`**:
+> [api#77](https://github.com/douglasjava/easy-maintenance-api/pull/77). Item #5a do feedback do
+> Rogerio Dantas (TASK-218) — norma `PONTOS_ANCORAGEM` (12 meses, NR-35 item 35.6.6.3 + ABNT NBR
+> 16325 Partes 1-3, periodicidade pesquisada e verificada antes de implementar) criada em
+> `V106__seed_pontos_ancoragem_norm.sql`, mesmo padrão da TASK-178/V90. Sem mudança de frontend —
+> dropdown de normas já é dinâmico. `mvn test` limpo (878 testes). TASK-218 agora com 8/12 itens
+> resolvidos.
+> Atualizado em: 02/09/2026 — **🟡 TASK-227 mergeada em `staging`, PR `staging→main` aberta**:
+> [api#75](https://github.com/douglasjava/easy-maintenance-api/pull/75) /
+> [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76). Biblioteca de 15 queries
+> SQL tituladas de acompanhamento de clientes (leads não convertidos, funil por status, trial
+> ativo/dias restantes/expirado, pagantes ativos, receita por plano, atraso, cancelados, perto do
+> limite de organizações do plano, leads já convertidos em usuário, trial nunca ativado, usuário
+> sem item cadastrado, volume de itens/manutenções por cliente, funil de onboarding por estágio —
+> essa última trazida pronta pelo Douglas) num arquivo único fora das migrations Flyway. Revisão
+> da query do Douglas expôs que as queries 3-14 não filtravam soft delete (`deleted_at`,
+> TASK-018/V57) — corrigido em todas. Recomendado rodar cada query uma vez contra o banco real
+> antes de usar no dia a dia (schema conferido via migrations e onboarding, mas sem acesso direto
+> ao banco pra testar).
+> Atualizado em: 02/09/2026 — **🟡 TASK-226 mergeada em `staging`, PR `staging→main` aberta**:
+> [api#73](https://github.com/douglasjava/easy-maintenance-api/pull/73) /
+> [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74). Motivada por feedback
+> direto de cliente na call de demo (TASK-218 item #4): precisa de pelo menos 1 mês de antecedência
+> pra buscar fornecedor. WhatsApp passa a entrar em todos os checkpoints de NEAR_DUE (30/15/7/1
+> dias antes), não só no último. No OVERDUE, WhatsApp fica restrito ao dia do vencimento
+> (`daysOffset==0`) — a partir do primeiro checkpoint de atraso de verdade (7/15/30 dias vencidos)
+> vira só push+email. Config morta (`urgent-threshold-hours`) removida.
+> Atualizado em: 01/09/2026 — **🔴 TASK-225 criada e implementada, PR aberta contra `staging`
+> (urgente)**: [api#71](https://github.com/douglasjava/easy-maintenance-api/pull/71). Lead de trial
+> real com 20 condomínios batendo no teto do Business (15, definido na `V103` de 30/08) — 5 abaixo
+> do próprio teto que `contexto-comercial.md` já documenta pro ICP desse plano ("síndico
+> profissional, 5-20 condomínios"). `V105` sobe pra 20. Enterprise não muda (perfil diferente —
+> administradora com múltiplos clientes). Docs de produto atualizados. Recomendado mergear e
+> deployar rápido, cliente esperando.
+> Atualizado em: 01/09/2026 — **🟢 TASK-224 mergeada em `staging`, PRs `staging→main` abertas**:
+> [api#70](https://github.com/douglasjava/easy-maintenance-api/pull/70) e
+> [web#71](https://github.com/douglasjava/easy-maintenance-web/pull/71). Falta QA manual em
+> produção pós-deploy nas duas.
+> Atualizado em: 01/09/2026 — **🟡 TASK-224 implementada, PRs abertas contra `staging`**:
+> [api#69](https://github.com/douglasjava/easy-maintenance-api/pull/69) (N+1 de normas) e
+> [web#70](https://github.com/douglasjava/easy-maintenance-web/pull/70) (debounce). Backend: batch
+> lookup de normas + `@Cacheable`, bug de `Map.of()`/NPE pego durante o TDD antes de virar prod. 9
+> testes novos, `mvn clean test` 877/877. Frontend: utilitário `debounceAsync` extraído (testável
+> isoladamente), 5 testes novos com fake timers. Sem regressão nos dois repos.
+> Atualizado em: 01/09/2026 — **🟡 EPIC-026 criado + TASK-224 criada (não iniciada)**: investigação
+> de performance (item #6 da TASK-218, skill `performance-expert`, só análise — nenhum código
+> alterado). Achados: busca de tipo de item sem debounce (4 req/530ms confirmado em log real +
+> código); N+1 confirmado em `MaintenanceItemService` (`resolveNormInfo` chamado por item dentro do
+> `.map()`, sem batch/cache, ao lado de um padrão de batching que o time já usa bem 3 linhas acima
+> no mesmo método). TASK-224 extrai os dois achados de baixo risco pra implementar já. Resto fica
+> documentado no épico: hipótese de cold start no Railway (não confirmada, precisa acesso), origem
+> de `/events?cee=no` (candidato: Sentry tracing, não confirmado), plano de observabilidade e teste
+> de carga pra depois.
+> Atualizado em: 01/09/2026 — **🟢 TASK-219 a TASK-223 mergeadas em `staging`, PR `staging→main`
+> aberta**: [web#69](https://github.com/douglasjava/easy-maintenance-web/pull/69). Promove junto:
+> teto de anexo 20MB + limite exibido no plano (TASK-219), lista de anexos com upload imediato e
+> limite de 6 (TASK-220), navegação pós-criação em item/manutenção (TASK-221), sidebar fixa em
+> desktop (TASK-222), refinamento visual da sidebar + correção de `/items/new` (TASK-223). Falta QA
+> manual em produção pós-deploy em todas. Backend: PR `staging→main` também aberta
+> ([api#68](https://github.com/douglasjava/easy-maintenance-api/pull/68), só TASK-219).
+> Atualizado em: 01/09/2026 — **🟡 TASK-223 criada e implementada, PR aberta contra `staging`**:
+> [web#68](https://github.com/douglasjava/easy-maintenance-web/pull/68). Refinamento visual da
+> sidebar via skill `frontend-design`, sobre a TASK-222 já mergeada. Ícone emoji por item (reaproveita
+> vocabulário do `QuickActions.tsx`), hover, estado ativo mais legível (fundo + peso + barra lateral),
+> divisores entre seções. Mockup validado num browser real antes de implementar no componente de
+> produção. `eslint`: de 6 pra 2 erros pré-existentes no arquivo (melhora, não regressão).
+> Atualizado em: 01/09/2026 — **🟡 TASK-222 criada e implementada, PR aberta contra `staging`**:
+> [web#67](https://github.com/douglasjava/easy-maintenance-web/pull/67). Itens #10 (sidebar fixa em
+> desktop) e #12 (campo de descrição maior) da TASK-218, agrupados numa task só a pedido do Douglas.
+> `offcanvas-lg` nativo do Bootstrap não resolvia (assume nav horizontal, não sidebar vertical
+> persistente — descoberto via teste isolado num browser real antes de aplicar no código). Fix real:
+> regra própria em `globals.css` forçando a sidebar a ficar visível/estática a partir de 992px.
+> Validado visualmente em desktop; **não foi possível validar em mobile real neste ambiente**
+> (limitação da ferramenta de resize) — recomendado QA manual em mobile antes do merge.
+> Atualizado em: 01/09/2026 — **🟡 TASK-221 criada e implementada, PR aberta contra `staging`**:
+> [web#66](https://github.com/douglasjava/easy-maintenance-web/pull/66). Item #8 da TASK-218 — análise
+> de UX discutida com Douglas antes de implementar (rejeitado modal 50/50 pro item, que mataria
+> cadastro em lote). `items/new`: painel de sucesso com 3 caminhos ("Registrar manutenção agora"
+> primário, "Ver lista de itens" secundário, "Cadastrar outro item" discreto). `maintenances/new`:
+> "Finalizar registro" navega pro `backHref` já calculado a partir do `origin` (item/dashboard/
+> listagem) em vez de só resetar o formulário. `tsc`/`eslint` sem regressão.
+> Atualizado em: 01/09/2026 — **🟡 TASK-220 implementada, PR aberta contra `staging`**:
+> [web#65](https://github.com/douglasjava/easy-maintenance-web/pull/65). Hook
+> `useMaintenanceAttachments` criado (upload imediato, lista local, teto de 6 anexos só no front) e
+> reaproveitado no registro e na edição de manutenção. Registro perde a grade fixa de 2 caixas.
+> `tsc`/`eslint` sem regressão. **Atenção ao merge**: branch criada antes de web#64 (TASK-219) —
+> ambas tocam `maintenances/page.tsx`, mergear TASK-219 primeiro evita conflito.
+> Atualizado em: 01/09/2026 — **🟡 TASK-220 criada (desenhada, não iniciada)**: item #3 da TASK-218
+> — tela de registro de manutenção limitava a 2 anexos (grade fixa, sem limite real no backend).
+> Decisão de design confirmada com Douglas antes de criar a task: upload imediato por arquivo (igual
+> ao padrão que a tela de edição já usa), lógica extraída num hook compartilhado
+> `useMaintenanceAttachments` reaproveitado nas duas telas, teto de 6 anexos só no front, mensagem
+> amigável sugerindo zipar arquivos ao atingir o limite. Detalhe completo em `TASK-220.md`.
+> Atualizado em: 01/09/2026 — **🟡 TASK-219 criada e implementada, PRs abertas contra `staging`**:
+> [api#67](https://github.com/douglasjava/easy-maintenance-api/pull/67) e
+> [web#64](https://github.com/douglasjava/easy-maintenance-web/pull/64). Item #1 da TASK-218: cliente
+> foi barrado subindo um arquivo de exatos 10MB. Teto rígido `aws.s3.upload.max-file-size-mb`
+> 10MB→20MB — resolve contas Business (plano já prometia 20MB, estava sendo capado abaixo do
+> prometido); Enterprise (50MB) fica capado em 20MB por ora, aumento progressivo fica pra depois
+> (decisão consciente do Douglas). Frontend: `PlanComparisonSection.tsx` passa a exibir o tamanho
+> máximo de anexo por plano (dado já vinha da API, só não era exibido). Sem regressão em nenhum dos
+> dois repos.
+> Atualizado em: 31/08/2026 — **🔵 TASK-218 criada (intake, triagem feita)**: feedback de demo real
+> com o cliente Rogerio Dantas — 11 pontos (bug/UX/performance/produto), acompanhados ao vivo por
+> Douglas. Achados concretos já investigados: (1) `aws.s3.upload.max-file-size-mb=10` em
+> `application.properties` capa **todos os planos** em 10MB, mesmo os configurados pra 20/50MB — não
+> é 10GB como Douglas achava; (5) item "INSTALAÇÃO DE PONTOS DE ANCORAGEM" confirmado sem norma
+> mapeada, e reabre debate da TASK-212 (trava de Regulatório/Operacional) — decisão de produto
+> pendente, não resolver sozinho; (6) log confirma busca de item sem debounce (4 requests em ~530ms
+> por letra digitada); (11) já existe EPIC-023/TASK-172 pronta pra implementar, só precisa priorizar.
+> Detalhe completo e triagem por item em `TASK-218.md`. Aguardando Douglas escolher ordem.
+> Atualizado em: 31/08/2026 — **🟢 TASK-217 mergeada em `staging`, PR `staging→main` aberta**:
+> [api#66](https://github.com/douglasjava/easy-maintenance-api/pull/66). Falta QA manual em produção
+> pós-deploy.
+> Atualizado em: 31/08/2026 — **🟡 TASK-217 implementada, PR aberta contra `staging`**:
+> [api#65](https://github.com/douglasjava/easy-maintenance-api/pull/65). Migration `V104` adiciona
+> `payments.checkout_session_id`, preenchida uma vez na criação do `Payment` a partir de um checkout
+> e nunca sobrescrita depois. `CheckoutPaidHandler`, `CheckoutExpiredHandler` e
+> `SubscriptionCreatedHandler` passam a buscar por ela primeiro (novo helper
+> `AbstractAsaasWebhookStrategy.findPaymentByCheckoutId`, com fallback pro `external_payment_id` pra
+> compatibilidade com pagamentos antigos). `SubscriptionCreatedHandler` ganhou log de erro quando não
+> encontra o pagamento (antes era silencioso). 4 testes novos reproduzem a race condition real
+> (`PAYMENT_CREATED` sobrescrevendo a coluna antes do handler seguinte precisar dela), confirmados
+> falhando sem o fix antes de reaplicar. `mvn clean test`: 868/868, 0 falhas.
+> Atualizado em: 31/08/2026 — **🟡 TASK-217 correção pós-revisão (mesma PR)**: Douglas perguntou se o
+> fluxo normal (entrar em CC e continuar, ou PIX e continuar) tinha algum impacto da coluna nova —
+> achamos que sim: o desenho inicial só cobria os 2 fluxos de transição manual/recuperação, faltando
+> `TrialExpirationService` (primeira cobrança pós-trial, contas não-PIX) e `CardTransitionService`
+> (job automático de transição PIX→CC por ciclo). Comparando o `external_reference` do incidente real
+> (`CARD-UPDATE-2-CYCLE-...`) com o padrão de cada serviço, **o job automático `CardTransitionService`
+> foi o que causou o bug real de produção**, não o fluxo manual corrigido no primeiro commit. Ambos
+> corrigidos, 7 testes novos/atualizados no total, confirmados falhando sem o fix. `mvn clean test`:
+> 868/868, 0 falhas.
+> Atualizado em: 31/08/2026 — **🟡 TASK-217 criada (desenhada, não iniciada)**: investigação de um
+> caso real em PRD (subscriptionId=2) — checkout PIX→CC pago de verdade, mas `invoices.status` ficou
+> preso em `OPEN` e `billing_subscriptions.external_subscription_id` ficou vazio. Causa raiz:
+> `PaymentCreatedHandler` sobrescreve `payments.external_payment_id` do id do checkout pro id da
+> cobrança assim que chega, e 3 handlers que processam eventos seguintes (`CheckoutPaidHandler`,
+> `CheckoutExpiredHandler`, `SubscriptionCreatedHandler`) ainda buscam o pagamento pelo id do
+> checkout na mesma coluna — se `PAYMENT_CREATED` chega primeiro (caso real), a busca falha em
+> silêncio. Dado de produção já corrigido manualmente via `UPDATE` transacional validado (não é a
+> correção do código, só do estado). Fix proposto: nova coluna estável `payments.checkout_session_id`
+> (migration V104), preenchida uma vez na criação do `Payment` e nunca sobrescrita; os 3 handlers
+> passam a buscar por ela primeiro, com fallback pro `external_payment_id` (compatibilidade com
+> pagamentos antigos). Detalhe completo em `TASK-217.md`. Implementação ainda não iniciada.
+> Atualizado em: 30/08/2026 — **🟡 TASK-216 implementada, PRs abertas contra `staging`**:
+> [api#63](https://github.com/douglasjava/easy-maintenance-api/pull/63) e
+> [web#62](https://github.com/douglasjava/easy-maintenance-web/pull/62). `register()` agora rejeita
+> `nextDueAt` manual pra item REGULATORY (`RuleException` explícita) e aplica de verdade pra
+> OPERATIONAL (pula o cálculo por período quando informado; sem valor, cai no cálculo automático de
+> sempre). Frontend: campo "Próxima manutenção" só aparece pra itens OPERATIONAL. 3 testes novos
+> comprovam os 3 casos, confirmados falhando sem o fix antes de reaplicar. `mvn clean test`:
+> 864/864, 0 falhas.
+> Atualizado em: 30/08/2026 — **🟡 TASK-216 criada (backlog, não iniciada)**: Douglas achou, ao
+> validar a TASK-215 em ambiente local, que "Data da Próxima manutenção" no registro de manutenção
+> é puramente decorativa — `MaintenanceService.applyPerformedMaintenance` sempre recalcula
+> `item.nextDueAt` a partir de `performedAt + período do item`, ignorando o valor digitado (que só
+> fica salvo no registro histórico da manutenção, sem efeito no item). Decisão de produto discutida
+> com Douglas: comportamento correto depende da categoria — **REGULATORY** (obrigação legal, norma +
+> tolerância) não pode ser sobrescrita por digitação livre, mesmo princípio da TASK-212; o campo sai
+> do formulário e o backend rejeita explicitamente se vier preenchido via API. **OPERATIONAL** (sem
+> obrigação legal) mantém o campo editável, mas passa a valer de verdade: se preenchido, define
+> `item.nextDueAt` direto; se vazio, cai no cálculo automático de hoje. Task registrada, escopo
+> proposto em `TASK-216.md`, implementação ainda não iniciada.
+> Atualizado em: 30/08/2026 — **🔴 TASK-215 criada e implementada (BUGFIX crítico de receita)**: o
+> `PixRenewalJob` continuava falhando toda madrugada pra subscriptionId=2, agora com Asaas 400 "O
+> campo value deve ser informado" ao criar o checkout de cartão. Causa raiz confirmada via query
+> direta em produção: a fatura tem um item ORGANIZATION com `amount_cents=0` (desde a EPIC-014,
+> plano único por conta — todo item ORGANIZATION é só registro de vínculo/limite, nunca cobrado
+> separadamente) junto do item USER real (R$299). `buildCheckoutRequest`
+> (`PaymentMethodTransitionService` e a cópia quase idêntica em `BillingRecoveryService`) mandava
+> **todos** os itens da fatura pro array `items` do checkout sem filtrar — a linha fantasma de R$0
+> fazia o Asaas rejeitar o request inteiro. Fix: filtro `amountCents > 0` nos dois lugares antes de
+> montar o checkout; o total da fatura não muda (o item de R$0 já não contribuía pra soma). Testes
+> novos reproduzem o dado real de produção (item USER + item ORGANIZATION zerado) e provam que só o
+> item real chega ao Asaas. Branch `bugfix/TASK-215-asaas-checkout-zero-value-item`, commit
+> `b381b48`, PR contra staging [api#62](https://github.com/douglasjava/easy-maintenance-api/pull/62)
+> aberta. 861/861 testes, 0 falhas.
+> Atualizado em: 30/08/2026 — **🟡 TASK-214 implementada, PRs abertas contra `staging`**:
+> [api#61](https://github.com/douglasjava/easy-maintenance-api/pull/61) e
+> [web#61](https://github.com/douglasjava/easy-maintenance-web/pull/61). Backend:
+> `remove()` ganhou a mesma checagem de manutenção que `update()` já tinha; `DELETE /items/batch`
+> novo, não é tudo-ou-nada (removidos/pulados por item, mesmo padrão de `AiBootstrapApplyResponse`).
+> Frontend: checkbox por linha + "selecionar todos nesta página" (sobrevive à paginação cursor,
+> reseta com os filtros), barra de ação, modal de confirmação, toast com resumo do resultado.
+> `mvn clean test`: 859/859, 0 falhas; typecheck/lint do frontend sem regressão. **Não testado num
+> browser real nesta sessão** — boot local completo da API precisa de credenciais Firebase/AWS não
+> configuradas neste ambiente (infra não relacionada à task). Douglas recomendado a validar
+> visualmente antes do merge.
+> Atualizado em: 30/08/2026 — **🟡 TASK-214 criada (backlog, não iniciada)**: Douglas pediu seleção
+> múltipla + remoção em massa na tela de itens, depois de validar a TASK-212/213 em `staging`.
+> Achado durante a análise (antes de implementar): a regra "não pode apagar item com manutenção
+> registrada" só existe hoje em `update()` — `remove()` não checa nada, qualquer item pode ser
+> removido mesmo com histórico (soft-delete, `deleted_at`). A task fecha os dois lados juntos:
+> adiciona a checagem no `remove()` individual e no endpoint de remoção em lote novo
+> (`DELETE /items/batch`, resultado parcial removidos/pulados, mesmo padrão de
+> `AiBootstrapApplyResponse`). Frontend: checkbox por linha + seleção persistente entre páginas
+> (listagem é cursor-paginada). TASK-212/213 já mergeadas em `staging` — confirmado por Douglas.
+> Atualizado em: 30/08/2026 — **🔴 TASK-213 criada e implementada (BUGFIX crítico)**: achado por
+> Douglas ao validar as normas da TASK-212 em ambiente local — editar `lastPerformedAt` de um item
+> não recalculava `nextDueAt` de verdade, ficava preso na data de antes da edição (`update()`
+> calculava `nextDueAt` **antes** de aplicar o novo `lastPerformedAt` do request). Bug pré-existente
+> em `staging`, não introduzido pela TASK-212 (confirmado via `git show staging:...`) — só ficou
+> visível porque a TASK-212 fez a classificação REGULATORY funcionar de verdade pela primeira vez.
+> Fix: inverte a ordem de duas linhas (`setLastPerformedAt` antes de `resolvePeriod`/`setNextDueAt`),
+> mesma ordem que `create()` já usava. `MaintenanceItemUpdateNextDueAtTest` comprova a regressão —
+> reproduz o `2026-06-04` errado que Douglas viu, passa com o fix. Mesma branch/PR da TASK-212
+> (commit `228d2a7`, [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60)). 855/855
+> testes, 0 falhas. Itens já salvos com `nextDueAt` desatualizado precisam de um re-save manual pra
+> recalcular — sem migration de dado (ambiente de teste, baixo volume).
+> Atualizado em: 30/08/2026 — **🔴 TASK-212 criada e implementada (FULL_STACK crítico)**: Douglas
+> reportou que a tela de cadastro de itens permitia registrar um item regulatório como operacional e
+> vice-versa — "Tipo do item" (livre) e "Categoria" eram campos totalmente independentes. Causa raiz:
+> `item_types` (autocomplete) e `norms` (catálogo curado no EPIC-025) eram dois vocabulários livres
+> sem relação estrutural nenhuma; `MaintenanceItemService.update()` também não tinha nenhuma
+> validação de consistência (achado durante a investigação). Fix: `item_types.norm_id` (V100) vira
+> fonte de verdade — tipo com norma vinculada = sempre REGULATORY; sem norma = sempre OPERATIONAL,
+> backend ignora `itemCategory`/`normId` do request. `V101` vincula automaticamente os 27 `item_types`
+> reais de produção que hoje são REGULATORY (confirmado por Douglas via query em produção — 26 batiam
+> por igualdade exata de nome, o 27º — `LIMPEZA CAIXA DAGUA` — confirmado manualmente por ele).
+> Frontend: dropdowns livres de Categoria/Norma viram indicadores derivados. Dois bugs pegos e
+> corrigidos em teste (H2) antes do deploy na própria V101: comparação precisa ignorar `_` dos dois
+> lados, e a sintaxe `UPDATE ... JOIN ... SET` do MySQL nem parseia no H2 (reescrita como subquery
+> correlacionada). Branch `feature/TASK-212-item-category-derived-from-type` (api e web, a partir de
+> `staging`). PRs abertas: [api#60](https://github.com/douglasjava/easy-maintenance-api/pull/60) e
+> [web#60](https://github.com/douglasjava/easy-maintenance-web/pull/60). 860/860 testes, 0 falhas.
+> Curadoria dos ~150 `item_types` restantes (fora dos 27 já cobertos) fica com Douglas.
+> Atualizado em: 29/08/2026 — **🔴 TASK-210 e TASK-211: mergeadas em `staging`, PR `staging → main`
+> aberta**: [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) (promove as duas
+> juntas). Douglas confirmou o merge das duas PRs individuais ([api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57)
+> e [api#58](https://github.com/douglasjava/easy-maintenance-api/pull/58)) em `staging` e já validou
+> a TASK-211 manualmente, recadastrando o lead do síndico. Das 2 tentativas originais do lead
+> (`sindifacil@gmail.com`, 29/08 00:10-00:11), 1 foi recuperada manualmente; a outra (mesmo e-mail,
+> ~25s de diferença, provável duplo clique no envio) foi considerada perdida. Falta mergear o #59 e
+> aguardar o deploy.
+> Atualizado em: 29/08/2026 — **🔴 TASK-211 criada e implementada (BUGFIX crítico)**: Douglas achou
+> no log de produção 2 tentativas seguidas (00:10) do lead `sindifacil@gmail.com` falhando com
+> `Data truncation: Data too long for column 'fbc'`. Causa raiz: a `V97` (TASK-157, Meta CAPI) criou
+> `landing_leads.fbc` como `VARCHAR(64)` — curto demais pro cookie `_fbc` real do Meta Pixel
+> (`fbclid` sozinho já passa de 64 chars em cliques recentes de anúncio). Como `LeadService.createLead`
+> salva tudo num único `.save()`, a falha nesse campo opcional derrubava o INSERT inteiro —
+> **o lead inteiro era perdido**, não só a atribuição de anúncio, e `sindifacil` é exatamente o
+> público-alvo do produto. Fix: `V99` amplia a coluna pra `VARCHAR(255)` + entidade passa a declarar
+> `@Column(length = 255)` explicitamente. Teste de migration novo (`LandingLeadFbcColumnMigrationTest`,
+> H2 modo MySQL, DDL puro) comprova a regressão com um `_fbc` realista. Branch
+> `bugfix/TASK-211-landing-lead-fbc-column-too-short` (a partir de `staging`), commit `b5982cb`, PR
+> contra staging [api#58](https://github.com/douglasjava/easy-maintenance-api/pull/58) aberta.
+> 854/854 testes, 0 falhas.
+> Atualizado em: 29/08/2026 — **🔴 TASK-210 criada e implementada (BUGFIX crítico, regressão da
+> TASK-209)**: Douglas reportou log de produção do run de hoje (01:30) do `PixRenewalJob` — o fix da
+> TASK-209 achou a fatura já existente do payer 2 corretamente, mas quebrou em seguida com
+> `LazyInitializationException: no Session` em `CardTransitionService.processTransition`
+> (`invoice.getItems()`), então a assinatura de teste (subscriptionId=2) continua travada. Causa raiz:
+> a query de fallback da TASK-209 (`findByPayerIdAndPeriodStartAndPeriodEnd`) não carregava `items`
+> (`@OneToMany` LAZY) — só não quebrava antes porque o caminho de fatura nova monta `items` em
+> memória (lista comum, sem proxy). Fix: `@EntityGraph(attributePaths = {"items"})` na query, mesmo
+> padrão já usado em `findFirstByPayerIdAndStatusOrderByCreatedAtDesc`. Teste JPA real novo
+> (`InvoiceRepositoryPersistenceTest`, H2) comprova a regressão — falha sem o fix, passa com ele.
+> Branch `bugfix/TASK-210-invoice-items-lazy-loading` (a partir de `staging`), commit `d07fc6a`, PR
+> contra staging [api#57](https://github.com/douglasjava/easy-maintenance-api/pull/57) aberta.
+> 852/852 testes, 0 falhas. Douglas optou por esperar o próximo run automático (01:30) em vez de criar
+> um endpoint de trigger manual — QA final (subscription 2 desbloqueada) pendente do merge, deploy e
+> desse run.
+> Atualizado em: 28/08/2026 — **🔴 TASK-209: mergeada em `staging`, PR `staging → main` aberta**:
+> [easy-maintenance-api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) (PR contra
+> staging [#55](https://github.com/douglasjava/easy-maintenance-api/pull/55) já mergeada). Falta
+> mergear o #56 e aguardar o deploy — só depois disso o job `PixRenewalJob` (01:30 diário) vai
+> reprocessar e desbloquear a assinatura de teste do Douglas automaticamente.
+> Atualizado em: 28/08/2026 — **🔴 TASK-209 criada e implementada (BUGFIX crítico)**: Douglas,
+> testando com usuário próprio em produção (onboarding PIX → trocou pra Cartão no meio do ciclo),
+> achou que a assinatura ficou travada com "Pagamento pendente R$ 299,00" sem link de checkout.
+> Causa raiz: `InvoiceService.processPayerInvoice` retorna `Optional.empty()` tanto pra "nada a
+> faturar" quanto pra "fatura do período já existe" (idempotência) — `generateInvoiceForPayer`
+> repassava esse `Optional.empty()` ambíguo pra 4 fluxos diferentes (`CardTransitionService`,
+> `PixRenewalService`, `PaymentMethodTransitionService.initiateCardUpdate`,
+> `BillingRecoveryService`), todos os quais desistiam silenciosamente quando a fatura já existia —
+> travando a assinatura pra sempre (o job reprocessa todo dia às 01:30 e falha do mesmo jeito).
+> **Mais grave que o caso do Douglas**: o mesmo bug atinge `PixRenewalService` — renovação PIX de
+> qualquer cliente pagante real pode travar do mesmo jeito, sem cobrança nova e sem alerta visível.
+> Fix cirúrgico em `generateInvoiceForPayer` (busca a fatura existente em vez de propagar o
+> `Optional.empty()` ambíguo), sem tocar nos 4 pontos de chamada nem no job em lote
+> `generateInvoices`. Branch `bugfix/TASK-209-invoice-already-exists-silent-skip`
+> (`easy-maintenance-api`, commit `0d3851c`, a partir de `staging`). 844/844 testes, 0 falhas. Sem
+> PR aberta ainda. Assinatura travada do Douglas deve se autocorrigir no próximo run do job após o
+> deploy (não existe trigger manual pra esse job específico).
+> Atualizado em: 27/08/2026 — **TASK-207/208: mergeadas em `staging`, PRs `staging → main`
+> abertas**: [easy-maintenance-api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54)
+> e [easy-maintenance-web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59). PRs
+> anteriores contra `staging` ([api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53),
+> [web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58)) já mergeadas.
+> Atualizado em: 27/08/2026 — **TASK-207/208: PRs abertas contra `staging`** —
+> [easy-maintenance-api#53](https://github.com/douglasjava/easy-maintenance-api/pull/53) e
+> [easy-maintenance-web#58](https://github.com/douglasjava/easy-maintenance-web/pull/58). QA manual
+> completo por Douglas ([TASK-QA-MAN-016](QA/tasks/TASK-QA-MAN-016.md), cenários C1-C7 confirmados)
+> antes da abertura.
+> Atualizado em: 27/08/2026 — **TASK-208: achado no QA manual de Douglas** — cenário C6 (sub-linhas
+> de beneficiário no financeiro) inicialmente pareceu não funcionar, mas era só a seção
+> "Comissões por pessoa" não ter refeito o fetch depois do split ser configurado numa aba já
+> aberta (recarregar a página resolveu — sem bug de código). No mesmo QA, Douglas pediu uma coluna
+> nova "Usuários" na mesma seção, contando `pendingCount + paidCount` (dado já existente na API,
+> sem mudança de backend) — adicionada e commitada (`9c0ad14`, `npm run build` limpo).
+> Atualizado em: 27/08/2026 — **Plano de QA manual criado** para o split de comissão (EPIC-020,
+> TASK-207/208): [TASK-QA-MAN-016](QA/tasks/TASK-QA-MAN-016.md), 8 cenários (C1 suíte automatizada,
+> C2 gerar comissão de teste via `/dev/simulate/affiliate-flow`, C3 regressão em afiliado sem split,
+> C4 configurar split 100%, C5 bloqueio de soma errada, C6 valores corretos no financeiro, C7 remover
+> divisão, C8 contratos de erro do backend). Aguardando execução por Douglas antes de abrir as PRs.
+> Atualizado em: 27/08/2026 — **TASK-208 implementada** (EPIC-020, split de comissão): ação
+> "Dividir comissão" na tela de afiliados abre `CommissionSplitModal.tsx` (novo) — lista editável de
+> beneficiários (nome + %), validação client-side de soma = 100% antes de habilitar "Salvar", ação
+> "Remover divisão" (lista vazia, confirmada via `ConfirmModal` já existente) que volta o afiliado a
+> 100% pra ele mesmo. `CommissionsBreakdownSection` (financeiro) ganha sub-linhas indentadas por
+> beneficiário quando o afiliado tem split configurado; sem split, comportamento idêntico ao atual.
+> Branch `feature/TASK-208-commission-split-ui` (`easy-maintenance-web`, a partir de `staging`),
+> commit `1c628e5`. `npm run build` limpo (54 rotas); `npm test`: 105/108 passando, as 3 falhas são
+> em `middleware.test.ts`, pré-existentes e sem relação. **Não validada visualmente** — mesma
+> limitação já registrada em tasks anteriores (tela exige login, sem credenciais de teste
+> disponíveis pra automação). **As 2 tasks da revisão de split (TASK-207/208) estão implementadas**
+> — falta QA manual de ponta a ponta por Douglas e abertura das PRs (api + web) contra `staging`.
+> Atualizado em: 27/08/2026 — **TASK-207 implementada** (EPIC-020, split de comissão): tabela
+> `affiliate_commission_splits` (migration `V98`), endpoints
+> `GET`/`PUT /private/admin/affiliates-commissions/{id}/splits` (validação de soma 100% via
+> `RuleException`, substituição atômica, lista vazia remove o split) e campo `beneficiaries` novo em
+> `GET /private/admin/financials/commissions-breakdown`. Não altera `ReferralCommission`/
+> `CommissionService`; afiliado sem split continua 100% pra ele mesmo. Branch
+> `feature/TASK-207-commission-split` (`easy-maintenance-api`, a partir de `staging`), commit
+> `fcadbbb`. Suíte completa: 843 testes, 0 falhas. Sem PR aberta — aguardando TASK-208 (frontend)
+> pra QA de ponta a ponta e PR conjunta. **Achado durante a implementação, registrado na task**: o
+> valor de cada beneficiário é truncado (não arredondado) igual ao total do afiliado já era — a soma
+> dos beneficiários pode ficar 1 centavo abaixo do total por truncamento; aceito por ora (mesmo
+> comportamento já existente no resto do módulo), watch-list se virar problema real no financeiro.
+> Atualizado em: 27/08/2026 — **TASK-207/208 criadas** (EPIC-020, split de comissão entre
+> beneficiários): caso real levantado por Douglas — "Grupo Silva" precisa dividir a comissão de um
+> cliente entre o grupo/afiliado e o vendedor que fechou a venda. Hoje um cliente tem no máximo um
+> comissionado ativo (regra confirmada na Revisão da Fase 2, 24/08), com uma única
+> `commissionRate` — cadastrar o percentual somado funciona mas perde rastreabilidade de quem
+> recebe o quê no relatório "Comissões por pessoa". Decisão: tabela nova
+> `affiliate_commission_splits` (afiliado → beneficiário + % do total, somando 100%), consultada só
+> na hora de montar o breakdown mensal — não altera `ReferralCommission`/`CommissionService` nem a
+> regra de 1 comissionado por cliente; afiliado sem split continua 100% pra ele mesmo, sem
+> migração. TASK-207 (backend: schema + endpoints + breakdown) → TASK-208 (frontend: modal de
+> divisão + sub-linhas no financeiro). Priorizado por Douglas — precisa implementar agora.
+> Atualizado em: 26/08/2026 — **TASK-206 testada localmente, PRs abertas contra `staging`**:
+> [api#49](https://github.com/douglasjava/easy-maintenance-api/pull/49),
+> [web#54](https://github.com/douglasjava/easy-maintenance-web/pull/54).
+> Atualizado em: 26/08/2026 — **TASK-206 implementada**, branch `bugfix/TASK-206-user-subscription-route`
+> nos dois repos, aguardando teste local. api `714badf` (rota nova `GET /users/{userId}/subscription`,
+> 813/813 testes); web `a25f247` (aponta pra rota nova, corrige abas Assinatura e Pagamento).
+> Atualizado em: 26/08/2026 — **TASK-201 a 205 mergeadas em `staging`**:
+> [api#48](https://github.com/douglasjava/easy-maintenance-api/pull/48),
+> [web#53](https://github.com/douglasjava/easy-maintenance-web/pull/53). PRs `staging → main` ainda
+> não abertas.
+> Atualizado em: 26/08/2026 — **TASK-201 a 205 testadas localmente pelo Douglas** (`TASK-QA-MAN-014`,
+> todos os cenários passaram), **PRs abertas contra `staging`**:
+> [api#48](https://github.com/douglasjava/easy-maintenance-api/pull/48),
+> [web#53](https://github.com/douglasjava/easy-maintenance-web/pull/53).
+> Atualizado em: 26/08/2026 — **TASK-206 criada** (bugfix, sem épico): aba Pagamento do admin
+> (`/private/users/[id]`) chama uma rota que não existe mais desde o refactor de billing por
+> usuário (`GET /admin/billing/user/{id}/subscription`, removida no commit `815e36e`) — cai num
+> `.catch(() => null)` que não quebra a tela, mas faz o campo "Plano" sempre mostrar "STARTER"
+> mesmo pra quem está em outro plano. Achado por Douglas ao testar EPIC-002 Fase 3
+> (`TASK-QA-MAN-014`), sem relação com ela — registrada separada, foco continua na Fase 3.
+> Atualizado em: 25/08/2026 — **TASK-201 a 205 implementadas** (EPIC-002 Fase 3), branch
+> `feature/EPIC-002-fase3-asaas-sync` nos dois repos, PR ainda não aberta. api: 809/809 testes
+> passando (`2e6e15a`, `738d7a6`, `ff1ef31`); web: `npm run build` limpo (`4b82e2b`, `0620743`).
+> Achado no meio do caminho: `@Doc`/CPF-CNPJ (Hibernate Validator) já existia no projeto e já era
+> usado em `OrganizationDTO` — só faltava aplicar em `OnboardingDTO`, reduziu o escopo de TASK-203.
+> Atualizado em: 25/08/2026 — **TASK-201 a 205 criadas** (EPIC-002 Fase 3): achado real no primeiro
+> cliente pagante — CPF com dígito verificador inválido no onboarding foi rejeitado pela Asaas e
+> engolido silenciosamente, deixando a conta sem `externalCustomerId`. Escopo: ressincronização
+> manual pelo admin (TASK-201), validação de CPF/CNPJ front+back (TASK-202/203), alerta Sentry
+> (TASK-204), indicador visual de pendência (TASK-205). Avaliado e descartado por ora: self-service
+> do próprio usuário editar CPF/CNPJ depois do onboarding — caso raro (troca CPF→CNPJ pra nota
+> fiscal), coberto pelo admin existente; complexidade de cancelar assinatura de cartão ativa na
+> Asaas não justifica agora.
+> Atualizado em: 25/08/2026 — **TASK-200 concluída** — [api#47](https://github.com/douglasjava/easy-maintenance-api/pull/47)
+> e [web#52](https://github.com/douglasjava/easy-maintenance-web/pull/52) mergeadas em `main`.
+> Atualizado em: 25/08/2026 — **TASK-200 criada**: campo de descrição livre (opcional, até 1000
+> caracteres) no registro de manutenção — hoje não existe em lugar nenhum (nem entidade, nem
+> request), e o registro fica só data+tipo+custo, sem dizer o que foi feito de verdade. Motivador:
+> Douglas conseguiu um cliente pra validar em trial. Sem épico específico (nenhum candidato
+> existente é o lugar certo). Full-stack, esforço baixo — ainda não implementada.
+> Atualizado em: 24/08/2026 — **TASK-199 implementada e com PR aberta** — "Receita Total" em
+> `/private/admin/billing` somava `plan.priceCents` (preço de tabela) em vez de `item.valueCents`
+> (valor real cobrado); item `ORGANIZATION` está zerado desde a EPIC-014, então a receita das
+> organizações aparecia inflada. Corrigido em `BillingAccountRepository`
+> (`findPayersSummary`/`findTopPayers`), com `@DataJpaTest` novo provando o cenário contra H2 real.
+> Commit `edd6d43`, PR [#44](https://github.com/douglasjava/easy-maintenance-api/pull/44) contra
+> `staging` (branch `bugfix/TASK-199-receita-total-org-zerada`). Suíte completa: 798 testes, 0
+> falhas.
+> Atualizado em: 24/08/2026 — **EPIC-020 Fase 2: PRs abertas contra `staging`** —
+> [easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43) e
+> [easy-maintenance-web#49](https://github.com/douglasjava/easy-maintenance-web/pull/49), reunindo
+> TASK-190 a 198 mais os bugfixes achados no QA manual de Douglas (migration V95,
+> `SimulationController` — PAYMENT_CREATED e `existingUserId`, `ConfirmModal` no lugar do
+> `confirm()` nativo). Backend: 796 testes, 0 falhas. Frontend: `npm run build` limpo.
+> Achado durante o mesmo QA, fora do escopo da EPIC-020: `/private/admin/billing` (Faturamento)
+> mostra "Receita Total" inflada porque a query soma o preço de tabela do plano em vez do valor
+> real cobrado no item — o item `ORGANIZATION` está zerado desde a EPIC-014, mas a query nunca
+> olhava pro valor real do item. Registrado como **TASK-199** (nova, branch própria a partir de
+> `staging` — Douglas vai atualizar `staging` com as PRs acima antes).
+> Atualizado em: 24/08/2026 — **Simulador de QA: `existingUserId`** (a pedido de Douglas):
+> `SimulationController` sempre criava um usuário sintético novo a cada chamada — sem jeito de
+> gerar uma comissão de teste pra um usuário real já criado/atribuído via fluxo normal da
+> aplicação. `SimulationRequest` ganhou `existingUserId` opcional: pula a captura de lead e
+> reaproveita o usuário/`BillingAccount` existentes, sem sobrescrever o `referralCode` já salvo.
+> Commit `582eb1f` (`feature/financial-module-v2`, `easy-maintenance-api`). Suíte completa: 796
+> testes, 0 falhas.
+> Atualizado em: 24/08/2026 — **Simulador de QA corrigido** (achado no roteiro de QA da revisão do
+> EPIC-020): `SimulationController` disparava só `PAYMENT_RECEIVED`, sem passar pelo
+> `PAYMENT_CREATED` que grava `netAmountCents`/`gatewayFeeCents` no fluxo real — a comissão
+> simulada calculava sobre o bruto (fallback já documentado desde a TASK-192, não bug novo) e a
+> tela de financeiro mostrava taxa Asaas zerada. Corrigido disparando os dois webhooks na ordem
+> certa, reaproveitando `PaymentCreatedHandler` de verdade. Commit `28416b1`
+> (`feature/financial-module-v2`, `easy-maintenance-api`). Suíte completa: 796 testes, 0 falhas.
+> Atualizado em: 24/08/2026 — **Bug na migration V95 corrigido** (achado no teste local de
+> Douglas): `DROP INDEX uk_referral_commissions_org` explícito falhava sempre — o `ALTER`
+> anterior na mesma migration já derruba `organization_id` (única coluna daquela unique key) e o
+> MySQL remove o índice sozinho junto. Não era drift de schema, quebrava em qualquer ambiente.
+> Corrigido e verificado rodando a migration de ponta a ponta contra o MySQL local dele (commit
+> `175906f`, `feature/financial-module-v2`, `easy-maintenance-api`). Suíte completa: 796 testes,
+> 0 falhas.
+> Atualizado em: 24/08/2026 — **TASK-198 implementada — Revisão da Fase 2 do EPIC-020 completa
+> (4/4)**: tela de afiliados ganha seção "Comissionados" (não existia — a página só listava
+> transações de comissão), com edição de %/recorrência e atribuição de cliente por busca de
+> nome/e-mail; achado e corrigido no processo um contrato quebrado pela TASK-196
+> (`c.organizationId` → `c.userId`, coluna "Org ID" ficou silenciosamente errada na branch).
+> Tela de financeiro troca "Comissões manuais" pela seção "Comissões por pessoa" (endpoint da
+> TASK-197). Commit `4a4ff78` em `feature/financial-module-v2` (`easy-maintenance-web`), `npm run
+> build` limpo (52 rotas). **As 4 tasks da revisão (TASK-195 a 198) estão completas** — próximo
+> passo é QA manual de ponta a ponta por Douglas (local/staging) e abertura do(s) PR(s) reunindo
+> toda a Fase 2 (TASK-190 a 198) de uma vez.
+> Atualizado em: 24/08/2026 — **TASK-197 implementada** (EPIC-020, revisão da Fase 2):
+> `manualCommissionCents` removido de `MonthlyFinancialsResponse` e do cálculo de
+> `monthlyBalanceCents` — `affiliateCommissionCents` (`ReferralCommission`) já cobre afiliado
+> público e comissionado interno na mesma fonte desde TASK-195/196. Endpoint novo
+> `GET /private/admin/financials/commissions-breakdown?month=YYYY-MM` agrega comissão por
+> `affiliateId` dentro do mês (nome, e-mail, % atual, recorrência, valor total, contagem
+> pendente/pago) — uma linha por comissionado mesmo quando `RECURRING` gerou várias comissões no
+> período. Commit `b38b617` em `feature/financial-module-v2` (`easy-maintenance-api`), 796 testes,
+> 0 falhas. Próxima: TASK-198 (frontend — edição de afiliado, atribuição a cliente, breakdown na
+> tela de financeiro) — última da revisão da Fase 2.
+> Atualizado em: 24/08/2026 — **TASK-196 implementada** (EPIC-020, revisão da Fase 2): rekey de
+> `referral_commissions.organization_id` para `user_id` + `cycle_number` (migration `V95`);
+> `PaymentReceivedHandler` passa a resolver o comissionado via item `USER` da assinatura +
+> `User.referralCode` (não mais `Organization.referralCode`) e dispara em todo pagamento — a decisão
+> `ONE_TIME` (único, idempotente por usuário) vs `RECURRING` (uma comissão por ciclo) fica inteira em
+> `CommissionService`. Endpoint novo `PATCH /private/admin/users/{userId}/referral-code` pra
+> atribuir/reatribuir comissionado a cliente existente. `SimulationController` (dev/QA) ajustado pra
+> continuar exercitando o fluxo com o novo modelo. Commit `506e529` em `feature/financial-module-v2`
+> (`easy-maintenance-api`), 792 testes, 0 falhas. Próxima: TASK-197 (`FinancialsService` sem comissão
+> manual + endpoint de breakdown por comissionado).
+> Atualizado em: 24/08/2026 — **TASK-195 implementada** (EPIC-020, revisão da Fase 2): `Affiliate`
+> ganha `recurrenceType` (`ONE_TIME`/`RECURRING`) e `PATCH /private/admin/affiliates-commissions/{id}`
+> pra editar percentual/recorrência; `manual_commission_rules` removida por completo (entidade,
+> repositório, DTO, serviço, endpoints, migration `V94`). Ajuste mínimo em `FinancialsService` pra
+> compilar sem a dependência removida (`manualCommissionCents` zerado, remoção definitiva do campo é
+> escopo da TASK-196/197). Commit `02417bf` em `feature/financial-module-v2`
+> (`easy-maintenance-api`), 786 testes, 0 falhas. Próxima: TASK-196 (rekey `organization_id` →
+> `user_id`, comissão recorrente).
+> Atualizado em: 24/08/2026 — **EPIC-020 Fase 2: revisão antes do PR** — testando a tela nova,
+> Douglas identificou que `manual_commission_rules` (TASK-190/191) modela comissão errada (% da
+> receita **total** da empresa, sem vínculo com cliente) quando o caso real é comissão **por cliente
+> atribuído** a um comissionado. Análise de código confirmou que `Affiliate`/`ReferralCommission` já
+> resolve exatamente isso (pessoa + %, vínculo com pagamento) — só faltava edição de % e um conceito
+> de recorrência (`ONE_TIME`/`RECURRING`). Decisão: `manual_commission_rules` é removida, `Affiliate`
+> é estendido em vez de manter duas estruturas paralelas. Achado à parte na mesma análise: desde a
+> EPIC-014 (13/07/2026, cobrança só por `USER`), a atribuição de comissão em `referral_commissions`
+> ficou semanticamente errada — travada em `organization_id`, quando quem paga é o `user_id`; nunca
+> documentado até agora. 4 tasks novas: [TASK-195](tasks/TASK-195.md), [TASK-196](tasks/TASK-196.md),
+> [TASK-197](tasks/TASK-197.md), [TASK-198](tasks/TASK-198.md). Spec:
+> `docs/superpowers/specs/2026-08-24-affiliate-commission-rework.md`.
+> Atualizado em: 23/08/2026 — **EPIC-020 Fase 2: 5/5 tasks implementadas** (TASK-190 a TASK-194),
+> módulo financeiro completo (backend + frontend). Tudo na mesma branch `feature/financial-module-v2`
+> (mesmo nome nos repos `easy-maintenance-api` e `easy-maintenance-web`), sem PR por task — Douglas
+> testa tudo local e em staging junto, antes de abrir a(s) PR(s). Backend: schema
+> (`expenses`/`manual_commission_rules`), CRUD de despesas e regras de comissão manual, e
+> `FinancialsService` reescrito (bruto/líquido, saldo do mês/acumulado, comissão de afiliado sobre
+> o líquido só pra vendas novas) — suíte completa, 0 falhas. Frontend: página própria
+> `/private/admin/financials` (fora das abas de Faturamento, item novo no menu lateral) + seções de
+> cadastro de despesa e comissão manual — `npm run build` limpo, mas não validado visualmente (tela
+> exige login, sem credenciais de teste disponíveis pra automação).
+> Atualizado em: 23/08/2026 — **EPIC-020 Fase 2 criada**: módulo financeiro migra de planilha
+> externa pro sistema — página própria (sai das abas de Faturamento), receita bruta/líquida
+> (`Payment.netAmountCents`, hoje ignorado no cálculo), despesa vira lançamento avulso (substitui
+> `operating_expense_rates`, sem migrar histórico — decisão explícita de Douglas), comissão manual
+> (regra recorrente de % sobre o líquido, nova) e comissão de afiliado passam a ser calculadas sobre
+> o valor líquido (só daí pra frente, sem recalcular comissões já registradas), saldo do mês e saldo
+> acumulado. 5 tasks novas (TASK-190 a TASK-194), reaproveitando o EPIC-020 (mesmo épico da primeira
+> versão do painel financeiro). Brainstorm formal ("mais completo", a pedido de Douglas) + spec
+> aprovada em `docs/superpowers/specs/2026-08-23-financial-module-design.md`.
+> Atualizado em: 23/08/2026 — **EPIC-021 Fase 2: PR aberta para staging** — tudo validado
+> localmente por Douglas, PR [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42)
+> (`easy-maintenance-api`) e PR [#48](https://github.com/douglasjava/easy-maintenance-web/pull/48)
+> (`easy-maintenance-web`) abertas contra `staging`.
+> Atualizado em: 23/08/2026 — **EPIC-021 Fase 2: 3/3 tasks implementadas** (TASK-187 a TASK-189),
+> registro manual de lead + edição completa (telefone incluso). Tudo na mesma branch
+> `feature/leads-manual-registration` (mesmo nome nos repos `easy-maintenance-api` e
+> `easy-maintenance-web`), sem PR por task — Douglas testa tudo local e em staging junto, antes de
+> abrir a(s) PR(s). Backend: 31 testes no módulo `leads`, 0 falhas (colunas `phone`/`origin_type` +
+> backfill, `POST`/`PUT` de lead com validação de contato e normalização de telefone). Frontend:
+> modal único de criar/editar, botão "+ Novo lead", colunas Telefone/Canal atualizadas — build
+> limpo, mas não validado visualmente (tela exige login, sem credenciais de teste disponíveis pra
+> automação).
+> Atualizado em: 23/08/2026 — **EPIC-021 Fase 2 criada**: registro manual de lead + edição completa
+> (nome/e-mail/telefone/fonte), 3 tasks novas (TASK-187 a TASK-189). Motivação: Douglas recebe leads
+> de fontes fora do fluxo de ADS (indicação, evento, boca a boca) e não tinha onde registrá-los; e
+> leads de clique de WhatsApp nunca guardaram telefone (a tela nem tinha esse campo), sem forma de
+> editar um lead depois de criado — hoje só existe troca de status. Brainstorm formal + spec
+> aprovada em `docs/superpowers/specs/2026-08-23-leads-screen-improvements-design.md`. Decisões:
+> edição completa (não só telefone); fonte de lead manual por lista fixa (Indicação/Evento/Boca a
+> boca/Outro), não texto livre, pra não poluir o relatório de Top Fontes; `origin_type` novo vira
+> dado real gravado na criação, substituindo a inferência atual da coluna "Canal" (que só olhava se
+> tinha e-mail); UI com modal único reaproveitado pra criar e editar. TASK-187 (schema) →
+> TASK-188 (endpoints) → TASK-189 (frontend), nessa sequência.
+> Atualizado em: 21/08/2026 — **EPIC-025: PRs de staging para main abertas** — PR
+> [#41](https://github.com/douglasjava/easy-maintenance-api/pull/41) (`easy-maintenance-api`) e PR
+> [#47](https://github.com/douglasjava/easy-maintenance-web/pull/47) (`easy-maintenance-web`),
+> ambas `staging` → `main`, levam Fase 1 (TASK-177 a TASK-180) e Fase 2 (TASK-181 a TASK-186) do
+> EPIC-025 pra produção. PRs [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)/
+> [#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (`feature/...` → `staging`) já
+> estavam mergeadas quando Douglas pediu pra abrir estas.
+> Atualizado em: 21/08/2026 — **EPIC-025 Fase 2: PRs abertas para staging** — tudo validado
+> localmente por Douglas (C1-C10 do plano de QA), PR [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40)
+> (`easy-maintenance-api`) e PR [#46](https://github.com/douglasjava/easy-maintenance-web/pull/46)
+> (`easy-maintenance-web`) abertas contra staging. Backend: 779 testes, 0 falhas. Frontend: build
+> limpo. C11 (tipo de empresa pré-preenchido), C12 (rolagem interna) e C13 (experiência mobile,
+> TASK-186) seguem implementados mas ainda não revalidados por Douglas em staging.
+> Atualizado em: 21/08/2026 — **EPIC-025 Fase 2: QA de Douglas achou 5 pontos** (edição de período
+> travada por engano, `apply()` não idempotente, tipo de empresa não pré-preenchido, rolagem
+> empurrando título/botões pra fora da tela, e tabela inviável no mobile) — todos corrigidos na
+> mesma branch `feature/ai-onboarding-catalog-filter`. O último virou **TASK-186** (nova): lista de
+> cards no lugar da tabela abaixo de 768px, mesmo estado/handlers da tabela. Backend: 779 testes, 0
+> falhas. Frontend: build limpo, mas **TASK-186 não pôde ser validada visualmente** — a tela exige
+> login e não há credenciais de teste disponíveis pra automação. Plano de QA atualizado com C11
+> (tipo de empresa), C12 (rolagem interna) e C13 (mobile) —
+> `roadmap/QA/tasks/TASK-QA-MAN-013.md`, aguardando Douglas revalidar.
+> Atualizado em: 20/08/2026 — **EPIC-025 Fase 2: 5/5 tasks implementadas** (TASK-181 a TASK-185),
+> filtro determinístico de catálogo no onboarding por IA. Tudo na mesma branch
+> `feature/ai-onboarding-catalog-filter` (mesmo nome nos repos `easy-maintenance-api` e
+> `easy-maintenance-web`), sem PR por task a pedido de Douglas — ele testa tudo local e em staging
+> junto, antes de abrir a(s) PR(s). Backend: 775 testes, 0 falhas (norm_segments + filtro por
+> segmento, endpoint síncrono `/catalog-preview`, IA como complemento sem duplicar catálogo, fix do
+> bug de `nextDueAt` divergente). Frontend: `/ai-onboarding` reescrito em duas camadas — catálogo
+> instantâneo sempre, IA só com descrição livre, mesclada progressivamente na tabela.
+> Atualizado em: 20/08/2026 — **EPIC-025 Fase 2 criada**: filtro determinístico de catálogo no
+> onboarding por IA (`/ai-onboarding`), 5 tasks novas (TASK-181 a TASK-185). Motivação: Douglas
+> pediu pra validar se o fluxo de IA que sugere itens no onboarding precisa mesmo de IA pra tudo —
+> resposta: não, boa parte já é filtro determinístico pelo catálogo curado por segmento
+> (`company_type`), sem custo de IA. Brainstorm formal + spec aprovada em
+> `docs/superpowers/specs/2026-08-20-onboarding-catalog-filter-design.md`. Achados: (1) IA hoje gera
+> todo item do zero sem saber o que já existe curado — gasto de token à toa; (2) match de itemType
+> por igualdade exata de string em `apply()` perde cobertura regulatória por divergência de nome;
+> (3) **bug de dado real**: item REGULATORY nasce com `nextDueAt` calculado pelo período que a IA
+> inventou, não pelo período real da norma vinculada — diverge do fluxo manual
+> (`ServiceBase.resolvePeriod()`), afeta a primeira experiência de cliente novo. Nova tabela
+> `norm_segments` (N-pra-N entre `norms` e `company_type`, reaproveitando os mesmos valores de
+> `organizations.company_type`) alimentada pela classificação já feita na Fase 1 do EPIC-025. TASK-183
+> (bugfix) é independente e priorizada primeiro; TASK-181→182→184→185 seguem em sequência.
+> Atualizado em: 19/08/2026 — **EPIC-025: lista consolidada e quebrada em 4 tasks** prontas para
+> implementar (TASK-177 a TASK-180). Antes de escrever as tasks, conferido o estado real das
+> migrations do banco contra um select de produção fornecido por Douglas — corrigiu 2 suposições
+> erradas do levantamento inicial (`ALARME_DE_INCENDIO` já cita NBR 17240 corretamente desde a V78;
+> `AR_CONDICIONADO` nunca citou "NBR 11742", isso era de outro item) **e revelou que `TASK-088`
+> (EPIC-004) já estava concluída** (`V71`/`V75` corrigiram `period_qty=0` e removeram norms
+> `AI_GENERATED`), só não tinha sido movida de "Em Validação" pra "Concluído" — corrigido. TASK-177
+> corrige/completa citações no catálogo (`AR_CONDICIONADO`, `CAIXA_DAGUA` + NR-33, rotas de fuga/
+> hidrantes com base ABNT nacional além do IT estadual); TASK-178 cria item novo de catálogo para
+> gás combustível (NBR 13103+15923, 12 meses); TASK-179 atualiza a página `/norms` (5 entradas
+> novas + nota de revogação parcial da RDC 50); TASK-180 revisa o post do blog da NBR 5674
+> (preditiva, Código Civil art. 937/938, reserva orçamentária).
+> Atualizado em: 19/08/2026 — **EPIC-025 criado**: conteúdo e governança das normas técnicas
+> (ABNT/NR/RDC). Auditoria norma-a-norma concluída (22 normas analisadas) em
+> `docs/produto/levantamento-normas-abnt.md` (root repo). Decisões confirmadas com Douglas: produto
+> não dá suporte a equipamento clínico/industrial (só predial) nos segmentos hospital e indústria;
+> regionalização (Corpo de Bombeiros/vigilância sanitária por estado/município) é viável via
+> endereço da organização, fica como direção futura; `TASK-088` permanece no EPIC-004 (é governança
+> de schema, não de conteúdo).
+> Atualizado em: 19/08/2026 — **EPIC-024 criado (desenhado via brainstorm), 2 tasks prontas para
+> implementar**: agendamento de demonstração comercial via Cal.com, inspirado no `/agendar` do
+> concorrente Easy Alert. Spec em `docs/superpowers/specs/2026-08-19-agendamento-demo-design.md`.
+> Nova página `/agendar` (TASK-175) com o widget do Cal.com embutido (plano gratuito, calendário
+> único — só Douglas atende por enquanto), webhook `BOOKING_CREATED` (TASK-176) cria lead
+> reaproveitando o `LeadService` já existente (mesma tabela `landing_leads`, UTM/afiliado/
+> consentimento LGPD propagados) — sem construir calendário/disponibilidade do zero. **Decisão
+> importante confirmada com Douglas**: isso não substitui nem altera o formulário de e-mail e o
+> botão "Solicitar Demonstração" já existentes — vira só um botão novo "Agendar demonstração" na
+> navbar, opção paralela pra quem já quer marcar horário na hora (em vez de esperar contato
+> manual).
+> Atualizado em: 18/08/2026 — **EPIC-023 criado (desenhado via brainstorm), 3 tasks prontas para
+> implementar**: fornecedores nas notificações de vencimento (e-mail e WhatsApp) — ideia do
+> Douglas, fecha o ciclo "avisei que venceu" → "aqui está quem pode resolver" numa etapa só. Spec
+> em `docs/superpowers/specs/2026-08-18-supplier-notifications-design.md`. Achado importante da
+> pesquisa: a busca de fornecedores existente (`SupplierSearchService`) é 100% interativa, depende
+> de geolocalização do navegador — não existe fornecedor salvo em banco nem coordenada de
+> organização, então o job de notificação (que roda à noite, sem navegador) precisa de uma peça
+> nova (`SupplierLookupService`, TASK-172) que busca por texto (cidade/estado) em vez de
+> coordenada. **Decisões de escopo**: cache de 7 dias, só busca nos eventos que já disparam
+> WhatsApp/E-mail hoje (não no PUSH in-app), e-mail sem restrição (bloco HTML novo, TASK-173) vs.
+> WhatsApp que precisa de um template HSM **novo** (`vencimento_manutencao_v3`, TASK-174) porque o
+> `v2` atual já está aprovado pela Meta e não pode ser editado — mesma dependência externa (e
+> mesmo risco de demora) que já atrasou o `v2` no EPIC-015; se a busca achar menos de 2
+> fornecedores, o envio por WhatsApp desse evento específico é pulado (mesmo fallback já existente
+> hoje). Confirmado com Douglas: WhatsApp já está aprovado e funcionando em produção desde o
+> EPIC-015 (dúvida que motivou a primeira pergunta do brainstorm).
+> Atualizado em: 18/08/2026 — **TASK-171 criada e implementada** (EPIC-022, follow-up da TASK-170):
+> resolve os 2 achados do QA manual do Douglas (link do `/blog` ausente na landing, layout "ruim")
+> e escreve os posts 2-5 já aprovados na spec (manutenção preventiva x corretiva, checklist de
+> manutenção predial, planilha de manutenção falha, CMMS Brasil) — blog fecha com 5 posts. Índice
+> redesenhado usando o blog do concorrente [Easy Alert](https://easyalert.com.br/blog/) como
+> referência visual (pedido do Douglas): hero no topo, categoria como texto discreto acima do
+> título (não mais um bloco gráfico), tempo de leitura calculado automaticamente por contagem de
+> palavras (`src/lib/blogReadingTime.ts`), filtro de categoria clicável, capa do card usando print
+> real do produto (`dashboard_preview.webp`) em vez do tratamento abstrato de cor da primeira
+> versão — sem foto de banco de imagem disponível. **Achado colateral corrigido**: `.claude/worktrees/`
+> não estava no `.gitignore`, quase causando commit acidental de um worktree órfão inteiro (com
+> `node_modules`) via `git add -A`; adicionado ao `.gitignore` e a pasta órfã removida. TASK-170
+> marcada como QA concluído. Branch `feature/blog-content-mdx` ainda não mergeada em `staging`.
+> Atualizado em: 17/08/2026 — **EPIC-022 criado, TASK-170 implementada e em validação**: Blog de
+> Conteúdo (SEO) — motivado por concorrente direto (Condo Guardian) com blog SEO ativo nas mesmas
+> keywords do nosso plano de SEO. Infra via `@next/mdx` (sem CMS, sem rota dinâmica — cada post é
+> uma pasta própria), `BlogPostShell` reaproveitando padrão de `/termos`, primeiro post real
+> publicado ("NBR 5674 na prática"), `robots.txt`/`sitemap.ts` atualizados. Desenhado via brainstorm
+> — spec em `docs/superpowers/specs/2026-08-17-blog-content-design.md`, plano em
+> `docs/superpowers/plans/2026-08-17-blog-content.md`, executado via subagent-driven-development (5
+> tasks + 1 fix de revisão final). **Achado crítico corrigido na revisão final**: `/blog` não estava
+> no allowlist público do `Shell.tsx` — sem o fix, visitante anônimo era redirecionado pro `/login`
+> e o conteúdo nunca renderizava, nulificando a feature inteira; nenhuma task do plano tocava esse
+> arquivo, só apareceu na revisão de branch inteira. Corrigido (commit `d1d5982`). Branch
+> `feature/blog-content-mdx` em `easy-maintenance-web`, com push de segurança em
+> `origin/feature/blog-content-mdx`, ainda não mergeada em `staging`. **QA manual de Douglas em
+> andamento**: 2 achados abertos, sem bloquear a funcionalidade — link do `/blog` ausente na landing
+> page (página só descoberta via sitemap hoje) e layout dos posts precisa de refinamento visual
+> (hoje usa só Bootstrap padrão, sem CSS dedicado pro conteúdo longo). Posts 2-5 (temas já aprovados
+> na spec) ainda não escritos — só o primeiro post existe até agora.
+> Atualizado em: 11/08/2026 — **TASK-169 criada e implementada** (🔴 Crítico, BUGFIX, achado por
+> Douglas em uso real): cadastrar um 2º custo "Outros" (GoDaddy) além de um já existente (Vercel)
+> quebrava com "vigência deve ser posterior...". Causa raiz mais séria que o erro em si: a
+> validação e o cálculo do total financeiro tratavam a categoria OUTROS inteira como 1 linha,
+> ignorando o `label` — `resolveAmountCents` só considerava o item mais recente, **o total
+> financeiro já estava incorreto antes desta correção** (ignorava silenciosamente os demais
+> "Outros" cadastrados). Confirmado com Douglas via pergunta: intenção é multi-item, cada label soma
+> no total. Fix: identidade de vigência passa a ser `(category, label)`. 9 testes novos/ajustados,
+> suíte sem regressão. Frontend não precisou de mudança (já renderiza lista genérica).
+> Atualizado em: 11/08/2026 — **TASK-168 criada e implementada** (BUGFIX, achado por Douglas em
+> revisão manual da landing, fora de qualquer épico): botão "Ver todos os recursos" era um
+> `<button>` sem `onClick`/`href` — trocado por `<a href="#solucao">`, mesmo padrão de âncora
+> interna já usado no resto da página. `npm run build` limpo. Achado colateral fora de escopo: todo
+> link de âncora da landing (inclusive o "Solução" do menu, pré-existente) rola a página ~800px
+> além do topo da seção alvo — comportamento uniforme da página inteira (CSS `scroll-behavior:
+> smooth` global), não introduzido por este fix.
+> Atualizado em: 11/08/2026 — **PRs do EPIC-021 abertas pra `staging`**: backend
+> [#32](https://github.com/douglasjava/easy-maintenance-api/pull/32), frontend
+> [#35](https://github.com/douglasjava/easy-maintenance-web/pull/35). Falta QA manual com dado real
+> por Douglas antes do merge.
+> Atualizado em: 11/08/2026 — **TASK-167 implementada** (EPIC-021), última task do épico: seção de
+> lista de leads (filtros status/fonte/campanha/período + tabela paginada + troca de status inline
+> via `PATCH .../status`, otimista com rollback). **EPIC-021 com implementação completa** —
+> `npm run build` limpo, falta QA manual com dado real (mesmo bloqueio de secrets locais das
+> TASK-161/162/166) e abrir os PRs `feature/EPIC-021-leads-dashboard` → `staging` nos dois repos.
+> Achado corrigido durante a implementação: bug de closure obsoleta no botão "Limpar" (buscava com
+> filtro antigo por causa do `setState` assíncrono) — resolvido separando rascunho dos inputs do
+> filtro de fato aplicado.
+> Atualizado em: 11/08/2026 — **TASK-166 implementada** (EPIC-021): rota `/private/admin/leads` —
+> gráfico Recharts empilhado (12 meses × 4 status) + tabelas de top fontes/referrers, consumindo o
+> endpoint da TASK-164. Item "Leads" adicionado ao menu admin. `npm run build` limpo. QA manual com
+> dado real pendente — mesmo bloqueio de secrets locais já registrado nas TASK-161/162 (falta
+> `OPENAI_API_KEY`/`DEEPSEEK_API_KEY`/Postgres pra subir o backend local). Próxima: TASK-167
+> (lista individual + filtros + troca de status inline), depende desta e da TASK-165.
+> Atualizado em: 11/08/2026 — **TASK-165 implementada** (EPIC-021): `GET /admin/leads` (lista
+> paginada/filtrável por status, source, campaign exato e período) + `PATCH
+> /admin/leads/{id}/status` (troca de status, 404 se id inexistente). `LandingLeadRepository`
+> passou a implementar `JpaSpecificationExecutor`, mesmo padrão de `Specification` já usado em
+> `PaymentRepository`. 9 testes novos (6 num `@DataJpaTest` isolado provando os filtros contra H2
+> real — Mockito só provaria que o método foi chamado, não que o filtro funciona —, 3 Mockito pro
+> service), suíte sem regressão. Próxima: TASK-166 (frontend, depende da TASK-164) e depois
+> TASK-167 (frontend, depende desta task e da TASK-166).
+> Atualizado em: 11/08/2026 — **TASK-164 implementada** (EPIC-021): endpoint
+> `GET /admin/leads/summary` — contagem mensal por status + top 10 fontes/referrers. Mesmo
+> raciocínio de agregação em Java do EPIC-020. 6 testes novos, suíte sem regressão. TASK-165 pode
+> seguir em paralelo (só depende da TASK-163, já pronta).
+> Atualizado em: 11/08/2026 — **TASK-163 implementada** (EPIC-021): `LandingLead.status` convertido
+> de `String` livre pra enum `LeadStatus` (NEW/CONTACTED/CONVERTED/LOST). Sem migração de schema
+> (coluna já `VARCHAR(20)`, cabe todos os valores). Achado: `SimulationController` (dev-only)
+> também usava o literal `"NEW"`, corrigido junto. 2 testes novos, suíte sem regressão. Próxima:
+> TASK-164 e TASK-165 (endpoints, podem andar em paralelo).
+> Atualizado em: 11/08/2026 — **EPIC-021 criado e pronto para implementar**: Painel de Leads —
+> visão agregada (gráfico mensal empilhado por status + top fontes/referrers) e mini-CRM básico
+> (lista filtrável + troca de status inline). Desenhado via brainstorm — spec em
+> `docs/superpowers/specs/2026-08-11-painel-leads-design.md`. 5 tasks criadas (TASK-163 a 167):
+> converter `status` pra enum → endpoint agregado + endpoint de lista/troca de status (paralelos)
+> → item de menu/visão agregada → lista individual. Item novo "Leads" no menu admin, mesmo nível
+> de Faturamento/Afiliados. Fora de escopo: filtro por `medium`, automação por mudança de status,
+> exportação CSV.
+> Atualizado em: 11/08/2026 — **EPIC-020: PRs mergeadas em `staging`**
+> ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
+> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)). Diffs
+> limpos em ambos, só os commits do épico. Falta abrir a promoção `staging` → `main`.
+> Atualizado em: 11/08/2026 — **EPIC-020 concluído — QA manual aprovado por Douglas.**
+> Painel financeiro admin (receita recebida vs. custo de infraestrutura + comissão de afiliado,
+> grid de totalizadores, gráfico Recharts, cadastro de custo com rótulo pra "Outros") validado de
+> ponta a ponta com dado real (fora de `staging` — as PRs abaixo ainda não foram mergeadas lá).
+> Falta mergear pra `staging`
+> ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
+> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)) e depois
+> abrir a promoção `staging` → `main`, mesmo fluxo do resto do projeto.
+> Atualizado em: 11/08/2026 — **EPIC-020: ajuste pós-teste manual do Douglas** — categoria "Outros"
+> do cadastro de custo de infraestrutura ganhou campo de rótulo (obrigatório só nessa categoria),
+> pra não virar caixa preta com o tempo. Commits já empurrados pras PRs #31 (api) e #34 (web) que
+> já estavam abertas — não precisou de PR nova. Suítes sem regressão. Ainda pendente: QA manual de
+> ponta a ponta em `staging`.
+> Atualizado em: 11/08/2026 — **EPIC-020: PRs abertas para `staging`**
+> ([easy-maintenance-api#31](https://github.com/douglasjava/easy-maintenance-api/pull/31),
+> [easy-maintenance-web#34](https://github.com/douglasjava/easy-maintenance-web/pull/34)). O PR do
+> frontend depende do backend já estar em `staging` pra funcionar de ponta a ponta — mergear a
+> api primeiro. **Falta QA manual do Douglas antes do merge** — não foi validado clicando na tela
+> nesta sessão.
+> Atualizado em: 11/08/2026 — **EPIC-020 completo (TASK-159 a 162)**: painel financeiro admin —
+> receita recebida vs. custo de infraestrutura + comissão de afiliado, grid de totalizadores +
+> gráfico Recharts, cadastro de custo por categoria. Ambos os repos, branches
+> `feature/EPIC-020-financial-dashboard` a partir de `staging`. Suítes sem regressão em cada
+> commit. **Falta QA manual de ponta a ponta** — não foi possível rodar o backend local nesta
+> sessão (faltam chaves de IA — DeepSeek/OpenAI — no ambiente); Douglas precisa clicar na tela de
+> verdade em `staging` antes de considerar isso pronto. Falta também abrir as PRs (feature→staging)
+> em ambos os repos.
+> Atualizado em: 10/08/2026 — **TASK-161 implementada** (EPIC-020): página
+> `/private/admin/billing/financeiro` com grid de totalizadores + gráfico Recharts (primeira lib
+> de gráfico do projeto). `npm run build` limpo. **QA manual de ponta a ponta pendente** — não deu
+> pra rodar o backend local nesta sessão (faltam chaves de IA no ambiente). Próxima: TASK-162
+> (cadastro de custo de infraestrutura na mesma página).
+> Atualizado em: 10/08/2026 — **TASK-160 implementada** (EPIC-020): endpoint
+> `GET /admin/billing/financials` — receita/custo/comissão/lucro por mês, últimos 12 (clamp 1-24).
+> 5 testes novos, suíte completa sem regressão. Backend do EPIC-020 completo (TASK-159 + 160).
+> Próxima: TASK-161 (frontend — página + gráfico Recharts).
+> Atualizado em: 10/08/2026 — **TASK-159 implementada** (EPIC-020): tabela
+> `operating_expense_rates` + CRUD de custo de infraestrutura, em `feature/EPIC-020-financial-
+> dashboard` (branch a partir de `staging`). 7 testes novos, suíte completa sem regressão. Próxima:
+> TASK-160 (endpoint agregado de financeiro por mês).
+> Atualizado em: 10/08/2026 — **EPIC-020 criado e pronto para implementar**: Painel Financeiro
+> Admin (receita recebida vs. custo de infraestrutura + comissão de afiliado, gráfico mensal
+> Recharts, grid de totalizadores do mês atual). Desenhado via brainstorm com Douglas — spec em
+> `docs/superpowers/specs/2026-08-10-painel-financeiro-admin-design.md`. 4 tasks criadas
+> (TASK-159 a 162), ordem: modelo de custo → endpoint agregado → página/gráfico → cadastro de
+> custo. Sem permissão nova (admin único). Fora de escopo: despesas gerais do negócio, forecast.
+> Atualizado em: 31/07/2026 — **🔴 URGENTE: PR staging → main aberta pro Meta Pixel**
+> ([easy-maintenance-web#33](https://github.com/douglasjava/easy-maintenance-web/pull/33)). Falta
+> merge final de Douglas em `main` **e** configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway — sem
+> isso o pixel não ativa em produção mesmo com o código mergeado.
+> Atualizado em: 31/07/2026 — **🔴 URGENTE: Meta Pixel real instalado (TASK-156)** — Douglas
+> iniciou a 1ª campanha do Meta Ads hoje e passou o Pixel ID
+> (`2228895387905537`) durante a campanha já no ar (sem o pixel, zero sinal de conversão chegava
+> ao Meta — sem otimização de entrega, sem retargeting). Instalado, validado em produção local
+> (requisições reais a `www.facebook.com/tr` confirmadas via inspeção de rede).
+> [PR #32](https://github.com/douglasjava/easy-maintenance-web/pull/32) aberto para `staging`.
+> **Ação pendente de Douglas**: configurar `NEXT_PUBLIC_META_PIXEL_ID` no Railway (produção e
+> staging) — sem isso o pixel não funciona fora do ambiente local, mesmo com o PR mergeado.
+> Google Tag (Google Ads) continua sem ID fornecido.
+> Atualizado em: 31/07/2026 — **EPIC-019 desenhada (Em Análise, não priorizada)**: Product
+> Analytics — motor de eventos próprio (event-driven), pra reduzir dependência de GA4/Clarity nos
+> casos de uso internos. Stack proposta: MongoDB (novo datastore, poliglota deliberado) +
+> ingestão síncrona no MVP (RabbitMQ fica pra fase 2, quando o volume justificar). Reaproveita
+> diretamente a infra do EPIC-018 (`utm.ts`, cookie `em_ref`, stubs de `tracking.ts`, checkbox de
+> consentimento LGPD). Documento completo (modelo de eventos, payload, desenho de banco, backlog
+> de tasks BE/FE/dashboard, roadmap futuro) em `roadmap/epics/EPIC-019.md`. Sem tasks
+> individuais criadas ainda — só acontece quando for priorizada/sequenciada com Douglas.
+> Atualizado em: 31/07/2026 — **TASK-158 aprovada e mergeada em `staging`** (PR #30). PR de
+> promoção `staging` → `main` aberta:
+> [easy-maintenance-web#31](https://github.com/douglasjava/easy-maintenance-web/pull/31). Falta
+> merge final de Douglas em `main` e a revisão jurídica do conteúdo (ver riscos do TASK-158).
+> Atualizado em: 31/07/2026 — **TASK-158 criada e implementada**: página pública `/termos`,
+> resolvendo o link "Termos de Uso" quebrado desde antes do TASK-151 (flagado como fora de escopo
+> no TASK-151 e no EPIC-018 por falta de conteúdo jurídico). Douglas confirmou os dados: entidade
+> legal BRAINBYTE CONSULTORIA TI LTDA (CNPJ 50.047.256/0001-22), sem política de reembolso, trial
+> de 14 dias (já confirmado via TASK-087). [PR #30](https://github.com/douglasjava/easy-maintenance-web/pull/30)
+> aberto para `staging`. **Rascunho, não substitui revisão jurídica** — recomendado revisão de
+> advogado antes do primeiro cliente pagante real.
+> Atualizado em: 30/07/2026 — **EPIC-018: PRs para `staging` aprovadas e mergeadas** (api#29,
+> web#28) — **PRs de promoção `staging` → `main` abertas**:
+> [easy-maintenance-api#30](https://github.com/douglasjava/easy-maintenance-api/pull/30) e
+> [easy-maintenance-web#29](https://github.com/douglasjava/easy-maintenance-web/pull/29). Falta
+> merge final de Douglas em `main` e os IDs de Meta Pixel/Google Tag para fechar TASK-156 de fato.
+> Atualizado em: 30/07/2026 — **EPIC-018: PRs abertos para `staging`.**
+> [easy-maintenance-api#29](https://github.com/douglasjava/easy-maintenance-api/pull/29) (TASK-152)
+> e [easy-maintenance-web#28](https://github.com/douglasjava/easy-maintenance-web/pull/28)
+> (TASK-153 a 156 + melhorias de conversão da landing: badges de segmento no Hero, reordenação da
+> seção "Para quem", reescrita de 3 dos 5 cards de Diferenciais, selo LGPD/ABNT, CTA sticky mobile,
+> compressão de imagem, correções de acessibilidade Lighthouse 88→100, remoção da alegação "centenas
+> de gestores" sem cliente real). Falta revisão/merge de Douglas e os IDs de Meta Pixel/Google Tag
+> para fechar TASK-156 de fato.
+> Atualizado em: 30/07/2026 — **EPIC-018: TASK-152 a 156 implementadas e movidas para Em
+> Validação** (Douglas pediu para retomar o épico; estavam commitadas em
+> `feature/EPIC-018-conversion-tracking` em ambos os repos, mas os docs de roadmap ainda diziam
+> "Pronto para Implementar" — TASK-154 estava com a mudança só staged, sem commit; foi commitada
+> nesta sessão). Validação: suíte backend completa (719+ testes) verde, `npm run build` do
+> frontend limpo, e QA manual em browser real (Playwright) do fluxo /landing→/obrigado. **Achado
+> de QA corrigido**: o link de WhatsApp em `/obrigado` nunca incluía o contexto de campanha (UTM)
+> por um mismatch de hidratação — `buildWhatsAppLink()` lia o cookie durante o render de uma
+> página estaticamente pré-renderizada, e o React não corrige esse tipo de mismatch depois da
+> hidratação inicial. Corrigido movendo a leitura do cookie para dentro de um `useEffect`
+> (commit `f03dfe4`). Falta: QA manual formal, PR para `staging` em ambos os repos, e os IDs de
+> Meta Pixel/Google Tag (Douglas) para fechar TASK-156 de fato.
+> Atualizado em: 30/07/2026 — **EPIC-018 criado** (Douglas): tracking de conversão para Meta
+> Ads/Google Ads — captura/persistência de UTM, checkbox de consentimento LGPD no form de
+> demonstração, nova página `/obrigado` (com correção da whitelist `isAuth` do `Shell.tsx`, mesma
+> classe de bug do TASK-151) e scaffolding de eventos Lead/Contact. TASK-152 a 156 prontas para
+> implementar; TASK-157 (Conversions API/Enhanced Conversions server-side) fica no backlog,
+> bloqueada por credenciais que Douglas ainda vai levantar. Nenhum Meta Pixel/Google Tag instalado
+> hoje — IDs pendentes de Douglas, não inventados.
+> Atualizado em: 28/07/2026 — **EPIC-017 concluído e aprovado no QA manual.** TASK-QA-MAN-012
+> (5 cenários) validada por Douglas, incorporando 2 achados no processo: TASK-149 (seletor de
+> organização inline na Prestação de Contas, sem sair da tela — exigiu ajustar o interceptor do
+> `apiClient` pra respeitar `X-Org-Id` explícito por chamada) e TASK-150 (ocultar o menu
+> "Relatórios" por completo quando o plano não inclui a funcionalidade, em vez de só bloquear o
+> botão dentro da tela — C3 corrigido pra refletir isso). Suíte backend final: 719/719 verde.
+> Todas as 6 tasks técnicas + QA manual commitadas, PR aberto para `staging` em ambos os repos.
+> Atualizado em: 28/07/2026 — **TASK-150 criada e implementada** (achado no QA manual, C3 da
+> TASK-QA-MAN-012, Douglas): o gate `reportsEnabled` bloqueava só o botão dentro da tela
+> `/reports` — decisão mais coerente foi esconder o item "Relatórios" do menu inteiro (Sidebar e
+> dropdown do `UserTopBar`) quando o plano da organização ativa não inclui relatórios, mesmo
+> padrão já usado ali pra `canManageBilling`. Sem guard de rota (redirecionamento se acessar
+> `/reports` direto pela URL) — deliberadamente fora do escopo, já que isso bloquearia também as
+> abas Visão Geral/Manutenções, que hoje funcionam pra qualquer plano. `npm run build` limpo,
+> 86/89 frontend.
+> Atualizado em: 28/07/2026 — **TASK-149 criada e implementada** (achado pós-TASK-146, Douglas):
+> seletor de organização na aba "Prestação de Contas" — antes, gerar o relatório de outra empresa
+> exigia trocar no seletor global e sair da tela. Só aparece quando o usuário tem acesso a mais de
+> uma organização. Achado técnico: o interceptor do `apiClient` sobrescrevia incondicionalmente
+> `X-Org-Id` com a organização ativa globalmente; ajustado pra só aplicar esse valor quando a
+> chamada não já especifica o header — mudança aditiva, retrocompatível, usada só pelas 3 chamadas
+> deste relatório (passam `X-Org-Id` explícito da organização escolhida no seletor local, sem
+> tocar no contexto global do resto do app). `npm run build` limpo, 86/89 frontend.
+> Atualizado em: 27/07/2026 — **TASK-148 implementada, EPIC-017 com todas as 4 tasks técnicas em
+> Em Validação** (falta só a TASK-QA-MAN-012, o QA manual). TASK-148 (frontend): tela do Relatório
+> Analítico em `/reports` atualizada pra refletir Excel em vez de CSV (rótulo, `title`, tipo do
+> blob e extensão do arquivo baixado) — mudança isolada, ícone `Download` mantido por já ser
+> genérico o suficiente. `npm run build` limpo, 86/89 frontend (3 falhas pré-existentes).
+> Atualizado em: 27/07/2026 — TASK-147 implementada e movida para Em Validação
+> (`feature/EPIC-017-reports-accountability-analytics` em `easy-maintenance-api`): export cross-org
+> do Relatório Analítico trocado de CSV puro pra `.xlsx` real (Apache POI `poi-ooxml`), com 2 colunas
+> novas ("Status do item" via `StatusCalculator`, "Qtd. de evidências anexadas" via
+> `findByMaintenanceIdIn` da TASK-142, sem N+1) e tipos nativos de data/moeda (não texto formatado).
+> Métodos renomeados (`exportCsvCrossOrg`→`exportExcelCrossOrg`) — nome antigo seria enganoso pra um
+> retorno `.xlsx`. Export single-org (usado por `/maintenances/export` fora do `/me/reports`)
+> continua CSV, fora do escopo. Testes existentes reescritos pra ler o workbook via POI em vez de
+> comparar string crua. 719/719 backend green.
+> Atualizado em: 27/07/2026 — TASK-146 implementada e movida para Em Validação
+> (`feature/EPIC-017-reports-accountability-analytics` em `easy-maintenance-web`): nova aba
+> "Prestação de Contas" em `/reports`, PDF gerado client-side via `@react-pdf/renderer` (RN-017-05),
+> 4 seções (resumo/KPIs, manutenções realizadas, canceladas/auditoria via TASK-145, itens
+> pendentes/vencidos). **Achado que mudou o escopo original**: sem seletor de organização nesta
+> tela — todo endpoint org-scoped depende do `X-Org-Id` global (seletor de organização já existente
+> no app), então um dropdown local criaria duas noções conflitantes de "organização atual"; o
+> relatório é sempre da organização ativa, trocar de organização usa o seletor global de sempre.
+> KPIs calculados no frontend a partir de 3 chamadas já existentes, sem endpoint agregador novo.
+> `npm run build` limpo, `npm test` 86/89 (3 falhas pré-existentes).
+> Atualizado em: 27/07/2026 — TASK-145 implementada e movida para Em Validação
+> (`feature/EPIC-017-reports-accountability-analytics` em `easy-maintenance-api`, a partir de
+> `staging` já com EPIC-016 mergeado): estendeu `GET /items/maintenances/cancelled` (em vez de criar
+> endpoint novo) — `itemId` agora opcional, `performedAtFrom`/`performedAtTo` buscam canceladas de
+> toda a organização no período (query nativa com `JOIN maintenance_items`, filtro de organização
+> embutido, mesmo cuidado multi-tenant da TASK-137/139). Refatorado `enrichCancelled()` compartilhado
+> entre `findCancelledByItem` e o novo `findCancelledByOrganization`, evitando duplicar a resolução
+> em lote de nome de quem cancelou + anexos/autores (TASK-141/142). Teste extra com H2 real provando
+> isolamento por organização de verdade (join correto), não só que os parâmetros certos foram
+> passados. 718/718 backend green.
+> Atualizado em: 27/07/2026 — **EPIC-017 desenhado**: Relatórios — Prestação de Contas (PDF) e
+> Analítico (Excel). Hoje `/me/reports` só tem um relatório básico (KPIs cross-org + tabela + CSV),
+> que não serve pra "mostrar pra alguém de fora o que foi feito". Dois relatórios com propósitos
+> diferentes: (1) **Prestação de Contas** — PDF de UMA organização por vez (nunca cross-org), 4
+> seções (resumo do período, manutenções realizadas, canceladas/auditoria — usa o histórico do
+> EPIC-016 —, itens pendentes/vencidos), gerado **client-side** via `@react-pdf/renderer` (decisão
+> consciente pra v1: sem endpoint de PDF no backend; migra pra lá só se precisar de automação
+> futura); (2) **Analítico** — evolução do export cross-org existente, de CSV pra `.xlsx` real
+> (Apache POI), com 2 colunas novas (status do item, qtd. de evidências), dado cru sem abas de
+> totais agregados (decisão deliberada: cálculo é trabalho do usuário no Excel dele). Decisão de
+> escopo importante: nada de "níveis de relatório" (auditor/controle interno/etc.) por enquanto — um
+> relatório configurável por filtros, não vários templates fixos. Gap real identificado: canceladas
+> hoje só são consultáveis por item (TASK-139) — falta uma consulta por organização+período
+> (TASK-145), pré-requisito do PDF. 5 tasks técnicas (TASK-145 a 148) + QA manual (TASK-QA-MAN-012)
+> criadas em Backlog.
+> Atualizado em: 27/07/2026 — **EPIC-016 concluído e aprovado no QA manual.** TASK-QA-MAN-011 (8
+> cenários) validada por Douglas, achando e corrigindo 3 bugs reais no processo: (1) `cancel()`
+> não persistia `cancelledAt`/`cancelledBy`/`cancelReason` — `save()`+`delete()` na mesma transação
+> faz o Hibernate descartar o UPDATE de dirty-checking; corrigido com `saveAndFlush()`; (2)
+> constraint UNIQUE `uq_maint_item_date` (V24) não considerava `deleted_at`, bloqueando reaproveitar
+> o dia após cancelar; corrigido com migration V85 + coluna `active_dedup_key`; (3) `register()`
+> conferia duplicidade contra `LocalDate.now()` em vez de `req.performedAt()` — bug pré-existente,
+> só exposto porque C2 foi o primeiro cenário a registrar com data diferente de hoje. Além disso,
+> **TASK-144** nova: "Histórico de manutenções" (abas Ativas/Canceladas) movido pra página de
+> detalhe do item — o card equivalente da TASK-141 foi removido de `/maintenances` (achado de UX
+> do próprio QA). C5 também expôs que o roteiro de QA descrevia um parâmetro `includeCancelled`
+> que nunca existiu — a TASK-139 tinha escolhido um endpoint dedicado (`/maintenances/cancelled`);
+> roteiro corrigido. Suíte backend final: 713/713 verde. Todas as 9 tasks técnicas + QA manual
+> commitadas, PR aberto para `staging` em ambos os repos.
+> Atualizado em: 26/07/2026 — **TASK-142 e TASK-143 implementadas, EPIC-016 com todas as 8 tasks
+> técnicas em Em Validação** (falta só a TASK-QA-MAN-011, o QA manual). TASK-142 (backend): anexo
+> ganha `uploadedByName` resolvido em lote — e, ao estender pra `findCancelledByItem` (que lista N
+> manutenções de uma vez), a implementação foi refeita pra buscar os anexos de **todas** as
+> manutenções canceladas do item numa única query (`findByMaintenanceIdIn`, novo), não uma por
+> manutenção — evitando reintroduzir N+1 nesse fluxo. TASK-143 (frontend): botão "+ Adicionar anexo"
+> no detalhe da manutenção, reaproveitando o mesmo fluxo de upload via S3 (presigned URL) já usado
+> na tela de criação; permissão usa `canRegisterMaintenance` (não o `userRole` da TASK-140), porque o
+> backend não restringe upload de anexo por papel, diferente do cancelamento. Cada anexo agora mostra
+> "Anexado por {nome} em {data}". 707/707 backend green; `npm run build` limpo no frontend.
+> Atualizado em: 26/07/2026 — TASK-141 implementada e movida para Em Validação (mesma branch,
+> `easy-maintenance-web`): toggle "Mostrar canceladas" na tela de manutenções (só com item
+> selecionado), card expansível (`CancelledMaintenanceRow`) com badge sempre visível e
+> motivo/autor/data ao expandir. **Achado antes de implementar**: o card já assumia "quem cancelou"
+> como nome resolvido, mas a TASK-139 só expunha o ID cru — corrigido retroativamente na própria
+> TASK-139 (novo `cancelledByName`, resolução em lote via `UserRepository`, mesmo padrão de
+> `MaintenanceExportService.resolveUserNames` da TASK-104). **Decisão de design**: não reaproveitou
+> o modal de detalhe existente pra canceladas — ele busca por `GET /items/maintenances/{id}`, que
+> `@SQLRestriction` sempre esconde (404); o card inline usa os dados já completos do endpoint de
+> canceladas da TASK-139, sem chamada extra. `npm run build` limpo, 703/703 backend green.
+> Atualizado em: 26/07/2026 — TASK-140 implementada e movida para Em Validação
+> (`feature/EPIC-016-cancel-maintenance-reason` em `easy-maintenance-web`): botão "Cancelar
+> manutenção" no detalhe da manutenção, visível só pra ADMIN/SYNDIC (checagem de `userRole` salvo no
+> login, mesmo padrão de `/users`/`UserTopBar` — deliberadamente não reaproveitou a flag
+> `permissions.canRegisterMaintenance` já usada nesta página, porque um TECH pode registrar
+> manutenção mas não deveria poder cancelar). Novo `CancelMaintenanceModal` com motivo obrigatório
+> (mín. 5 caracteres) e invalidação de queries (`maintenances`/`items`/`item`) pós-cancelamento.
+> **Achado**: o 422 real do `@Valid @RequestBody` inválido não bate com o 400 documentado na
+> TASK-137 — corrigido no doc. `npm run build` limpo, 86/89 testes (3 falhas pré-existentes,
+> `middleware.test.ts`). **Sem clique-a-clique real no navegador** — página protegida por auth e API
+> local ainda bloqueada pelo gap de `bootstrap.admin.token`; validação visual completa fica pro
+> cenário C7 da TASK-QA-MAN-011.
+> Atualizado em: 26/07/2026 — TASK-139 implementada e movida para Em Validação (mesma branch,
+> `feature/EPIC-016-cancel-maintenance-reason`): novo endpoint `GET
+> /items/maintenances/cancelled?itemId=X` (query nativa, contornando `@SQLRestriction` de propósito)
+> pra consultar canceladas separadas das válidas, com motivo/autor/data. **Achado de segurança real
+> fora do escopo original**: `findForExport`, `findForExportCrossOrg` (export CSV) e
+> `avgDaysToResolveLast90` (KPI do dashboard) são queries nativas que `@SQLRestriction` não filtra —
+> nenhuma tinha `deleted_at IS NULL` no WHERE. Antes da TASK-137 isso não importava (nunca existia
+> cancelamento); a partir de agora, sem a correção, o export e o KPI de dias-pra-resolver vazariam
+> manutenções canceladas de verdade. Corrigido nas três. Sem cobertura automatizada possível (sem
+> `@DataJpaTest` no repo) — validação fica pro cenário C5 da TASK-QA-MAN-011. 4 testes novos,
+> 702/702 backend green.
+> Atualizado em: 26/07/2026 — TASK-138 implementada e movida para Em Validação (mesma branch da
+> TASK-137, dependência direta): item recalcula `nextDueAt`/`lastPerformedAt`/`status` a partir da
+> manutenção válida mais recente por `performedAt` após um cancelamento — não da "próxima
+> cadastrada" (RN-016-03), coberto explicitamente pelo cenário M1/M2/M3 fora de ordem. Sem
+> manutenção válida remanescente, reverte pra "sem manutenção registrada". Lógica de cálculo
+> extraída de `register()` e compartilhada com o recálculo — achado durante a implementação: o
+> "estado original do item antes da primeira manutenção" citado na regra de negócio não é
+> literalmente recuperável (register() sobrescreve `lastPerformedAt` a cada chamada), então o reset
+> usa a mesma fórmula de `MaintenanceItemService.create()` pra item sem data informada (base = hoje).
+> Novo teste de regressão pra `register()` (não existia nenhum antes desta task, já que a extração
+> tocou nesse método). 7 testes novos, 698/698 backend green.
+> Atualizado em: 25/07/2026 — TASK-137 implementada e movida para Em Validação: endpoint `POST
+> /items/maintenances/{id}/cancel` com motivo obrigatório (`@NotBlank`/`@Size`), restrição por papel
+> (ADMIN/SYNDIC, mesmo padrão manual de `TeamMemberService.requireAdmin`), soft-delete via
+> `@SQLDelete` já existente na entidade. Achado de segurança fora do escopo original: `@SQLRestriction`
+> filtra canceladas de `findById`, então idempotência (cancelar 2x) exigiu uma query nativa dedicada
+> pra distinguir 404 (nunca existiu) de 409 (já cancelada) — com filtro de organização embutido na
+> própria query, pra não vazar cross-tenant se um ID de outra empresa existe/foi cancelado. 7 testes
+> novos (`MaintenanceCancelTest`, primeiro teste de `MaintenanceService` no projeto), 691/691 testes
+> backend green. Migration V84. Branch `feature/EPIC-016-cancel-maintenance-reason` a partir de
+> `staging`, ainda não commitada/pushada.
+> Atualizado em: 25/07/2026 — **EPIC-016 ganha TASK-142/143**: durante o desenho do épico, surgiu a
+> dúvida se anexar evidência a uma manutenção *depois* de registrada feriria compliance do mesmo
+> jeito que editar a manutenção. Decisão com Douglas: **não** — nenhum fato muda, só a documentação
+> é completada, desde que fique visível quem e quando anexou (`MaintenanceAttachment.uploadedAt`/
+> `uploadedByUserId` já existem no banco, só não expostos ao usuário hoje). TASK-142 (backend:
+> resolver nome do autor em lote, padrão já usado na TASK-104) e TASK-143 (frontend: permitir
+> anexar em manutenção existente + exibir autor/data) criadas em Backlog; C8 adicionado à
+> TASK-QA-MAN-011. Ficou como decisão em aberto, fora do escopo deste épico: se vale travar o quanto
+> `performedAt` pode ser retroativo em relação à data real de registro (`createdAt`) — mitigaria o
+> cenário de alguém registrar tardiamente alegando ter feito na data de vencimento original, mas
+> exige definir com Douglas qual janela seria razoável antes de virar task.
+> Atualizado em: 25/07/2026 — **Backfill de TASK-135 e TASK-136**: ambas já implementadas e em
+> `staging`/PR #25 desde antes desta entrada, mas nunca tinham ganho arquivo de task nem linha no
+> kanban — corrigido agora. TASK-135 (template WhatsApp v2, 5 variáveis + botão de URL dinâmica,
+> vinculada ao EPIC-015) e TASK-136 (provedor de e-mail Resend + endpoint de teste manual, sem
+> épico — melhoria de infraestrutura/custo) movidas direto para Concluído.
+> Atualizado em: 25/07/2026 — **EPIC-016 criado e planejado**: cancelamento de manutenções com
+> motivo obrigatório, sem editar/apagar o registro original — corrige um gap real encontrado
+> testando em produção (não havia como corrigir uma manutenção cadastrada errada; o mais próximo
+> era anexar documentação, que também não estava disponível pra manutenções já existentes).
+> Decisão de produto com Douglas: correção é sempre por **cancelamento com motivo** (soft-delete já
+> existente na entidade `Maintenance`, só sem endpoint até então), nunca por edição direta dos
+> campos — preserva o histórico auditável. Recálculo do item após cancelar usa a manutenção válida
+> mais recente por `performedAt` (não a próxima cadastrada), caindo no estado "sem manutenção
+> registrada" se não sobrar nenhuma. 5 tasks técnicas (TASK-137 a TASK-141) + QA manual
+> (TASK-QA-MAN-011) criadas em Backlog. ⚠️ Nota à parte: os commits `TASK-135` (botão de URL
+> dinâmica no template WhatsApp) e `TASK-136` (provedor de e-mail Resend) já foram implementados e
+> estão em `staging`, mas nunca ganharam arquivo de task/entrada no kanban — numeração deste épico já
+> considera isso (começa em 137); ficou pendente backfillar a documentação retroativa de 135/136.
+> Atualizado em: 24/07/2026 — **EPIC-015 fechado.** TASK-QA-MAN-010 (suíte de QA manual, 13
+> cenários) executada em staging e aprovada por Douglas — cobre opt-in, janela de urgência de 48h,
+> idempotência, quota mensal, rate limit diário, fallback automático para e-mail (C8, validado como
+> esperado dado que o template HSM ainda não está aprovado pela Meta), horário comercial e webhook
+> de status (handshake, delivered/read, payload de falha 130497, rejeição de assinatura inválida).
+> Com isso, as 6 tasks de implementação do épico (122/129/130/131/128/132) e a própria
+> TASK-QA-MAN-010 movem de Backlog/Em Validação para Concluído. ⚠️ Pendência que **não** bloqueou o
+> fechamento (decisão de produto): envio real com `status=SENT` contra a Meta em produção segue
+> dependente da aprovação do template HSM "vencimento_manutencao_v2" pela Meta — o caminho de
+> fallback para e-mail cobre esse cenário até lá, e o próprio desenho da suíte de QA (TASK-QA-MAN-010)
+> assume isso como esperado, não como bug.
+> Atualizado em: 20/07/2026 — TASK-132 implementada e movida para Em Validação: `JobController`
+> ganha 2 endpoints `GET /run-jobs/execute-notification-detection` e
+> `GET /run-jobs/execute-whatsapp-deferred-send`, mesmo padrão do `execute-trial-expiration` já em
+> produção — disparam sob demanda os jobs do EPIC-015 que só rodavam via `@Scheduled`
+> (`NotificationEventDetectionJob`/`WhatsAppDeferredSendJob`), sem precisar esperar o cron das 5h
+> nem a janela de horário comercial. Criada em conjunto a
+> [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md), suíte de QA manual com 13 cenários (opt-in,
+> janela de urgência de 48h, idempotência, quota, rate limit, fallback e-mail, horário comercial,
+> webhook de status) cobrindo o EPIC-015 ponta a ponta, com queries SQL prontas pra montar cada
+> cenário direto no banco. Decisão de design: **sem** endpoint de simulação para o webhook — os
+> cenários usam o endpoint real (`POST /public/webhooks/whatsapp`) com assinatura HMAC calculada
+> de verdade, porque simular um bypass de assinatura testaria menos do que a TASK-128 promete
+> garantir. Sem testes novos (wrappers finos, mesmo padrão do endpoint já existente sem teste
+> dedicado), 672/672 testes backend green (suíte inalterada).
+> Atualizado em: 20/07/2026 — TASK-128 implementada e movida para Em Validação: novo pacote
+> `webhooks/whatsapp/` (`WhatsAppWebhookController` GET handshake + POST eventos,
+> `WhatsAppSignatureValidator` HMAC-SHA256 real sobre `X-Hub-Signature-256` — ao contrário do
+> `AsaasWebhookController`, que nunca valida assinatura). `business_whatsapp_dispatches` estendida
+> (migration V83) com `delivery_status`/`delivered_at`/`read_at`/`failed_error_code`/
+> `failed_error_message`, atualizados via lookup por `wamid` (já existia da TASK-130, com índice).
+> Idempotência por ranking monotônico de status (SENT/FAILED < DELIVERED < READ) — evento atrasado
+> não regride status já mais avançado. 31 testes novos (assinatura válida/forjada, handshake
+> token/mode, parsing delivered/read/failed com fixture do erro 130497, não-regressão), 672/672
+> testes backend green. Com isso, fecha o EPIC-015 (todas as tasks — 122/129/130/131/128 — em
+> Em Validação). ⚠️ Não testado contra a Meta real (endpoint precisa estar publicamente acessível
+> via HTTPS para o handshake — pendente configurar `WHATSAPP_WEBHOOK_VERIFY_TOKEN`/
+> `WHATSAPP_APP_SECRET` em produção e registrar a URL no App do Meta) — só testes unitários.
+> Atualizado em: 19/07/2026 — TASK-131 implementada e movida para Em Validação: `BusinessWhatsAppQuotaService`
+> novo (quota mensal, `whatsappMonthlyLimit` em `BillingPlanFeatures`), rate limit diário por telefone
+> (cap simples — decisão confirmada com Douglas: agregação real em "resumo do dia" ficaria pra depois,
+> exige template HSM novo na Meta) e janela de horário comercial (8h-20h Brasília) com fila de verdade
+> (`PENDING_HOURS_WINDOW` + `WhatsAppDeferredSendJob`, mesmo padrão do `EmailRetryJob`) — maior que o
+> esforço estimado no card original, necessário porque a detecção roda às 5h, fora da janela. Com isso,
+> só falta a TASK-128 (webhook) pra fechar o EPIC-015. 25 testes novos, 653/653 testes backend green.
+> Atualizado em: 19/07/2026 — TASK-130 implementada e movida para Em Validação: regra de urgência de
+> 48h no `NotificationChannelResolver` (arredondada para dias inteiros — só `daysOffset==1` é alcançado
+> hoje, dado que `NotificationEvent` não carrega granularidade de hora); `BusinessWhatsAppNotificationService`
+> novo com idempotência real (`business_whatsapp_dispatches`, migration V81) e fallback pra e-mail em
+> falha final do WhatsApp. **Achado durante a implementação**: a chave de dedup do card
+> (organização/tipo/referência/vencimento) tratava múltiplos checkpoints de atraso (0/7/15/30 dias
+> vencido, mesmo due_date) como duplicata um do outro — corrigido adicionando `days_offset` à
+> constraint única. 22 testes novos, 638/638 testes backend green.
+> Atualizado em: 19/07/2026 — TASK-129 implementada e movida para Em Validação: `WhatsAppClient` novo
+> (mesmo estilo do `AsaasClient`) envia templates HSM via Graph API e retorna `wamid`; classificação de
+> falha transitória (5xx/timeout/429) vs. permanente (demais 4xx, erro 130497, erro 190/401 — loga
+> `WHATSAPP_TOKEN_EXPIRED`) via 2 exceções novas; retry seletivo via Resilience4j (só a transitória é
+> retentada, diferente do `mailersend` que retenta em qualquer exceção). 15 testes novos (via
+> `com.sun.net.httpserver.HttpServer` local + teste isolado do mecanismo de retry, sem dependência
+> nova), 616/616 testes backend green. ⚠️ Não verificado contra a Meta real (template HSM ainda não
+> aprovado) — só contra mock local. Ainda não wireado no orchestrator (escopo da TASK-130).
+> Atualizado em: 19/07/2026 — TASK-122 validada por Douglas em teste manual real e ajustada
+> visualmente (bloco de opt-in do WhatsApp em `/profile`: divisor, ícone de marca, hierarquia
+> tipográfica, LGPD como linha separada — só layout, sem tocar em API/estado). PRs abertos para
+> `staging`: [easy-maintenance-api#19](https://github.com/douglasjava/easy-maintenance-api/pull/19)
+> e [easy-maintenance-web#22](https://github.com/douglasjava/easy-maintenance-web/pull/22).
+> Atualizado em: 19/07/2026 — TASK-122 implementada e movida para Em Validação: `phone_number`/
+> `whatsapp_opt_in` em `users` (migration V80), `PhoneNumberNormalizer` novo (trata 9º dígito/DDI/máscara
+> BR), regra "opt-in exige telefone" via `RuleException`, reaproveitando `PATCH /user/{id}` existente
+> (campos aditivos). Frontend: `/profile` ganhou campo de telefone com máscara + toggle de opt-in
+> (LGPD), opt-in autodesativa se o telefone for limpo. 601/601 testes backend green, 86/89 frontend
+> (3 falhas pré-existentes de `middleware.test.ts`, não relacionadas). `tsc`/`next build` limpos.
+> ⚠️ Não verificado visualmente no browser — recomendado teste manual do fluxo antes de aceitar.
+> Atualizado em: 18/07/2026 — TASK-122 quebrada em [EPIC-015](epics/EPIC-015.md) (Notificações via
+> WhatsApp): card único tinha crescido demais (provedor + dado do usuário + integração + orquestração +
+> quota + webhook). TASK-122 ficou só com telefone/opt-in do usuário; TASK-129 criada para a integração
+> real com a Meta Cloud API (envio de template, classificação de falha transitória/permanente); TASK-130
+> criada para a orquestração (regra de urgência de 48h no resolver, `BusinessWhatsAppNotificationService`
+> com idempotência real via constraint única e fallback pra e-mail em falha permanente — especificação
+> técnica detalhada trazida por Douglas); TASK-131 criada para quota mensal/rate limiting. TASK-128
+> (webhook, já existente) recategorizada sob o mesmo épico, com dependências ajustadas para TASK-129/130
+> em vez de TASK-122.
+> Atualizado em: 18/07/2026 — TASK-128 criada: card de backlog vinculado à TASK-122 para implementar o
+> webhook de status de entrega/leitura da WhatsApp Cloud API (Meta), levantado a partir de um prompt de
+> especificação técnica de Douglas. Investigação prévia do padrão de webhook existente (Asaas) encontrou
+> uma lacuna de segurança real que não deve ser copiada — `AsaasWebhookController` nunca valida
+> assinatura/token do request recebido. TASK-128 exige handshake `GET` de verificação e validação real de
+> `X-Hub-Signature-256` (HMAC-SHA256). Decisão de design: estender `business_whatsapp_dispatches` (tabela
+> já prevista na TASK-122) com colunas de status de entrega, em vez de criar uma tabela paralela de log.
+> Atualizado em: 15/07/2026 — TASK-126 implementada e movida para Em Validação: bloco "O risco real"
+> (RiskBlock, copy aprovada) inserido logo após o Hero, absorvendo e removendo o card duplicado "Medo de
+> multa e processo"; carrossel mobile reutilizável (CardCarousel, CSS scroll-snap) aplicado nos 4 grids da
+> landing + no bloco novo; padding mobile das seções reduzido de 110px para 64px. `eslint`/`next build`
+> limpos. ⚠️ Desktop verificado visualmente no browser; mobile NÃO verificado (ferramenta de automação de
+> browser ficou instável nesta sessão) — padrão de responsividade é o mesmo já validado na TASK-124,
+> recomendado Douglas conferir no celular/DevTools antes de aceitar.
+> Atualizado em: 15/07/2026 — TASK-126 ampliada para virar um único card de reformulação da landing:
+> bloco "O risco real" (processo, multa/interdição, acidente — copy aprovada por Douglas após pesquisa de
+> fontes: IBAPE Nacional, Seciesp, Código Civil Art. 1.348, Corpo de Bombeiros) **+** redução de scroll
+> mobile via componente reutilizável de carrossel/accordion (em vez de página mobile separada, decisão
+> tomada pra não duplicar manutenção nem arriscar cloaking no Google). Absorve e remove o card "Medo de
+> multa e processo" hoje diluído na seção `#problema`.
+> Atualizado em: 15/07/2026 — TASK-125 implementada e movida para Em Validação: botão de WhatsApp
+> flutuante ativado na landing (reaproveitando `.whatsapp-float`, que já existia no CSS mas nunca foi
+> usado) + número de contato atualizado para (31) 9 9982-6634 nos 3 pontos onde aparecia (CTA "Falar com
+> Consultor", texto do rodapé — que virou link clicável — e botão flutuante), todos com a mesma mensagem
+> pré-preenchida definida com Douglas. Verificado no browser via dev server local. `eslint`/`next build`
+> limpos.
+> Atualizado em: 15/07/2026 — TASK-125 criada: card de backlog para adicionar botão de WhatsApp na landing
+> (reaproveitando a classe CSS `.whatsapp-float` já existente mas não usada) e trocar o número de contato
+> para 55 31 9982-6634. Levantamento prévio mostrou que o número antigo (5531995639390 / (31) 99563-9390)
+> só existe em `landing/page.tsx` (CTA + rodapé), sem duplicação em outros arquivos. Pendente: confirmar
+> 9º dígito do número novo e definir a mensagem pré-preenchida do link com Douglas antes de implementar.
+> Atualizado em: 15/07/2026 — TASK-124 validada por Douglas em teste manual real (toggle Lista/Calendário, navegação entre meses, painel do dia, item sem `nextDueAt` ausente do grid). PRs abertos para `staging`: [easy-maintenance-api#15](https://github.com/douglasjava/easy-maintenance-api/pull/15) e [easy-maintenance-web#13](https://github.com/douglasjava/easy-maintenance-web/pull/13).
+> Atualizado em: 15/07/2026 — TASK-124 implementada e movida para Em Validação: `GET /easy-maintenance/api/v1/items/calendar` (novo `MaintenanceItemSpecs.dueDateBetween` + `MaintenanceItemService.findAllForCalendar`, 6 testes novos, 571/571 backend green) + toggle "Lista | Calendário" em `/items` com a visão isolada em componentes próprios (`ItemsCalendarView`, `ItemsCalendarDayPanel`, `calendarUtils`, `shared`), a pedido de Douglas para não poluir `page.tsx`. tsc/eslint limpos, `next build` sem erros. ⚠️ Não verificado visualmente (mesma limitação de segredos locais ausentes da TASK-115/116) — recomendado teste manual antes de mover para Done.
+> Atualizado em: 14/07/2026 — TASK-123 concluída: validado por Douglas em teste real — `.ics` importou corretamente nos calendários. Ajuste de UX após feedback: botão saiu do cabeçalho apertado do detalhe do item e virou link contextual "+ calendário" junto ao "Próximo vencimento"; listagem `/items` ganhou o mesmo botão em cada linha (tabela e card mobile, sem competir por espaço com Editar/Remover).
+> Atualizado em: 14/07/2026 — TASK-123 implementada e movida para Em Validação: `GET /easy-maintenance/api/v1/items/{id}/calendar.ics` (novo `ItemCalendarExportService`, reaproveita `MaintenanceItemService.findEntityForOrg` para escopo de organização) + botão "Adicionar ao calendário" em `/items/[id]`. 565/565 testes backend green (4 novos: VEVENT válido, 2 VALARM, RuleException quando sem `nextDueAt`, TenantException propaga em org errada). tsc/eslint limpos no frontend. ⚠️ Não verificado visualmente (sem ambiente local rodando) — recomendado importar o `.ics` de verdade no Google Calendar antes de aceitar.
+> Atualizado em: 14/07/2026 — TASK-124 criada: card de backlog para visão em calendário dos itens — desenhado via brainstorming com Douglas antes da criação. Decisão v1: toggle "Lista | Calendário" dentro de `/items` (reaproveitando filtros existentes), célula do dia com bolinhas por status + contador, clique abre painel com lista do dia; caso de uso validado é planejamento (enxergar picos de vencimento no mês). Backend precisa de query por range de datas, diferente da paginação cursor atual.
+> Atualizado em: 14/07/2026 — TASK-123 criada: card de backlog para exportação de lembrete de item em `.ics` (calendário) — desenhado via brainstorming com Douglas antes da criação. Decisão v1: sem OAuth (não existe integração OAuth com Google hoje, só API key do Google Places), botão só no detalhe do item, `.ics` com 2 VALARM (7d/1d antes), sem resync automático (limitação aceita conscientemente).
+> Atualizado em: 14/07/2026 — TASK-122 criada: card de backlog para implementar o canal de notificações via WhatsApp — hoje só existe o esqueleto (`NotificationType.WHATSAPP`, `WhatsAppNotificationProvider` com TODO, `NotificationChannelResolver` nunca resolve WHATSAPP), sem integração real, sem campo de telefone no `User`, sem opt-in/quota. Descrição completa com regras de disparo, limites e tabela comparativa de provedores (Meta direto, Twilio, 360dialog, Zenvia, Take Blip, Gupshup, Infobip).
+> Atualizado em: 13/07/2026 — TASK-121 criada e concluída: achado durante validação manual da TASK-117 — botão "+ Novo Item" continuava habilitado com pool de itens esgotado (20/20), porque `FeatureAccessService.canCreateItem` ainda comparava uso por organização isolada, não o pool da conta. Corrigido com o mesmo padrão da TASK-120 (`TenantContext.runCrossOrg`); frontend `/items` agora mostra UsageMeter + botão desabilitado com mensagem clara. 561/561 testes backend green.
+> Atualizado em: 13/07/2026 — TASK-120 criada e concluída: bug crítico achado por Douglas em `/billing` (contagem de itens zerada para orgs não-ativas). Causa raiz: `TenantFilterAspect` escopa TODA query de `MaintenanceItemRepository` ao X-Org-Id ativo, mesmo com orgCode explícito no parâmetro — afetava não só exibição mas o enforcement real do pool de itens (TASK-111) e a validação de downgrade (TASK-112). Corrigido em 6 pontos com novo helper `TenantContext.runCrossOrg()` (mesmo padrão da TASK-QA-BUG-012). 558/558 testes backend green. Bug irmão não corrigido (fora do escopo): `ReportsService.getOverview` tem o mesmo problema, pré-existente à EPIC-014.
+> Atualizado em: 13/07/2026 — TASK-119 criada e concluída: `/organizations/[code]` ainda exibia card "Assinatura e Plano" (outro resquício do modelo antigo, achado por Douglas em teste manual). Removido; card de dados da empresa passou a ocupar largura total; adicionado botão "Editar" (só para a organização ativa da sessão, por limitação do X-Org-Id — confirmado com Douglas). tsc/eslint limpos.
+> Atualizado em: 13/07/2026 — TASK-118 revisada (2ª rodada): Douglas notou que o frontend ainda chamava PUT .../subscription mesmo sem seletor de plano — correto, não deveria. Movido o provisionamento do item ORGANIZATION para dentro de `UsersService.addOrganization()` (acontece automaticamente ao vincular a org à conta), idempotente. Frontend não faz mais nenhuma chamada de "subscription". 554/554 testes backend green.
+> Atualizado em: 13/07/2026 — TASK-118 criada e concluída: bug encontrado por Douglas em teste manual local — `/organizations/new` ainda tinha Step 2 "Configuração de Assinatura" com seletor de plano para a organização (resquício do modelo antigo). Corrigido: `OrganizationsService.addOrganizationSubscription()` agora ignora o planCode do request e sempre herda o plano do item USER da conta quando ela já existe; frontend virou fluxo de passo único, sem seletor de plano. 552/552 testes backend green.
+> Atualizado em: 13/07/2026 — TASK-116 em validação: painel admin `subscriptions/` remove Upgrade/Downgrade/Cancelar de linhas ORGANIZATION ("Incluída na conta"), mostra sourceId + uso do pool por org/conta. Backend (`BillingAdminDTO`/`listSubscriptions`) estendido no mesmo padrão da TASK-115. Agrupamento visual conta→orgs NÃO implementado (paginação continua por item — gap documentado). 550/550 testes backend green. ⚠️ Mesma limitação de verificação visual da TASK-115.
+> Atualizado em: 13/07/2026 — TASK-115 em validação: `/billing` consolidado num card único de conta + lista read-only de organizações (uso do pool). Escopo expandiu para FULL_STACK — `BillingSummaryResponse`/`BillingDashboardService` ganharam campos de uso (organizações/usuários/itens). 548/548 testes backend green, tsc/eslint limpos no frontend. ⚠️ UI NÃO verificada visualmente — boot completo do backend local bloqueado por múltiplos segredos ausentes (Asaas/Google Places/OpenAI/DeepSeek/tokens) e navegação no browser falhou repetidamente; recomendado rodar `npm run dev` localmente antes de aceitar.
+> Atualizado em: 12/07/2026 — TASK-114 em validação: migration V79 aplicada e validada de verdade contra o MySQL local de desenvolvimento — 17 itens ORGANIZATION zerados, total_cents recalculado (ex.: STARTER R$198→R$99), 33/33 linhas preservadas (desenho original previa DELETE; ajustado para zerar valueCents pois TASK-111/113 dependem das linhas existirem). Boot completo da app (onboarding/PIX/CC) não testado por falta de segredos locais.
+> Atualizado em: 12/07/2026 — TASK-113 em validação: `GET/PUT /organizations/{code}/subscription` retornam novo `OrganizationSubscriptionResponse` — plano/preço vêm do item USER (conta), com itemsUsedByOrg/itemsUsedTotalAccount/maxItemsAccount para o pool compartilhado (TASK-111). Mudança aditiva no JSON (sem remoção de campo), mas não validada contra o frontend real — pendente TASK-115/116. 546/546 testes backend green.
+> Atualizado em: 12/07/2026 — TASK-112 em validação: downgrade de plano agora valida o pool de itens (TASK-111) além de organizationCount; `SubscriptionItemChangePlanAdapter` bloqueia troca de plano por item ORGANIZATION (404); `OrganizationPlanChangeService` removida (órfã). 544/544 testes backend green.
+> Atualizado em: 12/07/2026 — TASK-111 em validação: `MaintenanceItemService.validateItemLimit()` reescrito — maxItems vira pool compartilhado entre todas as organizações da mesma BillingSubscription (via `MaintenanceItemRepository.countByOrganizationCodeIn`), não mais teto isolado por org. 539/539 testes backend green (MaintenanceItemPlanLimitTest reescrito com 9 cenários).
+> Atualizado em: 12/07/2026 — TASK-110 em validação: `BillingSubscriptionService.addItem()` — item ORGANIZATION passa a ter valueCents=0 (não-cobrável), apenas o item USER soma ao totalCents. 8 testes novos (BillingSubscriptionServiceTest, OnboardingServiceTest, OrganizationsServiceTest), 539/539 testes backend green. Branch feature/EPIC-014 criada a partir de staging (API + Web).
+> Atualizado em: 12/07/2026 — EPIC-014 criada: consolidação de billing para plano único por conta — remove cobrança duplicada USER+ORGANIZATION (hoje gera ~R$598/mês num cadastro novo BUSINESS). TASK-110 a TASK-117 no backlog, sem clientes pagantes reais afetados.
+> Atualizado em: 06/07/2026 — TASK-109 concluída: 3 endpoints (POST /transition/pix, /update-card, /transition/card) + CardTransitionService + SubscriptionCreatedHandler CC→CC card update — 527 testes, 0 falhas
+> Atualizado em: 06/07/2026 — TASK-108 concluída: BillingRecoveryService + 2 endpoints (POST /recover/pix e /recover/checkout) + fix updatePaymentMethod — 499 testes, 0 falhas
+> Atualizado em: 06/07/2026 — TASK-108 e TASK-109 criadas: especificação completa de troca de método de pagamento em PAST_DUE e ACTIVE — Backlog EPIC-010
+> Atualizado em: 01/07/2026 — TASK-107 concluída: BUGFIX advanceCycle() preenche nextDueDate para assinaturas PIX — 475 testes, 0 falhas
+> Atualizado em: 30/06/2026 — TASK-105 concluída: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho igual ao /maintenances
+> Atualizado em: 30/06/2026 — TASK-104 criada: Frontend — exibir criador/modificador nos detalhes do item (depende de TASK-103)
+> Atualizado em: 01/07/2026 — TASK-104 concluída: "Registrado por" nos CSVs de manutenções (org + cross-org) — resolução batch, 471 testes, 0 falhas
+> Atualizado em: 01/07/2026 — TASK-106 concluída: BUGFIX notificações escopadas por org (TenantContext) — 468 testes, 0 falhas
+> Atualizado em: 01/07/2026 — TASK-103 concluída: migration V76 + entidades + DTOs + services + 4 testes — 464 testes, 0 falhas
+> Atualizado em: 30/06/2026 — fix/member-access em validação: MEMBER status implementado — membros de equipe recebem FULL_ACCESS via assinatura da org; Faturamento ocultado no menu (PR #6 backend, PR #5 frontend)
+> Atualizado em: 29/06/2026 — TASK-102 em validação: `/users/[id]/edit` — edição com multi-org diff via PATCH, self-edit guard, pré-populate
+> Atualizado em: 29/06/2026 — TASK-101 em validação: `/users/new` reescrito — convite via POST /me/team/users, multi-org checkboxes, roles, guard ADMIN
+> Atualizado em: 29/06/2026 — TASK-100 em validação: `/users` page — listagem de equipe com UsageMeter, badges, delete local, guard ADMIN
+> Atualizado em: 29/06/2026 — TASK-099 em validação: "Usuários" no UserTopBar (ADMIN only) via `userRole` salvo no login
+> Atualizado em: 28/06/2026 — EPIC-013 revisado: modelo corrigido para Gestão de Equipe por Conta — dono ADMIN gerencia membros com multi-org assignment via `/me/team/users`
+> Atualizado em: 27/06/2026 — TASK-097 concluída: todas subtasks (A, B, C) entregues — 447 testes, 0 falhas
+> Atualizado em: 27/06/2026 — TASK-097-C concluída: `BusinessEmailQuotaServiceTest` (5 testes, 447 passando)
+> Atualizado em: 27/06/2026 — TASK-097-B concluída: `maxOrganizations` enforcement em `OrganizationsService.validateOrgLimit()` + `OrganizationPlanLimitTest` (5 testes, 442 passando)
+> Atualizado em: 27/06/2026 — TASK-097-A concluída: `maxUsers` enforcement em `UsersService` + `UserPlanLimitTest` (6 testes, 437 passando)
+> Atualizado em: 27/06/2026 — TASK-097 criada: hardening limites de plano (maxUsers, maxOrganizations na criação, teste emailMonthlyLimit)
 > Atualizado em: 21/06/2026 — issue #56 em validação: IA Onboarding adicionado ao menu lateral (Ações); emojis removidos de Relatórios e Ajuda
 > Atualizado em: 21/06/2026 — EPIC-012 (Affiliate Referral) registrado no backlog com TASK-089 a TASK-096
 > Atualizado em: 30/05/2026 — SPRINT-01, SPRINT-02 e SPRINT-06 concluídas; SPRINT-03 concluída (6/6); SPRINT-04 concluída (5/5); SPRINT-05 não iniciada
@@ -28,35 +2132,46 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| TASK-QA-BUG-016                                | E-mail de alerta exibe ID do item em vez do nome — referenceId usado em vez de referenceLabel                                   | 🟠 Alto    | EPIC-006 | MÉDIA      |
-| TASK-QA-BUG-015                                | /reports: data exibida com -1 dia (timezone) e CSV com coluna monetária quebrada (issue #55)                                    | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-014                                | Dashboard: overdueCount=0, daysLate=0, breakdowns sem OVERDUE — status stale em KPIs/attention/breakdowns (issue #54)            | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-013                                | Status dos itens desatualizado — NEAR_DUE exibido para itens vencidos, filtro ?status=OVERDUE quebrado (issue #53)               | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-012                                | items 21/24 sem orgCode em /me/reports/maintenances — TenantFilterAspect filtrava findAllById cross-org                          | 🔴 Crítico | EPIC-011 | ALTA       |
-| TASK-079                                       | Exibir periodicidade da norma nos detalhes do item Regulatório (issue #50)                                                        | 🔵 Baixo   | EPIC-006 | —          |
-| TASK-QA-BUG-011                                | Filtro "Realizados este mês" retorna manutenções fora do mês — backend só tinha data exata (issue #49)                            | 🟡 Médio   | EPIC-006 | BAIXA      |
-| TASK-QA-BUG-010                                | Campo norma não pré-preenchido ao editar item Regulatório — useEffect acessava `item.norm?.id` em vez de `item.normId` (issue #52) | 🟡 Médio   | EPIC-006 | BAIXA      |
-| TASK-078                                       | Ao remover org do usuário via admin, agendar cancelamento do billing_subscription_items + warning no frontend                    | 🟠 Alto    | EPIC-007 | ALTA       |
-| TASK-QA-BUG-009                                | Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada (issue #46)                               | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-008                                | Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode (issue #45)                              | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-007                                | Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada (issue #37)                             | 🟠 Alto    | EPIC-006 | ALTA       |
-| TASK-QA-BUG-005                                | Erro ao cadastrar dados de faturamento — PUT .../billing/users/22/account retorna 422 (planCode/paymentMethod/name não enviados) | 🟠 Alto    | EPIC-006 | ALTA       |
-| [TASK-055](tasks/TASK-055.md)                  | Sessão do usuário sem organização é apagada após login                                                                           | 🔴 Crítico | EPIC-006 | GRAVE      |
-| [TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md) | Onboarding sem redirect e sem dados da organização após conclusão                                                                | 🟠 Alto    | EPIC-006 | GRAVE      |
-
 ## 🐛 Bugs — Concluídos
 
 | ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-321](tasks/TASK-321.md)                  | Bug de payload fazia assinatura CARD encerrar sozinha na Asaas logo após o 1º ciclo, sem aviso. 4 PRs de fix (api#146/148/150/152) + botão de autoatendimento (web#110), todas mergeadas e promovidas pra main (api#147/149/151/153, web#111). Detalhes técnicos na issue/PR privadas. Validado ponta a ponta em PRD por Douglas (painel e portal Asaas consistentes) | 🔴 Crítico | — | GRAVE |
+| [TASK-281](tasks/TASK-281.md)                  | `/private/admin/financials` não contava receita de cartão/checkout (`FinancialsService` filtrava só `PaymentStatus.RECEIVED`) — corrigido pra somar `RECEIVED`+`PAID`+`CHECKOUT_PAID`, `mvn test` 1060/1060, mergeada em `staging`/`main` ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)/[api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111)), confirmado em produção por Douglas via SQL | 🔴 Alto | — | ALTA |
+| [TASK-276](tasks/TASK-276.md)                  | Trial vencido sem e-mail/cobrança (checkout Asaas rejeitado por item `ORGANIZATION` zerado, mesmo bug da TASK-215 nunca portado) + invoice duplicada por período instável em retry — corrigido, `mvn test` 992/992, mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)) e `main` ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)), QA manual aprovada por Douglas | 🔴 Crítico | — | GRAVE |
 | TASK-QA-BUG-006                                | Erro ao cadastrar nova empresa — paymentMethod obrigatório + orElseGet + pre-populate name/billingEmail do User | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-004](QA/tasks/TASK-QA-BUG-004.md) | Step 2 cadastro org — PUT organizations/{code}/subscription retorna 500 (rota backend inexistente)              | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-QA-BUG-003](QA/tasks/TASK-QA-BUG-003.md) | Criação de organização via admin falha com 422 — campo companyType nulo                                         | 🟠 Alto    | EPIC-006 | ALTA       |
 | [TASK-056](tasks/TASK-056.md)                  | Recriar rota GET /organizations/{code}/subscription                                                             | 🔴 Crítico | EPIC-006 | ALTA       |
 | [TASK-052](tasks/TASK-052.md)                  | E-mail de convite de admin não entra na fila de retry                                                           | 🟠 Alto    | EPIC-002 | ALTA       |
+| ~~[TASK-394](tasks/TASK-394.md)~~              | ~~Pagamentos do 2º+ ciclo de assinatura CARD nativa Asaas sem `Payment`/`Invoice` pra casar (webhook descartado em silêncio)~~ — verificado em 05/11/2026: `resolveOrProvisionPayment` presente no código, fix commit `6426750` confirmado ancestral de `main` (promovido via api#179, 04/11/2026); `mvn clean test` 1669/1669 | 🔴 Crítico | — | GRAVE |
+| ~~[TASK-245](tasks/TASK-245.md)~~              | ~~`POST /me/onboarding/user` duplicava item USER da assinatura (cobrança em dobro)~~ — verificado em 05/11/2026: fix commit `1477e13` confirmado ancestral de `main` (via api#119) | 🔴 Crítico | — | GRAVE |
+| ~~[TASK-244](tasks/TASK-244.md)~~              | ~~`TrialExpirationService` gerava cobrança/e-mail Asaas duplicados a cada execução do job~~ — verificado em 05/11/2026: fix commit `98a4716` confirmado ancestral de `main` (via api#86) | 🔴 Crítico | — | GRAVE |
+| ~~[TASK-236](tasks/TASK-236.md)~~              | ~~E-mail de `TRIAL_EXPIRING` mostrava data errada e acesso cortava sem grace period~~ — confirmado mergeado em `main` via [api#84](https://github.com/douglasjava/easy-maintenance-api/pull/84) | 🔴 Alto | — | ALTA |
+| ~~[TASK-230](tasks/TASK-230.md)~~              | ~~`V106` falhava em MySQL real — `norms.notes` `VARCHAR(500)` pequeno demais~~ — verificado em 05/11/2026: `ALTER TABLE norms MODIFY COLUMN notes VARCHAR(2000)` presente em `V106`, commit `17ef148` confirmado ancestral de `main` | 🔴 Crítico | EPIC-025 | ALTA |
+| ~~[TASK-151](tasks/TASK-151.md)~~              | ~~Política de Privacidade inacessível para visitantes não logados~~ — verificado em 05/11/2026: `/privacidade` presente em `publicPaths.ts` (whitelist pública) e link no rodapé da landing | 🔴 Crítico | EPIC-003 | ALTA |
+| ~~[TASK-QA-BUG-017](QA/tasks/TASK-QA-BUG-017.md)~~ | ~~IA Onboarding e dica do SAMU exibidos mesmo com `aiEnabled: false`~~ — verificado em 05/11/2026: `Sidebar.tsx` guarda os dois pontos com `features?.aiEnabled`; `QuickActions.tsx` não existe mais (substituído pelo novo dashboard do EPIC-030, que elimina o card antigo) | 🟠 Alto | EPIC-006 | MÉDIA |
+| ~~TASK-QA-BUG-016~~                            | ~~E-mail de alerta exibe ID do item em vez do nome~~ — verificado em 05/11/2026: `BusinessEmailNotificationService.resolveDescription` usa `event.getReferenceLabel()`, não `referenceId` | 🟠 Alto | EPIC-006 | MÉDIA |
+| ~~TASK-QA-BUG-012~~                            | ~~items sem orgCode em /me/reports/maintenances — TenantFilterAspect filtrava findAllById cross-org~~ — verificado em 05/11/2026: `ReportsService` usa `TenantContext.setSystemContext()`/`clearSystemContext()` ao redor do `findAllById` cross-org | 🔴 Crítico | EPIC-011 | ALTA |
+| ~~TASK-QA-BUG-010~~                            | ~~Campo norma não pré-preenchido ao editar item Regulatório~~ — verificado em 05/11/2026: `items/new/page.tsx` usa `item.normId?.toString()`, não `item.norm?.id` | 🟡 Médio | EPIC-006 | BAIXA |
+| ~~TASK-QA-BUG-008~~                            | ~~Paginação some na página 2+ em /items e /maintenances — totalElements=-1 no cursor mode~~ — verificado em 05/11/2026: `items/page.tsx` controla paginação por `data?.hasMore`/`nextCursor`, nunca por `totalElements` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-015~~                            | ~~/reports: data exibida com -1 dia (timezone) e CSV com coluna monetária quebrada~~ — verificado em 05/11/2026: fix de timezone (`parseDateSafe` em `formatters.ts`, commit `049eb04`) + fix de CSV (`MaintenanceExportService.formatCost` com `NumberFormat` pt-BR entre aspas, commit `5f199ee`), ambos ancestrais de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-014~~                            | ~~Dashboard: overdueCount=0, daysLate=0, breakdowns sem OVERDUE — status stale em KPIs/attention/breakdowns~~ — verificado em 05/11/2026: `DashboardService`/`MaintenanceItemRepository` recalculam overdue/nearDue por `nextDueAt` (date-based), não mais pelo campo `status` stale; commit `88472a4` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-013~~                            | ~~Status dos itens desatualizado — NEAR_DUE exibido para itens vencidos, filtro ?status=OVERDUE quebrado~~ — verificado em 05/11/2026: `IMaintenanceItemMapper` usa `StatusCalculator.calculate(nextDueAt)` em tempo real; `MaintenanceItemSpecs` filtra por predicado de data, não pelo campo persistido; 3 testes novos; commit `485c3e3` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-079~~                                   | ~~Exibir periodicidade da norma nos detalhes do item Regulatório~~ — verificado em 05/11/2026: `items/[id]/page.tsx` exibe `customPeriodQty`/`customPeriodUnit` com fallback "Conforme norma", commit `f168b32` ancestral de `main` | 🔵 Baixo | EPIC-006 | — |
+| ~~TASK-QA-BUG-011~~                            | ~~Filtro "Realizados este mês" retorna manutenções fora do mês — backend só tinha data exata~~ — verificado em 05/11/2026: `MaintenanceFilter`/`MaintenanceSpecs` ganharam `performedAtFrom`/`performedAtTo` (range), commit `867632a` ancestral de `main` | 🟡 Médio | EPIC-006 | BAIXA |
+| ~~TASK-QA-BUG-009~~                            | ~~Crash TypeError na aba Empresas de /private/users/[id] — subscription nula não tratada~~ — verificado em 05/11/2026: guard `org.subscription ? ... : "Sem assinatura"` em `users/[id]/page.tsx`, campo marcado opcional no service, commit `fd9015e` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-007~~                            | ~~Mensagem "Invalid period in norm" ao cadastrar item regulatório com periodicidade zerada~~ — verificado em 05/11/2026: `ServiceBase.resolvePeriod` retorna `null` em vez de lançar exceção quando a norma não tem periodicidade; `StatusCalculator`/services tratam período nulo; commit `fc5ab2a` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-QA-BUG-005~~                            | ~~Erro ao cadastrar dados de faturamento — PUT .../billing/users/{id}/account retorna 422 (planCode/paymentMethod/name não enviados)~~ — verificado em 05/11/2026: formulário em `users/[id]/page.tsx` ganhou `name`/`paymentMethod`/`planCode`, commit `22fa7b4` ancestral de `main` | 🟠 Alto | EPIC-006 | ALTA |
+| ~~TASK-078~~                                   | ~~Ao remover org do usuário via admin, agendar cancelamento do billing + warning no frontend~~ — verificado em 05/11/2026: `AdminService.removeOrganizationFromUser` chama `billingSubscriptionService.scheduleItemCancellation`; `ConfirmModal` em `/private/users/[id]` exibe aviso de cobrança cancelada ao fim do período | 🟠 Alto | EPIC-007 | ALTA |
+| ~~[TASK-055](tasks/TASK-055.md)~~              | ~~Sessão do usuário sem organização é apagada após login~~ — verificado em 05/11/2026: `TenantFilter.BYPASS_EXACT` inclui `GET .../me/access-context` | 🔴 Crítico | EPIC-006 | GRAVE |
+| ~~[TASK-QA-BUG-001](QA/tasks/TASK-QA-BUG-001.md)~~ | ~~Onboarding sem redirect e sem dados da organização após conclusão~~ — verificado em 05/11/2026: `UsersService.issueRefreshedToken` + `OnboardingController` emitindo cookie renovado, presentes no código atual | 🟠 Alto | EPIC-006 | GRAVE |
 
 ## 🐛 Bugs — Backlog
 
-_Vazio_
+| ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
+| [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
 
 ---
 
@@ -86,7 +2201,7 @@ _Vazio_
 | ~~TASK-018~~         | ~~Soft delete nas entidades críticas~~                                  | 🟡 Médio   | EPIC-004 | 2    |
 | ~~TASK-019~~         | ~~Índices ausentes no banco de dados~~                                  | 🟡 Médio   | EPIC-004 | 2    |
 | ~~TASK-020~~         | ~~Schema formal para features JSON em billing_plans~~                   | 🟡 Médio   | EPIC-004 | 2    |
-| TASK-021             | Alertas no Prometheus/Grafana                                           | 🟡 Médio   | EPIC-005 | 2    |
+| ~~TASK-021~~             | ~~Alertas no Prometheus/Grafana~~ — confirmado em `main` via commit `03f59fd` (api) | 🟡 Médio   | EPIC-005 | 2    |
 | ~~TASK-022~~         | ~~Sentry em backend e frontend~~                                        | 🟡 Médio   | EPIC-005 | 2    |
 | ~~TASK-023~~         | ~~Indicador de uso vs limite de plano no frontend~~                     | 🟡 Médio   | EPIC-006 | 2    |
 | ~~TASK-024~~         | ~~Exportação de relatórios PDF/Excel~~                                  | 🟡 Médio   | EPIC-006 | 2    |
@@ -123,8 +2238,86 @@ _Vazio_
 | ~~TASK-069~~         | ~~Criar busca para usuários~~                                           | 🟡 Médio   | EPIC-006 | 3    |
 | ~~TASK-070~~         | ~~Padronizar a cor da seção de usuários~~                               | 🔵 Baixo   | EPIC-006 | 3    |
 | ~~TASK-071~~         | ~~Padronizar as nomenclaturas de empresas (Organizações → Empresas)~~   | 🔵 Baixo   | EPIC-006 | 3    |
-| TASK-081             | Backend: GET /me/reports/overview — KPIs consolidados + por org        | 🟠 Alto    | EPIC-011 | 3    |
-| TASK-082             | Backend: GET /me/reports/maintenances — listagem paginada cross-org    | 🟠 Alto    | EPIC-011 | 3    |
+| ~~TASK-081~~             | ~~Backend: GET /me/reports/overview — KPIs consolidados + por org~~ — confirmado em `main` via commit `7cae193` (api) | 🟠 Alto    | EPIC-011 | 3    |
+| ~~TASK-082~~             | ~~Backend: GET /me/reports/maintenances — listagem paginada cross-org~~ — confirmado em `main` via commit `572ad3b` (api) | 🟠 Alto    | EPIC-011 | 3    |
+| [TASK-098](tasks/TASK-098.md) | Backend: guard ADMIN + invitation email + DELETE em UsersOrganizationsController | 🔴 Crítico | EPIC-013 | 3 |
+| ~~[TASK-099](tasks/TASK-099.md)~~ | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)~~       | 🟠 Alto    | EPIC-013 | 3    |
+| ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | EPIC-013 | 3    |
+| [TASK-297](tasks/TASK-297.md) | Limites do plano: usuários ilimitados, teto de itens da conta e exibição coerente (aguarda decisão) | 🟠 Alto | — | — |
+| [TASK-298](tasks/TASK-298.md) | IA de onboarding lê o manual do síndico (PDF) — precisa de spec | 🟡 Médio | — | — |
+| [TASK-299](tasks/TASK-299.md) | Módulo `assistant`: fila, worker, controle de fluxo, liga/desliga e piloto | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-300](tasks/TASK-300.md) | `WhatsAppClient` ampliado + cota | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-301](tasks/TASK-301.md) | Vínculo do número + consentimento + Perfil | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-302](tasks/TASK-302.md) | Contexto "em nome do usuário" + porta de domínio + escolha de organização | 🔴 Crítico | EPIC-031 | Onda 1 |
+| [TASK-303](tasks/TASK-303.md) | Classificador + transcrição + crédito de IA | 🟠 Alto | EPIC-031 | Onda 1 |
+| [TASK-304](tasks/TASK-304.md) | "Identificação/local" no item + `source` | 🟡 Médio | EPIC-031 | Onda 1 |
+| ~~[TASK-305](tasks/TASK-305.md)~~ | ~~Consultas só leitura~~ *(confirmado em `main` — PR [api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127)→[api#128](https://github.com/douglasjava/easy-maintenance-api/pull/128) MERGED; task file ficou com status "Em validação" desatualizado)* | 🟠 Alto | EPIC-031 | Onda 2 |
+| ~~[TASK-306](tasks/TASK-306.md)~~ | ~~Registro rápido com confirmação~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
+| ~~[TASK-307](tasks/TASK-307.md)~~ | ~~Links diretos no web~~ *(confirmado em `main` — PR [web#108](https://github.com/douglasjava/easy-maintenance-web/pull/108)→[web#109](https://github.com/douglasjava/easy-maintenance-web/pull/109) MERGED, [api#142](https://github.com/douglasjava/easy-maintenance-api/pull/142)→[api#144](https://github.com/douglasjava/easy-maintenance-api/pull/144) MERGED; task file ficou com status "In Validation" desatualizado)* | 🟡 Médio | EPIC-031 | Onda 2 |
+| ~~[TASK-308](tasks/TASK-308.md)~~ | ~~Onboarding conversacional~~ | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-309](tasks/TASK-309.md) | Relatórios fase 1 | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-310](tasks/TASK-310.md) | PDF da prestação de contas no servidor | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
+| [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
+| ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
+| [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
+| ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
+| ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |
+| ~~[TASK-320](tasks/TASK-320.md)~~ | ~~`@RequireTenant` não faz nada: implementar ou remover~~ | 🟡 Médio | Segurança / qualidade | — |
+| ~~[TASK-322](tasks/TASK-322.md)~~ | ~~Backend: FinancialEntry — domain, migration V122, repository~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-323](tasks/TASK-323.md)~~ | ~~Backend: FinancialEntryService (criar/cancelar/listar/resumir)~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-324](tasks/TASK-324.md)~~ | ~~Backend: endpoints REST /finance~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-325](tasks/TASK-325.md)~~ | ~~Frontend: tela /financeiro~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-326](tasks/TASK-326.md)~~ | ~~Frontend: integração com Prestação de Contas~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-327](tasks/TASK-327.md)~~ | ~~Frontend: item "Financeiro" no menu~~ | 🟡 Médio | EPIC-032 | — |
+| ~~[TASK-328](tasks/TASK-328.md)~~ | ~~QA: E2E fluxo completo do módulo financeiro~~ | 🟠 Alto | EPIC-032 | — |
+| ~~[TASK-329](tasks/TASK-329.md)~~ | ~~Roadmap: documentação do épico~~ | 🔵 Baixo | EPIC-032 | — |
+| ~~[TASK-330](tasks/TASK-330.md)~~ | ~~Assistente WhatsApp: registrar receita/despesa + refactor do pipeline de rascunhos pendentes~~ — mergeada em `main` (api#157), confirmado pronta por Douglas (21/10/2026) | 🟢 Melhoria | EPIC-031 | — |
+| ~~[TASK-332](tasks/TASK-332.md)~~ | ~~Assistente WhatsApp: disparo automático da msg de apresentação do bot para todo novo cadastro com opt-in — template `assistente_boas_vindas_v1` aprovado na Meta; bug de produção (botão vazio rejeitado pela Graph API) corrigido e mergeado em `main` via [api#163](https://github.com/douglasjava/easy-maintenance-api/pull/163)/[#164](https://github.com/douglasjava/easy-maintenance-api/pull/164) — publicado e testado funcionando em produção (21/10/2026)~~ | 🟠 Alto | EPIC-031 | — |
+| [TASK-333](tasks/TASK-333.md) | Painel de conformidade liberado desde o 1º item | 🟠 Alto | EPIC-033 | Fase 0 |
+| [TASK-334](tasks/TASK-334.md) | Remover jargão de sistema da interface | 🟡 Médio | EPIC-033 | Fase 0 |
+| [TASK-335](tasks/TASK-335.md) | Corrigir preço por condomínio invertido entre planos | 🟠 Alto | EPIC-033 | Fase 0 |
+| [TASK-336](tasks/TASK-336.md) | Piloto acompanhado de 30 dias (extensão de trial pelo admin) | 🟡 Médio | EPIC-033 | Fase 0 |
+| [TASK-337](tasks/TASK-337.md) | Fornecedor patrocinado sinalizado na notificação | 🟡 Médio | EPIC-033 | Fase 0 |
+| [TASK-338](tasks/TASK-338.md) | Medir mensagens de WhatsApp por organização e por plano | 🟠 Alto | EPIC-033 | Fase 0 |
+| [TASK-339](tasks/TASK-339.md) | Evidência obrigatória para itens críticos + registro em etapa única | 🔴 Crítico | EPIC-033 | Fase 1 |
+| [TASK-340](tasks/TASK-340.md) | Baixa pelo alerta no WhatsApp: "Já foi feita" → foto → confirmar | 🟠 Alto | EPIC-033 | Fase 1 |
+| [TASK-341](tasks/TASK-341.md) | Status "concluída sem evidência" e % de críticas com evidência | 🟡 Médio | EPIC-033 | Fase 1 |
+| [TASK-342](tasks/TASK-342.md) | Relatório mensal de prova enviado automaticamente | 🟠 Alto | EPIC-033 | Fase 1 |
+| [TASK-343](tasks/TASK-343.md) | Eventos de produto para a North Star e o funil de ativação | 🟠 Alto | EPIC-033 | Fase 1 |
+| [TASK-344](tasks/TASK-344.md) | Spec + conjunto de avaliação para leitura de documentos | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-345](tasks/TASK-345.md) | Backend: leitura estruturada de imagem com confiança e validação | 🔴 Crítico | EPIC-034 | Fase 2 |
+| [TASK-346](tasks/TASK-346.md) | Vínculo item ↔ fornecedor + tipo de contrato | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-347](tasks/TASK-347.md) | Assistente: foto → rascunho → Confirmar/Corrigir → item + evidência | 🔴 Crítico | EPIC-034 | Fase 2 |
+| [TASK-348](tasks/TASK-348.md) | Indicação de fornecedor respeita contrato + lista de bloqueio | 🟡 Médio | EPIC-034 | Fase 2 |
+| [TASK-349](tasks/TASK-349.md) | Onboarding guiado: assistente pede fotos na ordem certa | 🟡 Médio | EPIC-034 | Fase 2 |
+| [TASK-350](tasks/TASK-350.md) | QA: leitura de documentos ponta a ponta | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-351](tasks/TASK-351.md) | Leitura de demonstrativo de despesas (classificar lançamentos) | 🔵 Baixo | EPIC-034 | Fase 2+ |
+| [TASK-352](tasks/TASK-352.md) | Link público com token para o fornecedor enviar a evidência | 🟠 Alto | EPIC-035 | Fase 3 |
+| [TASK-353](tasks/TASK-353.md) | Comprovante de execução para o fornecedor | 🟡 Médio | EPIC-035 | Fase 3 |
+| [TASK-354](tasks/TASK-354.md) | Pedido de evidência ao fornecedor (WhatsApp/e-mail) | 🟡 Médio | EPIC-035 | Fase 3 |
+| [TASK-355](tasks/TASK-355.md) | Spec de segurança: identidade por telefone com escopo restrito | 🔴 Crítico | EPIC-036 | Fase 4 |
+| [TASK-356](tasks/TASK-356.md) | Cadastro de conselheiros com mandato | 🟡 Médio | EPIC-036 | Fase 4 |
+| [TASK-357](tasks/TASK-357.md) | Pedido de aprovação com até 3 orçamentos + regras por condomínio | 🟡 Médio | EPIC-036 | Fase 4 |
+| [TASK-358](tasks/TASK-358.md) | Voto do conselheiro (WhatsApp ou link) com auditoria | 🟡 Médio | EPIC-036 | Fase 4 |
+| [TASK-359](tasks/TASK-359.md) | QA: conselho e aprovação ponta a ponta | 🟠 Alto | EPIC-036 | Fase 4 |
+| [TASK-365](tasks/TASK-365.md) | QA: validar fluxo completo contra sandbox Asaas + checklist de rollout (CNPJ/certificado A1) | 🟠 Alto | EPIC-037 | — |
+| [TASK-387](tasks/TASK-387.md) | Backend: `ResidentIdentityPending` — entidade, migration e repositório | 🟠 Alto | EPIC-040 | — |
+| [TASK-388](tasks/TASK-388.md) | Backend: intake do QR Code — apto/bloco + desvio para pendência | 🟠 Alto | EPIC-040 | — |
+| [TASK-389](tasks/TASK-389.md) | Backend: notificação ao síndico — e-mail de fallback + WhatsApp fan-out | 🟠 Alto | EPIC-040 | — |
+| [TASK-390](tasks/TASK-390.md) | Backend: aprovação/reprovação — lock, `CondoPerson`+`Unit`, reprocessamento | 🟠 Alto | EPIC-040 | — |
+| [TASK-391](tasks/TASK-391.md) | Frontend: aba "Pendentes" em `/pessoas` | 🟠 Alto | EPIC-040 | — |
+| [TASK-392](tasks/TASK-392.md) | Infra/Config: template WhatsApp de aprovação (botões) — submissão Meta | 🔴 Crítico | EPIC-040 | — |
+| [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
+| ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
+| ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
+| [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários | 🟠 Alto | EPIC-013 | 3 |
+| [TASK-104](tasks/TASK-104.md) | Full-Stack: "Registrado por" nos CSVs de manutenções — resolução batch via UserRepository, 3 testes novos | 🟡 Médio | EPIC-013 |
+| ~~[TASK-103](tasks/TASK-103.md)~~ | ~~Backend: auditoria de criação/modificação em maintenance_items e maintenances (createdBy/updatedBy como Long)~~ | 🟠 Alto | EPIC-013 | 3 |
+| ~~[TASK-104](tasks/TASK-104.md)~~ | ~~Full-Stack: createdBy/updatedBy nos relatórios de exportação (colunas "Criado por" / "Registrado por" com nome resolvido em batch)~~ | 🟡 Médio | EPIC-013 | 3 |
+| ~~[TASK-105](tasks/TASK-105.md)~~ | ~~Frontend: botão "Limpar" sempre visível em /items — paridade com /maintenances (estilo dinâmico cinza/vermelho)~~ | 🔵 Baixo | EPIC-006 | 3 |
+| ~~[TASK-106](tasks/TASK-106.md)~~ | ~~BUGFIX Full-Stack: notificações escopadas por org — bell exibia todas as orgs causando "Item não pertence a essa organização"~~ | 🟠 Alto | EPIC-013 | 3 |
+| ~~[TASK-QA-MAN-011](QA/tasks/TASK-QA-MAN-011.md)~~ | ~~QA Manual: E2E cancelamento de manutenção + recálculo de compliance (8 cenários)~~ | 🟠 Alto | EPIC-016 | 3 |
 
 ---
 
@@ -150,6 +2343,129 @@ _Vazio_
 
 ## Pronto para Implementar
 
+**[TASK-259](tasks/TASK-259.md)** — Backend: lotear o despacho de notificações
+(`NotificationOrchestratorService`) (🟡 Médio | sem épico — achado real do EPIC-029, 5.000
+eventos/17.510 queries/~5min numa execução, ver
+`docs/superpowers/reports/2026-09-10-load-test-findings.md`)
+
+**🟢 EPIC-030 — Compliance Dashboard (redesenho do dashboard) — *(decisões respondidas, 09/09/2026)***:
+*(protótipo/tasks trazidos prontos por Douglas de outra sessão, sem acesso ao código — cada task
+abaixo ganhou uma seção "Viabilidade Técnica" e as 7 decisões em aberto já foram respondidas; ver
+[EPIC-030](epics/EPIC-030.md) pro resumo executivo. Entidade de documento (achado técnico, não uma
+das 7 decisões) segue como sub-escopo da TASK-246)*
+- ~~**[TASK-246](tasks/TASK-246.md)**~~ — ~~Backend: índice de conformidade + `GET /dashboard/summary`~~ *(implementada, `mvn test` 965/965, branch `feature/EPIC-030-compliance-dashboard` — falta QA manual antes de abrir PR)*
+- ~~**[TASK-247](tasks/TASK-247.md)**~~ — ~~Backend: `GET /dashboard/series`~~ *(implementada, `mvn test` 976/976 — achado: `plannedVsDone` fica esparso hoje, `Maintenance.nextDueAt` majoritariamente NULL nos dados reais, documentado na task)*
+- ~~**[TASK-248](tasks/TASK-248.md)**~~ — ~~Backend: fila de ações + adiar~~ *(implementada, `mvn test` 984/984 — Onda 1/backend do EPIC-030 completa, seguindo pra Onda 2/frontend na mesma branch)*
+- ~~**[TASK-249](tasks/TASK-249.md)**~~ — ~~Frontend: shell do dashboard~~ *(implementada — `src/app/page.tsx` reescrito, big-bang confirmado, `npm run build`/`eslint`/`npm test` limpos, branch `feature/EPIC-030-compliance-dashboard`)*
+- ~~**[TASK-250](tasks/TASK-250.md)**~~ — ~~Frontend: hero + KPI tiles~~ *(implementada — `ComplianceHero`/`KpiTiles`, dark mode não aplicável ao app hoje)*
+- ~~**[TASK-251](tasks/TASK-251.md)**~~ — ~~Frontend: fila de ações + documentos~~ *(fila de ações implementada e testada; painel "Laudos e documentos" pendente de endpoint de backend que não existe, fora do escopo original das 9 tasks)*
+- ~~**[TASK-252](tasks/TASK-252.md)**~~ — ~~Frontend: gráficos~~ *(implementada — 4 gráficos em `div`/CSS, sem lib nova)*
+- ~~**[TASK-253](tasks/TASK-253.md)**~~ — ~~Frontend: estado ONBOARDING~~ *(implementada com escopo reduzido — 4 passos reais em vez dos 7 do protótipo, achado: `OnboardingChecklist` antigo era `localStorage`, não dado real)*
+- ~~**[TASK-254](tasks/TASK-254.md)**~~ — ~~E2E e regressão~~ *(seed + spec Playwright implementados, dados sintéticos validados contra o MySQL real da query de conformidade; execução do Playwright em si não rodou nesta sessão — mesmo bloqueio de Firebase)*
+- ~~**[TASK-256](tasks/TASK-256.md)**~~ — ~~BUGFIX: fila de ações do PORTFOLIO navegava com organização ativa errada~~ *(achado do Douglas em teste manual real — `GET /dashboard/actions` ganhou `companyCode`, frontend troca a organização ativa antes de navegar pra `/maintenances/new`/`/items/{id}`; `mvn test` 985/985)*
+- ~~**[TASK-257](tasks/TASK-257.md)**~~ — ~~UX: remover botão "Exportar PDF" desabilitado~~ *(pedido do Douglas pré-merge — botão desabilitado com tooltip ainda convida clique)*
+- ~~**[TASK-QA-MAN-021](QA/tasks/TASK-QA-MAN-021.md)**~~ — ~~QA Manual consolidada do épico inteiro (9 cenários)~~ *(✅ aprovado por Douglas 11/09/2026 — C1-C9 confirmados, 3 achados já corrigidos na própria branch (TASK-255/256/257); PRs `api`/`web` mergeadas em `staging` e promovidas pra `main`)*
+
+**EPIC-020 — split de comissão entre beneficiários (caso Grupo Silva) — *(27/08/2026)***:
+*(estende `Affiliate` sem alterar `ReferralCommission`/`CommissionService` nem a regra de 1
+comissionado por cliente)*
+- ~~**[TASK-207](tasks/TASK-207.md)**~~ — ~~Backend: `affiliate_commission_splits` + endpoints de leitura/edição + beneficiários no breakdown mensal~~ *(mergeada em staging, PR staging→main [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) aberta)*
+- ~~**[TASK-208](tasks/TASK-208.md)**~~ — ~~Frontend: ação "Dividir comissão" na tela de afiliados + sub-linhas de beneficiário no financeiro~~ *(mergeada em staging, PR staging→main [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) aberta)*
+
+*(2/2 tasks mergeadas em `main` — [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) / [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59), confirmado 07/09/2026)*
+
+**Sem épico — bugfix pontual, achado no QA da EPIC-002 Fase 3 mas independente dela — *(26/08/2026)***:
+- ~~**[TASK-206](tasks/TASK-206.md)**~~ — ~~BUGFIX Full-stack: rota morta de assinatura por usuário no admin (mostra plano errado)~~ *(confirmado fechado por Douglas 11/09/2026 — PRs mergeadas em `staging` 26/08 e já em `main`: api#49/web#54)*
+
+**EPIC-020 Fase 2 — Revisão: comissionado atribuído substitui comissão manual — 4/4 tasks
+implementadas, mergeadas em `main` — *(24/08/2026, confirmado 07/09/2026)***:
+*(estende `Affiliate`/`ReferralCommission` em vez de manter `manual_commission_rules` — ver
+`docs/superpowers/specs/2026-08-24-affiliate-commission-rework.md`;
+[easy-maintenance-api#43](https://github.com/douglasjava/easy-maintenance-api/pull/43),
+[easy-maintenance-web#49](https://github.com/douglasjava/easy-maintenance-web/pull/49))*
+- ~~**[TASK-195](tasks/TASK-195.md)**~~ — ~~Backend: `Affiliate` ganha `recurrenceType`; CRUD admin de edição; remove `ManualCommissionRule`~~ *(implementada — commit `02417bf`, 786 testes, 0 falhas)*
+- ~~**[TASK-196](tasks/TASK-196.md)**~~ — ~~Backend: rekey `referral_commissions.organization_id` → `user_id`; corrige atribuição; suporta comissão recorrente~~ *(implementada — commit `506e529`, 792 testes, 0 falhas)*
+- ~~**[TASK-197](tasks/TASK-197.md)**~~ — ~~Backend: `FinancialsService` sem comissão manual; endpoint de breakdown por comissionado~~ *(implementada — commit `b38b617`, 796 testes, 0 falhas)*
+- ~~**[TASK-198](tasks/TASK-198.md)**~~ — ~~Frontend: edição de afiliado (%/recorrência), atribuição a cliente, breakdown na tela de financeiro~~ *(implementada — commit `4a4ff78`, `npm run build` limpo, não validada visualmente por mim)*
+
+**EPIC-014 — bugfix achado no QA da EPIC-020, sem relação direta — *(24/08/2026)***:
+*(branch própria a partir de `staging` — aguardando Douglas atualizar `staging` com as PRs #43/#49
+acima antes de puxar a branch nova)*
+- ~~**[TASK-199](tasks/TASK-199.md)**~~ — ~~Backend: "Receita Total" no Faturamento soma preço de tabela do item ORGANIZATION, que está zerado desde a EPIC-014~~ *(implementada — commit `edd6d43`, PR [#44](https://github.com/douglasjava/easy-maintenance-api/pull/44), 798 testes, 0 falhas)*
+
+**EPIC-020 Fase 2 — módulo financeiro (página própria, bruto/líquido, despesas, comissão manual) — 5/5 tasks implementadas, aguardando teste local de Douglas — *(23/08/2026)***:
+*(na branch `feature/financial-module-v2`, `easy-maintenance-api` + `easy-maintenance-web`, sem PR
+por task — mesma convenção das leves anteriores)*
+- ~~**[TASK-190](tasks/TASK-190.md)**~~ — ~~Backend: substitui `operating_expense_rates` por `expenses` + `manual_commission_rules`~~ *(implementada — a parte de `manual_commission_rules` é revertida pela TASK-195)*
+- ~~**[TASK-191](tasks/TASK-191.md)**~~ — ~~Backend: CRUD de despesas e regras de comissão manual~~ *(implementada — 787 testes, 0 falhas; a parte de regras de comissão manual é revertida pela TASK-195)*
+- ~~**[TASK-192](tasks/TASK-192.md)**~~ — ~~Backend: reescreve `FinancialsService` (bruto/líquido, saldo do mês/acumulado) + comissão de afiliado sobre o líquido~~ *(implementada — suíte completa, 0 falhas)*
+- ~~**[TASK-193](tasks/TASK-193.md)**~~ — ~~Frontend: página própria `/private/admin/financials`~~ *(implementada — `npm run build` limpo, não validada visualmente por mim)*
+- ~~**[TASK-194](tasks/TASK-194.md)**~~ — ~~Frontend: seções de cadastro de despesas e regras de comissão manual~~ *(implementada — `npm run build` limpo, não validada visualmente por mim; seção de comissão manual é removida pela TASK-198)*
+
+**EPIC-021 Fase 2 — registro manual de lead + edição completa (telefone) — 3/3 tasks implementadas, mergeadas em `main` (via [api#45](https://github.com/douglasjava/easy-maintenance-api/pull/45)/[web#50](https://github.com/douglasjava/easy-maintenance-web/pull/50)) — *(23/08/2026, confirmado 07/09/2026)***:
+*(todas as tasks desta leva na mesma branch `feature/leads-manual-registration` —
+`easy-maintenance-api`/`easy-maintenance-web` — testadas localmente por Douglas antes da abertura
+das PRs: [#42](https://github.com/douglasjava/easy-maintenance-api/pull/42) (api) e
+[#48](https://github.com/douglasjava/easy-maintenance-web/pull/48) (web))*
+- ~~**[TASK-187](tasks/TASK-187.md)**~~ — ~~Backend: `phone` + `origin_type` em `landing_leads`~~ *(implementada, PR #42)*
+- ~~**[TASK-188](tasks/TASK-188.md)**~~ — ~~Backend: criação manual + edição completa de lead~~ *(implementada, PR #42 — 11 testes em `LeadAdminServiceTest`, 0 falhas)*
+- ~~**[TASK-189](tasks/TASK-189.md)**~~ — ~~Frontend: modal de criar/editar + colunas Telefone/Canal~~ *(implementada, PR #48 — `npm run build` limpo, validada localmente por Douglas)*
+
+**EPIC-025 Fase 2 — filtro determinístico de catálogo no onboarding por IA — 6/6 tasks implementadas, PRs abertas para staging — *(21/08/2026)***:
+*(todas as tasks desta leva na mesma branch `feature/ai-onboarding-catalog-filter` —
+`easy-maintenance-api`/`easy-maintenance-web` — testadas localmente por Douglas antes da abertura
+das PRs: [#40](https://github.com/douglasjava/easy-maintenance-api/pull/40) (api) e
+[#46](https://github.com/douglasjava/easy-maintenance-web/pull/46) (web))*
+- ~~**[TASK-186](tasks/TASK-186.md)**~~ — ~~Frontend: experiência mobile — cards no lugar da tabela~~ *(implementada, PR #46 — não validada visualmente por mim, tela exige login)*
+- ~~**[TASK-183](tasks/TASK-183.md)**~~ — ~~Backend: corrige `nextDueAt`/`customPeriod*` divergente em itens REGULATORY~~ *(implementada, PR #40 — QA de Douglas ok)*
+- ~~**[TASK-181](tasks/TASK-181.md)**~~ — ~~Backend: tabela `norm_segments` + filtro por segmento no `NormRepository`~~ *(implementada, PR #40)*
+- ~~**[TASK-182](tasks/TASK-182.md)**~~ — ~~Backend: endpoint síncrono `POST /ai/bootstrap/catalog-preview`~~ *(implementada, PR #40)*
+- ~~**[TASK-184](tasks/TASK-184.md)**~~ — ~~Backend: IA como complemento — evita duplicata, aceita `normId` explícito~~ *(implementada, PR #40 — backend 100% pronto, 779 testes, 0 falhas)*
+- ~~**[TASK-185](tasks/TASK-185.md)**~~ — ~~Frontend: `/ai-onboarding` — filtro instantâneo + IA progressiva~~ *(implementada, PR #46 — `npm run build` limpo)*
+
+**EPIC-025 Fase 1 — conteúdo e governança das normas técnicas — ✅ concluída (19/08/2026)**:
+- ~~**[TASK-177](tasks/TASK-177.md)**~~ — ~~Backend: corrigir/completar citações de normas no catálogo `norms`~~ *(concluída — PR #38 mergeada em staging)*
+- ~~**[TASK-179](tasks/TASK-179.md)**~~ — ~~Frontend: atualizar página `/norms` com os achados do levantamento~~ *(concluída — PR #44 mergeada em staging)*
+- ~~**[TASK-178](tasks/TASK-178.md)**~~ — ~~Backend: novo item de catálogo para instalação de gás combustível~~ *(concluída — PR #39 mergeada em staging)*
+- ~~**[TASK-180](tasks/TASK-180.md)**~~ — ~~Conteúdo: revisar post do blog sobre NBR 5674~~ *(concluída — PR #45 mergeada em staging)*
+
+**🟡 Médio (EPIC-028 — cadastro de fornecedores + pontuação) — *(desenhado via brainstorm, pronto pra implementar, 08/09/2026)***:
+- ~~**[TASK-241](tasks/TASK-241.md)**~~ — ~~Backend: entidades `Supplier`/`SupplierOrganizationLink` + migration~~ *(QA aprovado, PR aberta: [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88))*
+- ~~**[TASK-242](tasks/TASK-242.md)**~~ — ~~Backend: endpoints `POST`/`GET /suppliers` (cadastro com dedup por CNPJ + busca por região)~~ *(QA aprovado, mesma PR: [api#88](https://github.com/douglasjava/easy-maintenance-api/pull/88))*
+- ~~**[TASK-243](tasks/TASK-243.md)**~~ — ~~Frontend: tela dedicada de fornecedores (lista + filtro + cadastro)~~ *(QA aprovado ([TASK-QA-MAN-020](QA/tasks/TASK-QA-MAN-020.md)), badge de pontuação por faixa ajustado, PR aberta: [web#75](https://github.com/douglasjava/easy-maintenance-web/pull/75))*
+
+**🟢 EPIC-027 — chamados de moradores — *(QA manual aprovado, PRs staging abertas, 09/09/2026)***:
+- ~~**[TASK-237](tasks/TASK-237.md)**~~ — ~~Backend: módulo público de chamados (abrir, consultar por CPF, upload de foto)~~ *(PR aberta contra `staging`: [api#85](https://github.com/douglasjava/easy-maintenance-api/pull/85))*
+- ~~**[TASK-238](tasks/TASK-238.md)**~~ — ~~Backend: endpoints autenticados (listar/mudar status) + notificação por e-mail + flag WhatsApp~~ *(mesma PR, api#85)*
+- ~~**[TASK-239](tasks/TASK-239.md)**~~ — ~~Frontend: fluxo público em 2 telas (`/chamados/[orgCode]`)~~ *(PR aberta contra `staging`: [web#74](https://github.com/douglasjava/easy-maintenance-web/pull/74))*
+- ~~**[TASK-240](tasks/TASK-240.md)**~~ — ~~Frontend: kanban interno (drag-and-drop) + QR code em Configurações/Perfil~~ *(mesma PR, web#74)*
+
+**🟢 EPIC-029 — teste de carga estrutural — *(concluído 10/09/2026, 1 achado crítico real)***:
+- ~~**[TASK-233](tasks/TASK-233.md)**~~ — ~~Seed sintético de dados~~ *(500 orgs/50k itens/150k manutenções, validado contra MySQL real efêmero, ~9,4s pra rodar)*
+- ~~**[TASK-234](tasks/TASK-234.md)**~~ — ~~Profile `loadtest`~~ *(implementada e depois corrigida — contador global de query virou `ThreadLocal` depois de achado real sob concorrência, ver TASK-235)*
+- ~~**[TASK-235](tasks/TASK-235.md)**~~ — ~~Scripts k6 + execução + relatório~~ *(executados de verdade contra a API local real — achado crítico: `NotificationOrchestratorService.dispatch()` sem lote, 17.510 queries/~5min pra 5.000 eventos. Relatório: `docs/superpowers/reports/2026-09-10-load-test-findings.md`)*
+- ~~**[TASK-258](tasks/TASK-258.md)**~~ — ~~BUGFIX: FirebaseMessaging travava o boot local~~ *(achado colateral que desbloqueou rodar o k6 de verdade — e a validação HTTP real de EPIC-028/030 também, retroativamente)*
+
+**🟢 EPIC-023 — fornecedores nas notificações de vencimento — CONCLUÍDA (07/09/2026)**:
+*(bloco antigo mantido pra histórico — status real está na [EPIC-023](epics/EPIC-023.md) e na
+tabela "Em Validação" abaixo; TASK-172/173/174/228/229/230/231/232 mergeadas em `main` via
+[api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73))*
+
+**🟠 Alto (EPIC-021 — painel de leads, visão agregada + mini-CRM de status)**:
+- ~~**[TASK-163](tasks/TASK-163.md)**~~ — ~~Backend: `status` de `String` livre pra enum `LeadStatus`~~ *(em validação)*
+- ~~**[TASK-164](tasks/TASK-164.md)**~~ — ~~Backend: endpoint agregado `GET /admin/leads/summary`~~ *(em validação)*
+- ~~**[TASK-165](tasks/TASK-165.md)**~~ — ~~Backend: lista paginada/filtrável + troca de status~~ *(em validação)*
+- ~~**[TASK-166](tasks/TASK-166.md)**~~ — ~~Frontend: item "Leads" no menu + visão agregada~~ *(em validação, QA manual pendente)*
+- ~~**[TASK-167](tasks/TASK-167.md)**~~ — ~~Frontend: lista individual — filtros + troca de status inline~~ *(em validação, QA manual pendente)*
+
+**🟠 Alto (EPIC-018 — tracking de conversão, tráfego pago inicia esta semana)**:
+- ~~**[TASK-152](tasks/TASK-152.md)**~~ — ~~Backend: `consent_accepted_at` + validação de consentimento obrigatório~~ *(em validação)*
+- ~~**[TASK-153](tasks/TASK-153.md)**~~ — ~~Frontend: captura e persistência de UTM (cookie 30 dias)~~ *(em validação)*
+- ~~**[TASK-154](tasks/TASK-154.md)**~~ — ~~Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração~~ *(em validação)*
+- ~~**[TASK-155](tasks/TASK-155.md)**~~ — ~~Frontend: página `/obrigado` + correção da whitelist `isAuth`~~ *(em validação)*
+- ~~**[TASK-156](tasks/TASK-156.md)**~~ — ~~Frontend: scaffolding de eventos Lead/Contact — pendente de IDs de pixel~~ *(em validação)*
+- ~~**[TASK-157](tasks/TASK-157.md)**~~ — *(QA aprovado 26/08/2026, mergeada em `main`)* Meta Conversions API — dedupe de Lead + sinal de qualidade (CONTACTED/CONVERTED), credenciais reais configuradas e validadas no Test Events da Meta (🟡 Médio | EPIC-018). Mergeados: [api#51](https://github.com/douglasjava/easy-maintenance-api/pull/51), [web#56](https://github.com/douglasjava/easy-maintenance-web/pull/56). Promoção pra main: [api#52](https://github.com/douglasjava/easy-maintenance-api/pull/52), [web#57](https://github.com/douglasjava/easy-maintenance-web/pull/57). QA: [TASK-QA-MAN-015](QA/tasks/TASK-QA-MAN-015.md)
+
 **🔴 Crítico (bug ativo de receita) — sequência sugerida**:
 - ~~**TASK-058**~~ — Refatorar job de expiração de TRIAL: PIX via DETACHED *(em validação)*
 - ~~**TASK-059**~~ — Subscription PIX recorrente manual *(em validação)*
@@ -164,6 +2480,7 @@ _Vazio_
 
 **🟡 Médio (próxima fase)**:
 - **TASK-066** — Pix Automático (mandato regulamentado) (🟡 Médio | EPIC-010)
+- **[TASK-109](tasks/TASK-109.md)** — Troca de método em ACTIVE: CC→PIX, CC→CC, PIX→CC (🟡 Médio | EPIC-010)
 - ~~**TASK-068**~~ — Enriquecer response de notificações com nome do item referenciado (🟡 Médio | EPIC-006)
 
 **Pendentes de SPRINT-04**:
@@ -183,8 +2500,80 @@ _Vazio_
 
 ## Em Validação
 
+> **Nota (07/09/2026)**: verificado via `gh pr list --state open` nos dois repos — **zero PRs
+> abertas** em `easy-maintenance-api` e `easy-maintenance-web` neste momento. Toda a tabela abaixo
+> (linhas que ainda falam em "PR aberta"/"staging→main aberta") está com a linguagem desatualizada:
+> **todos os itens listados já estão mergeados em `main`**. Mantida como tabela única (não
+> reestruturada) para não perder o histórico — tratar qualquer menção a "PR aberta" abaixo como
+> "já mergeada em main", confirmado item a item nesta data.
+
 | ID                            | Título                                                                          | Prioridade | Épico    |
 |-------------------------------|---------------------------------------------------------------------------------|------------|----------|
+| ~~[TASK-373](tasks/TASK-373.md)~~ | ~~Backend: `OrganizationSetting` — entidade, migration V128 e repositório~~ — mergeada em `main` via api#167→api#168 (confirmado `gh pr view`, 29/10/2026) | 🟠 Alto | EPIC-038 |
+| ~~[TASK-374](tasks/TASK-374.md)~~ | ~~Backend: `CommonArea` — entidade, migration V129 e repositório~~ — mergeada em `main` via api#167→api#168 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-375](tasks/TASK-375.md)~~ | ~~Backend: configuração de SLA de chamados — DTOs, serviço e API~~ — mergeada em `main` via api#167→api#168 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-376](tasks/TASK-376.md)~~ | ~~Backend: áreas comuns — DTOs, serviço CRUD e API (+ fix do bypass do TenantFilter)~~ — mergeada em `main` via api#167→api#168 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-377](tasks/TASK-377.md)~~ | ~~Frontend: página `/configuracoes` + aba de SLA de Chamados~~ — mergeada em `main` via web#120→web#121 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-378](tasks/TASK-378.md)~~ | ~~Frontend: aba de Áreas Comuns (listar, criar, editar)~~ — mergeada em `main` via web#120→web#121 | 🟠 Alto | EPIC-038 |
+| ~~[TASK-379](tasks/TASK-379.md)~~ | ~~Frontend: entrada "Configurações" no menu do usuário~~ — mergeada em `main` via web#120→web#121 | 🟡 Médio | EPIC-038 |
+| ~~[TASK-380](tasks/TASK-380.md)~~ | ~~Backend: `Unit` — entidade, migration V131 e repositório~~ — mergeada em `main` via api#171→api#177 (confirmado `gh pr view`, 04/11/2026) | 🟠 Alto | EPIC-039 |
+| ~~[TASK-381](tasks/TASK-381.md)~~ | ~~Backend: `CondoPerson` — entidade, migration V132, enum `CondoRole` e repositório~~ — mergeada em `main` via api#171→api#177 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-382](tasks/TASK-382.md)~~ | ~~Backend: `Unit` — DTOs, serviço CRUD e API~~ — mergeada em `main` via api#171→api#177 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-383](tasks/TASK-383.md)~~ | ~~Backend: `CondoPerson` — DTOs, serviço CRUD e API (+ endpoint de opções de fornecedor não previsto na task original)~~ — mergeada em `main` via api#171→api#177 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-384](tasks/TASK-384.md)~~ | ~~Frontend: tela `/pessoas` — abas Gestão/Conselho/Moradores/Fornecedores + formulário "Adicionar pessoa"~~ — mergeada em `main` via web#124→web#126 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-385](tasks/TASK-385.md)~~ | ~~Frontend: aba Unidades (listar, criar, editar)~~ — mergeada em `main` via web#124→web#126 | 🟠 Alto | EPIC-039 |
+| ~~[TASK-386](tasks/TASK-386.md)~~ | ~~Frontend: entrada "Pessoas e Papéis" no menu do usuário~~ — mergeada em `main` via web#124→web#126 | 🟡 Médio | EPIC-039 |
+| ~~[TASK-393](tasks/TASK-393.md)~~ | ~~Bugfix: `TenantFilter` não validava X-Org-Id em condo-people/units~~ — mergeada em `main` via api#172→api#177 | 🔴 Crítico | EPIC-039 |
+| [TASK-360](tasks/TASK-360.md) | Backend: `FiscalInvoice` — entidade, enum, migration V125 e repositório — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-361](tasks/TASK-361.md) | Backend: configuração de NF na Asaas — DTOs, `AsaasClient`, `FiscalInvoiceConfigurationService` (+ flag fail-closed `asaas.fiscal-invoice.enabled`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-362](tasks/TASK-362.md) | Backend: acionar configuração de NF na ativação da assinatura — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-363](tasks/TASK-363.md) | Backend: webhook de nota fiscal — endpoint e processamento (`INVOICE_AUTHORIZED`/`INVOICE_ERROR`) — implementado em `feature/EPIC-037-fiscal-invoice-nfse`, testes verdes | 🟠 Alto | EPIC-037 |
+| [TASK-364](tasks/TASK-364.md) | Backend: job de reconciliação fiscal — implementado em `feature/EPIC-037-fiscal-invoice-nfse`; suíte completa do repo (1475 testes) verde após essa task | 🟡 Médio | EPIC-037 |
+| ~~[TASK-331](tasks/TASK-331.md)~~ | ~~Onboarding: campo de celular + opt-in explícito (espelhar padrão já usado em Perfil) — PRs mergeadas contra `staging` ([api#158](https://github.com/douglasjava/easy-maintenance-api/pull/158) / [web#116](https://github.com/douglasjava/easy-maintenance-web/pull/116) / [web#117](https://github.com/douglasjava/easy-maintenance-web/pull/117) ajuste de UX) — validado por Douglas 19/10/2026~~ | 🟠 Alto | EPIC-031 |
+| ~~[TASK-175](tasks/TASK-175.md)~~ | ~~Frontend: página `/agendar` (embed Cal.com) + botão na navbar da landing~~ — mergeada e em produção há algum tempo, confirmado por Douglas (21/10/2026) | 🟠 Alto | EPIC-024 |
+| ~~[TASK-176](tasks/TASK-176.md)~~ | ~~Backend: webhook do Cal.com cria lead via `LeadService`~~ — mergeada e em produção há algum tempo, confirmado por Douglas (21/10/2026) | 🟠 Alto | EPIC-024 |
+| [TASK-231](tasks/TASK-231.md) | Frontend: destaca visualmente o card de opt-in de WhatsApp no Perfil (achado em demo real) — mergeada em `main` via [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | — |
+| [TASK-229](tasks/TASK-229.md) | Full-stack: opt-in de Marketing pro fornecedor no WhatsApp (exigido pela Meta) — testado em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) / [web#73](https://github.com/douglasjava/easy-maintenance-web/pull/73) (07/09) | 🟡 Médio | EPIC-023 |
+| [TASK-232](tasks/TASK-232.md) | Backend: telefone do fornecedor via Place Details só na busca de notificação (achado testando o v3 em ambiente real) — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
+| [TASK-174](tasks/TASK-174.md) | Backend: fornecedores no WhatsApp (NEAR_DUE de 30 dias, template v3 dedicado) — item #11 do feedback Rogerio Dantas — testado ponta a ponta em ambiente real, mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-023 |
+| [TASK-173](tasks/TASK-173.md) | Backend: fornecedores no e-mail de notificação de item/manutenção vencida — item #11 do feedback Rogerio Dantas — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟠 Alto | EPIC-023 |
+| [TASK-172](tasks/TASK-172.md) | Backend: `SupplierLookupService` — busca de fornecedor por texto (cidade/estado) + cache 7 dias — item #11 do feedback Rogerio Dantas — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟠 Alto | EPIC-023 |
+| [TASK-228](tasks/TASK-228.md) | Backend: norma `PONTOS_ANCORAGEM` (linha de vida/ponto de ancoragem, 12 meses) — item #5a do feedback Rogerio Dantas — mergeada em `main` via [api#82](https://github.com/douglasjava/easy-maintenance-api/pull/82) (07/09) | 🟡 Médio | EPIC-025 |
+| [TASK-227](tasks/TASK-227.md) | Infra: biblioteca de 15 queries SQL de acompanhamento de clientes (trial/pagantes/atraso/leads convertidos/uso do produto/funil por estágio) — mergeada em `main` via [api#76](https://github.com/douglasjava/easy-maintenance-api/pull/76) (02/09) | 🟡 Médio | — |
+| [TASK-226](tasks/TASK-226.md) | Backend: WhatsApp em todos os checkpoints de NEAR_DUE, só até o dia do vencimento no OVERDUE — feedback de cliente (TASK-218 #4) — mergeada em `main` via [api#74](https://github.com/douglasjava/easy-maintenance-api/pull/74) (02/09) | 🟡 Médio | — |
+| [TASK-209](tasks/TASK-209.md) | 🔴 BUGFIX Backend: `generateInvoiceForPayer` desistia quando a fatura já existia — travava renovação PIX/troca de cartão em produção — mergeada em `main` via [api#56](https://github.com/douglasjava/easy-maintenance-api/pull/56) | 🔴 Crítico | — |
+| [TASK-210](tasks/TASK-210.md) | 🔴 BUGFIX Backend: `LazyInitializationException` em `invoice.getItems()` (regressão da TASK-209) — mergeada em `main` via [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) | 🔴 Crítico | — |
+| [TASK-211](tasks/TASK-211.md) | 🔴 BUGFIX Backend: coluna `landing_leads.fbc` (VARCHAR(64)) truncava e derrubava o lead inteiro — mergeada em `main` via [api#59](https://github.com/douglasjava/easy-maintenance-api/pull/59) | 🔴 Crítico | — |
+| [TASK-212](tasks/TASK-212.md) | 🔴 FULL_STACK: categoria do item (regulatório/operacional) deixa de ser escolha livre, passa a ser derivada do tipo — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) / [web#63](https://github.com/douglasjava/easy-maintenance-web/pull/63) (staging: api#60/web#60) | 🔴 Crítico | — |
+| [TASK-213](tasks/TASK-213.md) | 🔴 BUGFIX Backend: editar `lastPerformedAt` não recalculava `nextDueAt` (ficava preso na data anterior à edição) — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) (staging: api#60) | 🔴 Crítico | — |
+| [TASK-214](tasks/TASK-214.md) | 🟡 FULL_STACK: seleção múltipla + remoção em massa em `/items`, fecha também a lacuna de `remove()` não checar manutenção — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) / [web#63](https://github.com/douglasjava/easy-maintenance-web/pull/63) (staging: api#61/web#61) | 🟡 Médio | — |
+| [TASK-215](tasks/TASK-215.md) | 🔴 BUGFIX Backend: checkout Asaas rejeitado por item ORGANIZATION de valor zero (item de R$0 desde a EPIC-014 quebrava o checkout inteiro) — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) (staging: api#62) | 🔴 Crítico | — |
+| [TASK-216](tasks/TASK-216.md) | 🟡 FULL_STACK: "Próxima manutenção" manual no registro — rejeitada pra REGULATORY, aplicada de verdade pra OPERATIONAL — mergeada em `main` via [api#64](https://github.com/douglasjava/easy-maintenance-api/pull/64) / [web#63](https://github.com/douglasjava/easy-maintenance-web/pull/63) (staging: api#63/web#62) | 🟡 Médio | — |
+| [TASK-207](tasks/TASK-207.md) | Backend: split de comissão entre beneficiários (`affiliate_commission_splits`) — mergeada em `main` via [api#54](https://github.com/douglasjava/easy-maintenance-api/pull/54) | 🟠 Alto | EPIC-020 |
+| [TASK-208](tasks/TASK-208.md) | Frontend: ação "Dividir comissão" + sub-linhas de beneficiário no financeiro — mergeada em `main` via [web#59](https://github.com/douglasjava/easy-maintenance-web/pull/59) | 🟠 Alto | EPIC-020 |
+| [TASK-201](tasks/TASK-201.md) | Full-stack: ressincronização manual de cliente Asaas por usuário — mergeada em `main` via [api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) / [web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) (staging: api#48/web#53) | 🟠 Alto | EPIC-002 |
+| [TASK-202](tasks/TASK-202.md) | Frontend: validação de dígito verificador de CPF/CNPJ no onboarding — mergeada em `main` via [web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) (staging: web#53) | 🟠 Alto | EPIC-002 |
+| [TASK-203](tasks/TASK-203.md) | Backend: validação de dígito verificador de CPF/CNPJ (defesa em profundidade) — mergeada em `main` via [api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) (staging: api#48) | 🟡 Médio | EPIC-002 |
+| [TASK-204](tasks/TASK-204.md) | Backend: alerta (Sentry) quando falha a criação do cliente Asaas — mergeada em `main` via [api#50](https://github.com/douglasjava/easy-maintenance-api/pull/50) (staging: api#48) | 🟠 Alto | EPIC-002 |
+| [TASK-205](tasks/TASK-205.md) | Frontend: indicador visual de sincronização pendente com Asaas — mergeada em `main` via [web#55](https://github.com/douglasjava/easy-maintenance-web/pull/55) (staging: web#53) | 🟡 Médio | EPIC-002 |
+| [TASK-171](tasks/TASK-171.md) | Frontend: Blog — link na landing + redesenho do índice + posts 2-5 — mergeada em `main` via [web#43](https://github.com/douglasjava/easy-maintenance-web/pull/43)             | 🟠 Alto    | EPIC-022 |
+| [TASK-170](tasks/TASK-170.md) | Frontend: Blog — infraestrutura MDX + primeiro post real (NBR 5674) — mergeada em `main` via [web#43](https://github.com/douglasjava/easy-maintenance-web/pull/43)            | 🟠 Alto    | EPIC-022 |
+| [TASK-169](tasks/TASK-169.md) | BUGFIX Backend: custos "Outros" com labels diferentes conflitavam (total financeiro incorreto) | 🔴 Crítico | —        |
+| [TASK-168](tasks/TASK-168.md) | BUGFIX Frontend: botão "Ver todos os recursos" da landing sem destino          | 🟡 Médio   | —        |
+| [TASK-158](tasks/TASK-158.md) | Frontend: página pública de Termos de Uso — corrige link quebrado do rodapé     | 🟠 Alto    | —        |
+| [TASK-152](tasks/TASK-152.md) | Backend: `consent_accepted_at` em `landing_leads` + validação de consentimento obrigatório | 🟠 Alto | EPIC-018 |
+| [TASK-153](tasks/TASK-153.md) | Frontend: captura e persistência de UTM (cookie 30 dias)                        | 🟠 Alto    | EPIC-018 |
+| [TASK-154](tasks/TASK-154.md) | Frontend: checkbox de consentimento LGPD + envio de UTM no form de demonstração | 🟠 Alto    | EPIC-018 |
+| [TASK-155](tasks/TASK-155.md) | Frontend: página `/obrigado` + correção da whitelist `isAuth` no `Shell.tsx`    | 🟠 Alto    | EPIC-018 |
+| [TASK-156](tasks/TASK-156.md) | Frontend: scaffolding de eventos de conversão (Lead/Contact) — pendente de IDs de pixel | 🟡 Médio | EPIC-018 |
+| [TASK-118](tasks/TASK-118.md) | BUGFIX Full-Stack: /organizations/new não pede mais plano próprio (herda plano da conta) | 🔴 Crítico | EPIC-014 |
+| [TASK-116](tasks/TASK-116.md) | Frontend+Backend: painel admin subscriptions — remove ações por org, mostra pool (não verificado visualmente) | 🟡 Médio | EPIC-014 |
+| [TASK-115](tasks/TASK-115.md) | Frontend+Backend: /billing consolidado — card único de conta + pool de orgs/itens (não verificado visualmente) | 🟠 Alto | EPIC-014 |
+| [TASK-114](tasks/TASK-114.md) | Migration V79 — zera value_cents dos itens ORGANIZATION legados + recalcula total_cents | 🟠 Alto | EPIC-014 |
+| [TASK-113](tasks/TASK-113.md) | Backend: GET/PUT organizations/{code}/subscription — plano da conta + uso do pool | 🟠 Alto  | EPIC-014 |
+| [TASK-112](tasks/TASK-112.md) | Backend: downgrade valida pool de itens + remove OrganizationPlanChangeService  | 🟠 Alto    | EPIC-014 |
+| [TASK-111](tasks/TASK-111.md) | Backend: pool compartilhado de maxItems entre organizações do owner            | 🔴 Crítico | EPIC-014 |
+| [TASK-110](tasks/TASK-110.md) | Backend: parar de criar item ORGANIZATION cobrável (addItem valueCents=0)       | 🔴 Crítico | EPIC-014 |
 | [TASK-058](tasks/TASK-058.md) | Refatorar job de expiração de TRIAL: PIX via cobrança avulsa (DETACHED)         | 🔴 Crítico | EPIC-010 |
 | [TASK-059](tasks/TASK-059.md) | Subscription PIX recorrente "manual": ciclo gerenciado internamente             | 🔴 Crítico | EPIC-010 |
 | [TASK-060](tasks/TASK-060.md) | Webhook PAYMENT_RECEIVED avança ciclo PIX manual                                | 🔴 Crítico | EPIC-010 |
@@ -193,39 +2582,87 @@ _Vazio_
 | [TASK-063](tasks/TASK-063.md) | Job de reconciliação noturna: Asaas vs estado local                             | 🟠 Alto    | EPIC-010 |
 | [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual                                 | 🟠 Alto    | EPIC-010 |
 | [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE      | 🟠 Alto    | EPIC-010 |
+| [TASK-108](tasks/TASK-108.md) | Full-Stack: Troca de método de pagamento em PAST_DUE (PIX avulso + checkout CC) | 🟠 Alto    | EPIC-010 |
+| [TASK-109](tasks/TASK-109.md) | Full-Stack: Troca de método de pagamento em ACTIVE (CC→PIX, CC→CC, PIX→CC)      | 🟡 Médio   | EPIC-010 |
 | TASK-QA-AUTO-002              | Testes unitários: handler PIX e PAYMENT_OVERDUE (casos de borda)                | 🟠 Alto    | EPIC-010 |
 | TASK-QA-AUTO-003              | Testes de integração: rate limiting nos endpoints de autenticação (@WebMvcTest) | 🟠 Alto    | EPIC-001 |
 | TASK-E2E-001                  | Setup do projeto Playwright E2E (`easy-maintenance-e2e`)                        | 🟠 Alto    | EPIC-008 |
 | TASK-E2E-003                  | Testes E2E: Webhook Asaas — token e idempotência                                | 🟠 Alto    | EPIC-001 |
-| TASK-082                      | Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros | 🟠 Alto    | EPIC-011 |
-| TASK-081                      | Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org       | 🟠 Alto    | EPIC-011 |
-| TASK-086                      | Frontend: Seção de Relatórios — filtros, tabela paginada e export CSV (GET /me/reports/maintenances)    | 🟡 Médio   | EPIC-011 |
-| TASK-085                      | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa (GET /me/reports/overview)     | 🟠 Alto    | EPIC-011 |
-| TASK-084                      | Frontend: estrutura da página /reports + entrada no sidenav e menu do usuário                           | 🟠 Alto    | EPIC-011 |
-| TASK-083                      | Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org (4 testes, 374 passando)       | 🟡 Médio   | EPIC-011 |
-| TASK-080                      | Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate | 🟠 Alto    | EPIC-007 |
-| TASK-072                      | Exibir link de comprovante nas faturas pagas da tela /billing                    | 🟡 Médio   | EPIC-006 |
-| TASK-069                      | Criar busca para usuários — filtros nome/e-mail na tela /private/users           | 🟡 Médio   | EPIC-006 |
-| [TASK-087](tasks/TASK-087.md) | Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)               | 🟠 Alto    | EPIC-010 |
-| [TASK-021](tasks/TASK-021.md) | Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard           | 🟡 Médio   | EPIC-005 |
-| TASK-038                      | LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade) | 🔵 Baixo   | EPIC-003 |
-| [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA, pendingReview + fix V9 period_qty=0 | 🟠 Alto    | EPIC-004 |
+| ~~TASK-082~~                      | ~~Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros~~ — confirmado em `main` via commit `572ad3b` (api) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-081~~                      | ~~Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org~~ — confirmado em `main` via commit `7cae193` (api) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-086~~                      | ~~Frontend: Seção de Relatórios — filtros, tabela paginada e export CSV (GET /me/reports/maintenances)~~ — confirmado em `main` via commit `bf44e90` (web) | 🟡 Médio   | EPIC-011 |
+| ~~TASK-085~~                      | ~~Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa (GET /me/reports/overview)~~ — confirmado em `main` via commit `ddfa9bd` (web) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-084~~                      | ~~Frontend: estrutura da página /reports + entrada no sidenav e menu do usuário~~ — confirmado em `main` via commit `2c41454` (web) | 🟠 Alto    | EPIC-011 |
+| ~~TASK-083~~                      | ~~Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org (4 testes, 374 passando)~~ — confirmado em `main` via commit `27b0153` (api) | 🟡 Médio   | EPIC-011 |
+| ~~TASK-080~~                      | ~~Visibilidade de cancelamento agendado na tela /billing — banner âmbar + campo scheduledCancellationDate~~ — confirmado em `main` via commit `3bc5bd4` (web) | 🟠 Alto    | EPIC-007 |
+| ~~TASK-072~~                      | ~~Exibir link de comprovante nas faturas pagas da tela /billing~~ — confirmado em `main` via commit `16faeaf` (api) / `2f82258` (web) | 🟡 Médio   | EPIC-006 |
+| ~~TASK-069~~                      | ~~Criar busca para usuários — filtros nome/e-mail na tela /private/users~~ — confirmado em `main` via commit `22fa7b4` (web) | 🟡 Médio   | EPIC-006 |
+| ~~[TASK-099](tasks/TASK-099.md)~~ | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only) — `userRole` salvo no login, lido no TopBar~~ — confirmado em `main` via commit `9b7eac0` | 🟠 Alto    | EPIC-013 |
+| ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem com UsageMeter, badges role/status, org badges, delete local, guard ADMIN~~ — confirmado em `main` via commit `9b7eac0` | 🟠 Alto    | EPIC-013 |
+| ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: `/users/new` reescrito — POST /me/team/users, multi-org checkboxes, roles select, guard ADMIN~~ — confirmado em `main` via commit `9b7eac0` | 🔴 Crítico | EPIC-013 |
+| ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — PATCH com diff de orgs, pré-populate, guard ADMIN, self-edit protection~~ — confirmado em `main` via commit `9b7eac0` | 🟠 Alto    | EPIC-013 |
+| ~~[TASK-087](tasks/TASK-087.md)~~ | ~~Trial 7→14 dias + planos anuais com 17% desconto (2 meses grátis)~~ — confirmado em `main` via commit `2a26800` (api) | 🟠 Alto    | EPIC-010 |
+| ~~[TASK-021](tasks/TASK-021.md)~~ | ~~Alertas no Prometheus/Grafana — rules, AlertManager, Grafana dashboard~~ — confirmado em `main` via commit `03f59fd` (api) | 🟡 Médio   | EPIC-005 |
+| ~~TASK-038~~                      | ~~LGPD: exportação e exclusão de dados pessoais (endpoints + frontend + privacidade)~~ — confirmado em `main` via commit `3142303` (api) + integração em `profile/page.tsx` (web) | 🔵 Baixo   | EPIC-003 |
 | issue #56                     | IA Onboarding adicionado ao menu lateral (Ações) + emojis removidos de Relatórios e Ajuda            | 🔵 Baixo   | EPIC-006 |
-| TASK-089                      | Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)        | 🔴 Crítico | EPIC-012 |
-| TASK-090                      | Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService  | 🔴 Crítico | EPIC-012 |
-| TASK-091                      | Backend: AffiliateController, CommissionAdminController, lead/org integration, auto-match referralCode  | 🔴 Crítico | EPIC-012 |
-| TASK-092                      | Backend: trigger comissão no PaymentReceivedHandler (cycleNumber==1 → CommissionService)               | 🔴 Cr��tico | EPIC-012 |
-| TASK-093                      | Frontend: cookie em_ref na landing page (?ref=CODE) + affiliateCode no submit do lead                  | 🟠 Alto    | EPIC-012 |
-| TASK-094                      | Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável   | 🟠 Alto    | EPIC-012 |
-| TASK-095                      | Frontend: /indicador/[code] — painel do afiliado com KPIs, tabela de leads mascarados e badge de status | 🟠 Alto    | EPIC-012 |
-| TASK-096                      | Frontend: /private/admin/affiliates — painel admin comissões com filtro, "Marcar pago" e total a pagar  | 🟠 Alto    | EPIC-012 |
-
+| ~~TASK-089~~                      | ~~Backend: migrations V72/V73 + entidades Affiliate/ReferralCommission + repositórios (EPIC-012)~~ — confirmado em `main` via commit `d8aee0c` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-090~~                      | ~~Backend: DTOs + AffiliateService (createAffiliate, suggestForEmail, getDashboard) + CommissionService~~ — confirmado em `main` via commit `fa6da0c` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-091~~                      | ~~Backend: AffiliateController, CommissionAdminController, lead/org integration, auto-match referralCode~~ — confirmado em `main` via commit `81edf77` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-092~~                      | ~~Backend: trigger comissão no PaymentReceivedHandler (cycleNumber==1 → CommissionService)~~ — confirmado em `main` via commit `b2b1850` (api) | 🔴 Crítico | EPIC-012 |
+| ~~TASK-093~~                      | ~~Frontend: cookie em_ref na landing page (?ref=CODE) + affiliateCode no submit do lead~~ — confirmado em `main` via commit `9c628a3` (web) | 🟠 Alto    | EPIC-012 |
+| ~~TASK-094~~                      | ~~Frontend: /indicador/novo — formulário de cadastro de afiliado + estado de sucesso com link copiável~~ — confirmado em `main` via commit `cb0c357` (web) | 🟠 Alto    | EPIC-012 |
+| ~~TASK-095~~                      | ~~Frontend: /indicador/[code] — painel do afiliado com KPIs, tabela de leads mascarados e badge de status~~ — confirmado em `main` via commit `5f8abca` (web) | 🟠 Alto    | EPIC-012 |
+| ~~TASK-096~~                      | ~~Frontend: /private/admin/affiliates — painel admin comissões com filtro, "Marcar pago" e total a pagar~~ — confirmado em `main` via commit `be6c065` (web) | 🟠 Alto    | EPIC-012 |
+| ~~[TASK-124](tasks/TASK-124.md)~~ | ~~Full-Stack: visão em calendário dos itens — toggle Lista/Calendário dentro de /items, componentes isolados~~ — validada por Douglas em teste manual real, confirmado em `main` via commit `7eac227` (web) | 🟡 Médio | EPIC-006 |
+| ~~[TASK-125](tasks/TASK-125.md)~~ | ~~Frontend: botão de WhatsApp na landing + número de contato atualizado para (31) 9 9982-6634~~ — confirmado em `main` via commit `b8fe82f` (web) | 🟠 Alto | EPIC-006 |
+| ~~[TASK-126](tasks/TASK-126.md)~~ | ~~Frontend: reformulação da landing — bloco "O risco real" + carrossel mobile~~ — confirmado em `main` via commit `49fada8` (web) | 🟠 Alto | EPIC-006 |
 ---
 
 ## Concluído
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| [TASK-282](tasks/TASK-282.md) / [TASK-283](tasks/TASK-283.md) / [TASK-284](tasks/TASK-284.md) | Landing: telefone obrigatório no form de leads + recursos atualizados + mais dinamismo (fade-in, bento grid, contraste hoje/depois, scrollytelling "Como funciona") — mergeadas em `main` ([api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) / [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)) por Douglas | 🟠 Alto | — |
+| [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção — api#47 e web#52 mergeadas em main | 🟠 Alto | — |
+| [TASK-180](tasks/TASK-180.md) | Conteúdo: revisar post do blog sobre NBR 5674 — PR #45 mergeada em staging | 🔵 Baixo | EPIC-025 |
+| [TASK-178](tasks/TASK-178.md) | Backend: novo item de catálogo para instalação de gás combustível — PR #39 mergeada em staging (V90) | 🟡 Médio | EPIC-025 |
+| [TASK-179](tasks/TASK-179.md) | Frontend: atualizar página `/norms` com os achados do levantamento — PR #44 mergeada em staging | 🟠 Alto | EPIC-025 |
+| [TASK-177](tasks/TASK-177.md) | Backend: corrigir/completar citações de normas no catálogo `norms` — PR #38 mergeada em staging (V89) | 🟠 Alto | EPIC-025 |
+| [TASK-088](tasks/TASK-088.md) | Compliance e governança do catálogo de normas: curated-first IA + fix V9 period_qty=0 — confirmado concluído (V71/V75) ao conferir o banco durante o levantamento de normas (EPIC-025), estava parado em "Em Validação" | 🟠 Alto | EPIC-004 |
+| [TASK-162](tasks/TASK-162.md) | Frontend: cadastro/edição de custo de infraestrutura + rótulo pra "Outros" (achado de QA) — aprovado por Douglas | 🟠 Alto | EPIC-020 |
+| [TASK-161](tasks/TASK-161.md) | Frontend: página `/financeiro` — grid de totalizadores + gráfico Recharts — aprovado por Douglas | 🟠 Alto | EPIC-020 |
+| [TASK-160](tasks/TASK-160.md) | Backend: endpoint agregado de financeiro por mês (receita/custo/comissão/lucro) | 🟠 Alto | EPIC-020 |
+| [TASK-159](tasks/TASK-159.md) | Backend: modelo de dados + CRUD de custo de infraestrutura (`operating_expense_rates`) | 🟠 Alto | EPIC-020 |
+| [TASK-QA-MAN-012](QA/tasks/TASK-QA-MAN-012.md) | QA Manual: E2E dos dois relatórios (PDF de prestação de contas + Excel analítico) — 5 cenários aprovados por Douglas | 🟠 Alto | EPIC-017 |
+| [TASK-150](tasks/TASK-150.md) | Frontend: ocultar menu "Relatórios" quando o plano não inclui relatórios (achado no QA manual, C3) | 🟡 Médio | EPIC-017 |
+| [TASK-149](tasks/TASK-149.md) | Frontend: seletor de organização na aba Prestação de Contas (achado pós-TASK-146) | 🟡 Médio | EPIC-017 |
+| [TASK-148](tasks/TASK-148.md) | Frontend: ajustar tela de Relatório Analítico para refletir export em Excel | 🔵 Baixo | EPIC-017 |
+| [TASK-147](tasks/TASK-147.md) | Backend: evoluir export cross-org de CSV para Excel (.xlsx) real, com novas colunas, 6 testes novos | 🟡 Médio | EPIC-017 |
+| [TASK-146](tasks/TASK-146.md) | Frontend: Relatório de Prestação de Contas — PDF de uma organização, 4 seções | 🟠 Alto | EPIC-017 |
+| [TASK-145](tasks/TASK-145.md) | Backend: listar manutenções canceladas de uma organização num período (auditoria), 5 testes novos | 🟠 Alto | EPIC-017 |
+| [TASK-136](tasks/TASK-136.md) | Infra: provedor de e-mail Resend (grátis) + endpoint de teste manual de envio, MailerSend mantido religável via config | 🟡 Médio | — |
+| [TASK-135](tasks/TASK-135.md) | Backend: template WhatsApp v2 — 5 variáveis de corpo + botão de URL dinâmica pro item | 🟡 Médio | EPIC-015 |
+| [TASK-QA-MAN-010](QA/tasks/TASK-QA-MAN-010.md) | QA Manual: E2E fluxo completo de notificações WhatsApp — 13 cenários executados em staging e aprovados por Douglas | 🟠 Alto | EPIC-015 |
+| [TASK-122](tasks/TASK-122.md) | Full-Stack: dado do usuário — telefone + opt-in para notificações WhatsApp — validado visualmente por Douglas + QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-129](tasks/TASK-129.md) | Backend: integração com WhatsApp Cloud API (Meta) — envio de template, classificação transitória/permanente confirmada contra a Meta real via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-130](tasks/TASK-130.md) | Backend: orquestração de urgência (48h) + idempotência + fallback para e-mail — validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-131](tasks/TASK-131.md) | Backend: quota mensal + rate limiting do canal WhatsApp — validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-128](tasks/TASK-128.md) | Backend: webhook de status de entrega/leitura do WhatsApp Cloud API (Meta) — handshake + validação real de X-Hub-Signature-256, 31 testes novos, 672/672 backend green, validado via QA manual | 🟡 Médio | EPIC-015 |
+| [TASK-QA-MAN-011](QA/tasks/TASK-QA-MAN-011.md) | QA Manual: E2E cancelamento de manutenção + recálculo de compliance — 8 cenários aprovados por Douglas; achou e corrigiu 3 bugs reais (ver TASK-137) | 🟠 Alto | EPIC-016 |
+| [TASK-144](tasks/TASK-144.md) | Frontend: histórico de manutenções (ativas e canceladas) na página de detalhe do item — achado de UX durante o QA manual | 🟡 Médio | EPIC-016 |
+| [TASK-142](tasks/TASK-142.md) | Backend: resolver autor de cada anexo de manutenção — sem N+1 mesmo com múltiplas manutenções (query em lote), 4 testes novos, 707/707 backend green | 🟡 Médio | EPIC-016 |
+| [TASK-143](tasks/TASK-143.md) | Frontend: permitir anexar evidência a manutenções existentes, exibindo autor e data — build/lint limpos | 🟡 Médio | EPIC-016 |
+| [TASK-141](tasks/TASK-141.md) | Frontend: exibir manutenções canceladas na tela do item — card expansível com motivo/autor/data, build/lint limpos | 🟡 Médio | EPIC-016 |
+| [TASK-140](tasks/TASK-140.md) | Frontend: ação "Cancelar manutenção" com modal de motivo obrigatório — build/lint limpos, sem clique-a-clique real (ver TASK-QA-MAN-011 C7) | 🟠 Alto | EPIC-016 |
+| [TASK-139](tasks/TASK-139.md) | Backend: expor manutenções canceladas na consulta/detalhe do item — 4 testes novos, 702/702 backend green | 🟡 Médio | EPIC-016 |
+| [TASK-138](tasks/TASK-138.md) | Backend: recálculo de nextDueAt/lastPerformedAt/status do item após cancelamento — 7 testes novos, 698/698 backend green | 🟠 Alto | EPIC-016 |
+| [TASK-137](tasks/TASK-137.md) | Backend: endpoint de cancelamento de manutenção com motivo obrigatório — 7 testes novos, 691/691 backend green | 🟠 Alto | EPIC-016 |
+| [TASK-132](tasks/TASK-132.md) | Backend: endpoints de disparo manual dos jobs de notificação/WhatsApp — apoio para TASK-QA-MAN-010 | 🟡 Médio | EPIC-015 |
+| [TASK-123](tasks/TASK-123.md) | Full-Stack: exportar lembrete de item em .ics (2 VALARM) — botão no detalhe + na listagem, validado por Douglas | 🟡 Médio | EPIC-006 |
+| [TASK-106](tasks/TASK-106.md) | BUGFIX Full-Stack: notificações escopadas por org via TenantContext — 4 testes novos, 468 passando | 🟠 Alto | EPIC-013 |
+| [TASK-103](tasks/TASK-103.md) | Backend: auditoria createdBy/updatedBy em maintenance_items e maintenances — Long sem @ManyToOne, migration V76, 4 testes | 🟠 Alto | EPIC-013 |
+| [TASK-105](tasks/TASK-105.md) | Frontend: botão "Limpar" sempre visível em /items — estilo dinâmico cinza/vermelho (paridade com /maintenances) | 🔵 Baixo | EPIC-006 |
+| [TASK-097](tasks/TASK-097.md) | Hardening dos limites de plano: `maxUsers` + `maxOrganizations` na criação + testes `emailMonthlyLimit`  | 🟠 Alto    | EPIC-008 |
 | TASK-077                      | Cards KPI do dashboard clicáveis com navegação filtrada (issue #43)                          | 🟡 Médio   | EPIC-006     |
 | TASK-076                      | Botão de voltar ao dashboard na tela de IA Onboarding (issue #44)                            | 🔵 Baixo   | EPIC-006     |
 | TASK-075                      | Exibir mais itens em 'Atenção Agora' — limitAttention 5→10 no dashboard (issue #40)          | 🔵 Baixo   | EPIC-006     |
@@ -303,6 +2740,7 @@ _Vazio_
 | [TASK-064](tasks/TASK-064.md) | Hardening de webhook Asaas: DLQ + replay manual                            | 🟠 Alto    | 2    | BACKEND    |
 | [TASK-065](tasks/TASK-065.md) | Frontend: tela "Atualizar método de pagamento" para subscriptions PAST_DUE | 🟠 Alto    | 2    | FRONTEND   |
 | [TASK-066](tasks/TASK-066.md) | Implementar Pix Automático (mandato no banco do payer)                     | 🟡 Médio   | 3    | FULL_STACK |
+| [TASK-109](tasks/TASK-109.md) | Full-Stack: Troca de método de pagamento em ACTIVE (CC→PIX, CC→CC, PIX→CC) | 🟡 Médio   | 3    | FULL_STACK |
 
 ---
 
@@ -312,9 +2750,52 @@ _Vazio_
 
 | ID       | Título                                                                          | Prioridade | Fase | Tipo       |
 |----------|---------------------------------------------------------------------------------|------------|------|------------|
-| TASK-081 | Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org       | 🟠 Alto    | 3    | BACKEND    |
-| TASK-082 | Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros | 🟠 Alto    | 3    | BACKEND    |
-| TASK-083 | Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org        | 🟡 Médio   | 3    | BACKEND    |
-| TASK-084 | Frontend: estrutura da página /me/reports + entrada no sidenav                  | 🟠 Alto    | 3    | FRONTEND   |
-| TASK-085 | Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa        | 🟠 Alto    | 3    | FRONTEND   |
-| TASK-086 | Frontend: Seção de Relatórios — filtros, tabela paginada e exportação CSV       | 🟡 Médio   | 3    | FRONTEND   |
+| ~~TASK-081~~ | ~~Backend: GET /me/reports/overview — KPIs consolidados + breakdown por org~~ — confirmado em `main` via commit `7cae193` (api) | 🟠 Alto    | 3    | BACKEND    |
+| ~~TASK-082~~ | ~~Backend: GET /me/reports/maintenances — listagem paginada cross-org com filtros~~ — confirmado em `main` via commit `572ad3b` (api) | 🟠 Alto    | 3    | BACKEND    |
+| ~~TASK-083~~ | ~~Backend: GET /me/reports/maintenances/export — CSV consolidado cross-org~~ — confirmado em `main` via commit `27b0153` (api) | 🟡 Médio   | 3    | BACKEND    |
+| ~~TASK-084~~ | ~~Frontend: estrutura da página /me/reports + entrada no sidenav~~ — confirmado em `main` via commit `2c41454` (web) | 🟠 Alto    | 3    | FRONTEND   |
+| ~~TASK-085~~ | ~~Frontend: Dashboard Unificado — KPIs globais + grid de cards por empresa~~ — confirmado em `main` via commit `ddfa9bd` (web) | 🟠 Alto    | 3    | FRONTEND   |
+| ~~TASK-086~~ | ~~Frontend: Seção de Relatórios — filtros, tabela paginada e exportação CSV~~ — confirmado em `main` via commit `bf44e90` (web) | 🟡 Médio   | 3    | FRONTEND   |
+
+---
+
+## 👥 EPIC-013 — Gestão de Usuários por Organização
+
+> Adicionado em 28/06/2026 — dono ADMIN gerencia uma equipe de membros (READER/VIEWER) que ajudam a operar suas organizações. Multi-org assignment no convite. `maxUsers` do plano do dono. Novos endpoints: `GET/POST/PATCH/DELETE /me/team/users`. Frontend: "Usuários" no UserTopBar, listagem `/users` com orgs por membro, `/users/new` com multi-select de orgs, `/users/[id]/edit` com gestão de orgs.
+
+| ID                                            | Título                                                              | Prioridade | Fase | Tipo        |
+|-----------------------------------------------|---------------------------------------------------------------------|------------|------|-------------|
+| [TASK-098](tasks/TASK-098.md)                 | Backend: guard ADMIN + invitation email + DELETE endpoint           | 🔴 Crítico | 3    | BACKEND     |
+| ~~[TASK-099](tasks/TASK-099.md)~~             | ~~Frontend: "Usuários" no UserTopBar dropdown (ADMIN only)~~        | 🟠 Alto    | 3    | FRONTEND    |
+| ~~[TASK-100](tasks/TASK-100.md)~~             | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | 3    | FRONTEND    |
+| ~~[TASK-101](tasks/TASK-101.md)~~             | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | 3    | FRONTEND    |
+| ~~[TASK-102](tasks/TASK-102.md)~~             | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~  | 🟠 Alto    | 3    | FRONTEND    |
+| [TASK-QA-MAN-009](QA/tasks/TASK-QA-MAN-009.md) | QA Manual: E2E fluxo completo de convite e gestão de usuários     | 🟠 Alto    | 3    | QA          |
+
+---
+
+## 💳 EPIC-014 — Consolidação de Billing: Plano Único por Conta
+
+> Adicionado em 12/07/2026 — hoje o sistema cobra um item de assinatura por USER + um item por cada
+> ORGANIZATION, ambos somados na mesma fatura (ex.: onboarding cria USER BUSINESS R$299 + ORGANIZATION
+> BUSINESS R$299 = R$598/mês num cadastro novo). Isso contraria o desenho original da grade de planos
+> (TASK-053), onde "Organizações" e "Itens/Org" já são limites embutidos no mesmo tier, não produtos
+> separados. Decisão validada com Douglas (12/07/2026): consolidar para 1 plano por conta, organizações
+> incluídas até o limite do plano, `maxItems` vira pool compartilhado entre todas as organizações do
+> usuário (não mais por organização isolada). Sem clientes pagantes reais hoje — migração limpa, sem
+> grandfathering.
+
+| ID                             | Título                                                                          | Prioridade | Fase | Tipo       |
+|---------------------------------|----------------------------------------------------------------------------------|------------|------|------------|
+| [TASK-110](tasks/TASK-110.md)  | Backend: parar de criar item ORGANIZATION cobrável (Onboarding + addOrganizationSubscription) | 🔴 Crítico | 1    | BACKEND    |
+| [TASK-111](tasks/TASK-111.md)  | Backend: pool compartilhado de maxItems entre organizações do owner              | 🔴 Crítico | 1    | BACKEND    |
+| [TASK-112](tasks/TASK-112.md)  | Backend: downgrade valida pool de itens + depreciar OrganizationPlanChangeService | 🟠 Alto    | 1    | BACKEND    |
+| [TASK-113](tasks/TASK-113.md)  | Backend: compat GET /organizations/{code}/subscription (plano da conta + uso do pool) | 🟠 Alto    | 1    | BACKEND    |
+| [TASK-114](tasks/TASK-114.md)  | Backend/Infra: migration Flyway — limpar billing_subscription_items ORGANIZATION legados | 🟠 Alto    | 1    | INFRA      |
+| [TASK-115](tasks/TASK-115.md)  | Frontend: /billing — card único de conta + lista informativa de organizações     | 🟠 Alto    | 1    | FRONTEND   |
+| [TASK-116](tasks/TASK-116.md)  | Frontend: painel admin billing/subscriptions — mesma consolidação                | 🟡 Médio   | 1    | FRONTEND   |
+| [TASK-117](tasks/TASK-117.md)  | QA: E2E fluxo completo billing consolidado                                       | 🔴 Crítico | 1    | QA         |
+| [TASK-118](tasks/TASK-118.md)  | BUGFIX: /organizations/new ainda pedia plano próprio para a organização          | 🔴 Crítico | 1    | FULL_STACK |
+| [TASK-119](tasks/TASK-119.md)  | BUGFIX: /organizations/[code] ainda exibia card de Assinatura e Plano + edição inline | 🟠 Alto | 1  | FRONTEND   |
+| [TASK-120](tasks/TASK-120.md)  | BUGFIX: TenantFilterAspect zerava contagem cross-org (afetava pool real da TASK-111) | 🔴 Crítico | 1 | BACKEND |
+| [TASK-121](tasks/TASK-121.md)  | BUGFIX: botão "+ Novo Item" não bloqueava proativamente com pool esgotado | 🔴 Crítico | 1 | FULL_STACK |
