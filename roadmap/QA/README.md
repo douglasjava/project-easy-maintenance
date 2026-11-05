@@ -85,6 +85,7 @@ independentes que podem ser executados aos poucos.
 | [TASK-QA-MAN-026](tasks/TASK-QA-MAN-026.md) | Emissão de NFS-e via Asaas nativo (EPIC-037) — flag de segurança, configuração na ativação, webhook, reconciliação | 🔴 Alto |
 | [TASK-QA-MAN-027](tasks/TASK-QA-MAN-027.md) | Pessoas e Papéis (EPIC-039) — cadastro por papel, matriz role/role_detail, isolamento multi-tenant, permissão | 🟠 Alto |
 | [TASK-QA-MAN-028](tasks/TASK-QA-MAN-028.md) | Controle Administrativo de Acesso (EPIC-041) — prorrogar/cortar, login dono/filhos, assistente, notificações | 🔴 Crítico |
+| [TASK-QA-MAN-029](tasks/TASK-QA-MAN-029.md) | Executar JORNADA-PRD-001 — jornada completa do produto em PRD, por blocos | 🟠 Alto |
 
 ### Automatizadas
 
