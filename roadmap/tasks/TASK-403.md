@@ -45,12 +45,38 @@ só altera por exceção.
   "calculada após validação do síndico".
 
 ## Critérios de Aceite
-- [ ] Cartão mostra a próxima data e a regra para item regulatório, operacional e item novo
-- [ ] A data mostrada no cartão é **igual** à gravada após Confirmar (teste comparando os dois caminhos)
-- [ ] Item sem periodicidade (se existir) → cartão não quebra; mostra "sem periodicidade definida"
-- [ ] Mensagem de "✅ Registrado!" continua com o próximo vencimento
-- [ ] `mvn test` sem regressão
+- [x] Cartão mostra a próxima data e a regra para item regulatório, operacional e item novo
+- [x] A data mostrada no cartão é **igual** à gravada após Confirmar (teste comparando os dois caminhos)
+- [x] Item sem periodicidade (se existir) → cartão não quebra; mostra "sem periodicidade definida"
+- [x] Mensagem de "✅ Registrado!" continua com o próximo vencimento
+- [x] `mvn test` sem regressão — 1770/1770 (5 testes de domínio + 7 do cartão)
 
 ## Riscos
 Refatorar o cálculo do `MaintenanceService.register` toca o fluxo web de registro — cobrir com os
 testes existentes do serviço antes de mexer.
+
+## Implementação (09/11/2026)
+- **Fonte única do cálculo:** `MaintenanceService.nextDueAfter` (período → data da execução + período;
+  sem período → vencimento atual) é usado pelo `register()` **e** pela prévia
+  (`previewNextDue(orgId, itemId, data)` e `previewNextDueForNewItem(normId, meses, data)`). Teste prova que a
+  data da prévia é igual à gravada. `ServiceBase.resolveNormPeriod` virou a única tradução norma → período.
+- Prévia usa `findEntityForOrg` (valida o condomínio); item de outra organização → `TenantException`.
+- Cartão: `⏭️ Próxima: 07/05/2027 (a cada 6 meses, periodicidade do item)` ou
+  `(uma vez por ano, pela norma — Corpo de Bombeiros / ABNT)`; item novo usa a norma do tipo do catálogo ou
+  a periodicidade escolhida; sem periodicidade: "o vencimento continua dd/MM/yyyy". Falha na prévia não
+  impede o cartão (só omite a linha).
+- O exemplo "a cada 6 meses" do Corrigir só aparece para item novo operacional (feito na TASK-400).
+
+## ⚠️ Achado de domínio (não corrigido — decisão de produto)
+Registrar uma manutenção com data **anterior** à última do item faz o `register()` recalcular o vencimento a
+partir dessa data antiga (puxa o vencimento para trás e sobrescreve `lastPerformedAt`). O cartão agora
+**avisa** ("Já existe manutenção mais recente…"), mas a regra em si vale para web e WhatsApp e merece decisão:
+manter, ou só recalcular quando a data for a mais recente. Mesma família da decisão pendente "corretiva
+reinicia o ciclo?".
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `eda46e6`.
+
+## Status
+🟡 Em Validação — implementado e testado (1770/1770); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C6).

@@ -128,3 +128,5 @@ Proposta: EPIC "Financeiro v2 + integração com manutenção".
 3. Custo da manutenção = valor pago (vira despesa) ou só referência (contrato ou garantia)?
 4. Categorias financeiras: enum fixo ou configuráveis por condomínio?
 5. Os 7 conflitos da seção 4.
+6. Registrar manutenção com data **anterior** à última do item recalcula o vencimento a partir dela (puxa para
+   trás) — manter ou só recalcular quando for a mais recente? (achado na TASK-403, 09/11)

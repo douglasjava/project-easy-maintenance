@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟡 [TASK-403](tasks/TASK-403.md) em validação** (Onda 1 do Samu):
+> cartão de confirmação mostra "⏭️ Próxima: dd/MM/yyyy (regra)", calculada pela mesma função do registro
+> (`MaintenanceService.nextDueAfter`). Achado de domínio registrado na task: registrar data mais antiga que a
+> última puxa o vencimento para trás — decisão de produto pendente. Branch `bugfix/onda1-usabilidade-samu`
+> (api `eda46e6`), 1770/1770. Próxima: [TASK-404](tasks/TASK-404.md) (vencimentos da semana × vencidos).
+
 > Atualizado em: 09/11/2026 — **🟡 [TASK-402](tasks/TASK-402.md) em validação** (Onda 1 do Samu):
 > registro pelo WhatsApp nunca mais presume "hoje" — sem data dita, pergunta [Hoje] [Ontem] [Outra data];
 > entende "hj"; data escrita vence a relativa; campo `data` da IA só vale se o texto fala de quando foi.
@@ -2160,6 +2166,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-403](tasks/TASK-403.md) | Samu: cartão mostra a próxima data e a regra (norma/item), pela mesma regra do registro (WA-06, WA-23) — api `eda46e6`, 1770/1770; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-402](tasks/TASK-402.md) | Samu: registro nunca presume a data — pergunta [Hoje] [Ontem] [Outra data]; "hj"; data escrita vence "ontem" (WA-13, WA-07) — api `e30967b`, 1758/1758; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-401](tasks/TASK-401.md) | Samu: registro sugere o item parecido (erro de digitação) antes de propor item novo do catálogo (WA-02) — api `ce34b40`, 1741/1741; causa confirmada (IA inventou o item); falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
 | [TASK-400](tasks/TASK-400.md) | Samu: "Corrigir" troca o item e não prende mais no "confirme antes" (WA-01) — branch `bugfix/onda1-usabilidade-samu` (api `c3dec3e`), 1727/1727; falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
@@ -2202,7 +2209,6 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-403](tasks/TASK-403.md)  | Samu: cartão de confirmação mostra próxima data e regra (WA-06, WA-23) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-404](tasks/TASK-404.md)  | Samu: "Vencimentos da semana" diz ✅ com vencidos + datas sem ano (WA-19, WA-15) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-407](tasks/TASK-407.md)  | Samu: mensagem após botão "Registrar" cai na resposta genérica — sem estado de espera (WA-08) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-405](tasks/TASK-405.md)  | Samu: descrição = texto cru/intenção; responsável = "emergencial" (WA-03, WA-14) | 🟡 Médio | EPIC-031 | MODERADA |
