@@ -2,9 +2,9 @@
 
 > Atualizado em: 09/11/2026 — **🟡 [TASK-401](tasks/TASK-401.md) em validação** (Onda 1 do Samu):
 > busca de item tolera erro de digitação ("caixa de gorduro") e oferece os itens parecidos **antes** de o
-> catálogo propor item novo — fim do "🆕 Gerador". A hipótese "emergencial → emergência" foi descartada
-> (a norma do Gerador só tem "gerador"); a origem exata do "gerador" fica para confirmar pela descrição da
-> manutenção 19 em produção. Mesma branch `bugfix/onda1-usabilidade-samu` (api `ce34b40`), 1741/1741.
+> catálogo propor item novo — fim do "🆕 Gerador". **Causa confirmada em produção:** o texto não tinha
+> "gerador"; a IA inventou o campo `item` — agora o campo da IA só vale se aparecer no texto. Mesma branch
+> `bugfix/onda1-usabilidade-samu`, 1744/1744.
 > Próxima: [TASK-402](tasks/TASK-402.md) (data nunca presumida).
 
 > Atualizado em: 09/11/2026 — **🟡 [TASK-400](tasks/TASK-400.md) em validação** (Onda 1 do Samu):
@@ -2154,7 +2154,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-401](tasks/TASK-401.md) | Samu: registro sugere o item parecido (erro de digitação) antes de propor item novo do catálogo (WA-02) — api `ce34b40`, 1741/1741; falta QA manual TASK-QA-MAN-030 + consulta da manutenção 19 | 🔴 Crítico | EPIC-031 | GRAVE |
+| [TASK-401](tasks/TASK-401.md) | Samu: registro sugere o item parecido (erro de digitação) antes de propor item novo do catálogo (WA-02) — api `ce34b40`, 1741/1741; causa confirmada (IA inventou o item); falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
 | [TASK-400](tasks/TASK-400.md) | Samu: "Corrigir" troca o item e não prende mais no "confirme antes" (WA-01) — branch `bugfix/onda1-usabilidade-samu` (api `c3dec3e`), 1727/1727; falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
 ## 🐛 Bugs — Concluídos
 

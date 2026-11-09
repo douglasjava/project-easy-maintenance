@@ -35,7 +35,9 @@ Sim — coberto pelo [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md).
   extraídos. Resultado vazio → usar o nome do item + tipo ("Limpeza caixa de gordura — emergencial").
 - Correção em texto livre que não seja campo conhecido pode ser "o que foi feito" — aceitar
   "descrição: …" / "o que foi feito: …" para trocar a descrição.
-- **Responsável:** descartar valores que são tipo de manutenção, data, valor ou palavra solta de
+- **Responsável:** confirmado em produção que `performed_by = "emergencial"` veio do campo `responsavel`
+  da IA (o texto não tem "feito por…"). Aplicar a mesma checagem da TASK-401 (`groundedInText`: o valor
+  precisa aparecer no texto) e descartar valores que são tipo de manutenção, data, valor ou palavra solta de
   1 token genérico; aceitar nome de empresa/pessoa.
 - A hora dita ("às 09:00") permanece na descrição (decisão da [TASK-402](TASK-402.md)).
 

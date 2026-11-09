@@ -34,6 +34,8 @@ Sim — coberto pelo [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md).
   **[Hoje] [Ontem] [Outra data]**; "Outra data" aceita texto ("17/10", "semana passada" → pede o dia).
   Texto livre com data nesse estágio também vale. Manter os demais campos do rascunho.
 - Remover a marca "(não informada — usei hoje)" do cartão (deixa de existir).
+- **Data explícita vence a relativa** (achado na manutenção 19: "ontem, dia 07/11/26" — hoje `parseDate`
+  lê "ontem" antes de olhar a data escrita).
 - `parseDate`: aceitar "hj", "hoje cedo", "hj de manhã", "ontem à noite", "onti".
 - Ordem de estágios: item (TASK-400/401) → data → cartão.
 

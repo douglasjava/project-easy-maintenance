@@ -25,15 +25,12 @@ periodicidade pela norma), embora já existisse "Limpeza caixa de gordura · Gar
 ## Causa (verificada no código em 09/11/2026 — hipótese inicial corrigida)
 1. `ItemMatcher.match` só casava por **trecho exato** do nome normalizado; um erro de digitação
    ("gorduro") zerava os candidatos e o fluxo ia **direto ao catálogo**, que pode propor item novo.
-2. **A hipótese "emergencial → emergência" não se sustenta:** a norma ligada ao Gerador é `GERADOR`
-   (só a palavra "gerador") e nenhuma norma tem "emergência" sozinha. Para o catálogo propor
-   "🆕 Gerador", o texto que chegou ao bot precisava conter "gerador" — provavelmente uma mensagem
-   anterior juntada no mesmo lote (`MessageMerger`; o Tiago tinha acabado de perguntar sobre alterar
-   um vencimento), um áudio transcrito ou o campo `item` devolvido pela IA. **Confirmar no banco de
-   produção** (a descrição guarda o texto completo que o bot recebeu):
-   ```sql
-   SELECT id, item_id, performed_at, performed_by, description, source FROM maintenances WHERE id = 19;
-   ```
+2. **Causa confirmada em produção (09/11/2026):** o texto recebido (manutenção 19) **não contém
+   "gerador"** — "manutenção da caixa de gorduro do predio, nao me lembro de ter cadastrado o item ainda…
+   feita de forma emergencial". O item criado (140) é `GERADOR`, ligado à norma `GERADOR` (só a palavra
+   "gerador"). Logo, o "gerador" veio do **campo `item` extraído pela IA** (alucinação — o mesmo
+   classificador devolveu `responsavel = "emergencial"`). A hipótese "emergencial → emergência" e a da
+   mensagem juntada no lote foram descartadas.
 3. A correção abaixo resolve o caso **qualquer que tenha sido a origem do "gerador"**: itens parecidos que
    já existem passam a ser oferecidos **antes** de o catálogo propor item novo.
 
@@ -78,12 +75,16 @@ com os itens reais do Edifício Veneza.
 - Registro: sugestão → "Achei estes itens parecidos em *X*. É algum deles?" + **Nenhum destes**; só o
   "Nenhum destes" leva ao catálogo curado (item novo). Item novo nunca é proposto se há parecido.
 - Campo `item` da IA sem resultado → tenta o texto inteiro antes do catálogo.
+- **Campo `item` da IA só vale se aparecer no texto** (`groundedInText`: ao menos uma palavra forte do
+  campo presente na mensagem, tolerando erro de digitação). Sem isso, como o Gerador (140) agora existe
+  no Veneza, o casamento exato iria direto para ele na próxima alucinação. Commit `9f3cea4`.
+- Regressão com o **texto exato** da manutenção 19 (`PROD_TEXT_19`).
 - Histórico e troca de item da TASK-400 usam a mesma busca.
 - Fora desta task: o mini-cadastro completo de item novo pelo chat (WA-22) segue na Parte B.
 
 ## Branch
-`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `ce34b40`.
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commits `ce34b40`, `30bdd87` e `9f3cea4`.
 
 ## Status
-🟡 Em Validação — implementado e testado (1741/1741); falta QA manual
-[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C1) e a consulta da manutenção 19 acima.
+🟡 Em Validação — implementado e testado (1744/1744); causa confirmada em produção; falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C1).
