@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟢 Onda 1 do Samu validada em `staging`** (QA manual TASK-QA-MAN-030 pelo Douglas;
+> api#184 e web#136 mergeadas). Promoção para `main` aberta:
+> [api#185](https://github.com/douglasjava/easy-maintenance-api/pull/185) e
+> [web#137](https://github.com/douglasjava/easy-maintenance-web/pull/137). TASK-400 a 409 vão para Concluído quando
+> chegarem à `main`. Depois do deploy: limpeza do Gerador (TASK-408) e reteste do C1 pelo Tiago.
+
 > Atualizado em: 09/11/2026 — **🔵 Onda 1 do Samu: PRs abertas para `staging`** —
 > [api#184](https://github.com/douglasjava/easy-maintenance-api/pull/184) (TASK-400 a 408 + campos da IA, 12 commits,
 > 1807/1807) e [web#136](https://github.com/douglasjava/easy-maintenance-web/pull/136) (TASK-409). Próximo: QA manual
