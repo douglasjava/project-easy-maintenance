@@ -29,6 +29,12 @@ O que a Onda 1 já fez (não refazer aqui): todo campo da IA — item, data, res
 se o texto der pista dele (`groundedInText`, `mentionsWhen`, `mentionsMoney`, `mentionsKind`), e o texto sempre
 vence o campo. A resposta ao "me conte o que foi feito" nem passa pela IA (TASK-407).
 
+## Achado da TASK-411 (09/11/2026)
+O classificador roda com **`temperature(1.0)`** — fixado em `AiConfig.customOpenAiChatModel`, o mesmo bean do
+`openAiAiProvider` usado por outros fluxos de IA (onboarding etc.). Baixar a temperatura **só do classificador** exige
+um `ChatModel`/opção própria para ele, sem mudar os demais. Comparar com `-DaiEval.temperature=0` no runner da 411
+antes de decidir.
+
 ## Escopo
 - `temperature = 0` (ou o mínimo suportado) na chamada do classificador — sem afetar os outros usos do
   `openAiAiProvider` (IA Onboarding etc.).
