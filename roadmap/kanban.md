@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟡 [TASK-404](tasks/TASK-404.md) em validação** (Onda 1 do Samu):
+> "Vencimentos da semana" nunca mais diz "✅ nada vence" com itens atrasados (mostra "mas há N itens
+> vencidos"); datas de outro ano saem com o ano e atrasos longos em meses/anos. Branch
+> `bugfix/onda1-usabilidade-samu` (api `c21b6b1`), 1775/1775. Próxima: [TASK-407](tasks/TASK-407.md)
+> (mensagem após o botão "Registrar").
+
 > Atualizado em: 09/11/2026 — **🟡 [TASK-403](tasks/TASK-403.md) em validação** (Onda 1 do Samu):
 > cartão de confirmação mostra "⏭️ Próxima: dd/MM/yyyy (regra)", calculada pela mesma função do registro
 > (`MaintenanceService.nextDueAfter`). Achado de domínio registrado na task: registrar data mais antiga que a
@@ -2166,6 +2172,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-404](tasks/TASK-404.md) | Samu: "Vencimentos da semana" avisa os vencidos (nunca ✅ com atrasados) e datas de outro ano com ano (WA-19, WA-15) — api `c21b6b1`, 1775/1775; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-403](tasks/TASK-403.md) | Samu: cartão mostra a próxima data e a regra (norma/item), pela mesma regra do registro (WA-06, WA-23) — api `eda46e6`, 1770/1770; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-402](tasks/TASK-402.md) | Samu: registro nunca presume a data — pergunta [Hoje] [Ontem] [Outra data]; "hj"; data escrita vence "ontem" (WA-13, WA-07) — api `e30967b`, 1758/1758; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-401](tasks/TASK-401.md) | Samu: registro sugere o item parecido (erro de digitação) antes de propor item novo do catálogo (WA-02) — api `ce34b40`, 1741/1741; causa confirmada (IA inventou o item); falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
@@ -2209,7 +2216,6 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-404](tasks/TASK-404.md)  | Samu: "Vencimentos da semana" diz ✅ com vencidos + datas sem ano (WA-19, WA-15) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-407](tasks/TASK-407.md)  | Samu: mensagem após botão "Registrar" cai na resposta genérica — sem estado de espera (WA-08) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-405](tasks/TASK-405.md)  | Samu: descrição = texto cru/intenção; responsável = "emergencial" (WA-03, WA-14) | 🟡 Médio | EPIC-031 | MODERADA |
 | [TASK-406](tasks/TASK-406.md)  | Samu: histórico ignora a última data do cadastro do item (WA-09) | 🟡 Médio | EPIC-031 | MODERADA |

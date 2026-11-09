@@ -34,8 +34,25 @@ Sim — coberto pelo [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md).
 - Pergunta "você sabe quando foi feito pela última vez?" para vencidos há mais de 1 ano (Parte B, fluxo C).
 
 ## Critérios de Aceite
-- [ ] Sem vencimentos na semana e com vencidos → resposta sem ✅ e com o aviso de N vencidos
-- [ ] Sem vencimentos e sem vencidos → "✅ Nada vence" (como hoje)
-- [ ] Vencido de ano anterior aparece com ano ("08/11/2024"); do ano corrente, sem ano
-- [ ] Testes unitários de `AssistantQueryService` para os três casos
-- [ ] `mvn test` sem regressão
+- [x] Sem vencimentos na semana e com vencidos → resposta sem ✅ e com o aviso de N vencidos
+- [x] Sem vencimentos e sem vencidos → "✅ Nada vence" (como hoje)
+- [x] Vencido de ano anterior aparece com ano ("08/11/2024"); do ano corrente, sem ano
+- [x] Testes unitários de `AssistantQueryService` para os três casos (+ datas/atraso: 5 testes novos)
+- [x] `mvn test` sem regressão — 1775/1775
+
+## Implementação (09/11/2026)
+- `upcoming` consulta também a janela de vencidos (mesma consulta do `overdue`, no contexto do condomínio):
+  - nada na semana + vencidos → "📅 Nada vence nos próximos 7 dias em *X*, mas há ⚠️ *8 itens vencidos*. Ver: …&status=OVERDUE" (sem ✅);
+  - itens na semana + vencidos → lista + "⚠️ Além disso, há *N itens vencidos*. Ver: …";
+  - nada e nenhum vencido → "✅ Nada vence…" (como antes).
+- Datas: `dd/MM` no ano corrente, `dd/MM/yyyy` em outro ano (vencidos e próximos).
+- Atraso: até 60 dias em dias; depois em meses; a partir de 12 meses "mais de N anos".
+- Um teste antigo (limite de 10 linhas) passou a declarar explicitamente "sem vencidos" no cenário.
+- Fora: ações por item na lista de vencidos (TASK-340) e a pergunta da última data real (Parte B).
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `c21b6b1`.
+
+## Status
+🟡 Em Validação — implementado e testado (1775/1775); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C7, C8).
