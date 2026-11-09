@@ -32,7 +32,19 @@ ignorando `ItemResponse.lastPerformedAt`.
 - Sem registros e sem `lastPerformedAt` → mensagem atual.
 
 ## Critérios de Aceite
-- [ ] Item só com `lastPerformedAt` → mostra a data e a observação
-- [ ] Item com registros → comportamento atual
-- [ ] Item sem nada → "Ainda não há manutenções…"
-- [ ] Teste unitário dos três casos; `mvn test` sem regressão
+- [x] Item só com `lastPerformedAt` → mostra a data e a observação
+- [x] Item com registros → comportamento atual
+- [x] Item sem nada → "Ainda não há manutenções…"
+- [x] Teste unitário dos três casos (2 novos + o de registros já existente); `mvn test` sem regressão — 1798/1798
+
+## Implementação (09/11/2026)
+`AssistantQueryService.historyOf`: sem registros e com `lastPerformedAt` → "🔧 *Extintor*: última manutenção em
+10/03/2026 (informada no cadastro do item, sem registro detalhado)." + próximo vencimento + link do histórico.
+Sem registros e sem data → mensagem atual. Com registros → sem mudança.
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `1efb353`.
+
+## Status
+🟡 Em Validação — implementado e testado (1798/1798); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C10).

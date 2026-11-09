@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟡 [TASK-406](tasks/TASK-406.md) em validação** (Onda 1 do Samu):
+> histórico pelo WhatsApp usa a última data do cadastro do item quando não há registros (antes: "nenhuma
+> manutenção"). Branch `bugfix/onda1-usabilidade-samu` (api `1efb353`), 1798/1798. Restam na Onda 1:
+> [TASK-408](tasks/TASK-408.md) (negrito + dados do teste) e [TASK-409](tasks/TASK-409.md) (modal financeiro, web).
+
 > Atualizado em: 09/11/2026 — **🟡 [TASK-405](tasks/TASK-405.md) em validação** (Onda 1 do Samu):
 > descrição limpa sem IA (sem "quero atualizar…", sem valor/responsável; vazia vira "Preventiva — Item") e
 > responsável validado (nunca "emergencial"). Decisão registrada: prompt da IA não foi alterado. Branch
@@ -2183,6 +2188,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-406](tasks/TASK-406.md) | Samu: histórico mostra a última data do cadastro do item quando não há registros (WA-09) — api `1efb353`, 1798/1798; falta QA manual TASK-QA-MAN-030 | 🟡 Médio | EPIC-031 | MODERADA |
 | [TASK-405](tasks/TASK-405.md) | Samu: descrição sem frase de intenção/valor; responsável validado (IA inventou "emergencial") (WA-03, WA-14) — api `3fd949b`, 1796/1796; falta QA manual TASK-QA-MAN-030 | 🟡 Médio | EPIC-031 | MODERADA |
 | [TASK-407](tasks/TASK-407.md) | Samu: mensagem depois do botão "Registrar"/foto sem legenda vai direto para o registro, sem IA (WA-08) — api `a7fef22`, 1787/1787; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-404](tasks/TASK-404.md) | Samu: "Vencimentos da semana" avisa os vencidos (nunca ✅ com atrasados) e datas de outro ano com ano (WA-19, WA-15) — api `c21b6b1`, 1775/1775; falta QA manual TASK-QA-MAN-030 | 🟠 Alto | EPIC-031 | ALTA |
@@ -2229,7 +2235,6 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-406](tasks/TASK-406.md)  | Samu: histórico ignora a última data do cadastro do item (WA-09) | 🟡 Médio | EPIC-031 | MODERADA |
 | [TASK-408](tasks/TASK-408.md)  | Samu: negrito do nome do condomínio + limpeza do Gerador do teste + verificar WA-17 (WA-12, WA-17, WA-18) | 🔵 Baixo | EPIC-031 | BAIXA |
 | [TASK-409](tasks/TASK-409.md)  | Financeiro: modal Nova receita/despesa com visual destrutivo vermelho (FI-04) | 🔵 Baixo | EPIC-032 | BAIXA |
 | [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) | QA manual da Onda 1 (textos reais dos testes de 08/11) | 🔴 Crítico | EPIC-031 | — |
