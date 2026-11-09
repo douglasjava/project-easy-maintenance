@@ -41,14 +41,36 @@ descartado porque `fromShortcut=true`.
 - Lote com botão + texto: se o atalho é de registro/financeiro e há texto, iniciar o rascunho com o texto.
 
 ## Critérios de Aceite
-- [ ] Botão "Registrar manutenção" → "poda de jardim" → abre o rascunho (item/data/cartão), sem resposta genérica
-- [ ] Foto sem legenda → "Me conte o que foi feito" → texto → rascunho **com** a foto anexada
-- [ ] Mesmo comportamento para lançamento financeiro
-- [ ] "menu" durante a espera → menu; estado limpo
-- [ ] Espera expirada (30 min) → mensagem segue o fluxo normal de classificação
-- [ ] Não consome crédito de IA na mensagem seguinte ao atalho quando o texto já basta (se o `start` usa IA para extrair campos, manter uma única chamada)
-- [ ] `mvn test` sem regressão
+- [x] Botão "Registrar manutenção" → "poda de jardim" → abre o rascunho (item/data/cartão), sem resposta genérica
+- [x] Foto sem legenda → "Me conte o que foi feito" → texto → rascunho **com** a foto anexada
+- [x] Mesmo comportamento para lançamento financeiro
+- [x] "menu" durante a espera → menu; estado limpo
+- [x] Espera expirada (30 min) → mensagem segue o fluxo normal de classificação
+- [x] Não consome crédito de IA na mensagem seguinte ao atalho quando o texto já basta (se o `start` usa IA para extrair campos, manter uma única chamada)
+- [x] `mvn test` sem regressão — 1787/1787 (8 testes do `AwaitingInputHandler` + 4 do `IntentStep`)
 
 ## Riscos
 Novo estado de espera convive com os pendentes existentes (`PendingActionStep`) — garantir precedência
 correta e que um rascunho em `CONFIRM` não seja sobrescrito.
+
+## Implementação (09/11/2026)
+- Novo `AwaitingInputHandler` (`PendingActionHandler`, `awaiting = "INPUT"`, 30 min) — um só estado para
+  registro e lançamento, em vez de dois (`Capability.REGISTRATION | FINANCIAL` no JSON). É despachado pelo
+  `PendingActionStep` (ordem 47), **depois da transcrição de áudio (45) e antes da IA (50)**.
+- Armado pelo `IntentStep` ao pedir a descrição: botão/atalho de Registrar (inclusive "3" digitado), botão de
+  Lançar, e foto/documento sem legenda (a mídia fica guardada).
+- Resposta: texto/áudio → `registration.start(turn, Map.of(), fotosGuardadas)` / `financialEntry.start(...)`,
+  **sem chamada à IA** (zero crédito); só foto → acumula e pede o texto; lançamento sem valor → reenvia o
+  exemplo e continua esperando.
+- Saídas: qualquer botão, "menu"/saudação/atalho → desarma e segue o fluxo normal; "cancelar" → encerra;
+  expirou → descarta em silêncio (não avisa "expirou", não é rascunho).
+- Lote com botão + texto (`MessageMerger`): o texto vira a descrição (antes era descartado).
+- Sem dependência circular: o handler depende dos serviços de registro/lançamento, que não dependem do pipeline.
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `a7fef22`.
+
+## Status
+🟡 Em Validação — implementado e testado (1787/1787); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C11, C12). Nenhum teste sobe o contexto Spring: o QA
+manual confirma a fiação do bean novo em ambiente real.
