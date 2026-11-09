@@ -75,4 +75,5 @@ Se os itens vencidos tiverem `created_at` entre o teste 1 e o teste 2 de 08/11, 
 (hipótese provável). Senão, abrir bug próprio de cálculo de vencidos.
 
 ## Status
-🟡 Em Validação — Parte 1 implementada (1802/1802); Partes 2 e 3 aguardam deploy + execução/aprovação do Douglas.
+🟡 Em Validação — **Parte 1 (código) concluída**: validada em `staging` e promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137).
+**Falta só a Parte 2/3 (operação em produção):** limpeza do Gerador pela tela (roteiro acima) e a consulta do WA-17. Fechar esta task quando o Douglas executar e o Tiago refizer o C1 em produção.

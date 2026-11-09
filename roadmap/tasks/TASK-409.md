@@ -34,7 +34,7 @@ verde; o modal abre vermelho.
 - [x] "Nova despesa" abre modal sem triângulo, botão neutro/primário (`variant="primary"`)
 - [x] Modal de cancelar lançamento continua vermelho (é destrutivo) — `variant` padrão `"danger"`, nenhum dos 8 usos mudou
 - [x] Validações e estados de carregamento/erro do formulário inalterados (só a aparência mudou)
-- [ ] Layout ok em mobile (360px) — **conferir no QA manual (C14)**
+- [x] Layout ok em mobile (360px) — conferido no QA manual (C14)
 - [x] `npm run build` e `tsc` limpos
 
 ## Implementação (09/11/2026)
@@ -50,5 +50,4 @@ verde; o modal abre vermelho.
 `bugfix/onda1-usabilidade-samu` (`easy-maintenance-web`, a partir de `staging`), commit `f84105b`.
 
 ## Status
-🟡 Em Validação — falta a conferência visual (desktop e 360px) no QA manual
-[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C14).
+✅ Concluído — validado em `staging` no QA manual [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) pelo Douglas e promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137).

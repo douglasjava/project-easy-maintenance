@@ -17,7 +17,7 @@ Os 35 itens se agrupam em três problemas:
    não entende.
 3. **O financeiro está isolado**: sem edição, categorias pobres, custo da manutenção não vira despesa.
 
-## 2. Onda 1: virou tasks (09/11/2026)
+## 2. Onda 1: virou tasks (09/11/2026) — ✅ em produção em 09/11/2026 (api#185, web#137; TASK-408 só falta a limpeza do Gerador)
 
 | Task | Itens do Tiago | Causa encontrada no código |
 |---|---|---|

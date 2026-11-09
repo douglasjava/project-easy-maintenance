@@ -54,5 +54,4 @@ Sim — coberto pelo [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md).
 `bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `c21b6b1`.
 
 ## Status
-🟡 Em Validação — implementado e testado (1775/1775); falta QA manual
-[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C7, C8).
+✅ Concluído — validado em `staging` no QA manual [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) pelo Douglas e promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137).

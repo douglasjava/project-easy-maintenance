@@ -13,16 +13,16 @@ Assistente WhatsApp (Samu) + Financeiro (modal)
 
 | Task | O que entrega | Status |
 |---|---|---|
-| [TASK-400](../../tasks/TASK-400.md) | "Corrigir" troca o item; fim do ciclo "confirme antes" | Em Validação |
-| [TASK-401](../../tasks/TASK-401.md) | Busca aproximada de item; fim do falso positivo de norma | Em Validação |
-| [TASK-402](../../tasks/TASK-402.md) | Data nunca presumida; "hj" | Em Validação |
-| [TASK-403](../../tasks/TASK-403.md) | Próxima data e regra no cartão | Em Validação |
-| [TASK-404](../../tasks/TASK-404.md) | Vencimentos da semana avisam vencidos; datas com ano | Em Validação |
-| [TASK-405](../../tasks/TASK-405.md) | Descrição limpa; responsável validado | Em Validação |
-| [TASK-406](../../tasks/TASK-406.md) | Histórico usa a última data do item | Em Validação |
-| [TASK-407](../../tasks/TASK-407.md) | Mensagem depois do botão "Registrar" abre o rascunho | Em Validação |
-| [TASK-408](../../tasks/TASK-408.md) | Negrito do nome; limpeza do Gerador; WA-17 | Em Validação |
-| [TASK-409](../../tasks/TASK-409.md) | Modal de lançamento sem visual destrutivo | Em Validação |
+| [TASK-400](../../tasks/TASK-400.md) | "Corrigir" troca o item; fim do ciclo "confirme antes" | ✅ Concluído |
+| [TASK-401](../../tasks/TASK-401.md) | Busca aproximada de item; fim do falso positivo de norma | ✅ Concluído |
+| [TASK-402](../../tasks/TASK-402.md) | Data nunca presumida; "hj" | ✅ Concluído |
+| [TASK-403](../../tasks/TASK-403.md) | Próxima data e regra no cartão | ✅ Concluído |
+| [TASK-404](../../tasks/TASK-404.md) | Vencimentos da semana avisam vencidos; datas com ano | ✅ Concluído |
+| [TASK-405](../../tasks/TASK-405.md) | Descrição limpa; responsável validado | ✅ Concluído |
+| [TASK-406](../../tasks/TASK-406.md) | Histórico usa a última data do item | ✅ Concluído |
+| [TASK-407](../../tasks/TASK-407.md) | Mensagem depois do botão "Registrar" abre o rascunho | ✅ Concluído |
+| [TASK-408](../../tasks/TASK-408.md) | Negrito do nome; limpeza do Gerador; WA-17 | Código ✅ · limpeza em produção pendente |
+| [TASK-409](../../tasks/TASK-409.md) | Modal de lançamento sem visual destrutivo | ✅ Concluído |
 
 Origem: [registro do Tiago](../registro-usabilidade-producao.md) e [triagem](../triagem-usabilidade-producao-2026-11-09.md).
 
@@ -61,3 +61,7 @@ C1 a C15 aprovados em staging pelo Douglas e reteste do Tiago em produção depo
 - Extra (revisão pré-merge): "manutenção do alarme hoje" **sem valor** não pode mostrar 💰 no cartão; "paguei
   trezentos reais" pode (o valor vem da IA porque o texto fala de dinheiro).
 - Depois do deploy: limpeza do Gerador pela tela (roteiro na TASK-408) e o Tiago refaz o C1 em produção.
+
+## Resultado
+✅ Executado e aprovado em `staging` pelo Douglas (09/11/2026); Onda 1 promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137).
+Pendente em produção: limpeza do Gerador (TASK-408) e reteste do C1 pelo Tiago.

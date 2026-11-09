@@ -86,5 +86,4 @@ com os itens reais do Edifício Veneza.
 `bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commits `ce34b40`, `30bdd87` e `9f3cea4`.
 
 ## Status
-🟡 Em Validação — implementado e testado (1744/1744); causa confirmada em produção; falta QA manual
-[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C1).
+✅ Concluído — validado em `staging` no QA manual [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) pelo Douglas e promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137).
