@@ -13,16 +13,16 @@ Assistente WhatsApp (Samu) + Financeiro (modal)
 
 | Task | O que entrega | Status |
 |---|---|---|
-| [TASK-400](../../tasks/TASK-400.md) | "Corrigir" troca o item; fim do ciclo "confirme antes" | Backlog |
-| [TASK-401](../../tasks/TASK-401.md) | Busca aproximada de item; fim do falso positivo de norma | Backlog |
-| [TASK-402](../../tasks/TASK-402.md) | Data nunca presumida; "hj" | Backlog |
-| [TASK-403](../../tasks/TASK-403.md) | Próxima data e regra no cartão | Backlog |
-| [TASK-404](../../tasks/TASK-404.md) | Vencimentos da semana avisam vencidos; datas com ano | Backlog |
-| [TASK-405](../../tasks/TASK-405.md) | Descrição limpa; responsável validado | Backlog |
-| [TASK-406](../../tasks/TASK-406.md) | Histórico usa a última data do item | Backlog |
-| [TASK-407](../../tasks/TASK-407.md) | Mensagem depois do botão "Registrar" abre o rascunho | Backlog |
-| [TASK-408](../../tasks/TASK-408.md) | Negrito do nome; limpeza do Gerador; WA-17 | Backlog |
-| [TASK-409](../../tasks/TASK-409.md) | Modal de lançamento sem visual destrutivo | Backlog |
+| [TASK-400](../../tasks/TASK-400.md) | "Corrigir" troca o item; fim do ciclo "confirme antes" | Em Validação |
+| [TASK-401](../../tasks/TASK-401.md) | Busca aproximada de item; fim do falso positivo de norma | Em Validação |
+| [TASK-402](../../tasks/TASK-402.md) | Data nunca presumida; "hj" | Em Validação |
+| [TASK-403](../../tasks/TASK-403.md) | Próxima data e regra no cartão | Em Validação |
+| [TASK-404](../../tasks/TASK-404.md) | Vencimentos da semana avisam vencidos; datas com ano | Em Validação |
+| [TASK-405](../../tasks/TASK-405.md) | Descrição limpa; responsável validado | Em Validação |
+| [TASK-406](../../tasks/TASK-406.md) | Histórico usa a última data do item | Em Validação |
+| [TASK-407](../../tasks/TASK-407.md) | Mensagem depois do botão "Registrar" abre o rascunho | Em Validação |
+| [TASK-408](../../tasks/TASK-408.md) | Negrito do nome; limpeza do Gerador; WA-17 | Em Validação |
+| [TASK-409](../../tasks/TASK-409.md) | Modal de lançamento sem visual destrutivo | Em Validação |
 
 Origem: [registro do Tiago](../registro-usabilidade-producao.md) e [triagem](../triagem-usabilidade-producao-2026-11-09.md).
 
@@ -50,3 +50,12 @@ Origem: [registro do Tiago](../registro-usabilidade-producao.md) e [triagem](../
 
 ## Critério de conclusão
 C1 a C15 aprovados em staging pelo Douglas e reteste do Tiago em produção depois do deploy.
+
+## Notas para a execução (09/11/2026)
+- Branches: `bugfix/onda1-usabilidade-samu` na api e no web (a partir de `staging`).
+- **C1** (caixa de gorduro): espere "Achei estes itens parecidos… É algum deles?" com *Nenhum destes* — não o cartão direto.
+- **C4/C5**: sem data dita, o bot pergunta [Hoje] [Ontem] [Outra data].
+- **C6**: a linha "⏭️ Próxima: …" deve bater com o vencimento gravado depois de confirmar.
+- **C11**: confirma também que o bean novo `AwaitingInputHandler` sobe no ambiente real (nenhum teste sobe o contexto Spring).
+- Extra (TASK-403): registrar com data **anterior** à última do item mostra o aviso "Já existe manutenção mais recente".
+- Depois do deploy: limpeza do Gerador pela tela (roteiro na TASK-408) e o Tiago refaz o C1 em produção.

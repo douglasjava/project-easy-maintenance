@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟡 Onda 1 do Samu completa em código** — [TASK-400](tasks/TASK-400.md) a
+> [TASK-409](tasks/TASK-409.md) em validação, numa branch por repo: `bugfix/onda1-usabilidade-samu` (api: 10
+> commits, `mvn test` 1802/1802; web: `f84105b`, `next build` ok). Falta: QA manual
+> [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) em staging, PRs para `staging`, e depois do deploy a limpeza do
+> Gerador (roteiro na [TASK-408](tasks/TASK-408.md)). Achado fora do escopo: 3 testes de `middleware.test.ts`
+> já falham na `staging` do web.
+
 > Atualizado em: 09/11/2026 — **🟡 [TASK-408](tasks/TASK-408.md) em validação** (Onda 1 do Samu):
 > nome do condomínio normalizado (negrito do WhatsApp) na entidade e no bot + migration V136. A limpeza do
 > Gerador em produção tem roteiro pela tela (cancelar manutenção 19 com motivo + excluir item 140), depois do
@@ -2194,6 +2201,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-409](tasks/TASK-409.md) | Financeiro: modal Nova receita/despesa sem visual destrutivo (`ConfirmModal` ganhou `variant`) (FI-04) — web `f84105b`; falta conferência visual no QA TASK-QA-MAN-030 | 🔵 Baixo | EPIC-032 | BAIXA |
 | [TASK-408](tasks/TASK-408.md) | Samu: nome do condomínio sem espaço (negrito) + V136 — api `a1a3987`, 1802/1802; **limpeza do Gerador (140/manutenção 19) e WA-17: roteiro na task, pós-deploy com o Douglas** | 🔵 Baixo | EPIC-031 | BAIXA |
 | [TASK-406](tasks/TASK-406.md) | Samu: histórico mostra a última data do cadastro do item quando não há registros (WA-09) — api `1efb353`, 1798/1798; falta QA manual TASK-QA-MAN-030 | 🟡 Médio | EPIC-031 | MODERADA |
 | [TASK-405](tasks/TASK-405.md) | Samu: descrição sem frase de intenção/valor; responsável validado (IA inventou "emergencial") (WA-03, WA-14) — api `3fd949b`, 1796/1796; falta QA manual TASK-QA-MAN-030 | 🟡 Médio | EPIC-031 | MODERADA |
@@ -2242,7 +2250,6 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-409](tasks/TASK-409.md)  | Financeiro: modal Nova receita/despesa com visual destrutivo vermelho (FI-04) | 🔵 Baixo | EPIC-032 | BAIXA |
 | [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) | QA manual da Onda 1 (textos reais dos testes de 08/11) | 🔴 Crítico | EPIC-031 | — |
 | [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
 
