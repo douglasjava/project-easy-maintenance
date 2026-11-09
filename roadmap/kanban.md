@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🔵 Onda 1 do Samu: PRs abertas para `staging`** —
+> [api#184](https://github.com/douglasjava/easy-maintenance-api/pull/184) (TASK-400 a 408 + campos da IA, 12 commits,
+> 1807/1807) e [web#136](https://github.com/douglasjava/easy-maintenance-web/pull/136) (TASK-409). Próximo: QA manual
+> [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) em staging; depois do deploy, limpeza do Gerador (TASK-408).
+
 > Atualizado em: 09/11/2026 — **🟡 Onda 1 do Samu completa em código** — [TASK-400](tasks/TASK-400.md) a
 > [TASK-409](tasks/TASK-409.md) em validação, numa branch por repo: `bugfix/onda1-usabilidade-samu` (api: 12
 > commits, `mvn test` 1807/1807; web: 1 commit, `next build` ok). Revisão antes do merge: **todo campo extraído
