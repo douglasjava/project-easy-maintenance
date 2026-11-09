@@ -1,5 +1,14 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🐛 Onda 1 da triagem de usabilidade do Samu** — registro de testes do
+> Tiago em produção ([registro](QA/registro-usabilidade-producao.md)) triado com leitura do código
+> ([triagem](QA/triagem-usabilidade-producao-2026-11-09.md)). 10 tasks novas no Bugs — Backlog:
+> TASK-400 a TASK-409 (EPIC-031, e TASK-409 do EPIC-032) + QA manual
+> [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md). Críticas: TASK-400 ("Corrigir" não troca o item) e
+> TASK-401 (item errado/Gerador). Parte B do Tiago (Samu conversacional), Locais e Financeiro v2
+> **ficaram registrados na triagem** (com os 7 conflitos com a spec da matriz de papéis) para
+> retomar depois da Onda 1 — não viraram EPIC ainda.
+
 > Atualizado em: 04/11/2026 — **🟢 [EPIC-041](epics/EPIC-041.md) concluído, já em `main`** —
 > QA manual [MTD-010](QA/MTD/MTD-010.md) executado ao vivo contra ambiente local (usuários
 > sintéticos, nenhum usuário real tocado): 7/8 cenários confirmados (Cenário 8 — 2FA com acesso
@@ -2171,6 +2180,17 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
+| [TASK-400](tasks/TASK-400.md)  | Samu: "Corrigir" não troca o item e prende no "confirme antes" (WA-01) | 🔴 Crítico | EPIC-031 | GRAVE |
+| [TASK-401](tasks/TASK-401.md)  | Samu: registro cria item errado (Gerador) em vez de achar o existente — busca aproximada + falso positivo de norma (WA-02) | 🔴 Crítico | EPIC-031 | GRAVE |
+| [TASK-402](tasks/TASK-402.md)  | Samu: data presumida como hoje + "hj" não reconhecido (WA-13, WA-07) | 🟠 Alto | EPIC-031 | ALTA |
+| [TASK-403](tasks/TASK-403.md)  | Samu: cartão de confirmação mostra próxima data e regra (WA-06, WA-23) | 🟠 Alto | EPIC-031 | ALTA |
+| [TASK-404](tasks/TASK-404.md)  | Samu: "Vencimentos da semana" diz ✅ com vencidos + datas sem ano (WA-19, WA-15) | 🟠 Alto | EPIC-031 | ALTA |
+| [TASK-407](tasks/TASK-407.md)  | Samu: mensagem após botão "Registrar" cai na resposta genérica — sem estado de espera (WA-08) | 🟠 Alto | EPIC-031 | ALTA |
+| [TASK-405](tasks/TASK-405.md)  | Samu: descrição = texto cru/intenção; responsável = "emergencial" (WA-03, WA-14) | 🟡 Médio | EPIC-031 | MODERADA |
+| [TASK-406](tasks/TASK-406.md)  | Samu: histórico ignora a última data do cadastro do item (WA-09) | 🟡 Médio | EPIC-031 | MODERADA |
+| [TASK-408](tasks/TASK-408.md)  | Samu: negrito do nome do condomínio + limpeza do Gerador do teste + verificar WA-17 (WA-12, WA-17, WA-18) | 🔵 Baixo | EPIC-031 | BAIXA |
+| [TASK-409](tasks/TASK-409.md)  | Financeiro: modal Nova receita/despesa com visual destrutivo vermelho (FI-04) | 🔵 Baixo | EPIC-032 | BAIXA |
+| [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) | QA manual da Onda 1 (textos reais dos testes de 08/11) | 🔴 Crítico | EPIC-031 | — |
 | [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
 
 ---
