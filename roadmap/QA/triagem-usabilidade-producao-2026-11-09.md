@@ -36,6 +36,15 @@ Os 35 itens se agrupam em três problemas:
 **Decisão tomada na Onda 1:** a hora da execução (WA-03, "09:00 ignorado") fica fora. `performedAt` é
 `LocalDate` em todo o domínio; a hora fica na descrição.
 
+### Revisão antes do merge (09/11/2026)
+- Regra única para os campos que a IA extrai (`AiIntentClassifier`, `gpt-4o-mini`): **o texto vence, e o campo da
+  IA só vale com pista no texto** — item e responsável (`groundedInText`), data (`mentionsWhen`), valor
+  (`mentionsMoney`), tipo de manutenção (`mentionsKind`). Vale no registro e no lançamento financeiro (api `d80be6b`).
+- Lançamento financeiro: a data padrão continua **hoje** (aparece no cartão) e receita/despesa aceita a inferência
+  da IA ("conta de luz" → despesa). Revisitar se o Tiago apontar erro.
+- Registradas para depois da Onda 1: [TASK-410](../tasks/TASK-410.md) (endurecer o prompt) e
+  [TASK-411](../tasks/TASK-411.md) (conjunto de avaliação do classificador — pré-requisito da 410).
+
 ## 3. Itens corrigidos ou reclassificados na triagem
 
 - **WA-11** ("falta lançar receita/despesa pelo WhatsApp"): a funcionalidade **existe** (TASK-330, por texto

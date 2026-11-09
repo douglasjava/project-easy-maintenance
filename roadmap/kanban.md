@@ -1,11 +1,13 @@
 # Kanban — Easy Maintenance
 
 > Atualizado em: 09/11/2026 — **🟡 Onda 1 do Samu completa em código** — [TASK-400](tasks/TASK-400.md) a
-> [TASK-409](tasks/TASK-409.md) em validação, numa branch por repo: `bugfix/onda1-usabilidade-samu` (api: 10
-> commits, `mvn test` 1802/1802; web: `f84105b`, `next build` ok). Falta: QA manual
-> [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) em staging, PRs para `staging`, e depois do deploy a limpeza do
-> Gerador (roteiro na [TASK-408](tasks/TASK-408.md)). Achado fora do escopo: 3 testes de `middleware.test.ts`
-> já falham na `staging` do web.
+> [TASK-409](tasks/TASK-409.md) em validação, numa branch por repo: `bugfix/onda1-usabilidade-samu` (api: 12
+> commits, `mvn test` 1807/1807; web: 1 commit, `next build` ok). Revisão antes do merge: **todo campo extraído
+> pela IA (item, data, responsável, valor, tipo) só vale com pista no texto, e o texto sempre vence** — também no
+> lançamento financeiro. Registradas [TASK-410](tasks/TASK-410.md) (prompt) e [TASK-411](tasks/TASK-411.md)
+> (avaliação do classificador). Falta: QA manual [TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md) em staging,
+> PRs para `staging` e, depois do deploy, a limpeza do Gerador ([TASK-408](tasks/TASK-408.md)). Achado fora do
+> escopo: 3 testes de `middleware.test.ts` já falham na `staging` do web.
 
 > Atualizado em: 09/11/2026 — **🟡 [TASK-408](tasks/TASK-408.md) em validação** (Onda 1 do Samu):
 > nome do condomínio normalizado (negrito do WhatsApp) na entidade e no bot + migration V136. A limpeza do
@@ -2340,6 +2342,8 @@ _Vazio_
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
+| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador (temperature 0, "não invente campos", exemplos) — depende da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
+| [TASK-411](tasks/TASK-411.md) | Samu: conjunto de avaliação do classificador (≥ 60 casos, taxa de campo inventado, fora do CI) | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |

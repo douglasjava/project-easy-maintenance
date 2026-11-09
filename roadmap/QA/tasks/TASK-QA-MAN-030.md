@@ -58,4 +58,6 @@ C1 a C15 aprovados em staging pelo Douglas e reteste do Tiago em produção depo
 - **C6**: a linha "⏭️ Próxima: …" deve bater com o vencimento gravado depois de confirmar.
 - **C11**: confirma também que o bean novo `AwaitingInputHandler` sobe no ambiente real (nenhum teste sobe o contexto Spring).
 - Extra (TASK-403): registrar com data **anterior** à última do item mostra o aviso "Já existe manutenção mais recente".
+- Extra (revisão pré-merge): "manutenção do alarme hoje" **sem valor** não pode mostrar 💰 no cartão; "paguei
+  trezentos reais" pode (o valor vem da IA porque o texto fala de dinheiro).
 - Depois do deploy: limpeza do Gerador pela tela (roteiro na TASK-408) e o Tiago refaz o C1 em produção.
