@@ -47,14 +47,14 @@ O botão "Corrigir" só reenvia `REGISTER_FIX_PROMPT` (exemplos sem item), sem m
 - Menu/fluxos novos do Samu (Parte B — ver triagem).
 
 ## Critérios de Aceite
-- [ ] Rascunho em `CONFIRM` + "o item é caixa de gordura" → item trocado para "Limpeza caixa de gordura · …" e cartão reapresentado
-- [ ] Rascunho com item novo do catálogo + troca para item existente → cartão sem "🆕 Item novo"; confirmar não cria item
-- [ ] Texto que casa com vários itens → lista para escolher; escolha volta ao cartão com os demais campos preservados (data, custo, anexos)
-- [ ] Botão "Corrigir" → lista de campos; "Item" → lista de itens
-- [ ] Correção de data/custo em texto livre continua funcionando (regressão do teste 2)
-- [ ] Teste de regressão reproduzindo a transcrição do teste 1 (gerador → caixa de gordura)
-- [ ] Item de outra organização nunca aparece/é aceito (id forjado no botão é ignorado — mesmo padrão de `continueChoosingItem`)
-- [ ] `mvn test` sem regressão
+- [x] Rascunho em `CONFIRM` + "o item é caixa de gordura" → item trocado para "Limpeza caixa de gordura · …" e cartão reapresentado
+- [x] Rascunho com item novo do catálogo + troca para item existente → cartão sem "🆕 Item novo"; confirmar não cria item
+- [x] Texto que casa com vários itens → lista para escolher; escolha volta ao cartão com os demais campos preservados (data, custo, anexos)
+- [x] Botão "Corrigir" → lista de campos; "Item" → lista de itens
+- [x] Correção de data/custo em texto livre continua funcionando (regressão do teste 2)
+- [x] Teste de regressão reproduzindo a transcrição do teste 1 (gerador → caixa de gordura)
+- [x] Item de outra organização nunca aparece/é aceito — a busca usa só `allItems(orgCode)` da conversa e a escolha passa por `continueChoosingItem` (id fora da lista ignorado; teste existente `choosingItemFromList_onlyAcceptsListedCandidates`)
+- [x] `mvn test` sem regressão — 1727/1727 (13 testes novos em `AssistantRegistrationServiceTest`, 40/40)
 
 ## Dependências
 Compartilha o matcher com a [TASK-401](TASK-401.md) — fazer as duas na mesma branch.
@@ -62,3 +62,23 @@ Compartilha o matcher com a [TASK-401](TASK-401.md) — fazer as duas na mesma b
 ## Riscos
 Texto livre ambíguo ("mudar") hoje é palavra de correção; garantir que a troca de item não roube
 correções legítimas de data/custo (ordem: campos conhecidos primeiro, item depois).
+
+## Implementação (09/11/2026)
+- `AssistantRegistrationService.continuePending` (estágio `CONFIRM`): lê frases de troca de item
+  ("o item é X", "não é Y, é X", "troca o item para X", "é a X") e nome de item solto; 1 candidato →
+  troca e reapresenta o cartão; vários → `CHOOSE_ITEM`; nenhum (frase explícita) → lista de itens.
+  Correções de data/tipo/valor/responsável na mesma mensagem continuam sendo aplicadas.
+- "não é X" sem dizer o certo → lista de itens (nunca escolhe o negado). "não é preventiva, é
+  corretiva" segue como correção de **tipo** (achado na revisão, coberto por teste).
+- Botão "Corrigir" → lista de campos (Item, Data, Tipo, Valor, Quem fez); "Item" → lista de itens.
+- `REGISTER_CONFIRM_FIRST` reescrita: explica as saídas (Corrigir / só o que mudou / Cancelar).
+- Limitações conhecidas (escopo da TASK-401): a busca de item ainda é por trecho exato (typo não acha);
+  a lista de itens mostra no máximo 10. A descrição do cartão ainda é o texto original (TASK-405).
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`, a partir de `staging`) — branch única da
+Onda 1, por decisão do Douglas. Commit `c3dec3e`.
+
+## Status
+🟡 Em Validação — implementado e testado (1727/1727); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (cenários C2, C3, C15).

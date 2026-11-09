@@ -1,5 +1,11 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟡 [TASK-400](tasks/TASK-400.md) em validação** (Onda 1 do Samu):
+> "Corrigir" do registro pelo WhatsApp agora troca o item (frase explícita, nome solto, lista de
+> campos) e nunca mais prende no "confirme antes". Branch única da Onda 1
+> `bugfix/onda1-usabilidade-samu` (api, a partir de `staging`), commit `c3dec3e`; `mvn test`
+> 1727/1727. Próxima: [TASK-401](tasks/TASK-401.md) (busca aproximada de item, mesma branch).
+
 > Atualizado em: 09/11/2026 — **🐛 Onda 1 da triagem de usabilidade do Samu** — registro de testes do
 > Tiago em produção ([registro](QA/registro-usabilidade-producao.md)) triado com leitura do código
 > ([triagem](QA/triagem-usabilidade-producao-2026-11-09.md)). 10 tasks novas no Bugs — Backlog:
@@ -2141,6 +2147,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-400](tasks/TASK-400.md) | Samu: "Corrigir" troca o item e não prende mais no "confirme antes" (WA-01) — branch `bugfix/onda1-usabilidade-samu` (api `c3dec3e`), 1727/1727; falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
 ## 🐛 Bugs — Concluídos
 
 | ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
@@ -2180,7 +2187,6 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-400](tasks/TASK-400.md)  | Samu: "Corrigir" não troca o item e prende no "confirme antes" (WA-01) | 🔴 Crítico | EPIC-031 | GRAVE |
 | [TASK-401](tasks/TASK-401.md)  | Samu: registro cria item errado (Gerador) em vez de achar o existente — busca aproximada + falso positivo de norma (WA-02) | 🔴 Crítico | EPIC-031 | GRAVE |
 | [TASK-402](tasks/TASK-402.md)  | Samu: data presumida como hoje + "hj" não reconhecido (WA-13, WA-07) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-403](tasks/TASK-403.md)  | Samu: cartão de confirmação mostra próxima data e regra (WA-06, WA-23) | 🟠 Alto | EPIC-031 | ALTA |
