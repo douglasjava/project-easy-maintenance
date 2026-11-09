@@ -46,12 +46,35 @@ Sim — coberto pelo [TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md).
   responsável fica **na manutenção** e vem com a task "vínculo manutenção ↔ fornecedor"; não antecipar aqui.
 
 ## Critérios de Aceite
-- [ ] Texto do teste 1 → responsável vazio (não "emergencial"), descrição sem a frase de intenção
-- [ ] "quero atualizar a manutenção do alarme de incêndio" → descrição não é a frase de intenção
-- [ ] "feito pela Fire Safe" continua preenchendo o responsável
-- [ ] "descrição: troca de detectores do 3º andar" no cartão → descrição trocada
-- [ ] `mvn test` sem regressão
+- [x] Texto do teste 1 → responsável vazio (não "emergencial"), descrição sem a frase de intenção
+- [x] "quero atualizar a manutenção do alarme de incêndio" → descrição não é a frase de intenção
+- [x] "feito pela Fire Safe" continua preenchendo o responsável
+- [x] "descrição: troca de detectores do 3º andar" no cartão → descrição trocada
+- [x] `mvn test` sem regressão — 1796/1796 (6 testes de registro + 3 do parser)
 
 ## Riscos
 Mudança de prompt da IA: rodar o conjunto de frases dos testes existentes do classificador; custo de
 crédito por mensagem não deve subir (mesma chamada, só campos).
+
+## Implementação (09/11/2026)
+- **Responsável:** `RegistrationParser.validResponsible` recusa tipo de manutenção, data, valor e palavras
+  genéricas ("emergencial", "hoje", "eu"…), venha da IA, do texto ou da correção. O campo `responsavel` da IA
+  ainda passa por `groundedInText` (TASK-401): precisa aparecer no texto.
+- **Descrição:** `RegistrationParser.cleanDescription` tira a frase de intenção ("quero atualizar a manutenção
+  do…"), o valor e o "feito por…"; data e hora ditas ficam (hora sem campo próprio, TASK-402). Se sobrar
+  nada ou só o nome do item, o cartão **e o registro** usam "Preventiva — Alarme de incêndio".
+- **Correção:** "descrição: …" (ou "o que foi feito: …") no cartão troca só a descrição — datas/valores dentro
+  dela não viram correção. O Corrigir ganhou o campo "Descrição".
+
+## Desvio do escopo original (decisão)
+**Não** mexi no prompt da IA para extrair a descrição. Motivos: (1) em produção a IA inventou `item` e
+`responsavel` na mesma mensagem — mais um campo dela é mais um ponto de alucinação; (2) desde a TASK-407 a
+resposta ao "me conte o que foi feito" nem passa pela IA. A limpeza determinística cobre os dois caminhos e
+não muda o custo de crédito.
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `3fd949b`.
+
+## Status
+🟡 Em Validação — implementado e testado (1796/1796); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C9).
