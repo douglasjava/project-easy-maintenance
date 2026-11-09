@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 09/11/2026 — **🟡 [TASK-401](tasks/TASK-401.md) em validação** (Onda 1 do Samu):
+> busca de item tolera erro de digitação ("caixa de gorduro") e oferece os itens parecidos **antes** de o
+> catálogo propor item novo — fim do "🆕 Gerador". A hipótese "emergencial → emergência" foi descartada
+> (a norma do Gerador só tem "gerador"); a origem exata do "gerador" fica para confirmar pela descrição da
+> manutenção 19 em produção. Mesma branch `bugfix/onda1-usabilidade-samu` (api `ce34b40`), 1741/1741.
+> Próxima: [TASK-402](tasks/TASK-402.md) (data nunca presumida).
+
 > Atualizado em: 09/11/2026 — **🟡 [TASK-400](tasks/TASK-400.md) em validação** (Onda 1 do Samu):
 > "Corrigir" do registro pelo WhatsApp agora troca o item (frase explícita, nome solto, lista de
 > campos) e nunca mais prende no "confirme antes". Branch única da Onda 1
@@ -2147,6 +2154,7 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| [TASK-401](tasks/TASK-401.md) | Samu: registro sugere o item parecido (erro de digitação) antes de propor item novo do catálogo (WA-02) — api `ce34b40`, 1741/1741; falta QA manual TASK-QA-MAN-030 + consulta da manutenção 19 | 🔴 Crítico | EPIC-031 | GRAVE |
 | [TASK-400](tasks/TASK-400.md) | Samu: "Corrigir" troca o item e não prende mais no "confirme antes" (WA-01) — branch `bugfix/onda1-usabilidade-samu` (api `c3dec3e`), 1727/1727; falta QA manual TASK-QA-MAN-030 | 🔴 Crítico | EPIC-031 | GRAVE |
 ## 🐛 Bugs — Concluídos
 
@@ -2187,7 +2195,6 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-401](tasks/TASK-401.md)  | Samu: registro cria item errado (Gerador) em vez de achar o existente — busca aproximada + falso positivo de norma (WA-02) | 🔴 Crítico | EPIC-031 | GRAVE |
 | [TASK-402](tasks/TASK-402.md)  | Samu: data presumida como hoje + "hj" não reconhecido (WA-13, WA-07) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-403](tasks/TASK-403.md)  | Samu: cartão de confirmação mostra próxima data e regra (WA-06, WA-23) | 🟠 Alto | EPIC-031 | ALTA |
 | [TASK-404](tasks/TASK-404.md)  | Samu: "Vencimentos da semana" diz ✅ com vencidos + datas sem ano (WA-19, WA-15) | 🟠 Alto | EPIC-031 | ALTA |

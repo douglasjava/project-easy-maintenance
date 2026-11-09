@@ -22,7 +22,7 @@ Os 35 itens se agrupam em três problemas:
 | Task | Itens do Tiago | Causa encontrada no código |
 |---|---|---|
 | [TASK-400](../tasks/TASK-400.md) 🔴 | WA-01 | `continuePending` não tem caminho para trocar o item → ciclo `REGISTER_CONFIRM_FIRST` |
-| [TASK-401](../tasks/TASK-401.md) 🔴 | WA-02, parte do WA-22 | `ItemMatcher` só por substring exata; `CatalogMatcher.regulatory` casa pelo nome da norma com prefixo ≥ 6 ("emergencial"→"emergência") |
+| [TASK-401](../tasks/TASK-401.md) 🔴 | WA-02, parte do WA-22 | `ItemMatcher` só por substring exata → foi direto ao catálogo. (Hipótese "emergencial→emergência" descartada em 09/11: o "gerador" veio do texto recebido; confirmar pela manutenção 19) |
 | [TASK-402](../tasks/TASK-402.md) 🟠 | WA-13, WA-07 | Data ausente vira hoje (`performedAtAssumed`); `parseDate` não entende "hj" |
 | [TASK-403](../tasks/TASK-403.md) 🟠 | WA-06, WA-23 | Próxima data só aparece depois do `commit` |
 | [TASK-404](../tasks/TASK-404.md) 🟠 | WA-19, WA-15 | `upcoming` ignora vencidos; formato `dd/MM` sem ano |
