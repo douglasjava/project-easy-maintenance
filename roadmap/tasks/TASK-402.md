@@ -50,13 +50,34 @@ contrato — não cabe num bugfix. A hora dita continua indo no texto da descri�
   data falsa.
 
 ## Critérios de Aceite
-- [ ] Registro sem data → pergunta com [Hoje] [Ontem] [Outra data]; nada de "usei hoje"
-- [ ] "feita hj às 08:00" → data de hoje, sem pergunta
-- [ ] "Outra data" → "17/10" → cartão com 17/10 do ano corrente (ou anterior, se futura — regra atual)
-- [ ] Data futura digitada continua rejeitada pelo serviço de domínio (mensagem amigável)
-- [ ] "cancelar" no `CHOOSE_DATE` descarta o rascunho
-- [ ] Rascunho antigo serializado (sem o estágio novo) ainda é lido (compatibilidade do JSON pendente, TTL 30 min)
-- [ ] `mvn test` sem regressão
+- [x] Registro sem data → pergunta com [Hoje] [Ontem] [Outra data]; nada de "usei hoje"
+- [x] "feita hj às 08:00" → data de hoje, sem pergunta
+- [x] "Outra data" → "17/10" → cartão com 17/10 do ano corrente (ou anterior, se futura — regra atual)
+- [x] Data futura digitada continua rejeitada pelo serviço de domínio (mensagem amigável)
+- [x] "cancelar" no `CHOOSE_DATE` descarta o rascunho
+- [x] Rascunho antigo serializado (sem o estágio novo) ainda é lido (compatibilidade do JSON pendente, TTL 30 min)
+- [x] `mvn test` sem regressão — 1758/1758 (14 testes novos de registro + 2 do parser)
 
 ## Riscos
 Um passo a mais na conversa para quem não diz a data — aceitável (decisão do Tiago: "data é obrigatória").
+
+## Implementação (09/11/2026)
+- Novo estágio `CHOOSE_DATE`. Sem data dita, `performedAt` fica vazio; **todo caminho até o cartão**
+  passa por `savePendingAndShowSummary`, que pergunta "📅 Quando foi feita a manutenção de *X*?" com
+  [Hoje] [Ontem] [Outra data]. Ordem: item (lista/parecidos/catálogo/periodicidade) → data → cartão.
+- Data futura ou ilegível → pergunta de novo (a futura com mensagem própria). Foto que chega antes da
+  data fica guardada no rascunho.
+- `parseDate`: **data escrita vence a relativa** ("ontem, dia 07/11/26" → 07/11/26, achado da manutenção
+  19); "hj" e "onti" reconhecidos (como palavra inteira).
+- **Campo `data` da IA só vale se o texto fala de quando foi** (`mentionsWhen`: "semana passada",
+  "sexta"…) — mesma lição do campo `item` da TASK-401; sem isso a IA podia "presumir" a data por nós.
+- Defesa: confirmar sem data não grava, volta para a pergunta. Rascunho antigo (data presumida,
+  gravado antes do deploy) continua lido e confirmado.
+- Cartão: a marca "(não informada — usei hoje)" deixa de existir.
+
+## Branch
+`bugfix/onda1-usabilidade-samu` (`easy-maintenance-api`), commit `e30967b`.
+
+## Status
+🟡 Em Validação — implementado e testado (1758/1758); falta QA manual
+[TASK-QA-MAN-030](../QA/tasks/TASK-QA-MAN-030.md) (C4, C5).
