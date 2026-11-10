@@ -26,9 +26,9 @@ D11 da [spec](../../docs/superpowers/specs/2026-11-06-assistant-role-matrix-desi
 - Números por configuração; acima do limite o bot oferece o menu sem IA.
 
 ## Critérios de Aceite
-- [ ] Passou do limite diário: menu sem IA, sem consumir crédito
-- [ ] Teto mensal das personas respeitado sem afetar ADMIN/SYNDIC
-- [ ] Limites configuráveis sem deploy
+- [x] Passou do limite diário: menu sem IA, sem consumir crédito
+- [x] Teto mensal das personas respeitado sem afetar ADMIN/SYNDIC
+- [x] Limites configuráveis sem deploy
 
 ## Dependências
 [TASK-417](TASK-417.md).
@@ -36,5 +36,12 @@ D11 da [spec](../../docs/superpowers/specs/2026-11-06-assistant-role-matrix-desi
 ## Riscos
 Calibrar no piloto.
 
+## Implementação (10/11/2026)
+[api#206](https://github.com/douglasjava/easy-maintenance-api/pull/206), mergeada em `staging`.
+- `assistant_persona_ai_usage` (V145). Limite diário por persona (10) e teto mensal somado da organização (300 chamadas), ambos configuráveis.
+- Conta a classificação de texto e a transcrição de áudio. Acima do limite, o bot responde sem IA. Login não é afetado.
+- O teto ficou em chamadas, não em "% do crédito do plano" (o exemplo da spec), para calibrar no piloto.
+- `mvn test` 1970, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas.
