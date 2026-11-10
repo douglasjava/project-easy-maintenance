@@ -29,9 +29,9 @@ Seção 5.3 da [Parte B](../QA/registro-usabilidade-producao.md) e D18 da [spec]
 - "Mais opções" abre o menu por papel da TASK-415.
 
 ## Critérios de Aceite
-- [ ] "oi" ou texto sem fluxo ativo → painel, sem pedir "menu"
-- [ ] "troquei a lâmpada da garagem hoje" → vai direto ao registro
-- [ ] Painel diferente por papel (teste)
+- [x] "oi" ou texto sem fluxo ativo → painel, sem pedir "menu"
+- [x] "troquei a lâmpada da garagem hoje" → vai direto ao registro
+- [x] Painel diferente por papel (teste)
 
 ## Dependências
 [TASK-415](TASK-415.md), [TASK-417](TASK-417.md).
@@ -39,5 +39,11 @@ Seção 5.3 da [Parte B](../QA/registro-usabilidade-producao.md) e D18 da [spec]
 ## Riscos
 Mensagem de painel em todo primeiro contato: sem IA, sem custo extra de template (é resposta).
 
+## Implementação (10/11/2026)
+[api#207](https://github.com/douglasjava/easy-maintenance-api/pull/207), mergeada em `staging`.
+- A saudação e "menu" abrem o painel por papel (vencidos e da semana; chamados abertos e fora do prazo). Os atalhos são Ver vencidos, Chamados e Mais opções (o menu completo).
+- Texto não entendido, sem fluxo ativo, abre o painel com "Não entendi bem.", no lugar da resposta genérica. Intenção clara vai direto ao fluxo.
+- `mvn test` 1972, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas.

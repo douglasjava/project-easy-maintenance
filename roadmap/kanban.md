@@ -2414,8 +2414,8 @@ _Vazio_
 | [TASK-428](tasks/TASK-428.md) | Avisos do prédio: entidade, destinatários, custo antes de enviar, teto mensal — 🔵 **em `staging`** (api#205, web#145; envio aguarda template Meta) | 🟡 Médio | EPIC-042 | Matriz |
 | [TASK-429](tasks/TASK-429.md) | Limite de IA por persona (mensagens por dia + teto mensal) — 🔵 **em `staging`** (api#206) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-430](tasks/TASK-430.md) | QA do EPIC-042: matriz de papéis, testes negativos por persona e regressão — 🔵 **em validação**: falta o QA manual (TASK-QA-MAN-031) | 🟠 Alto | EPIC-042 | Matriz |
-| [TASK-431](tasks/TASK-431.md) | Samu: entrada sem portão + painel do condomínio por papel | 🟠 Alto | EPIC-043 | Parte B |
-| [TASK-432](tasks/TASK-432.md) | Samu: contexto curto de 30 min + comandos voltar/cancelar/menu/trocar | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-431](tasks/TASK-431.md) | Samu: entrada sem portão + painel do condomínio por papel — 🔵 **em `staging`** (api#207) | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-432](tasks/TASK-432.md) | Samu: contexto curto de 30 min + comandos voltar/cancelar/menu/trocar — 🔵 **em `staging`** (api#208) | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-433](tasks/TASK-433.md) | Samu: chamados pela equipe — abrir com SLA, lista por SLA e ações | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-434](tasks/TASK-434.md) | Samu: registro com modelo de exemplo, itens sugeridos e anexo depois do registro | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-435](tasks/TASK-435.md) | Samu e web: "Foi feita ou quer remarcar?" + alterar vencimento com motivo | 🟠 Alto | EPIC-043 | Parte B |

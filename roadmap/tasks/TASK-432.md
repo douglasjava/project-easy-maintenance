@@ -26,9 +26,9 @@ Princípio 7 e fluxo J da [Parte B](../QA/registro-usabilidade-producao.md). D18
 - Comandos em qualquer ponto: `voltar`, `cancelar`, `menu`, `trocar condomínio`.
 
 ## Critérios de Aceite
-- [ ] "e para caixa de gordura?" depois de consultar histórico → histórico da caixa de gordura
-- [ ] Depois de 30 min o contexto expira
-- [ ] Comandos funcionam no meio de qualquer fluxo
+- [x] "e para caixa de gordura?" depois de consultar histórico → histórico da caixa de gordura
+- [x] Depois de 30 min o contexto expira
+- [x] Comandos funcionam no meio de qualquer fluxo
 
 ## Dependências
 [TASK-417](TASK-417.md). Entra junto com a [TASK-410](TASK-410.md) (prompt), que precisa saber do contexto.
@@ -36,5 +36,12 @@ Princípio 7 e fluxo J da [Parte B](../QA/registro-usabilidade-producao.md). D18
 ## Riscos
 Contexto errado aplicado a outra pergunta: só usar quando a mensagem não traz item próprio.
 
+## Implementação (10/11/2026)
+[api#208](https://github.com/douglasjava/easy-maintenance-api/pull/208), mergeada em `staging`.
+- Contexto curto (V146) por persona, por 30 minutos: depois de um histórico, "e para caixa de godura?" responde o histórico sem IA (caso `his-02` da TASK-411).
+- Comandos: `voltar` abre o painel; `cancelar` sem nada em andamento responde que não há nada; `menu` e `trocar condomínio` já existiam.
+- `voltar` não volta etapa por etapa dentro de um rascunho: encerra a etapa e abre o painel.
+- `mvn test` 1977, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas.
