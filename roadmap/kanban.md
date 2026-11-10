@@ -2457,7 +2457,7 @@ _Vazio_
 | [TASK-343](tasks/TASK-343.md) | Eventos de produto para a North Star e o funil de ativação | 🟠 Alto | EPIC-033 | Fase 1 |
 | [TASK-344](tasks/TASK-344.md) | Spec + conjunto de avaliação para leitura de documentos | 🟠 Alto | EPIC-034 | Fase 2 |
 | [TASK-345](tasks/TASK-345.md) | Backend: leitura estruturada de imagem com confiança e validação | 🔴 Crítico | EPIC-034 | Fase 2 |
-| [TASK-346](tasks/TASK-346.md) | Vínculo item ↔ fornecedor + tipo de contrato | 🟠 Alto | EPIC-034 | Fase 2 |
+| [TASK-346](tasks/TASK-346.md) | Vínculo item ↔ fornecedor + tipo de contrato — 🔵 **em `staging`** (api#213, web#149) | 🟠 Alto | EPIC-034 | Fase 2 |
 | [TASK-347](tasks/TASK-347.md) | Assistente: foto → rascunho → Confirmar/Corrigir → item + evidência | 🔴 Crítico | EPIC-034 | Fase 2 |
 | [TASK-348](tasks/TASK-348.md) | Indicação de fornecedor respeita contrato + lista de bloqueio | 🟡 Médio | EPIC-034 | Fase 2 |
 | [TASK-349](tasks/TASK-349.md) | Onboarding guiado: assistente pede fotos na ordem certa | 🟡 Médio | EPIC-034 | Fase 2 |
