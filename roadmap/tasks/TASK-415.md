@@ -28,10 +28,10 @@ exatamente o que a política (TASK-414) permite.
 - "Trocar condomínio" só aparece para quem tem mais de 1 organização.
 
 ## Critérios de Aceite
-- [ ] Cada papel vê só o que pode fazer (teste por papel)
-- [ ] Atalho numérico corresponde à linha exibida para aquele papel
-- [ ] "Nova empresa" só aparece dentro de "Trocar condomínio" e só para ADMIN
-- [ ] Limites do WhatsApp respeitados (10 linhas, títulos)
+- [x] Cada papel vê só o que pode fazer (teste por papel)
+- [x] Atalho numérico corresponde à linha exibida para aquele papel
+- [x] "Nova empresa" só aparece dentro de "Trocar condomínio" e só para ADMIN
+- [x] Limites do WhatsApp respeitados (10 linhas, títulos)
 
 ## Dependências
 [TASK-414](TASK-414.md).
@@ -39,5 +39,15 @@ exatamente o que a política (TASK-414) permite.
 ## Riscos
 Lista do WhatsApp tem limites rígidos: menu com mais de 10 linhas quebra o envio.
 
+## Implementação (10/11/2026)
+Mesma branch da TASK-414 (depende dela), commit `efce4ee` · PR [api#191](https://github.com/douglasjava/easy-maintenance-api/pull/191).
+- `AssistantMenu`: lista gerada pela política, com atalhos novos para histórico (pergunta o item e espera, sem IA),
+  receita ou despesa e conformidade.
+- O número é a linha que a pessoa vê. Esperando o valor do financeiro, um número continua sendo valor.
+- D17: com mais de um condomínio, "Nova empresa" fica no fim da lista de "Trocar de condomínio", só para o titular.
+  Com um condomínio só, aparece como linha própria para o titular. **Ajuste em relação ao critério:** sem isso, o
+  titular com um condomínio não teria onde achar a opção.
+- Testes: `AssistantMenuTest`, `IntentStepTest`, `AwaitingInputHandlerTest`, `AssistantOrganizationSelectorTest`.
+
 ## Status
-⬜ Backlog
+🔵 Em Validação — [api#191](https://github.com/douglasjava/easy-maintenance-api/pull/191) → `staging` (junto com a TASK-414).

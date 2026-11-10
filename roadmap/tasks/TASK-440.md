@@ -63,4 +63,4 @@ Branch `bugfix/TASK-440-regra-vencimento` (api e web, a partir de `staging`) · 
 - **Pendente:** teste no navegador real, que fica para o QA em `staging`.
 
 ## Status
-🔵 Em Validação — PRs api#190 e web#138 → `staging`. Falta o QA manual em `staging`.
+🔵 Em Validação — validada por Douglas e mergeada em `staging` (api#190, web#138) em 10/11/2026; aguarda a promoção para `main`.
