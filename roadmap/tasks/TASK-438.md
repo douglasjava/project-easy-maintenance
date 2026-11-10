@@ -26,8 +26,8 @@ Fluxo I da [Parte B](../QA/registro-usabilidade-producao.md).
   fornecedor, lançar despesa).
 
 ## Critérios de Aceite
-- [ ] Anexo fora de fluxo nunca é descartado em silêncio
-- [ ] "Evidência do último registro" anexa ao último registro da persona
+- [x] Anexo fora de fluxo nunca é descartado em silêncio
+- [x] "Evidência do último registro" anexa ao último registro da persona
 
 ## Dependências
 [TASK-432](TASK-432.md). "Documento para ler" depende da [TASK-345](TASK-345.md).
@@ -35,5 +35,12 @@ Fluxo I da [Parte B](../QA/registro-usabilidade-producao.md).
 ## Riscos
 Custo de IA na leitura: só quando o usuário escolhe "Documento para ler".
 
+## Implementação (10/11/2026)
+[api#215](https://github.com/douglasjava/easy-maintenance-api/pull/215), mergeada em `staging`.
+- Foto ou PDF fora de fluxo oferece [Evidência do último registro] [Registrar manutenção] [Outro]. O último registro da persona fica guardado sem prazo (V150).
+- Nunca em silêncio: "Outro", outro atalho ou a expiração avisam que o arquivo não foi guardado. Texto vira a descrição do registro, com o arquivo.
+- **Fora do escopo:** "Documento para ler" entra com a TASK-345 (leitura por IA).
+- `mvn test` 2021, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas; "Documento para ler" depende da TASK-345.

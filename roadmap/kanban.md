@@ -2421,7 +2421,7 @@ _Vazio_
 | [TASK-435](tasks/TASK-435.md) | Samu e web: "Foi feita ou quer remarcar?" + alterar vencimento com motivo — 🔵 **em `staging`** (api#211, web#148) | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-436](tasks/TASK-436.md) | Samu: cadastro completo de item novo pelo chat — 🔵 **em `staging`** (api#212) | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-437](tasks/TASK-437.md) | Samu: cadastro de fornecedor pelo chat e vínculo como habitual dos itens — 🔵 **em `staging`** (api#214) | 🟡 Médio | EPIC-043 | Parte B |
-| [TASK-438](tasks/TASK-438.md) | Samu: anexo sem contexto — evidência do último registro ou documento para ler | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-438](tasks/TASK-438.md) | Samu: anexo sem contexto — evidência do último registro ou documento para ler — 🔵 **em `staging`** (api#215) | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-439](tasks/TASK-439.md) | QA do EPIC-043: casos do Tiago (5.6) no conjunto de avaliação + QA manual | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-440](tasks/TASK-440.md) | Regra do vencimento: só preventiva/inspeção/teste reiniciam; data antiga não puxa para trás — 🔵 **em `staging`** (api#190, web#138), aguarda promoção para `main` | 🔴 Crítico | EPIC-044 | Financeiro v2 |
 | [TASK-441](tasks/TASK-441.md) | Financeiro: categorias fixas ampliadas (receita e despesa) | 🟠 Alto | EPIC-044 | Financeiro v2 |
