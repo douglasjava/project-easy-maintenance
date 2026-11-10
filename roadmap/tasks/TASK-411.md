@@ -106,7 +106,7 @@ O relatório bruto contava 51/217 (24%) de campo inventado. Esse número estava 
 1. **Bug em produção — valor do lançamento financeiro descartado.** Em "aluguel do salão de festas, recebi 300" e
    "lançar despesa de salário do porteiro 2.100", a IA acerta o valor (3/3), mas a produção o descarta:
    `parseCostCents` não acha o número (falta R$, "reais" ou verbo de pagamento colado a ele) e `mentionsMoney` não
-   reconhece "recebi"/"despesa". O Samu pergunta o valor de novo. Precisa de task própria (regra determinística, não prompt).
+   reconhece "recebi"/"despesa". O Samu pergunta o valor de novo. → [TASK-412](TASK-412.md).
 2. **A IA não sabe a data de hoje**: devolve datas de 2023 (`2023-10-xx`) quando o texto não tem data. As guardas
    descartam tudo. Lacuna do parser: "agora de manhã" não conta como hoje.
 3. **Tipo de manutenção**: a IA devolve o verbo ("conserto", "troca", "pintura", "desentupimento"), que não vira tipo.
@@ -125,4 +125,4 @@ outros fluxos via `openAiAiProvider`). Registrado na [TASK-410](TASK-410.md); a 
 para comparar.
 
 ## Status
-🔵 Em Validação — linha de base registrada; branch `chore/TASK-411-classifier-eval` (`0be9f31`, `83fb0cf`) aguardando PR para `staging`.
+🔵 Em Validação — linha de base registrada; PR [api#186](https://github.com/douglasjava/easy-maintenance-api/pull/186) (`chore/TASK-411-classifier-eval` → `staging`).

@@ -2365,7 +2365,8 @@ _Vazio_
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador (temperature 0, "não invente campos", exemplos) — depende da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
-| [TASK-411](tasks/TASK-411.md) | Samu: conjunto de avaliação do classificador — 🔵 **em validação**: linha de base registrada (intenção 96%, 398 tokens/msg); branch `chore/TASK-411-classifier-eval` aguardando PR | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
+| [TASK-411](tasks/TASK-411.md) | Samu: conjunto de avaliação do classificador — 🔵 **em validação**: linha de base registrada (intenção 96%, 398 tokens/msg); PR [api#186](https://github.com/douglasjava/easy-maintenance-api/pull/186) → `staging` | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
+| [TASK-412](tasks/TASK-412.md) | Samu: valor do lançamento financeiro descartado sem "R$"/"reais" ("recebi 300", "despesa ... 2.100") — achado da linha de base da TASK-411 | 🟠 Alto | EPIC-031 | Pós-Onda 1 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |
