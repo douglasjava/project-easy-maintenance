@@ -2418,7 +2418,7 @@ _Vazio_
 | [TASK-432](tasks/TASK-432.md) | Samu: contexto curto de 30 min + comandos voltar/cancelar/menu/trocar — 🔵 **em `staging`** (api#208) | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-433](tasks/TASK-433.md) | Samu: chamados pela equipe — abrir com SLA, lista por SLA e ações — 🔵 **em `staging`** (api#209, web#147) — parcial | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-434](tasks/TASK-434.md) | Samu: registro com modelo de exemplo, itens sugeridos e anexo depois do registro — 🔵 **em `staging`** (api#210) | 🟡 Médio | EPIC-043 | Parte B |
-| [TASK-435](tasks/TASK-435.md) | Samu e web: "Foi feita ou quer remarcar?" + alterar vencimento com motivo | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-435](tasks/TASK-435.md) | Samu e web: "Foi feita ou quer remarcar?" + alterar vencimento com motivo — 🔵 **em `staging`** (api#211, web#148) | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-436](tasks/TASK-436.md) | Samu: cadastro completo de item novo pelo chat | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-437](tasks/TASK-437.md) | Samu: cadastro de fornecedor pelo chat e vínculo como habitual dos itens | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-438](tasks/TASK-438.md) | Samu: anexo sem contexto — evidência do último registro ou documento para ler | 🟡 Médio | EPIC-043 | Parte B |
