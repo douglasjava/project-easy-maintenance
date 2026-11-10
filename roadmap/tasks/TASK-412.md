@@ -74,5 +74,6 @@ Branch `bugfix/TASK-412-financial-amount-grounding` (a partir de `staging`) · P
 - Risco que sobra: "a taxa do 101", sem palavra de unidade, com a IA devolvendo `101`. O cartão mostra o valor para confirmar.
 
 ## Status
-🔵 Em Validação — api#187 e api#188 mergeadas em `staging` (10/11/2026); promoção
-[api#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) → `main` aberta. `mvn test` na `staging`: 1822, 0 falhas.
+✅ Concluída — em produção (`main`) em 10/11/2026: api [#187](https://github.com/douglasjava/easy-maintenance-api/pull/187)
++ [#188](https://github.com/douglasjava/easy-maintenance-api/pull/188) → promoção
+[#189](https://github.com/douglasjava/easy-maintenance-api/pull/189). `mvn test` na `staging`: 1822, 0 falhas.

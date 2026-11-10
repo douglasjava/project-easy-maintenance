@@ -125,5 +125,6 @@ outros fluxos via `openAiAiProvider`). Registrado na [TASK-410](TASK-410.md); a 
 para comparar.
 
 ## Status
-🔵 Em Validação — linha de base registrada; api#186 mergeada em `staging` (10/11/2026); promoção
-[api#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) → `main` aberta.
+✅ Concluída — em produção (`main`) em 10/11/2026: api [#186](https://github.com/douglasjava/easy-maintenance-api/pull/186)
+→ promoção [#189](https://github.com/douglasjava/easy-maintenance-api/pull/189). Ajuste do runner para a TASK-412 em
+[#188](https://github.com/douglasjava/easy-maintenance-api/pull/188).

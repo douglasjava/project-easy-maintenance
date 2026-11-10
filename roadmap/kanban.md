@@ -1,5 +1,10 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/11/2026 — **✅ [TASK-411](tasks/TASK-411.md) e [TASK-412](tasks/TASK-412.md) em produção
+> (`main`)** — avaliação do classificador do Samu e valor do lançamento financeiro sem "R$"/"reais" (api#186, #187,
+> #188 → promoção #189). Próxima do Samu: [TASK-410](tasks/TASK-410.md) (prompt), já com linha de base para comparar.
+> Segue aberta a [TASK-408](tasks/TASK-408.md) (limpeza do Gerador em produção).
+
 > Atualizado em: 09/11/2026 — **🔵 [TASK-411](tasks/TASK-411.md) em validação — linha de base registrada**: intenção
 > 96% (cego 93%), nenhuma troca de intenção em 3 rodadas, 398 tokens/mensagem. Todos os campos inventados são barrados
 > pelas guardas da Onda 1. Achado novo: o **valor do lançamento financeiro é descartado** quando vem sem R$/reais
@@ -2240,6 +2245,7 @@ _Vazio_
 | ~~[TASK-407](tasks/TASK-407.md)~~ | ~~Samu: mensagem depois do botão "Registrar"/foto sem legenda vai direto para o registro, sem IA (WA-08)~~ — promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137); QA TASK-QA-MAN-030 aprovado | 🟠 Alto | EPIC-031 | ALTA |
 | ~~[TASK-409](tasks/TASK-409.md)~~ | ~~Financeiro: modal Nova receita/despesa sem visual destrutivo (`ConfirmModal` ganhou `variant`) (FI-04)~~ — promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137); QA TASK-QA-MAN-030 aprovado | 🔵 Baixo | EPIC-032 | BAIXA |
 | ~~[TASK-QA-MAN-030](QA/tasks/TASK-QA-MAN-030.md)~~ | ~~QA manual da Onda 1 do Samu (C1–C15)~~ — aprovado em `staging` pelo Douglas em 09/11/2026 | 🔴 Crítico | EPIC-031 | — |
+| ~~[TASK-412](tasks/TASK-412.md)~~ | ~~Samu: valor do lançamento financeiro sem "R$"/"reais" ("recebi 300", "despesa ... 2.100") era descartado — agora vale se o número está escrito na mensagem~~ — promovida para `main` em 10/11/2026 — api [#187](https://github.com/douglasjava/easy-maintenance-api/pull/187)+[#188](https://github.com/douglasjava/easy-maintenance-api/pull/188)→[#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) | 🟠 Alto | EPIC-031 | MÉDIA |
 | [TASK-321](tasks/TASK-321.md)                  | Bug de payload fazia assinatura CARD encerrar sozinha na Asaas logo após o 1º ciclo, sem aviso. 4 PRs de fix (api#146/148/150/152) + botão de autoatendimento (web#110), todas mergeadas e promovidas pra main (api#147/149/151/153, web#111). Detalhes técnicos na issue/PR privadas. Validado ponta a ponta em PRD por Douglas (painel e portal Asaas consistentes) | 🔴 Crítico | — | GRAVE |
 | [TASK-281](tasks/TASK-281.md)                  | `/private/admin/financials` não contava receita de cartão/checkout (`FinancialsService` filtrava só `PaymentStatus.RECEIVED`) — corrigido pra somar `RECEIVED`+`PAID`+`CHECKOUT_PAID`, `mvn test` 1060/1060, mergeada em `staging`/`main` ([api#110](https://github.com/douglasjava/easy-maintenance-api/pull/110)/[api#111](https://github.com/douglasjava/easy-maintenance-api/pull/111)), confirmado em produção por Douglas via SQL | 🔴 Alto | — | ALTA |
 | [TASK-276](tasks/TASK-276.md)                  | Trial vencido sem e-mail/cobrança (checkout Asaas rejeitado por item `ORGANIZATION` zerado, mesmo bug da TASK-215 nunca portado) + invoice duplicada por período instável em retry — corrigido, `mvn test` 992/992, mergeada em `staging` ([api#94](https://github.com/douglasjava/easy-maintenance-api/pull/94)) e `main` ([api#95](https://github.com/douglasjava/easy-maintenance-api/pull/95)), QA manual aprovada por Douglas | 🔴 Crítico | — | GRAVE |
@@ -2365,8 +2371,6 @@ _Vazio_
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador (temperature 0, "não invente campos", exemplos) — depende da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
-| [TASK-411](tasks/TASK-411.md) | Samu: conjunto de avaliação do classificador — 🔵 **em validação**: linha de base registrada (intenção 96%, 398 tokens/msg); em `staging` (#186); promoção [api#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) → `main` | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
-| [TASK-412](tasks/TASK-412.md) | Samu: valor do lançamento financeiro descartado sem "R$"/"reais" ("recebi 300", "despesa ... 2.100") — 🔵 **em validação**: em `staging` (#187, #188); promoção [api#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) → `main` | 🟠 Alto | EPIC-031 | Pós-Onda 1 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |
@@ -2729,6 +2733,7 @@ _Vazio_
 
 | ID                            | Título                                                                          | Prioridade | Épico        |
 |-------------------------------|---------------------------------------------------------------------------------|------------|--------------|
+| ~~[TASK-411](tasks/TASK-411.md)~~ | ~~Samu: conjunto de avaliação do classificador de intenções (69 casos, runner fora do CI) + linha de base (intenção 96%, 398 tokens/msg)~~ — promovida para `main` em 10/11/2026 — api [#186](https://github.com/douglasjava/easy-maintenance-api/pull/186)→[#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) | 🟡 Médio | EPIC-031 |
 | [TASK-282](tasks/TASK-282.md) / [TASK-283](tasks/TASK-283.md) / [TASK-284](tasks/TASK-284.md) | Landing: telefone obrigatório no form de leads + recursos atualizados + mais dinamismo (fade-in, bento grid, contraste hoje/depois, scrollytelling "Como funciona") — mergeadas em `main` ([api#113](https://github.com/douglasjava/easy-maintenance-api/pull/113) / [web#89](https://github.com/douglasjava/easy-maintenance-web/pull/89)) por Douglas | 🟠 Alto | — |
 | [TASK-200](tasks/TASK-200.md) | Full-stack: descrição livre no registro de manutenção — api#47 e web#52 mergeadas em main | 🟠 Alto | — |
 | [TASK-180](tasks/TASK-180.md) | Conteúdo: revisar post do blog sobre NBR 5674 — PR #45 mergeada em staging | 🔵 Baixo | EPIC-025 |

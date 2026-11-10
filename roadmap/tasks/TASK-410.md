@@ -14,7 +14,7 @@ Assistente WhatsApp (Samu) / IA
 ([triagem](../QA/triagem-usabilidade-producao-2026-11-09.md))
 
 ## QA obrigatório
-Sim — mudança de prompt muda o comportamento de todo texto livre. **Depende da [TASK-411](TASK-411.md)**: sem o
+Sim — mudança de prompt muda o comportamento de todo texto livre. **Depende da [TASK-411](TASK-411.md)** (✅ concluída 10/11/2026): sem o
 conjunto de avaliação não há como provar que o prompt novo é melhor que o atual.
 
 ---
