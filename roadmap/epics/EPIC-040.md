@@ -1,7 +1,10 @@
 # EPIC-040 — Esteira de Aprovação de Identidade do Morador (QR Code / WhatsApp)
 
 ## Status
-🟢 Completo (03/11/2026) — TASK-387 a TASK-392 e TASK-395 (webhook de resposta do botão,
+✅ **Concluído e em produção (10/11/2026)** — flag `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` ligada em produção e
+QA manual com clique real de botão feito (confirmado por Douglas em 10/11/2026).
+
+Histórico: 🟢 Completo (03/11/2026) — TASK-387 a TASK-392 e TASK-395 (webhook de resposta do botão,
 aberta a posteriori — não fazia parte do escopo original de 6 tasks, ver nota abaixo) todas
 implementadas. Falta só ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` em produção e o
 QA manual com clique real de botão.

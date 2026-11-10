@@ -47,8 +47,7 @@ completo na spec da esteira, seção "Fluxo completo", passos 1 a 3 e 4.1.
 - [x] Resposta pública nunca expõe número de protocolo para quem está em pendência (ele não existe
       ainda) — `ResidentTicketIntakeResponse` substitui `ResidentTicketResponse` como retorno
 - [x] `mvn test` sem regressão (1624/1624)
-- [ ] QA manual (smoke test ao vivo contra API local) — bloqueado: servidor local não pôde ser
-      reiniciado nesta sessão
+- [x] QA manual — coberto pelo QA do EPIC-040 em produção (confirmado por Douglas em 10/11/2026)
 
 ## Dependências
 TASK-387 (entidade da pendência) e TASK-381 (consulta de `CondoPerson` por telefone/papel,

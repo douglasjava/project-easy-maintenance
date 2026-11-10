@@ -1,5 +1,8 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/11/2026 — **✅ [EPIC-040](epics/EPIC-040.md) concluído em produção**: flag
+> `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` ligada e QA com clique real em Aprovar/Reprovar feito (confirmado por Douglas em 10/11/2026).
+
 > Atualizado em: 10/11/2026 — **✅ Templates da Meta do chamado de morador online e produtivos** (confirmado por Douglas em 10/11/2026):
 > [TASK-372](tasks/TASK-372.md) concluída, e com ela a [TASK-368](tasks/TASK-368.md) (notificação ao morador por
 > WhatsApp). Também foram versionadas as atualizações locais de TASK-175/176 (Cal.com), TASK-328 (e2e financeiro),
@@ -2433,8 +2436,8 @@ _Vazio_
 | ~~[TASK-389](tasks/TASK-389.md)~~ | ~~Backend: notificação ao síndico — e-mail de fallback + WhatsApp fan-out~~ — mergeada em `main` via api#173/#174→api#177 | 🟠 Alto | EPIC-040 | — |
 | ~~[TASK-390](tasks/TASK-390.md)~~ | ~~Backend: aprovação/reprovação — lock, `CondoPerson`+`Unit`, reprocessamento~~ — mergeada em `main` via api#173/#174→api#177 | 🟠 Alto | EPIC-040 | — |
 | ~~[TASK-391](tasks/TASK-391.md)~~ | ~~Frontend: aba "Pendentes" em `/pessoas`~~ — mergeada em `main` via web#125→web#126 | 🟠 Alto | EPIC-040 | — |
-| ~~[TASK-392](tasks/TASK-392.md)~~ | ~~Infra/Config: template WhatsApp de aprovação (botões) — submissão Meta~~ — template `aprovacao_identidade_morador_v1` aprovado pela Meta (03/11/2026); falta ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` em produção | 🔴 Crítico | EPIC-040 | — |
-| ~~[TASK-395](tasks/TASK-395.md)~~ | ~~Backend: webhook consome o clique Aprovar/Reprovar do WhatsApp~~ — mergeada em `main` via api#175→api#177; falta o QA manual com clique real | 🟠 Alto | EPIC-040 | — |
+| ~~[TASK-392](tasks/TASK-392.md)~~ | ~~Infra/Config: template WhatsApp de aprovação (botões) — submissão Meta~~ — template `aprovacao_identidade_morador_v1` aprovado pela Meta (03/11/2026); flag ligada em produção e QA feito (10/11/2026) | 🔴 Crítico | EPIC-040 | — |
+| ~~[TASK-395](tasks/TASK-395.md)~~ | ~~Backend: webhook consome o clique Aprovar/Reprovar do WhatsApp~~ — mergeada em `main` via api#175→api#177; QA com clique real feito em produção (10/11/2026) | 🟠 Alto | EPIC-040 | — |
 | [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |

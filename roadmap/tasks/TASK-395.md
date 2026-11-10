@@ -88,8 +88,7 @@ TASK-392)
 - [x] Mensagens que não correspondem a nenhum dispatch conhecido continuam caindo no pipeline do
       assistente exatamente como antes (sem regressão no chat do EPIC-031)
 - [x] `mvn test` sem regressão
-- [ ] QA manual em produção: clique real de botão no WhatsApp chegando no webhook — depende do
-      ambiente real, fora do alcance desta sessão
+- [x] QA manual em produção: clique real de botão no WhatsApp chegando no webhook — confirmado por Douglas em 10/11/2026
 
 ## Dependências
 TASK-389 (envio), TASK-390 (approve/reject), TASK-392 (template aprovado — sem ele não tem como
@@ -104,7 +103,4 @@ mensagens `button` com `wamid` reconhecido — qualquer outra mensagem segue o c
 Médio
 
 ## Status
-🟢 Implementado (03/11/2026) — branch `feature/TASK-395-webhook-aprovacao-identidade`
-(`easy-maintenance-api`), commit `6dea9a9`, PR #175 mergeada em `staging`. `mvn test`: 40 testes
-novos/alterados, suíte completa sem regressão. Falta só QA manual em produção com clique real de
-botão (depende do `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` já ligado, ver TASK-392).
+✅ Done — em `main` via api#175→api#177; QA manual em produção com clique real feito (confirmado por Douglas em 10/11/2026).
