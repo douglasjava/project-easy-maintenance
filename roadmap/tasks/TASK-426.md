@@ -29,9 +29,9 @@ serviços de **todos** os condomínios a que o fornecedor está vinculado, agrup
 - IA só para registrar execução (D11).
 
 ## Critérios de Aceite
-- [ ] Vê só itens e manutenções ligados a ele, nunca custos de outros nem outros fornecedores (teste negativo)
-- [ ] Execução enviada para o condomínio certo
-- [ ] Condomínio desligado some da lista
+- [x] Vê só itens e manutenções ligados a ele, nunca custos de outros nem outros fornecedores (teste negativo)
+- [x] Execução enviada para o condomínio certo
+- [x] Condomínio desligado some da lista
 
 ## Dependências
 [TASK-422](TASK-422.md), [TASK-423](TASK-423.md), [TASK-424](TASK-424.md), [TASK-346](TASK-346.md).
@@ -39,5 +39,12 @@ serviços de **todos** os condomínios a que o fornecedor está vinculado, agrup
 ## Riscos
 Multi-tenant entre condomínios do mesmo fornecedor: teste com 2 condomínios.
 
+## Implementação (10/11/2026)
+[api#203](https://github.com/douglasjava/easy-maintenance-api/pull/203), mergeada em `staging`.
+- Menu do fornecedor: serviços que vencem (60 dias, todos os condomínios vinculados), histórico, enviar execução (vira o responsável ao validar) e assinatura.
+- "Itens dele" vêm das execuções em que ele foi o responsável (D8). O habitual entra com a TASK-346.
+- Texto livre vira execução, sem IA (D11). Nunca mostra custo nem outros fornecedores.
+- `mvn test` 1959, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — atrás de `ASSISTANT_PERSONAS_ENABLED`; aguarda a validação de Douglas.
