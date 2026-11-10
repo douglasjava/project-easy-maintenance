@@ -27,9 +27,9 @@ D8 da [spec](../../docs/superpowers/specs/2026-11-06-assistant-role-matrix-desig
 - Samu: o "quem fez" do cartão sugere o fornecedor habitual do item quando houver; texto livre continua valendo.
 
 ## Critérios de Aceite
-- [ ] Manutenção grava o fornecedor só se ele estiver vinculado à organização (`X-Org-Id`)
-- [ ] Trocar o habitual do item não altera o responsável das manutenções antigas
-- [ ] Contrato da API compatível (campo novo opcional)
+- [x] Manutenção grava o fornecedor só se ele estiver vinculado à organização (`X-Org-Id`)
+- [x] Trocar o habitual do item não altera o responsável das manutenções antigas
+- [x] Contrato da API compatível (campo novo opcional)
 
 ## Dependências
 Nenhuma para o campo; a sugestão pelo habitual depende da [TASK-346](TASK-346.md).
@@ -37,5 +37,12 @@ Nenhuma para o campo; a sugestão pelo habitual depende da [TASK-346](TASK-346.m
 ## Riscos
 Duplicidade com o texto livre "feito por": manter os dois, com o campo estruturado tendo prioridade.
 
+## Implementação (10/11/2026)
+[api#200](https://github.com/douglasjava/easy-maintenance-api/pull/200) e [web#143](https://github.com/douglasjava/easy-maintenance-web/pull/143), mergeadas em `staging`.
+- `maintenances.supplier_id` (V142). `supplierId` opcional no registro, validado contra o vínculo com a organização, e devolvido em `MaintenanceResponse`.
+- Web: campo "Fornecedor" no registro, com os fornecedores vinculados ao condomínio.
+- Pendente: o nome no histórico do item (web) e a sugestão do habitual no cartão do Samu (depende da TASK-346).
+- `mvn test` 1948, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas.

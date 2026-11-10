@@ -31,10 +31,10 @@ presta serviço para N condomínios. Hoje o fornecedor cadastrado por um condom�
 - Condomínio desliga o fornecedor → contatos perdem a visão daquele condomínio.
 
 ## Critérios de Aceite
-- [ ] Conta reivindicada só por quem comprova o e-mail ou recebe convite de condomínio
-- [ ] Contato ativado vê dados de todos os condomínios vinculados e de nenhum outro
-- [ ] Desligar o vínculo remove a visão daquele condomínio na hora
-- [ ] `Supplier.phone` global não identifica ninguém no bot
+- [x] Conta reivindicada só por quem comprova o e-mail ou recebe convite de condomínio
+- [x] Contato ativado vê dados de todos os condomínios vinculados e de nenhum outro
+- [x] Desligar o vínculo remove a visão daquele condomínio na hora
+- [x] `Supplier.phone` global não identifica ninguém no bot
 
 ## Dependências
 [TASK-413](TASK-413.md), [TASK-417](TASK-417.md).
@@ -42,5 +42,13 @@ presta serviço para N condomínios. Hoje o fornecedor cadastrado por um condom�
 ## Riscos
 Multi-tenant: o `Supplier` é compartilhado; toda consulta filtra pelos condomínios vinculados.
 
+## Implementação (10/11/2026)
+[api#199](https://github.com/douglasjava/easy-maintenance-api/pull/199) e [web#142](https://github.com/douglasjava/easy-maintenance-web/pull/142), mergeadas em `staging`.
+- `supplier_contacts` (V141): técnicos do fornecedor. O fornecedor cadastra no portal (aba WhatsApp, link válido da TASK-413), ou um condomínio vinculado convida um técnico (`POST /suppliers/{id}/contacts/assistant-invite`).
+- Convite pelo mesmo mecanismo da TASK-418 (persona `SUPPLIER_CONTACT`). Remover o contato revoga o acesso na hora.
+- Resolução: o contato vê todos os condomínios vinculados ao fornecedor naquele momento; desvincular tira a visão. O `Supplier.phone` global não identifica ninguém.
+- Pendente: o botão do lado do condomínio no web fica para a TASK-437.
+- `mvn test` 1945, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — atrás de `ASSISTANT_PERSONAS_ENABLED`; aguarda a validação de Douglas.
