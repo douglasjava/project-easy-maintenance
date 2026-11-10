@@ -65,9 +65,26 @@ WhatsApp ao telefone informado. Detalhe completo em
       bloqueia a abertura, confirmado em `ResidentTicketPublicServiceTest`
 - [x] `mvn test`/`npm run build` sem regressão — 1505/1505 backend; `tsc --noEmit` e `npm run build`
       limpos no frontend
-- [ ] QA manual em navegador real (fluxo completo: marcar opt-in → receber código real → confirmar)
-      — pendente, precisa da API local rodando + template aprovado (ou mock) pra validar de ponta a
-      ponta
+- [x] QA manual em navegador real (fluxo completo: marcar opt-in → receber código real → confirmar)
+      — **validado em 29/10/2026** (ver seção abaixo). Templates da Meta (TASK-372) ainda não
+      aprovados, então o envio real por WhatsApp continua desligado por flag
+      (`notification.whatsapp.resident-ticket-enabled=false`); o código de confirmação foi lido
+      diretamente do banco local pra validar o fluxo de ponta a ponta sem depender do envio real.
+
+## QA manual (29/10/2026)
+Contra API/frontend/banco locais reais (`feature/EPIC-027-categoria-protocolo-notificacao`):
+- [x] Marcar o checkbox gera `whatsapp_opt_in_status=PENDENTE_CONFIRMACAO` + código de 6 dígitos
+      persistido (confirmado no banco); UI mostra a tela "Confirme seu WhatsApp" na sequência
+- [x] Código correto confirma o opt-in (`CONFIRMADO`) — UI volta pra listagem sem erro
+- [x] Código errado é rejeitado com toast "Código inválido" (capturado visualmente) — log do
+      backend confirma `RuleException: Código inválido`
+- [x] "Pular" funciona — chamado continua acessível/normal em "Meus chamados" sem o opt-in
+      confirmado, confirmando que a confirmação nunca bloqueia a abertura
+- **Nota de ferramenta**: a primeira tentativa de marcar o checkbox via automação (set
+  programático de `checked`, sem evento real) não disparou o `onChange` do React — o app ficou
+  correto (`whatsapp_opt_in_status` permaneceu `NAO_SOLICITADO` porque o campo realmente não foi
+  enviado como `true`), mas pareceu um bug até refazer o teste com um clique real no checkbox, que
+  funcionou perfeitamente. Registrado aqui pra não repetir o falso-alarme numa próxima rodada.
 
 ## Dependências
 TASK-367 (precisa do contrato de API já com categoria/protocolo). TASK-372 (template de confirmação
@@ -82,6 +99,7 @@ funciona em mock/sandbox até a aprovação sair.
 Médio
 
 ## Status
-🟡 Implementada, aguardando PR/validação final — backend na branch
+Done — QA manual em navegador real validado em 29/10/2026. Backend na branch
 `feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-api`), frontend na branch de
-mesmo nome (`easy-maintenance-web`). Falta QA manual em navegador real.
+mesmo nome (`easy-maintenance-web`). Templates da Meta (TASK-372) aprovados e produtivos
+(confirmado por Douglas em 10/11/2026).

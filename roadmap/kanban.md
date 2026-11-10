@@ -1,10 +1,15 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/11/2026 — **✅ Templates da Meta do chamado de morador online e produtivos** (confirmado por Douglas em 10/11/2026):
+> [TASK-372](tasks/TASK-372.md) concluída, e com ela a [TASK-368](tasks/TASK-368.md) (notificação ao morador por
+> WhatsApp). Também foram versionadas as atualizações locais de TASK-175/176 (Cal.com), TASK-328 (e2e financeiro),
+> TASK-330/331/332 (Samu: financeiro, celular no onboarding, boas-vindas) e TASK-369 a 371 (QA do EPIC-027).
+> Continua aberto o critério de viewport mobile da [TASK-369](tasks/TASK-369.md).
+
 > Atualizado em: 10/11/2026 — **Auditoria do kanban do Samu/WhatsApp**: TASK-299 a 304 (fundação do assistente,
 > em produção desde 27/09) e EPIC-040 (TASK-387 a 392 + TASK-395, mergeadas via api#177/web#126) marcadas como
 > concluídas. No EPIC-040 continuam pendentes ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` em produção e o
-> QA manual com clique real. A TASK-368 (notificação ao morador) está em `main` desde api#166 e o envio real espera os
-> templates da TASK-372. As specs de Pessoas e Papéis, de aprovação de identidade do morador e a ideia de campanhas de
+> QA manual com clique real. A TASK-368 (notificação ao morador) está em `main` desde api#166. As specs de Pessoas e Papéis, de aprovação de identidade do morador e a ideia de campanhas de
 > comércio local foram versionadas em `docs/superpowers/specs/`.
 
 > Atualizado em: 10/11/2026 — **✅ [TASK-408](tasks/TASK-408.md) fechada**: a Onda 1 do Samu está toda concluída.

@@ -35,10 +35,18 @@ Emanuela (28/10/2026). Detalhe completo em
 - [x] Cada card do kanban mostra a categoria do chamado com indicação visual clara (badge colorido
       por tipo)
 - [x] Cada card mostra o número de protocolo
-- [ ] Drag-and-drop entre colunas continua funcionando sem regressão — só verificado por não ter
-      tocado na lógica de `dnd-kit` (`DraggableTicketCard`/`BoardColumn` inalterados); não testado
-      em navegador real nesta rodada
+- [x] Drag-and-drop entre colunas continua funcionando sem regressão — **validado em navegador
+      real em 29/10/2026**: 3 chamados de teste (um por categoria) movidos
+      SOLICITADO → EM ANDAMENTO → CONCLUÍDO via drag-and-drop real (`left_click_drag`), badge de
+      categoria e protocolo preservados em cada coluna, sem erros
 - [x] `npm run build`/`tsc --noEmit` sem regressão
+
+## QA manual (29/10/2026)
+Login real como ADMIN de organização de teste, `/resident-tickets` (kanban) contra API/banco
+locais reais. Confirmado: cada card mostra badge de categoria (cor por tipo) e "Protocolo nº X";
+drag-and-drop entre as 3 colunas funcionando; aviso de "assinatura inativa" da organização de
+teste não bloqueou a movimentação dos cards. Log do backend confirma as transições de status
+(`SOLICITADO` → `EM_ANDAMENTO` → `CONCLUIDO`) sem erro, multi-tenant (`X-Org-Id`) correto.
 
 ## Dependências
 TASK-367 (contrato de API com `category`/`protocolNumber`). Independente de TASK-369/371.
@@ -50,5 +58,5 @@ Baixo — extensão visual de componente já existente.
 Pequeno
 
 ## Status
-🟡 Implementada, aguardando QA manual e PR — branch
+Done — QA manual validado em 29/10/2026. Branch
 `feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-web`).

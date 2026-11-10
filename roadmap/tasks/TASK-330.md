@@ -49,15 +49,15 @@ a capacidade nova, pra ela nascer já no formato certo e não aumentar a dívida
 - `RegistrationParser.parseCostCents`/`.parseDate` (genéricos, não específicos de manutenção).
 
 ## Critérios de aceite
-- [ ] `RegistrationStep`/`NewOrganizationStep` removidos; `PendingActionStep` único cobre os dois
+- [x] `RegistrationStep`/`NewOrganizationStep` removidos; `PendingActionStep` único cobre os dois
   fluxos existentes sem mudar o comportamento observável deles (mesmos testes, adaptados).
-- [ ] Usuário consegue dizer "gastei 200 com a conta de luz" (ou variação) e o assistente
+- [x] Usuário consegue dizer "gastei 200 com a conta de luz" (ou variação) e o assistente
   pergunta categoria (se precisar), mostra resumo pra confirmar, e só grava no "Confirmar".
-- [ ] Permissão: só ADMIN/SYNDIC conseguem confirmar (mesma regra do `/financeiro`); TECH recebe
+- [x] Permissão: só ADMIN/SYNDIC conseguem confirmar (mesma regra do `/financeiro`); TECH recebe
   mensagem de erro clara, sem crash.
-- [ ] Troca de organização com rascunho pendente descarta o rascunho (mesma trava do registro de
+- [x] Troca de organização com rascunho pendente descarta o rascunho (mesma trava do registro de
   manutenção).
-- [ ] Suíte completa do pacote `assistant` verde antes e depois do refactor.
+- [x] Suíte completa do pacote `assistant` verde antes e depois do refactor.
 
 ## Execução (05/10/2026)
 Implementado inline (7 tasks do plano + fix pass da revisão final), TDD em cada passo. Revisão
@@ -67,4 +67,4 @@ falso positivo no parser de receita/despesa + exemplo não parseável + ambiguid
 IA), 4 Minor (adiados, sem risco de dados). PR [api#156](https://github.com/douglasjava/easy-maintenance-api/pull/156) aberta contra `staging`.
 
 ## Status
-Em main desde 05/10/2026 ([api#157](https://github.com/douglasjava/easy-maintenance-api/pull/157)) — aguardando validação manual em produção (fluxo completo pelo WhatsApp + regressão dos fluxos existentes de registro de manutenção/empresa nova).
+Done — mergeada em `main` ([api#157](https://github.com/douglasjava/easy-maintenance-api/pull/157)), confirmada pronta por Douglas (21/10/2026).

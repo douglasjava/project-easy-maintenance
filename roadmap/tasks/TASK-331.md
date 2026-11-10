@@ -33,8 +33,18 @@ onboarding.
   Perfil já trata hoje.
 
 ## Critérios de Aceite
-- [ ] Campo de celular aparece no onboarding, com validação de formato
-- [ ] Opt-in explícito, desmarcado por padrão, com copy igual/equivalente ao de Perfil
-- [ ] Onboarding conclui normalmente mesmo sem telefone/opt-in
-- [ ] Número + consentimento persistidos corretamente com isolamento multi-tenant
-- [ ] Sem regressão no fluxo de Perfil (TASK-301) que hoje faz o mesmo vínculo
+- [x] Campo de celular aparece no onboarding, com validação de formato
+- [x] Opt-in explícito, desmarcado por padrão, com copy igual/equivalente ao de Perfil
+- [x] Onboarding conclui normalmente mesmo sem telefone/opt-in
+- [x] Número + consentimento persistidos corretamente com isolamento multi-tenant
+- [x] Sem regressão no fluxo de Perfil (TASK-301) que hoje faz o mesmo vínculo
+
+## Execução
+PR aberta e mergeada contra `staging` ([api#158](https://github.com/douglasjava/easy-maintenance-api/pull/158) /
+[web#116](https://github.com/douglasjava/easy-maintenance-web/pull/116)), testes automatizados verdes
+(`mvn test` 19/19 onboarding + 125/125 org_users, `tsc --noEmit` limpo). QA manual validado por
+Douglas em 19/10/2026 — único ajuste pedido foi UX (switch de opt-in pequeno demais), corrigido e
+mergeado via [web#117](https://github.com/douglasjava/easy-maintenance-web/pull/117) (`staging`).
+
+## Status
+Done — validado por Douglas em 19/10/2026.

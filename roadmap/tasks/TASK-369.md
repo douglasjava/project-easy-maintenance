@@ -40,13 +40,22 @@ Emanuela (28/10/2026). Detalhe completo em
 - [x] Protocolo retornado pela API aparece na confirmação — toast com "Protocolo nº X" ao abrir
 - [x] Protocolo e categoria aparecem em cada item da listagem "Meus chamados" (badge de categoria +
       linha "Protocolo nº X")
-- [ ] Funciona em viewport mobile — não verificado em navegador real nesta rodada (ver nota)
+- [ ] Funciona em viewport mobile — **ainda não verificado**: QA manual de 29/10/2026 (ver
+      abaixo) rodou contra API/frontend locais reais e cobriu os demais critérios, mas a tentativa
+      de emulação de viewport mobile via automação de navegador não teve efeito (limitação da
+      ferramenta usada, não da aplicação). Recomenda-se checagem manual rápida num celular real ou
+      DevTools antes de promover.
 - [x] `npm run build`/`tsc --noEmit` sem regressão
 
-**Nota**: verificação visual/responsiva em navegador real não foi feita nesta implementação —
-precisa da API local rodando (backend desta mesma extensão) pra testar o fluxo de ponta a ponta.
-Recomenda-se QA manual antes de promover, mesmo padrão já usado no resto do EPIC-027
-(TASK-QA-MAN-018).
+## QA manual (29/10/2026)
+Executado contra API (`mvn spring-boot:run -Dspring-boot.run.profiles=local`) e frontend
+(`npm run dev`) locais reais, banco MySQL real. Organização de teste criada via
+`POST /private/admin/organizations` (bootstrap). Abertos 5 chamados reais em `/chamados/[orgCode]`
+cobrindo as 3 categorias (Manutenção, Reclamação, Sugestão):
+- [x] Não é possível enviar sem categoria — confirmado (botão bloqueado)
+- [x] Protocolo exibido na confirmação ("Protocolo nº X") e sequencial (1, 2, 3... por organização)
+- [x] Categoria (badge colorido) e protocolo aparecem em cada item de "Meus chamados"
+- [x] Formulário consistente nas 3 categorias, sem erros de estado/loading
 
 ## Dependências
 TASK-367 (contrato de API com `category`/`protocolNumber`). Independente de TASK-370/371.
@@ -58,5 +67,5 @@ Baixo — extensão de tela já existente, sem mudança estrutural de rota.
 Pequeno
 
 ## Status
-🟡 Implementada, aguardando QA manual e PR — branch
-`feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-web`).
+🟡 QA manual de fluxo/dados concluído (29/10/2026) — falta apenas confirmar viewport mobile antes
+de promover. Branch `feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-web`).

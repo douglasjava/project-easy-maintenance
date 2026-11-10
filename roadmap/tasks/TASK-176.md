@@ -85,6 +85,4 @@ Baixo-Médio
 - PR: [api#114](https://github.com/douglasjava/easy-maintenance-api/pull/114) (`staging`)
 
 ## Status
-🟡 Em Validação — implementado, testado. Falta Douglas configurar Webhook Secret real no painel
-do Cal.com (`CALCOM_WEBHOOK_SECRET`) e confirmar agendamento real aparecendo em
-`/private/admin/leads`.
+Done — mergeada e em produção há algum tempo, confirmado por Douglas (21/10/2026).

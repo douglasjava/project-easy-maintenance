@@ -86,6 +86,4 @@ Baixo-Médio
 - PR: [web#90](https://github.com/douglasjava/easy-maintenance-web/pull/90) (`staging`)
 
 ## Status
-🟡 Em Validação — implementado, testado, validado no browser real (embed carregando de verdade
-com link de teste). Falta Douglas configurar o evento real no Cal.com e
-`NEXT_PUBLIC_CALCOM_LINK`, testar agendamento de ponta a ponta.
+Done — mergeada e em produção há algum tempo, confirmado por Douglas (21/10/2026).

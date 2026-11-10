@@ -26,6 +26,38 @@ pode reaproveitar os templates/textos livres usados nas conversas em andamento.
 - Idempotência: nunca enviar a mensagem de apresentação duas vezes para o mesmo
   usuário/organização.
 
+## Template proposto para submissão na Meta (19/10/2026)
+Segue o mesmo padrão de nome em snake_case versionado já usado em `vencimento_manutencao_v2`/`v3`
+(ambos Utility aprovados).
+
+- **Nome**: `assistente_boas_vindas_v1`
+- **Categoria**: `UTILITY` (não Marketing)
+- **Idioma**: Português (BR)
+- **Corpo (Body)**:
+  ```
+  Olá, {{1}}! 👋
+
+  Sou o assistente virtual do Easy Maintenance da *{{2}}*. A partir de agora você pode me
+  chamar aqui no WhatsApp pra registrar manutenções, consultar pendências e receber avisos de
+  vencimento.
+
+  Você está recebendo esta mensagem porque ativou as notificações por WhatsApp no seu cadastro.
+  ```
+- **Rodapé (Footer)**: `Easy Maintenance — responda SAIR para desativar`
+- **Botão**: Quick Reply — `Começar`
+- **Variáveis**: `{{1}}` = primeiro nome do usuário · `{{2}}` = nome da organização/condomínio
+
+**Por que Utility e não Marketing**: dispara só por opt-in explícito do próprio usuário
+(TASK-331), é sobre funcionalidade da conta já contratada, sem oferta/desconto/CTA comercial —
+enquadra em "account update/onboarding" da política da Meta. Risco residual: a Meta pode
+reclassificar como Marketing na revisão — submeter com folga de prazo antes de depender da
+aprovação para liberar a task.
+
+Optei por Quick Reply em vez de botão de URL pra simplificar a aprovação e porque
+`WhatsAppClient.sendTemplateMessage` já suporta esse padrão sem precisar de botão dinâmico. Se
+preferir linkar pro dashboard, dá pra trocar por um botão de URL com `{{1}}`/slug da org como
+sufixo dinâmico — não submetido ainda, aguardando decisão final antes do cadastro na Meta.
+
 ## Riscos / pontos de atenção
 - Aprovação de template pela Meta não é instantânea e pode ser rejeitada — planejar tempo de
   antecedência e um texto alinhado às políticas (sem tom comercial agressivo se for categoria
@@ -38,8 +70,30 @@ pode reaproveitar os templates/textos livres usados nas conversas em andamento.
   mensagem) já está pronto para esse público antes de ativar em produção.
 
 ## Critérios de Aceite
-- [ ] Template de apresentação aprovado na Meta Cloud API
-- [ ] Mensagem é disparada automaticamente só quando TASK-331 registrar opt-in = true
-- [ ] Falha no envio não impede a conclusão do onboarding
-- [ ] Mensagem nunca é enviada duplicada para o mesmo usuário
-- [ ] QA manual cobrindo opt-in=false (não envia) e opt-in=true (envia)
+- [x] Template de apresentação aprovado na Meta Cloud API
+- [x] Mensagem é disparada automaticamente só quando TASK-331 registrar opt-in = true
+- [x] Falha no envio não impede a conclusão do onboarding
+- [x] Mensagem nunca é enviada duplicada para o mesmo usuário
+- [x] QA manual cobrindo opt-in=false (não envia) e opt-in=true (envia) — validado em produção
+
+## Execução
+Implementado em `WhatsAppWelcomeMessageService`, disparado a partir de `OnboardingService.createOrganization`
+(PR [api#159](https://github.com/douglasjava/easy-maintenance-api/pull/159) contra `staging`).
+Idempotência via `users.whatsapp_welcome_sent_at` (migration V124).
+
+Template `assistente_boas_vindas_v1` aprovado pela Meta. A flag
+`notification.whatsapp.welcome-message-enabled` foi ligada em produção (commit direto em `main`
+pelo Douglas). Primeiro envio real em produção (20/10/2026) revelou um bug: `WhatsAppClient`
+montava sempre um componente de botão `url`, mesmo quando o template usa botão Quick Reply (sem
+parâmetro dinâmico) — a Graph API rejeitava com HTTP 400 `(#100) Invalid parameter: button:
+Parameter 'text' is mandatory ... cannot be empty`. Corrigido tornando o componente de botão
+condicional a `buttonUrlParam` não vazio, com teste de regressão novo
+(`sendTemplateMessage_withNullButtonParam_omitsButtonComponent`). Mergeado em `staging`
+([api#163](https://github.com/douglasjava/easy-maintenance-api/pull/163)) e em `main`
+([api#164](https://github.com/douglasjava/easy-maintenance-api/pull/164)). `mvn test` 1458/1458,
+sem regressão.
+
+Publicado e testado funcionando em produção em 21/10/2026.
+
+## Status
+Done — publicado e validado em produção (21/10/2026).

@@ -95,6 +95,5 @@ testar esse cenário de verdade, não só isoladamente.
 Médio
 
 ## Status
-🟡 Código em `main` — branch `feature/EPIC-027-categoria-protocolo-notificacao` mergeada via api#166 (→ #168).
-O envio real em produção depende dos templates da [TASK-372](TASK-372.md) (submissão à Meta). Atualizado na
-auditoria de 10/11/2026.
+✅ Done — código em `main` via api#166 (→ #168); templates da [TASK-372](TASK-372.md) aprovados e
+produtivos (confirmado por Douglas em 10/11/2026).

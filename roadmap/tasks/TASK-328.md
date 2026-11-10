@@ -35,15 +35,16 @@ docs/superpowers/plans/2026-10-04-financial-entries-plan.md (loginViaUi + TENANT
 ## Critérios de aceite
 - [x] Lança receita e despesa via UI, confere refletido em `/financeiro` e na Prestação de Contas.
 - [x] Cancelar remove da listagem ativa.
-- [ ] **Executado contra API/banco e2e reais** — não foi possível nesta sessão (API/frontend não
-      estavam de pé localmente, portas 9000/3000 fechadas — mesma limitação já documentada em
-      outros specs deste repositório). Rodar `npm run setup:db` + subir a API e o frontend antes de
-      promover.
+- [x] **Executado contra API/banco e2e reais** — rodado contra ambiente vivo; achados reais
+      corrigidos no commit `fa51750` (seed não limpava `financial_entries` entre execuções, toast
+      duplicado e segundo `<select>` violando modo estrito). Validado por Douglas em 19/10/2026.
 
 ## Execução (05/10/2026)
 `tests/frontend/finance-entries.spec.ts` criado (projeto `ui` do Playwright). `npx tsc --noEmit`
 limpo. `npx playwright test --list` reconhece os 2 testes corretamente, no projeto certo (`[ui]`).
-Execução real contra ambiente vivo pendente (ver critério de aceite acima).
+
+## Execução — validação real (19/10/2026)
+Run final contra ambiente e2e real confirmado por Douglas (verde).
 
 ## Status
-In Validation — falta rodar contra ambiente e2e real antes de promover.
+Done — validado por Douglas em 19/10/2026.
