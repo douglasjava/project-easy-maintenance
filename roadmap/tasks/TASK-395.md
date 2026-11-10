@@ -104,3 +104,9 @@ Médio
 
 ## Status
 ✅ Done — em `main` via api#175→api#177; QA manual em produção com clique real feito (confirmado por Douglas em 10/11/2026).
+
+**Histórico (antes de 10/11/2026):**
+🟢 Implementado (03/11/2026) — branch `feature/TASK-395-webhook-aprovacao-identidade`
+(`easy-maintenance-api`), commit `6dea9a9`, PR #175 mergeada em `staging`. `mvn test`: 40 testes
+novos/alterados, suíte completa sem regressão. Falta só QA manual em produção com clique real de
+botão (depende do `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED=true` já ligado, ver TASK-392).
