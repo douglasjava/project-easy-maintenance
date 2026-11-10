@@ -139,3 +139,17 @@ Proposta: EPIC "Financeiro v2 + integração com manutenção".
 5. Os 7 conflitos da seção 4.
 6. Registrar manutenção com data **anterior** à última do item recalcula o vencimento a partir dela (puxa para
    trás) — manter ou só recalcular quando for a mais recente? (achado na TASK-403, 09/11)
+
+### Decisões fechadas por Douglas em 10/11/2026
+| # | Pergunta | Decisão |
+|---|---|---|
+| 2 | "Atualizar manutenção" | O Samu pergunta **[Foi feita] [Remarcar data]**. "Foi feita" vai para o registro; "Remarcar" vai para *alterar vencimento*, função nova. |
+| 3 | Custo da manutenção | É **valor pago**. Quando tem valor, o cartão oferece **[Lançar também como despesa]**: cria o lançamento vinculado (`maintenance_id`) e evita duplicidade. Em contrato ou garantia, basta não lançar. |
+| 4 | Categorias financeiras | **Fixas, com lista ampliada** e curada (manutenção preventiva e corretiva, contratos, folha, consumo, administração, fundo de reserva, outras; na receita: taxa condominial, multa, aluguel de área…). Não são configuráveis por condomínio. |
+| 6 | Data anterior à última | **Só a execução mais recente define o vencimento.** Uma data mais antiga entra no histórico, mas não mexe na última execução nem no vencimento. |
+| C1 | Quem abre chamado pelo WhatsApp | **Morador, síndico, admin e zelador.** O chamado aberto pela equipe sai com origem "equipe". Muda a linha "Abrir chamado" da matriz. |
+| C2 | Fornecedor: item × manutenção | **Os dois papéis:** fornecedor *habitual* no item, como sugestão (é ele que o "Acionar fornecedor" usa), e fornecedor *responsável* na manutenção, como registro de quem fez (D8 mantida). Trocar o habitual não reescreve o histórico. |
+| C3 | Funções fora da matriz | Alterar vencimento, cadastrar fornecedor, cadastrar item e cadastrar local ficam com **ADMIN e SYNDIC**. O zelador pode **sugerir** item ou local pelo fluxo 📝, que o síndico valida. |
+
+Ainda em aberto: **#1** (corretiva/emergencial reinicia o ciclo preventivo?) e os conflitos **C4 a C7**.
+
