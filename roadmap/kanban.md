@@ -2404,7 +2404,7 @@ _Vazio_
 | [TASK-418](tasks/TASK-418.md) | Convite por código para Zelador e Conselheiro + aceite do termo + revogação — 🔵 **em `staging`** (api#194, web#140) | 🔴 Crítico | EPIC-042 | Matriz |
 | [TASK-419](tasks/TASK-419.md) | Assistente: morador aprovado vira persona + resposta a número desconhecido — 🔵 **em `staging`** (api#195) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-420](tasks/TASK-420.md) | Persona Morador no bot: abrir chamado, status, áreas comuns — 🔵 **em `staging`** (api#196) | 🟠 Alto | EPIC-042 | Matriz |
-| [TASK-421](tasks/TASK-421.md) | Persona Conselheiro no bot: leituras, custo, resumo financeiro e índice | 🟡 Médio | EPIC-042 | Matriz |
+| [TASK-421](tasks/TASK-421.md) | Persona Conselheiro no bot: leituras, custo, resumo financeiro e índice — 🔵 **em `staging`** (api#197) | 🟡 Médio | EPIC-042 | Matriz |
 | [TASK-422](tasks/TASK-422.md) | Fornecedor: conta global reivindicada + contatos gerenciados pelo fornecedor | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-423](tasks/TASK-423.md) | Manutenção ↔ fornecedor responsável (D8) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-424](tasks/TASK-424.md) | Execução enviada (📝) por zelador ou fornecedor, validada pelo síndico | 🔴 Crítico | EPIC-042 | Matriz |
