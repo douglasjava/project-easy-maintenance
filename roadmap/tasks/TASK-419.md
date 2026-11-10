@@ -26,9 +26,9 @@ número desconhecido recebe "ative em Minha Conta", que não serve para quem nã
 - Número desconhecido: mensagem neutra, sem IA, no máximo 1 por dia por número (texto da D22).
 
 ## Critérios de Aceite
-- [ ] Morador aprovado é reconhecido; pendente ou reprovado não
-- [ ] Número desconhecido recebe a mensagem neutra uma vez por dia, sem consumir crédito de IA
-- [ ] Usuário com login continua recebendo o fluxo atual
+- [x] Morador aprovado é reconhecido; pendente ou reprovado não
+- [x] Número desconhecido recebe a mensagem neutra uma vez por dia, sem consumir crédito de IA
+- [x] Usuário com login continua recebendo o fluxo atual
 
 ## Dependências
 [TASK-417](TASK-417.md).
@@ -36,5 +36,11 @@ número desconhecido recebe "ative em Minha Conta", que não serve para quem nã
 ## Riscos
 Spam: o limite diário evita resposta em laço e custo.
 
+## Implementação (10/11/2026)
+[api#195](https://github.com/douglasjava/easy-maintenance-api/pull/195), mergeada em `staging`.
+- D21: quando um número desconhecido escreve, o bot procura um morador aprovado (EPIC-040) com esse celular. Achando, abre um vínculo pendente de 1 dia, sem código, e envia o termo. O aceite ativa a persona, inclusive em mais de um condomínio.
+- D22: a mensagem neutra lista QR Code, convite do síndico e Minha Conta. No máximo 1 por dia, sem IA.
+- `mvn test` 1921, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — atrás de `ASSISTANT_PERSONAS_ENABLED`; aguarda a validação de Douglas.
