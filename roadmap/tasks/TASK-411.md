@@ -42,7 +42,7 @@ leitura de documentos; este é o equivalente para o texto livre.
 - [x] ≥ 60 casos versionados, sem dado pessoal real — 69 casos, 28 cegos, todas as 11 intenções
 - [x] Runner isolado do `mvn test` padrão (não chama a OpenAI no CI) — `@EnabledIfSystemProperty(aiEval=true)`; aparece como *skipped*
 - [x] Relatório com acerto por intenção, por campo, taxa de campo inventado e tokens médios (+ subconjunto cego, campo proibido e instabilidade entre execuções)
-- [ ] Linha de base do prompt atual registrada nesta task — **pendente: precisa da `OPENAI_API_KEY`** (não está no ambiente do Claude)
+- [x] Linha de base do prompt atual registrada nesta task — ver abaixo (09/11/2026)
 
 ## Dependências
 Nenhuma. Bloqueia a [TASK-410](TASK-410.md).
@@ -71,11 +71,53 @@ Branch `chore/TASK-411-classifier-eval` (`easy-maintenance-api`, a partir de `st
 
 ## Como rodar a linha de base
 ```bash
-export OPENAI_API_KEY=...        # PowerShell: $env:OPENAI_API_KEY="..."
+export OPENAI_API_KEY=...
 mvn test -Dtest=IntentClassifierEvalTest -DaiEval=true -DaiEval.runs=3
 ```
+No **PowerShell**, cada `-D` vai entre aspas (senão o ponto quebra o argumento: `Unknown lifecycle phase ".runs=3"`),
+e o JDK precisa ser o 21:
+```powershell
+$env:OPENAI_API_KEY="..."
+mvn test "-Dtest=IntentClassifierEvalTest" "-DaiEval=true" "-DaiEval.runs=3"
+```
 `runs=3` mede a instabilidade (com temperature 1.0 a mesma frase pode mudar de intenção). Custo estimado: 69 casos ×
-~400 tokens × 3 ≈ 85 mil tokens — centavos de dólar no gpt-4o-mini. Colar aqui o resumo do relatório.
+~400 tokens × 3 ≈ 85 mil tokens — centavos de dólar no gpt-4o-mini (medido: 82.307).
+
+## Linha de base — 09/11/2026 (prompt atual, gpt-4o-mini, temperature 1.0, 69 casos × 3 execuções)
+
+| Métrica | Resultado |
+|---|---|
+| Acerto de intenção | **198/207 (96%)** · subconjunto cego 78/84 (93%) · 8 de 11 intenções em 100% |
+| REGISTRAR_MANUTENCAO | 51/57 (89%) |
+| HISTORICO_ITEM | 18/21 (86%) |
+| Instabilidade de intenção entre execuções | **nenhuma** — os 9 erros são os mesmos 3 casos nas 3 rodadas |
+| Acerto por campo | data 100% · responsável 100% · custo 97% · item 87% · tipo 40% · período 0/3 |
+| Campo inventado em campo que a produção usa | 26 (tipo 8, data 7, custo 8, responsável 3) — **todos barrados pelas guardas da Onda 1** |
+| Tokens | 82.307 no total · média **398** por mensagem · máximo 480 |
+
+Os 3 erros de intenção (sempre `FORA_DO_ESCOPO`): "poda de jardim", "manutenção preventiva da bomba de recalque, a
+cada 6 meses" e "e para caixa de godura?" (continuação de conversa, sem contexto — Parte B).
+
+O relatório bruto contava 51/217 (24%) de campo inventado. Esse número estava inflado: contava `tipo` no financeiro
+(a produção aceita de propósito a inferência receita/despesa) e campos de intenções que não os usam (ex.: `tipo` em
+`TROCAR_ORGANIZACAO`). A régua foi recalibrada no commit `83fb0cf` e os 26 acima são a recontagem pela régua nova.
+
+### Achados
+1. **Bug em produção — valor do lançamento financeiro descartado.** Em "aluguel do salão de festas, recebi 300" e
+   "lançar despesa de salário do porteiro 2.100", a IA acerta o valor (3/3), mas a produção o descarta:
+   `parseCostCents` não acha o número (falta R$, "reais" ou verbo de pagamento colado a ele) e `mentionsMoney` não
+   reconhece "recebi"/"despesa". O Samu pergunta o valor de novo. Precisa de task própria (regra determinística, não prompt).
+2. **A IA não sabe a data de hoje**: devolve datas de 2023 (`2023-10-xx`) quando o texto não tem data. As guardas
+   descartam tudo. Lacuna do parser: "agora de manhã" não conta como hoje.
+3. **Tipo de manutenção**: a IA devolve o verbo ("conserto", "troca", "pintura", "desentupimento"), que não vira tipo.
+   É inofensivo, porque o cartão pergunta. "teste do gerador" volta sem tipo. → TASK-410 (listar os 5 tipos no prompt).
+4. **Campos usados sem guarda**: `periodo` em vencimentos (a produção usa o da IA antes do texto) e `item` em
+   histórico. Nenhum valor inventado nesses campos na linha de base; continua sendo risco. → TASK-410.
+5. **temperature 1.0** não trocou intenção em 3 rodadas; varia só os campos inventados (datas aleatórias).
+
+Relatório: `target/ai-eval/intent-eval-20261109-2117.md` (local, não versionado). A partir do `83fb0cf` o runner
+também salva as respostas cruas em `…-raw.jsonl`.
+
 
 ## Achado
 O classificador de produção roda com **`temperature 1.0`** (`AiConfig.customOpenAiChatModel`, bean usado também por
@@ -83,4 +125,4 @@ outros fluxos via `openAiAiProvider`). Registrado na [TASK-410](TASK-410.md); a 
 para comparar.
 
 ## Status
-🟡 Em Execução — código pronto; falta rodar a linha de base com a chave e abrir a PR.
+🔵 Em Validação — linha de base registrada; branch `chore/TASK-411-classifier-eval` (`0be9f31`, `83fb0cf`) aguardando PR para `staging`.

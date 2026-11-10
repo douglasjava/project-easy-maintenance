@@ -1,9 +1,9 @@
 # Kanban — Easy Maintenance
 
-> Atualizado em: 09/11/2026 — **🟡 [TASK-411](tasks/TASK-411.md) em execução**: conjunto de avaliação do classificador
-> de intenções pronto (69 casos, 28 cegos; runner que reproduz a produção e só roda com `-DaiEval=true`). Falta a linha
-> de base com a chave da OpenAI. Achado: o classificador roda com `temperature 1.0` (anotado na
-> [TASK-410](tasks/TASK-410.md)).
+> Atualizado em: 09/11/2026 — **🔵 [TASK-411](tasks/TASK-411.md) em validação — linha de base registrada**: intenção
+> 96% (cego 93%), nenhuma troca de intenção em 3 rodadas, 398 tokens/mensagem. Todos os campos inventados são barrados
+> pelas guardas da Onda 1. Achado novo: o **valor do lançamento financeiro é descartado** quando vem sem R$/reais
+> ("recebi 300"), e o Samu pergunta de novo. Insumos para a [TASK-410](tasks/TASK-410.md) anotados nela.
 
 > Atualizado em: 09/11/2026 — **✅ Onda 1 do Samu em produção (`main`)** — TASK-400 a 407, TASK-409 e o QA manual
 > TASK-QA-MAN-030 concluídos (api#184→#185, web#136→#137). Fica aberta só a **[TASK-408](tasks/TASK-408.md)**: o código
@@ -2365,7 +2365,7 @@ _Vazio_
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
 | [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador (temperature 0, "não invente campos", exemplos) — depende da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
-| [TASK-411](tasks/TASK-411.md) | Samu: conjunto de avaliação do classificador — **código pronto** (69 casos, runner fora do CI, branch `chore/TASK-411-classifier-eval`); falta rodar a linha de base com a `OPENAI_API_KEY` | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
+| [TASK-411](tasks/TASK-411.md) | Samu: conjunto de avaliação do classificador — 🔵 **em validação**: linha de base registrada (intenção 96%, 398 tokens/msg); branch `chore/TASK-411-classifier-eval` aguardando PR | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |

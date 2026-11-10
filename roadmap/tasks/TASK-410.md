@@ -35,6 +35,16 @@ O classificador roda com **`temperature(1.0)`** — fixado em `AiConfig.customOp
 um `ChatModel`/opção própria para ele, sem mudar os demais. Comparar com `-DaiEval.temperature=0` no runner da 411
 antes de decidir.
 
+## Linha de base da TASK-411 (09/11/2026) — o que mirar
+Detalhes na [TASK-411](TASK-411.md), seção "Linha de base".
+- Intenção 96% (cego 93%), sem instabilidade em 3 rodadas. Os erros são sempre os mesmos: "poda de jardim" e
+  "manutenção preventiva da bomba de recalque, a cada 6 meses" → `FORA_DO_ESCOPO`. "e para caixa de godura?" depende de contexto (Parte B).
+- `tipo` acerta 40%: a IA devolve verbos ("conserto", "troca"). Listar no prompt os 5 tipos válidos (preventiva, corretiva,
+  emergencial, inspeção, teste); "conserto" e "quebrou" contam como corretiva.
+- A IA inventa datas de 2023 por não saber a data de hoje. As guardas barram, mas o prompt deve dizer "não preencha `data` se a mensagem não disser quando".
+- `periodo` (vencimentos) e `item` (histórico) são usados **sem guarda**: avaliar texto primeiro, IA depois, como no registro.
+- Linha de base de custo: **398 tokens/mensagem** (máx. 480). O prompt novo não deve passar de ~600.
+
 ## Escopo
 - `temperature = 0` (ou o mínimo suportado) na chamada do classificador — sem afetar os outros usos do
   `openAiAiProvider` (IA Onboarding etc.).
