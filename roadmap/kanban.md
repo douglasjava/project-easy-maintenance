@@ -2400,7 +2400,7 @@ _Vazio_
 | [TASK-414](tasks/TASK-414.md) | Assistente: política única de permissões por papel (AssistantCapability) — 🔵 **em validação**: [api#191](https://github.com/douglasjava/easy-maintenance-api/pull/191) → `staging` | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-415](tasks/TASK-415.md) | Assistente: menu por papel em lista do WhatsApp, gerado pela política — 🔵 **em validação**: [api#191](https://github.com/douglasjava/easy-maintenance-api/pull/191) → `staging` | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-416](tasks/TASK-416.md) | Remover o papel TECH (migration defensiva + enum + telas do web) — 🔵 **em `staging`** (api#192, web#139) | 🟡 Médio | EPIC-042 | Matriz |
-| [TASK-417](tasks/TASK-417.md) | Assistente: identidade por persona (User, CondoPerson, contato de fornecedor) | 🔴 Crítico | EPIC-042 | Matriz |
+| [TASK-417](tasks/TASK-417.md) | Assistente: identidade por persona (User, CondoPerson, contato de fornecedor) — 🔵 **em `staging`** (api#193, atrás de flag) | 🔴 Crítico | EPIC-042 | Matriz |
 | [TASK-418](tasks/TASK-418.md) | Convite por código para Zelador e Conselheiro + aceite do termo + revogação | 🔴 Crítico | EPIC-042 | Matriz |
 | [TASK-419](tasks/TASK-419.md) | Assistente: morador aprovado vira persona + resposta a número desconhecido | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-420](tasks/TASK-420.md) | Persona Morador no bot: abrir chamado, status, áreas comuns | 🟠 Alto | EPIC-042 | Matriz |
