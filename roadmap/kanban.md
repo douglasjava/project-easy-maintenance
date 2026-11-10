@@ -2306,7 +2306,7 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
-| [TASK-413](tasks/TASK-413.md) | Segurança: acesso ao portal do fornecedor exige comprovação por e-mail (detalhe só na PR da API) | 🔴 Crítico | Fornecedores | ALTA |
+| [TASK-413](tasks/TASK-413.md) | Segurança: acesso ao portal do fornecedor exige comprovação por e-mail (detalhe só na PR da API) — 🔵 **em `staging`** (api#198, web#141) | 🔴 Crítico | Fornecedores | ALTA |
 | [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
 
 ---

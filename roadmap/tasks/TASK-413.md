@@ -29,11 +29,11 @@ fornecedor. **O detalhe técnico não fica neste repositório (público)**: ele 
 - Testes de regressão do cadastro e do portal.
 
 ## Critérios de Aceite
-- [ ] Só quem tem acesso ao e-mail cadastrado do fornecedor consegue entrar no portal
-- [ ] Links antigos deixam de funcionar depois da rotação; os novos expiram
-- [ ] Cadastro repetido de conta existente não gera cobrança nem expõe dado da conta
-- [ ] Fluxo de auto-cadastro novo e ativação pelo pagamento sem regressão
-- [ ] `mvn test` sem regressão; detalhe técnico registrado só na PR da API
+- [x] Só quem tem acesso ao e-mail cadastrado do fornecedor consegue entrar no portal
+- [x] Links antigos deixam de funcionar depois da rotação; os novos expiram
+- [x] Cadastro repetido de conta existente não gera cobrança nem expõe dado da conta
+- [x] Fluxo de auto-cadastro novo e ativação pelo pagamento sem regressão
+- [x] `mvn test` sem regressão; detalhe técnico registrado só na PR da API
 
 ## Dependências
 Nenhuma. Bloqueia a [TASK-422](TASK-422.md) e a [TASK-427](TASK-427.md).
@@ -41,5 +41,8 @@ Nenhuma. Bloqueia a [TASK-422](TASK-422.md) e a [TASK-427](TASK-427.md).
 ## Riscos
 Fornecedor que perdeu o acesso ao e-mail fica sem portal: definir o caminho de suporte (troca manual pelo admin).
 
+## Implementação (10/11/2026)
+[api#198](https://github.com/douglasjava/easy-maintenance-api/pull/198) e [web#141](https://github.com/douglasjava/easy-maintenance-web/pull/141), mergeadas em `staging`. Detalhes só na PR da API (repositório privado).
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas.
