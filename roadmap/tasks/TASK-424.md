@@ -28,9 +28,9 @@ confirma. Execução não validada não conta como manutenção feita.
 - Foto, laudo e ART anexados seguem para a manutenção validada.
 
 ## Critérios de Aceite
-- [ ] Execução pendente não mexe em vencimento nem no índice
-- [ ] Validar duas vezes (bot e web) não cria duas manutenções (lock)
-- [ ] Recusada fica como rastro, com motivo
+- [x] Execução pendente não mexe em vencimento nem no índice
+- [x] Validar duas vezes (bot e web) não cria duas manutenções (lock)
+- [x] Recusada fica como rastro, com motivo
 
 ## Dependências
 [TASK-417](TASK-417.md).
@@ -38,5 +38,11 @@ confirma. Execução não validada não conta como manutenção feita.
 ## Riscos
 Duplo processamento entre canais: reaproveitar o lock de idempotência do EPIC-040.
 
+## Implementação (10/11/2026)
+[api#201](https://github.com/douglasjava/easy-maintenance-api/pull/201), mergeada em `staging`.
+- `maintenance_submissions` (V143) e `MaintenanceSubmissionService`: enviar, validar (vira manutenção, com os anexos) e recusar com motivo. A trava garante que só a primeira decisão vale.
+- API da fila: `/maintenance-submissions`. No bot, a linha "Validar execuções" no menu do síndico.
+- Pendente: a tela da fila no web e o teste unitário do serviço.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — falta a tela da fila no web; aguarda a validação de Douglas.
