@@ -95,6 +95,6 @@ testar esse cenário de verdade, não só isoladamente.
 Médio
 
 ## Status
-🟡 Implementada, aguardando PR/validação final — mesma branch da TASK-367/371
-(`feature/EPIC-027-categoria-protocolo-notificacao`, `easy-maintenance-api`). Envio real em
-produção depende da TASK-372 (templates aprovados pela Meta) ainda não submetida.
+🟡 Código em `main` — branch `feature/EPIC-027-categoria-protocolo-notificacao` mergeada via api#166 (→ #168).
+O envio real em produção depende dos templates da [TASK-372](TASK-372.md) (submissão à Meta). Atualizado na
+auditoria de 10/11/2026.

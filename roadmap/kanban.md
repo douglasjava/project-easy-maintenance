@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/11/2026 — **Auditoria do kanban do Samu/WhatsApp**: TASK-299 a 304 (fundação do assistente,
+> em produção desde 27/09) e EPIC-040 (TASK-387 a 392 + TASK-395, mergeadas via api#177/web#126) marcadas como
+> concluídas. No EPIC-040 continuam pendentes ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` em produção e o
+> QA manual com clique real. A TASK-368 (notificação ao morador) está em `main` desde api#166 e o envio real espera os
+> templates da TASK-372. As specs de Pessoas e Papéis, de aprovação de identidade do morador e a ideia de campanhas de
+> comércio local foram versionadas em `docs/superpowers/specs/`.
+
 > Atualizado em: 10/11/2026 — **✅ [TASK-408](tasks/TASK-408.md) fechada**: a Onda 1 do Samu está toda concluída.
 > A [TASK-410](tasks/TASK-410.md) (prompt) foi **adiada**: o prompt será revisto de uma vez junto com as intenções novas
 > da Parte B, e só então medido contra a linha de base da TASK-411.
@@ -2358,12 +2365,12 @@ _Vazio_
 | ~~[TASK-100](tasks/TASK-100.md)~~ | ~~Frontend: `/users` — listagem de usuários da org com CRUD actions~~ | 🟠 Alto    | EPIC-013 | 3    |
 | [TASK-297](tasks/TASK-297.md) | Limites do plano: usuários ilimitados, teto de itens da conta e exibição coerente (aguarda decisão) | 🟠 Alto | — | — |
 | [TASK-298](tasks/TASK-298.md) | IA de onboarding lê o manual do síndico (PDF) — precisa de spec | 🟡 Médio | — | — |
-| [TASK-299](tasks/TASK-299.md) | Módulo `assistant`: fila, worker, controle de fluxo, liga/desliga e piloto | 🟠 Alto | EPIC-031 | Onda 1 |
-| [TASK-300](tasks/TASK-300.md) | `WhatsAppClient` ampliado + cota | 🟠 Alto | EPIC-031 | Onda 1 |
-| [TASK-301](tasks/TASK-301.md) | Vínculo do número + consentimento + Perfil | 🟠 Alto | EPIC-031 | Onda 1 |
-| [TASK-302](tasks/TASK-302.md) | Contexto "em nome do usuário" + porta de domínio + escolha de organização | 🔴 Crítico | EPIC-031 | Onda 1 |
-| [TASK-303](tasks/TASK-303.md) | Classificador + transcrição + crédito de IA | 🟠 Alto | EPIC-031 | Onda 1 |
-| [TASK-304](tasks/TASK-304.md) | "Identificação/local" no item + `source` | 🟡 Médio | EPIC-031 | Onda 1 |
+| ~~[TASK-299](tasks/TASK-299.md)~~ | ~~Módulo `assistant`: fila, worker, controle de fluxo, liga/desliga e piloto~~ — em produção desde 27/09/2026 (api#124 / web#105) | 🟠 Alto | EPIC-031 | Onda 1 |
+| ~~[TASK-300](tasks/TASK-300.md)~~ | ~~`WhatsAppClient` ampliado + cota~~ — em produção desde 27/09/2026 (api#124 / web#105) | 🟠 Alto | EPIC-031 | Onda 1 |
+| ~~[TASK-301](tasks/TASK-301.md)~~ | ~~Vínculo do número + consentimento + Perfil~~ — em produção desde 27/09/2026 (api#124 / web#105) | 🟠 Alto | EPIC-031 | Onda 1 |
+| ~~[TASK-302](tasks/TASK-302.md)~~ | ~~Contexto "em nome do usuário" + porta de domínio + escolha de organização~~ — em produção desde 27/09/2026 (api#124 / web#105) | 🔴 Crítico | EPIC-031 | Onda 1 |
+| ~~[TASK-303](tasks/TASK-303.md)~~ | ~~Classificador + transcrição + crédito de IA~~ — em produção desde 27/09/2026 (api#124 / web#105) | 🟠 Alto | EPIC-031 | Onda 1 |
+| ~~[TASK-304](tasks/TASK-304.md)~~ | ~~"Identificação/local" no item + `source`~~ — em produção desde 27/09/2026 (api#124 / web#105) | 🟡 Médio | EPIC-031 | Onda 1 |
 | ~~[TASK-305](tasks/TASK-305.md)~~ | ~~Consultas só leitura~~ *(confirmado em `main` — PR [api#127](https://github.com/douglasjava/easy-maintenance-api/pull/127)→[api#128](https://github.com/douglasjava/easy-maintenance-api/pull/128) MERGED; task file ficou com status "Em validação" desatualizado)* | 🟠 Alto | EPIC-031 | Onda 2 |
 | ~~[TASK-306](tasks/TASK-306.md)~~ | ~~Registro rápido com confirmação~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
 | ~~[TASK-307](tasks/TASK-307.md)~~ | ~~Links diretos no web~~ *(confirmado em `main` — PR [web#108](https://github.com/douglasjava/easy-maintenance-web/pull/108)→[web#109](https://github.com/douglasjava/easy-maintenance-web/pull/109) MERGED, [api#142](https://github.com/douglasjava/easy-maintenance-api/pull/142)→[api#144](https://github.com/douglasjava/easy-maintenance-api/pull/144) MERGED; task file ficou com status "In Validation" desatualizado)* | 🟡 Médio | EPIC-031 | Onda 2 |
@@ -2416,12 +2423,13 @@ _Vazio_
 | [TASK-358](tasks/TASK-358.md) | Voto do conselheiro (WhatsApp ou link) com auditoria | 🟡 Médio | EPIC-036 | Fase 4 |
 | [TASK-359](tasks/TASK-359.md) | QA: conselho e aprovação ponta a ponta | 🟠 Alto | EPIC-036 | Fase 4 |
 | [TASK-365](tasks/TASK-365.md) | QA: validar fluxo completo contra sandbox Asaas + checklist de rollout (CNPJ/certificado A1) | 🟠 Alto | EPIC-037 | — |
-| [TASK-387](tasks/TASK-387.md) | Backend: `ResidentIdentityPending` — entidade, migration e repositório | 🟠 Alto | EPIC-040 | — |
-| [TASK-388](tasks/TASK-388.md) | Backend: intake do QR Code — apto/bloco + desvio para pendência | 🟠 Alto | EPIC-040 | — |
-| [TASK-389](tasks/TASK-389.md) | Backend: notificação ao síndico — e-mail de fallback + WhatsApp fan-out | 🟠 Alto | EPIC-040 | — |
-| [TASK-390](tasks/TASK-390.md) | Backend: aprovação/reprovação — lock, `CondoPerson`+`Unit`, reprocessamento | 🟠 Alto | EPIC-040 | — |
-| [TASK-391](tasks/TASK-391.md) | Frontend: aba "Pendentes" em `/pessoas` | 🟠 Alto | EPIC-040 | — |
-| [TASK-392](tasks/TASK-392.md) | Infra/Config: template WhatsApp de aprovação (botões) — submissão Meta | 🔴 Crítico | EPIC-040 | — |
+| ~~[TASK-387](tasks/TASK-387.md)~~ | ~~Backend: `ResidentIdentityPending` — entidade, migration e repositório~~ — mergeada em `main` via api#173/#174→api#177 | 🟠 Alto | EPIC-040 | — |
+| ~~[TASK-388](tasks/TASK-388.md)~~ | ~~Backend: intake do QR Code — apto/bloco + desvio para pendência~~ — mergeada em `main` via api#173/#174→api#177 (+ web#125→web#126) | 🟠 Alto | EPIC-040 | — |
+| ~~[TASK-389](tasks/TASK-389.md)~~ | ~~Backend: notificação ao síndico — e-mail de fallback + WhatsApp fan-out~~ — mergeada em `main` via api#173/#174→api#177 | 🟠 Alto | EPIC-040 | — |
+| ~~[TASK-390](tasks/TASK-390.md)~~ | ~~Backend: aprovação/reprovação — lock, `CondoPerson`+`Unit`, reprocessamento~~ — mergeada em `main` via api#173/#174→api#177 | 🟠 Alto | EPIC-040 | — |
+| ~~[TASK-391](tasks/TASK-391.md)~~ | ~~Frontend: aba "Pendentes" em `/pessoas`~~ — mergeada em `main` via web#125→web#126 | 🟠 Alto | EPIC-040 | — |
+| ~~[TASK-392](tasks/TASK-392.md)~~ | ~~Infra/Config: template WhatsApp de aprovação (botões) — submissão Meta~~ — template `aprovacao_identidade_morador_v1` aprovado pela Meta (03/11/2026); falta ligar `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` em produção | 🔴 Crítico | EPIC-040 | — |
+| ~~[TASK-395](tasks/TASK-395.md)~~ | ~~Backend: webhook consome o clique Aprovar/Reprovar do WhatsApp~~ — mergeada em `main` via api#175→api#177; falta o QA manual com clique real | 🟠 Alto | EPIC-040 | — |
 | [TASK-366](tasks/TASK-366.md) | Jurídico/Produto: avaliar necessidade de contrato formal assinado (além do clickwrap `/termos`) | 🟢 Baixo | — | — (aguardando gatilho real) |
 | ~~[TASK-101](tasks/TASK-101.md)~~ | ~~Frontend: reescrever `/users/new` — convite por e-mail + org select~~ | 🔴 Crítico | EPIC-013 | 3    |
 | ~~[TASK-102](tasks/TASK-102.md)~~ | ~~Frontend: `/users/[id]/edit` — edição + desativação de usuário~~ | 🟠 Alto    | EPIC-013 | 3    |
