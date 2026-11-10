@@ -37,8 +37,9 @@ da IA se `mentionsMoney(text)` for verdadeiro (regra da Onda 1: a IA não pode i
 ## Escopo
 - No **lançamento financeiro**, aceitar o `custo` da IA quando o **número aparece no texto** (mesmo valor em centavos de
   algum número da mensagem: "2.100" → 210000, "300" → 30000). Isso prova que a IA não inventou o valor.
-- Pistas de dinheiro do financeiro: "recebi", "receita", "despesa", "entrou", "entrada". Só no fluxo financeiro; no
-  registro de manutenção "entrada" pode ser lugar ("portão da entrada").
+- ~~Pistas de dinheiro do financeiro: "recebi", "receita", "despesa", "entrou", "entrada".~~ **Descartado na
+  execução.** Com essas palavras como pista, "lançar despesa de luz" aceitaria um valor que a IA inventou. A regra do
+  número no texto já cobre os dois casos e é mais segura.
 - Continua valendo: o número do texto vence o da IA, e um valor que não aparece no texto é descartado.
 
 ## Fora de escopo
@@ -46,13 +47,15 @@ da IA se `mentionsMoney(text)` for verdadeiro (regra da Onda 1: a IA não pode i
 - Mudar o prompt do classificador ([TASK-410](TASK-410.md)).
 
 ## Critérios de Aceite
-- [ ] "aluguel do salão de festas, recebi 300" → cartão com R$ 300,00, sem perguntar o valor
-- [ ] "lançar despesa de salário do porteiro 2.100" → R$ 2.100,00
-- [ ] Valor da IA que **não** está no texto continua descartado (ex.: texto "conta de luz", IA `custo=200` → pergunta o valor)
-- [ ] Número que não é valor não vira valor por engano quando a IA não o devolveu (ex.: "multa do apto 302" sem valor → pergunta)
-- [ ] Registro de manutenção sem mudança de comportamento (testes da Onda 1 verdes)
-- [ ] Casos `fin-05` e `fin-07` da avaliação: o runner da TASK-411 deixa de marcar `custo` como inventado
-- [ ] `mvn test` sem regressão
+- [x] "aluguel do salão de festas, recebi 300" → cartão com R$ 300,00, sem perguntar o valor
+- [x] "lançar despesa de salário do porteiro 2.100" → R$ 2.100,00
+- [x] Valor da IA que **não** está no texto continua descartado (ex.: texto "conta de luz", IA `custo=200` → pergunta o valor)
+- [x] Número que não é valor não vira valor por engano (ex.: "multa do apto 302", **mesmo com** a IA devolvendo `302` → pergunta)
+- [x] Registro de manutenção sem mudança de comportamento (testes da Onda 1 verdes)
+- [ ] Casos `fin-05` e `fin-07` da avaliação: o runner da TASK-411 deixa de marcar `custo` como inventado — **pendente**:
+  o runner (PR api#186) e esta regra (PR api#187) estão em branches separadas. Depois dos dois merges, o `grounded` do
+  runner passa a usar `amountInText` no financeiro (ajuste de uma linha)
+- [x] `mvn test` sem regressão — 1813/1813
 
 ## Dependências
 Nenhuma. Pode ir antes da [TASK-410](TASK-410.md).
@@ -61,5 +64,15 @@ Nenhuma. Pode ir antes da [TASK-410](TASK-410.md).
 Número de unidade/apartamento confundido com valor ("apto 302"). Por isso a regra exige que a **IA** tenha devolvido
 o valor e que ele bata com um número do texto: não basta haver um número na mensagem.
 
+## Implementação (10/11/2026)
+Branch `bugfix/TASK-412-financial-amount-grounding` (a partir de `staging`) · PR
+[api#187](https://github.com/douglasjava/easy-maintenance-api/pull/187).
+- `AssistantFinancialEntryParser.amountInText(cents, text)` — o valor da IA é um número solto da mensagem (300, 2.100,
+  1.287,85). Não contam número de unidade (logo após apto, bloco, sala, casa, torre, nº…), data (03/11) nem hora (10:30).
+- `AssistantFinancialEntryService.start` — o texto vence; o valor da IA vale se o texto fala de dinheiro **ou** se
+  `amountInText` confirma. Registro de manutenção inalterado.
+- Testes: +2 no parser e +4 no serviço.
+- Risco que sobra: "a taxa do 101", sem palavra de unidade, com a IA devolvendo `101`. O cartão mostra o valor para confirmar.
+
 ## Status
-⬜ Backlog
+🔵 Em Validação — PR api#187 → `staging`.
