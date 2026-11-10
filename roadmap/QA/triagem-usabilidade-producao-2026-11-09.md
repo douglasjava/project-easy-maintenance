@@ -151,5 +151,10 @@ Proposta: EPIC "Financeiro v2 + integração com manutenção".
 | C2 | Fornecedor: item × manutenção | **Os dois papéis:** fornecedor *habitual* no item, como sugestão (é ele que o "Acionar fornecedor" usa), e fornecedor *responsável* na manutenção, como registro de quem fez (D8 mantida). Trocar o habitual não reescreve o histórico. |
 | C3 | Funções fora da matriz | Alterar vencimento, cadastrar fornecedor, cadastrar item e cadastrar local ficam com **ADMIN e SYNDIC**. O zelador pode **sugerir** item ou local pelo fluxo 📝, que o síndico valida. |
 
-Ainda em aberto: **#1** (corretiva/emergencial reinicia o ciclo preventivo?) e os conflitos **C4 a C7**.
+| 1 | Corretiva/emergencial reinicia o ciclo? | **Só preventiva, inspeção e teste reiniciam.** Corretiva e emergencial entram no histórico (custo, foto, quem fez) sem mexer no vencimento. A exceção fica no **web**, com o checkbox "também conta como a manutenção periódica". O Samu não faz essa pergunta. |
+| C4–C7 | Demais conflitos com a matriz | Propostas aceitas: "Nova empresa" dentro de "Trocar condomínio"; contexto curto **depois** da identidade por persona; texto livre para os papéis de login e limite da D11 para as personas; painel de entrada gerado pela política. Viraram D17 e D18 na spec. |
+| — | Ativação de personas sem login (levantado por Douglas) | **Código de convite** para Zelador, Conselheiro e contato de Fornecedor. O fornecedor é identificado pelo **contato do vínculo com o condomínio**, não pelo telefone global. O número desconhecido recebe uma **mensagem neutra**. Viraram D19 a D22 na spec. |
+
+**Todas as decisões de produto e os 7 conflitos estão fechados (10/11/2026).** A spec da matriz foi revisada com
+D14 a D22. Próximo passo: quebrar as tasks da matriz e da Parte B.
 

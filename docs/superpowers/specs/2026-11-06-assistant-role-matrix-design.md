@@ -1,8 +1,9 @@
 # Assistente WhatsApp — Menus e Funcionalidades por Papel
 
 **Data:** 05/11/2026 (decisões fechadas em 06/11/2026 por Douglas)
-**Status:** Fechada (06/11/2026) — todas as perguntas respondidas por Douglas (D1 a D13). Pronta
-para virar EPIC com tasks. **Atenção ao custo de WhatsApp** (seção "Custo de mensagens WhatsApp").
+**Status:** Fechada (06/11/2026) — todas as perguntas respondidas por Douglas (D1 a D13).
+**Revisada em 10/11/2026** com a Parte B do Tiago: D14 a D22 (abrir chamado pela equipe, fornecedor
+habitual × responsável, funções novas, ativação de personas sem login). Pronta para virar EPIC com tasks. **Atenção ao custo de WhatsApp** (seção "Custo de mensagens WhatsApp").
 **Matriz em imagem (para o time):** [`assets/2026-11-06-assistant-role-matrix.png`](assets/2026-11-06-assistant-role-matrix.png)
 
 ## Motivação
@@ -65,6 +66,15 @@ Douglas (05/11/2026): definir menus e funcionalidades específicos por papel, em
 | D11 | **Limite de IA com duas travas:** (a) quantidade de mensagens que passam pela IA por persona por dia (ex.: morador 10/dia); (b) teto mensal em créditos para todas as personas sem login somadas (ex.: 30% do crédito do plano). Números como configuração, calibrados no piloto. | Douglas, 06/11 |
 | D12 | **Pessoa com login e papel de governança: soma as capacidades.** Ex.: zelador no cadastro com login `READER` tem tudo do READER + tudo do Zelador (incluindo o 📝). O vínculo é `CondoPerson.user_id`. | Douglas, 06/11 |
 | D13 | **Destinatários do aviso: o síndico escolhe** a cada envio (ex.: todos, por bloco, por unidade, por papel). O custo estimado aparece **antes** de confirmar o envio (ver seção de custo). | Douglas, 06/11 |
+| D14 | **A equipe também abre chamado** pelo WhatsApp: ADMIN, SYNDIC e Zelador, além do Morador (o "vi um problema na ronda"). O chamado sai com origem "equipe". Conflito C1 da Parte B. | Douglas, 10/11 |
+| D15 | **Fornecedor em dois papéis:** o *habitual* fica no item, como sugestão (é ele que o "Acionar fornecedor" usa), e o *responsável* fica na manutenção, como registro de quem fez (D8 mantida). Trocar o habitual não reescreve o histórico. Conflito C2. | Douglas, 10/11 |
+| D16 | **Funções novas no bot** (alterar vencimento, cadastrar fornecedor, item e local) ficam com **ADMIN e SYNDIC**. O Zelador pode **sugerir** item ou local pelo fluxo 📝. Conflito C3. | Douglas, 10/11 |
+| D17 | **"Nova empresa"** sai do menu principal e vai para dentro de "Trocar condomínio". Continua só para ADMIN. Conflito C4. | Douglas, 10/11 |
+| D18 | **Texto livre em primeiro lugar** para todos os papéis de login. As personas por telefone seguem o limite da D11 e a última linha da matriz. O painel de entrada ("N vencidos · N chamados · fora do SLA") é gerado pela mesma política: cada papel só vê os números que pode ver. O contexto curto (30 min) vem **depois** da identidade por persona. Conflitos C5, C6 e C7. | Douglas, 10/11 |
+| D19 | **Zelador, Conselheiro e contato de Fornecedor são ativados por código de convite.** O síndico gera, em `/pessoas` ou no vínculo do fornecedor, um link `wa.me` com um código de uso único válido por 7 dias e repassa à pessoa. Ela manda a mensagem, o bot confere **código + telefone cadastrado** e pede o aceite do termo (LGPD, versão registrada). Só então a persona fica ativa. Um número digitado errado não ativa ninguém, e não há custo de template porque a conversa parte da pessoa. | Douglas, 10/11 |
+| D20 | **O fornecedor é identificado pelo contato do vínculo condomínio × fornecedor** (1 ou mais técnicos por condomínio, cada um ativado pela D19), **não** pelo `Supplier.phone` global. O global (definido no primeiro cadastro, muitas vezes vindo do Google Places) fica só como contato comercial. O contato só acessa os dados do condomínio que o convidou. | Douglas, 10/11 |
+| D21 | **O morador é ativado pela aprovação do EPIC-040** (QR Code → pendência → síndico aprova), sem código. Na primeira conversa com o bot, aceita o termo (LGPD). | Douglas, 10/11 |
+| D22 | **Um número desconhecido** recebe uma mensagem neutra, sem IA, no máximo 1 por dia por número: "Este número não está cadastrado. Morador: abra seu chamado pelo QR Code do prédio. Equipe ou fornecedor: peça o convite ao síndico. Síndico: ative em Minha Conta." | Douglas, 10/11 |
 
 ## Modelo: dois tipos de identidade no bot
 
@@ -79,13 +89,33 @@ Douglas (05/11/2026): definir menus e funcionalidades específicos por papel, em
 vale a persona do cadastro. Telefone com login **e** papel de governança (`CondoPerson.user_id`
 preenchido) → **soma as capacidades** dos dois (D12).
 
+## Ativação e revogação das personas sem login (D19 a D22, 10/11/2026)
+
+| Persona | Como entra | Prova de que é a pessoa certa |
+|---|---|---|
+| Papel de login (ADMIN/SYNDIC/READER) | Minha Conta → `AssistantLink` (como hoje) | login + número |
+| Morador | QR Code → pendência → síndico aprova (EPIC-040) | o síndico confirma nome e unidade; a mensagem prova o número |
+| Zelador / Conselheiro | código de convite gerado em `/pessoas` | código (repassado pelo síndico) + telefone do cadastro |
+| Fornecedor (contato) | código de convite gerado no vínculo do fornecedor com o condomínio | código + telefone do contato |
+
+Todas as personas aceitam o termo na própria conversa (versão registrada) antes da primeira ação.
+
+**Revogação automática** (regra derivada, sem decisão nova): a persona deixa de valer quando:
+- o telefone do cadastro muda (é preciso refazer o convite);
+- a pessoa sai do cadastro ou o vínculo com o fornecedor acaba;
+- o mandato do conselheiro termina (EPIC-036, TASK-356);
+- a pessoa responde "SAIR".
+
+Código de convite: uso único, validade de 7 dias e um código ativo por pessoa (gerar outro invalida o anterior). As
+tentativas erradas têm limite por número (anti força bruta). Ativação e revogação ficam registradas na auditoria.
+
 ## Matriz
 
 Legenda: ✅ pode e aparece no menu · 👁 só leitura · 📝 envia, o síndico valida · — não vê
 
 | Funcionalidade | ADMIN | SYNDIC | READER | Conselheiro | Zelador | Morador | Fornecedor |
 |---|---|---|---|---|---|---|---|
-| **Como é identificado** | login | login | login | telefone (`CONSELHEIRO`) | telefone (`ZELADOR`) | telefone aprovado (EPIC-040) | telefone do `Supplier` |
+| **Como é identificado** | login | login | login | convite + telefone (D19) | convite + telefone (D19) | telefone aprovado (EPIC-040, D21) | contato do vínculo + convite (D20) |
 | Vencimentos e itens vencidos | ✅ | ✅ | 👁 | 👁 | 👁 | — | — |
 | Histórico de um item | ✅ | ✅ | 👁 | 👁 | 👁 | — | 👁 só itens dele ¹ |
 | Registrar manutenção | ✅ | ✅ | — | — | 📝 com foto | — | 📝 foto, laudo, ART ¹ |
@@ -97,12 +127,14 @@ Legenda: ✅ pode e aparece no menu · 👁 só leitura · 📝 envia, o síndic
 | Aprovar morador pendente | ✅ | ✅ | — | — | — | — | — |
 | Avisos do prédio ³ | publica | publica | recebe | recebe | recebe | recebe | — |
 | Áreas comuns: regras e horários (EPIC-038) | ✅ | ✅ | 👁 | 👁 | 👁 | 👁 | — |
-| Abrir chamado (texto, foto ou áudio) | — | — | — | — | — | ✅ | — |
+| Abrir chamado (texto, foto ou áudio) | ✅ (D14) | ✅ (D14) | — | — | ✅ (D14) | ✅ | — |
 | Status dos meus chamados | — | — | — | — | — | 👁 | — |
 | Serviços que vencem para mim | — | — | — | — | — | — | 👁 ¹ |
 | Minhas cobranças e pagamentos (EPIC-028) | — | — | — | — | — | — | 👁 |
 | Trocar de organização | se tiver mais de 1 organização (qualquer papel) | | | | | | |
-| Nova empresa | ✅ | — | — | — | — | — | — |
+| Nova empresa (dentro de "Trocar condomínio", D17) | ✅ | — | — | — | — | — | — |
+| Alterar vencimento (D16) | ✅ | ✅ | — | — | — | — | — |
+| Cadastrar fornecedor, item ou local (D16) | ✅ | ✅ | — | — | 📝 sugere item/local | — | — |
 | Usa IA (texto livre e áudio) | ✅ | ✅ | ✅ | ✅ | ✅ | só abrir chamado ⁴ | só registrar execução ⁴ |
 
 **Nunca aparece:** custos e financeiro para zelador, morador e fornecedor; dados de outros moradores e
