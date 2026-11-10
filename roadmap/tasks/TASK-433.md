@@ -38,5 +38,13 @@ Fluxo F da [Parte B](../QA/registro-usabilidade-producao.md) e D14 da [spec](../
 ## Riscos
 Zelador só atende e abre; não reprova nem apaga (matriz).
 
+## Implementação (10/11/2026)
+[api#209](https://github.com/douglasjava/easy-maintenance-api/pull/209) e [web#147](https://github.com/douglasjava/easy-maintenance-web/pull/147), mergeadas em `staging`.
+- ADMIN, SYNDIC e zelador abrem chamado pelo bot: descrição e foto → urgência (Urgente/Normal/Baixa = HIGH/MEDIUM/LOW) → protocolo e prazo pelo SLA da organização.
+- `resident_tickets.origin` (V147) MORADOR/EQUIPE; selo **Equipe** no kanban do web.
+- A lista de chamados (por SLA) ganha ➕ Abrir chamado; ao concluir, o botão [Registrar] abre o registro com a descrição do chamado.
+- **Pendente:** acionar o fornecedor depende do fornecedor habitual (TASK-346 e TASK-437); responder ao morador precisa de um template novo da Meta.
+- `mvn test` 1979, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026), com pendências: acionar o fornecedor (TASK-437) e responder ao morador (template Meta).
