@@ -52,9 +52,8 @@ da IA se `mentionsMoney(text)` for verdadeiro (regra da Onda 1: a IA não pode i
 - [x] Valor da IA que **não** está no texto continua descartado (ex.: texto "conta de luz", IA `custo=200` → pergunta o valor)
 - [x] Número que não é valor não vira valor por engano (ex.: "multa do apto 302", **mesmo com** a IA devolvendo `302` → pergunta)
 - [x] Registro de manutenção sem mudança de comportamento (testes da Onda 1 verdes)
-- [ ] Casos `fin-05` e `fin-07` da avaliação: o runner da TASK-411 deixa de marcar `custo` como inventado — **pendente**:
-  o runner (PR api#186) e esta regra (PR api#187) estão em branches separadas. Depois dos dois merges, o `grounded` do
-  runner passa a usar `amountInText` no financeiro (ajuste de uma linha)
+- [x] Casos `fin-05` e `fin-07` da avaliação: o runner da TASK-411 deixa de marcar `custo` como inventado — PR
+  [api#188](https://github.com/douglasjava/easy-maintenance-api/pull/188) (`grounded` usa `amountInText` no financeiro)
 - [x] `mvn test` sem regressão — 1813/1813
 
 ## Dependências
@@ -75,4 +74,5 @@ Branch `bugfix/TASK-412-financial-amount-grounding` (a partir de `staging`) · P
 - Risco que sobra: "a taxa do 101", sem palavra de unidade, com a IA devolvendo `101`. O cartão mostra o valor para confirmar.
 
 ## Status
-🔵 Em Validação — PR api#187 → `staging`.
+🔵 Em Validação — api#187 e api#188 mergeadas em `staging` (10/11/2026); promoção
+[api#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) → `main` aberta. `mvn test` na `staging`: 1822, 0 falhas.

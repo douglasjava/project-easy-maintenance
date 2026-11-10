@@ -125,4 +125,5 @@ outros fluxos via `openAiAiProvider`). Registrado na [TASK-410](TASK-410.md); a 
 para comparar.
 
 ## Status
-🔵 Em Validação — linha de base registrada; PR [api#186](https://github.com/douglasjava/easy-maintenance-api/pull/186) (`chore/TASK-411-classifier-eval` → `staging`).
+🔵 Em Validação — linha de base registrada; api#186 mergeada em `staging` (10/11/2026); promoção
+[api#189](https://github.com/douglasjava/easy-maintenance-api/pull/189) → `main` aberta.
