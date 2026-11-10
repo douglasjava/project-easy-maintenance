@@ -36,8 +36,8 @@ Sim — limpeza de dado em produção: Douglas executa/aprova.
 ## Critérios de Aceite
 - [x] Saudação e "Itens vencidos" exibem o nome em negrito sem asteriscos visíveis (teste; confirmar no QA C13)
 - [x] Migration de trim (V136) criada; criação/edição normalizam o nome (`@PrePersist/@PreUpdate`) — aplicar no deploy
-- [ ] Item Gerador do teste removido/corrigido com aprovação, manutenção 19 no item certo ou removida
-- [ ] Conclusão do WA-17 registrada (dados vs. cálculo)
+- [x] Item Gerador do teste removido/corrigido com aprovação, manutenção 19 no item certo ou removida — feito pelo Douglas em produção
+- [x] Conclusão do WA-17 registrada (dados vs. cálculo) — encerrado pelo Douglas junto com a task (10/11/2026), sem resultado detalhado aqui
 
 ## Implementação da Parte 1 (09/11/2026)
 - `AssistantOrg` faz `trim` no construtor: todo nome que o bot exibe sai limpo (cobre dados antigos mesmo
@@ -75,5 +75,4 @@ Se os itens vencidos tiverem `created_at` entre o teste 1 e o teste 2 de 08/11, 
 (hipótese provável). Senão, abrir bug próprio de cálculo de vencidos.
 
 ## Status
-🟡 Em Validação — **Parte 1 (código) concluída**: validada em `staging` e promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137).
-**Falta só a Parte 2/3 (operação em produção):** limpeza do Gerador pela tela (roteiro acima) e a consulta do WA-17. Fechar esta task quando o Douglas executar e o Tiago refizer o C1 em produção.
+✅ Concluída — código em `main` desde 09/11/2026 (api#184→#185, web#136→#137); operação em produção feita pelo Douglas; fechada em 10/11/2026.

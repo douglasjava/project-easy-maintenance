@@ -1,9 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/11/2026 — **✅ [TASK-408](tasks/TASK-408.md) fechada**: a Onda 1 do Samu está toda concluída.
+> A [TASK-410](tasks/TASK-410.md) (prompt) foi **adiada**: o prompt será revisto de uma vez junto com as intenções novas
+> da Parte B, e só então medido contra a linha de base da TASK-411.
+
 > Atualizado em: 10/11/2026 — **✅ [TASK-411](tasks/TASK-411.md) e [TASK-412](tasks/TASK-412.md) em produção
 > (`main`)** — avaliação do classificador do Samu e valor do lançamento financeiro sem "R$"/"reais" (api#186, #187,
 > #188 → promoção #189). Próxima do Samu: [TASK-410](tasks/TASK-410.md) (prompt), já com linha de base para comparar.
-> Segue aberta a [TASK-408](tasks/TASK-408.md) (limpeza do Gerador em produção).
 
 > Atualizado em: 09/11/2026 — **🔵 [TASK-411](tasks/TASK-411.md) em validação — linha de base registrada**: intenção
 > 96% (cego 93%), nenhuma troca de intenção em 3 rodadas, 398 tokens/mensagem. Todos os campos inventados são barrados
@@ -2230,11 +2233,11 @@ _Vazio_
 
 | ID                                             | Título                                                                                                                           | Prioridade | Épico    | Severidade |
 |------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|------------|----------|------------|
-| [TASK-408](tasks/TASK-408.md) | Samu: negrito do nome do condomínio — **código em `main`** (api#185, V136); **falta a limpeza do Gerador em produção** (cancelar manutenção 19 + excluir item 140, roteiro na task) e o reteste do C1 | 🔵 Baixo | EPIC-031 | BAIXA |
 ## 🐛 Bugs — Concluídos
 
 | ID                                             | Título                                                                                                          | Prioridade | Épico    | Severidade |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|----------|------------|
+| ~~[TASK-408](tasks/TASK-408.md)~~ | ~~Samu: negrito do nome do condomínio + dados do teste do Gerador~~ — código promovido para `main` em 09/11/2026 (api#184→#185, V136); limpeza em produção feita pelo Douglas; fechada em 10/11/2026 | 🔵 Baixo | EPIC-031 | BAIXA |
 | ~~[TASK-400](tasks/TASK-400.md)~~ | ~~Samu: "Corrigir" troca o item e não prende mais no "confirme antes" (WA-01)~~ — promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137); QA TASK-QA-MAN-030 aprovado | 🔴 Crítico | EPIC-031 | GRAVE |
 | ~~[TASK-401](tasks/TASK-401.md)~~ | ~~Samu: registro sugere o item parecido (erro de digitação) antes de propor item novo do catálogo (WA-02)~~ — promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137); QA TASK-QA-MAN-030 aprovado | 🔴 Crítico | EPIC-031 | GRAVE |
 | ~~[TASK-402](tasks/TASK-402.md)~~ | ~~Samu: registro nunca presume a data — pergunta [Hoje] [Ontem] [Outra data]; "hj"; data escrita vence "ontem" (WA-13, WA-07)~~ — promovida para `main` em 09/11/2026 — api [#184](https://github.com/douglasjava/easy-maintenance-api/pull/184)→[#185](https://github.com/douglasjava/easy-maintenance-api/pull/185), web [#136](https://github.com/douglasjava/easy-maintenance-web/pull/136)→[#137](https://github.com/douglasjava/easy-maintenance-web/pull/137); QA TASK-QA-MAN-030 aprovado | 🟠 Alto | EPIC-031 | ALTA |
@@ -2370,7 +2373,7 @@ _Vazio_
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
-| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador (temperature 0, "não invente campos", exemplos) — depende da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
+| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador — ⏸ **adiada**: fazer junto com as intenções novas da Parte B e medir com o runner da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |

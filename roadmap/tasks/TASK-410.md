@@ -45,6 +45,18 @@ Detalhes na [TASK-411](TASK-411.md), seção "Linha de base".
 - `periodo` (vencimentos) e `item` (histórico) são usados **sem guarda**: avaliar texto primeiro, IA depois, como no registro.
 - Linha de base de custo: **398 tokens/mensagem** (máx. 480). O prompt novo não deve passar de ~600.
 
+## Decisão (10/11/2026) — adiada
+Douglas e Claude decidiram não mexer no prompt agora:
+- Linha de base da TASK-411: intenção 96% e nenhuma troca de intenção entre execuções. As guardas da Onda 1 barram
+  todo campo inventado, e o único estrago real que apareceu (o valor do financeiro) foi corrigido no código (TASK-412).
+- A Parte B ([triagem](../QA/triagem-usabilidade-producao-2026-11-09.md)) vai mudar o prompt de qualquer jeito: intenções
+  novas (alterar vencimento, chamados, anexo) e contexto de conversa. Ajustar agora seria refazer depois.
+- O que **não** depende de prompt e pode sair antes, se incomodar: `periodo` e `item` (histórico) lidos do texto antes
+  da IA (correção determinística, como na TASK-412).
+
+Quando retomar: aplicar estas mudanças junto com as da Parte B e rodar o runner da TASK-411 antes e depois. Os casos
+novos da Parte B entram no `intent-eval.jsonl`.
+
 ## Escopo
 - `temperature = 0` (ou o mínimo suportado) na chamada do classificador — sem afetar os outros usos do
   `openAiAiProvider` (IA Onboarding etc.).
@@ -74,3 +86,6 @@ Detalhes na [TASK-411](TASK-411.md), seção "Linha de base".
 ## Riscos
 Prompt maior = mais tokens por mensagem (crédito de IA do condomínio). Exemplos demais podem enviesar a
 classificação para os casos de exemplo.
+
+## Status
+⏸ Adiada — retomar junto com a Parte B (ver "Decisão").
