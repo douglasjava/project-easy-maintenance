@@ -28,9 +28,9 @@ Fluxo G da [Parte B](../QA/registro-usabilidade-producao.md), com D15/D16 e o mo
 - Opcional: convite para o contato do fornecedor (TASK-422).
 
 ## Critérios de Aceite
-- [ ] Compartilhar contato inicia o cadastro com nome e telefone preenchidos
-- [ ] Fornecedor existente não é duplicado
-- [ ] Itens vinculados aparecem com o fornecedor habitual
+- [x] Compartilhar contato inicia o cadastro com nome e telefone preenchidos
+- [x] Fornecedor existente não é duplicado
+- [x] Itens vinculados aparecem com o fornecedor habitual
 
 ## Dependências
 [TASK-346](TASK-346.md), [TASK-422](TASK-422.md).
@@ -38,5 +38,14 @@ Fluxo G da [Parte B](../QA/registro-usabilidade-producao.md), com D15/D16 e o mo
 ## Riscos
 O telefone do contato compartilhado não identifica ninguém no bot até o convite ser aceito.
 
+## Implementação (10/11/2026)
+[api#214](https://github.com/douglasjava/easy-maintenance-api/pull/214), mergeada em `staging`. Habitual pela TASK-346 (api#213, web#149).
+- Contato compartilhado (webhook `contacts`) inicia o cadastro com nome e telefone preenchidos, sem IA. Também funciona por texto ("cadastrar fornecedor …").
+- Sem duplicar: mesmo nome ou CPF/CNPJ na organização gera "Já existe X. É ele?"; o registro já é idempotente por documento. CPF/CNPJ é validado.
+- Contrato [Sim] [Não, é avulso], com vigência e valor; itens informados viram o fornecedor habitual (coluna no web).
+- Cartão antes de salvar; `checkWrite` na gravação.
+- O convite para o contato do fornecedor continua no portal (TASK-422).
+- `mvn test` 2014, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas.
