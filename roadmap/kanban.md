@@ -2423,7 +2423,7 @@ _Vazio_
 | [TASK-437](tasks/TASK-437.md) | Samu: cadastro de fornecedor pelo chat e vínculo como habitual dos itens | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-438](tasks/TASK-438.md) | Samu: anexo sem contexto — evidência do último registro ou documento para ler | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-439](tasks/TASK-439.md) | QA do EPIC-043: casos do Tiago (5.6) no conjunto de avaliação + QA manual | 🟠 Alto | EPIC-043 | Parte B |
-| [TASK-440](tasks/TASK-440.md) | Regra do vencimento: só preventiva/inspeção/teste reiniciam; data antiga não puxa para trás | 🔴 Crítico | EPIC-044 | Financeiro v2 |
+| [TASK-440](tasks/TASK-440.md) | Regra do vencimento: só preventiva/inspeção/teste reiniciam; data antiga não puxa para trás — 🔵 **em validação**: PRs [api#190](https://github.com/douglasjava/easy-maintenance-api/pull/190) e [web#138](https://github.com/douglasjava/easy-maintenance-web/pull/138) → `staging` | 🔴 Crítico | EPIC-044 | Financeiro v2 |
 | [TASK-441](tasks/TASK-441.md) | Financeiro: categorias fixas ampliadas (receita e despesa) | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-442](tasks/TASK-442.md) | Manutenção com custo: "Lançar também como despesa" com vínculo e sem duplicidade | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-443](tasks/TASK-443.md) | Financeiro: editar e clonar lançamento com auditoria | 🟡 Médio | EPIC-044 | Financeiro v2 |
