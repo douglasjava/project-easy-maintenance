@@ -28,9 +28,9 @@ paga por destinatário.
 - Envio em fan-out por template HSM de utilidade, com registro de entrega.
 
 ## Critérios de Aceite
-- [ ] Custo estimado aparece antes de confirmar e bate com o número de destinatários
-- [ ] Envio bloqueado acima do teto mensal
-- [ ] Só destinatários ativos e com opt-in recebem
+- [x] Custo estimado aparece antes de confirmar e bate com o número de destinatários
+- [x] Envio bloqueado acima do teto mensal
+- [x] Só destinatários ativos e com opt-in recebem
 
 ## Dependências
 [TASK-417](TASK-417.md), [TASK-419](TASK-419.md). Conferir o rate card oficial da Meta antes.
@@ -38,5 +38,14 @@ paga por destinatário.
 ## Riscos
 Custo cresce com o número de moradores, não com a receita.
 
+## Implementação (10/11/2026)
+[api#205](https://github.com/douglasjava/easy-maintenance-api/pull/205) e [web#145](https://github.com/douglasjava/easy-maintenance-web/pull/145), mergeadas em `staging`.
+- `building_notices` e as entregas (V144). `/building-notices`: estimar (destinatários, custo e teto), enviar e listar.
+- Destinatários: ativos, com celular e opt-in. Filtro por todos, papel, unidade ou andar. **Por bloco depende do cadastro de Locais.**
+- Custo de 4 centavos por mensagem (utilidade, R$ 0,035, tabela da Meta de out/2026). Teto mensal configurável (500).
+- Web: página `/notices` com o custo antes de confirmar e o histórico.
+- **Ação do Douglas:** aprovar na Meta o template `aviso_predio_v1` (utilidade; variáveis: condomínio, título e texto) e então ligar `NOTICES_WHATSAPP_ENABLED`.
+- `mvn test` 1965, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — envio desligado até o template ser aprovado pela Meta; aguarda a validação de Douglas.

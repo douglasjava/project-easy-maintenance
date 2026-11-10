@@ -2411,7 +2411,7 @@ _Vazio_
 | [TASK-425](tasks/TASK-425.md) | Persona Zelador no bot: consultas, atender chamado, enviar execução, sugerir item/local — 🔵 **em `staging`** (api#202) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-426](tasks/TASK-426.md) | Persona Fornecedor no bot: serviços que vencem, itens dele, enviar execução, cobranças — 🔵 **em `staging`** (api#203) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-427](tasks/TASK-427.md) | Portal do fornecedor: "Meus serviços" por condomínio — 🔵 **em `staging`** (api#204, web#144) | 🟡 Médio | EPIC-042 | Matriz |
-| [TASK-428](tasks/TASK-428.md) | Avisos do prédio: entidade, destinatários, custo antes de enviar, teto mensal | 🟡 Médio | EPIC-042 | Matriz |
+| [TASK-428](tasks/TASK-428.md) | Avisos do prédio: entidade, destinatários, custo antes de enviar, teto mensal — 🔵 **em `staging`** (api#205, web#145; envio aguarda template Meta) | 🟡 Médio | EPIC-042 | Matriz |
 | [TASK-429](tasks/TASK-429.md) | Limite de IA por persona (mensagens por dia + teto mensal) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-430](tasks/TASK-430.md) | QA do EPIC-042: matriz de papéis, testes negativos por persona e regressão | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-431](tasks/TASK-431.md) | Samu: entrada sem portão + painel do condomínio por papel | 🟠 Alto | EPIC-043 | Parte B |
