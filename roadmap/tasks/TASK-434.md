@@ -37,5 +37,13 @@ Relaciona com a [TASK-339](TASK-339.md) (evidência obrigatória para itens crí
 ## Riscos
 Anexar no registro errado: a janela de 10 min vale só para o último registro da persona.
 
+## Implementação (10/11/2026)
+[api#210](https://github.com/douglasjava/easy-maintenance-api/pull/210), mergeada em `staging`.
+- "Registrar" responde com o modelo e um exemplo, mais até 5 itens sugeridos (vencidos, depois os da semana). Tocar num item espera a descrição com o item já escolhido.
+- A confirmação oferece anexo. Foto ou documento até 10 min depois é anexado ao último registro da persona, com confirmação. "posso anexar uma imagem?" recebe "Pode! Mande agora".
+- Fora da janela, a foto segue o fluxo de antes; o anexo sem contexto é da TASK-438.
+- "Mais usados" ficou de fora da sugestão; ela usa só o vencimento.
+- `mvn test` 1985, 0 falhas.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas; o critério da foto fora da janela depende da TASK-438.
