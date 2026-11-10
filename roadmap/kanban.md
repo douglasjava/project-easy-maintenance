@@ -2407,7 +2407,7 @@ _Vazio_
 | [TASK-421](tasks/TASK-421.md) | Persona Conselheiro no bot: leituras, custo, resumo financeiro e índice — 🔵 **em `staging`** (api#197) | 🟡 Médio | EPIC-042 | Matriz |
 | [TASK-422](tasks/TASK-422.md) | Fornecedor: conta global reivindicada + contatos gerenciados pelo fornecedor — 🔵 **em `staging`** (api#199, web#142) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-423](tasks/TASK-423.md) | Manutenção ↔ fornecedor responsável (D8) — 🔵 **em `staging`** (api#200, web#143) | 🟠 Alto | EPIC-042 | Matriz |
-| [TASK-424](tasks/TASK-424.md) | Execução enviada (📝) por zelador ou fornecedor, validada pelo síndico — 🔵 **em `staging`** (api#201, sem a tela web) | 🔴 Crítico | EPIC-042 | Matriz |
+| [TASK-424](tasks/TASK-424.md) | Execução enviada (📝) por zelador ou fornecedor, validada pelo síndico — 🔵 **em `staging`** (api#201, web#146) | 🔴 Crítico | EPIC-042 | Matriz |
 | [TASK-425](tasks/TASK-425.md) | Persona Zelador no bot: consultas, atender chamado, enviar execução, sugerir item/local — 🔵 **em `staging`** (api#202) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-426](tasks/TASK-426.md) | Persona Fornecedor no bot: serviços que vencem, itens dele, enviar execução, cobranças — 🔵 **em `staging`** (api#203) | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-427](tasks/TASK-427.md) | Portal do fornecedor: "Meus serviços" por condomínio — 🔵 **em `staging`** (api#204, web#144) | 🟡 Médio | EPIC-042 | Matriz |

@@ -44,5 +44,8 @@ Duplo processamento entre canais: reaproveitar o lock de idempotência do EPIC-0
 - API da fila: `/maintenance-submissions`. No bot, a linha "Validar execuções" no menu do síndico.
 - Pendente: a tela da fila no web e o teste unitário do serviço.
 
+## Complemento (10/11/2026)
+- Tela da fila no web: [web#146](https://github.com/douglasjava/easy-maintenance-web/pull/146), com a página `/maintenance-submissions` (validar, ou recusar com motivo) e o atalho em Manutenções.
+
 ## Status
-🔵 Em `staging` (10/11/2026) — falta a tela da fila no web; aguarda a validação de Douglas.
+🔵 Em `staging` (10/11/2026) — API, bot e web; aguarda a validação de Douglas.
