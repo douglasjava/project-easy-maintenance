@@ -127,7 +127,7 @@ test.describe('Organizações — regressão + isolamento', () => {
 
     const upd = await request.patch(`${API_V1}/me/team/users/${memberId}`, {
       headers: bearer(a, ORG_A),
-      data: { name: 'E2E Membro Editado', role: 'TECH', orgCodes: [ORG_A] },
+      data: { name: 'E2E Membro Editado', role: 'SYNDIC', orgCodes: [ORG_A] },
     });
     expect(upd.status(), await upd.text()).toBe(200);
   });

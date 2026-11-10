@@ -27,9 +27,9 @@ D2 da [spec](../../docs/superpowers/specs/2026-11-06-assistant-role-matrix-desig
 - Web: `users/new`, `users/[id]/edit`, `private/users/new`, badge em `users/page.tsx` e `lib/enums/labels.ts`.
 
 ## Critérios de Aceite
-- [ ] Migration aplicada sem erro mesmo com usuário TECH residual
-- [ ] Nenhuma tela oferece TECH
-- [ ] `mvn test` e `tsc`/`build` sem regressão
+- [x] Migration aplicada sem erro mesmo com usuário TECH residual
+- [x] Nenhuma tela oferece TECH
+- [x] `mvn test` e `tsc`/`build` sem regressão
 
 ## Dependências
 [TASK-414](TASK-414.md) (a política não pode mais citar TECH).
@@ -37,5 +37,12 @@ D2 da [spec](../../docs/superpowers/specs/2026-11-06-assistant-role-matrix-desig
 ## Riscos
 Usuário com valor desconhecido no enum derruba o carregamento: a migration vem antes do deploy do enum.
 
+## Implementação (10/11/2026)
+Branch `chore/TASK-416-remove-tech-role` (api e web) · [api#192](https://github.com/douglasjava/easy-maintenance-api/pull/192) e [web#139](https://github.com/douglasjava/easy-maintenance-web/pull/139), mergeadas em `staging`.
+- `V138`: migration defensiva (TECH → READER); `Role` sem TECH; `AssistantRole` sem o mapeamento.
+- Web: TECH removido das 3 telas de usuário, do badge e do `roleLabelMap`.
+- e2e (repositório raiz): `organization-access.spec.ts` edita o membro para SYNDIC em vez de TECH.
+- `mvn test` 1895, 0 falhas (os 5 testes que só cobriam TECH saíram); `tsc` limpo.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (10/11/2026) — aguarda a validação de Douglas para a promoção para `main`.
