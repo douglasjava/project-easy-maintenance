@@ -73,6 +73,7 @@ Douglas (05/11/2026): definir menus e funcionalidades específicos por papel, em
 | D18 | **Texto livre em primeiro lugar** para todos os papéis de login. As personas por telefone seguem o limite da D11 e a última linha da matriz. O painel de entrada ("N vencidos · N chamados · fora do SLA") é gerado pela mesma política: cada papel só vê os números que pode ver. O contexto curto (30 min) vem **depois** da identidade por persona. Conflitos C5, C6 e C7. | Douglas, 10/11 |
 | D19 | **Zelador, Conselheiro e contato de Fornecedor são ativados por código de convite.** O síndico gera, em `/pessoas` ou no vínculo do fornecedor, um link `wa.me` com um código de uso único válido por 7 dias e repassa à pessoa. Ela manda a mensagem, o bot confere **código + telefone cadastrado** e pede o aceite do termo (LGPD, versão registrada). Só então a persona fica ativa. Um número digitado errado não ativa ninguém, e não há custo de template porque a conversa parte da pessoa. | Douglas, 10/11 |
 | D20 | **O fornecedor é identificado pelo contato do vínculo condomínio × fornecedor** (1 ou mais técnicos por condomínio, cada um ativado pela D19), **não** pelo `Supplier.phone` global. O global (definido no primeiro cadastro, muitas vezes vindo do Google Places) fica só como contato comercial. O contato só acessa os dados do condomínio que o convidou. | Douglas, 10/11 |
+| D20b | **Revisão da D20 (10/11): o fornecedor é uma conta global por CNPJ** que presta serviço para N condomínios. Ele vê, agrupado por condomínio, as manutenções em que é o responsável (D8), os serviços que vencem nos itens em que é o habitual (D15), os pedidos de orçamento e as cobranças, e nada além disso. Os **contatos** (técnicos) são cadastrados pelo próprio fornecedor no portal, cada um ativado por código de convite, e o alcance padrão é todos os condomínios vinculados. A conta é reivindicada pelo e-mail cadastrado ou pelo convite de um condomínio. Desligado de um condomínio, ele continua vendo só as execuções que ele mesmo registrou (data e serviço). O portal de serviços é **grátis**; o marketplace pago continua sendo a vitrine. Substitui a D20 onde ela diz "contato por condomínio". | Douglas, 10/11 |
 | D21 | **O morador é ativado pela aprovação do EPIC-040** (QR Code → pendência → síndico aprova), sem código. Na primeira conversa com o bot, aceita o termo (LGPD). | Douglas, 10/11 |
 | D22 | **Um número desconhecido** recebe uma mensagem neutra, sem IA, no máximo 1 por dia por número: "Este número não está cadastrado. Morador: abra seu chamado pelo QR Code do prédio. Equipe ou fornecedor: peça o convite ao síndico. Síndico: ative em Minha Conta." | Douglas, 10/11 |
 
@@ -96,7 +97,7 @@ preenchido) → **soma as capacidades** dos dois (D12).
 | Papel de login (ADMIN/SYNDIC/READER) | Minha Conta → `AssistantLink` (como hoje) | login + número |
 | Morador | QR Code → pendência → síndico aprova (EPIC-040) | o síndico confirma nome e unidade; a mensagem prova o número |
 | Zelador / Conselheiro | código de convite gerado em `/pessoas` | código (repassado pelo síndico) + telefone do cadastro |
-| Fornecedor (contato) | código de convite gerado no vínculo do fornecedor com o condomínio | código + telefone do contato |
+| Fornecedor (contato) | código de convite gerado no portal do fornecedor (ou no convite do condomínio que reivindica a conta) | código + telefone do contato |
 
 Todas as personas aceitam o termo na própria conversa (versão registrada) antes da primeira ação.
 
@@ -115,7 +116,7 @@ Legenda: ✅ pode e aparece no menu · 👁 só leitura · 📝 envia, o síndic
 
 | Funcionalidade | ADMIN | SYNDIC | READER | Conselheiro | Zelador | Morador | Fornecedor |
 |---|---|---|---|---|---|---|---|
-| **Como é identificado** | login | login | login | convite + telefone (D19) | convite + telefone (D19) | telefone aprovado (EPIC-040, D21) | contato do vínculo + convite (D20) |
+| **Como é identificado** | login | login | login | convite + telefone (D19) | convite + telefone (D19) | telefone aprovado (EPIC-040, D21) | contato da conta do fornecedor + convite (D20b) |
 | Vencimentos e itens vencidos | ✅ | ✅ | 👁 | 👁 | 👁 | — | — |
 | Histórico de um item | ✅ | ✅ | 👁 | 👁 | 👁 | — | 👁 só itens dele ¹ |
 | Registrar manutenção | ✅ | ✅ | — | — | 📝 com foto | — | 📝 foto, laudo, ART ¹ |
@@ -259,7 +260,10 @@ Fontes: [Vectalk — preços WhatsApp API Brasil 2026](https://vectalk.com.br/bl
 Nenhuma — todas fechadas em 06/11 (D7 a D13). Pendente só a conferência dos preços da Meta no rate
 card oficial antes de definir como o custo do aviso entra na precificação.
 
-## Quebra proposta (sem numeração ainda)
+## Quebra proposta
+
+**Virou o [EPIC-042](../../../roadmap/epics/EPIC-042.md) (TASK-414 a 430) em 10/11/2026.** A Parte B virou o
+[EPIC-043](../../../roadmap/epics/EPIC-043.md). Lista original:
 
 1. Política única de permissões + menu por papel (papéis de login atuais) — baixo risco, entrega valor sozinha.
 2. Remoção do `TECH` (migration defensiva + enum + web).

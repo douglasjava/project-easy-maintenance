@@ -88,4 +88,4 @@ Prompt maior = mais tokens por mensagem (crédito de IA do condomínio). Exemplo
 classificação para os casos de exemplo.
 
 ## Status
-⏸ Adiada — retomar junto com a Parte B (ver "Decisão").
+⏸ Adiada — retomada no [EPIC-043](../epics/EPIC-043.md), junto com o contexto curto ([TASK-432](TASK-432.md)) e os casos novos da [TASK-439](TASK-439.md).

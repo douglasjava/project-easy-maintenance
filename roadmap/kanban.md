@@ -1,5 +1,12 @@
 # Kanban — Easy Maintenance
 
+> Atualizado em: 10/11/2026 — **📋 Matriz de papéis e Parte B quebradas em épicos**: decisões de produto e os 7
+> conflitos fechados (spec da matriz revisada com D14–D22; fornecedor como conta global para N condomínios).
+> Criados o [EPIC-042](epics/EPIC-042.md) (matriz de papéis: TASK-414 a 430), o [EPIC-043](epics/EPIC-043.md) (Samu
+> conversacional: TASK-431 a 439, com a TASK-410 retomada) e o [EPIC-044](epics/EPIC-044.md) (regra do vencimento +
+> Financeiro v2: TASK-440 a 446). Bug de segurança [TASK-413](tasks/TASK-413.md) (portal do fornecedor) registrado,
+> pré-requisito da parte de fornecedor. Ordem sugerida: TASK-440 (dado de norma) e TASK-414/415 primeiro.
+
 > Atualizado em: 10/11/2026 — **✅ [EPIC-040](epics/EPIC-040.md) concluído em produção**: flag
 > `WHATSAPP_RESIDENT_IDENTITY_PENDING_ENABLED` ligada e QA com clique real em Aprovar/Reprovar feito (confirmado por Douglas em 10/11/2026).
 
@@ -2299,6 +2306,7 @@ _Vazio_
 
 | ID                             | Título                                                                                                  | Prioridade | Épico | Severidade |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|-------|------------|
+| [TASK-413](tasks/TASK-413.md) | Segurança: acesso ao portal do fornecedor exige comprovação por e-mail (detalhe só na PR da API) | 🔴 Crítico | Fornecedores | ALTA |
 | [TASK-277](tasks/TASK-277.md)  | Customer Asaas criado sem e-mail (`billing_email` vazio no onboarding) fica permanentemente quebrado — sem `updateCustomer` no `AsaasClient` pra corrigir depois; achado no QA da TASK-276 (subscriptionId 7), contornado manualmente no painel do Asaas | 🟡 Médio | — | MODERADA |
 
 ---
@@ -2388,7 +2396,40 @@ _Vazio_
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
-| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador — ⏸ **adiada**: fazer junto com as intenções novas da Parte B e medir com o runner da TASK-411 | 🟡 Médio | EPIC-031 | Pós-Onda 1 |
+| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador — ⏸ **adiada**: retomada no EPIC-043, junto com o contexto curto (TASK-432) | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-414](tasks/TASK-414.md) | Assistente: política única de permissões por papel (AssistantCapability) | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-415](tasks/TASK-415.md) | Assistente: menu por papel em lista do WhatsApp, gerado pela política | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-416](tasks/TASK-416.md) | Remover o papel TECH (migration defensiva + enum + telas do web) | 🟡 Médio | EPIC-042 | Matriz |
+| [TASK-417](tasks/TASK-417.md) | Assistente: identidade por persona (User, CondoPerson, contato de fornecedor) | 🔴 Crítico | EPIC-042 | Matriz |
+| [TASK-418](tasks/TASK-418.md) | Convite por código para Zelador e Conselheiro + aceite do termo + revogação | 🔴 Crítico | EPIC-042 | Matriz |
+| [TASK-419](tasks/TASK-419.md) | Assistente: morador aprovado vira persona + resposta a número desconhecido | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-420](tasks/TASK-420.md) | Persona Morador no bot: abrir chamado, status, áreas comuns | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-421](tasks/TASK-421.md) | Persona Conselheiro no bot: leituras, custo, resumo financeiro e índice | 🟡 Médio | EPIC-042 | Matriz |
+| [TASK-422](tasks/TASK-422.md) | Fornecedor: conta global reivindicada + contatos gerenciados pelo fornecedor | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-423](tasks/TASK-423.md) | Manutenção ↔ fornecedor responsável (D8) | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-424](tasks/TASK-424.md) | Execução enviada (📝) por zelador ou fornecedor, validada pelo síndico | 🔴 Crítico | EPIC-042 | Matriz |
+| [TASK-425](tasks/TASK-425.md) | Persona Zelador no bot: consultas, atender chamado, enviar execução, sugerir item/local | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-426](tasks/TASK-426.md) | Persona Fornecedor no bot: serviços que vencem, itens dele, enviar execução, cobranças | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-427](tasks/TASK-427.md) | Portal do fornecedor: "Meus serviços" por condomínio | 🟡 Médio | EPIC-042 | Matriz |
+| [TASK-428](tasks/TASK-428.md) | Avisos do prédio: entidade, destinatários, custo antes de enviar, teto mensal | 🟡 Médio | EPIC-042 | Matriz |
+| [TASK-429](tasks/TASK-429.md) | Limite de IA por persona (mensagens por dia + teto mensal) | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-430](tasks/TASK-430.md) | QA do EPIC-042: matriz de papéis, testes negativos por persona e regressão | 🟠 Alto | EPIC-042 | Matriz |
+| [TASK-431](tasks/TASK-431.md) | Samu: entrada sem portão + painel do condomínio por papel | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-432](tasks/TASK-432.md) | Samu: contexto curto de 30 min + comandos voltar/cancelar/menu/trocar | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-433](tasks/TASK-433.md) | Samu: chamados pela equipe — abrir com SLA, lista por SLA e ações | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-434](tasks/TASK-434.md) | Samu: registro com modelo de exemplo, itens sugeridos e anexo depois do registro | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-435](tasks/TASK-435.md) | Samu e web: "Foi feita ou quer remarcar?" + alterar vencimento com motivo | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-436](tasks/TASK-436.md) | Samu: cadastro completo de item novo pelo chat | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-437](tasks/TASK-437.md) | Samu: cadastro de fornecedor pelo chat e vínculo como habitual dos itens | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-438](tasks/TASK-438.md) | Samu: anexo sem contexto — evidência do último registro ou documento para ler | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-439](tasks/TASK-439.md) | QA do EPIC-043: casos do Tiago (5.6) no conjunto de avaliação + QA manual | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-440](tasks/TASK-440.md) | Regra do vencimento: só preventiva/inspeção/teste reiniciam; data antiga não puxa para trás | 🔴 Crítico | EPIC-044 | Financeiro v2 |
+| [TASK-441](tasks/TASK-441.md) | Financeiro: categorias fixas ampliadas (receita e despesa) | 🟠 Alto | EPIC-044 | Financeiro v2 |
+| [TASK-442](tasks/TASK-442.md) | Manutenção com custo: "Lançar também como despesa" com vínculo e sem duplicidade | 🟠 Alto | EPIC-044 | Financeiro v2 |
+| [TASK-443](tasks/TASK-443.md) | Financeiro: editar e clonar lançamento com auditoria | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-445](tasks/TASK-445.md) | Financeiro: lançar e continuar + filtro por categoria e busca | 🔵 Baixo | EPIC-044 | Financeiro v2 |
+| [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |

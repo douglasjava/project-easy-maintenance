@@ -156,5 +156,7 @@ Proposta: EPIC "Financeiro v2 + integração com manutenção".
 | — | Ativação de personas sem login (levantado por Douglas) | **Código de convite** para Zelador, Conselheiro e contato de Fornecedor. O fornecedor é identificado pelo **contato do vínculo com o condomínio**, não pelo telefone global. O número desconhecido recebe uma **mensagem neutra**. Viraram D19 a D22 na spec. |
 
 **Todas as decisões de produto e os 7 conflitos estão fechados (10/11/2026).** A spec da matriz foi revisada com
-D14 a D22. Próximo passo: quebrar as tasks da matriz e da Parte B.
+D14 a D22 (e D20b: fornecedor como conta global). **Quebrado em 10/11/2026:** [EPIC-042](../epics/EPIC-042.md) (matriz),
+[EPIC-043](../epics/EPIC-043.md) (Parte B) e [EPIC-044](../epics/EPIC-044.md) (regra do vencimento + Financeiro v2).
+Locais (seção 5) continua sem épico.
 
