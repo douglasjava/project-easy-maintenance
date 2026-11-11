@@ -2429,7 +2429,7 @@ _Vazio_
 | [TASK-443](tasks/TASK-443.md) | Financeiro: editar e clonar lançamento com auditoria — 🔵 **em `staging`** (api#219, web#152) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado — 🔵 **em `staging`** (api#220, web#153) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-445](tasks/TASK-445.md) | Financeiro: lançar e continuar + filtro por categoria e busca — 🔵 **em `staging`** (api#221, web#154) | 🔵 Baixo | EPIC-044 | Financeiro v2 |
-| [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência | 🔵 Baixo | EPIC-044 | Financeiro v2 |
+| [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência — 🟡 **rascunho da spec**, aguarda decisões D1–D7 de Douglas | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |

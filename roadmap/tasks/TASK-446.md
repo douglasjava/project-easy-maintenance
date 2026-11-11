@@ -35,5 +35,8 @@ FI-05 do [registro](../QA/registro-usabilidade-producao.md).
 ## Riscos
 —
 
+## Rascunho (11/11/2026)
+[docs/superpowers/specs/2026-11-11-financeiro-v2-fi05-design.md](../../docs/superpowers/specs/2026-11-11-financeiro-v2-fi05-design.md) cobre competência, fundos, fornecedor e unidade, documento e anexo, e recorrência e parcelas. Tem 7 decisões em aberto (D1–D7) e uma quebra proposta em 8 tasks.
+
 ## Status
-⬜ Backlog
+🟡 Em andamento — rascunho pronto; aguarda as decisões D1–D7 e a aprovação de Douglas para criar as tasks.
