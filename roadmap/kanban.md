@@ -2427,7 +2427,7 @@ _Vazio_
 | [TASK-441](tasks/TASK-441.md) | Financeiro: categorias fixas ampliadas (receita e despesa) — 🔵 **em `staging`** (api#217, web#150) | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-442](tasks/TASK-442.md) | Manutenção com custo: "Lançar também como despesa" com vínculo e sem duplicidade — 🔵 **em `staging`** (api#218, web#151) | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-443](tasks/TASK-443.md) | Financeiro: editar e clonar lançamento com auditoria — 🔵 **em `staging`** (api#219, web#152) | 🟡 Médio | EPIC-044 | Financeiro v2 |
-| [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado — 🔵 **em `staging`** (api#220, web#153) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-445](tasks/TASK-445.md) | Financeiro: lançar e continuar + filtro por categoria e busca | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |

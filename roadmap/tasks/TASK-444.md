@@ -25,8 +25,8 @@ FI-02 do [registro](../QA/registro-usabilidade-producao.md). O `/summary` já ex
 - Web: tabela/gráfico mensal com acumulado.
 
 ## Critérios de Aceite
-- [ ] Totais mensais batem com a soma dos lançamentos
-- [ ] Lançamentos cancelados fora da conta
+- [x] Totais mensais batem com a soma dos lançamentos
+- [x] Lançamentos cancelados fora da conta
 
 ## Dependências
 Nenhuma.
@@ -34,5 +34,12 @@ Nenhuma.
 ## Riscos
 Performance do agrupamento: índice por organização e data.
 
+## Implementação (11/11/2026)
+[api#220](https://github.com/douglasjava/easy-maintenance-api/pull/220) e [web#153](https://github.com/douglasjava/easy-maintenance-web/pull/153), mergeadas em `staging`.
+- `GET /finance/summary/monthly` devolve, por mês, receita, despesa manual, despesa de manutenção, saldo e acumulado, mais os totais no formato do `/summary`.
+- Usa a mesma conta do `/summary`: a despesa vinculada a manutenção não conta duas vezes e os cancelados ficam fora.
+- Agrupa por dia no SQL e junta em meses no service, usando o índice `(organization_code, entry_date)`. O período vai até 36 meses.
+- Web: cartão "Resumo por mês" com os totais e uma tabela com o acumulado.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (11/11/2026) — aguarda a validação de Douglas.
