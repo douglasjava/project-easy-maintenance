@@ -47,5 +47,10 @@ Custo cresce com o número de moradores, não com a receita.
 - **Ação do Douglas:** aprovar na Meta o template `aviso_predio_v1` (utilidade; variáveis: condomínio, título e texto) e então ligar `NOTICES_WHATSAPP_ENABLED`.
 - `mvn test` 1965, 0 falhas.
 
+### Template aprovado (11/11/2026)
+- `aviso_predio_v1` aprovado como **Utilidade**. A 1ª versão do texto tinha caído em Marketing; o texto atual é neutro e operacional, e manteve as 3 variáveis.
+- [api#229](https://github.com/douglasjava/easy-maintenance-api/pull/229): toda variável de template é normalizada (quebra de linha e tab viram espaço, espaços repetidos viram um só, vazio vira "-"). Sem isso, a Meta recusaria aviso com parágrafos (#132018).
+- **Próximo passo:** ligar `NOTICES_WHATSAPP_ENABLED=true` na staging e enviar um aviso de teste com vários parágrafos.
+
 ## Status
-🔵 Em `staging` (10/11/2026) — envio desligado até o template ser aprovado pela Meta; aguarda a validação de Douglas.
+🔵 Em `staging` (11/11/2026) — template aprovado; falta ligar `NOTICES_WHATSAPP_ENABLED` e validar o envio real.

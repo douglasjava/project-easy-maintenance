@@ -46,5 +46,13 @@ Zelador só atende e abre; não reprova nem apaga (matriz).
 - **Pendente:** acionar o fornecedor depende do fornecedor habitual (TASK-346 e TASK-437); responder ao morador precisa de um template novo da Meta.
 - `mvn test` 1979, 0 falhas.
 
+### Responder morador (11/11/2026)
+[api#230](https://github.com/douglasjava/easy-maintenance-api/pull/230), mergeada em `staging`.
+- Detalhe do chamado → **[Responder morador]**. O botão só aparece em chamado de origem MORADOR com WhatsApp confirmado.
+- Quem atende escreve (até 800 caracteres), vê a prévia e confirma com [Enviar]/[Cancelar].
+- Se o morador escreveu nas últimas 23h, a resposta vai como texto livre. Senão vai pelo template `chamado_resposta_morador_v1` (Utilidade, aprovado em 11/11/2026: protocolo, condomínio e mensagem).
+- Segue as mesmas travas das notificações do morador: flag `WHATSAPP_RESIDENT_TICKET_ENABLED`, opt-in, acesso pleno e tenant do chamado.
+- `mvn test` 2111, 0 falhas.
+
 ## Status
-🔵 Em `staging` (10/11/2026), com pendências: acionar o fornecedor (TASK-437) e responder ao morador (template Meta).
+🔵 Em `staging` (11/11/2026). Responder ao morador implementado; resta acionar o fornecedor (TASK-437).
