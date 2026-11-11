@@ -50,7 +50,11 @@ Zelador só atende e abre; não reprova nem apaga (matriz).
 [api#230](https://github.com/douglasjava/easy-maintenance-api/pull/230), mergeada em `staging`.
 - Detalhe do chamado → **[Responder morador]**. O botão só aparece em chamado de origem MORADOR com WhatsApp confirmado.
 - Quem atende escreve (até 800 caracteres), vê a prévia e confirma com [Enviar]/[Cancelar].
-- Se o morador escreveu nas últimas 23h, a resposta vai como texto livre. Senão vai pelo template `chamado_resposta_morador_v1` (Utilidade, aprovado em 11/11/2026: protocolo, condomínio e mensagem).
+- Se o morador escreveu nas últimas 23h, a resposta vai como texto livre. Senão vai pelo template `chamado_resposta_morador_v1` (protocolo, condomínio e mensagem).
+- ⚠️ **Categoria do template: Marketing.** A Meta aprovou `chamado_resposta_morador_v1` como Marketing (11/11/2026). Também tentamos um texto neutro ("mensagem operacional sobre o seu chamado"), mas ele continuou como Marketing. Douglas decidiu deixar assim por enquanto:
+  - Fora da janela de 24h, cada resposta custa a tarifa de Marketing, que é mais cara que a de Utilidade.
+  - Dentro da janela, a resposta sai como texto livre e não paga template.
+  - Para trocar depois, basta criar outro template com as mesmas 3 variáveis e mudar `notification.whatsapp.resident-ticket-reply-template-name`.
 - Segue as mesmas travas das notificações do morador: flag `WHATSAPP_RESIDENT_TICKET_ENABLED`, opt-in, acesso pleno e tenant do chamado.
 - `mvn test` 2111, 0 falhas.
 
