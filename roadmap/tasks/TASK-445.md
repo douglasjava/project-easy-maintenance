@@ -25,8 +25,8 @@ FI-06 e FI-07 do [registro](../QA/registro-usabilidade-producao.md).
 - Filtro por categoria e busca por descrição na lista.
 
 ## Critérios de Aceite
-- [ ] Lançar vários em sequência sem reabrir o modal
-- [ ] Filtro e busca combinados com o período
+- [x] Lançar vários em sequência sem reabrir o modal
+- [x] Filtro e busca combinados com o período
 
 ## Dependências
 Nenhuma.
@@ -34,5 +34,11 @@ Nenhuma.
 ## Riscos
 —
 
+## Implementação (11/11/2026)
+[api#221](https://github.com/douglasjava/easy-maintenance-api/pull/221) e [web#154](https://github.com/douglasjava/easy-maintenance-web/pull/154), mergeadas em `staging`.
+- `GET /finance/entries` aceita `category` e `q` (trecho da descrição, sem diferenciar maiúsculas). O `q` vem com os curingas escapados e no máximo 100 caracteres.
+- Web: filtros de Categoria (acompanha o tipo) e Buscar (espera 350 ms enquanto digita).
+- "Salvar e lançar outro" mantém tipo, categoria e data, limpa valor e descrição e deixa o modal aberto.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (11/11/2026) — aguarda a validação de Douglas.
