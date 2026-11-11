@@ -2435,7 +2435,7 @@ _Vazio_
 | [TASK-449](tasks/TASK-449.md) | Financeiro v2: fornecedor e unidade no lançamento + filtro por fornecedor — 🔵 **em `staging`** (api#224, web#157) | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-450](tasks/TASK-450.md) | Financeiro v2: nº do documento + anexos do lançamento + prestação de contas — 🔵 **em `staging`** (api#225, web#158) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-451](tasks/TASK-451.md) | Financeiro v2: parcelas e status previsto (PLANNED) — 🔵 **em `staging`** (api#226, web#159) | 🟡 Médio | EPIC-044 | Financeiro v2 |
-| [TASK-452](tasks/TASK-452.md) | Financeiro v2: recorrência mensal (regra, job diário, confirmar ou descartar) | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-452](tasks/TASK-452.md) | Financeiro v2: recorrência mensal (regra, job diário, confirmar ou descartar) — 🔵 **em `staging`** (api#227, web#160) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-453](tasks/TASK-453.md) | Financeiro v2: Samu avisa previstos e confirma pelo chat | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-454](tasks/TASK-454.md) | QA do Financeiro v2 | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |

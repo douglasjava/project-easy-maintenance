@@ -27,9 +27,9 @@ Quebra da [spec do Financeiro v2](../../docs/superpowers/specs/2026-11-11-financ
 - Encerrar a regra não apaga os confirmados.
 
 ## Critérios de Aceite
-- [ ] Job não gera duplicado no mesmo mês
-- [ ] Previsto aguarda confirmação
-- [ ] Encerrar regra preserva o histórico
+- [x] Job não gera duplicado no mesmo mês
+- [x] Previsto aguarda confirmação
+- [x] Encerrar regra preserva o histórico
 
 ## Dependências
 [TASK-451](TASK-451.md)
@@ -37,5 +37,12 @@ Quebra da [spec do Financeiro v2](../../docs/superpowers/specs/2026-11-11-financ
 ## Riscos
 Job rodando duas vezes (idempotência por regra + mês).
 
+## Implementação (11/11/2026)
+[api#227](https://github.com/douglasjava/easy-maintenance-api/pull/227) e [web#160](https://github.com/douglasjava/easy-maintenance-web/pull/160), mergeadas em `staging`.
+- A migração V158 cria a tabela `financial_recurrences` e a coluna `recurrence_id`, com `UNIQUE (recurrence_id, competence)`. ⚠️ Ainda não foi executada num MySQL.
+- `POST /finance/recurrences` valida como um lançamento comum, aceita dia de 1 a 31 (vira o último dia nos meses curtos) e recusa mês inicial passado. Já gera o previsto do mês atual. `GET` lista as regras e `POST /{id}/end` encerra sem apagar nada.
+- `FinancialRecurrenceJob` roda todo dia às 03:15, com ShedLock e health, e gera o PLANNED do mês com transação própria por regra. É idempotente: um mês descartado não volta a ser gerado.
+- Web: opção "Repetir todo mês" no formulário (a regra começa no mês seguinte), modal "Recorrentes" com Encerrar e selo "Recorrente" na lista.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (11/11/2026) — aguarda a validação de Douglas.
