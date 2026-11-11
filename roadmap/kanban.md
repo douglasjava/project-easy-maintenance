@@ -2430,7 +2430,7 @@ _Vazio_
 | [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado — 🔵 **em `staging`** (api#220, web#153) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-445](tasks/TASK-445.md) | Financeiro: lançar e continuar + filtro por categoria e busca — 🔵 **em `staging`** (api#221, web#154) | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência — ✅ **spec aprovada** (11/11/2026), quebrada em TASK-447 a 454 | 🔵 Baixo | EPIC-044 | Financeiro v2 |
-| [TASK-447](tasks/TASK-447.md) | Financeiro v2: competência do lançamento + visão mensal por competência | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-447](tasks/TASK-447.md) | Financeiro v2: competência do lançamento + visão mensal por competência — 🔵 **em `staging`** (api#222, web#155) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-448](tasks/TASK-448.md) | Financeiro v2: fundos (ordinária, reserva, obras), transferência e saldo inicial | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-449](tasks/TASK-449.md) | Financeiro v2: fornecedor e unidade no lançamento + filtro por fornecedor | 🔵 Baixo | EPIC-044 | Financeiro v2 |
 | [TASK-450](tasks/TASK-450.md) | Financeiro v2: nº do documento + anexos do lançamento + prestação de contas | 🟡 Médio | EPIC-044 | Financeiro v2 |
