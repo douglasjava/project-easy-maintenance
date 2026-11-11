@@ -28,9 +28,9 @@ Fluxo F da [Parte B](../QA/registro-usabilidade-producao.md) e D14 da [spec](../
 - Ao concluir, oferece registrar a manutenção com item e foto preenchidos.
 
 ## Critérios de Aceite
-- [ ] Equipe abre chamado pelo bot e ele aparece no kanban com origem "equipe"
-- [ ] Lista por SLA ordenada (fora do prazo primeiro)
-- [ ] Concluir chamado oferece o registro já preenchido
+- [x] Equipe abre chamado pelo bot e ele aparece no kanban com origem "equipe"
+- [x] Lista por SLA ordenada (fora do prazo primeiro)
+- [x] Concluir chamado oferece o registro já preenchido
 
 ## Dependências
 [TASK-414](TASK-414.md), [TASK-415](TASK-415.md). "Acionar fornecedor" usa o habitual da [TASK-346](TASK-346.md).
@@ -58,5 +58,14 @@ Zelador só atende e abre; não reprova nem apaga (matriz).
 - Segue as mesmas travas das notificações do morador: flag `WHATSAPP_RESIDENT_TICKET_ENABLED`, opt-in, acesso pleno e tenant do chamado.
 - `mvn test` 2111, 0 falhas.
 
+### Acionar fornecedor (11/11/2026)
+[api#231](https://github.com/douglasjava/easy-maintenance-api/pull/231) e [web#161](https://github.com/douglasjava/easy-maintenance-web/pull/161), mergeadas em `staging`.
+- **Decisão de Douglas:** o bot passa o contato em vez de enviar ele mesmo. Não precisa de template da Meta e não há custo.
+- Detalhe do chamado → **[Acionar fornecedor]**. Aparecem até 10 fornecedores do condomínio que têm telefone, e os habituais de algum item (D15) vêm primeiro, com ⭐.
+- Ao escolher, quem atende recebe o nome, o telefone e um link wa.me com a mensagem pronta (nº do chamado, descrição e prazo). O envio sai do WhatsApp de quem atende.
+- O chamado registra quem foi acionado e quando (V159, ⚠️ ainda não rodou num MySQL). No web, o card mostra "📞 Fornecedor acionado".
+- O fornecedor precisa estar vinculado à organização; senão dá 404. Há teste de chamado de outro tenant.
+- `mvn test` 2121, 0 falhas.
+
 ## Status
-🔵 Em `staging` (11/11/2026). Responder ao morador implementado; resta acionar o fornecedor (TASK-437).
+🔵 Em `staging` (11/11/2026). Todas as ações implementadas; aguarda a validação de Douglas.
