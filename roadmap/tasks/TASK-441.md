@@ -28,9 +28,9 @@ Decisão de 10/11/2026 ([triagem](../QA/triagem-usabilidade-producao-2026-11-09.
 - Web (lista, filtro, formulário) e Samu (escolha da categoria) usam a lista nova.
 
 ## Critérios de Aceite
-- [ ] Lançamentos antigos continuam visíveis com a categoria equivalente
-- [ ] Receita e despesa só oferecem as categorias do seu tipo
-- [ ] Samu oferece as categorias novas
+- [x] Lançamentos antigos continuam visíveis com a categoria equivalente
+- [x] Receita e despesa só oferecem as categorias do seu tipo
+- [x] Samu oferece as categorias novas
 
 ## Dependências
 Nenhuma.
@@ -38,5 +38,12 @@ Nenhuma.
 ## Riscos
 Mapeamento das 4 antigas: documentar a equivalência na migration.
 
+## Implementação (11/11/2026)
+[api#217](https://github.com/douglasjava/easy-maintenance-api/pull/217) e [web#150](https://github.com/douglasjava/easy-maintenance-web/pull/150), mergeadas em `staging`.
+- Despesa: manutenção preventiva, manutenção corretiva, contratos e serviços, folha, consumo, administração, fundo de reserva e outras. Receita: taxa condominial, multa, aluguel de área comum e outras.
+- O rótulo fica no enum, compartilhado pelo Samu e pelo web.
+- V151: `SERVICO_TERCEIRO` vira `CONTRATOS`, sem apagar nenhum lançamento; a equivalência está documentada na migration.
+- O filtro por categoria fica para a TASK-445.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (11/11/2026) — aguarda a validação de Douglas.
