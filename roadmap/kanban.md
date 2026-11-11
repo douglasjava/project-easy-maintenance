@@ -2425,7 +2425,7 @@ _Vazio_
 | [TASK-439](tasks/TASK-439.md) | QA do EPIC-043: casos do Tiago (5.6) no conjunto de avaliação + QA manual — 🟡 **em andamento** — falta avaliação + QA manual | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-440](tasks/TASK-440.md) | Regra do vencimento: só preventiva/inspeção/teste reiniciam; data antiga não puxa para trás — 🔵 **em `staging`** (api#190, web#138), aguarda promoção para `main` | 🔴 Crítico | EPIC-044 | Financeiro v2 |
 | [TASK-441](tasks/TASK-441.md) | Financeiro: categorias fixas ampliadas (receita e despesa) — 🔵 **em `staging`** (api#217, web#150) | 🟠 Alto | EPIC-044 | Financeiro v2 |
-| [TASK-442](tasks/TASK-442.md) | Manutenção com custo: "Lançar também como despesa" com vínculo e sem duplicidade | 🟠 Alto | EPIC-044 | Financeiro v2 |
+| [TASK-442](tasks/TASK-442.md) | Manutenção com custo: "Lançar também como despesa" com vínculo e sem duplicidade — 🔵 **em `staging`** (api#218, web#151) | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-443](tasks/TASK-443.md) | Financeiro: editar e clonar lançamento com auditoria | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-445](tasks/TASK-445.md) | Financeiro: lançar e continuar + filtro por categoria e busca | 🔵 Baixo | EPIC-044 | Financeiro v2 |
