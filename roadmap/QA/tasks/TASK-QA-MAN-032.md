@@ -91,3 +91,35 @@ TASK-443 a TASK-453 (ver o [EPIC-044](../../epics/EPIC-044.md)).
 
 ## Critério de aceite
 Todos os cenários passam; os totais da prestação de contas batem com os do resumo mensal.
+
+---
+
+## Execução local pela API (11/11/2026, Claude)
+API da `staging` rodando contra o **MySQL 8 local** (docker), com um condomínio de teste novo a cada execução. Script: 37 verificações pela API.
+
+**Migrations:** as 24 pendentes no banco local (**V136 a V159**, incluindo todas as do Financeiro v2) rodaram sem erro no MySQL 8.
+
+**Resultado: 36 de 37 passaram.** A que falhou (criar item) é do ambiente: o condomínio de teste não tem assinatura, e a trava funcionou como esperado.
+
+| Cenário | Resultado |
+|---|---|
+| A1, A5 (editar, busca, categoria, filtros combinados) | ✅ |
+| B1–B3 (3 meses com vazios, acumulado a partir do saldo anterior, competência, limite de 36 meses) | ✅ |
+| C1–C4 (saldo inicial, transferência sem mexer no resumo, cancelar um lado, categoria Fundo de reserva recusada) | ✅ |
+| D2, D4, D5 (nº do documento, .exe e 11 MB recusados, leitor não anexa) | ✅ |
+| E1–E5 (3x de 333,34/333,33/333,33, previsto fora do saldo, confirmar com outro valor, só confirmados na prestação, cancelar parcela) | ✅ |
+| F1, F2, F4 (recorrente: mês passado recusado, previsto do mês na hora, dia 31 vira 30/11, encerrar) | ✅ depois da correção abaixo |
+| Isolamento (X-Org-Id de outro condomínio, leitor não lança nem confirma) | ✅ |
+
+**Bug encontrado e corrigido** ([api#233](https://github.com/douglasjava/easy-maintenance-api/pull/233)): criar uma recorrente dava erro 500 **só no MySQL**, porque os testes automáticos rodam em H2. A correção vale também para "cancelar algo já cancelado" no financeiro e nas manutenções.
+
+**Não executado localmente (fica para o QA na staging):**
+- A2: despesa vinda de manutenção. Precisa de condomínio com assinatura ativa.
+- A3 e A4: clonar e "Salvar e lançar outro". São comportamentos de tela.
+- D1: fornecedor e unidade reais.
+- D3 e D6: upload real para o S3 e PDF da prestação.
+- F3 e F5: job das 03:15.
+- G1 a G4: Samu (WhatsApp).
+- 0.1 a 0.3: dados antigos de um condomínio real.
+
+**Observação de produto:** escrever no financeiro não exige assinatura ativa. Hoje só itens e organizações têm essa trava. Isso já era assim antes e fica para decisão do Douglas.
