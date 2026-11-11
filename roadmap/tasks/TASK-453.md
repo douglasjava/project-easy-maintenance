@@ -25,8 +25,8 @@ Quebra da [spec do Financeiro v2](../../docs/superpowers/specs/2026-11-11-financ
 - Botões [Confirmar] [Ver no painel].
 
 ## Critérios de Aceite
-- [ ] Só ADMIN e SYNDIC recebem
-- [ ] Confirmar pelo chat = mesma regra do web
+- [x] Só ADMIN e SYNDIC recebem
+- [x] Confirmar pelo chat = mesma regra do web
 
 ## Dependências
 [TASK-452](TASK-452.md), EPIC-042
@@ -34,5 +34,12 @@ Quebra da [spec do Financeiro v2](../../docs/superpowers/specs/2026-11-11-financ
 ## Riscos
 Aviso para papel sem permissão financeira.
 
+## Implementação (11/11/2026)
+[api#228](https://github.com/douglasjava/easy-maintenance-api/pull/228), mergeadas em `staging`.
+- Painel do Samu: só para quem tem `LANCAMENTO_FINANCEIRO` (ADMIN e SYNDIC), aparecem "💰 N conta(s) prevista(s) para confirmar" e o atalho [Confirmar contas]. Contam os previstos com data até hoje.
+- `fin:prev` lista até 10 previstos. `fin:prev:{id}` confirma com o mesmo `FinancialEntryService.confirm` do web, rodando como o próprio usuário.
+- Os demais papéis recebem CAPABILITY_DENIED antes de qualquer consulta.
+- Correção junto: a mensagem "Despesa lançada" da TASK-442 saía com o real duplicado ("R$ R$"). Ganhou teste de regressão.
+
 ## Status
-⬜ Backlog
+🔵 Em `staging` (11/11/2026) — aguarda a validação de Douglas.
