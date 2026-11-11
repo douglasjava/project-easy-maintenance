@@ -35,5 +35,9 @@ TASK-447 a 453
 ## Riscos
 —
 
+## Roteiro (11/11/2026)
+[TASK-QA-MAN-032](../QA/tasks/TASK-QA-MAN-032.md) cobre a migração dos dados antigos, editar e clonar, visão mensal e competência, fundos, documento e comprovante, parcelas, recorrentes e o Samu.
+O lado automatizado está nas PRs: api#219 a api#228 e web#152 a web#160, todas em `staging`, com a suíte da API com 2091 testes e 0 falhas.
+
 ## Status
-⬜ Backlog
+🟡 Em andamento — automatizado ok; falta o QA manual ([TASK-QA-MAN-032](../QA/tasks/TASK-QA-MAN-032.md)) e a primeira execução das migrations V153 a V158 num MySQL (staging).
