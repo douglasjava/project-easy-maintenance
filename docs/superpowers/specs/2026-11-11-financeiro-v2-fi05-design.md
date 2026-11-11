@@ -1,6 +1,6 @@
 # Financeiro v2: competência, fundo, fornecedor, documento, anexo e recorrência (FI-05)
 
-> **Status:** 🟡 RASCUNHO, aguarda a aprovação de Douglas. Origem: [TASK-446](../../../roadmap/tasks/TASK-446.md), [EPIC-044](../../../roadmap/epics/EPIC-044.md), achado FI-05 do [registro de usabilidade](../../../roadmap/QA/registro-usabilidade-producao.md).
+> **Status:** ✅ APROVADA por Douglas em 11/11/2026 (todas as recomendações de D1–D7). Tasks: TASK-447 a TASK-454. Origem: [TASK-446](../../../roadmap/tasks/TASK-446.md), [EPIC-044](../../../roadmap/epics/EPIC-044.md), achado FI-05 do [registro de usabilidade](../../../roadmap/QA/registro-usabilidade-producao.md).
 > **Data:** 11/11/2026
 
 ## 1. Problema
@@ -61,9 +61,9 @@ O Tiago apontou isso na triagem de 08/11/2026.
 - **Parcelado** (ex.: uma obra em 6x): gera N lançamentos `PLANNED` de uma vez, com "1/6", "2/6"... e o mesmo `installment_group_id`. Cada parcela é confirmada quando for paga.
 - O status `PLANNED` aparece na lista com um selo. O resumo mostra "Previsto no mês" à parte.
 
-## 4. Decisões para Douglas
+## 4. Decisões (aprovadas em 11/11/2026: vale a proposta)
 
-| # | Pergunta | Proposta |
+| # | Pergunta | Decisão |
 | --- | --- | --- |
 | D1 | A visão mensal agrupa por pagamento ou por competência por padrão? | Pagamento (caixa), com a opção de competência |
 | D2 | Os fundos são fixos (ordinária, reserva, obras) ou configuráveis por condomínio? | Fixos, como a TASK-441 |
@@ -73,18 +73,18 @@ O Tiago apontou isso na triagem de 08/11/2026.
 | D6 | Unidade na receita entra agora ou fica para a inadimplência? | Entra agora como campo opcional; a inadimplência fica para depois |
 | D7 | Anexo obrigatório acima de um valor? | Não obrigatório; só o selo "sem comprovante" |
 
-## 5. Quebra em tasks (depois da aprovação)
+## 5. Quebra em tasks
 
 | Ordem | Task | Tipo | Depende de |
 | --- | --- | --- | --- |
-| 1 | Competência: campo, migração, visão mensal por competência | FULL_STACK | D1 |
-| 2 | Fundos: campo, saldo por fundo, transferência, saldo inicial | FULL_STACK | D2, D3 |
-| 3 | Fornecedor e unidade no lançamento + filtro por fornecedor | FULL_STACK | D6 |
-| 4 | Nº do documento + anexos do lançamento + PDF de prestação de contas | FULL_STACK | D7 |
-| 5 | Parcelas (`installment_group_id`, status `PLANNED`, confirmar) | FULL_STACK | 4 |
-| 6 | Recorrência (regra, job diário, confirmar e descartar) | FULL_STACK | 5, D4 |
-| 7 | Samu: aviso de previstos + confirmar pelo chat | BACKEND | 6, D5, EPIC-042 |
-| 8 | QA do Financeiro v2 | QA | todas |
+| 1 | TASK-447: Competência: campo, migração, visão mensal por competência | FULL_STACK | D1 |
+| 2 | TASK-448: Fundos: campo, saldo por fundo, transferência, saldo inicial | FULL_STACK | D2, D3 |
+| 3 | TASK-449: Fornecedor e unidade no lançamento + filtro por fornecedor | FULL_STACK | D6 |
+| 4 | TASK-450: Nº do documento + anexos do lançamento + PDF de prestação de contas | FULL_STACK | D7 |
+| 5 | TASK-451: Parcelas (`installment_group_id`, status `PLANNED`, confirmar) | FULL_STACK | 4 |
+| 6 | TASK-452: Recorrência (regra, job diário, confirmar e descartar) | FULL_STACK | 5, D4 |
+| 7 | TASK-453: Samu: aviso de previstos + confirmar pelo chat | BACKEND | 6, D5, EPIC-042 |
+| 8 | TASK-454: QA do Financeiro v2 | QA | todas |
 
 ## 6. Riscos
 - **Status `PLANNED`:** todas as somas precisam filtrar `CONFIRMED`: `/summary`, `/summary/monthly`, prestação de contas e o KPI do dashboard. É o maior risco de regressão. A proposta é cobrir cada uma com um teste antes de ligar a recorrência.

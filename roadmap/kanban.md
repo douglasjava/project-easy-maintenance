@@ -2429,7 +2429,15 @@ _Vazio_
 | [TASK-443](tasks/TASK-443.md) | Financeiro: editar e clonar lançamento com auditoria — 🔵 **em `staging`** (api#219, web#152) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-444](tasks/TASK-444.md) | Financeiro: visão mensal e acumulado — 🔵 **em `staging`** (api#220, web#153) | 🟡 Médio | EPIC-044 | Financeiro v2 |
 | [TASK-445](tasks/TASK-445.md) | Financeiro: lançar e continuar + filtro por categoria e busca — 🔵 **em `staging`** (api#221, web#154) | 🔵 Baixo | EPIC-044 | Financeiro v2 |
-| [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência — 🟡 **rascunho da spec**, aguarda decisões D1–D7 de Douglas | 🔵 Baixo | EPIC-044 | Financeiro v2 |
+| [TASK-446](tasks/TASK-446.md) | Financeiro v2: spec de competência, fundo, fornecedor, documento, anexo e recorrência — ✅ **spec aprovada** (11/11/2026), quebrada em TASK-447 a 454 | 🔵 Baixo | EPIC-044 | Financeiro v2 |
+| [TASK-447](tasks/TASK-447.md) | Financeiro v2: competência do lançamento + visão mensal por competência | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-448](tasks/TASK-448.md) | Financeiro v2: fundos (ordinária, reserva, obras), transferência e saldo inicial | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-449](tasks/TASK-449.md) | Financeiro v2: fornecedor e unidade no lançamento + filtro por fornecedor | 🔵 Baixo | EPIC-044 | Financeiro v2 |
+| [TASK-450](tasks/TASK-450.md) | Financeiro v2: nº do documento + anexos do lançamento + prestação de contas | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-451](tasks/TASK-451.md) | Financeiro v2: parcelas e status previsto (PLANNED) | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-452](tasks/TASK-452.md) | Financeiro v2: recorrência mensal (regra, job diário, confirmar ou descartar) | 🟡 Médio | EPIC-044 | Financeiro v2 |
+| [TASK-453](tasks/TASK-453.md) | Financeiro v2: Samu avisa previstos e confirma pelo chat | 🔵 Baixo | EPIC-044 | Financeiro v2 |
+| [TASK-454](tasks/TASK-454.md) | QA do Financeiro v2 | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-316](tasks/TASK-316.md) | Catálogo de tipos: global curado × tipos próprios da organização | 🟡 Médio | Qualidade de dados | — |
 | ~~[TASK-318](tasks/TASK-318.md)~~ | ~~Segurança: reforçar a validação do webhook de pagamentos~~ | 🔴 Alto | Segurança / Billing | — |
 | ~~[TASK-319](tasks/TASK-319.md)~~ | ~~Nova Empresa: tipo aparece selecionado mas vai vazio (422)~~ | 🟠 Alto | Frontend | — |

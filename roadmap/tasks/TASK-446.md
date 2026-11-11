@@ -26,8 +26,8 @@ FI-05 do [registro](../QA/registro-usabilidade-producao.md).
 - Quebra em tasks.
 
 ## Critérios de Aceite
-- [ ] Spec aprovada por Douglas
-- [ ] Tasks criadas
+- [x] Spec aprovada por Douglas
+- [x] Tasks criadas
 
 ## Dependências
 [TASK-441](TASK-441.md), [TASK-442](TASK-442.md).
@@ -39,4 +39,4 @@ FI-05 do [registro](../QA/registro-usabilidade-producao.md).
 [docs/superpowers/specs/2026-11-11-financeiro-v2-fi05-design.md](../../docs/superpowers/specs/2026-11-11-financeiro-v2-fi05-design.md) cobre competência, fundos, fornecedor e unidade, documento e anexo, e recorrência e parcelas. Tem 7 decisões em aberto (D1–D7) e uma quebra proposta em 8 tasks.
 
 ## Status
-🟡 Em andamento — rascunho pronto; aguarda as decisões D1–D7 e a aprovação de Douglas para criar as tasks.
+✅ Concluída (11/11/2026) — Douglas aprovou as recomendações D1–D7; tasks [TASK-447](TASK-447.md) a [TASK-454](TASK-454.md) criadas.

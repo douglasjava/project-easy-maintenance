@@ -20,6 +20,14 @@ Decisões de produto de 10/11/2026 ([triagem](../QA/triagem-usabilidade-producao
 | [TASK-444](../tasks/TASK-444.md) | Visão mensal e acumulado | FULL_STACK | 🟡 | — |
 | [TASK-445](../tasks/TASK-445.md) | Lançar e continuar + filtro e busca | FULL_STACK | 🔵 | — |
 | [TASK-446](../tasks/TASK-446.md) | Spec do Financeiro v2 (FI-05) | SPEC | 🔵 | 441, 442 |
+| [TASK-447](../tasks/TASK-447.md) | competência do lançamento + visão mensal por competência | FULL_STACK | 🟡 | — |
+| [TASK-448](../tasks/TASK-448.md) | fundos (ordinária, reserva, obras), transferência e saldo inicial | FULL_STACK | 🟡 | 447 |
+| [TASK-449](../tasks/TASK-449.md) | fornecedor e unidade no lançamento + filtro por fornecedor | FULL_STACK | 🔵 | — |
+| [TASK-450](../tasks/TASK-450.md) | nº do documento + anexos do lançamento + prestação de contas | FULL_STACK | 🟡 | — |
+| [TASK-451](../tasks/TASK-451.md) | parcelas e status previsto (PLANNED) | FULL_STACK | 🟡 | 450 |
+| [TASK-452](../tasks/TASK-452.md) | recorrência mensal (regra, job diário, confirmar ou descartar) | FULL_STACK | 🟡 | 451 |
+| [TASK-453](../tasks/TASK-453.md) | Samu avisa previstos e confirma pelo chat | BACKEND | 🔵 | 452, EPIC-042 |
+| [TASK-454](../tasks/TASK-454.md) | QA do Financeiro v2 | QA | 🟠 | todas |
 
 ## Critério de Conclusão do Épico
 - Vencimento nunca recalculado por corretiva (sem exceção marcada) nem por data antiga.
