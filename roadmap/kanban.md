@@ -2396,7 +2396,7 @@ _Vazio_
 | [TASK-311](tasks/TASK-311.md) | Retenção + métricas | 🟡 Médio | EPIC-031 | Onda 3 |
 | [TASK-312](tasks/TASK-312.md) | QA manual + automação do assistente (fluxos e segurança) | 🟠 Alto | EPIC-031 | Onda 3 |
 | ~~[TASK-315](tasks/TASK-315.md)~~ | ~~Item operacional novo pelo catálogo padronizado + periodicidade por botão~~ *(Done — validada no piloto em produção 28/09/2026)* | 🟠 Alto | EPIC-031 | Onda 2 |
-| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador — ⏸ **adiada**: retomada no EPIC-043, junto com o contexto curto (TASK-432) | 🟡 Médio | EPIC-043 | Parte B |
+| [TASK-410](tasks/TASK-410.md) | Samu: endurecer o prompt do classificador — ⏸ **adiada**: retomada no EPIC-043, junto com o contexto curto (TASK-432) — 🔵 **em `staging`, flag desligada** (api#216) — falta a avaliação | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-414](tasks/TASK-414.md) | Assistente: política única de permissões por papel (AssistantCapability) — 🔵 **em validação**: [api#191](https://github.com/douglasjava/easy-maintenance-api/pull/191) → `staging` | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-415](tasks/TASK-415.md) | Assistente: menu por papel em lista do WhatsApp, gerado pela política — 🔵 **em validação**: [api#191](https://github.com/douglasjava/easy-maintenance-api/pull/191) → `staging` | 🟠 Alto | EPIC-042 | Matriz |
 | [TASK-416](tasks/TASK-416.md) | Remover o papel TECH (migration defensiva + enum + telas do web) — 🔵 **em `staging`** (api#192, web#139) | 🟡 Médio | EPIC-042 | Matriz |
@@ -2422,7 +2422,7 @@ _Vazio_
 | [TASK-436](tasks/TASK-436.md) | Samu: cadastro completo de item novo pelo chat — 🔵 **em `staging`** (api#212) | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-437](tasks/TASK-437.md) | Samu: cadastro de fornecedor pelo chat e vínculo como habitual dos itens — 🔵 **em `staging`** (api#214) | 🟡 Médio | EPIC-043 | Parte B |
 | [TASK-438](tasks/TASK-438.md) | Samu: anexo sem contexto — evidência do último registro ou documento para ler — 🔵 **em `staging`** (api#215) | 🟡 Médio | EPIC-043 | Parte B |
-| [TASK-439](tasks/TASK-439.md) | QA do EPIC-043: casos do Tiago (5.6) no conjunto de avaliação + QA manual | 🟠 Alto | EPIC-043 | Parte B |
+| [TASK-439](tasks/TASK-439.md) | QA do EPIC-043: casos do Tiago (5.6) no conjunto de avaliação + QA manual — 🟡 **em andamento** — falta avaliação + QA manual | 🟠 Alto | EPIC-043 | Parte B |
 | [TASK-440](tasks/TASK-440.md) | Regra do vencimento: só preventiva/inspeção/teste reiniciam; data antiga não puxa para trás — 🔵 **em `staging`** (api#190, web#138), aguarda promoção para `main` | 🔴 Crítico | EPIC-044 | Financeiro v2 |
 | [TASK-441](tasks/TASK-441.md) | Financeiro: categorias fixas ampliadas (receita e despesa) | 🟠 Alto | EPIC-044 | Financeiro v2 |
 | [TASK-442](tasks/TASK-442.md) | Manutenção com custo: "Lançar também como despesa" com vínculo e sem duplicidade | 🟠 Alto | EPIC-044 | Financeiro v2 |

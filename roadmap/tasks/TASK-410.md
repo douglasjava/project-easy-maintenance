@@ -87,5 +87,13 @@ novos da Parte B entram no `intent-eval.jsonl`.
 Prompt maior = mais tokens por mensagem (crédito de IA do condomínio). Exemplos demais podem enviesar a
 classificação para os casos de exemplo.
 
+## Implementação (11/11/2026)
+[api#216](https://github.com/douglasjava/easy-maintenance-api/pull/216), mergeada em `staging` **com as flags desligadas** (o comportamento não muda).
+- `SYSTEM_PROMPT_V2`: só campos escritos, nunca deduzir; 8 exemplos sem caso cego.
+- Temperatura só no classificador (`AiProvider.chat(..., temperature)`).
+- Flags `ASSISTANT_CLASSIFIER_PROMPT_V2` e `ASSISTANT_CLASSIFIER_TEMPERATURE`.
+- Avaliação com `-DaiEval.promptV2=true`; +6 casos da 5.6.
+- **Pendente (Douglas, precisa da `OPENAI_API_KEY`):** rodar a avaliação antes e depois e registrar acerto e tokens. As flags só devem ser ligadas se nenhuma categoria piorar.
+
 ## Status
-⏸ Adiada — retomada no [EPIC-043](../epics/EPIC-043.md), junto com o contexto curto ([TASK-432](TASK-432.md)) e os casos novos da [TASK-439](TASK-439.md).
+🔵 Em `staging` com as flags desligadas (11/11/2026); aguarda a avaliação com a chave da OpenAI.

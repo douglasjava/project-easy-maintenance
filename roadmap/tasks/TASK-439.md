@@ -36,5 +36,9 @@ As tasks do EPIC-043 que forem entregues e a [TASK-410](TASK-410.md).
 ## Riscos
 —
 
+## Andamento (11/11/2026)
+- Casos da 5.6 que ainda chegam ao classificador entraram no `intent-eval.jsonl` (`reg-19..22`, `ven-07`, `aju-04`; 4 cegos) em [api#216](https://github.com/douglasjava/easy-maintenance-api/pull/216). Os outros casos da 5.6 viraram fluxos determinísticos, com testes unitários nas TASK-431 a 438.
+- **Pendente:** a avaliação antes e depois da TASK-410 (chave OpenAI) e o QA manual por papel em `staging` com Douglas e Tiago.
+
 ## Status
-⬜ Backlog
+🟡 Em andamento — casos no conjunto; faltam a avaliação com a chave e o QA manual.
