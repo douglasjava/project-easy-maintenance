@@ -103,3 +103,6 @@ Done — QA manual em navegador real validado em 29/10/2026. Backend na branch
 `feature/EPIC-027-categoria-protocolo-notificacao` (`easy-maintenance-api`), frontend na branch de
 mesmo nome (`easy-maintenance-web`). Templates da Meta (TASK-372) aprovados e produtivos
 (confirmado por Douglas em 10/11/2026).
+
+## Substituída em 12/11/2026
+O código de confirmação deixou de ser enviado. Marcar o check "quero receber pelo WhatsApp" já confirma o opt-in ([api#239](https://github.com/douglasjava/easy-maintenance-api/pull/239), [web#172](https://github.com/douglasjava/easy-maintenance-web/pull/172)). Desde o EPIC-040, todo chamado do formulário público passa pelo síndico, porque o morador já é reconhecido ou a pendência foi aprovada. Além disso, no caminho da aprovação o código chegava sem tela para ser digitado. Os endpoints `confirm` e `resend` ficaram sem uso.
