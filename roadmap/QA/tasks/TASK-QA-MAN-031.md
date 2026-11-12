@@ -103,5 +103,9 @@ Preencher cada cenário com ✅/❌ e o que foi visto. Ao terminar, fechar a [TA
     - no web, o número da unidade já vem com o apto/bloco informado.
   - Reproduzido e validado no MySQL, pelo web e pelo webhook assinado.
   - O formulário público do chamado tinha o mesmo problema: com mais de 40 caracteres no apto/bloco, o morador recebia um 409 genérico e o chamado não era aberto. Corrigido em [api#238](https://github.com/douglasjava/easy-maintenance-api/pull/238) e [web#171](https://github.com/douglasjava/easy-maintenance-web/pull/171): limite de 40 com contador no campo, e a API devolve 422 indicando o campo.
+- ✅/❌ **Opt-in do WhatsApp do morador:** o código de 6 dígitos (TASK-371) chegava depois da aprovação, mas não havia tela para digitá-lo, e o chamado concluído não avisava o morador (`Opt-in não confirmado`).
+  - **Decisão do Douglas:** marcar o check já é o consentimento.
+  - Implementado em [api#239](https://github.com/douglasjava/easy-maintenance-api/pull/239) e [web#172](https://github.com/douglasjava/easy-maintenance-web/pull/172): o opt-in nasce confirmado e o protocolo chega na hora; no caminho da aprovação, quando o síndico aprova.
+  - Promoção: api#240 e web#173.
   - Promoção: api#237 e web#170.
   - Depois do deploy, aprovar de novo a pendência da Débora (id 1).
