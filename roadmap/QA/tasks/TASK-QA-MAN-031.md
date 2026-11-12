@@ -109,3 +109,13 @@ Preencher cada cenário com ✅/❌ e o que foi visto. Ao terminar, fechar a [TA
   - Promoção: api#240 e web#173.
   - Promoção: api#237 e web#170.
   - Depois do deploy, aprovar de novo a pendência da Débora (id 1).
+
+### G. Avisos (12/11/2026)
+- ❌ **Morador vindo do QR Code nunca entrava em "Calcular destinatários":** a aprovação criava a pessoa com "Aceita WhatsApp" desligado.
+  - **Decisão do Douglas:** o check do chamado vale também para os avisos do condomínio.
+  - Implementado em [api#241](https://github.com/douglasjava/easy-maintenance-api/pull/241) e [web#174](https://github.com/douglasjava/easy-maintenance-web/pull/174):
+    - na aprovação, o opt-in segue o check;
+    - morador reconhecido que marca o check passa a ter o opt-in ligado, que nunca é desligado;
+    - em "Por unidade", a escolha é pelo número da unidade, não mais pelo id.
+  - Promoção: api#242 e web#175.
+  - Os moradores aprovados antes da mudança precisam do backfill por SQL.
