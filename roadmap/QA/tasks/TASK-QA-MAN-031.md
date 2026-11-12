@@ -19,6 +19,9 @@ Assistente WhatsApp (Samu): personas, permissões, fornecedor, avisos
 ## Tasks cobertas
 TASK-413 a TASK-429 (ver o [EPIC-042](../../epics/EPIC-042.md)).
 
+Os fluxos de conversa do EPIC-043 (painel, contexto, chamados pela equipe, registro, remarcar, cadastros pelo chat,
+anexos) estão no [QA-MAN-033](TASK-QA-MAN-033.md).
+
 ---
 
 ## Cenários
