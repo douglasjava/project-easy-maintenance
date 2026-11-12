@@ -91,3 +91,16 @@ anexos) estão no [QA-MAN-033](TASK-QA-MAN-033.md).
 
 ## Resultado
 Preencher cada cenário com ✅/❌ e o que foi visto. Ao terminar, fechar a [TASK-430](../../tasks/TASK-430.md).
+
+## Execução em produção
+
+### C. Morador (12/11/2026)
+- ✅ QR Code → chamado → pendência na fila do síndico, com e-mail e WhatsApp de aprovação.
+- ❌ **Aprovar pelo botão falhou** quando o morador informou "Bloco 2 Apto 401": `units.number` tinha só 10 caracteres. A aprovação pelo web tinha o mesmo problema, e o síndico não recebia nenhum aviso.
+  - **Corrigido** em [api#236](https://github.com/douglasjava/easy-maintenance-api/pull/236) e [web#169](https://github.com/douglasjava/easy-maintenance-web/pull/169):
+    - V160 aumenta a coluna para 40 caracteres e a aprovação valida o tamanho;
+    - o botão roda em transação própria e avisa o síndico quando falha;
+    - no web, o número da unidade já vem com o apto/bloco informado.
+  - Reproduzido e validado no MySQL, pelo web e pelo webhook assinado.
+  - Promoção: api#237 e web#170.
+  - Depois do deploy, aprovar de novo a pendência da Débora (id 1).
