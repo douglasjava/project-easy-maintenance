@@ -102,5 +102,6 @@ Preencher cada cenário com ✅/❌ e o que foi visto. Ao terminar, fechar a [TA
     - o botão roda em transação própria e avisa o síndico quando falha;
     - no web, o número da unidade já vem com o apto/bloco informado.
   - Reproduzido e validado no MySQL, pelo web e pelo webhook assinado.
+  - O formulário público do chamado tinha o mesmo problema: com mais de 40 caracteres no apto/bloco, o morador recebia um 409 genérico e o chamado não era aberto. Corrigido em [api#238](https://github.com/douglasjava/easy-maintenance-api/pull/238) e [web#171](https://github.com/douglasjava/easy-maintenance-web/pull/171): limite de 40 com contador no campo, e a API devolve 422 indicando o campo.
   - Promoção: api#237 e web#170.
   - Depois do deploy, aprovar de novo a pendência da Débora (id 1).
