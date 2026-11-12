@@ -156,3 +156,10 @@ API da `staging` rodando contra o **MySQL 8 local** (docker), com um condomínio
 3. **"Salvar e lançar outro" mantém o nº do documento.** A NF do lançamento anterior fica no formulário seguinte e pode ser gravada repetida.
 
 **Observações:** depois de cancelar um previsto, o resumo mensal ficou desatualizado uma vez (a lista atualizou). Não se repetiu, e a suspeita é uma resposta antiga chegando por último depois de trocar as datas. O "Encerrar" de recorrente não pede confirmação.
+
+### Correções (11/11/2026, mergeadas na `staging`)
+- **Bug 1, competência**, em [api#234](https://github.com/douglasjava/easy-maintenance-api/pull/234). Na competência, o período vale por meses inteiros, inclusive para as manutenções. A abertura também passa a ser por competência. Verificado no mesmo banco: nos 3 períodos e nos 2 agrupamentos, o acumulado termina no saldo real (R$ 55.208,24).
+- **Bugs 2 e 3**, em [web#163](https://github.com/douglasjava/easy-maintenance-web/pull/163). O helper `toLocalIsoDate` foi aplicado em todos os usos de data sem hora, em 14 arquivos. Às 22h42 a data padrão e o filtro mostram 11/11. "Salvar e lançar outro" agora limpa o nº do documento e o "Repetir todo mês".
+
+PRs de promoção para a `main`, aguardando a validação do Douglas: [api#235](https://github.com/douglasjava/easy-maintenance-api/pull/235) e [web#164](https://github.com/douglasjava/easy-maintenance-web/pull/164).
+
