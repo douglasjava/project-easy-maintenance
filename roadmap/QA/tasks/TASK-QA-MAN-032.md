@@ -123,3 +123,36 @@ API da `staging` rodando contra o **MySQL 8 local** (docker), com um condomínio
 - 0.1 a 0.3: dados antigos de um condomínio real.
 
 **Observação de produto:** escrever no financeiro não exige assinatura ativa. Hoje só itens e organizações têm essa trava. Isso já era assim antes e fica para decisão do Douglas.
+
+---
+
+## Execução local no browser, com dados de produção migrados (11/11/2026, noite, Claude)
+**Como foi montado:** banco MySQL novo; a API da `main` (produção, V136) criou os dados "antigos" pela própria API: 20 lançamentos de ago a nov, um cancelado, 1 item e 2 manutenções com custo. Em seguida a API da `staging` subiu por cima, aplicando as migrations **V137 a V159** sem erro. A web da `staging` rodou localmente, e os comprovantes foram para um S3 fake local.
+
+| Cenário | Resultado |
+|---|---|
+| 0.1 Lançamentos antigos | ✅ Os 19 aparecem (o cancelado não), na Ordinária, todos confirmados, com competência no mês da data. "Serviço de terceiro" virou "Contratos e serviços" (V151, esperado) |
+| 0.2 / 0.3 Resumo e prestação de contas antes × depois do deploy | ✅ Totais idênticos em cada mês e no período inteiro (receitas R$ 74.435,00; despesas R$ 26.206,76; manutenções R$ 1.730,00; saldo R$ 46.498,24) |
+| A1 Editar + auditoria | ✅ Auditoria com antes e depois |
+| A2 Despesa vinda de manutenção | ✅ "Lançar também como despesa" na manutenção; não conta duas vezes; valor travado, categoria e fornecedor editáveis |
+| A3 Clonar | ✅ Original intacto (ver bug 2 sobre a data) |
+| A4 Salvar e lançar outro (3x) | ✅ Mantém categoria, fundo, fornecedor e data (ver bug 3) |
+| A5 Busca, categoria e fornecedor combinados | ✅ |
+| B1 / B3 | ✅ Saldo antes do período correto; 37 meses mostra o aviso e mantém a lista |
+| B2 Competência | ⚠️ "ref. out/2026" ok; **"Agrupar por: Competência" com acumulado errado** (bug 1) |
+| C1–C4 Fundos | ✅ Saldo inicial, transferência sem mexer em receitas e despesas, cancelar um lado some com os dois, "Fundo de reserva" fora das categorias |
+| D1 / D2 | ✅ "Fornecedor: …", "Unidade 101", "Doc. NF 123" e "Sem comprovante" |
+| D3 PDF de 2 MB + foto | ✅ "📎 2"; arquivo baixado idêntico ao enviado |
+| D5 Leitor | ✅ Baixa; remover responde 403 |
+| D6 Prestação de contas | ✅ Tela com "Nº NF 123 · com comprovante". O PDF usa a mesma função; o arquivo não foi baixado |
+| E1–E3, E5 Parcelas | ✅ 333,34/333,33/333,33; saldo inalterado; confirmar com R$ 340 grava CONFIRM na auditoria; cancelar a 3ª mantém as outras |
+| F1 / F4 Recorrentes | ✅ (o "Encerrar" não pede confirmação) |
+| F3 / F5 Job | ✅ Com o job a cada minuto: gerou o previsto ("Execução concluída: 1"); depois de descartado, a execução seguinte gerou 0; métrica `easy_job_last_success_seconds{job="financial_recurrence"}` publicada |
+| G1–G4 Samu | ⏭️ Fica para o teste em produção |
+
+### Bugs encontrados
+1. **Visão por competência com acumulado errado (TASK-447).** Com "Agrupar por: Competência", o "saldo antes do período" é calculado pela data de pagamento e as linhas pela competência. Só bate quando o período cobre meses inteiros nas duas pontas. Exemplos com saldo real de R$ 47.698,24: o período 13/10 a 12/11 termina em R$ 59.124,79, porque os lançamentos de 01/10 a 12/10 contam duas vezes; o período 01/11 a 30/11 termina em R$ 45.848,24, porque a receita paga em novembro com competência outubro some. Com início no meio do mês, a manutenção do começo do mês também some da linha.
+2. **Data "de hoje" em UTC no web.** Das 21h à meia-noite, em Brasília, os formulários (nova despesa, clonar, parcelado, saldo inicial, transferência) e o filtro abrem com a data de amanhã. Causa: `new Date().toISOString()`. Já existia na `main` em `finance/page.tsx`, e a v2 repetiu o padrão em `FundsCard` e `InstallmentsModal`.
+3. **"Salvar e lançar outro" mantém o nº do documento.** A NF do lançamento anterior fica no formulário seguinte e pode ser gravada repetida.
+
+**Observações:** depois de cancelar um previsto, o resumo mensal ficou desatualizado uma vez (a lista atualizou). Não se repetiu, e a suspeita é uma resposta antiga chegando por último depois de trocar as datas. O "Encerrar" de recorrente não pede confirmação.

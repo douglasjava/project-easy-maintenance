@@ -40,4 +40,4 @@ TASK-447 a 453
 O lado automatizado está nas PRs: api#219 a api#228 e web#152 a web#160, todas em `staging`, com a suíte da API com 2091 testes e 0 falhas.
 
 ## Status
-🟡 Em andamento — automatizado ok; falta o QA manual ([TASK-QA-MAN-032](../QA/tasks/TASK-QA-MAN-032.md)) e a primeira execução das migrations V153 a V158 num MySQL (staging).
+🟡 Em andamento — automatizado ok; migrations V137 a V159 validadas no MySQL sobre dados criados pela versão de produção (11/11/2026); QA no browser feito localmente, com 3 bugs a corrigir (ver [TASK-QA-MAN-032](../QA/tasks/TASK-QA-MAN-032.md)); falta o Samu (G) em produção e o aceite do Douglas.
